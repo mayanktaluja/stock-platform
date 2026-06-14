@@ -3,7 +3,7 @@
   "name": "Updater Services Limited",
   "sector": "Commercial Services",
   "sws_url": "https://simplywall.st/stocks/in/commercial-services/nse-uds/updater-services-shares",
-  "parsed_at": "2026-05-31T22:56:20.861Z",
+  "parsed_at": "2026-06-11T02:00:47.233Z",
   "company_id": "EEA71C34-6FBB-4C57-8739-F366205772F8",
   "classification_status": "Active",
   "groww_source": {
@@ -16,18 +16,18 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 5,
-      "future": 3,
+      "valuation": 4,
+      "future": 2,
       "past": 1,
       "financial_health": 6,
       "dividends": 0,
-      "future_growth": 3,
+      "future_growth": 2,
       "past_performance": 1,
-      "value": 5,
+      "value": 4,
       "health": 6,
       "dividend": 0
     },
-    "snowflake_total": 15,
+    "snowflake_total": 13,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 3,
@@ -75,22 +75,308 @@
         }
       ]
     },
-    "current_price_inr": 172.09,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_SUBSTANTIAL_DISCOUNT"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ONE_TIME"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 181.34,
     "market_cap_inr": 11907600000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "nano1",
     "shares_outstanding": 66953241,
     "fifty_two_week": {
       "low": 125.1,
       "high": 345.65
     },
-    "fair_value_inr": 170,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 253,
+      "min": 188.763644,
       "max": 339,
       "count": 28
     },
-    "upside_pct": -1.214480794932886,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystLowTarget",
+      "owner_classification": null,
+      "narrative_id": "421419ee-2b0c-46df-a191-67f27ba4edf4",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 13.29,
       "ps": 0.41,
@@ -110,8 +396,8 @@
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading below our calculated fair Price-To-Earnings ratio",
-      "Earnings are forecast to grow 22.74% per year",
-      "Trading at 43.5% below our estimate of its fair value"
+      "Earnings are forecast to grow 18.76% per year",
+      "Trading at 3.9% below our estimate of its fair value"
     ],
     "risks": [
       "Large [[one-off items]] impacting financial results",
@@ -128,8 +414,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 53.98741913742747,
-      "net_income_margin_1y": 0.07234671003,
-      "future_revenue_growth_3y": 0.3740225928,
+      "net_income_margin_1y": 0.07149669577,
+      "future_revenue_growth_3y": 0.358570421,
       "sector_pe": 53.98741913742747
     },
     "industry_benchmarks_meta": {
@@ -164,18 +450,18 @@
         "url": "https://groww.in/stocks/updater-services-ltd"
       },
       "sws_statement": {
-        "company_pe": 13.4,
-        "industry_pe": 19.9,
+        "company_pe": 14.2,
+        "industry_pe": 20,
         "industry_name": "Indian Commercial Services",
-        "description": "UDS is good value based on its Price-To-Earnings Ratio (13.4x) compared to the Indian Commercial Services industry average (19.9x).",
+        "description": "UDS is good value based on its Price-To-Earnings Ratio (14.2x) compared to the Indian Commercial Services industry average (20x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 19.851410996,
+        "industry_pe": 20.004476183,
         "industry_code": "3110000",
         "type": "median_profitable",
-        "count": 55,
+        "count": 56,
         "source": {
           "type": "country",
           "country": "IN",
@@ -184,25 +470,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.6,
-        "sample_count": 56,
+        "industry_pe": 19.2,
+        "sample_count": 57,
         "industry_code": "3110000",
         "industry_name": "Commercial Services"
       },
       "sws_primary_industry": {
-        "industry_pe": 16.094987777,
+        "industry_pe": 16.028068325,
         "industry_name": "Commercial Services",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 12.513013948403563
+        "company_pe": 14.17018828101585
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 172.09,
-        "fetched_at": "2026-05-31T22:56:20.861Z",
+        "value": 181.34,
+        "fetched_at": "2026-06-11T02:00:47.233Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-uds/updater-services-shares"
       },
       "market_cap_inr": {
@@ -249,14 +535,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.07234671003,
-        "fetched_at": "2026-05-31T22:56:20.861Z",
+        "value": 0.07149669577,
+        "fetched_at": "2026-06-11T02:00:47.233Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-uds/updater-services-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.3740225928,
-        "fetched_at": "2026-05-31T22:56:20.861Z",
+        "value": 0.358570421,
+        "fetched_at": "2026-06-11T02:00:47.233Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-uds/updater-services-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -365,13 +651,13 @@
         "url": "https://groww.in/stocks/updater-services-ltd"
       }
     },
-    "earnings_growth_yoy_pct": -24.541290042367674,
+    "earnings_growth_yoy_pct": -29.78439197882436,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 4.366412740168505,
-    "latest_revenue": 29057060000,
-    "latest_net_income": 920800000,
+    "revenue_growth_pct": 5.580468503907312,
+    "latest_revenue": 29395070000,
+    "latest_net_income": 856820000,
     "latest_eps": 13.38,
-    "most_recent_reported_date": "2026-05-26",
+    "most_recent_reported_date": "2026-06-09",
     "pb": 1.18,
     "ps": 0.41,
     "book_value": 150.7518121,
@@ -388,16 +674,16 @@
     "quick_ratio": 2.2027887835737583,
     "cash_ratio": 0.35739771906398443,
     "returns_pct": {
-      "1D": -3.758179072758794,
-      "7D": -0.46847888953152245,
-      "1M": 9.11800139496544,
-      "3M": 9.353752303488593,
-      "6M": -7.874732334047113,
-      "1Y": -46.08709273182957,
+      "1D": -0.8637655805816664,
+      "7D": 0.09383452006403706,
+      "1M": 4.742101311153473,
+      "3M": 21.11133373405464,
+      "6M": 4.820809248554915,
+      "1Y": -41.10425462812601,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 4,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -503,20 +789,20 @@
     "payment_count": 0
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-26",
+    "most_recent_reported_date": "2026-06-09",
     "latest_year": 2026,
-    "latest_revenue": 29057060000,
-    "latest_net_income": 920800000,
+    "latest_revenue": 29395070000,
+    "latest_net_income": 856820000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 4.366412740168505,
-    "earnings_growth_pct": -24.541290042367674,
-    "net_margin_pct": 3.1689372565565823,
+    "revenue_growth_pct": 5.580468503907312,
+    "earnings_growth_pct": -29.78439197882436,
+    "net_margin_pct": 2.914842522912856,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 29057060000,
-        "netIncome": 920800000,
+        "revenue": 29395070000,
+        "netIncome": 856820000,
         "eps": null
       },
       {
@@ -727,6 +1013,26 @@
   ],
   "news": [
     {
+      "id": "7b8d7818-da23-4bb6-91ea-5a32c0243321",
+      "type": "article",
+      "date": "2026-06-05T01:21:57.000Z",
+      "title": "There May Be Reason For Hope In Updater Services' (NSE:UDS) Disappointing Earnings",
+      "body": "Shareholders appeared unconcerned with Updater Services Limited's ( NSE:UDS ) lackluster earnings report last week. Our...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/commercial-services/nse-uds/updater-services-shares/news/there-may-be-reason-for-hope-in-updater-services-nseuds-disa",
+      "raw_subtype": "article"
+    },
+    {
+      "id": "3d6b0361-62ce-4f7d-bdb9-1f22045f320b",
+      "type": "event",
+      "date": "2026-06-05T00:00:00.000Z",
+      "title": "SIS Limited (NSEI:SIS) acquired 4.20% stake in Updater Services Limited (NSEI:UDS) for approximately INR 510 million.",
+      "body": "SIS Limited (NSEI:SIS) acquired 4.20% stake in Updater Services Limited (NSEI:UDS) for approximately INR 510 million on June 5, 2026. A cash consideration of INR 513.9 million will be paid by SIS Limited. As part of consideration, INR 513.9 million is paid towards common equity of Updater Services Limited. The acquisition of shares forms part of the Company's ongoing treasury management operations.\n\nSIS Limited (NSEI:SIS) completed the acquisition of 4.20% stake in Updater Services Limited (NSEI:UDS) on June 5, 2026.",
+      "keyDevTypeId": "81",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
+    {
       "id": "a0d5c477-8fa8-47d6-9911-7b836c1b687a",
       "type": "brief",
       "date": "2026-05-29T11:24:48.000Z",
@@ -925,26 +1231,6 @@
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/commercial-services/nse-uds/updater-services-shares/jkd9hilw-automation-and-ai-will-erode-legacy-services-yet-enable-change-zlsf/updates/2-analysts-have-revised-their-price-target-on-updater-services",
       "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "753607db-00ec-4c77-a031-1113c805aceb",
-      "type": "narrative-update",
-      "date": "2025-12-09T02:07:03.000Z",
-      "title": "UDS: Stable Leadership And Earnings Outlook Will Drive Upside Through 2025",
-      "body": "Analysts have maintained their price target for Updater Services at 299.25, reflecting unchanged expectations for long term fair value, as only negligible adjustments were made to the discount rate, revenue growth, profit margin and future valuation assumptions. What's in the News Board meeting scheduled for December 1, 2025, to approve the appointment of Mr. Surinder Kumar as interim Group Chief Financial Officer and Key Managerial Personnel, signaling an important leadership transition (company filing).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/commercial-services/nse-uds/updater-services-shares/ulojyfxt-india-urbanisation-and-automation-will-expand-outsourced-facility-services-w3xx/updates/13-analysts-have-maintained-their-price-target-for-updater-serv",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "51edde74-1d57-4eee-8bd2-99415448e568",
-      "type": "brief",
-      "date": "2025-12-06T20:39:57.000Z",
-      "title": "Founder recently bought ₹1.4m worth of stock",
-      "body": "On the 4th of December, Raghunandana Tangirala bought around 8k shares on-market at roughly ₹174 per share. This transaction amounted to less than 1% of their direct individual holding at the time of the trade. This was the largest purchase by an insider in the last 3 months. Raghunandana has been a buyer over the last 12 months, purchasing a net total of ₹2.0m worth in shares.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/UDS.json"

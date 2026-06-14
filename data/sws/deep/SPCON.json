@@ -3,7 +3,7 @@
   "name": "Srinibas Pradhan Constructions Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-spcon/srinibas-pradhan-constructions-shares",
-  "parsed_at": "2026-05-31T22:27:39.684Z",
+  "parsed_at": "2026-06-11T01:31:00.439Z",
   "company_id": "260A3B44-DE8E-4D96-AAB8-40F7BE66F3F0",
   "classification_status": "Active",
   "groww_source": null,
@@ -11,24 +11,23 @@
     "snowflake": {
       "valuation": 1,
       "future": 0,
-      "past": 1,
-      "financial_health": 3,
+      "past": 3,
+      "financial_health": 4,
       "dividends": 0,
       "future_growth": 0,
-      "past_performance": 1,
+      "past_performance": 3,
       "value": 1,
-      "health": 3,
+      "health": 4,
       "dividend": 0
     },
-    "snowflake_total": 5,
+    "snowflake_total": 8,
     "snowflake_data_quality": {
       "insufficient": true,
-      "insufficient_count": 15,
+      "insufficient_count": 13,
       "checked_count": 30,
       "affected_pillars": [
         "Value",
         "Future",
-        "Past",
         "Health",
         "Dividends"
       ],
@@ -43,7 +42,7 @@
         },
         "Past": {
           "checked": 6,
-          "insufficient": 2
+          "insufficient": 0
         },
         "Health": {
           "checked": 6,
@@ -72,21 +71,310 @@
         }
       ]
     },
-    "current_price_inr": 136,
-    "market_cap_inr": 1069095703.4830465,
-    "market_cap_usd": 120714180851.549,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 135,
+    "market_cap_inr": 1061234705.6633183,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
-    "fifty_two_week": null,
+    "fifty_two_week": {
+      "low": 100,
+      "high": 156
+    },
     "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
+    "fair_value_source_detail": {
+      "method": "missing_consensus_narrative",
+      "owner_name": null,
+      "owner_classification": null,
+      "narrative_id": null,
+      "narrative_type": null,
+      "published_at": null
+    },
     "upside_pct": null,
     "multiples": {
-      "pe": 16.2,
+      "pe": 12.9,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -95,20 +383,18 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": "2026-05-31T22:27:39.684Z",
+      "pe_as_of": "2026-06-11T01:31:00.439Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://simplywall.st/stocks/in/capital-goods/nse-spcon/srinibas-pradhan-constructions-shares"
     },
     "rewards": [
-      "Earnings grew by 85.6% over the past year",
-      "Price-To-Earnings ratio (16.2x) is below the Indian market (23.4x)",
-      "Trading at good value vs. peer average Price-To-Earnings ratio"
+      "Earnings grew by 24.7% over the past year",
+      "Trading at good value vs. industry average Price-To-Earnings ratio",
+      "Price-To-Earnings ratio (12.9x) is below the Indian market (23.2x)"
     ],
     "risks": [
-      "Latest financial reports are more than 6 months old",
       "Highly volatile share price over past 3 months",
       "Does not have a meaningful market cap (₹1B)",
-      "Debt is not well covered by [[operating cash flow]]",
       "High level of [[non-cash earnings]]"
     ],
     "dividend": {
@@ -121,9 +407,9 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 15.073268522,
-      "net_income_margin_1y": 0.06405545837,
-      "future_revenue_growth_3y": 0.4628660854
+      "pe": 14.536772712,
+      "net_income_margin_1y": 0.06358528991,
+      "future_revenue_growth_3y": 0.4770711206
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -137,30 +423,30 @@
     "pe_benchmark_source": {
       "provider": "sws_industry_api",
       "label": "SWS industry API",
-      "company_pe": 16.2,
+      "company_pe": 12.9,
       "company_pe_source": "sws_statement",
       "company_pe_source_label": "SWS visible statement",
-      "industry_pe": 15.073268522,
+      "industry_pe": 14.536772712,
       "industry_name": "Capital Goods",
       "industry_code": "3040000",
-      "sample_count": 188,
+      "sample_count": 189,
       "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 16.2,
-        "industry_pe": 15.1,
+        "company_pe": 12.9,
+        "industry_pe": 14.5,
         "industry_name": "Indian Construction",
-        "description": "SPCON is expensive based on its Price-To-Earnings Ratio (16.2x) compared to the Indian Construction industry average (15.1x).",
+        "description": "SPCON is good value based on its Price-To-Earnings Ratio (12.9x) compared to the Indian Construction industry average (14.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 15.073268522,
+        "industry_pe": 14.536772712,
         "industry_code": "3040000",
         "type": "median_profitable",
-        "count": 188,
+        "count": 189,
         "source": {
           "type": "country",
           "country": "IN",
@@ -169,8 +455,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.1,
-        "sample_count": 184,
+        "industry_pe": 13.8,
+        "sample_count": 187,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -182,32 +468,41 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 136,
-        "fetched_at": "2026-05-31T22:27:39.684Z",
+        "value": 135,
+        "fetched_at": "2026-06-11T01:31:00.439Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-spcon/srinibas-pradhan-constructions-shares"
       },
       "multiples.pe": {
         "provider": "sws_statement",
-        "value": 16.2,
-        "fetched_at": "2026-05-31T22:27:39.684Z",
+        "value": 12.9,
+        "fetched_at": "2026-06-11T01:31:00.439Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-spcon/srinibas-pradhan-constructions-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 15.073268522,
+        "value": 14.536772712,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.06405545837,
-        "fetched_at": "2026-05-31T22:27:39.684Z",
+        "value": 0.06358528991,
+        "fetched_at": "2026-06-11T01:31:00.439Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-spcon/srinibas-pradhan-constructions-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.4628660854,
-        "fetched_at": "2026-05-31T22:27:39.684Z",
+        "value": 0.4770711206,
+        "fetched_at": "2026-06-11T01:31:00.439Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-spcon/srinibas-pradhan-constructions-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 100,
+          "high": 156
+        },
+        "fetched_at": "2026-06-11T01:31:00.439Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-spcon/srinibas-pradhan-constructions-shares"
       }
     },
@@ -234,16 +529,16 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 0.7407407407407408,
-      "7D": 0.7407407407407408,
-      "1M": -2.857142857142857,
-      "3M": 30.26819923371647,
-      "6M": 30.26819923371647,
-      "1Y": 30.26819923371647,
+      "1D": -5.561385099685197,
+      "7D": -4.963041182682161,
+      "1M": 9.666937449228275,
+      "3M": 29.3103448275862,
+      "6M": 29.3103448275862,
+      "1Y": 29.3103448275862,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 1,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -338,6 +633,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "94f76df0-1258-4fda-ae73-f4589b7288db",
+      "type": "brief",
+      "date": "2026-06-03T18:46:31.000Z",
+      "title": "Full year 2026 earnings released: EPS: ₹13.33 (vs ₹11.33 in FY 2025)",
+      "body": "Full year 2026 results: EPS: ₹13.33 (up from ₹11.33 in FY 2025). Revenue: ₹903.0m (flat on FY 2025). Net income: ₹82.1m (up 25% from FY 2025). Profit margin: 9.1% (up from 7.3% in FY 2025).",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "a3a3cabc-7a5a-472a-9f6c-53b64aea14cf",
       "type": "event",

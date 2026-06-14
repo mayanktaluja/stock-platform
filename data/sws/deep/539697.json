@@ -3,7 +3,7 @@
   "name": "Hiliks Technologies Limited",
   "sector": "Software",
   "sws_url": "https://simplywall.st/stocks/in/software/bse-539697/hiliks-technologies-shares",
-  "parsed_at": "2026-05-31T22:56:44.611Z",
+  "parsed_at": "2026-06-11T02:12:28.486Z",
   "company_id": "9082BDBC-20A8-4655-8872-17904DEA66FA",
   "classification_status": "Active",
   "groww_source": {
@@ -18,16 +18,16 @@
     "snowflake": {
       "valuation": 0,
       "future": 0,
-      "past": 2,
+      "past": 3,
       "financial_health": 6,
       "dividends": 0,
       "future_growth": 0,
-      "past_performance": 2,
+      "past_performance": 3,
       "value": 0,
       "health": 6,
       "dividend": 0
     },
-    "snowflake_total": 8,
+    "snowflake_total": 9,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 12,
@@ -77,9 +77,287 @@
         }
       ]
     },
-    "current_price_inr": 58.95,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_NOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_COMMITMENTS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 57.46,
     "market_cap_inr": 633500000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -91,6 +369,14 @@
       "min": null,
       "max": null,
       "count": 0
+    },
+    "fair_value_source_detail": {
+      "method": "missing_consensus_narrative",
+      "owner_name": null,
+      "owner_classification": null,
+      "narrative_id": null,
+      "narrative_type": null,
+      "published_at": null
     },
     "upside_pct": null,
     "multiples": {
@@ -108,13 +394,16 @@
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/anubhav-industrial-resources-ltd"
     },
-    "rewards": [],
+    "rewards": [
+      "Earnings grew by 77.3% over the past year"
+    ],
     "risks": [
-      "Profit margins (1.1%) are lower than last year (15.8%)",
+      "High level of [[non-cash earnings]]",
+      "Profit margins (2.8%) are lower than last year (6.6%)",
       "Shareholders have been diluted in the past year",
-      "Does not have a meaningful market cap (₹634M)",
+      "Does not have a meaningful market cap (₹633M)",
       "Highly volatile share price over past 3 months",
-      "Does not have meaningful revenue (₹157M)"
+      "Does not have meaningful revenue (₹296M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -127,8 +416,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 20.79918137809377,
-      "net_income_margin_1y": 0.1202305246,
-      "future_revenue_growth_3y": 0.2209798542,
+      "net_income_margin_1y": 0.1114700445,
+      "future_revenue_growth_3y": 0.2229716203,
       "sector_pe": 20.79918137809377
     },
     "industry_benchmarks_meta": {
@@ -163,18 +452,18 @@
         "url": "https://groww.in/stocks/anubhav-industrial-resources-ltd"
       },
       "sws_statement": {
-        "company_pe": null,
-        "industry_pe": 2.4,
+        "company_pe": 77.1,
+        "industry_pe": 23,
         "industry_name": "Indian IT",
-        "description": "539697 is expensive based on its Price-To-Sales Ratio (4x) compared to the Indian IT industry average (2.4x).",
-        "title": "Price-To-Sales vs Industry",
+        "description": "539697 is expensive based on its Price-To-Earnings Ratio (77.1x) compared to the Indian IT industry average (23x).",
+        "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 23.644221907,
+        "industry_pe": 22.964061807,
         "industry_code": "8030000",
         "type": "median_profitable",
-        "count": 126,
+        "count": 127,
         "source": {
           "type": "country",
           "country": "IN",
@@ -183,8 +472,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.4,
-        "sample_count": 123,
+        "industry_pe": 22.5,
+        "sample_count": 126,
         "industry_code": "8030000",
         "industry_name": "Software"
       },
@@ -196,8 +485,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 58.95,
-        "fetched_at": "2026-05-31T22:56:44.611Z",
+        "value": 57.46,
+        "fetched_at": "2026-06-11T02:12:28.486Z",
         "url": "https://simplywall.st/stocks/in/software/bse-539697/hiliks-technologies-shares"
       },
       "market_cap_inr": {
@@ -244,14 +533,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.1202305246,
-        "fetched_at": "2026-05-31T22:56:44.611Z",
+        "value": 0.1114700445,
+        "fetched_at": "2026-06-11T02:12:28.486Z",
         "url": "https://simplywall.st/stocks/in/software/bse-539697/hiliks-technologies-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.2209798542,
-        "fetched_at": "2026-05-31T22:56:44.611Z",
+        "value": 0.2229716203,
+        "fetched_at": "2026-06-11T02:12:28.486Z",
         "url": "https://simplywall.st/stocks/in/software/bse-539697/hiliks-technologies-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -383,16 +672,16 @@
     "quick_ratio": 0.36363636363636354,
     "cash_ratio": 0.05619834710743802,
     "returns_pct": {
-      "1D": 0.03393857118615837,
-      "7D": 7.026143790849682,
-      "1M": 16.755793226381464,
-      "3M": 28.6275365481126,
-      "6M": 13.935059914959414,
-      "1Y": -2.561983471074375,
+      "1D": -2.444821731748723,
+      "7D": 5.508630187293426,
+      "1M": 0.8070175438596507,
+      "3M": 19.75823259691539,
+      "6M": 2.6071428571428585,
+      "1Y": -10.316840955205233,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -702,6 +991,26 @@
     "BSE"
   ],
   "news": [
+    {
+      "id": "25958320-35b5-40a6-a68f-c7667c691469",
+      "type": "brief",
+      "date": "2026-06-02T11:25:28.000Z",
+      "title": "Full year 2026 earnings released: EPS: ₹0.76 (vs ₹0.53 in FY 2025)",
+      "body": "Full year 2026 results: EPS: ₹0.76 (up from ₹0.53 in FY 2025). Revenue: ₹296.1m (up 324% from FY 2025). Net income: ₹8.21m (up 77% from FY 2025). Profit margin: 2.8% (down from 6.6% in FY 2025). The decrease in margin was driven by higher expenses. Over the last 3 years on average, earnings per share has increased by 33% per year but the company’s share price has increased by 109% per year, which means it is tracking significantly ahead of earnings growth.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "9c3bd484-ec0f-4765-9157-187aa847a34a",
+      "type": "event",
+      "date": "2026-05-30T11:25:00.000Z",
+      "title": "Hiliks Technologies Limited Approves Designation of Veera Venkata Ramana Varma Mudunuri as the Chairman of the Board",
+      "body": "Hiliks Technologies Limited at its board meeting held on 30 May, 2026 approved the designation of Mr. Veera Venkata Ramana Varma Mudunuri, Director of the Company as the Chairman of the Board.",
+      "keyDevTypeId": "16",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
     {
       "id": "051593f5-8ab6-41bf-9edd-4adeb7b5453f",
       "type": "event",

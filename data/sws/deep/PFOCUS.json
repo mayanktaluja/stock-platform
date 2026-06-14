@@ -3,7 +3,7 @@
   "name": "Prime Focus Limited",
   "sector": "Media",
   "sws_url": "https://simplywall.st/stocks/in/media/nse-pfocus/prime-focus-shares",
-  "parsed_at": "2026-05-31T21:30:17.244Z",
+  "parsed_at": "2026-06-11T00:32:27.617Z",
   "company_id": "D024D3E5-353A-44BF-9E7F-F2D307B905B1",
   "classification_status": "Active",
   "groww_source": {
@@ -77,24 +77,310 @@
         }
       ]
     },
-    "current_price_inr": 233.4,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_BECOME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 227.28,
     "market_cap_inr": 187556900000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 103.02,
       "high": 367
     },
-    "fair_value_inr": 636.992075,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 172.91862682090832,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "f14ec060-7454-49f9-8666-5b30c7b26386",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
-      "pe": 82.8,
+      "pe": 83.6,
       "ps": 4.45,
       "pb": 10.79,
       "ev_ebitda": 11.67,
@@ -104,13 +390,13 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": "2026-05-31T21:30:17.244Z",
+      "pe_as_of": "2026-06-11T00:32:27.617Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://simplywall.st/stocks/in/media/nse-pfocus/prime-focus-shares"
     },
     "rewards": [
       "Became profitable this year",
-      "Trading at 63.4% below our estimate of its fair value"
+      "Trading at 64% below our estimate of its fair value"
     ],
     "risks": [
       "Shareholders have been substantially diluted in the past year",
@@ -127,8 +413,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 31.86659331376836,
-      "net_income_margin_1y": 0.135704459,
-      "future_revenue_growth_3y": 0.2286709112,
+      "net_income_margin_1y": 0.1353173847,
+      "future_revenue_growth_3y": 0.2268638164,
       "sector_pe": 31.86659331376836
     },
     "industry_benchmarks_meta": {
@@ -143,7 +429,7 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 82.8,
+      "company_pe": 83.6,
       "company_pe_source": "sws_statement",
       "company_pe_source_label": "SWS visible statement",
       "industry_pe": 31.86659331376836,
@@ -163,18 +449,18 @@
         "url": "https://groww.in/stocks/prime-focus-ltd"
       },
       "sws_statement": {
-        "company_pe": 82.8,
-        "industry_pe": 25,
+        "company_pe": 83.6,
+        "industry_pe": 31.6,
         "industry_name": "Indian Entertainment",
-        "description": "PFOCUS is expensive based on its Price-To-Earnings Ratio (82.8x) compared to the Indian Entertainment industry average (25x).",
+        "description": "PFOCUS is expensive based on its Price-To-Earnings Ratio (83.6x) compared to the Indian Entertainment industry average (31.6x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 24.954356788,
+        "industry_pe": 31.640552766,
         "industry_code": "4300001",
         "type": "median_profitable",
-        "count": 40,
+        "count": 41,
         "source": {
           "type": "country",
           "country": "IN",
@@ -183,8 +469,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.25,
-        "sample_count": 36,
+        "industry_pe": 20.45,
+        "sample_count": 38,
         "industry_code": "4300001",
         "industry_name": "Media"
       },
@@ -196,8 +482,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 233.4,
-        "fetched_at": "2026-05-31T21:30:17.244Z",
+        "value": 227.28,
+        "fetched_at": "2026-06-11T00:32:27.617Z",
         "url": "https://simplywall.st/stocks/in/media/nse-pfocus/prime-focus-shares"
       },
       "market_cap_inr": {
@@ -208,8 +494,8 @@
       },
       "multiples.pe": {
         "provider": "sws_statement",
-        "value": 82.8,
-        "fetched_at": "2026-05-31T21:30:17.244Z",
+        "value": 83.6,
+        "fetched_at": "2026-06-11T00:32:27.617Z",
         "url": "https://simplywall.st/stocks/in/media/nse-pfocus/prime-focus-shares"
       },
       "multiples.pb": {
@@ -244,14 +530,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.135704459,
-        "fetched_at": "2026-05-31T21:30:17.244Z",
+        "value": 0.1353173847,
+        "fetched_at": "2026-06-11T00:32:27.617Z",
         "url": "https://simplywall.st/stocks/in/media/nse-pfocus/prime-focus-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.2286709112,
-        "fetched_at": "2026-05-31T21:30:17.244Z",
+        "value": 0.2268638164,
+        "fetched_at": "2026-06-11T00:32:27.617Z",
         "url": "https://simplywall.st/stocks/in/media/nse-pfocus/prime-focus-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -377,16 +663,16 @@
     "quick_ratio": 0.6608461973406616,
     "cash_ratio": 0.02149540665260188,
     "returns_pct": {
-      "1D": -2.689180737961221,
-      "7D": -3.8120750051514523,
-      "1M": -25.739739102768056,
-      "3M": -8.409527920574503,
-      "6M": 37.51251988452249,
-      "1Y": 118.29405162738496,
+      "1D": -3.5641547861507155,
+      "7D": 1.3692520404977446,
+      "1M": -22.084333219060674,
+      "3M": -17.187101475678627,
+      "6M": 13.136542386380615,
+      "1Y": 75.69573283858998,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -463,8 +749,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.07834,
-        "shares": 607941,
+        "pct": 0.07886,
+        "shares": 611965,
         "is_insider": null
       },
       {
@@ -713,6 +999,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "2946a17a-8e18-4876-a558-082263ab1844",
+      "type": "article",
+      "date": "2026-06-05T01:26:02.000Z",
+      "title": "Prime Focus (NSE:PFOCUS) Posted Healthy Earnings But There Are Some Other Factors To Be Aware Of",
+      "body": "Investors were disappointed with Prime Focus Limited's ( NSE:PFOCUS ) earnings, despite the strong profit numbers. We...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/media/nse-pfocus/prime-focus-shares/news/prime-focus-nsepfocus-posted-healthy-earnings-but-there-are",
+      "raw_subtype": "article"
+    },
     {
       "id": "7bfe1bb2-be3a-46b9-a462-2e0d9a6d4872",
       "type": "brief",

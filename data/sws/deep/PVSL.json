@@ -3,7 +3,7 @@
   "name": "Popular Vehicles and Services Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/nse-pvsl/popular-vehicles-and-services-shares",
-  "parsed_at": "2026-05-31T21:43:06.362Z",
+  "parsed_at": "2026-06-11T00:44:03.297Z",
   "company_id": "01796E30-3563-45B0-BFFD-D7FBF5F70C88",
   "classification_status": "Active",
   "groww_source": {
@@ -77,22 +77,308 @@
         }
       ]
     },
-    "current_price_inr": 97.54,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASING_LOSSES"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 95.35,
     "market_cap_inr": 7112700000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 82.41,
       "high": 163
     },
-    "fair_value_inr": 0.441119,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 0.441119,
-      "max": 0.441119,
+      "min": 0.432876,
+      "max": 0.432876,
       "count": 1
     },
-    "upside_pct": -99.54775579249538,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "d0e1d4bf-ad6b-434d-811b-791f201a22a2",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": null,
       "ps": 0.11,
@@ -142,8 +428,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 75.0238404110117,
-      "net_income_margin_1y": 0.03769127184,
-      "future_revenue_growth_3y": 0.7374679572,
+      "net_income_margin_1y": 0.03758437997,
+      "future_revenue_growth_3y": 0.7382081231,
       "sector_pe": 75.0238404110117
     },
     "industry_benchmarks_meta": {
@@ -179,17 +465,17 @@
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 1,
+        "industry_pe": 0.9,
         "industry_name": "Indian Specialty Retail",
-        "description": "PVSL is good value based on its Price-To-Sales Ratio (0.1x) compared to the Indian Specialty Retail industry average (1x).",
+        "description": "PVSL is good value based on its Price-To-Sales Ratio (0.1x) compared to the Indian Specialty Retail industry average (0.9x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 21.18993456,
+        "industry_pe": 19.335449999,
         "industry_code": "4440000",
         "type": "median_profitable",
-        "count": 64,
+        "count": 62,
         "source": {
           "type": "country",
           "country": "IN",
@@ -198,8 +484,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.95,
-        "sample_count": 56,
+        "industry_pe": 17.3,
+        "sample_count": 55,
         "industry_code": "4440000",
         "industry_name": "Retail"
       },
@@ -211,8 +497,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 97.54,
-        "fetched_at": "2026-05-31T21:43:06.362Z",
+        "value": 95.35,
+        "fetched_at": "2026-06-11T00:44:03.297Z",
         "url": "https://simplywall.st/stocks/in/retail/nse-pvsl/popular-vehicles-and-services-shares"
       },
       "market_cap_inr": {
@@ -253,14 +539,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.03769127184,
-        "fetched_at": "2026-05-31T21:43:06.362Z",
+        "value": 0.03758437997,
+        "fetched_at": "2026-06-11T00:44:03.297Z",
         "url": "https://simplywall.st/stocks/in/retail/nse-pvsl/popular-vehicles-and-services-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.7374679572,
-        "fetched_at": "2026-05-31T21:43:06.362Z",
+        "value": 0.7382081231,
+        "fetched_at": "2026-06-11T00:44:03.297Z",
         "url": "https://simplywall.st/stocks/in/retail/nse-pvsl/popular-vehicles-and-services-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -386,12 +672,12 @@
     "quick_ratio": 0.4496541855473408,
     "cash_ratio": 0.07002146434533747,
     "returns_pct": {
-      "1D": -2.3916741719203447,
-      "7D": -8.94324122479462,
-      "1M": -5.813055233680954,
-      "3M": 3.8211814795103813,
-      "6M": -27.4093919773759,
-      "1Y": -22.868891349043167,
+      "1D": 0.4106992417860158,
+      "7D": -2.5847977114834504,
+      "1M": -11.392993216243848,
+      "3M": 5.452333554523327,
+      "6M": -23.036564694487048,
+      "1Y": -24.49916858025181,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -760,16 +1046,6 @@
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/stocks/in/retail/nse-pvsl/popular-vehicles-and-services-shares/news/popular-vehicles-and-services-nsepvsl-will-be-hoping-to-turn",
       "raw_subtype": "article"
-    },
-    {
-      "id": "a19c0723-fc1c-4a2e-857b-ef42f754c54a",
-      "type": "brief",
-      "date": "2025-12-08T18:28:13.000Z",
-      "title": "New minor risk - Market cap size",
-      "body": "The company's market capitalization is less than US$100m. Market cap: ₹8.90b (US$98.8m) This is considered a minor risk. Companies with a small market capitalization are most likely businesses that have not yet released a product to market or are simply a very small company without a wide reach. Either way, risk is elevated with these companies because there is a chance the product may not come to fruition or the company's addressable market or demand may not be as large as expected. In addition, if the company's size is the main factor, it is less likely to have many investors and analysts following it and scrutinizing its performance and outlook. Currently, the following risks have been identified for the company: Major Risks Interest payments are not well covered by earnings (0.4x net i",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/PVSL.json"

@@ -3,7 +3,7 @@
   "name": "PVR INOX Limited",
   "sector": "Media",
   "sws_url": "https://simplywall.st/stocks/in/media/nse-pvrinox/pvr-inox-shares",
-  "parsed_at": "2026-05-31T21:43:00.761Z",
+  "parsed_at": "2026-06-11T00:43:57.942Z",
   "company_id": "9579CFAA-775D-4E0B-B63B-AAE7DA7AA97F",
   "classification_status": "Active",
   "groww_source": {
@@ -16,18 +16,18 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 0,
+      "valuation": 1,
       "future": 3,
       "past": 3,
       "financial_health": 3,
       "dividends": 0,
       "future_growth": 3,
       "past_performance": 3,
-      "value": 0,
+      "value": 1,
       "health": 3,
       "dividend": 0
     },
-    "snowflake_total": 9,
+    "snowflake_total": 10,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 2,
@@ -70,22 +70,308 @@
         }
       ]
     },
-    "current_price_inr": 962.6,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SAME_PB"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_BECOME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 957.7,
     "market_cap_inr": 94026500000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midsmall4",
     "shares_outstanding": 98199962,
     "fifty_two_week": {
       "low": 907.4,
       "high": 1249.7
     },
-    "fair_value_inr": 1065,
+    "fair_value_inr": 1384.5,
     "fair_value_range_inr": {
-      "min": 702.782899,
+      "min": 713.557429,
       "max": 1850,
       "count": 28
     },
-    "upside_pct": 10.63785580718886,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "9b250f51-74d6-4d87-9603-9d45e332da59",
+      "narrative_type": null,
+      "published_at": "2026-06-02T22:07:00.287Z"
+    },
+    "upside_pct": 44.56510389474783,
     "multiples": {
       "pe": 28.25,
       "ps": 1.42,
@@ -103,12 +389,13 @@
     },
     "rewards": [
       "Became profitable this year",
-      "Earnings are forecast to grow 36.92% per year"
+      "Earnings are forecast to grow 36.82% per year",
+      "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
     "risks": [],
     "dividend": {
       "yield_pct": 0,
-      "payout_pct": 175.357075,
+      "payout_pct": 22.142043291995492,
       "annualized_dividend": 4,
       "listing_currency": "INR",
       "recent_payments": [
@@ -183,8 +470,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 24.05707083713779,
-      "net_income_margin_1y": 0.1066140819,
-      "future_revenue_growth_3y": 0.5690837194,
+      "net_income_margin_1y": 0.1052710613,
+      "future_revenue_growth_3y": 0.5707613972,
       "sector_pe": 24.05707083713779
     },
     "industry_benchmarks_meta": {
@@ -219,18 +506,18 @@
         "url": "https://groww.in/stocks/pvr-ltd"
       },
       "sws_statement": {
-        "company_pe": 53.3,
-        "industry_pe": 25,
+        "company_pe": 53.5,
+        "industry_pe": 31.6,
         "industry_name": "Indian Entertainment",
-        "description": "PVRINOX is expensive based on its Price-To-Earnings Ratio (53.3x) compared to the Indian Entertainment industry average (25x).",
+        "description": "PVRINOX is expensive based on its Price-To-Earnings Ratio (53.5x) compared to the Indian Entertainment industry average (31.6x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 24.954356788,
+        "industry_pe": 31.640552766,
         "industry_code": "4300001",
         "type": "median_profitable",
-        "count": 40,
+        "count": 41,
         "source": {
           "type": "country",
           "country": "IN",
@@ -239,25 +526,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.25,
-        "sample_count": 36,
+        "industry_pe": 20.45,
+        "sample_count": 38,
         "industry_code": "4300001",
         "industry_name": "Media"
       },
       "sws_primary_industry": {
-        "industry_pe": 16.475096844,
+        "industry_pe": 16.321854198,
         "industry_name": "Media",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 421.9968009875
+        "company_pe": 53.01358715186021
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 962.6,
-        "fetched_at": "2026-05-31T21:43:00.761Z",
+        "value": 957.7,
+        "fetched_at": "2026-06-11T00:43:57.942Z",
         "url": "https://simplywall.st/stocks/in/media/nse-pvrinox/pvr-inox-shares"
       },
       "market_cap_inr": {
@@ -265,6 +552,24 @@
         "value": 94026500000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/pvr-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 1384.5,
+        "fetched_at": "2026-06-11T00:43:57.942Z",
+        "url": "https://simplywall.st/stocks/in/media/nse-pvrinox/pvr-inox-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "9b250f51-74d6-4d87-9603-9d45e332da59",
+        "narrative_type": null,
+        "published_at": "2026-06-02T22:07:00.287Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 44.56510389474783,
+        "fetched_at": "2026-06-11T00:43:57.942Z",
+        "url": "https://simplywall.st/stocks/in/media/nse-pvrinox/pvr-inox-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -304,14 +609,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.1066140819,
-        "fetched_at": "2026-05-31T21:43:00.761Z",
+        "value": 0.1052710613,
+        "fetched_at": "2026-06-11T00:43:57.942Z",
         "url": "https://simplywall.st/stocks/in/media/nse-pvrinox/pvr-inox-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.5690837194,
-        "fetched_at": "2026-05-31T21:43:00.761Z",
+        "value": 0.5707613972,
+        "fetched_at": "2026-06-11T00:43:57.942Z",
         "url": "https://simplywall.st/stocks/in/media/nse-pvrinox/pvr-inox-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -422,11 +727,11 @@
     },
     "earnings_growth_yoy_pct": null,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 11.10399833907161,
-    "latest_revenue": 64217000000,
-    "latest_net_income": 224000000,
+    "revenue_growth_pct": 9.704042388128684,
+    "latest_revenue": 66462000000,
+    "latest_net_income": 1774000000,
     "latest_eps": 33.89,
-    "most_recent_reported_date": "2026-04-23",
+    "most_recent_reported_date": "2026-06-02",
     "pb": 1.27,
     "ps": 1.42,
     "book_value": 751.3953989,
@@ -443,12 +748,12 @@
     "quick_ratio": 0.4417517006802721,
     "cash_ratio": 0.251530612244898,
     "returns_pct": {
-      "1D": 0.5011484652328323,
-      "7D": -1.7554602980199971,
-      "1M": -11.894192485469766,
-      "3M": -5.830561533946392,
-      "6M": -9.860473827137378,
-      "1Y": -5.083074495883247,
+      "1D": -0.93612619601758,
+      "7D": -2.165696189600565,
+      "1M": -6.656920077972705,
+      "3M": -3.874335039646684,
+      "6M": -8.955223880597018,
+      "1Y": -4.182091045522757,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -504,8 +809,8 @@
         "is_insider": null
       },
       {
-        "pct": 2.19801,
-        "shares": 2158448,
+        "pct": 2.1966,
+        "shares": 2157056,
         "is_insider": null
       },
       {
@@ -571,7 +876,7 @@
   },
   "dividend": {
     "yield_pct": 0,
-    "payout_pct": 175.357075,
+    "payout_pct": 22.142043291995492,
     "annualized_dividend": 4,
     "listing_currency": "INR",
     "recent_payments": [
@@ -644,44 +949,44 @@
     "payment_count": 5
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-04-23",
+    "most_recent_reported_date": "2026-06-02",
     "latest_year": 2026,
-    "latest_revenue": 64217000000,
-    "latest_net_income": 224000000,
+    "latest_revenue": 66462000000,
+    "latest_net_income": 1774000000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 11.10399833907161,
+    "revenue_growth_pct": 9.704042388128684,
     "earnings_growth_pct": null,
-    "net_margin_pct": 0.3488172913714437,
+    "net_margin_pct": 2.669194426890554,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 64217000000,
-        "netIncome": 224000000,
+        "revenue": 66462000000,
+        "netIncome": 1774000000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 57799000000,
-        "netIncome": -2796000000,
+        "revenue": 60583000000,
+        "netIncome": -1549000000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 61071000000,
-        "netIncome": -320000000,
+        "revenue": 59929000000,
+        "netIncome": -1291000000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 37506000000,
-        "netIncome": -3351000000,
+        "revenue": 40741500000,
+        "netIncome": -4700700000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 13294000000,
-        "netIncome": -4882400000,
+        "revenue": 22530100000,
+        "netIncome": -2154200000,
         "eps": null
       }
     ]
@@ -868,6 +1173,16 @@
   ],
   "news": [
     {
+      "id": "e26885ce-76d2-4405-8fdc-d841aae4df7e",
+      "type": "narrative-update",
+      "date": "2026-06-02T22:07:00.000Z",
+      "title": "PVRINOX: Lower Discount Rate Will Support Future Upside Potential",
+      "body": "Analysts have lifted their price target on PVR INOX from ₹1,308 to ₹1,384, citing updated assumptions around discount rates, revenue growth, profit margins and future P/E multiples that feed into their fair value framework. What's in the News PVR INOX has scheduled a board meeting on May 11, 2026 at 12:30 Indian Standard Time to consider and approve audited standalone and consolidated financial results for the fourth quarter and financial year ended March 31, 2026, and to consider the Annual General Meeting.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/media/nse-pvrinox/pvr-inox-shares/yut8ysc6-asset-light-models-and-diverse-content-will-drive-cinematic-resurgence-grxp/updates/3-analysts-have-lifted-their-price-target-on-pvr-inox-from-indian-rupee1",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "48900cce-d61f-4af0-b17d-c348ade99012",
       "type": "article",
       "date": "2026-05-19T00:11:45.000Z",
@@ -1016,16 +1331,6 @@
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/stocks/in/media/nse-pvrinox/pvr-inox-shares/news/pvr-inox-limited-nsepvrinox-might-not-be-as-mispriced-as-it",
       "raw_subtype": "article"
-    },
-    {
-      "id": "0c149d45-80ab-4e65-93d5-5961a6ae8e1d",
-      "type": "narrative-update",
-      "date": "2025-12-13T17:08:29.000Z",
-      "title": "PVRINOX Margins Are Expected To Improve While Share Price Appears Reasonable",
-      "body": "Analysts have raised their price target on PVR INOX from ₹945 to ₹1,026, citing expectations of modestly improving growth, higher sustainable profit margins, and a more reasonable future valuation multiple. What's in the News Board meeting scheduled for October 17, 2025, to consider unaudited standalone and consolidated financial results for the second quarter and half year ended September 30, 2025 (company filing) Valuation Changes Fair Value: raised from ₹945 to ₹1,026, reflecting a modest upward revision in the intrinsic value estimate.",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/media/nse-pvrinox/pvr-inox-shares/zsyk6wfa-rising-ott-trends-will-erode-indian-movie-theater-demand/updates/2-analysts-have-raised-their-price-target-on-pvr-inox-from-indian-rupee94",
-      "raw_subtype": "narrative-update"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/PVRINOX.json"

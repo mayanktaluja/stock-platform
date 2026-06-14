@@ -3,27 +3,27 @@
   "name": "Service Care Limited",
   "sector": "Commercial Services",
   "sws_url": "https://simplywall.st/stocks/in/commercial-services/nse-service/service-care-shares",
-  "parsed_at": "2026-05-31T22:10:34.794Z",
+  "parsed_at": "2026-06-11T01:12:26.015Z",
   "company_id": "83A938C7-A64A-4E57-AC6D-360DE324E951",
   "classification_status": "Active",
   "groww_source": null,
   "overview": {
     "snowflake": {
-      "valuation": 0,
+      "valuation": 1,
       "future": 0,
-      "past": 1,
-      "financial_health": 6,
+      "past": 4,
+      "financial_health": 5,
       "dividends": 0,
       "future_growth": 0,
-      "past_performance": 1,
-      "value": 0,
-      "health": 6,
+      "past_performance": 4,
+      "value": 1,
+      "health": 5,
       "dividend": 0
     },
-    "snowflake_total": 7,
+    "snowflake_total": 10,
     "snowflake_data_quality": {
       "insufficient": true,
-      "insufficient_count": 9,
+      "insufficient_count": 11,
       "checked_count": 30,
       "affected_pillars": [
         "Value",
@@ -33,7 +33,7 @@
       "by_pillar": {
         "Value": {
           "checked": 6,
-          "insufficient": 1
+          "insufficient": 3
         },
         "Future": {
           "checked": 6,
@@ -59,32 +59,321 @@
           "reason_code": "OUTCOME_NULL"
         },
         {
-          "pillar": "Future",
-          "title": "Future ROE",
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
           "reason_code": "OUTCOME_NULL"
         },
         {
-          "pillar": "Future",
-          "title": "High Growth Earnings",
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
           "reason_code": "OUTCOME_NULL"
         }
       ]
     },
-    "current_price_inr": 51,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 49.25,
     "market_cap_inr": null,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
-    "fifty_two_week": null,
-    "fair_value_inr": 6.464361,
-    "fair_value_range_inr": {
-      "min": null,
-      "max": null,
-      "count": 0
+    "fifty_two_week": {
+      "low": 40.45,
+      "high": 64
     },
-    "upside_pct": -87.32478235294118,
+    "fair_value_inr": null,
+    "fair_value_range_inr": {
+      "min": 48.47,
+      "max": 48.47,
+      "count": 1
+    },
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "9f3bb205-913e-4d66-8d04-29dbee208bde",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
-      "pe": 31.6,
+      "pe": 13.1,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -93,16 +382,19 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": "2026-05-31T22:10:34.794Z",
+      "pe_as_of": "2026-06-11T01:12:26.015Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://simplywall.st/stocks/in/commercial-services/nse-service/service-care-shares"
     },
-    "rewards": [],
+    "rewards": [
+      "Earnings grew by 149.1% over the past year",
+      "Trading at good value vs. industry average Price-To-Earnings ratio",
+      "Price-To-Earnings ratio (13.1x) is below the Indian market (23.2x)"
+    ],
     "risks": [
-      "Profit margins (1.1%) are lower than last year (2.5%)",
       "Shareholders have been diluted in the past year",
-      "Large [[one-off items]] impacting financial results",
-      "Does not have a meaningful market cap (₹680M)"
+      "High level of [[non-cash earnings]]",
+      "Does not have a meaningful market cap (₹656M)"
     ],
     "dividend": {
       "yield_pct": 1.4755070539,
@@ -141,9 +433,9 @@
     },
     "dividend_yield_pct": 1.4755070539,
     "industry_benchmarks": {
-      "pe": 19.714358381,
+      "pe": 20.253723075,
       "net_income_margin_1y": 0.1565829943,
-      "future_revenue_growth_3y": 0.4148978925
+      "future_revenue_growth_3y": 0.4137768079
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -157,10 +449,10 @@
     "pe_benchmark_source": {
       "provider": "sws_industry_api",
       "label": "SWS industry API",
-      "company_pe": 31.6,
+      "company_pe": 13.1,
       "company_pe_source": "sws_statement",
       "company_pe_source_label": "SWS visible statement",
-      "industry_pe": 19.714358381,
+      "industry_pe": 20.253723075,
       "industry_name": "Commercial Services",
       "industry_code": "9612010",
       "sample_count": 63,
@@ -169,15 +461,15 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 31.6,
-        "industry_pe": 19.8,
+        "company_pe": 13.1,
+        "industry_pe": 20.3,
         "industry_name": "Indian Professional Services",
-        "description": "SERVICE is expensive based on its Price-To-Earnings Ratio (31.6x) compared to the Indian Professional Services industry average (19.8x).",
+        "description": "SERVICE is good value based on its Price-To-Earnings Ratio (13.1x) compared to the Indian Professional Services industry average (20.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 19.714358381,
+        "industry_pe": 20.253723075,
         "industry_code": "9612010",
         "type": "median_profitable",
         "count": 63,
@@ -189,8 +481,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.1,
-        "sample_count": 59,
+        "industry_pe": 18.6,
+        "sample_count": 57,
         "industry_code": "9612010",
         "industry_name": "Commercial Services"
       },
@@ -202,32 +494,41 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 51,
-        "fetched_at": "2026-05-31T22:10:34.794Z",
+        "value": 49.25,
+        "fetched_at": "2026-06-11T01:12:26.015Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-service/service-care-shares"
       },
       "multiples.pe": {
         "provider": "sws_statement",
-        "value": 31.6,
-        "fetched_at": "2026-05-31T22:10:34.794Z",
+        "value": 13.1,
+        "fetched_at": "2026-06-11T01:12:26.015Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-service/service-care-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 19.714358381,
+        "value": 20.253723075,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.1565829943,
-        "fetched_at": "2026-05-31T22:10:34.794Z",
+        "fetched_at": "2026-06-11T01:12:26.015Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-service/service-care-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.4148978925,
-        "fetched_at": "2026-05-31T22:10:34.794Z",
+        "value": 0.4137768079,
+        "fetched_at": "2026-06-11T01:12:26.015Z",
+        "url": "https://simplywall.st/stocks/in/commercial-services/nse-service/service-care-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 40.45,
+          "high": 64
+        },
+        "fetched_at": "2026-06-11T01:12:26.015Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-service/service-care-shares"
       }
     },
@@ -254,16 +555,16 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -1.639344262295085,
-      "7D": 1.7964071856287396,
-      "1M": -10.211267605633799,
-      "3M": -1.9230769230769231,
-      "6M": 5.154639175257731,
-      "1Y": -13.924050632911392,
+      "1D": -2.7640671273445183,
+      "7D": -7.0754716981132075,
+      "1M": -5.288461538461538,
+      "3M": 3.9029535864978935,
+      "6M": 16.84460260972717,
+      "1Y": -22.745098039215687,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 1,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -325,6 +626,16 @@
   ],
   "news": [
     {
+      "id": "98432d38-07c4-4d62-8140-68d6381983f3",
+      "type": "brief",
+      "date": "2026-05-31T22:31:34.000Z",
+      "title": "Full year 2026 earnings released: EPS: ₹3.77 (vs ₹1.63 in FY 2025)",
+      "body": "Full year 2026 results: EPS: ₹3.77 (up from ₹1.63 in FY 2025). Revenue: ₹1.96b (up 3.6% from FY 2025). Net income: ₹50.2m (up 149% from FY 2025). Profit margin: 2.6% (up from 1.1% in FY 2025). The increase in margin was driven by higher revenue.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
       "id": "245ca4e3-6bc4-458b-ba7c-7e3da1a960a0",
       "type": "event",
       "date": "2026-05-21T00:00:00.000Z",
@@ -370,16 +681,6 @@
       "date": "2026-01-30T11:36:52.000Z",
       "title": "Investor sentiment improves as stock rises 21%",
       "body": "After last week's 21% share price gain to ₹49.80, the stock trades at a trailing P/E ratio of 30.8x. Average trailing P/E is 26x in the Professional Services industry in India. Total loss to shareholders of 26% over the past year.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "bc124146-a8b4-4bad-b30b-cde8a79c0e28",
-      "type": "brief",
-      "date": "2025-12-05T11:23:47.000Z",
-      "title": "Investor sentiment deteriorates as stock falls 15%",
-      "body": "After last week's 15% share price decline to ₹41.20, the stock trades at a trailing P/E ratio of 25.5x. Average trailing P/E is 27x in the Professional Services industry in India. Total loss to shareholders of 49% over the past year.",
       "keyDevTypeId": null,
       "source_url": null,
       "raw_subtype": "BriefActivity"

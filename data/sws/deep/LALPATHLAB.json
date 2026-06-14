@@ -3,7 +3,7 @@
   "name": "Dr. Lal PathLabs Limited",
   "sector": "Healthcare",
   "sws_url": "https://simplywall.st/stocks/in/healthcare/nse-lalpathlab/dr-lal-pathlabs-shares",
-  "parsed_at": "2026-05-31T20:34:14.567Z",
+  "parsed_at": "2026-06-10T23:41:07.217Z",
   "company_id": "122C3A54-47A3-46BE-82B4-8A625C81896A",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 4
     },
     "snowflake_total": 17,
-    "current_price_inr": 1607.4,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_NOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_50_TO_75_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 1568.7,
     "market_cap_inr": 271254700000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midlarge6",
     "shares_outstanding": 167188846,
     "fifty_two_week": {
       "low": 1272.6,
       "high": 1770
     },
-    "fair_value_inr": 2058.37656,
+    "fair_value_inr": 1663.88462,
     "fair_value_range_inr": {
       "min": 738.955247,
       "max": 2058.37656,
       "count": 9
     },
-    "upside_pct": 28.056274729376636,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "b41815f7-bd4c-414e-8566-feaedbff50b5",
+      "narrative_type": null,
+      "published_at": "2026-02-08T20:03:02.120Z"
+    },
+    "upside_pct": 6.067738892076241,
     "multiples": {
       "pe": 53.21,
       "ps": 9.81,
@@ -235,8 +521,8 @@
     "dividend_yield_pct": 1.51,
     "industry_benchmarks": {
       "pe": 59.71694269463179,
-      "net_income_margin_1y": 0.1041750126,
-      "future_revenue_growth_3y": 2.366911977,
+      "net_income_margin_1y": 0.1021808233,
+      "future_revenue_growth_3y": 2.289381694,
       "sector_pe": 59.71694269463179
     },
     "industry_benchmarks_meta": {
@@ -271,18 +557,18 @@
         "url": "https://groww.in/stocks/dr-lal-pathlabs-ltd"
       },
       "sws_statement": {
-        "company_pe": 53.2,
-        "industry_pe": 40.5,
+        "company_pe": 52.2,
+        "industry_pe": 39.3,
         "industry_name": "Indian Healthcare",
-        "description": "LALPATHLAB is expensive based on its Price-To-Earnings Ratio (53.2x) compared to the Indian Healthcare industry average (40.5x).",
+        "description": "LALPATHLAB is expensive based on its Price-To-Earnings Ratio (52.2x) compared to the Indian Healthcare industry average (39.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 37.439100813,
+        "industry_pe": 39.275601591,
         "industry_code": "6030000",
         "type": "median_profitable",
-        "count": 80,
+        "count": 79,
         "source": {
           "type": "country",
           "country": "IN",
@@ -291,25 +577,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 35.1,
-        "sample_count": 75,
+        "industry_pe": 33.650000000000006,
+        "sample_count": 74,
         "industry_code": "6030000",
         "industry_name": "Healthcare"
       },
       "sws_primary_industry": {
-        "industry_pe": 22.65435289,
+        "industry_pe": 22.129830496,
         "industry_name": "Healthcare",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 50.86504303313409
+        "company_pe": 49.640408738383385
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1607.4,
-        "fetched_at": "2026-05-31T20:34:14.567Z",
+        "value": 1568.7,
+        "fetched_at": "2026-06-10T23:41:07.217Z",
         "url": "https://simplywall.st/stocks/in/healthcare/nse-lalpathlab/dr-lal-pathlabs-shares"
       },
       "market_cap_inr": {
@@ -317,6 +603,24 @@
         "value": 271254700000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/dr-lal-pathlabs-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 1663.88462,
+        "fetched_at": "2026-06-10T23:41:07.217Z",
+        "url": "https://simplywall.st/stocks/in/healthcare/nse-lalpathlab/dr-lal-pathlabs-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "b41815f7-bd4c-414e-8566-feaedbff50b5",
+        "narrative_type": null,
+        "published_at": "2026-02-08T20:03:02.120Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 6.067738892076241,
+        "fetched_at": "2026-06-10T23:41:07.217Z",
+        "url": "https://simplywall.st/stocks/in/healthcare/nse-lalpathlab/dr-lal-pathlabs-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -356,14 +660,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.1041750126,
-        "fetched_at": "2026-05-31T20:34:14.567Z",
+        "value": 0.1021808233,
+        "fetched_at": "2026-06-10T23:41:07.217Z",
         "url": "https://simplywall.st/stocks/in/healthcare/nse-lalpathlab/dr-lal-pathlabs-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 2.366911977,
-        "fetched_at": "2026-05-31T20:34:14.567Z",
+        "value": 2.289381694,
+        "fetched_at": "2026-06-10T23:41:07.217Z",
         "url": "https://simplywall.st/stocks/in/healthcare/nse-lalpathlab/dr-lal-pathlabs-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -495,16 +799,16 @@
     "quick_ratio": 3.3785222986465495,
     "cash_ratio": 2.017972043487908,
     "returns_pct": {
-      "1D": -0.6059856542171627,
-      "7D": -1.3925526041347047,
-      "1M": 14.99499213049078,
-      "3M": 14.822487320522892,
-      "6M": 5.341110164493085,
-      "1Y": 16.22139474350169,
+      "1D": -0.4505647924863504,
+      "7D": -0.05733944954127571,
+      "1M": -5.065359477124185,
+      "3M": 13.921568627450984,
+      "6M": 9.145938424073755,
+      "1Y": 5.989662511401648,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 4,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -601,8 +905,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.0451,
-        "shares": 1747295,
+        "pct": 1.04821,
+        "shares": 1752498,
         "is_insider": null
       },
       {
@@ -1031,6 +1335,16 @@
   ],
   "news": [
     {
+      "id": "8cce08cb-60df-40db-b105-7fda558b3dcc",
+      "type": "narrative-update",
+      "date": "2026-06-05T18:10:09.000Z",
+      "title": "LALPATHLAB: Dubai Expansion Will Test Premium Pricing And Pressure Future Returns",
+      "body": "Analysts have raised their fair value estimate for Dr. Lal PathLabs from about ₹1,266 to roughly ₹1,314, reflecting updated assumptions for revenue growth, profit margins, and a slightly lower future P/E multiple. What's in the News The Board has recommended a final dividend of ₹4 per equity share, at 40% on a face value of ₹10, for the financial year ended March 31, 2026, subject to approval by shareholders at the upcoming Annual General Meeting.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/healthcare/nse-lalpathlab/dr-lal-pathlabs-shares/wnr25ulv-digital-health-trends-will-squeeze-margins-yet-allow-modest-recovery-86cx/updates/4-analysts-have-raised-their-fair-value-estimate-for-dr-lal-p",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "94d31d36-4542-4457-a34c-8b63b76e5a04",
       "type": "narrative-update",
       "date": "2026-05-22T00:12:46.000Z",
@@ -1238,26 +1552,6 @@
       "body": "Analysts have reduced their price target for Dr. Lal PathLabs from ₹4,020 to ₹2,000 per share, citing a modest uptick in long term revenue growth assumptions along with slightly lower projected profit margins and valuation multiples. What's in the News Shareholders approved an alteration to the capital clause of the Memorandum of Association, increasing authorized share capital to INR 2,00,00,00,000.",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/healthcare/nse-lalpathlab/dr-lal-pathlabs-shares/35lzcek5-expanding-middle-class-and-digital-health-will-boost-diagnostics-vgbg/updates/2-analysts-have-reduced-their-price-target-for-dr-lal-pathlab",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "c896ccd9-0fbc-41c6-a121-f910307598b9",
-      "type": "article",
-      "date": "2025-12-12T03:35:01.000Z",
-      "title": "Dr. Lal PathLabs (NSE:LALPATHLAB) Could Become A Multi-Bagger",
-      "body": "If you're not sure where to start when looking for the next multi-bagger, there are a few key trends you should keep an...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/healthcare/nse-lalpathlab/dr-lal-pathlabs-shares/news/dr-lal-pathlabs-nselalpathlab-could-become-a-multi-bagger",
-      "raw_subtype": "article"
-    },
-    {
-      "id": "7bfcf2ce-080a-45f3-b632-8e8da67905b9",
-      "type": "narrative-update",
-      "date": "2025-12-09T06:02:32.000Z",
-      "title": "LALPATHLAB: New Autoimmune Lab And Dividend Will Support Long Term Upside",
-      "body": "Analysts have nudged their price target for Dr. Lal PathLabs slightly higher to ₹3,428 from ₹3,421, citing marginally stronger expectations for long term revenue growth and profit margins, along with a modestly lower future P E multiple. What's in the News Launch of India's first dedicated Complement Testing Laboratory, positioning Dr. Lal PathLabs as a leading national hub for advanced autoimmune diagnostics and complement assays (company announcement).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/healthcare/nse-lalpathlab/dr-lal-pathlabs-shares/os87b1vi-ayushman-bharat-and-chronic-trends-will-expand-diagnostics-access-xb4x/updates/13-analysts-have-nudged-their-price-target-for-dr-lal-pathlabs",
       "raw_subtype": "narrative-update"
     }
   ],

@@ -3,7 +3,7 @@
   "name": "HDFC Bank Limited",
   "sector": "Banks",
   "sws_url": "https://simplywall.st/stocks/in/banks/nse-hdfcbank/hdfc-bank-shares",
-  "parsed_at": "2026-05-31T23:16:36.670Z",
+  "parsed_at": "2026-06-11T02:11:20.166Z",
   "company_id": "00BBEEDA-992E-40F0-90DD-DD33576EFF05",
   "classification_status": "Active",
   "groww_source": {
@@ -65,22 +65,308 @@
         }
       ]
     },
-    "current_price_inr": 744.55,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "BankHealth",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DECLINE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DECLINE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAppropriateBadLoanAllowance",
+          "title": "Allowance for Bad Loans",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAppropriateNonPerformingLoans",
+          "title": "Level of Bad Loans",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasPrimarilyLowRiskFunding",
+          "title": "Low Risk Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAppropriateLoanLevel",
+          "title": "Loan Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasPrimarilyDepositFunding",
+          "title": "Low Risk Deposits",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAnAppropriateLevelOfAssets",
+          "title": "Asset Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredIn3Years",
+          "title": "Future Dividend Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        }
+      ]
+    },
+    "current_price_inr": 746.85,
     "market_cap_inr": 11678118000000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "mega8",
     "shares_outstanding": 15395535906,
     "fifty_two_week": {
       "low": 726.65,
       "high": 1020.5
     },
-    "fair_value_inr": 1041.07692,
+    "fair_value_inr": 1039.79487,
     "fair_value_range_inr": {
-      "min": 474.444851,
-      "max": 1041.07692,
-      "count": 247
+      "min": 479.836742,
+      "max": 1039.79487,
+      "count": 248
     },
-    "upside_pct": 39.826327311799076,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "971d0d04-1d6a-4b1e-a11f-3516851f33ea",
+      "narrative_type": null,
+      "published_at": "2026-06-05T18:06:33.016Z"
+    },
+    "upside_pct": 39.22405703956617,
     "multiples": {
       "pe": 14.74,
       "ps": 2.36,
@@ -97,11 +383,11 @@
       "pe_source_url": "https://groww.in/stocks/hdfc-bank-ltd"
     },
     "rewards": [
-      "Analysts in good agreement that stock price will rise by 39.7%",
+      "Analysts in good agreement that stock price will rise by 39.2%",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Earnings are forecast to grow 11.74% per year",
       "Earnings have grown 18.7% per year over the past 5 years",
-      "Price-To-Earnings ratio (15.1x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (15.1x) is below the Indian market (23.2x)"
     ],
     "risks": [
       "Unstable dividend track record"
@@ -261,8 +547,8 @@
     "dividend_yield_pct": 2.04,
     "industry_benchmarks": {
       "pe": 12.587464209030458,
-      "net_income_margin_1y": 0.3177821454,
-      "future_revenue_growth_3y": 0.2745257838,
+      "net_income_margin_1y": 0.3178841988,
+      "future_revenue_growth_3y": 0.2771620146,
       "sector_pe": 12.587464209030458
     },
     "industry_benchmarks_meta": {
@@ -298,14 +584,14 @@
       },
       "sws_statement": {
         "company_pe": 15.1,
-        "industry_pe": 11.4,
+        "industry_pe": 11.9,
         "industry_name": "Indian Banks",
-        "description": "HDFCBANK is expensive based on its Price-To-Earnings Ratio (15.1x) compared to the Indian Banks industry average (11.4x).",
+        "description": "HDFCBANK is expensive based on its Price-To-Earnings Ratio (15.1x) compared to the Indian Banks industry average (11.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 11.441700538,
+        "industry_pe": 11.880641305,
         "industry_code": "7011000",
         "type": "median_profitable",
         "count": 39,
@@ -317,25 +603,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 11.4,
+        "industry_pe": 11.75,
         "sample_count": 40,
         "industry_code": "7011000",
         "industry_name": "Banks"
       },
       "sws_primary_industry": {
-        "industry_pe": 11.055229769,
+        "industry_pe": 11.140031027,
         "industry_name": "Banks",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 15.077408757576258
+        "company_pe": 15.123984595521899
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 744.55,
-        "fetched_at": "2026-05-31T23:16:36.670Z",
+        "value": 746.85,
+        "fetched_at": "2026-06-11T02:11:20.166Z",
         "url": "https://simplywall.st/stocks/in/banks/nse-hdfcbank/hdfc-bank-shares"
       },
       "market_cap_inr": {
@@ -343,6 +629,24 @@
         "value": 11678118000000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/hdfc-bank-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 1039.79487,
+        "fetched_at": "2026-06-11T02:11:20.166Z",
+        "url": "https://simplywall.st/stocks/in/banks/nse-hdfcbank/hdfc-bank-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "971d0d04-1d6a-4b1e-a11f-3516851f33ea",
+        "narrative_type": null,
+        "published_at": "2026-06-05T18:06:33.016Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 39.22405703956617,
+        "fetched_at": "2026-06-11T02:11:20.166Z",
+        "url": "https://simplywall.st/stocks/in/banks/nse-hdfcbank/hdfc-bank-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -382,14 +686,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.3177821454,
-        "fetched_at": "2026-05-31T23:16:36.670Z",
+        "value": 0.3178841988,
+        "fetched_at": "2026-06-11T02:11:20.166Z",
         "url": "https://simplywall.st/stocks/in/banks/nse-hdfcbank/hdfc-bank-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.2745257838,
-        "fetched_at": "2026-05-31T23:16:36.670Z",
+        "value": 0.2771620146,
+        "fetched_at": "2026-06-11T02:11:20.166Z",
         "url": "https://simplywall.st/stocks/in/banks/nse-hdfcbank/hdfc-bank-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -504,7 +808,7 @@
     "latest_revenue": 2833153600000,
     "latest_net_income": 760259700000,
     "latest_eps": 51.45,
-    "most_recent_reported_date": "2026-05-16",
+    "most_recent_reported_date": "2026-06-05",
     "pb": 2.01,
     "ps": 2.36,
     "book_value": 377.6968733,
@@ -521,12 +825,12 @@
     "quick_ratio": 0,
     "cash_ratio": 0,
     "returns_pct": {
-      "1D": -1.8585645554603605,
-      "7D": -2.9016692749087114,
-      "1M": -4.42233632862645,
-      "3M": -16.130667417628842,
-      "6M": -26.106589916633595,
-      "1Y": -22.928419854044822,
+      "1D": 1.1512155481817565,
+      "7D": -0.9022755921183514,
+      "1M": -2.1999607149872267,
+      "3M": -10.315220654458118,
+      "6M": -25.426859710434346,
+      "1Y": -23.415709598031174,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -552,8 +856,8 @@
         "is_insider": null
       },
       {
-        "pct": 3.23963,
-        "shares": 498759129,
+        "pct": 3.21807,
+        "shares": 495438514,
         "is_insider": null
       },
       {
@@ -592,8 +896,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.20046,
-        "shares": 184816558,
+        "pct": 1.31361,
+        "shares": 202238037,
         "is_insider": null
       },
       {
@@ -612,8 +916,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.01445,
-        "shares": 156179657,
+        "pct": 1.01477,
+        "shares": 156229849,
         "is_insider": null
       },
       {
@@ -627,8 +931,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.91918,
-        "shares": 141513233,
+        "pct": 0.90161,
+        "shares": 138807499,
         "is_insider": null
       },
       {
@@ -800,7 +1104,7 @@
     "payment_count": 11
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-16",
+    "most_recent_reported_date": "2026-06-05",
     "latest_year": 2026,
     "latest_revenue": 2833153600000,
     "latest_net_income": 760259700000,
@@ -1069,6 +1373,16 @@
   ],
   "news": [
     {
+      "id": "2f5960c4-efaa-455d-9d29-1110e4990c70",
+      "type": "narrative-update",
+      "date": "2026-06-05T18:06:33.000Z",
+      "title": "HDFCBANK: Governance Actions And Rising Dividends Will Support Future Share Price Rebound",
+      "body": "Analysts have nudged their fair value estimate for HDFC Bank slightly lower, trimming the implied price target from ₹1,041.08 to ₹1,039.79 as they incorporate modestly softer revenue growth and profit margin assumptions, along with a slightly reduced discount rate and future P/E outlook. What's in the News At a board meeting on March 23, 2026, the company approved the appointment of external law firms to review matters related to Mr. Chakraborty's resignation letter.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/banks/nse-hdfcbank/hdfc-bank-shares/bfnmm280-improving-rural-demand-and-digital-upgrades-will-strengthen-banking-resilience-9d84/updates/21-analysts-have-nudged-their-fair-value-estimate-for-hdfc-bank",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "c8db4e7d-8d4f-4043-ae93-fb98dd87d6c7",
       "type": "narrative-update",
       "date": "2026-05-17T13:07:29.000Z",
@@ -1127,16 +1441,6 @@
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/banks/nse-hdfcbank/hdfc-bank-shares/bfnmm280-improving-rural-demand-and-digital-upgrades-will-strengthen-banking-resilience-9d84/updates/18-analysts-have-trimmed-their-price-target-on-hdfc-bank-from-indian-rupee",
       "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "5f4c596d-33e2-4c65-bb5e-8c5f036981e3",
-      "type": "narrative",
-      "date": "2026-04-06T21:36:30.000Z",
-      "title": "HDFC Bank Limited: Navigating the \"HDFC 2.0\" Integration Era",
-      "body": "HDFC Bank (HDFCBANK) , India's largest private sector lender and a global systemic powerhouse, closed the April 6, 2026, trading session at ₹771.20 on the National Stock Exchange (NSE). Following its 2023 mega-merger with HDFC Ltd, the bank has spent the last two years digesting a massive mortgage book and restructuring its liabilities.",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/banks/nse-hdfcbank/hdfc-bank-shares/dt5spadb-hdfc-bank-limited-navigating-the-hdfc-20-integration-era",
-      "raw_subtype": "narrative"
     },
     {
       "id": "a9ba620c-caea-4f2f-8ec4-17a3a8287899",

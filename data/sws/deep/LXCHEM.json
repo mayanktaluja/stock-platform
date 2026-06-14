@@ -3,7 +3,7 @@
   "name": "Laxmi Organic Industries Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-lxchem/laxmi-organic-industries-shares",
-  "parsed_at": "2026-05-31T20:43:09.776Z",
+  "parsed_at": "2026-06-10T23:47:49.120Z",
   "company_id": "2B582EC2-CD47-4A64-A05E-311A4F7FCEFA",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 1
     },
     "snowflake_total": 12,
-    "current_price_inr": 148.08,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_LONG_FALLEN"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_VOLATILE_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 149.95,
     "market_cap_inr": 41969800000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "small3",
     "shares_outstanding": 277211567,
     "fifty_two_week": {
       "low": 107.6,
       "high": 241
     },
-    "fair_value_inr": 155.66667,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 44.598525,
+      "min": 45.504885,
       "max": 155.66667,
       "count": 15
     },
-    "upside_pct": 5.123358995137762,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystLowTarget",
+      "owner_classification": null,
+      "narrative_id": "4003fc1e-3e1f-402d-919f-21ceb131b89f",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 52.94,
       "ps": 1.47,
@@ -68,7 +354,7 @@
     ],
     "dividend": {
       "yield_pct": 0,
-      "payout_pct": 17.419351954254118,
+      "payout_pct": 17.465006363246893,
       "annualized_dividend": 0.5,
       "listing_currency": "INR",
       "recent_payments": [
@@ -143,8 +429,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 40.473660493160494,
-      "net_income_margin_1y": 0.09487982097,
-      "future_revenue_growth_3y": 34.387188816,
+      "net_income_margin_1y": 0.09486136614,
+      "future_revenue_growth_3y": 32.656569349,
       "sector_pe": 40.473660493160494
     },
     "industry_benchmarks_meta": {
@@ -179,18 +465,18 @@
         "url": "https://groww.in/stocks/laxmi-organic-industries-ltd"
       },
       "sws_statement": {
-        "company_pe": 51.7,
-        "industry_pe": 22.2,
+        "company_pe": 52.4,
+        "industry_pe": 20.8,
         "industry_name": "Indian Chemicals",
-        "description": "LXCHEM is expensive based on its Price-To-Earnings Ratio (51.7x) compared to the Indian Chemicals industry average (22.2x).",
+        "description": "LXCHEM is expensive based on its Price-To-Earnings Ratio (52.4x) compared to the Indian Chemicals industry average (20.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 22.185241114,
+        "industry_pe": 20.665261726,
         "industry_code": "2020000",
         "type": "median_profitable",
-        "count": 304,
+        "count": 302,
         "source": {
           "type": "country",
           "country": "IN",
@@ -199,25 +485,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.5,
-        "sample_count": 293,
+        "industry_pe": 19.6,
+        "sample_count": 294,
         "industry_code": "2020000",
         "industry_name": "Materials"
       },
       "sws_primary_industry": {
-        "industry_pe": 19.26596559,
+        "industry_pe": 18.498719492,
         "industry_name": "Materials",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 51.589152747719
+        "company_pe": 52.377554083377426
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 148.08,
-        "fetched_at": "2026-05-31T20:43:09.776Z",
+        "value": 149.95,
+        "fetched_at": "2026-06-10T23:47:49.120Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-lxchem/laxmi-organic-industries-shares"
       },
       "market_cap_inr": {
@@ -264,14 +550,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.09487982097,
-        "fetched_at": "2026-05-31T20:43:09.776Z",
+        "value": 0.09486136614,
+        "fetched_at": "2026-06-10T23:47:49.120Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-lxchem/laxmi-organic-industries-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 34.387188816,
-        "fetched_at": "2026-05-31T20:43:09.776Z",
+        "value": 32.656569349,
+        "fetched_at": "2026-06-10T23:47:49.120Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-lxchem/laxmi-organic-industries-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -380,13 +666,13 @@
         "url": "https://groww.in/stocks/laxmi-organic-industries-ltd"
       }
     },
-    "earnings_growth_yoy_pct": -29.896743727093316,
+    "earnings_growth_yoy_pct": -21.06739338001273,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": -5.506655295932729,
-    "latest_revenue": 28210440000,
-    "latest_net_income": 795700000,
+    "revenue_growth_pct": -3.8354776105033266,
+    "latest_revenue": 28466670000,
+    "latest_net_income": 793620000,
     "latest_eps": 2.86,
-    "most_recent_reported_date": "2026-05-07",
+    "most_recent_reported_date": "2026-06-05",
     "pb": 2.11,
     "ps": 1.47,
     "book_value": 71.6280469,
@@ -403,16 +689,16 @@
     "quick_ratio": 0.9670979507710237,
     "cash_ratio": 0.06618178678954126,
     "returns_pct": {
-      "1D": -2.192866578599731,
-      "7D": -2.4570186417232,
-      "1M": 0.693594451244397,
-      "3M": 17.579799904716545,
-      "6M": -18.471618124759118,
-      "1Y": -29.9526963103122,
+      "1D": -3.5939308216535966,
+      "7D": -8.872683075053187,
+      "1M": -9.646902868161014,
+      "3M": 22.44814633349665,
+      "6M": -12.238089664052454,
+      "1Y": -27.36740130782272,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 10,
+    "recent_news_count": 9,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -479,13 +765,18 @@
         "is_insider": null
       },
       {
-        "pct": 0.18316,
-        "shares": 507735,
+        "pct": 0.1722,
+        "shares": 477350,
         "is_insider": null
       },
       {
         "pct": 0.11762,
         "shares": 326059,
+        "is_insider": null
+      },
+      {
+        "pct": 0.10273,
+        "shares": 284778,
         "is_insider": null
       },
       {
@@ -509,11 +800,6 @@
         "is_insider": null
       },
       {
-        "pct": 0.00109,
-        "shares": 3030,
-        "is_insider": null
-      },
-      {
         "pct": 0.00052,
         "shares": 1455,
         "is_insider": null
@@ -531,7 +817,7 @@
   },
   "dividend": {
     "yield_pct": 0,
-    "payout_pct": 17.419351954254118,
+    "payout_pct": 17.465006363246893,
     "annualized_dividend": 0.5,
     "listing_currency": "INR",
     "recent_payments": [
@@ -604,44 +890,44 @@
     "payment_count": 5
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-07",
+    "most_recent_reported_date": "2026-06-05",
     "latest_year": 2026,
-    "latest_revenue": 28210440000,
-    "latest_net_income": 795700000,
+    "latest_revenue": 28466670000,
+    "latest_net_income": 793620000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": -5.506655295932729,
-    "earnings_growth_pct": -29.896743727093316,
-    "net_margin_pct": 2.8205869883631736,
+    "revenue_growth_pct": -3.8354776105033266,
+    "earnings_growth_pct": -21.06739338001273,
+    "net_margin_pct": 2.787891945211716,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 28210440000,
-        "netIncome": 795700000,
+        "revenue": 28466670000,
+        "netIncome": 793620000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 29854420000,
-        "netIncome": 1135040000,
+        "revenue": 29602050000,
+        "netIncome": 1005440000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 28650070000,
-        "netIncome": 1205350000,
+        "revenue": 28539590000,
+        "netIncome": 1165570000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 27911690000,
-        "netIncome": 1245720000,
+        "revenue": 27736110000,
+        "netIncome": 984700000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 30842660000,
-        "netIncome": 2573340000,
+        "revenue": 31044470000,
+        "netIncome": 2189090000,
         "eps": null
       }
     ]
@@ -872,6 +1158,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "f75bd1cb-9fb5-4af7-9fe7-4fcfa538a4f2",
+      "type": "narrative-update",
+      "date": "2026-06-05T23:05:46.000Z",
+      "title": "LXCHEM: Higher P/E Expectations And CFO Uncertainty Will Pressure Shares",
+      "body": "Analysts have lifted their price target on Laxmi Organic Industries from ₹116 to ₹143, citing updated assumptions around revenue growth, profit margins, and a higher future P/E multiple. What's in the News The board meeting is scheduled for May 21, 2026, at 17:15 IST to consider and approve the standalone and consolidated audited financial results for the quarter and year ended March 31, 2026.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/materials/nse-lxchem/laxmi-organic-industries-shares/y37a2872-tightening-esg-mandates-will-harm-legacy-chemicals-despite-capacity-expansion/updates/4-analysts-have-lifted-their-price-target-on-laxmi-organic-ind",
+      "raw_subtype": "narrative-update"
+    },
     {
       "id": "57e5a118-015e-489d-b011-3de5d26288b6",
       "type": "article",
@@ -1151,26 +1447,6 @@
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/materials/nse-lxchem/laxmi-organic-industries-shares/d1u22j50-green-chemistry-and-rising-specialty-demand-will-transform-markets-8t6c/updates/3-narrative-update-on-laxmi-organic-industries-analysts-have-m",
       "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "2b472c3c-9e3d-4389-a2d7-1aae37fe741e",
-      "type": "narrative-update",
-      "date": "2025-12-13T16:07:41.000Z",
-      "title": "LXCHEM: Future Governance Moves And ESOPs Will Support Bullish Outlook",
-      "body": "Analysts have trimmed their fair value estimate for Laxmi Organic Industries from ₹206 to ₹201 per share, reflecting a more conservative valuation multiple, even as they factor in slightly stronger revenue growth and improving profit margins. What's in the News Special/Extraordinary shareholders meeting scheduled via postal ballot on December 6, 2025, to vote on reappointing Dr. Rajeev Vaidya as an independent director for a second three-year term (Key Developments) Shareholders will also consider a proposal to vary the objects of the October 10, 2023 Qualified Institutional Placement issue from what was originally stated in the placement document (Key Developments) Board meeting set for October 28, 2025, to consider granting stock options under the Laxmi Employee Stock Option Plan 2024, E",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/materials/nse-lxchem/laxmi-organic-industries-shares/d1u22j50-green-chemistry-and-rising-specialty-demand-will-transform-markets-8t6c/updates/2-analysts-have-trimmed-their-fair-value-estimate-for-laxmi-or",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "55b6a690-1c2d-46c9-b73c-2e328f4eb73d",
-      "type": "brief",
-      "date": "2025-12-03T11:26:13.000Z",
-      "title": "New minor risk - Dividend sustainability",
-      "body": "The dividend is not well covered by cash flows. The company is paying a dividend despite having no free cash flows. Dividend yield: 0.3% This is considered a minor risk. Dividends are ultimately paid out of the company's available cash reserves. Companies that pay out too much of their cash flow are at risk of having to reduce or cut their dividend in future. If cash flow growth slows or cash flows fall, then there may not be enough cash reserves to maintain the same dividend. Or in extreme cases, companies may opt to take on debt to maintain the dividend. This risk is mitigated by the fact the dividend is covered by earnings, however, cash flows are generally more important. For dividend paying companies, any reduction in the dividend can significantly impact the share price. Currently, t",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/LXCHEM.json"

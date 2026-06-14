@@ -3,7 +3,7 @@
   "name": "Exide Industries Limited",
   "sector": "Automobiles",
   "sws_url": "https://simplywall.st/stocks/in/automobiles/nse-exideind/exide-industries-shares",
-  "parsed_at": "2026-05-31T22:48:09.661Z",
+  "parsed_at": "2026-06-11T01:45:06.380Z",
   "company_id": "CA2EF89F-8756-4EBE-AF2A-13CA83787817",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 3
     },
     "snowflake_total": 15,
-    "current_price_inr": 386.5,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SAME_PB"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DIVIDENDS_FALLEN"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 386.35,
     "market_cap_inr": 334942500000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 287,
       "high": 431
     },
-    "fair_value_inr": 369.646412,
+    "fair_value_inr": 370.268762,
     "fair_value_range_inr": {
-      "min": 274.780224,
+      "min": 274.053566,
       "max": 2971.84,
       "count": 22
     },
-    "upside_pct": -4.360566106080207,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "e33938f0-48a3-4553-892a-f032aeee381e",
+      "narrative_type": null,
+      "published_at": "2024-06-19T03:53:19.666Z"
+    },
+    "upside_pct": -4.162349682929997,
     "multiples": {
       "pe": 38.94,
       "ps": 1.86,
@@ -235,8 +521,8 @@
     "dividend_yield_pct": 0.51,
     "industry_benchmarks": {
       "pe": 35.35685650485562,
-      "net_income_margin_1y": 0.06791655765,
-      "future_revenue_growth_3y": 2.175173168,
+      "net_income_margin_1y": 0.06741188528,
+      "future_revenue_growth_3y": 1.578279624,
       "sector_pe": 35.35685650485562
     },
     "industry_benchmarks_meta": {
@@ -271,15 +557,15 @@
         "url": "https://groww.in/stocks/exide-industries-ltd"
       },
       "sws_statement": {
-        "company_pe": 38.5,
-        "industry_pe": 27,
+        "company_pe": 39.1,
+        "industry_pe": 26.3,
         "industry_name": "Indian Auto Components",
-        "description": "EXIDEIND is expensive based on its Price-To-Earnings Ratio (38.5x) compared to the Indian Auto Components industry average (27x).",
+        "description": "EXIDEIND is expensive based on its Price-To-Earnings Ratio (39.1x) compared to the Indian Auto Components industry average (26.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 27.035828631,
+        "industry_pe": 26.250505976,
         "industry_code": "4011000",
         "type": "median_profitable",
         "count": 129,
@@ -291,7 +577,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24.55,
+        "industry_pe": 24.95,
         "sample_count": 124,
         "industry_code": "4011000",
         "industry_name": "Automobiles"
@@ -304,8 +590,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 386.5,
-        "fetched_at": "2026-05-31T22:48:09.661Z",
+        "value": 386.35,
+        "fetched_at": "2026-06-11T01:45:06.380Z",
         "url": "https://simplywall.st/stocks/in/automobiles/nse-exideind/exide-industries-shares"
       },
       "market_cap_inr": {
@@ -313,6 +599,24 @@
         "value": 334942500000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/exide-industries-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 370.268762,
+        "fetched_at": "2026-06-11T01:45:06.380Z",
+        "url": "https://simplywall.st/stocks/in/automobiles/nse-exideind/exide-industries-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "e33938f0-48a3-4553-892a-f032aeee381e",
+        "narrative_type": null,
+        "published_at": "2024-06-19T03:53:19.666Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": -4.162349682929997,
+        "fetched_at": "2026-06-11T01:45:06.380Z",
+        "url": "https://simplywall.st/stocks/in/automobiles/nse-exideind/exide-industries-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -352,14 +656,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.06791655765,
-        "fetched_at": "2026-05-31T22:48:09.661Z",
+        "value": 0.06741188528,
+        "fetched_at": "2026-06-11T01:45:06.380Z",
         "url": "https://simplywall.st/stocks/in/automobiles/nse-exideind/exide-industries-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 2.175173168,
-        "fetched_at": "2026-05-31T22:48:09.661Z",
+        "value": 1.578279624,
+        "fetched_at": "2026-06-11T01:45:06.380Z",
         "url": "https://simplywall.st/stocks/in/automobiles/nse-exideind/exide-industries-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -491,16 +795,16 @@
     "quick_ratio": 0.531775930480747,
     "cash_ratio": 0.04459285089130352,
     "returns_pct": {
-      "1D": -1.9408854497018846,
-      "7D": 13.760117733627666,
-      "1M": 6.342000275141013,
-      "3M": 15.614717319772655,
-      "6M": 3.121664887940232,
-      "1Y": -0.2194397831418672,
+      "1D": -1.6796030029265725,
+      "7D": -3.1582905125955545,
+      "1M": 9.540686135525952,
+      "3M": 24.629032258064523,
+      "6M": 3.371237458193986,
+      "1Y": -4.7343114289236805,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 5,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -547,13 +851,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.24037,
-        "shares": 10543104,
-        "is_insider": null
-      },
-      {
-        "pct": 1.05075,
-        "shares": 8931405,
+        "pct": 1.23995,
+        "shares": 10539609,
         "is_insider": null
       },
       {
@@ -562,13 +861,18 @@
         "is_insider": null
       },
       {
+        "pct": 1.03907,
+        "shares": 8832085,
+        "is_insider": null
+      },
+      {
         "pct": 0.96693,
         "shares": 8218942,
         "is_insider": null
       },
       {
-        "pct": 0.8931,
-        "shares": 7591366,
+        "pct": 0.8968,
+        "shares": 7622783,
         "is_insider": null
       },
       {
@@ -1118,16 +1422,6 @@
       "keyDevTypeId": "55",
       "source_url": null,
       "raw_subtype": "EventActivity"
-    },
-    {
-      "id": "9121db8c-0f13-4f80-bdbb-2e3620887869",
-      "type": "article",
-      "date": "2025-12-13T04:26:37.000Z",
-      "title": "Does Exide Industries (NSE:EXIDEIND) Have A Healthy Balance Sheet?",
-      "body": "Warren Buffett famously said, 'Volatility is far from synonymous with risk.' It's only natural to consider a company's...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/automobiles/nse-exideind/exide-industries-shares/news/does-exide-industries-nseexideind-have-a-healthy-balance-she",
-      "raw_subtype": "article"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/EXIDEIND.json"

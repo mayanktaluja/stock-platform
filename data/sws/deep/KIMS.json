@@ -3,7 +3,7 @@
   "name": "Krishna Institute of Medical Sciences Limited",
   "sector": "Healthcare",
   "sws_url": "https://simplywall.st/stocks/in/healthcare/nse-kims/krishna-institute-of-medical-sciences-shares",
-  "parsed_at": "2026-05-31T20:28:08.557Z",
+  "parsed_at": "2026-06-10T23:33:55.522Z",
   "company_id": "31D1282D-E044-4C2D-93DE-39A78C755DDB",
   "classification_status": "Active",
   "groww_source": {
@@ -17,17 +17,17 @@
   "overview": {
     "snowflake": {
       "valuation": 0,
-      "future": 5,
+      "future": 6,
       "past": 1,
       "financial_health": 0,
       "dividends": 0,
-      "future_growth": 5,
+      "future_growth": 6,
       "past_performance": 1,
       "value": 0,
       "health": 0,
       "dividend": 0
     },
-    "snowflake_total": 6,
+    "snowflake_total": 7,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 3,
@@ -75,22 +75,308 @@
         }
       ]
     },
-    "current_price_inr": 758.85,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 763.15,
     "market_cap_inr": 313989000000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midlarge6",
     "shares_outstanding": 400138935,
     "fifty_two_week": {
       "low": 575.8,
       "high": 798.4
     },
-    "fair_value_inr": 695,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 151.937931,
+      "min": 268.620131,
       "max": 1086.87,
       "count": 24
     },
-    "upside_pct": -8.414047571983927,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystLowTarget",
+      "owner_classification": null,
+      "narrative_id": "a014d237-5f42-4549-9b4b-69e948b0f155",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 129.7,
       "ps": 8.04,
@@ -107,7 +393,7 @@
       "pe_source_url": "https://groww.in/stocks/krishna-institute-of-medical-sciences-ltd"
     },
     "rewards": [
-      "Earnings are forecast to grow 39.72% per year"
+      "Earnings are forecast to grow 39.78% per year"
     ],
     "risks": [
       "Interest payments are not well covered by earnings",
@@ -125,8 +411,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 59.71694269463179,
-      "net_income_margin_1y": 0.1041750126,
-      "future_revenue_growth_3y": 2.366911977,
+      "net_income_margin_1y": 0.1021808233,
+      "future_revenue_growth_3y": 2.289381694,
       "sector_pe": 59.71694269463179
     },
     "industry_benchmarks_meta": {
@@ -161,18 +447,18 @@
         "url": "https://groww.in/stocks/krishna-institute-of-medical-sciences-ltd"
       },
       "sws_statement": {
-        "company_pe": 125.8,
-        "industry_pe": 40.5,
+        "company_pe": 126.5,
+        "industry_pe": 39.4,
         "industry_name": "Indian Healthcare",
-        "description": "KIMS is expensive based on its Price-To-Earnings Ratio (125.8x) compared to the Indian Healthcare industry average (40.5x).",
+        "description": "KIMS is expensive based on its Price-To-Earnings Ratio (126.5x) compared to the Indian Healthcare industry average (39.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 37.439100813,
+        "industry_pe": 39.275601591,
         "industry_code": "6030000",
         "type": "median_profitable",
-        "count": 80,
+        "count": 79,
         "source": {
           "type": "country",
           "country": "IN",
@@ -181,25 +467,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 35.1,
-        "sample_count": 75,
+        "industry_pe": 33.650000000000006,
+        "sample_count": 74,
         "industry_code": "6030000",
         "industry_name": "Healthcare"
       },
       "sws_primary_industry": {
-        "industry_pe": 22.65435289,
+        "industry_pe": 22.129830496,
         "industry_name": "Healthcare",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 100.97952471724311
+        "company_pe": 126.49794044956504
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 758.85,
-        "fetched_at": "2026-05-31T20:28:08.557Z",
+        "value": 763.15,
+        "fetched_at": "2026-06-10T23:33:55.522Z",
         "url": "https://simplywall.st/stocks/in/healthcare/nse-kims/krishna-institute-of-medical-sciences-shares"
       },
       "market_cap_inr": {
@@ -246,14 +532,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.1041750126,
-        "fetched_at": "2026-05-31T20:28:08.557Z",
+        "value": 0.1021808233,
+        "fetched_at": "2026-06-10T23:33:55.522Z",
         "url": "https://simplywall.st/stocks/in/healthcare/nse-kims/krishna-institute-of-medical-sciences-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 2.366911977,
-        "fetched_at": "2026-05-31T20:28:08.557Z",
+        "value": 2.289381694,
+        "fetched_at": "2026-06-10T23:33:55.522Z",
         "url": "https://simplywall.st/stocks/in/healthcare/nse-kims/krishna-institute-of-medical-sciences-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -362,13 +648,13 @@
         "url": "https://groww.in/stocks/krishna-institute-of-medical-sciences-ltd"
       }
     },
-    "earnings_growth_yoy_pct": -21.794538361508454,
+    "earnings_growth_yoy_pct": -35.88313413014608,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 19.50182860531778,
-    "latest_revenue": 36270000000,
-    "latest_net_income": 3007000000,
+    "revenue_growth_pct": 22.139017493707858,
+    "latest_revenue": 39308000000,
+    "latest_net_income": 2414000000,
     "latest_eps": 6.05,
-    "most_recent_reported_date": "2026-05-01",
+    "most_recent_reported_date": "2026-05-22",
     "pb": 13.97,
     "ps": 8.04,
     "book_value": 56.1661861,
@@ -385,16 +671,16 @@
     "quick_ratio": 0.6784244087496972,
     "cash_ratio": 0.06029542335943175,
     "returns_pct": {
-      "1D": -3.2634329785199845,
-      "7D": -0.6870828425598744,
-      "1M": 14.069898534385572,
-      "3M": 1.8522246829071967,
-      "6M": 10.764851846445774,
-      "1Y": 14.267429603975303,
+      "1D": -2.3605424769703234,
+      "7D": 3.484982032680172,
+      "1M": -1.8898245162949214,
+      "3M": 14.863034316676702,
+      "6M": 15.183759716247835,
+      "1Y": 17.29040190578652,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 8,
+    "recent_news_count": 7,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -481,8 +767,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.17378,
-        "shares": 4696739,
+        "pct": 1.17733,
+        "shares": 4710940,
         "is_insider": null
       },
       {
@@ -520,44 +806,44 @@
     "payment_count": 0
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-01",
+    "most_recent_reported_date": "2026-05-22",
     "latest_year": 2026,
-    "latest_revenue": 36270000000,
-    "latest_net_income": 3007000000,
+    "latest_revenue": 39308000000,
+    "latest_net_income": 2414000000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 19.50182860531778,
-    "earnings_growth_pct": -21.794538361508454,
-    "net_margin_pct": 8.29059829059829,
+    "revenue_growth_pct": 22.139017493707858,
+    "earnings_growth_pct": -35.88313413014608,
+    "net_margin_pct": 6.141243512770937,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 36270000000,
-        "netIncome": 3007000000,
+        "revenue": 39308000000,
+        "netIncome": 2414000000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 30351000000,
-        "netIncome": 3845000000,
+        "revenue": 32183000000,
+        "netIncome": 3765000000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 24982000000,
-        "netIncome": 3100000000,
+        "revenue": 25805440000,
+        "netIncome": 3159470000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 21976780000,
-        "netIncome": 3363220000,
+        "revenue": 23081930000,
+        "netIncome": 3471790000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 16508250000,
-        "netIncome": 3326850000,
+        "revenue": 16731599999.999998,
+        "netIncome": 3135380000,
         "eps": null
       }
     ]
@@ -763,6 +1049,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "8f562697-ae75-4589-b1d1-aa9784854d67",
+      "type": "narrative-update",
+      "date": "2026-06-07T01:08:02.000Z",
+      "title": "KIMS: Planned Equity Raise Will Support Future Upside Potential",
+      "body": "Analysts have nudged their price target for Krishna Institute of Medical Sciences slightly higher from about ₹968 to ₹973, citing refreshed assumptions on the discount rate, revenue growth, profit margins and future P/E that feed into their updated fair value view. What's in the News Board meeting scheduled for May 15, 2026, at 14:00 IST to consider and approve audited standalone and consolidated financial results for the quarter and year ended March 31, 2026, and to address several governance items.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/healthcare/nse-kims/krishna-institute-of-medical-sciences-shares/5eyeccne-rising-urbanization-and-insurance-growth-will-expand-healthcare-access-rd1n/updates/6-analysts-have-nudged-their-price-target-for-krishna-institut",
+      "raw_subtype": "narrative-update"
+    },
     {
       "id": "a64c3a3b-3e2b-4e94-989e-49527dce8858",
       "type": "narrative-update",
@@ -972,16 +1268,6 @@
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/stocks/in/healthcare/nse-kims/krishna-institute-of-medical-sciences-shares/news/krishna-institute-of-medical-sciences-nsekims-takes-on-some",
       "raw_subtype": "article"
-    },
-    {
-      "id": "02b04df1-2484-47c2-b299-69d9e3f564c8",
-      "type": "narrative-update",
-      "date": "2025-12-13T20:02:40.000Z",
-      "title": "KIMS: Higher Margins Are Expected To Drive Stronger Future Share Performance",
-      "body": "Narrative Update on Krishna Institute of Medical Sciences Analysts have raised their price target on Krishna Institute of Medical Sciences from ₹885 to ₹900, citing expectations of stronger profit margins and a slightly lower future valuation multiple. These factors more than offset marginally softer revenue growth assumptions and a modestly higher discount rate.",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/healthcare/nse-kims/krishna-institute-of-medical-sciences-shares/5eyeccne-rising-urbanization-and-insurance-growth-will-expand-healthcare-access-rd1n/updates/2-narrative-update-on-krishna-institute-of-medical-sciences-an",
-      "raw_subtype": "narrative-update"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/KIMS.json"

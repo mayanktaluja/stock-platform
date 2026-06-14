@@ -3,7 +3,7 @@
   "name": "Panama Petrochem Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-panamapet/panama-petrochem-shares",
-  "parsed_at": "2026-05-31T21:24:37.956Z",
+  "parsed_at": "2026-06-11T00:27:28.975Z",
   "company_id": "6C8E99F9-A6A0-4B2E-B946-3446F4FE4D8D",
   "classification_status": "Active",
   "groww_source": {
@@ -20,14 +20,14 @@
       "future": 0,
       "past": 3,
       "financial_health": 5,
-      "dividends": 4,
+      "dividends": 3,
       "future_growth": 0,
       "past_performance": 3,
       "value": 2,
       "health": 5,
-      "dividend": 4
+      "dividend": 3
     },
-    "snowflake_total": 14,
+    "snowflake_total": 13,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 7,
@@ -76,22 +76,308 @@
         }
       ]
     },
-    "current_price_inr": 329.05,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 381.55,
     "market_cap_inr": 20528500000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 229,
       "high": 373.2
     },
-    "fair_value_inr": 80.692348,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -75.47717732867346,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "2d9101d7-cf0b-4fb4-92e1-5390271c52a2",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 11.05,
       "ps": 0.7,
@@ -111,12 +397,12 @@
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Earnings grew by 13.6% over the past year",
-      "Price-To-Earnings ratio (9.4x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (10x) is below the Indian market (22.9x)"
     ],
     "risks": [
-      "Dividend of 1.52% is not well covered by free cash flows",
       "Earnings have declined by 2.1% per year over past 5 years",
-      "High level of [[non-cash earnings]]"
+      "High level of [[non-cash earnings]]",
+      "Dividend of 0.85% is not well covered by free cash flows"
     ],
     "dividend": {
       "yield_pct": 0.88,
@@ -286,8 +572,8 @@
     "dividend_yield_pct": 0.88,
     "industry_benchmarks": {
       "pe": 20.445735445317997,
-      "net_income_margin_1y": 0.09915925459,
-      "future_revenue_growth_3y": 0.4901950831,
+      "net_income_margin_1y": 0.1007363079,
+      "future_revenue_growth_3y": 0.4930780903,
       "sector_pe": 20.445735445317997
     },
     "industry_benchmarks_meta": {
@@ -322,18 +608,18 @@
         "url": "https://groww.in/stocks/panama-petrochem-ltd"
       },
       "sws_statement": {
-        "company_pe": 9.4,
-        "industry_pe": 22.2,
+        "company_pe": 10,
+        "industry_pe": 20.7,
         "industry_name": "Indian Chemicals",
-        "description": "PANAMAPET is good value based on its Price-To-Earnings Ratio (9.4x) compared to the Indian Chemicals industry average (22.2x).",
+        "description": "PANAMAPET is good value based on its Price-To-Earnings Ratio (10x) compared to the Indian Chemicals industry average (20.7x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 22.185241114,
+        "industry_pe": 20.665261726,
         "industry_code": "2020000",
         "type": "median_profitable",
-        "count": 304,
+        "count": 302,
         "source": {
           "type": "country",
           "country": "IN",
@@ -342,8 +628,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.5,
-        "sample_count": 293,
+        "industry_pe": 19.6,
+        "sample_count": 294,
         "industry_code": "2020000",
         "industry_name": "Materials"
       },
@@ -355,8 +641,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 329.05,
-        "fetched_at": "2026-05-31T21:24:37.956Z",
+        "value": 381.55,
+        "fetched_at": "2026-06-11T00:27:28.975Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-panamapet/panama-petrochem-shares"
       },
       "market_cap_inr": {
@@ -403,14 +689,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.09915925459,
-        "fetched_at": "2026-05-31T21:24:37.956Z",
+        "value": 0.1007363079,
+        "fetched_at": "2026-06-11T00:27:28.975Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-panamapet/panama-petrochem-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.4901950831,
-        "fetched_at": "2026-05-31T21:24:37.956Z",
+        "value": 0.4930780903,
+        "fetched_at": "2026-06-11T00:27:28.975Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-panamapet/panama-petrochem-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -542,12 +828,12 @@
     "quick_ratio": 2.5901560238056947,
     "cash_ratio": 0.6749235965899951,
     "returns_pct": {
-      "1D": -3.291697281410724,
-      "7D": -3.2774838330393816,
-      "1M": 17.863027437495525,
-      "3M": 16.953971921094716,
-      "6M": 11.542372881355936,
-      "1Y": -9.960322889588173,
+      "1D": 8.441097058405568,
+      "7D": 12.951450562462997,
+      "1M": 28.923804696739325,
+      "3M": 41.919285847126645,
+      "6M": 37.99276672694394,
+      "1Y": 3.457158351409978,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -1035,6 +1321,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "24594032-4140-4009-b4b2-3e4c25224370",
+      "type": "article",
+      "date": "2026-06-06T03:06:37.000Z",
+      "title": "Additional Considerations Required While Assessing Panama Petrochem's (NSE:PANAMAPET) Strong Earnings",
+      "body": "Investors were disappointed with Panama Petrochem Limited's ( NSE:PANAMAPET ) earnings, despite the strong profit...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/materials/nse-panamapet/panama-petrochem-shares/news/additional-considerations-required-while-assessing-panama-pe",
+      "raw_subtype": "article"
+    },
     {
       "id": "e1c02e16-8781-4ea0-8a2c-446d161b3f09",
       "type": "brief",

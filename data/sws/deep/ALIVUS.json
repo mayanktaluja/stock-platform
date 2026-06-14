@@ -3,7 +3,7 @@
   "name": "Alivus Life Sciences Limited",
   "sector": "Pharmaceuticals & Biotech",
   "sws_url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-alivus/alivus-life-sciences-shares",
-  "parsed_at": "2026-05-31T21:05:12.092Z",
+  "parsed_at": "2026-06-11T00:03:27.740Z",
   "company_id": "35C5C7E2-61D6-4D60-8C53-A8AAC2E44692",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 3
     },
     "snowflake_total": 18,
-    "current_price_inr": 1055.5,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_NOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_LONG_FALLEN"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_VOLATILE_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 1031.4,
     "market_cap_inr": 131380300000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "medium5",
-    "shares_outstanding": 122736348,
+    "shares_outstanding": 122739448,
     "fifty_two_week": {
       "low": 819,
       "high": 1148.4
     },
     "fair_value_inr": 1228.75,
     "fair_value_range_inr": {
-      "min": 454.558751,
+      "min": 454.547271,
       "max": 1297.33333,
-      "count": 13
+      "count": 12
     },
-    "upside_pct": 16.41402179062056,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "ce869906-345d-49aa-a31d-07226abbb536",
+      "narrative_type": null,
+      "published_at": "2024-06-19T03:56:40.327Z"
+    },
+    "upside_pct": 19.134186542563494,
     "multiples": {
       "pe": 23.27,
       "ps": 5.15,
@@ -63,7 +349,7 @@
       "Earnings are forecast to grow 12.71% per year",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (22.9x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (22.5x) is below the Indian market (22.9x)",
       "Earnings grew by 16.2% over the past year",
       "Trading below our calculated fair Price-To-Earnings ratio"
     ],
@@ -72,7 +358,7 @@
     ],
     "dividend": {
       "yield_pct": 0.47,
-      "payout_pct": 11.570408511488738,
+      "payout_pct": 11.570700749827013,
       "annualized_dividend": 5,
       "listing_currency": "INR",
       "recent_payments": [
@@ -147,8 +433,8 @@
     "dividend_yield_pct": 0.47,
     "industry_benchmarks": {
       "pe": 45.475913369314384,
-      "net_income_margin_1y": 0.1517834297,
-      "future_revenue_growth_3y": 2.756126798,
+      "net_income_margin_1y": 0.1516710327,
+      "future_revenue_growth_3y": 2.535577209,
       "sector_pe": 45.475913369314384
     },
     "industry_benchmarks_meta": {
@@ -183,15 +469,15 @@
         "url": "https://groww.in/stocks/glenmark-life-sciences-ltd"
       },
       "sws_statement": {
-        "company_pe": 22.9,
-        "industry_pe": 29,
+        "company_pe": 22.5,
+        "industry_pe": 28.8,
         "industry_name": "Indian Pharmaceuticals",
-        "description": "ALIVUS is good value based on its Price-To-Earnings Ratio (22.9x) compared to the Indian Pharmaceuticals industry average (29x).",
+        "description": "ALIVUS is good value based on its Price-To-Earnings Ratio (22.5x) compared to the Indian Pharmaceuticals industry average (28.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 29.045511308,
+        "industry_pe": 28.787047453,
         "industry_code": "6120000",
         "type": "median_profitable",
         "count": 152,
@@ -203,25 +489,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 28.1,
-        "sample_count": 151,
+        "industry_pe": 28.15,
+        "sample_count": 152,
         "industry_code": "6120000",
         "industry_name": "Pharmaceuticals & Biotech"
       },
       "sws_primary_industry": {
-        "industry_pe": 23.933255082,
+        "industry_pe": 23.572522071,
         "industry_name": "Pharmaceuticals & Biotech",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 24.425132367752724
+        "company_pe": 23.868041506743165
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1055.5,
-        "fetched_at": "2026-05-31T21:05:12.092Z",
+        "value": 1031.4,
+        "fetched_at": "2026-06-11T00:03:27.740Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-alivus/alivus-life-sciences-shares"
       },
       "market_cap_inr": {
@@ -229,6 +515,24 @@
         "value": 131380300000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/glenmark-life-sciences-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 1228.75,
+        "fetched_at": "2026-06-11T00:03:27.740Z",
+        "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-alivus/alivus-life-sciences-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "ce869906-345d-49aa-a31d-07226abbb536",
+        "narrative_type": null,
+        "published_at": "2024-06-19T03:56:40.327Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 19.134186542563494,
+        "fetched_at": "2026-06-11T00:03:27.740Z",
+        "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-alivus/alivus-life-sciences-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -268,14 +572,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.1517834297,
-        "fetched_at": "2026-05-31T21:05:12.092Z",
+        "value": 0.1516710327,
+        "fetched_at": "2026-06-11T00:03:27.740Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-alivus/alivus-life-sciences-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 2.756126798,
-        "fetched_at": "2026-05-31T21:05:12.092Z",
+        "value": 2.535577209,
+        "fetched_at": "2026-06-11T00:03:27.740Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-alivus/alivus-life-sciences-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -407,16 +711,16 @@
     "quick_ratio": 3.8529052830485795,
     "cash_ratio": 0.004192583261160538,
     "returns_pct": {
-      "1D": -1.382789871998501,
-      "7D": 1.5880654475457172,
-      "1M": 4.972650422675286,
-      "3M": 15.760035095415667,
-      "6M": 17.473567056204786,
-      "1Y": 2.02010438816935,
+      "1D": -0.34782608695651296,
+      "7D": -0.6454098834408841,
+      "1M": -8.401420959147417,
+      "3M": 9.79348520332128,
+      "6M": 16.063692117256526,
+      "1Y": 0.5263157894736931,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 1,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -468,13 +772,13 @@
         "is_insider": null
       },
       {
-        "pct": 0.13909,
-        "shares": 170713,
+        "pct": 0.13877,
+        "shares": 170323,
         "is_insider": null
       },
       {
-        "pct": 0.0849,
-        "shares": 104199,
+        "pct": 0.08925,
+        "shares": 109537,
         "is_insider": null
       },
       {
@@ -493,13 +797,13 @@
         "is_insider": null
       },
       {
-        "pct": 0.03816,
-        "shares": 46841,
+        "pct": 0.03445,
+        "shares": 42286,
         "is_insider": null
       },
       {
-        "pct": 0.03445,
-        "shares": 42286,
+        "pct": 0.02474,
+        "shares": 30369,
         "is_insider": null
       },
       {
@@ -535,7 +839,7 @@
   },
   "dividend": {
     "yield_pct": 0.47,
-    "payout_pct": 11.570408511488738,
+    "payout_pct": 11.570700749827013,
     "annualized_dividend": 5,
     "listing_currency": "INR",
     "recent_payments": [

@@ -3,7 +3,7 @@
   "name": "B.R.Goyal Infrastructure Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-544335/brgoyal-infrastructure-shares",
-  "parsed_at": "2026-05-31T20:32:47.210Z",
+  "parsed_at": "2026-06-10T23:30:29.191Z",
   "company_id": "892F06D2-A802-4C85-AFAC-34D05CA49242",
   "classification_status": "Active",
   "groww_source": null,
@@ -70,21 +70,310 @@
         }
       ]
     },
-    "current_price_inr": 124.2,
-    "market_cap_inr": 2959027821.308639,
-    "market_cap_usd": 120714180851.549,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 122.35,
+    "market_cap_inr": 2914952125.09752,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
-    "fifty_two_week": null,
+    "fifty_two_week": {
+      "low": 91.34,
+      "high": 175.65
+    },
     "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
+    "fair_value_source_detail": {
+      "method": "missing_consensus_narrative",
+      "owner_name": null,
+      "owner_classification": null,
+      "narrative_id": null,
+      "narrative_type": null,
+      "published_at": null
+    },
     "upside_pct": null,
     "multiples": {
-      "pe": 8.4,
+      "pe": 6.5,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -93,19 +382,18 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": "2026-05-31T20:32:47.210Z",
+      "pe_as_of": "2026-06-10T23:30:29.191Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://simplywall.st/stocks/in/capital-goods/bse-544335/brgoyal-infrastructure-shares"
     },
     "rewards": [
-      "Earnings grew by 47.5% over the past year",
+      "Earnings grew by 78% over the past year",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (8.4x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (6.5x) is below the Indian market (23.2x)"
     ],
     "risks": [
       "High level of [[non-cash earnings]]",
-      "Latest financial reports are more than 6 months old",
       "Does not have a meaningful market cap (₹3B)"
     ],
     "dividend": {
@@ -118,9 +406,9 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 15.073268522,
-      "net_income_margin_1y": 0.06405545837,
-      "future_revenue_growth_3y": 0.4628660854
+      "pe": 14.393596444,
+      "net_income_margin_1y": 0.06358528991,
+      "future_revenue_growth_3y": 0.4761643462
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -134,30 +422,30 @@
     "pe_benchmark_source": {
       "provider": "sws_industry_api",
       "label": "SWS industry API",
-      "company_pe": 8.4,
+      "company_pe": 6.5,
       "company_pe_source": "sws_statement",
       "company_pe_source_label": "SWS visible statement",
-      "industry_pe": 15.073268522,
+      "industry_pe": 14.393596444,
       "industry_name": "Capital Goods",
       "industry_code": "3040000",
-      "sample_count": 188,
+      "sample_count": 189,
       "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 8.4,
-        "industry_pe": 15.1,
+        "company_pe": 6.5,
+        "industry_pe": 14.5,
         "industry_name": "Indian Construction",
-        "description": "544335 is good value based on its Price-To-Earnings Ratio (8.4x) compared to the Indian Construction industry average (15.1x).",
+        "description": "544335 is good value based on its Price-To-Earnings Ratio (6.5x) compared to the Indian Construction industry average (14.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 15.073268522,
+        "industry_pe": 14.393596444,
         "industry_code": "3040000",
         "type": "median_profitable",
-        "count": 188,
+        "count": 189,
         "source": {
           "type": "country",
           "country": "IN",
@@ -166,8 +454,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.1,
-        "sample_count": 184,
+        "industry_pe": 13.8,
+        "sample_count": 187,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -179,32 +467,41 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 124.2,
-        "fetched_at": "2026-05-31T20:32:47.210Z",
+        "value": 122.35,
+        "fetched_at": "2026-06-10T23:30:29.191Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-544335/brgoyal-infrastructure-shares"
       },
       "multiples.pe": {
         "provider": "sws_statement",
-        "value": 8.4,
-        "fetched_at": "2026-05-31T20:32:47.210Z",
+        "value": 6.5,
+        "fetched_at": "2026-06-10T23:30:29.191Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-544335/brgoyal-infrastructure-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 15.073268522,
+        "value": 14.393596444,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.06405545837,
-        "fetched_at": "2026-05-31T20:32:47.210Z",
+        "value": 0.06358528991,
+        "fetched_at": "2026-06-10T23:30:29.191Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-544335/brgoyal-infrastructure-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.4628660854,
-        "fetched_at": "2026-05-31T20:32:47.210Z",
+        "value": 0.4761643462,
+        "fetched_at": "2026-06-10T23:30:29.191Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/bse-544335/brgoyal-infrastructure-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 91.34,
+          "high": 175.65
+        },
+        "fetched_at": "2026-06-10T23:30:29.191Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-544335/brgoyal-infrastructure-shares"
       }
     },
@@ -231,16 +528,16 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 0.9756097560975632,
-      "7D": 5.254237288135596,
-      "1M": 7.022834984920298,
-      "3M": 32.12765957446809,
-      "6M": -3.7955073586367094,
-      "1Y": -4.681504221028402,
+      "1D": 0.4103405826836274,
+      "7D": -4.674717569146864,
+      "1M": 11.227272727272721,
+      "3M": 22.96482412060301,
+      "6M": 1.2831125827814547,
+      "1Y": -6.531703590527129,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 6,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -346,6 +643,16 @@
   ],
   "news": [
     {
+      "id": "d8d1411e-73e1-4ab4-afc1-cb55615630d9",
+      "type": "brief",
+      "date": "2026-06-01T07:49:19.000Z",
+      "title": "Full year 2026 earnings released: EPS: ₹23.87 (vs ₹13.41 in FY 2025)",
+      "body": "Full year 2026 results: EPS: ₹23.87 (up from ₹13.41 in FY 2025). Revenue: ₹8.25b (up 62% from FY 2025). Net income: ₹448.2m (up 78% from FY 2025). Profit margin: 5.4% (up from 4.9% in FY 2025). The increase in margin was driven by higher revenue.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
       "id": "68594a78-f01e-47eb-b5c6-0243e99fa86a",
       "type": "brief",
       "date": "2026-05-31T05:48:36.000Z",
@@ -354,6 +661,26 @@
       "keyDevTypeId": null,
       "source_url": null,
       "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "cb7ecba6-f2b1-4c59-a441-1e4c7ad170ef",
+      "type": "event",
+      "date": "2026-05-30T15:41:00.000Z",
+      "title": "B.R.Goyal Infrastructure Limited Recommends Final Dividend for the Financial Year Ended 31 March 2026",
+      "body": "B. R. Goyal Infrastructure Limited at its board meeting held on recommended Final Dividend of INR 0.25/- i.e. 2.5% on the face value of INR 10/- per fully paid up equity share, subject to approval of the Shareholders of the Company at the ensuing Annual General Meeting for the financial year ended 31 March 2026.",
+      "keyDevTypeId": "45",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
+    {
+      "id": "4d2acebd-65d6-4e14-a457-e3cce92051db",
+      "type": "event",
+      "date": "2026-05-30T00:00:00.000Z",
+      "title": "B.R.Goyal Infrastructure Limited announced that it expects to receive INR 32.725 million in funding from Mavira AMC LLP and other investors.",
+      "body": "B.R.Goyal Infrastructure Limited announced a private placement to issue 11,00,000 Convertible Warrants at an issue price of INR 29.75 for the proceeds of INR 32,725,000 on May 30, 2026. Transaction involves participation of Henal Mayank Mamania for 100,000 warrant, Mavira AMC LLP for 100,000 warrant, Hemangi Sushil Bheda for 100,000,  Sonal R Karani  for 200,000, Shailesh Lahoti for 100,000 and other investors.  The exercise price of warrant is INR 89.25, and Warrants are convertible into Equity Share within 18 months from the date of Allotment of Warrants. Transaction is approved by board of directors and is subject to approval of shareholders and regulatory authority.",
+      "keyDevTypeId": "83",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
     },
     {
       "id": "051b39bd-0cc7-408f-b384-4f5506d41f63",

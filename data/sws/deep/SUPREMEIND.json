@@ -3,7 +3,7 @@
   "name": "The Supreme Industries Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-supremeind/supreme-industries-shares",
-  "parsed_at": "2026-05-31T22:37:33.776Z",
+  "parsed_at": "2026-06-11T01:40:39.246Z",
   "company_id": "8F7070A5-EF67-4FAD-A9B6-77817EF84904",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 4
     },
     "snowflake_total": 15,
-    "current_price_inr": 3549,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_NOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_STABLE_IN_PAST_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DIVIDENDS_NOT_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 3488.5,
     "market_cap_inr": 461488600000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midlarge6",
     "shares_outstanding": 127026870,
     "fifty_two_week": {
       "low": 3182,
       "high": 4739
     },
-    "fair_value_inr": 3336.91006,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 987.197451,
+      "min": 989.029598,
       "max": 3944.39286,
       "count": 9
     },
-    "upside_pct": -5.976047900817127,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystLowTarget",
+      "owner_classification": null,
+      "narrative_id": "1c7b04f9-07e7-4b88-bd0b-a57adb3db894",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 48.38,
       "ps": 4.12,
@@ -61,10 +347,10 @@
     },
     "rewards": [
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Earnings are forecast to grow 16.64% per year"
+      "Earnings are forecast to grow 16.61% per year"
     ],
     "risks": [
-      "Dividend of 1.01% is not well covered by free cash flows"
+      "Dividend of 1.03% is not well covered by free cash flows"
     ],
     "dividend": {
       "yield_pct": 0.99,
@@ -234,8 +520,8 @@
     "dividend_yield_pct": 0.99,
     "industry_benchmarks": {
       "pe": 40.23659070712202,
-      "net_income_margin_1y": 0.0775877089,
-      "future_revenue_growth_3y": 0.6569887,
+      "net_income_margin_1y": 0.07792327667,
+      "future_revenue_growth_3y": 0.6221294666,
       "sector_pe": 40.23659070712202
     },
     "industry_benchmarks_meta": {
@@ -270,18 +556,18 @@
         "url": "https://groww.in/stocks/supreme-industries-ltd"
       },
       "sws_statement": {
-        "company_pe": 47.3,
-        "industry_pe": 27.1,
+        "company_pe": 46.6,
+        "industry_pe": 30.3,
         "industry_name": "Indian Building",
-        "description": "SUPREMEIND is expensive based on its Price-To-Earnings Ratio (47.3x) compared to the Indian Building industry average (27.1x).",
+        "description": "SUPREMEIND is expensive based on its Price-To-Earnings Ratio (46.6x) compared to the Indian Building industry average (30.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 27.141472172,
+        "industry_pe": 30.337735065,
         "industry_code": "3030000",
         "type": "median_profitable",
-        "count": 55,
+        "count": 58,
         "source": {
           "type": "country",
           "country": "IN",
@@ -290,25 +576,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24.5,
+        "industry_pe": 28.1,
         "sample_count": 55,
         "industry_code": "3030000",
         "industry_name": "Capital Goods"
       },
       "sws_primary_industry": {
-        "industry_pe": 21.475319439,
+        "industry_pe": 21.150765987,
         "industry_name": "Capital Goods",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 47.256584166334726
+        "company_pe": 46.45099855290468
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 3549,
-        "fetched_at": "2026-05-31T22:37:33.776Z",
+        "value": 3488.5,
+        "fetched_at": "2026-06-11T01:40:39.246Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-supremeind/supreme-industries-shares"
       },
       "market_cap_inr": {
@@ -355,14 +641,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.0775877089,
-        "fetched_at": "2026-05-31T22:37:33.776Z",
+        "value": 0.07792327667,
+        "fetched_at": "2026-06-11T01:40:39.246Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-supremeind/supreme-industries-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.6569887,
-        "fetched_at": "2026-05-31T22:37:33.776Z",
+        "value": 0.6221294666,
+        "fetched_at": "2026-06-11T01:40:39.246Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-supremeind/supreme-industries-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -494,12 +780,12 @@
     "quick_ratio": 1.058478253201171,
     "cash_ratio": 0.4645525415358566,
     "returns_pct": {
-      "1D": -2.3497688751926065,
-      "7D": -0.19685039370078738,
-      "1M": -3.225806451612908,
-      "3M": -10.721473133427246,
-      "6M": 4.640877461964857,
-      "1Y": -15.624554229470778,
+      "1D": -0.32002743092264535,
+      "7D": -2.362226762573822,
+      "1M": -3.560666795676338,
+      "3M": -13.72999975270173,
+      "6M": 8.301511905870667,
+      "1Y": -19.81750063208219,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -540,8 +826,8 @@
         "is_insider": null
       },
       {
-        "pct": 2.67712,
-        "shares": 3400656,
+        "pct": 2.69568,
+        "shares": 3424238,
         "is_insider": null
       },
       {
@@ -1055,6 +1341,26 @@
   ],
   "news": [
     {
+      "id": "79e69328-f962-4d42-8de4-760166020886",
+      "type": "narrative-update",
+      "date": "2026-06-04T13:09:46.000Z",
+      "title": "SUPREMEIND: Upcoming Dividend Decision Will Support Bullish Outlook",
+      "body": "Analysts have trimmed their price target on Supreme Industries to ₹4,700 from about ₹4,947, citing updated assumptions that reflect slightly lower revenue growth and profit margin expectations, along with a modestly higher discount rate and future P/E multiple. What's in the News Supreme Industries has a board meeting scheduled for April 27, 2026, at 10:30 Indian Standard Time to consider audited financial results for the year ended March 31, 2026, a potential dividend on equity shares, and the appointment of auditors.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-supremeind/supreme-industries-shares/gn425xjl-indias-urbanization-and-advanced-polymers-will-fuel-enduring-demand/updates/6-analysts-have-trimmed-their-price-target-on-supreme-industri",
+      "raw_subtype": "narrative-update"
+    },
+    {
+      "id": "bfd20b50-fe41-4540-ba21-e44fd876ba9d",
+      "type": "brief",
+      "date": "2026-06-02T12:58:15.000Z",
+      "title": "Full year 2026 earnings: EPS exceeds analyst expectations",
+      "body": "Full year 2026 results: EPS: ₹75.10 (down from ₹75.64 in FY 2025). Revenue: ₹112.2b (up 7.4% from FY 2025). Net income: ₹9.54b (flat on FY 2025). Profit margin: 8.5% (down from 9.2% in FY 2025). The decrease in margin was driven by higher expenses. Revenue was in line with analyst estimates. Earnings per share (EPS) surpassed analyst estimates by 12%. Revenue is forecast to grow 12% p.a. on average during the next 3 years, compared to a 14% growth forecast for the Building industry in India. Over the last 3 years on average, earnings per share has fallen by 3% per year but the company’s share price has increased by 8% per year, which means it is well ahead of earnings.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
       "id": "673bf801-5f09-4187-a517-86ac0310108f",
       "type": "narrative-update",
       "date": "2026-05-07T06:05:44.000Z",
@@ -1262,26 +1568,6 @@
       "body": "Analysts have trimmed their price target for Supreme Industries from ₹3,190.55 to ₹3,103.24, citing slightly higher required returns, modestly stronger growth expectations, and lower projected profit margins that together point to a richer earnings multiple but a marginally reduced fair value. What's in the News Board approves an interim dividend of INR 11 per share on a face value of INR 2, representing a 550 percent payout for FY 2025-26, with the record date set as November 3, 2025 (Key Developments) Board meeting scheduled for October 27, 2025 at 11:00 IST to review unaudited consolidated and standalone financial results for Q2 and H1 FY 2025-26 and to consider the declaration of an interim dividend on equity shares (Key Developments) Extraordinary shareholders meeting via postal ballo",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/materials/nse-supremeind/supreme-industries-shares/3sjfyla2-rising-environmental-rules-and-cost-risks-will-derail-outlook/updates/2-analysts-have-trimmed-their-price-target-for-supreme-industr",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "b27ca56d-d143-4cd8-b8eb-7dfdd7077bfb",
-      "type": "article",
-      "date": "2025-12-12T00:08:26.000Z",
-      "title": "Pinning Down The Supreme Industries Limited's (NSE:SUPREMEIND) P/E Is Difficult Right Now",
-      "body": "With a price-to-earnings (or \"P/E\") ratio of 48.4x The Supreme Industries Limited ( NSE:SUPREMEIND ) may be sending...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/materials/nse-supremeind/supreme-industries-shares/news/pinning-down-the-supreme-industries-limiteds-nsesupremeind-p",
-      "raw_subtype": "article"
-    },
-    {
-      "id": "30c442df-c180-4891-814b-43462e5224b2",
-      "type": "narrative-update",
-      "date": "2025-12-11T02:05:09.000Z",
-      "title": "SUPREMEIND: Interim Dividend And Stable Outlook Will Support Future Shareholder Returns",
-      "body": "Narrative Update on Supreme Industries Analysts have maintained their price target for Supreme Industries at ₹4,263.86, citing only marginal refinements to discount rate, revenue growth, profit margin, and future P E assumptions that did not warrant a change in fair value. What's in the News Board approves an interim dividend of INR 11 per share (550 percent on face value of INR 2) for FY 2025-26, with a record date of 3 November 2025 and payment to eligible shareholders thereafter (company board resolution).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/materials/nse-supremeind/supreme-industries-shares/2gzoh7g8-plastic-piping-expansion-will-support-urban-growth-amid-board-and-dividend-updates/updates/14-narrative-update-on-supreme-industries-analysts-have-maintai",
       "raw_subtype": "narrative-update"
     }
   ],

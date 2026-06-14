@@ -3,31 +3,32 @@
   "name": "AA Plus Tradelink Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-543319/aa-plus-tradelink-shares",
-  "parsed_at": "2026-05-31T20:09:45.649Z",
+  "parsed_at": "2026-06-10T23:11:19.591Z",
   "company_id": "8DDAFC71-7DB0-423F-BF0F-F3FFABF880AC",
   "classification_status": "Active",
   "groww_source": null,
   "overview": {
     "snowflake": {
-      "valuation": 0,
+      "valuation": 3,
       "future": 0,
-      "past": 3,
-      "financial_health": 6,
+      "past": 5,
+      "financial_health": 5,
       "dividends": 0,
       "future_growth": 0,
-      "past_performance": 3,
-      "value": 0,
-      "health": 6,
+      "past_performance": 5,
+      "value": 3,
+      "health": 5,
       "dividend": 0
     },
-    "snowflake_total": 9,
+    "snowflake_total": 13,
     "snowflake_data_quality": {
       "insufficient": true,
-      "insufficient_count": 10,
+      "insufficient_count": 11,
       "checked_count": 30,
       "affected_pillars": [
         "Value",
         "Future",
+        "Health",
         "Dividends"
       ],
       "by_pillar": {
@@ -45,7 +46,7 @@
         },
         "Health": {
           "checked": 6,
-          "insufficient": 0
+          "insufficient": 1
         },
         "Dividends": {
           "checked": 6,
@@ -70,21 +71,310 @@
         }
       ]
     },
-    "current_price_inr": 1.25,
-    "market_cap_inr": 304059918.6003957,
-    "market_cap_usd": 120714180851.549,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 0.9,
+    "market_cap_inr": 218923141.39228487,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
-    "fifty_two_week": null,
-    "fair_value_inr": 0.220565,
+    "fifty_two_week": {
+      "low": 0.71,
+      "high": 1.57
+    },
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -82.3548,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "497842f4-3e09-41f0-8e50-c01057162f29",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
-      "pe": 67.6,
+      "pe": 17.4,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -93,15 +383,20 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": "2026-05-31T20:09:45.649Z",
+      "pe_as_of": "2026-06-10T23:11:19.591Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://simplywall.st/stocks/in/capital-goods/bse-543319/aa-plus-tradelink-shares"
     },
-    "rewards": [],
+    "rewards": [
+      "Earnings grew by 171.3% over the past year",
+      "Trading at good value vs. industry average Price-To-Earnings ratio",
+      "Trading at 62.7% below our estimate of its fair value"
+    ],
     "risks": [
+      "Latest financial reports are more than 6 months old",
+      "Does not have meaningful revenue (₹247M)",
       "Shares are highly illiquid",
-      "Makes less than USD$1m in revenue (₹94M)",
-      "Does not have a meaningful market cap (₹304M)"
+      "Does not have a meaningful market cap (₹243M)"
     ],
     "dividend": {
       "yield_pct": null,
@@ -113,9 +408,9 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 23.432792853,
-      "net_income_margin_1y": 0.0528311647,
-      "future_revenue_growth_3y": 0.1545987815
+      "pe": 24.16407612,
+      "net_income_margin_1y": 0.05713572021,
+      "future_revenue_growth_3y": 0.1646852446
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -129,30 +424,30 @@
     "pe_benchmark_source": {
       "provider": "sws_industry_api",
       "label": "SWS industry API",
-      "company_pe": 67.6,
+      "company_pe": 17.4,
       "company_pe_source": "sws_statement",
       "company_pe_source_label": "SWS visible statement",
-      "industry_pe": 23.432792853,
+      "industry_pe": 24.16407612,
       "industry_name": "Capital Goods",
       "industry_code": "3080000",
-      "sample_count": 124,
+      "sample_count": 123,
       "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 67.6,
-        "industry_pe": 23.4,
+        "company_pe": 17.4,
+        "industry_pe": 24.2,
         "industry_name": "Indian Trade Distributors",
-        "description": "543319 is expensive based on its Price-To-Earnings Ratio (67.6x) compared to the Indian Trade Distributors industry average (23.4x).",
+        "description": "543319 is good value based on its Price-To-Earnings Ratio (17.4x) compared to the Indian Trade Distributors industry average (24.2x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 23.432792853,
+        "industry_pe": 24.16407612,
         "industry_code": "3080000",
         "type": "median_profitable",
-        "count": 124,
+        "count": 123,
         "source": {
           "type": "country",
           "country": "IN",
@@ -161,8 +456,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.5,
-        "sample_count": 119,
+        "industry_pe": 19.85,
+        "sample_count": 122,
         "industry_code": "3080000",
         "industry_name": "Capital Goods"
       },
@@ -174,32 +469,41 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1.25,
-        "fetched_at": "2026-05-31T20:09:45.649Z",
+        "value": 0.9,
+        "fetched_at": "2026-06-10T23:11:19.591Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-543319/aa-plus-tradelink-shares"
       },
       "multiples.pe": {
         "provider": "sws_statement",
-        "value": 67.6,
-        "fetched_at": "2026-05-31T20:09:45.649Z",
+        "value": 17.4,
+        "fetched_at": "2026-06-10T23:11:19.591Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-543319/aa-plus-tradelink-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 23.432792853,
+        "value": 24.16407612,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.0528311647,
-        "fetched_at": "2026-05-31T20:09:45.649Z",
+        "value": 0.05713572021,
+        "fetched_at": "2026-06-10T23:11:19.591Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-543319/aa-plus-tradelink-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.1545987815,
-        "fetched_at": "2026-05-31T20:09:45.649Z",
+        "value": 0.1646852446,
+        "fetched_at": "2026-06-10T23:11:19.591Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/bse-543319/aa-plus-tradelink-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 0.71,
+          "high": 1.57
+        },
+        "fetched_at": "2026-06-10T23:11:19.591Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-543319/aa-plus-tradelink-shares"
       }
     },
@@ -226,12 +530,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 0,
-      "7D": 0,
-      "1M": 5.042016806722694,
-      "3M": -8.088235294117654,
-      "6M": -17.763157894736842,
-      "1Y": 60.256410256410255,
+      "1D": -9.999999999999998,
+      "7D": -27.999999999999996,
+      "1M": -27.999999999999996,
+      "3M": -27.999999999999996,
+      "6M": -40,
+      "1Y": 11.111111111111107,
       "5Y": null
     },
     "next_earnings_date": null,

@@ -3,7 +3,7 @@
   "name": "Glance Finance Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/bse-531199/glance-finance-shares",
-  "parsed_at": "2026-05-31T21:50:47.294Z",
+  "parsed_at": "2026-06-11T01:01:25.610Z",
   "company_id": "FB22979A-8B8B-4D93-A0ED-B5B0547C307D",
   "classification_status": "Active",
   "groww_source": {
@@ -16,18 +16,18 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 0,
+      "valuation": 2,
       "future": 0,
-      "past": 2,
+      "past": 5,
       "financial_health": 5,
       "dividends": 0,
       "future_growth": 0,
-      "past_performance": 2,
-      "value": 0,
+      "past_performance": 5,
+      "value": 2,
       "health": 5,
       "dividend": 0
     },
-    "snowflake_total": 7,
+    "snowflake_total": 12,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 12,
@@ -78,9 +78,287 @@
         }
       ]
     },
-    "current_price_inr": 173.25,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 160,
     "market_cap_inr": 374400000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -92,6 +370,14 @@
       "min": null,
       "max": null,
       "count": 0
+    },
+    "fair_value_source_detail": {
+      "method": "missing_consensus_narrative",
+      "owner_name": null,
+      "owner_classification": null,
+      "narrative_id": null,
+      "narrative_type": null,
+      "published_at": null
     },
     "upside_pct": null,
     "multiples": {
@@ -109,11 +395,15 @@
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/glance-finance-ltd"
     },
-    "rewards": [],
+    "rewards": [
+      "Earnings grew by 112.7% over the past year",
+      "Trading at good value vs. industry average Price-To-Earnings ratio",
+      "Trading at good value vs. peer average Price-To-Earnings ratio",
+      "Price-To-Earnings ratio (7.4x) is below the Indian market (23.2x)"
+    ],
     "risks": [
-      "Profit margins (7.4%) are lower than last year (11.8%)",
-      "Does not have meaningful revenue (₹139M)",
-      "Does not have a meaningful market cap (₹394M)"
+      "Does not have meaningful revenue (₹192M)",
+      "Does not have a meaningful market cap (₹364M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -126,8 +416,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 23.373691419264986,
-      "net_income_margin_1y": 0.3861928045,
-      "future_revenue_growth_3y": 0.6191489568,
+      "net_income_margin_1y": 0.3863034101,
+      "future_revenue_growth_3y": 0.6219707352,
       "sector_pe": 23.373691419264986
     },
     "industry_benchmarks_meta": {
@@ -162,18 +452,18 @@
         "url": "https://groww.in/stocks/glance-finance-ltd"
       },
       "sws_statement": {
-        "company_pe": 38.2,
-        "industry_pe": 26.7,
+        "company_pe": 7.4,
+        "industry_pe": 26.9,
         "industry_name": "Indian Capital Markets",
-        "description": "531199 is expensive based on its Price-To-Earnings Ratio (38.2x) compared to the Indian Capital Markets industry average (26.7x).",
+        "description": "531199 is good value based on its Price-To-Earnings Ratio (7.4x) compared to the Indian Capital Markets industry average (26.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 26.705392444,
+        "industry_pe": 26.862499542,
         "industry_code": "7130000",
         "type": "median_profitable",
-        "count": 218,
+        "count": 216,
         "source": {
           "type": "country",
           "country": "IN",
@@ -182,8 +472,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.6,
-        "sample_count": 204,
+        "industry_pe": 21.1,
+        "sample_count": 201,
         "industry_code": "7130000",
         "industry_name": "Diversified Financials"
       },
@@ -195,8 +485,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 173.25,
-        "fetched_at": "2026-05-31T21:50:47.294Z",
+        "value": 160,
+        "fetched_at": "2026-06-11T01:01:25.610Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-531199/glance-finance-shares"
       },
       "market_cap_inr": {
@@ -243,14 +533,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.3861928045,
-        "fetched_at": "2026-05-31T21:50:47.294Z",
+        "value": 0.3863034101,
+        "fetched_at": "2026-06-11T01:01:25.610Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-531199/glance-finance-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.6191489568,
-        "fetched_at": "2026-05-31T21:50:47.294Z",
+        "value": 0.6219707352,
+        "fetched_at": "2026-06-11T01:01:25.610Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-531199/glance-finance-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -382,16 +672,16 @@
     "quick_ratio": 1.5503875968992247,
     "cash_ratio": 0.6550387596899224,
     "returns_pct": {
-      "1D": 4.398915335944569,
-      "7D": 6.288343558282208,
-      "1M": -4.149377593360995,
-      "3M": -11.153846153846155,
-      "6M": -12.939698492462313,
-      "1Y": 7.608695652173914,
+      "1D": -2.4390243902439024,
+      "7D": -6.976744186046512,
+      "1M": -6.705539358600583,
+      "3M": -17.525773195876287,
+      "6M": -14.893617021276595,
+      "1Y": -5.743740795287187,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 0,
+    "recent_news_count": 1,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -629,6 +919,16 @@
     "BSE"
   ],
   "news": [
+    {
+      "id": "b605c4b9-97f6-4d35-a9a6-2a7f2f87c7db",
+      "type": "brief",
+      "date": "2026-06-01T08:02:19.000Z",
+      "title": "Full year 2026 earnings released: EPS: ₹21.83 (vs ₹10.26 in FY 2025)",
+      "body": "Full year 2026 results: EPS: ₹21.83 (up from ₹10.26 in FY 2025). Revenue: ₹255.4m (up 42% from FY 2025). Net income: ₹49.2m (up 113% from FY 2025). Profit margin: 19% (up from 13% in FY 2025). The increase in margin was driven by higher revenue. Over the last 3 years on average, earnings per share has increased by 41% per year but the company’s share price has increased by 47% per year, which means it is tracking significantly ahead of earnings growth.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "d5fd3041-f845-4aae-8f73-a19f0a9b5a33",
       "type": "brief",

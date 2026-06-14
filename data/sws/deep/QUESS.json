@@ -3,7 +3,7 @@
   "name": "Quess Corp Limited",
   "sector": "Commercial Services",
   "sws_url": "https://simplywall.st/stocks/in/commercial-services/nse-quess/quess-shares",
-  "parsed_at": "2026-05-31T21:43:40.837Z",
+  "parsed_at": "2026-06-11T00:44:49.960Z",
   "company_id": "E4C8B940-9DE8-4AAE-A0F1-042D5151E5D6",
   "classification_status": "Active",
   "groww_source": {
@@ -16,34 +16,320 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 5,
+      "valuation": 3,
       "future": 2,
       "past": 5,
       "financial_health": 6,
       "dividends": 4,
       "future_growth": 2,
       "past_performance": 5,
-      "value": 5,
+      "value": 3,
       "health": 6,
       "dividend": 4
     },
-    "snowflake_total": 22,
-    "current_price_inr": 209.09,
+    "snowflake_total": 20,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_NOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_VOLATILE_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_50_TO_75"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_50_TO_75_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 238.11,
     "market_cap_inr": 31956900000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "small3",
     "shares_outstanding": 149931000,
     "fifty_two_week": {
       "low": 166.3,
       "high": 335.15
     },
-    "fair_value_inr": 276.25,
+    "fair_value_inr": 281.5,
     "fair_value_range_inr": {
-      "min": 209.91014,
-      "max": 280,
-      "count": 39
+      "min": 215.115948,
+      "max": 281.5,
+      "count": 40
     },
-    "upside_pct": 32.1201396527811,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "b0ee2b48-18c0-4b9d-93f1-411614337d6f",
+      "narrative_type": null,
+      "published_at": "2026-06-06T13:04:47.391Z"
+    },
+    "upside_pct": 18.222670194447936,
     "multiples": {
       "pe": 14.38,
       "ps": 0.21,
@@ -60,13 +346,12 @@
       "pe_source_url": "https://groww.in/stocks/quess-corp-ltd"
     },
     "rewards": [
+      "Price-To-Earnings ratio (16x) is below the Indian market (22.9x)",
       "Earnings grew by 383.9% over the past year",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading below our calculated fair Price-To-Earnings ratio",
-      "Trading at 0.4% below our estimate of its fair value",
-      "Earnings are forecast to grow 13.07% per year",
-      "Analysts in good agreement that stock price will rise by 34.6%"
+      "Earnings are forecast to grow 13.07% per year"
     ],
     "risks": [
       "Unstable dividend track record"
@@ -213,8 +498,8 @@
     "dividend_yield_pct": 5.14,
     "industry_benchmarks": {
       "pe": 24.63362182080608,
-      "net_income_margin_1y": 0.07234671003,
-      "future_revenue_growth_3y": 0.3740225928,
+      "net_income_margin_1y": 0.07149669577,
+      "future_revenue_growth_3y": 0.358570421,
       "sector_pe": 24.63362182080608
     },
     "industry_benchmarks_meta": {
@@ -249,18 +534,18 @@
         "url": "https://groww.in/stocks/quess-corp-ltd"
       },
       "sws_statement": {
-        "company_pe": 14.1,
-        "industry_pe": 19.7,
+        "company_pe": 16,
+        "industry_pe": 19.3,
         "industry_name": "Indian Professional Services",
-        "description": "QUESS is good value based on its Price-To-Earnings Ratio (14.1x) compared to the Indian Professional Services industry average (19.7x).",
+        "description": "QUESS is good value based on its Price-To-Earnings Ratio (16x) compared to the Indian Professional Services industry average (19.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 19.714358381,
+        "industry_pe": 19.349527143,
         "industry_code": "9612010",
         "type": "median_profitable",
-        "count": 63,
+        "count": 62,
         "source": {
           "type": "country",
           "country": "IN",
@@ -269,25 +554,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.1,
-        "sample_count": 59,
+        "industry_pe": 18.6,
+        "sample_count": 57,
         "industry_code": "9612010",
         "industry_name": "Commercial Services"
       },
       "sws_primary_industry": {
-        "industry_pe": 16.094987777,
+        "industry_pe": 16.028068325,
         "industry_name": "Commercial Services",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 14.145225355671569
+        "company_pe": 16.108468168917486
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 209.09,
-        "fetched_at": "2026-05-31T21:43:40.837Z",
+        "value": 238.11,
+        "fetched_at": "2026-06-11T00:44:49.960Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-quess/quess-shares"
       },
       "market_cap_inr": {
@@ -295,6 +580,24 @@
         "value": 31956900000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/quess-corp-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 281.5,
+        "fetched_at": "2026-06-11T00:44:49.960Z",
+        "url": "https://simplywall.st/stocks/in/commercial-services/nse-quess/quess-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "b0ee2b48-18c0-4b9d-93f1-411614337d6f",
+        "narrative_type": null,
+        "published_at": "2026-06-06T13:04:47.391Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 18.222670194447936,
+        "fetched_at": "2026-06-11T00:44:49.960Z",
+        "url": "https://simplywall.st/stocks/in/commercial-services/nse-quess/quess-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -334,14 +637,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.07234671003,
-        "fetched_at": "2026-05-31T21:43:40.837Z",
+        "value": 0.07149669577,
+        "fetched_at": "2026-06-11T00:44:49.960Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-quess/quess-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.3740225928,
-        "fetched_at": "2026-05-31T21:43:40.837Z",
+        "value": 0.358570421,
+        "fetched_at": "2026-06-11T00:44:49.960Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-quess/quess-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -450,13 +753,13 @@
         "url": "https://groww.in/stocks/quess-corp-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 383.8718833238723,
+    "earnings_growth_yoy_pct": 365.1547906391017,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 2.258191395731426,
+    "revenue_growth_pct": 1.8190968513635644,
     "latest_revenue": 153051870000,
     "latest_net_income": 2216230000,
     "latest_eps": 14.88,
-    "most_recent_reported_date": "2026-05-08",
+    "most_recent_reported_date": "2026-06-05",
     "pb": 2.74,
     "ps": 0.21,
     "book_value": 78.1122411,
@@ -473,16 +776,16 @@
     "quick_ratio": 1.3816865605658708,
     "cash_ratio": 0.14289760167992926,
     "returns_pct": {
-      "1D": -1.9093638581347314,
-      "7D": 3.1320903620400484,
-      "1M": 3.0000000000000018,
-      "3M": 6.820271789107997,
-      "6M": -2.8392193308550118,
-      "1Y": -33.36838750796686,
+      "1D": 0.3963401779314526,
+      "7D": 12.784198560060634,
+      "1M": 8.01088682240872,
+      "3M": 25.16953161961837,
+      "6M": 13.65089971839054,
+      "1Y": -24.648734177215186,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 1,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -549,6 +852,11 @@
         "is_insider": null
       },
       {
+        "pct": 0.35766,
+        "shares": 536239,
+        "is_insider": null
+      },
+      {
         "pct": 0.29324,
         "shares": 439662,
         "is_insider": null
@@ -556,11 +864,6 @@
       {
         "pct": 0.26701,
         "shares": 400329,
-        "is_insider": null
-      },
-      {
-        "pct": 0.23768,
-        "shares": 356358,
         "is_insider": null
       },
       {
@@ -739,14 +1042,14 @@
     "payment_count": 10
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-08",
+    "most_recent_reported_date": "2026-06-05",
     "latest_year": 2026,
     "latest_revenue": 153051870000,
     "latest_net_income": 2216230000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 2.258191395731426,
-    "earnings_growth_pct": 383.8718833238723,
+    "revenue_growth_pct": 1.8190968513635644,
+    "earnings_growth_pct": 365.1547906391017,
     "net_margin_pct": 1.4480254308555656,
     "yearly_history": [
       {
@@ -757,26 +1060,26 @@
       },
       {
         "year": 2025,
-        "revenue": 149671990000,
-        "netIncome": 458020000,
+        "revenue": 150317450000,
+        "netIncome": 476450000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 136950900000,
-        "netIncome": 1328600000,
+        "revenue": 195030300000,
+        "netIncome": 3338550000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 171583870000,
-        "netIncome": 2244170000,
+        "revenue": 177792790000,
+        "netIncome": 2054300000.0000002,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 136917780000,
-        "netIncome": 2412250000,
+        "revenue": 146841820000,
+        "netIncome": 2618870000,
         "eps": null
       }
     ]
@@ -1008,6 +1311,16 @@
   ],
   "news": [
     {
+      "id": "54834851-6951-412b-9def-77d4a8cfd175",
+      "type": "narrative-update",
+      "date": "2026-06-06T13:04:47.000Z",
+      "title": "QUESS: Employee Ownership Plans And New CEO Role Will Support Future Upside",
+      "body": "Analysts have nudged their fair value estimate for Quess up from ₹276.25 to ₹281.50, citing updated assumptions around the discount rate, revenue growth, profit margin and future P/E that slightly adjust the stock's risk and earnings profile. What's in the News The Board of Quess Corp Limited has scheduled a meeting on March 16, 2026 to consider changes in directors and key managerial personnel, a new Quess Stock Ownership Plan 2026 and the formation of the Quess Corp Limited Employees Welfare Trust for implementing the plan, along with other matters.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/commercial-services/nse-quess/quess-shares/a74r65wm-indian-workforce-formalization-and-digital-scale-up-will-expand-markets-x8qd/updates/23-analysts-have-nudged-their-fair-value-estimate-for-quess-up",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "46dfee27-e717-4428-a417-9ea78c403b52",
       "type": "narrative-update",
       "date": "2026-05-09T08:07:43.000Z",
@@ -1216,26 +1529,6 @@
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/commercial-services/nse-quess/quess-shares/a74r65wm-indian-workforce-formalization-and-digital-scale-up-will-expand-markets-x8qd/updates/13-analysts-have-nudged-their-price-target-on-quess-slightly-hi",
       "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "2437031a-4da0-40e7-a046-24cff530cf09",
-      "type": "narrative-update",
-      "date": "2025-12-09T16:05:38.000Z",
-      "title": "QUESS: Upcoming Board Meetings Will Drive Bullish Momentum In Shares",
-      "body": "Analysts have modestly increased their price target on Quess to ₹349.11, reflecting slightly lower perceived risk and stable expectations for revenue growth, profitability, and future valuation multiples. What's in the News Board meeting scheduled for December 5, 2025, to review and address fines levied by BSE and NSE on the company (company filing) Board meeting set for October 29, 2025, to consider and approve unaudited standalone and consolidated financial results for the quarter and half year ended September 30, 2025 (company filing) Valuation Changes Fair Value: Unchanged at approximately ₹349.11 per share, indicating stable valuation assumptions.",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/commercial-services/nse-quess/quess-shares/a74r65wm-indian-workforce-formalization-and-digital-scale-up-will-expand-markets-x8qd/updates/12-analysts-have-modestly-increased-their-price-target-on-quess",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "2e16b9c6-67a1-41b2-8aaf-56e7f3f568b5",
-      "type": "brief",
-      "date": "2025-12-04T11:31:15.000Z",
-      "title": "Now 20% undervalued after recent price drop",
-      "body": "Over the last 90 days, the stock has fallen 23% to ₹205. The fair value is estimated to be ₹257, however this is not to be taken as a buy recommendation but rather should be used as a guide only. Revenue has been flat over the last 3 years. Earnings per share has declined by 24%. Revenue is forecast to grow by 23% in 2 years. Earnings are forecast to grow by 483% in the next 2 years.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/QUESS.json"

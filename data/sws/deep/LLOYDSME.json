@@ -3,7 +3,7 @@
   "name": "Lloyds Metals and Energy Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-lloydsme/lloyds-metals-and-energy-shares",
-  "parsed_at": "2026-05-31T20:39:27.417Z",
+  "parsed_at": "2026-06-10T23:46:19.147Z",
   "company_id": "84E85986-3634-48A4-A2C0-CB9E106FEBD5",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 0
     },
     "snowflake_total": 12,
-    "current_price_inr": 1802.1,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_HIGH_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 1703.8,
     "market_cap_inr": 1045823500000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 1042.9,
       "high": 1888.6
     },
-    "fair_value_inr": 2006.941245,
+    "fair_value_inr": 2007.037555,
     "fair_value_range_inr": {
-      "min": 593.579427,
+      "min": 585.293948,
       "max": 2863.2,
       "count": 10
     },
-    "upside_pct": 11.366807890794078,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "83f34c7a-d4ee-4e01-ab6b-4d4e5b07f126",
+      "narrative_type": null,
+      "published_at": "2024-06-19T03:54:24.888Z"
+    },
+    "upside_pct": 17.79772009625544,
     "multiples": {
       "pe": 27.32,
       "ps": 6.22,
@@ -61,7 +347,7 @@
     },
     "rewards": [
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Earnings grew by 153.9% over the past year",
+      "Earnings grew by 152.9% over the past year",
       "Earnings are forecast to grow 27.38% per year",
       "Trading below our calculated fair Price-To-Earnings ratio"
     ],
@@ -108,7 +394,7 @@
     "industry_benchmarks": {
       "pe": 11.808630098432152,
       "net_income_margin_1y": 0.07144101492,
-      "future_revenue_growth_3y": 0.451968346,
+      "future_revenue_growth_3y": 0.4829948519,
       "sector_pe": 11.808630098432152
     },
     "industry_benchmarks_meta": {
@@ -143,18 +429,18 @@
         "url": "https://groww.in/stocks/lloyds-metals-energy-ltd"
       },
       "sws_statement": {
-        "company_pe": 27.6,
-        "industry_pe": 22.3,
+        "company_pe": 26.2,
+        "industry_pe": 20.8,
         "industry_name": "Indian Metals and Mining",
-        "description": "LLOYDSME is expensive based on its Price-To-Earnings Ratio (27.6x) compared to the Indian Metals and Mining industry average (22.3x).",
+        "description": "LLOYDSME is expensive based on its Price-To-Earnings Ratio (26.2x) compared to the Indian Metals and Mining industry average (20.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 21.899662552,
+        "industry_pe": 20.837327412,
         "industry_code": "2050000",
         "type": "median_profitable",
-        "count": 192,
+        "count": 193,
         "source": {
           "type": "country",
           "country": "IN",
@@ -163,8 +449,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.05,
-        "sample_count": 196,
+        "industry_pe": 19.2,
+        "sample_count": 197,
         "industry_code": "2050000",
         "industry_name": "Materials"
       },
@@ -176,8 +462,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1802.1,
-        "fetched_at": "2026-05-31T20:39:27.417Z",
+        "value": 1703.8,
+        "fetched_at": "2026-06-10T23:46:19.147Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-lloydsme/lloyds-metals-and-energy-shares"
       },
       "market_cap_inr": {
@@ -185,6 +471,24 @@
         "value": 1045823500000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/lloyds-metals-energy-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 2007.037555,
+        "fetched_at": "2026-06-10T23:46:19.147Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-lloydsme/lloyds-metals-and-energy-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "83f34c7a-d4ee-4e01-ab6b-4d4e5b07f126",
+        "narrative_type": null,
+        "published_at": "2024-06-19T03:54:24.888Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 17.79772009625544,
+        "fetched_at": "2026-06-10T23:46:19.147Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-lloydsme/lloyds-metals-and-energy-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -225,13 +529,13 @@
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.07144101492,
-        "fetched_at": "2026-05-31T20:39:27.417Z",
+        "fetched_at": "2026-06-10T23:46:19.147Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-lloydsme/lloyds-metals-and-energy-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.451968346,
-        "fetched_at": "2026-05-31T20:39:27.417Z",
+        "value": 0.4829948519,
+        "fetched_at": "2026-06-10T23:46:19.147Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-lloydsme/lloyds-metals-and-energy-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -363,16 +667,16 @@
     "quick_ratio": 0.5921907495147942,
     "cash_ratio": 0.22342031218486422,
     "returns_pct": {
-      "1D": -3.0503550677856706,
-      "7D": 3.729925746848556,
-      "1M": 1.687168491140947,
-      "3M": 46.15571776155717,
-      "6M": 47.6647000983284,
-      "1Y": 33.1437015145918,
+      "1D": -0.7803400885161944,
+      "7D": -4.96430165104864,
+      "1M": -2.288237655560021,
+      "3M": 41.39419087136929,
+      "6M": 32.25180470387332,
+      "1Y": 12.991577690828294,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 5,
+    "recent_news_count": 4,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -752,6 +1056,26 @@
   ],
   "news": [
     {
+      "id": "cd6006f3-9223-44b1-856d-174232d64ca3",
+      "type": "brief",
+      "date": "2026-06-05T11:39:34.000Z",
+      "title": "Upcoming dividend of ₹1.00 per share",
+      "body": "Eligible shareholders must have bought the stock before 12 June 2026. Payment date: 19 July 2026. Payout ratio is a comfortable 1.4% but the company is not cash flow positive. Trailing yield: 0.1%. Lower than top quartile of Indian dividend payers (1.5%). Lower than average of industry peers (1.6%).",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "16c35e21-7baa-48af-a89d-56249c416e9b",
+      "type": "article",
+      "date": "2026-06-03T00:20:07.000Z",
+      "title": "Lloyds Metals and Energy (NSE:LLOYDSME) Shareholders Should Be Cautious Despite Solid Earnings",
+      "body": "Solid profit numbers didn't seem to be enough to please Lloyds Metals and Energy Limited's ( NSE:LLOYDSME...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/materials/nse-lloydsme/lloyds-metals-and-energy-shares/news/lloyds-metals-and-energy-nselloydsme-shareholders-should-be",
+      "raw_subtype": "article"
+    },
+    {
       "id": "b4f6823e-577d-431f-b5b5-542aeea326d7",
       "type": "brief",
       "date": "2026-05-26T11:26:30.000Z",
@@ -859,16 +1183,6 @@
       "body": "If you're not sure where to start when looking for the next multi-bagger, there are a few key trends you should keep an...",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/stocks/in/materials/nse-lloydsme/lloyds-metals-and-energy-shares/news/lloyds-metals-and-energy-nselloydsme-shareholders-will-want",
-      "raw_subtype": "article"
-    },
-    {
-      "id": "0014faa3-be5b-4dcf-9eae-05eadc425394",
-      "type": "article",
-      "date": "2025-12-10T00:17:54.000Z",
-      "title": "Lloyds Metals and Energy (NSE:LLOYDSME) Ticks All The Boxes When It Comes To Earnings Growth",
-      "body": "The excitement of investing in a company that can reverse its fortunes is a big draw for some speculators, so even...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/materials/nse-lloydsme/lloyds-metals-and-energy-shares/news/lloyds-metals-and-energy-nselloydsme-ticks-all-the-boxes-whe",
       "raw_subtype": "article"
     }
   ],

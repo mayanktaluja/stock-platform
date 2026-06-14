@@ -6,10 +6,15 @@
 
 import assert from "node:assert/strict";
 import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { parseStock, extractSnowflakeDataQuality, extractSnowflakeCheckMatrix } from "../scripts/sws-api-parser.mjs";
 import { parseStockUS } from "../scripts/sws-api-parser-us.mjs";
 import { parseStockRegion } from "../scripts/sws-api-parser-region.mjs";
 import { getRegion } from "../scripts/sws-regions.mjs";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const REPO_ROOT = path.resolve(__dirname, "..");
 
 let pass = 0, fail = 0;
 function check(name, fn) {
@@ -138,6 +143,77 @@ check("AnalystConsensusTarget valuation history beats unstable non-consensus def
   assert.equal(parsed.overview.source_map.fair_value_inr.method, "narrative_history_consensus");
 });
 
+check("default AnalystPriceTarget narrative is trusted for MANORAMA-style fair value", () => {
+  const api = baseApi({
+    ticker: "MANORAMA",
+    priceData: [{ date: "2026-06-10", close: 1540.7 }],
+  });
+  api.graphql.NarrativeValuationHistory = {
+    company: {
+      valuationOptions: [
+        {
+          type: "DCF",
+          narrative: {
+            owner: { displayName: "Future Cash Flow Value", classification: "DCF" },
+            latestPublishedUpdate: { valuation: { fairValue: 479.836742 } },
+          },
+        },
+        {
+          type: "ANALYSTS",
+          narrative: {
+            owner: { displayName: "AnalystPriceTarget", classification: null },
+            latestPublishedUpdate: { valuation: { fairValue: 1039.79487 } },
+          },
+        },
+      ],
+    },
+  };
+  api.graphql.getNarrativeValuation.Company.defaultNarrative = {
+    id: "manorama-analyst-target",
+    owner: { displayName: "AnalystPriceTarget", classification: null },
+    latestPublishedUpdate: {
+      publishedAt: "2026-06-08T16:31:59.016Z",
+      valuation: { fairValue: 1832.010715 },
+    },
+  };
+  const parsed = parseStock(api, { growwPeMap: new Map(), growwStockMap: new Map(), internalIndustryPeMap: new Map() });
+  assert.equal(parsed.overview.fair_value_inr, 1832.010715);
+  assert.equal(Number(parsed.overview.upside_pct.toFixed(1)), 18.9);
+  assert.equal(parsed.overview.fair_value_source_detail.method, "default_narrative_analyst_price_target");
+  assert.equal(parsed.overview.source_map.fair_value_inr.owner_name, "AnalystPriceTarget");
+});
+
+check("default AnalystPriceTarget narrative is trusted for ARTEMISMED-style fair value", () => {
+  const api = baseApi({
+    ticker: "ARTEMISMED",
+    priceData: [{ date: "2026-06-10", close: 258.25 }],
+  });
+  api.graphql.NarrativeValuationHistory = {
+    company: {
+      valuationOptions: [{
+        type: "ANALYSTS",
+        narrative: {
+          owner: { displayName: "AnalystPriceTarget", classification: null },
+          latestPublishedUpdate: { valuation: { fairValue: 1039.79487 } },
+        },
+      }],
+    },
+  };
+  api.graphql.getNarrativeValuation.Company.defaultNarrative = {
+    id: "artemismed-analyst-target",
+    owner: { displayName: "AnalystPriceTarget", classification: null },
+    latestPublishedUpdate: {
+      publishedAt: "2026-06-08T16:31:59.016Z",
+      valuation: { fairValue: 335 },
+    },
+  };
+  const parsed = parseStock(api, { growwPeMap: new Map(), growwStockMap: new Map(), internalIndustryPeMap: new Map() });
+  assert.equal(parsed.overview.fair_value_inr, 335);
+  assert.equal(Number(parsed.overview.upside_pct.toFixed(1)), 29.7);
+  assert.equal(parsed.overview.fair_value_source_detail.method, "default_narrative_analyst_price_target");
+  assert.equal(parsed.overview.source_map.fair_value_inr.owner_name, "AnalystPriceTarget");
+});
+
 check("Non-consensus default narrative is not treated as alertable fair value", () => {
   const api = baseApi();
   api.graphql.getNarrativeValuation.Company.defaultNarrative = {
@@ -157,6 +233,28 @@ check("Non-consensus default narrative is not treated as alertable fair value", 
   assert.equal(parsed.overview.upside_pct, null);
   assert.equal(parsed.overview.fair_value_source_detail.method, "non_consensus_default_narrative");
   assert.equal(parsed.overview.source_map.fair_value_inr, undefined);
+});
+
+check("current raw cache parses trusted default AnalystPriceTarget fair values", () => {
+  const dir = path.join(REPO_ROOT, "data/sws/deep-api");
+  if (!fs.existsSync(dir)) return;
+  const files = fs.readdirSync(dir).filter((f) => f.endsWith(".json"));
+  let trustedCount = 0;
+  const failures = [];
+  for (const file of files) {
+    const api = JSON.parse(fs.readFileSync(path.join(dir, file), "utf8"));
+    const defaultNarrative = api?.graphql?.getNarrativeValuation?.Company?.defaultNarrative;
+    const owner = String(defaultNarrative?.owner?.displayName || "").trim().toLowerCase();
+    const latestFv = defaultNarrative?.latestPublishedUpdate?.valuation?.fairValue;
+    const historyFv = Array.isArray(defaultNarrative?.valuations) ? defaultNarrative.valuations[0]?.fairValue : null;
+    const trustedFv = typeof latestFv === "number" && latestFv > 0 ? latestFv : historyFv;
+    if (owner !== "analystpricetarget" || !(typeof trustedFv === "number" && trustedFv > 0)) continue;
+    trustedCount++;
+    const parsed = parseStock(api, { growwPeMap: new Map(), growwStockMap: new Map(), internalIndustryPeMap: new Map() });
+    if (!Number.isFinite(parsed.overview.fair_value_inr)) failures.push(file.replace(/\.json$/, ""));
+  }
+  assert.ok(trustedCount > 0, "expected at least one trusted AnalystPriceTarget fixture");
+  assert.deepEqual(failures.slice(0, 10), []);
 });
 
 check("Groww P/E is canonical over stale SWS primaryIndustry benchmark", () => {

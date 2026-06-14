@@ -3,7 +3,7 @@
   "name": "Steelcast Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-steelcas/steelcast-shares",
-  "parsed_at": "2026-05-31T22:31:48.369Z",
+  "parsed_at": "2026-06-11T01:34:22.357Z",
   "company_id": "F5C83D75-0464-4710-B7E8-E807E29CA99F",
   "classification_status": "Active",
   "groww_source": {
@@ -18,16 +18,16 @@
     "snowflake": {
       "valuation": 0,
       "future": 0,
-      "past": 6,
+      "past": 5,
       "financial_health": 6,
       "dividends": 3,
       "future_growth": 0,
-      "past_performance": 6,
+      "past_performance": 5,
       "value": 0,
       "health": 6,
       "dividend": 3
     },
-    "snowflake_total": 15,
+    "snowflake_total": 14,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 7,
@@ -76,22 +76,308 @@
         }
       ]
     },
-    "current_price_inr": 283.3,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_NOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_VOLATILE_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 284.9,
     "market_cap_inr": 28887500000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 176.02,
       "high": 320
     },
-    "fair_value_inr": 41.335911,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 41.335911,
-      "max": 41.335911,
+      "min": 77.375803,
+      "max": 77.375803,
       "count": 1
     },
-    "upside_pct": -85.4091383692199,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "d761be58-8cfc-4eaf-a1f7-ecc9886256f7",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 31.93,
       "ps": 6.74,
@@ -108,7 +394,7 @@
       "pe_source_url": "https://groww.in/stocks/steelcast-ltd"
     },
     "rewards": [
-      "Earnings grew by 41% over the past year"
+      "Earnings grew by 20.3% over the past year"
     ],
     "risks": [
       "Unstable dividend track record"
@@ -130,7 +416,7 @@
           "divFreqTypeName": "Interim Payment",
           "annualizedDividend": 1.44,
           "annualizedDividendListingCurrency": 1.44,
-          "annualizedYield": 0.6330519985
+          "annualizedYield": 0.6288080571
         },
         {
           "exDate": "2025-11-11T00:00:00.000Z",
@@ -143,7 +429,7 @@
           "divFreqTypeName": "Interim Payment",
           "annualizedDividend": 1.44,
           "annualizedDividendListingCurrency": 1.44,
-          "annualizedYield": 0.6330519985
+          "annualizedYield": 0.6288080571
         },
         {
           "exDate": "2025-08-08T00:00:00.000Z",
@@ -156,7 +442,7 @@
           "divFreqTypeName": "Interim Payment",
           "annualizedDividend": 1.44,
           "annualizedDividendListingCurrency": 1.44,
-          "annualizedYield": 0.6330519985
+          "annualizedYield": 0.6288080571
         },
         {
           "exDate": "2025-07-25T00:00:00.000Z",
@@ -169,7 +455,7 @@
           "divFreqTypeName": "Final Payment",
           "annualizedDividend": 1.44,
           "annualizedDividendListingCurrency": 1.44,
-          "annualizedYield": 0.6330519985
+          "annualizedYield": 0.6288080571
         },
         {
           "exDate": "2025-02-07T00:00:00.000Z",
@@ -282,7 +568,7 @@
     "industry_benchmarks": {
       "pe": 48.84856892138643,
       "net_income_margin_1y": 0.07144101492,
-      "future_revenue_growth_3y": 0.451968346,
+      "future_revenue_growth_3y": 0.4882829576,
       "sector_pe": 48.84856892138643
     },
     "industry_benchmarks_meta": {
@@ -317,18 +603,18 @@
         "url": "https://groww.in/stocks/steelcast-ltd"
       },
       "sws_statement": {
-        "company_pe": 31.6,
-        "industry_pe": 22.3,
+        "company_pe": 33.1,
+        "industry_pe": 20.8,
         "industry_name": "Indian Metals and Mining",
-        "description": "STEELCAS is expensive based on its Price-To-Earnings Ratio (31.6x) compared to the Indian Metals and Mining industry average (22.3x).",
+        "description": "STEELCAS is expensive based on its Price-To-Earnings Ratio (33.1x) compared to the Indian Metals and Mining industry average (20.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 21.899662552,
+        "industry_pe": 20.840689637,
         "industry_code": "2050000",
         "type": "median_profitable",
-        "count": 192,
+        "count": 194,
         "source": {
           "type": "country",
           "country": "IN",
@@ -337,8 +623,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.05,
-        "sample_count": 196,
+        "industry_pe": 19.2,
+        "sample_count": 197,
         "industry_code": "2050000",
         "industry_name": "Materials"
       },
@@ -350,8 +636,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 283.3,
-        "fetched_at": "2026-05-31T22:31:48.369Z",
+        "value": 284.9,
+        "fetched_at": "2026-06-11T01:34:22.357Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-steelcas/steelcast-shares"
       },
       "market_cap_inr": {
@@ -399,13 +685,13 @@
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.07144101492,
-        "fetched_at": "2026-05-31T22:31:48.369Z",
+        "fetched_at": "2026-06-11T01:34:22.357Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-steelcas/steelcast-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.451968346,
-        "fetched_at": "2026-05-31T22:31:48.369Z",
+        "value": 0.4882829576,
+        "fetched_at": "2026-06-11T01:34:22.357Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-steelcas/steelcast-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -537,16 +823,16 @@
     "quick_ratio": 4.804753386148734,
     "cash_ratio": 0.36365959621773575,
     "returns_pct": {
-      "1D": -1.2547926106657252,
-      "7D": -1.6831511365608072,
-      "1M": -4.599946120689645,
-      "3M": 20.980484263569213,
-      "6M": 28.655767484105372,
-      "1Y": 37.257751937984494,
+      "1D": -1.2820512820512977,
+      "7D": 2.2246142805884426,
+      "1M": 2.2796625381439473,
+      "3M": 23.74044475330089,
+      "6M": 34.60266465085514,
+      "1Y": 25.56192155134419,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 4,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -638,8 +924,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.08278,
-        "shares": 83773,
+        "pct": 0.08627,
+        "shares": 87301,
         "is_insider": null
       },
       {
@@ -680,7 +966,7 @@
         "divFreqTypeName": "Interim Payment",
         "annualizedDividend": 1.44,
         "annualizedDividendListingCurrency": 1.44,
-        "annualizedYield": 0.6330519985
+        "annualizedYield": 0.6288080571
       },
       {
         "exDate": "2025-11-11T00:00:00.000Z",
@@ -693,7 +979,7 @@
         "divFreqTypeName": "Interim Payment",
         "annualizedDividend": 1.44,
         "annualizedDividendListingCurrency": 1.44,
-        "annualizedYield": 0.6330519985
+        "annualizedYield": 0.6288080571
       },
       {
         "exDate": "2025-08-08T00:00:00.000Z",
@@ -706,7 +992,7 @@
         "divFreqTypeName": "Interim Payment",
         "annualizedDividend": 1.44,
         "annualizedDividendListingCurrency": 1.44,
-        "annualizedYield": 0.6330519985
+        "annualizedYield": 0.6288080571
       },
       {
         "exDate": "2025-07-25T00:00:00.000Z",
@@ -719,7 +1005,7 @@
         "divFreqTypeName": "Final Payment",
         "annualizedDividend": 1.44,
         "annualizedDividendListingCurrency": 1.44,
-        "annualizedYield": 0.6330519985
+        "annualizedYield": 0.6288080571
       },
       {
         "exDate": "2025-02-07T00:00:00.000Z",
@@ -1018,6 +1304,26 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "c28af01b-b995-4bf3-9ff1-71af904a8c0d",
+      "type": "brief",
+      "date": "2026-06-02T12:43:02.000Z",
+      "title": "Full year 2026 earnings released: EPS: ₹8.58 (vs ₹7.13 in FY 2025)",
+      "body": "Full year 2026 results: EPS: ₹8.58 (up from ₹7.13 in FY 2025). Revenue: ₹4.39b (up 17% from FY 2025). Net income: ₹868.6m (up 20% from FY 2025). Profit margin: 20% (in line with FY 2025). Over the last 3 years on average, earnings per share has increased by 6% per year but the company’s share price has increased by 40% per year, which means it is tracking significantly ahead of earnings growth.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "8f9af6f4-45ec-4ff7-8994-6abb69bb4e0a",
+      "type": "event",
+      "date": "2026-06-01T08:23:00.000Z",
+      "title": "Steelcast Limited, Annual General Meeting, Jul 29, 2026",
+      "body": "Steelcast Limited, Annual General Meeting, Jul 29, 2026.",
+      "keyDevTypeId": "62",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
     {
       "id": "adf87b32-4a13-4ec6-a747-3bdc25435e03",
       "type": "event",

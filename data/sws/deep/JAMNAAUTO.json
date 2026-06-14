@@ -3,7 +3,7 @@
   "name": "Jamna Auto Industries Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-jamnaauto/jamna-auto-industries-shares",
-  "parsed_at": "2026-05-31T20:16:05.495Z",
+  "parsed_at": "2026-06-10T23:19:35.507Z",
   "company_id": "74CCC92A-7305-4009-B8EF-EAE5F99EEC45",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 5
     },
     "snowflake_total": 22,
-    "current_price_inr": 127.67,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 119.25,
     "market_cap_inr": 49553600000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 86.36,
       "high": 152.6
     },
-    "fair_value_inr": 184.307062,
+    "fair_value_inr": 188.236776,
     "fair_value_range_inr": {
-      "min": 89.269303,
-      "max": 184.307062,
+      "min": 104.178526,
+      "max": 188.236776,
       "count": 5
     },
-    "upside_pct": 44.36207566382079,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "a2344d61-add6-439f-81af-c5dfa889f905",
+      "narrative_type": null,
+      "published_at": "2024-06-19T04:01:48.321Z"
+    },
+    "upside_pct": 57.85054591194968,
     "multiples": {
       "pe": 25.56,
       "ps": 2.06,
@@ -62,9 +348,9 @@
     "rewards": [
       "Trading below our calculated fair Price-To-Earnings ratio",
       "Earnings grew by 28.1% over the past year",
-      "Price-To-Earnings ratio (22.2x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (20.6x) is below the Indian market (23.2x)",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Earnings are forecast to grow 12.01% per year",
+      "Earnings are forecast to grow 13.38% per year",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
     "risks": [
@@ -239,7 +525,7 @@
     "industry_benchmarks": {
       "pe": 35.35685650485562,
       "net_income_margin_1y": 0.1031278814,
-      "future_revenue_growth_3y": 0.5858087225,
+      "future_revenue_growth_3y": 0.5969668729,
       "sector_pe": 35.35685650485562
     },
     "industry_benchmarks_meta": {
@@ -274,18 +560,18 @@
         "url": "https://groww.in/stocks/jamna-auto-industries-ltd"
       },
       "sws_statement": {
-        "company_pe": 22.2,
-        "industry_pe": 26.4,
+        "company_pe": 20.6,
+        "industry_pe": 26,
         "industry_name": "Indian Machinery",
-        "description": "JAMNAAUTO is good value based on its Price-To-Earnings Ratio (22.2x) compared to the Indian Machinery industry average (26.4x).",
+        "description": "JAMNAAUTO is good value based on its Price-To-Earnings Ratio (20.6x) compared to the Indian Machinery industry average (26x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 25.908333666,
+        "industry_pe": 25.989998333,
         "industry_code": "3070000",
         "type": "median_profitable",
-        "count": 217,
+        "count": 220,
         "source": {
           "type": "country",
           "country": "IN",
@@ -294,8 +580,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 25.799999999999997,
-        "sample_count": 218,
+        "industry_pe": 25.6,
+        "sample_count": 219,
         "industry_code": "3070000",
         "industry_name": "Capital Goods"
       },
@@ -307,8 +593,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 127.67,
-        "fetched_at": "2026-05-31T20:16:05.495Z",
+        "value": 119.25,
+        "fetched_at": "2026-06-10T23:19:35.507Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-jamnaauto/jamna-auto-industries-shares"
       },
       "market_cap_inr": {
@@ -316,6 +602,24 @@
         "value": 49553600000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/jamna-auto-industries-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 188.236776,
+        "fetched_at": "2026-06-10T23:19:35.507Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-jamnaauto/jamna-auto-industries-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "a2344d61-add6-439f-81af-c5dfa889f905",
+        "narrative_type": null,
+        "published_at": "2024-06-19T04:01:48.321Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 57.85054591194968,
+        "fetched_at": "2026-06-10T23:19:35.507Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-jamnaauto/jamna-auto-industries-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -356,13 +660,13 @@
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.1031278814,
-        "fetched_at": "2026-05-31T20:16:05.495Z",
+        "fetched_at": "2026-06-10T23:19:35.507Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-jamnaauto/jamna-auto-industries-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.5858087225,
-        "fetched_at": "2026-05-31T20:16:05.495Z",
+        "value": 0.5969668729,
+        "fetched_at": "2026-06-10T23:19:35.507Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-jamnaauto/jamna-auto-industries-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -494,16 +798,16 @@
     "quick_ratio": 0.5368367085362726,
     "cash_ratio": 0.2763137657011023,
     "returns_pct": {
-      "1D": 3.02614590058102,
-      "7D": 11.191430064448712,
-      "1M": 3.05941233451728,
-      "3M": -13.402970901444755,
-      "6M": 11.4340577812691,
-      "1Y": 41.93440800444691,
+      "1D": -0.13399212796247936,
+      "7D": -1.9809304619431174,
+      "1M": -4.775213606963191,
+      "3M": -2.5894461689266475,
+      "6M": -4.439458289927082,
+      "1Y": 30.10037093606808,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 4,
+    "recent_news_count": 5,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -560,8 +864,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.8946,
-        "shares": 3576505,
+        "pct": 0.89835,
+        "shares": 3591486,
         "is_insider": null
       },
       {
@@ -575,8 +879,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.49802,
-        "shares": 1991010,
+        "pct": 0.50221,
+        "shares": 2007763,
         "is_insider": null
       },
       {
@@ -595,8 +899,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.18491,
-        "shares": 739253,
+        "pct": 0.18006,
+        "shares": 719841,
         "is_insider": null
       },
       {
@@ -988,6 +1292,16 @@
   ],
   "news": [
     {
+      "id": "f954ba21-b052-4296-a692-e14de6fbd44e",
+      "type": "brief",
+      "date": "2026-06-03T11:45:29.000Z",
+      "title": "Now 21% overvalued",
+      "body": "Over the last 90 days, the stock has fallen 12% to ₹122. The fair value is estimated to be ₹101, however this is not to be taken as a sell recommendation but rather should be used as a guide only. Revenue has been flat over the last 3 years. Earnings per share has grown by 3.2%. Revenue is forecast to grow by 18% in 2 years. Earnings are forecast to grow by 30% in the next 2 years.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
       "id": "52b7ae43-5f9e-41ad-8aaa-6c9ae02b1587",
       "type": "brief",
       "date": "2026-05-30T19:56:03.000Z",
@@ -1103,16 +1417,6 @@
       "date": "2025-12-31T11:31:12.000Z",
       "title": "Now 22% overvalued after recent price rise",
       "body": "Over the last 90 days, the stock has risen 25% to ₹127. The fair value is estimated to be ₹104, however this is not to be taken as a sell recommendation but rather should be used as a guide only. Revenue is forecast to grow by 14% in a year. Earnings are forecast to grow by 22% in the next year.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "20c1a637-4007-4d48-b6da-1573ae41ccef",
-      "type": "brief",
-      "date": "2025-12-11T11:32:13.000Z",
-      "title": "Now 21% overvalued after recent price rise",
-      "body": "Over the last 90 days, the stock has risen 16% to ₹126. The fair value is estimated to be ₹104, however this is not to be taken as a sell recommendation but rather should be used as a guide only. Revenue is forecast to grow by 14% in a year. Earnings are forecast to grow by 22% in the next year.",
       "keyDevTypeId": null,
       "source_url": null,
       "raw_subtype": "BriefActivity"

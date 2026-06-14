@@ -3,7 +3,7 @@
   "name": "Wipro Limited",
   "sector": "Software",
   "sws_url": "https://simplywall.st/stocks/in/software/nse-wipro/wipro-shares",
-  "parsed_at": "2026-05-31T23:17:06.901Z",
+  "parsed_at": "2026-06-11T02:25:09.181Z",
   "company_id": "5D57E5D9-A495-4DA7-82C2-746626AE5639",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 4
     },
     "snowflake_total": 14,
-    "current_price_inr": 204.25,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_EARNS_NET_INTEREST"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DIVIDENDS_NOT_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 178.93,
     "market_cap_inr": 2116198000000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 186.5,
       "high": 273.1
     },
-    "fair_value_inr": 209.826365,
+    "fair_value_inr": 209.751555,
     "fair_value_range_inr": {
-      "min": 120.464287,
-      "max": 209.826365,
+      "min": 116.5711,
+      "max": 209.751555,
       "count": 26
     },
-    "upside_pct": 2.7301664626683033,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "c549f404-7cf0-4f6f-b22d-b321639ed4d6",
+      "narrative_type": null,
+      "published_at": "2024-06-19T03:48:21.475Z"
+    },
+    "upside_pct": 17.22548203207958,
     "multiples": {
       "pe": 15.95,
       "ps": 2.28,
@@ -64,10 +350,10 @@
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading below our calculated fair Price-To-Earnings ratio",
       "Earnings have grown 3% per year over the past 5 years",
-      "Price-To-Earnings ratio (16.2x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (14.2x) is below the Indian market (23.2x)"
     ],
     "risks": [
-      "Dividend of 5.88% is not well covered by free cash flows"
+      "Dividend of 6.71% is not well covered by free cash flows"
     ],
     "dividend": {
       "yield_pct": 5.45,
@@ -237,8 +523,8 @@
     "dividend_yield_pct": 5.45,
     "industry_benchmarks": {
       "pe": 18.761595487228476,
-      "net_income_margin_1y": 0.1202305246,
-      "future_revenue_growth_3y": 0.2209798542,
+      "net_income_margin_1y": 0.1114700445,
+      "future_revenue_growth_3y": 0.2213130668,
       "sector_pe": 18.761595487228476
     },
     "industry_benchmarks_meta": {
@@ -273,18 +559,18 @@
         "url": "https://groww.in/stocks/wipro-ltd"
       },
       "sws_statement": {
-        "company_pe": 16.2,
-        "industry_pe": 23.6,
+        "company_pe": 14.2,
+        "industry_pe": 23,
         "industry_name": "Indian IT",
-        "description": "WIPRO is good value based on its Price-To-Earnings Ratio (16.2x) compared to the Indian IT industry average (23.6x).",
+        "description": "WIPRO is good value based on its Price-To-Earnings Ratio (14.2x) compared to the Indian IT industry average (23x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 23.644221907,
+        "industry_pe": 22.997035397,
         "industry_code": "8030000",
         "type": "median_profitable",
-        "count": 126,
+        "count": 127,
         "source": {
           "type": "country",
           "country": "IN",
@@ -293,8 +579,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.4,
-        "sample_count": 123,
+        "industry_pe": 22.5,
+        "sample_count": 126,
         "industry_code": "8030000",
         "industry_name": "Software"
       },
@@ -306,8 +592,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 204.25,
-        "fetched_at": "2026-05-31T23:17:06.901Z",
+        "value": 178.93,
+        "fetched_at": "2026-06-11T02:25:09.181Z",
         "url": "https://simplywall.st/stocks/in/software/nse-wipro/wipro-shares"
       },
       "market_cap_inr": {
@@ -315,6 +601,24 @@
         "value": 2116198000000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/wipro-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 209.751555,
+        "fetched_at": "2026-06-11T02:25:09.181Z",
+        "url": "https://simplywall.st/stocks/in/software/nse-wipro/wipro-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "c549f404-7cf0-4f6f-b22d-b321639ed4d6",
+        "narrative_type": null,
+        "published_at": "2024-06-19T03:48:21.475Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 17.22548203207958,
+        "fetched_at": "2026-06-11T02:25:09.181Z",
+        "url": "https://simplywall.st/stocks/in/software/nse-wipro/wipro-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -354,14 +658,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.1202305246,
-        "fetched_at": "2026-05-31T23:17:06.901Z",
+        "value": 0.1114700445,
+        "fetched_at": "2026-06-11T02:25:09.181Z",
         "url": "https://simplywall.st/stocks/in/software/nse-wipro/wipro-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.2209798542,
-        "fetched_at": "2026-05-31T23:17:06.901Z",
+        "value": 0.2213130668,
+        "fetched_at": "2026-06-11T02:25:09.181Z",
         "url": "https://simplywall.st/stocks/in/software/nse-wipro/wipro-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -493,68 +797,68 @@
     "quick_ratio": 2.048044302039521,
     "cash_ratio": 0.2617723791762559,
     "returns_pct": {
-      "1D": 1.324536164302008,
-      "7D": 0.5612722170252505,
-      "1M": 1.7789515646800842,
-      "3M": 1.637141719745219,
-      "6M": -18.14611469562778,
-      "1Y": -17.534722222222225,
+      "1D": -1.5082292068035343,
+      "7D": -12.332190102890735,
+      "1M": -9.02481187716087,
+      "3M": -11.643869438546238,
+      "6M": -31.339217191097468,
+      "1Y": -30.893712343581033,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
   "ownership": {
     "top_holders": [
       {
-        "pct": 21.0083,
+        "pct": 21.00811,
         "shares": 2202133582,
         "is_insider": null
       },
       {
-        "pct": 20.60919,
+        "pct": 20.609,
         "shares": 2160297946,
         "is_insider": null
       },
       {
-        "pct": 18.00028,
+        "pct": 18.00011,
         "shares": 1886826730,
         "is_insider": null
       },
       {
-        "pct": 6.49087,
+        "pct": 6.49081,
         "shares": 680385966,
         "is_insider": null
       },
       {
-        "pct": 4.28835,
+        "pct": 4.28831,
         "shares": 449513900,
         "is_insider": null
       },
       {
-        "pct": 2.67616,
+        "pct": 2.67614,
         "shares": 280521071,
         "is_insider": null
       },
       {
-        "pct": 1.84797,
+        "pct": 1.84795,
         "shares": 193708256,
         "is_insider": null
       },
       {
-        "pct": 1.81062,
-        "shares": 189792661,
+        "pct": 1.78602,
+        "shares": 187215872,
         "is_insider": null
       },
       {
-        "pct": 1.07851,
+        "pct": 1.0785,
         "shares": 113052136,
         "is_insider": null
       },
       {
-        "pct": 1.00802,
+        "pct": 1.00801,
         "shares": 105662383,
         "is_insider": null
       },
@@ -579,8 +883,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.33184,
-        "shares": 34784273,
+        "pct": 0.34105,
+        "shares": 35749628,
         "is_insider": null
       },
       {
@@ -589,13 +893,13 @@
         "is_insider": null
       },
       {
-        "pct": 0.2931,
-        "shares": 30723704,
+        "pct": 0.29056,
+        "shares": 30457484,
         "is_insider": null
       },
       {
-        "pct": 0.27921,
-        "shares": 29267826,
+        "pct": 0.28005,
+        "shares": 29355826,
         "is_insider": null
       },
       {
@@ -986,6 +1290,36 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "80e93301-90f0-46fa-a39b-eb6e05fd05da",
+      "type": "article",
+      "date": "2026-06-05T00:05:50.000Z",
+      "title": "Earnings Release: Here's Why Analysts Cut Their Wipro Limited (NSE:WIPRO) Price Target To ₹210",
+      "body": "The annual results for Wipro Limited ( NSE:WIPRO ) were released last week, making it a good time to revisit its...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/software/nse-wipro/wipro-shares/news/earnings-release-heres-why-analysts-cut-their-wipro-limited",
+      "raw_subtype": "article"
+    },
+    {
+      "id": "0eff9866-40a0-4f1f-bb75-89f69ceac182",
+      "type": "brief",
+      "date": "2026-06-04T11:28:31.000Z",
+      "title": "Full year 2026 earnings: EPS misses analyst expectations",
+      "body": "Full year 2026 results: EPS: ₹12.60 (up from ₹12.56 in FY 2025). Revenue: ₹926.2b (up 4.0% from FY 2025). Net income: ₹132.0b (flat on FY 2025). Profit margin: 14% (in line with FY 2025). Revenue was in line with analyst estimates. Earnings per share (EPS) missed analyst estimates by 1.0%. Revenue is forecast to grow 4.5% p.a. on average during the next 3 years, compared to a 6.0% growth forecast for the IT industry in India. Over the last 3 years on average, earnings per share has increased by 8% per year but the company’s share price has only increased by 1% per year, which means it is significantly lagging earnings growth.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "7be5d631-3624-40dc-8add-c857e790987b",
+      "type": "event",
+      "date": "2026-06-01T00:00:00.000Z",
+      "title": "Wipro Limited (BSE:507685) agreed to acquire an additional 20% stake in Aggne Global Inc. for $28.5 million.",
+      "body": "Wipro Limited (BSE:507685) agreed to acquire an additional 20% stake in Aggne Global Inc. for $28.5 million on June 1, 2026. Wipro Limited is Currently acquiring additional 20% which takes Wipro IT Services, LLC’s overall shareholding in Aggne Global Inc., to 80%. \r\n\r\nFor the period ending March 31, 2026, Aggne Global Inc. reported total revenue of $27.5 million.\r\n\r\nThe expected completion of the transaction is June 5, 2026.",
+      "keyDevTypeId": "80",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
     {
       "id": "9b013344-4494-4e0e-85ee-fcb763179030",
       "type": "brief",

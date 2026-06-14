@@ -3,7 +3,7 @@
   "name": "Voltas Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-voltas/voltas-shares",
-  "parsed_at": "2026-05-31T23:12:08.732Z",
+  "parsed_at": "2026-06-11T02:19:21.271Z",
   "company_id": "1CBD3365-29B0-4B88-AA38-0B1BFC3B34B3",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 3
     },
     "snowflake_total": 13,
-    "current_price_inr": 1245.7,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_EARNS_NET_INTEREST"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 1290,
     "market_cap_inr": 417427600000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midlarge6",
     "shares_outstanding": 330884740,
     "fifty_two_week": {
       "low": 1186.8,
       "high": 1582.5
     },
-    "fair_value_inr": 1550,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 436.02904,
-      "max": 1432.88571,
+      "min": 441.769161,
+      "max": 1337.14286,
       "count": 21
     },
-    "upside_pct": 24.428032431564578,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystHighTarget",
+      "owner_classification": null,
+      "narrative_id": "01e19e1d-e5a6-40bb-8937-80b497296bd2",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 112.84,
       "ps": 2.96,
@@ -60,11 +346,11 @@
       "pe_source_url": "https://groww.in/stocks/voltas-ltd"
     },
     "rewards": [
-      "Earnings are forecast to grow 30.69% per year"
+      "Earnings are forecast to grow 30.73% per year"
     ],
     "risks": [
       "Profit margins (2.6%) are lower than last year (5.5%)",
-      "Dividend of 0.32% is not well covered by free cash flows"
+      "Dividend of 0.31% is not well covered by free cash flows"
     ],
     "dividend": {
       "yield_pct": 0.32,
@@ -208,8 +494,8 @@
     "dividend_yield_pct": 0.32,
     "industry_benchmarks": {
       "pe": 50.30824795612129,
-      "net_income_margin_1y": 0.0775877089,
-      "future_revenue_growth_3y": 0.6569887,
+      "net_income_margin_1y": 0.07792327667,
+      "future_revenue_growth_3y": 0.6221294666,
       "sector_pe": 50.30824795612129
     },
     "industry_benchmarks_meta": {
@@ -244,18 +530,18 @@
         "url": "https://groww.in/stocks/voltas-ltd"
       },
       "sws_statement": {
-        "company_pe": 109.7,
-        "industry_pe": 15.1,
+        "company_pe": 113.6,
+        "industry_pe": 14.5,
         "industry_name": "Indian Construction",
-        "description": "VOLTAS is expensive based on its Price-To-Earnings Ratio (109.7x) compared to the Indian Construction industry average (15.1x).",
+        "description": "VOLTAS is expensive based on its Price-To-Earnings Ratio (113.6x) compared to the Indian Construction industry average (14.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 15.073268522,
+        "industry_pe": 14.393596444,
         "industry_code": "3040000",
         "type": "median_profitable",
-        "count": 188,
+        "count": 189,
         "source": {
           "type": "country",
           "country": "IN",
@@ -264,25 +550,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.1,
-        "sample_count": 184,
+        "industry_pe": 13.8,
+        "sample_count": 187,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
       "sws_primary_industry": {
-        "industry_pe": 21.475319439,
+        "industry_pe": 21.150765987,
         "industry_name": "Capital Goods",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 109.65816766468022
+        "company_pe": 113.5578680962009
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1245.7,
-        "fetched_at": "2026-05-31T23:12:08.732Z",
+        "value": 1290,
+        "fetched_at": "2026-06-11T02:19:21.271Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-voltas/voltas-shares"
       },
       "market_cap_inr": {
@@ -329,14 +615,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.0775877089,
-        "fetched_at": "2026-05-31T23:12:08.732Z",
+        "value": 0.07792327667,
+        "fetched_at": "2026-06-11T02:19:21.271Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-voltas/voltas-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.6569887,
-        "fetched_at": "2026-05-31T23:12:08.732Z",
+        "value": 0.6221294666,
+        "fetched_at": "2026-06-11T02:19:21.271Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-voltas/voltas-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -468,16 +754,16 @@
     "quick_ratio": 0.9129352147132062,
     "cash_ratio": 0.10337925584092199,
     "returns_pct": {
-      "1D": -1.275954984942139,
-      "7D": -1.7664222064505848,
-      "1M": -15.534309736913473,
-      "3M": -20.213924293857676,
-      "6M": -9.489210201264253,
-      "1Y": -0.024077046548953013,
+      "1D": -1.1039558417663362,
+      "7D": 4.4534412955465585,
+      "1M": -1.2629161882893225,
+      "3M": -10.997654201738657,
+      "6M": -6.33168748184723,
+      "1Y": -1.699306560999768,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 9,
+    "recent_news_count": 7,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -504,8 +790,8 @@
         "is_insider": null
       },
       {
-        "pct": 3.12415,
-        "shares": 10337338,
+        "pct": 3.23898,
+        "shares": 10717292,
         "is_insider": null
       },
       {
@@ -1003,6 +1289,16 @@
   ],
   "news": [
     {
+      "id": "f560bfb0-7aaf-4e78-9650-c3b926331415",
+      "type": "narrative-update",
+      "date": "2026-06-06T17:08:51.000Z",
+      "title": "VOLTAS: Upcoming Dividend Cut And Results Will Shape Future Earnings Multiple",
+      "body": "Analysts have trimmed their price target on Voltas to about ₹1,337 from roughly ₹1,433. This reflects updated views on higher assumed discount rates and P/E multiples, along with adjustments to revenue growth and profit margin forecasts.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-voltas/voltas-shares/w9z4pfiq-indian-urbanization-and-green-cooling-trends-will-drive-market-expansion-cn1i/updates/14-analysts-have-trimmed-their-price-target-on-voltas-to-about",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "fabc620d-0710-45a0-a3c6-42d8fbac60ea",
       "type": "brief",
       "date": "2026-05-27T17:00:24.000Z",
@@ -1221,26 +1517,6 @@
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-voltas/voltas-shares/a0a83zci-rising-compliance-costs-and-lagging-tech-will-hinder-performance-rs40/updates/3-analysts-have-reiterated-their-price-target-on-voltas-at-indian-rupee1",
       "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "d2b278bf-4a9f-4688-a617-7ea6999b827e",
-      "type": "narrative-update",
-      "date": "2025-12-15T02:07:51.000Z",
-      "title": "VOLTAS: Higher Discount Rate Will Limit Upside Despite Earnings Outlook",
-      "body": "Analysts have raised their price target for Voltas from ₹1,035 to ₹1,100, citing expectations of slightly faster revenue growth, modestly improved profit margins, and a marginally higher future valuation multiple, despite a small uptick in the assumed discount rate. What's in the News Board meeting scheduled for November 13, 2025, to review and approve unaudited standalone and consolidated financial results for the quarter and half year ended September 30, 2025, and to consider other business matters (company filing) Valuation Changes The consensus analyst price target and fair value estimate has risen slightly from ₹1,035 to ₹1,100 per share.",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-voltas/voltas-shares/a0a83zci-rising-compliance-costs-and-lagging-tech-will-hinder-performance-rs40/updates/2-analysts-have-raised-their-price-target-for-voltas-from-indian-rupee10",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "eb2481aa-1e0c-4ee3-9ba7-0523301a6847",
-      "type": "article",
-      "date": "2025-12-09T01:51:25.000Z",
-      "title": "Is Voltas (NSE:VOLTAS) Using Too Much Debt?",
-      "body": "Legendary fund manager Li Lu (who Charlie Munger backed) once said, 'The biggest investment risk is not the volatility...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/capital-goods/nse-voltas/voltas-shares/news/is-voltas-nsevoltas-using-too-much-debt-2",
-      "raw_subtype": "article"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/VOLTAS.json"

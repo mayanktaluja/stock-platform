@@ -3,7 +3,7 @@
   "name": "ABB India Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-abb/abb-india-shares",
-  "parsed_at": "2026-05-31T20:54:01.441Z",
+  "parsed_at": "2026-06-10T23:52:07.516Z",
   "company_id": "B1AC9440-0212-4ACF-AD3A-D36C0AADACD4",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 5
     },
     "snowflake_total": 18,
-    "current_price_inr": 7253,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_EARNS_NET_INTEREST"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_STABLE_IN_PAST_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 6801,
     "market_cap_inr": 1529406300000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 4637.5,
       "high": 7822.5
     },
-    "fair_value_inr": 6354.752026,
+    "fair_value_inr": 6391.966934,
     "fair_value_range_inr": {
-      "min": 1126.345097,
-      "max": 6354.752026,
+      "min": 1197.290035,
+      "max": 6391.966934,
       "count": 11
     },
-    "upside_pct": -12.38450260581828,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "4aa7c4b5-6da7-42b4-bfae-89cba226c387",
+      "narrative_type": null,
+      "published_at": "2024-07-25T13:11:42.936Z"
+    },
+    "upside_pct": -6.014307690045581,
     "multiples": {
       "pe": 51.37,
       "ps": 11.81,
@@ -61,8 +347,8 @@
     },
     "rewards": [
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Pays a reliable dividend of 0.54%",
-      "Earnings are forecast to grow 17.24% per year"
+      "Pays a reliable dividend of 0.58%",
+      "Earnings are forecast to grow 17.25% per year"
     ],
     "risks": [],
     "dividend": {
@@ -234,7 +520,7 @@
     "industry_benchmarks": {
       "pe": 50.60717150952937,
       "net_income_margin_1y": 0.1057680891,
-      "future_revenue_growth_3y": 0.8153234448,
+      "future_revenue_growth_3y": 0.8376847628,
       "sector_pe": 50.60717150952937
     },
     "industry_benchmarks_meta": {
@@ -269,18 +555,18 @@
         "url": "https://groww.in/stocks/abb-india-ltd"
       },
       "sws_statement": {
-        "company_pe": 98.6,
-        "industry_pe": 28.2,
+        "company_pe": 92.7,
+        "industry_pe": 28.7,
         "industry_name": "Indian Electrical",
-        "description": "ABB is expensive based on its Price-To-Earnings Ratio (98.6x) compared to the Indian Electrical industry average (28.2x).",
+        "description": "ABB is expensive based on its Price-To-Earnings Ratio (92.7x) compared to the Indian Electrical industry average (28.7x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 29.47654624,
+        "industry_pe": 28.698415755,
         "industry_code": "3050000",
         "type": "median_profitable",
-        "count": 123,
+        "count": 124,
         "source": {
           "type": "country",
           "country": "IN",
@@ -289,8 +575,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 28.2,
-        "sample_count": 127,
+        "industry_pe": 29.3,
+        "sample_count": 129,
         "industry_code": "3050000",
         "industry_name": "Capital Goods"
       },
@@ -302,8 +588,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 7253,
-        "fetched_at": "2026-05-31T20:54:01.441Z",
+        "value": 6801,
+        "fetched_at": "2026-06-10T23:52:07.516Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-abb/abb-india-shares"
       },
       "market_cap_inr": {
@@ -311,6 +597,24 @@
         "value": 1529406300000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/abb-india-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 6391.966934,
+        "fetched_at": "2026-06-10T23:52:07.516Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-abb/abb-india-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "4aa7c4b5-6da7-42b4-bfae-89cba226c387",
+        "narrative_type": null,
+        "published_at": "2024-07-25T13:11:42.936Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": -6.014307690045581,
+        "fetched_at": "2026-06-10T23:52:07.516Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-abb/abb-india-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -351,13 +655,13 @@
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.1057680891,
-        "fetched_at": "2026-05-31T20:54:01.441Z",
+        "fetched_at": "2026-06-10T23:52:07.516Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-abb/abb-india-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.8153234448,
-        "fetched_at": "2026-05-31T20:54:01.441Z",
+        "value": 0.8376847628,
+        "fetched_at": "2026-06-10T23:52:07.516Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-abb/abb-india-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -489,12 +793,12 @@
     "quick_ratio": 1.691255701192127,
     "cash_ratio": 1.01768917492958,
     "returns_pct": {
-      "1D": 0.47097936002216373,
-      "7D": 8.423649002167576,
-      "1M": -0.15830408149218803,
-      "3M": 19.43026510785444,
-      "6M": 40.15458937198068,
-      "1Y": 21.399280274499958,
+      "1D": -1.8756312220458808,
+      "7D": -5.489160644802668,
+      "1M": 6.473581213307241,
+      "3M": 6.116398814167577,
+      "6M": 28.855627131489204,
+      "1Y": 10.262645914396886,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -515,13 +819,13 @@
         "is_insider": null
       },
       {
-        "pct": 1.07936,
-        "shares": 2287249,
+        "pct": 1.0548,
+        "shares": 2235209,
         "is_insider": null
       },
       {
-        "pct": 1.0548,
-        "shares": 2235209,
+        "pct": 1.05159,
+        "shares": 2228413,
         "is_insider": null
       },
       {
@@ -555,8 +859,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.43787,
-        "shares": 927891,
+        "pct": 0.43785,
+        "shares": 927836,
         "is_insider": null
       },
       {
@@ -585,8 +889,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.21041,
-        "shares": 445866,
+        "pct": 0.21135,
+        "shares": 447878,
         "is_insider": null
       },
       {
@@ -595,13 +899,13 @@
         "is_insider": null
       },
       {
-        "pct": 0.18857,
-        "shares": 399606,
+        "pct": 0.20173,
+        "shares": 427492,
         "is_insider": null
       },
       {
-        "pct": 0.18026,
-        "shares": 381981,
+        "pct": 0.18838,
+        "shares": 399201,
         "is_insider": null
       }
     ],
@@ -1123,16 +1427,6 @@
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/stocks/in/capital-goods/nse-abb/abb-india-shares/news/does-abb-india-nseabb-deserve-a-spot-on-your-watchlist",
       "raw_subtype": "article"
-    },
-    {
-      "id": "7b1557d9-0347-4c1e-9fa4-2ea502300407",
-      "type": "event",
-      "date": "2025-12-12T06:32:00.000Z",
-      "title": "ABB India Limited to Report Q4, 2025 Results on Feb 19, 2026",
-      "body": "ABB India Limited announced that they will report Q4, 2025 results on Feb 19, 2026",
-      "keyDevTypeId": "55",
-      "source_url": null,
-      "raw_subtype": "EventActivity"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/ABB.json"

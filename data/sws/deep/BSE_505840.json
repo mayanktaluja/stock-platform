@@ -3,27 +3,27 @@
   "name": "Jaipan Industries Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/bse-505840/jaipan-industries-shares",
-  "parsed_at": "2026-05-31T21:45:41.441Z",
+  "parsed_at": "2026-06-11T00:36:06.465Z",
   "company_id": "C41BD4EE-E810-4E11-A76E-04FBC5D9C9B2",
   "classification_status": "Active",
   "groww_source": null,
   "overview": {
     "snowflake": {
-      "valuation": 0,
+      "valuation": 4,
       "future": 0,
-      "past": 3,
+      "past": 5,
       "financial_health": 3,
       "dividends": 0,
       "future_growth": 0,
-      "past_performance": 3,
-      "value": 0,
+      "past_performance": 5,
+      "value": 4,
       "health": 3,
       "dividend": 0
     },
-    "snowflake_total": 6,
+    "snowflake_total": 12,
     "snowflake_data_quality": {
       "insufficient": true,
-      "insufficient_count": 12,
+      "insufficient_count": 10,
       "checked_count": 30,
       "affected_pillars": [
         "Value",
@@ -33,7 +33,7 @@
       "by_pillar": {
         "Value": {
           "checked": 6,
-          "insufficient": 3
+          "insufficient": 1
         },
         "Future": {
           "checked": 6,
@@ -59,32 +59,321 @@
           "reason_code": "OUTCOME_NULL"
         },
         {
-          "pillar": "Value",
-          "title": "Below Future Cash Flow Value",
+          "pillar": "Future",
+          "title": "Future ROE",
           "reason_code": "OUTCOME_NULL"
         },
         {
-          "pillar": "Value",
-          "title": "Significantly Below Future Cash Flow Value",
+          "pillar": "Future",
+          "title": "High Growth Earnings",
           "reason_code": "OUTCOME_NULL"
         }
       ]
     },
-    "current_price_inr": 24.75,
-    "market_cap_inr": 150971022.07230744,
-    "market_cap_usd": 120714180851.549,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ONE_TIME"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_OUTSTANDING"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 25.5,
+    "market_cap_inr": 155545901.529044,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
-    "fifty_two_week": null,
+    "fifty_two_week": {
+      "low": 23.36,
+      "high": 41.53
+    },
     "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "38afc828-eef0-4ac4-a5cf-7fc8b1fe4a2f",
+      "narrative_type": null,
+      "published_at": null
+    },
     "upside_pct": null,
     "multiples": {
-      "pe": 44.8,
+      "pe": 4.8,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -93,17 +382,22 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": "2026-05-31T21:45:41.441Z",
+      "pe_as_of": "2026-06-11T00:36:06.465Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://simplywall.st/stocks/in/consumer-durables/bse-505840/jaipan-industries-shares"
     },
     "rewards": [
-      "Became profitable this year"
+      "Earnings grew by 1311.5% over the past year",
+      "Trading at good value vs. industry average Price-To-Earnings ratio",
+      "Trading at good value vs. peer average Price-To-Earnings ratio",
+      "Trading at 95% below our estimate of its fair value"
     ],
     "risks": [
+      "Does not have a meaningful market cap (₹159M)",
+      "Interest payments are not well covered by earnings",
+      "Large [[one-off items]] impacting financial results",
       "Highly volatile share price over past 3 months",
-      "Does not have meaningful revenue (₹294M)",
-      "Does not have a meaningful market cap (₹151M)"
+      "Does not have meaningful revenue (₹273M)"
     ],
     "dividend": {
       "yield_pct": null,
@@ -115,9 +409,9 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 35.346003615,
+      "pe": 35.118092824,
       "net_income_margin_1y": 0.05669030368,
-      "future_revenue_growth_3y": 0.617664237
+      "future_revenue_growth_3y": 0.6143696893
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -131,10 +425,10 @@
     "pe_benchmark_source": {
       "provider": "sws_industry_api",
       "label": "SWS industry API",
-      "company_pe": 44.8,
+      "company_pe": 4.8,
       "company_pe_source": "sws_statement",
       "company_pe_source_label": "SWS visible statement",
-      "industry_pe": 35.346003615,
+      "industry_pe": 35.118092824,
       "industry_name": "Consumer Durables",
       "industry_code": "4110000",
       "sample_count": 55,
@@ -143,15 +437,15 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 44.8,
-        "industry_pe": 35.3,
+        "company_pe": 4.8,
+        "industry_pe": 35.1,
         "industry_name": "Indian Consumer Durables",
-        "description": "505840 is expensive based on its Price-To-Earnings Ratio (44.8x) compared to the Indian Consumer Durables industry average (35.3x).",
+        "description": "505840 is good value based on its Price-To-Earnings Ratio (4.8x) compared to the Indian Consumer Durables industry average (35.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 35.346003615,
+        "industry_pe": 35.118092824,
         "industry_code": "4110000",
         "type": "median_profitable",
         "count": 55,
@@ -163,8 +457,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 35.2,
-        "sample_count": 56,
+        "industry_pe": 34.6,
+        "sample_count": 54,
         "industry_code": "4110000",
         "industry_name": "Consumer Durables"
       },
@@ -176,32 +470,41 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 24.75,
-        "fetched_at": "2026-05-31T21:45:41.441Z",
+        "value": 25.5,
+        "fetched_at": "2026-06-11T00:36:06.465Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-505840/jaipan-industries-shares"
       },
       "multiples.pe": {
         "provider": "sws_statement",
-        "value": 44.8,
-        "fetched_at": "2026-05-31T21:45:41.441Z",
+        "value": 4.8,
+        "fetched_at": "2026-06-11T00:36:06.465Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-505840/jaipan-industries-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 35.346003615,
+        "value": 35.118092824,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.05669030368,
-        "fetched_at": "2026-05-31T21:45:41.441Z",
+        "fetched_at": "2026-06-11T00:36:06.465Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-505840/jaipan-industries-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.617664237,
-        "fetched_at": "2026-05-31T21:45:41.441Z",
+        "value": 0.6143696893,
+        "fetched_at": "2026-06-11T00:36:06.465Z",
+        "url": "https://simplywall.st/stocks/in/consumer-durables/bse-505840/jaipan-industries-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 23.36,
+          "high": 41.53
+        },
+        "fetched_at": "2026-06-11T00:36:06.465Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-505840/jaipan-industries-shares"
       }
     },
@@ -228,16 +531,16 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 0.2024291497975737,
-      "7D": 3.643216080402014,
-      "1M": 0.24301336573511026,
-      "3M": -10.971223021582736,
-      "6M": -10.195936139332362,
-      "1Y": -27.22728609232578,
+      "1D": -2.1113243761996188,
+      "7D": -2.1488871834228656,
+      "1M": 1.5936254980079625,
+      "3M": -14.228052472250251,
+      "6M": -13.412563667232597,
+      "1Y": -27.659574468085108,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 1,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -333,6 +636,16 @@
   ],
   "news": [
     {
+      "id": "36a30f81-2e27-45f5-906d-f7369ae085e1",
+      "type": "brief",
+      "date": "2026-05-31T23:03:54.000Z",
+      "title": "New major risk - Financial position",
+      "body": "The company's interest payments are not well covered by earnings. Net interest cover: 1.9x This is considered a major risk. If the company is unable to fund interest repayments on its debt through profits, it may be forced into reducing its debt burden through selling assets, undertaking a potentially costly capital raising or even into bankruptcy in the worst case scenario. Currently, the following risks have been identified for the company: Major Risks Interest payments are not well covered by earnings (1.9x net interest cover). Share price has been highly volatile over the past 3 months (13% average weekly change). Market cap is less than US$10m (₹151.0m market cap, or US$1.59m). Minor Risks Large one-off items impacting financial results. Revenue is less than US$5m (₹274m revenue, or U",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
       "id": "b23e41ed-2e02-4e7b-948e-fc9f60de360d",
       "type": "event",
       "date": "2026-05-22T11:00:00.000Z",
@@ -381,16 +694,6 @@
       "keyDevTypeId": "55",
       "source_url": null,
       "raw_subtype": "EventActivity"
-    },
-    {
-      "id": "f40c87a5-bb0c-415a-a973-2e6a48d05c96",
-      "type": "brief",
-      "date": "2025-12-12T11:35:19.000Z",
-      "title": "New minor risk - Share price stability",
-      "body": "The company's share price has been volatile over the past 3 months. It is more volatile than 75% of Indian stocks, typically moving 6.9% a week. This is considered a minor risk. Share price volatility indicates the stock is highly sensitive to market conditions or economic conditions rather than being sensitive to its own business performance, which may also be inconsistent. It also increases the risk of potential losses in the short term as the stock tends to have larger drops in price more frequently than other stocks. Currently, the following risks have been identified for the company: Major Risks Interest payments are not well covered by earnings (1.4x net interest cover). Market cap is less than US$10m (₹171.0m market cap, or US$1.89m). Minor Risks Share price has been volatile over t",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/BSE_505840.json"

@@ -3,7 +3,7 @@
   "name": "ICICI Prudential Life Insurance Company Limited",
   "sector": "Insurance",
   "sws_url": "https://simplywall.st/stocks/in/insurance/nse-icicipruli/icici-prudential-life-insurance-shares",
-  "parsed_at": "2026-05-31T20:02:01.461Z",
+  "parsed_at": "2026-06-10T23:05:13.317Z",
   "company_id": "3747F005-D719-4EF8-AF62-34FA524D2E9E",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 2
     },
     "snowflake_total": 12,
-    "current_price_inr": 503.95,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SAME_PB"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DIVIDENDS_FALLEN"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 465.8,
     "market_cap_inr": 751733700000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "large7",
-    "shares_outstanding": 1450176809,
+    "shares_outstanding": 1450524744,
     "fifty_two_week": {
       "low": 488.6,
       "high": 706.8
     },
-    "fair_value_inr": 689.90909,
+    "fair_value_inr": 688.39394,
     "fair_value_range_inr": {
       "min": 103.883765,
-      "max": 689.90909,
+      "max": 688.39394,
       "count": 10
     },
-    "upside_pct": 36.90030558587162,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "f1b554e0-9182-46e7-b14e-4eaf8eab67bc",
+      "narrative_type": null,
+      "published_at": "2026-06-06T11:06:28.650Z"
+    },
+    "upside_pct": 47.78744954916274,
     "multiples": {
       "pe": 46.77,
       "ps": 1.44,
@@ -61,18 +347,18 @@
     },
     "rewards": [
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (45.5x) is below the Insurance industry average (51.8x)",
+      "Price-To-Earnings ratio (42.8x) is below the Insurance industry average (51.6x)",
       "Earnings grew by 35.6% over the past year",
       "Earnings are forecast to grow 8.55% per year",
-      "Analysts in good agreement that stock price will rise by 36.6%"
+      "Analysts in good agreement that stock price will rise by 45%"
     ],
     "risks": [
-      "Dividend of 0.33% is not well covered by free cash flows",
+      "Dividend of 0.35% is not well covered by free cash flows",
       "High level of [[non-cash earnings]]"
     ],
     "dividend": {
       "yield_pct": 0.32,
-      "payout_pct": 7.666260052926506,
+      "payout_pct": 7.668099387395904,
       "annualized_dividend": 0.85,
       "listing_currency": "INR",
       "recent_payments": [
@@ -184,19 +470,6 @@
           "exDate": "2018-06-18T00:00:00.000Z",
           "payDate": "2018-07-25T00:00:00.000Z",
           "recordDate": "2018-06-19T00:00:00.000Z",
-          "divAmount": 1.1,
-          "divAmountListingCurrency": 1.1,
-          "currencyIsoCode": "INR",
-          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-          "divFreqTypeName": "Bonus Payment",
-          "annualizedDividend": 6.7,
-          "annualizedDividendListingCurrency": 6.7,
-          "annualizedYield": 1.8004418853
-        },
-        {
-          "exDate": "2018-06-18T00:00:00.000Z",
-          "payDate": "2018-07-25T00:00:00.000Z",
-          "recordDate": "2018-06-19T00:00:00.000Z",
           "divAmount": 2.2,
           "divAmountListingCurrency": 2.2,
           "currencyIsoCode": "INR",
@@ -207,17 +480,17 @@
           "annualizedYield": 1.8004418853
         },
         {
-          "exDate": "2017-11-02T00:00:00.000Z",
-          "payDate": "2017-11-23T00:00:00.000Z",
-          "recordDate": "2017-11-03T00:00:00.000Z",
+          "exDate": "2018-06-18T00:00:00.000Z",
+          "payDate": "2018-07-25T00:00:00.000Z",
+          "recordDate": "2018-06-19T00:00:00.000Z",
           "divAmount": 1.1,
           "divAmountListingCurrency": 1.1,
           "currencyIsoCode": "INR",
           "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
           "divFreqTypeName": "Bonus Payment",
-          "annualizedDividend": 5.7,
-          "annualizedDividendListingCurrency": 5.7,
-          "annualizedYield": 1.4479368966
+          "annualizedDividend": 6.7,
+          "annualizedDividendListingCurrency": 6.7,
+          "annualizedYield": 1.8004418853
         },
         {
           "exDate": "2017-11-02T00:00:00.000Z",
@@ -231,6 +504,19 @@
           "annualizedDividend": 5.7,
           "annualizedDividendListingCurrency": 5.7,
           "annualizedYield": 1.4479368966
+        },
+        {
+          "exDate": "2017-11-02T00:00:00.000Z",
+          "payDate": "2017-11-23T00:00:00.000Z",
+          "recordDate": "2017-11-03T00:00:00.000Z",
+          "divAmount": 1.1,
+          "divAmountListingCurrency": 1.1,
+          "currencyIsoCode": "INR",
+          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+          "divFreqTypeName": "Bonus Payment",
+          "annualizedDividend": 5.7,
+          "annualizedDividendListingCurrency": 5.7,
+          "annualizedYield": 1.4479368966
         }
       ],
       "payment_count": 16
@@ -238,8 +524,8 @@
     "dividend_yield_pct": 0.32,
     "industry_benchmarks": {
       "pe": 11.475532211238647,
-      "net_income_margin_1y": 0.1053584011,
-      "future_revenue_growth_3y": 0.2421742058,
+      "net_income_margin_1y": 0.1055126138,
+      "future_revenue_growth_3y": 0.2573088629,
       "sector_pe": 11.475532211238647
     },
     "industry_benchmarks_meta": {
@@ -274,15 +560,15 @@
         "url": "https://groww.in/stocks/icici-prudential-life-insurance-company-ltd"
       },
       "sws_statement": {
-        "company_pe": 45.5,
-        "industry_pe": 11.4,
+        "company_pe": 42.8,
+        "industry_pe": 11.2,
         "industry_name": "Asian Insurance",
-        "description": "ICICIPRULI is expensive based on its Price-To-Earnings Ratio (45.5x) compared to the Asian Insurance industry average (11.4x).",
+        "description": "ICICIPRULI is expensive based on its Price-To-Earnings Ratio (42.8x) compared to the Asian Insurance industry average (11.2x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 51.832121788,
+        "industry_pe": 51.552177431,
         "industry_code": "7210000",
         "type": "median_profitable",
         "count": 15,
@@ -294,25 +580,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 51.8,
-        "sample_count": 15,
+        "industry_pe": 46.95,
+        "sample_count": 14,
         "industry_code": "7210000",
         "industry_name": "Insurance"
       },
       "sws_primary_industry": {
-        "industry_pe": 11.645006567,
+        "industry_pe": 11.682206384,
         "industry_name": "Insurance",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 45.45190298438015
+        "company_pe": 42.021184642929555
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 503.95,
-        "fetched_at": "2026-05-31T20:02:01.461Z",
+        "value": 465.8,
+        "fetched_at": "2026-06-10T23:05:13.317Z",
         "url": "https://simplywall.st/stocks/in/insurance/nse-icicipruli/icici-prudential-life-insurance-shares"
       },
       "market_cap_inr": {
@@ -320,6 +606,24 @@
         "value": 751733700000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/icici-prudential-life-insurance-company-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 688.39394,
+        "fetched_at": "2026-06-10T23:05:13.317Z",
+        "url": "https://simplywall.st/stocks/in/insurance/nse-icicipruli/icici-prudential-life-insurance-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "f1b554e0-9182-46e7-b14e-4eaf8eab67bc",
+        "narrative_type": null,
+        "published_at": "2026-06-06T11:06:28.650Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 47.78744954916274,
+        "fetched_at": "2026-06-10T23:05:13.317Z",
+        "url": "https://simplywall.st/stocks/in/insurance/nse-icicipruli/icici-prudential-life-insurance-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -359,14 +663,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.1053584011,
-        "fetched_at": "2026-05-31T20:02:01.461Z",
+        "value": 0.1055126138,
+        "fetched_at": "2026-06-10T23:05:13.317Z",
         "url": "https://simplywall.st/stocks/in/insurance/nse-icicipruli/icici-prudential-life-insurance-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.2421742058,
-        "fetched_at": "2026-05-31T20:02:01.461Z",
+        "value": 0.2573088629,
+        "fetched_at": "2026-06-10T23:05:13.317Z",
         "url": "https://simplywall.st/stocks/in/insurance/nse-icicipruli/icici-prudential-life-insurance-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -475,13 +779,13 @@
         "url": "https://groww.in/stocks/icici-prudential-life-insurance-company-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 35.627404008367634,
+    "earnings_growth_yoy_pct": 27.390921983567985,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": -10.356812573811034,
+    "revenue_growth_pct": -10.35774630916997,
     "latest_revenue": 636851200000,
     "latest_net_income": 16078900000,
     "latest_eps": 11.08,
-    "most_recent_reported_date": "2026-04-29",
+    "most_recent_reported_date": "2026-06-05",
     "pb": 5.53,
     "ps": 1.44,
     "book_value": 93.704829,
@@ -498,12 +802,12 @@
     "quick_ratio": 1.1324591174242586,
     "cash_ratio": 0.16230343338026823,
     "returns_pct": {
-      "1D": -3.6240198890801283,
-      "7D": -3.0958561676761787,
-      "1M": -3.8905311337846924,
-      "3M": -23.00229182582124,
-      "6M": -18.684953610326748,
-      "1Y": -24.121056990137767,
+      "1D": -1.8852027382833048,
+      "7D": -2.3275319773537357,
+      "1M": -17.644978783592645,
+      "3M": -21.443629311071764,
+      "6M": -28.067330708053422,
+      "1Y": -26.939063602854674,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -514,103 +818,103 @@
   "ownership": {
     "top_holders": [
       {
-        "pct": 50.86314,
+        "pct": 50.85094,
         "shares": 737605504,
         "is_insider": null
       },
       {
-        "pct": 21.89507,
+        "pct": 21.88982,
         "shares": 317517279,
         "is_insider": null
       },
       {
-        "pct": 3.74102,
+        "pct": 3.74012,
         "shares": 54251365,
         "is_insider": null
       },
       {
-        "pct": 3.42622,
+        "pct": 3.4254,
         "shares": 49686205,
         "is_insider": null
       },
       {
-        "pct": 2.65904,
+        "pct": 2.6584,
         "shares": 38560723,
         "is_insider": null
       },
       {
-        "pct": 1.93305,
+        "pct": 1.93259,
         "shares": 28032650,
         "is_insider": null
       },
       {
-        "pct": 1.77006,
+        "pct": 1.76964,
         "shares": 25669005,
         "is_insider": null
       },
       {
-        "pct": 1.07942,
-        "shares": 15653486,
+        "pct": 1.19185,
+        "shares": 17288033,
         "is_insider": null
       },
       {
-        "pct": 0.8483,
+        "pct": 0.8481,
         "shares": 12301887,
         "is_insider": null
       },
       {
-        "pct": 0.57426,
-        "shares": 8327833,
+        "pct": 0.5425,
+        "shares": 7869095,
         "is_insider": null
       },
       {
-        "pct": 0.48138,
+        "pct": 0.48126,
         "shares": 6980841,
         "is_insider": null
       },
       {
-        "pct": 0.24151,
+        "pct": 0.24145,
         "shares": 3502351,
         "is_insider": null
       },
       {
-        "pct": 0.23119,
+        "pct": 0.23113,
         "shares": 3352640,
         "is_insider": null
       },
       {
-        "pct": 0.21871,
+        "pct": 0.21866,
         "shares": 3171669,
         "is_insider": null
       },
       {
-        "pct": 0.21614,
+        "pct": 0.21609,
         "shares": 3134436,
         "is_insider": null
       },
       {
-        "pct": 0.20432,
+        "pct": 0.20427,
         "shares": 2962968,
         "is_insider": null
       },
       {
-        "pct": 0.20201,
+        "pct": 0.20196,
         "shares": 2929512,
         "is_insider": null
       },
       {
-        "pct": 0.16376,
-        "shares": 2374772,
+        "pct": 0.16378,
+        "shares": 2375738,
         "is_insider": null
       },
       {
-        "pct": 0.12378,
+        "pct": 0.12375,
         "shares": 1795003,
         "is_insider": null
       },
       {
-        "pct": 0.11194,
-        "shares": 1623375,
+        "pct": 0.11304,
+        "shares": 1639673,
         "is_insider": null
       }
     ],
@@ -626,7 +930,7 @@
   },
   "dividend": {
     "yield_pct": 0.32,
-    "payout_pct": 7.666260052926506,
+    "payout_pct": 7.668099387395904,
     "annualized_dividend": 0.85,
     "listing_currency": "INR",
     "recent_payments": [
@@ -738,19 +1042,6 @@
         "exDate": "2018-06-18T00:00:00.000Z",
         "payDate": "2018-07-25T00:00:00.000Z",
         "recordDate": "2018-06-19T00:00:00.000Z",
-        "divAmount": 1.1,
-        "divAmountListingCurrency": 1.1,
-        "currencyIsoCode": "INR",
-        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-        "divFreqTypeName": "Bonus Payment",
-        "annualizedDividend": 6.7,
-        "annualizedDividendListingCurrency": 6.7,
-        "annualizedYield": 1.8004418853
-      },
-      {
-        "exDate": "2018-06-18T00:00:00.000Z",
-        "payDate": "2018-07-25T00:00:00.000Z",
-        "recordDate": "2018-06-19T00:00:00.000Z",
         "divAmount": 2.2,
         "divAmountListingCurrency": 2.2,
         "currencyIsoCode": "INR",
@@ -761,17 +1052,17 @@
         "annualizedYield": 1.8004418853
       },
       {
-        "exDate": "2017-11-02T00:00:00.000Z",
-        "payDate": "2017-11-23T00:00:00.000Z",
-        "recordDate": "2017-11-03T00:00:00.000Z",
+        "exDate": "2018-06-18T00:00:00.000Z",
+        "payDate": "2018-07-25T00:00:00.000Z",
+        "recordDate": "2018-06-19T00:00:00.000Z",
         "divAmount": 1.1,
         "divAmountListingCurrency": 1.1,
         "currencyIsoCode": "INR",
         "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
         "divFreqTypeName": "Bonus Payment",
-        "annualizedDividend": 5.7,
-        "annualizedDividendListingCurrency": 5.7,
-        "annualizedYield": 1.4479368966
+        "annualizedDividend": 6.7,
+        "annualizedDividendListingCurrency": 6.7,
+        "annualizedYield": 1.8004418853
       },
       {
         "exDate": "2017-11-02T00:00:00.000Z",
@@ -785,19 +1076,32 @@
         "annualizedDividend": 5.7,
         "annualizedDividendListingCurrency": 5.7,
         "annualizedYield": 1.4479368966
+      },
+      {
+        "exDate": "2017-11-02T00:00:00.000Z",
+        "payDate": "2017-11-23T00:00:00.000Z",
+        "recordDate": "2017-11-03T00:00:00.000Z",
+        "divAmount": 1.1,
+        "divAmountListingCurrency": 1.1,
+        "currencyIsoCode": "INR",
+        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+        "divFreqTypeName": "Bonus Payment",
+        "annualizedDividend": 5.7,
+        "annualizedDividendListingCurrency": 5.7,
+        "annualizedYield": 1.4479368966
       }
     ],
     "payment_count": 16
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-04-29",
+    "most_recent_reported_date": "2026-06-05",
     "latest_year": 2026,
     "latest_revenue": 636851200000,
     "latest_net_income": 16078900000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": -10.356812573811034,
-    "earnings_growth_pct": 35.627404008367634,
+    "revenue_growth_pct": -10.35774630916997,
+    "earnings_growth_pct": 27.390921983567985,
     "net_margin_pct": 2.5247498944808457,
     "yearly_history": [
       {
@@ -808,26 +1112,26 @@
       },
       {
         "year": 2025,
-        "revenue": 710429000000,
-        "netIncome": 11855200000,
+        "revenue": 710436400000,
+        "netIncome": 12621700000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 903142800000,
-        "netIncome": 8506600000,
+        "revenue": 923730000000,
+        "netIncome": 8688100000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 494230992000,
-        "netIncome": 8134940000,
+        "revenue": 743956792000,
+        "netIncome": 8631240000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 622785176000,
-        "netIncome": 7592020000,
+        "revenue": 444658376000,
+        "netIncome": 11010520000,
         "eps": null
       }
     ]
@@ -1059,6 +1363,26 @@
   ],
   "news": [
     {
+      "id": "cb3e35b5-b5df-4429-9c1d-af69000c4af2",
+      "type": "brief",
+      "date": "2026-06-07T22:35:31.000Z",
+      "title": "Full year 2026 earnings: EPS and revenues exceed analyst expectations",
+      "body": "Full year 2026 results: EPS: ₹11.11 (up from ₹8.21 in FY 2025). Revenue: ₹630.3b (down 11% from FY 2025). Net income: ₹16.1b (up 36% from FY 2025). Profit margin: 2.6% (up from 1.7% in FY 2025). The increase in margin was driven by lower expenses. Revenue exceeded analyst estimates by 1.9%. Earnings per share (EPS) also surpassed analyst estimates by 15%. Revenue is forecast to grow 2.5% p.a. on average during the next 3 years, compared to a 11% growth forecast for the Insurance industry in India. Over the last 3 years on average, earnings per share has increased by 22% per year but the company’s share price has fallen by 1% per year, which means it is significantly lagging earnings.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "8bd7a3cb-385b-4cb2-a5cc-7d623f4109bd",
+      "type": "narrative-update",
+      "date": "2026-06-06T11:06:28.000Z",
+      "title": "ICICIPRULI: Stable Dividend Policy Will Support Bullish View On Undervalued Shares",
+      "body": "Analysts have slightly reduced their fair value estimate for ICICI Prudential Life Insurance, trimming the price target from ₹689.91 to ₹688.39 as they refresh assumptions on discount rate, growth and future P/E levels. What's in the News ICICI Prudential Life Insurance has recommended a final dividend of ₹1.65 per equity share for the fiscal year ended March 31, 2026, subject to shareholder approval at the upcoming Annual General Meeting, source: company board meeting on April 14, 2026.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/insurance/nse-icicipruli/icici-prudential-life-insurance-shares/g5lcxse2-upcoming-board-and-shareholder-meetings-will-drive-positive-developments-this-quarter/updates/24-analysts-have-slightly-reduced-their-fair-value-estimate-for",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "15468c6c-1656-4965-aedd-5cf990fe4962",
       "type": "brief",
       "date": "2026-05-30T19:58:31.000Z",
@@ -1287,16 +1611,6 @@
       "keyDevTypeId": "55",
       "source_url": null,
       "raw_subtype": "EventActivity"
-    },
-    {
-      "id": "17a3b53d-30d6-407e-a021-79f0e6a56d29",
-      "type": "narrative-update",
-      "date": "2025-12-11T09:05:24.000Z",
-      "title": "ICICIPRULI: Upcoming Board Changes And Results Will Support Stable Outlook",
-      "body": "Analysts have modestly adjusted their price target for ICICI Prudential Life Insurance, lifting it to ₹707.0 from ₹707 as they factor in stable revenue growth expectations, resilient profit margins, and an unchanged long term valuation multiple. What's in the News Board meeting scheduled for October 14, 2025, to review and approve unaudited standalone and consolidated financial statements for the quarter and half year ended September 30, 2025 (company filing).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/insurance/nse-icicipruli/icici-prudential-life-insurance-shares/g5lcxse2-upcoming-board-and-shareholder-meetings-will-drive-positive-developments-this-quarter/updates/14-analysts-have-modestly-adjusted-their-price-target-for-icici",
-      "raw_subtype": "narrative-update"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/ICICIPRULI.json"

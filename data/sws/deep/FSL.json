@@ -3,7 +3,7 @@
   "name": "Firstsource Solutions Limited",
   "sector": "Commercial Services",
   "sws_url": "https://simplywall.st/stocks/in/commercial-services/nse-fsl/firstsource-solutions-shares",
-  "parsed_at": "2026-05-31T22:53:40.082Z",
+  "parsed_at": "2026-06-11T01:51:15.991Z",
   "company_id": "9A0EFB4D-6DD7-4BB9-964C-C61612E5E99B",
   "classification_status": "Active",
   "groww_source": {
@@ -18,32 +18,318 @@
     "snowflake": {
       "valuation": 1,
       "future": 5,
-      "past": 4,
+      "past": 3,
       "financial_health": 4,
       "dividends": 4,
       "future_growth": 5,
-      "past_performance": 4,
+      "past_performance": 3,
       "value": 1,
       "health": 4,
       "dividend": 4
     },
-    "snowflake_total": 18,
-    "current_price_inr": 262.73,
+    "snowflake_total": 17,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_STABLE_BUT_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_50_TO_75"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 250.25,
     "market_cap_inr": 187044300000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "medium5",
     "shares_outstanding": 692296760,
     "fifty_two_week": {
       "low": 202,
       "high": 403.8
     },
-    "fair_value_inr": 301.61538,
+    "fair_value_inr": 293.85714,
     "fair_value_range_inr": {
-      "min": 167.750381,
+      "min": 171.185823,
       "max": 420,
-      "count": 36
+      "count": 35
     },
-    "upside_pct": 14.800510029307654,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "739aaa3a-bd12-40d4-bc91-0b9c240b52e6",
+      "narrative_type": null,
+      "published_at": "2026-06-06T21:06:13.040Z"
+    },
+    "upside_pct": 17.425430569430574,
     "multiples": {
       "pe": 27.73,
       "ps": 1.95,
@@ -60,8 +346,8 @@
       "pe_source_url": "https://groww.in/stocks/firstsource-solutions-ltd"
     },
     "rewards": [
-      "Earnings grew by 13.5% over the past year",
       "Earnings are forecast to grow 21.03% per year",
+      "Earnings have grown 9% per year over the past 5 years",
       "Trading below our calculated fair Price-To-Earnings ratio"
     ],
     "risks": [
@@ -69,7 +355,7 @@
     ],
     "dividend": {
       "yield_pct": 0,
-      "payout_pct": 60.45146396217608,
+      "payout_pct": 56.457459020647214,
       "annualized_dividend": 5.5,
       "listing_currency": "INR",
       "recent_payments": [
@@ -84,7 +370,7 @@
           "divFreqTypeName": "Interim Payment",
           "annualizedDividend": 5.5,
           "annualizedDividendListingCurrency": 5.5,
-          "annualizedYield": 2.3401677677
+          "annualizedYield": 2.3180396299
         },
         {
           "exDate": "2025-02-21T00:00:00.000Z",
@@ -196,8 +482,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 18.761595487228476,
-      "net_income_margin_1y": 0.07234671003,
-      "future_revenue_growth_3y": 0.3740225928,
+      "net_income_margin_1y": 0.07149669577,
+      "future_revenue_growth_3y": 0.358570421,
       "sector_pe": 18.761595487228476
     },
     "industry_benchmarks_meta": {
@@ -232,15 +518,15 @@
         "url": "https://groww.in/stocks/firstsource-solutions-ltd"
       },
       "sws_statement": {
-        "company_pe": 27,
-        "industry_pe": 19.7,
+        "company_pe": 25.7,
+        "industry_pe": 20.3,
         "industry_name": "Indian Professional Services",
-        "description": "FSL is expensive based on its Price-To-Earnings Ratio (27x) compared to the Indian Professional Services industry average (19.7x).",
+        "description": "FSL is expensive based on its Price-To-Earnings Ratio (25.7x) compared to the Indian Professional Services industry average (20.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 19.714358381,
+        "industry_pe": 20.253723075,
         "industry_code": "9612010",
         "type": "median_profitable",
         "count": 63,
@@ -252,25 +538,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.1,
-        "sample_count": 59,
+        "industry_pe": 18.6,
+        "sample_count": 57,
         "industry_code": "9612010",
         "industry_name": "Commercial Services"
       },
       "sws_primary_industry": {
-        "industry_pe": 16.094987777,
+        "industry_pe": 16.028068325,
         "industry_name": "Commercial Services",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 28.87711477596822
+        "company_pe": 25.688143854394486
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 262.73,
-        "fetched_at": "2026-05-31T22:53:40.082Z",
+        "value": 250.25,
+        "fetched_at": "2026-06-11T01:51:15.991Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-fsl/firstsource-solutions-shares"
       },
       "market_cap_inr": {
@@ -278,6 +564,24 @@
         "value": 187044300000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/firstsource-solutions-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 293.85714,
+        "fetched_at": "2026-06-11T01:51:15.991Z",
+        "url": "https://simplywall.st/stocks/in/commercial-services/nse-fsl/firstsource-solutions-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "739aaa3a-bd12-40d4-bc91-0b9c240b52e6",
+        "narrative_type": null,
+        "published_at": "2026-06-06T21:06:13.040Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 17.425430569430574,
+        "fetched_at": "2026-06-11T01:51:15.991Z",
+        "url": "https://simplywall.st/stocks/in/commercial-services/nse-fsl/firstsource-solutions-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -317,14 +621,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.07234671003,
-        "fetched_at": "2026-05-31T22:53:40.082Z",
+        "value": 0.07149669577,
+        "fetched_at": "2026-06-11T01:51:15.991Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-fsl/firstsource-solutions-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.3740225928,
-        "fetched_at": "2026-05-31T22:53:40.082Z",
+        "value": 0.358570421,
+        "fetched_at": "2026-06-11T01:51:15.991Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-fsl/firstsource-solutions-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -433,13 +737,13 @@
         "url": "https://groww.in/stocks/firstsource-solutions-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 5.9568848777451615,
+    "earnings_growth_yoy_pct": 7.30076351909275,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 14.461636471948347,
-    "latest_revenue": 91343980000,
-    "latest_net_income": 6298660000,
+    "revenue_growth_pct": 13.67368053683739,
+    "latest_revenue": 95563940000,
+    "latest_net_income": 6744250000,
     "latest_eps": 9.54,
-    "most_recent_reported_date": "2026-04-28",
+    "most_recent_reported_date": "2026-06-06",
     "pb": 4.26,
     "ps": 1.95,
     "book_value": 62.1555021,
@@ -456,16 +760,16 @@
     "quick_ratio": 0.7940992146085116,
     "cash_ratio": 0.07740935800282879,
     "returns_pct": {
-      "1D": -0.8453787221194886,
-      "7D": -2.1854058078927787,
-      "1M": 22.496270048489382,
-      "3M": 23.260614590663856,
-      "6M": -24.02255639097744,
-      "1Y": -30.457914240338802,
+      "1D": -0.29880478087649404,
+      "7D": -6.431108618433348,
+      "1M": -4.104077253218877,
+      "3M": 12.69476718004143,
+      "6M": -26.54828294687408,
+      "1Y": -35.31084399638103,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 4,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -522,8 +826,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.0338,
-        "shares": 7156983,
+        "pct": 1.03618,
+        "shares": 7173407,
         "is_insider": null
       },
       {
@@ -584,7 +888,7 @@
   },
   "dividend": {
     "yield_pct": 0,
-    "payout_pct": 60.45146396217608,
+    "payout_pct": 56.457459020647214,
     "annualized_dividend": 5.5,
     "listing_currency": "INR",
     "recent_payments": [
@@ -599,7 +903,7 @@
         "divFreqTypeName": "Interim Payment",
         "annualizedDividend": 5.5,
         "annualizedDividendListingCurrency": 5.5,
-        "annualizedYield": 2.3401677677
+        "annualizedYield": 2.3180396299
       },
       {
         "exDate": "2025-02-21T00:00:00.000Z",
@@ -709,44 +1013,44 @@
     "payment_count": 9
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-04-28",
+    "most_recent_reported_date": "2026-06-06",
     "latest_year": 2026,
-    "latest_revenue": 91343980000,
-    "latest_net_income": 6298660000,
+    "latest_revenue": 95563940000,
+    "latest_net_income": 6744250000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 14.461636471948347,
-    "earnings_growth_pct": 5.9568848777451615,
-    "net_margin_pct": 6.895539257212134,
+    "revenue_growth_pct": 13.67368053683739,
+    "earnings_growth_pct": 7.30076351909275,
+    "net_margin_pct": 7.057316807992637,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 91343980000,
-        "netIncome": 6298660000,
+        "revenue": 95563940000,
+        "netIncome": 6744250000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 79803140000,
-        "netIncome": 5944550000,
+        "revenue": 84068660000,
+        "netIncome": 6285370000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 63362450000,
-        "netIncome": 5147290000,
+        "revenue": 65981320000.00001,
+        "netIncome": 5239910000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 60223180000,
-        "netIncome": 5137200000,
+        "revenue": 60791720000,
+        "netIncome": 5546180000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 59211530000,
-        "netIncome": 5373740000,
+        "revenue": 59087090000,
+        "netIncome": 4879540000,
         "eps": null
       }
     ]
@@ -977,6 +1281,26 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "e403171f-60f5-4936-8910-1b5039e931b8",
+      "type": "narrative-update",
+      "date": "2026-06-06T21:06:13.000Z",
+      "title": "FSL: AI Workflow Deployment Will Shape Balanced Outlook For Future Returns",
+      "body": "Analysts have reduced their price target on Firstsource Solutions by about ₹7.76, aligning it with updated assumptions that reflect slightly different expectations for discount rate, revenue growth, profit margin and future P/E. What's in the News Announced measurable outcomes from its partnership with AppliedAI, with joint AI workflow solutions moved from pilot to production in healthcare provider data management and education admissions, and live with clients.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/commercial-services/nse-fsl/firstsource-solutions-shares/wy5i9i6p-digital-transformation-and-ai-integration-will-expand-market-reach-fj59/updates/18-analysts-have-reduced-their-price-target-on-firstsource-solu",
+      "raw_subtype": "narrative-update"
+    },
+    {
+      "id": "717aafcd-c2e1-4821-aa3c-f3014a39b0c0",
+      "type": "article",
+      "date": "2026-06-02T00:36:59.000Z",
+      "title": "Here's Why We Think Firstsource Solutions (NSE:FSL) Might Deserve Your Attention Today",
+      "body": "It's common for many investors, especially those who are inexperienced, to buy shares in companies with a good story...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/commercial-services/nse-fsl/firstsource-solutions-shares/news/heres-why-we-think-firstsource-solutions-nsefsl-might-deserv",
+      "raw_subtype": "article"
+    },
     {
       "id": "bab6670c-d3a3-48eb-bbe4-2ec8486ca20a",
       "type": "brief",
@@ -1255,26 +1579,6 @@
       "body": "Howard Marks put it nicely when he said that, rather than worrying about share price volatility, 'The possibility of...",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/stocks/in/commercial-services/nse-fsl/firstsource-solutions-shares/news/firstsource-solutions-nsefsl-seems-to-use-debt-rather-sparin",
-      "raw_subtype": "article"
-    },
-    {
-      "id": "365f638b-385a-4bea-a50c-dfa2d2bf0f2b",
-      "type": "narrative-update",
-      "date": "2026-01-10T16:06:47.000Z",
-      "title": "FSL: AI Partnerships Will Drive Automated Outcomes Across Regulated Workflows",
-      "body": "Analysts have made a small upward adjustment to their price target for Firstsource Solutions, lifting fair value from ₹397.77 to ₹400.08, as they refresh assumptions around revenue growth, profit margins and the future P/E multiple. What's in the News Firstsource Solutions has invested in AppliedAI, an AI workflow automation platform focused on automating complex, regulated enterprise processes end to end, as part of its UnBPO strategy to build technology first, compliant and outcome driven operations (Key Developments).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/commercial-services/nse-fsl/firstsource-solutions-shares/wy5i9i6p-digital-transformation-and-ai-integration-will-expand-market-reach-fj59/updates/11-analysts-have-made-a-small-upward-adjustment-to-their-price",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "8fd8ab45-c266-4696-8131-aa745ffe7ae2",
-      "type": "article",
-      "date": "2026-01-07T00:03:16.000Z",
-      "title": "Investor Optimism Abounds Firstsource Solutions Limited (NSE:FSL) But Growth Is Lacking",
-      "body": "With a price-to-earnings (or \"P/E\") ratio of 34.7x Firstsource Solutions Limited ( NSE:FSL ) may be sending bearish...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/commercial-services/nse-fsl/firstsource-solutions-shares/news/investor-optimism-abounds-firstsource-solutions-limited-nsef",
       "raw_subtype": "article"
     }
   ],

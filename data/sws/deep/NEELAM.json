@@ -3,27 +3,27 @@
   "name": "Neelam Linens and Garments (India) Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/nse-neelam/neelam-linens-and-garments-india-shares",
-  "parsed_at": "2026-05-31T21:09:08.823Z",
+  "parsed_at": "2026-06-11T00:13:08.016Z",
   "company_id": "DAF41580-3F04-4708-AAAF-7658D2746635",
   "classification_status": "Active",
   "groww_source": null,
   "overview": {
     "snowflake": {
-      "valuation": 4,
+      "valuation": 2,
       "future": 0,
       "past": 2,
       "financial_health": 3,
       "dividends": 0,
       "future_growth": 0,
       "past_performance": 2,
-      "value": 4,
+      "value": 2,
       "health": 3,
       "dividend": 0
     },
-    "snowflake_total": 9,
+    "snowflake_total": 7,
     "snowflake_data_quality": {
       "insufficient": true,
-      "insufficient_count": 10,
+      "insufficient_count": 12,
       "checked_count": 30,
       "affected_pillars": [
         "Value",
@@ -33,7 +33,7 @@
       "by_pillar": {
         "Value": {
           "checked": 6,
-          "insufficient": 1
+          "insufficient": 3
         },
         "Future": {
           "checked": 6,
@@ -59,32 +59,321 @@
           "reason_code": "OUTCOME_NULL"
         },
         {
-          "pillar": "Future",
-          "title": "Future ROE",
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
           "reason_code": "OUTCOME_NULL"
         },
         {
-          "pillar": "Future",
-          "title": "High Growth Earnings",
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
           "reason_code": "OUTCOME_NULL"
         }
       ]
     },
-    "current_price_inr": 12.3,
-    "market_cap_inr": 248681419.96554163,
-    "market_cap_usd": 120714180851.549,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 11.8,
+    "market_cap_inr": 238572419.15393427,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
-    "fifty_two_week": null,
-    "fair_value_inr": 94.919844,
+    "fifty_two_week": {
+      "low": 10.1,
+      "high": 26.5
+    },
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 671.7060487804878,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "5ff8b7f0-b696-48ec-aa08-3f1c54d3fac9",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
-      "pe": 7.8,
+      "pe": 16.1,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -93,19 +382,19 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": "2026-05-31T21:09:08.823Z",
+      "pe_as_of": "2026-06-11T00:13:08.016Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://simplywall.st/stocks/in/consumer-durables/nse-neelam/neelam-linens-and-garments-india-shares"
     },
     "rewards": [
+      "Price-To-Earnings ratio (16.1x) is below the Indian market (23.3x)",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Trading at 87% below our estimate of its fair value",
-      "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Earnings have grown 13.7% per year over the past 5 years"
+      "Trading at good value vs. industry average Price-To-Earnings ratio"
     ],
     "risks": [
       "Interest payments are not well covered by earnings",
-      "Does not have a meaningful market cap (₹249M)"
+      "Profit margins (1.3%) are lower than last year (2.4%)",
+      "Does not have a meaningful market cap (₹250M)"
     ],
     "dividend": {
       "yield_pct": null,
@@ -117,9 +406,9 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 18.199713239,
-      "net_income_margin_1y": 0.05921870449,
-      "future_revenue_growth_3y": 0.4160609582
+      "pe": 19.225277942,
+      "net_income_margin_1y": 0.05901661834,
+      "future_revenue_growth_3y": 0.41919781
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -133,30 +422,30 @@
     "pe_benchmark_source": {
       "provider": "sws_industry_api",
       "label": "SWS industry API",
-      "company_pe": 7.8,
+      "company_pe": 16.1,
       "company_pe_source": "sws_statement",
       "company_pe_source_label": "SWS visible statement",
-      "industry_pe": 18.199713239,
+      "industry_pe": 19.225277942,
       "industry_name": "Consumer Durables",
       "industry_code": "4130000",
-      "sample_count": 294,
+      "sample_count": 296,
       "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 7.8,
-        "industry_pe": 18.2,
+        "company_pe": 16.1,
+        "industry_pe": 19.2,
         "industry_name": "Indian Luxury",
-        "description": "NEELAM is good value based on its Price-To-Earnings Ratio (7.8x) compared to the Indian Luxury industry average (18.2x).",
+        "description": "NEELAM is good value based on its Price-To-Earnings Ratio (16.1x) compared to the Indian Luxury industry average (19.2x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 18.199713239,
+        "industry_pe": 19.225277942,
         "industry_code": "4130000",
         "type": "median_profitable",
-        "count": 294,
+        "count": 296,
         "source": {
           "type": "country",
           "country": "IN",
@@ -165,8 +454,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.1,
-        "sample_count": 290,
+        "industry_pe": 17.95,
+        "sample_count": 294,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
       },
@@ -178,32 +467,41 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 12.3,
-        "fetched_at": "2026-05-31T21:09:08.823Z",
+        "value": 11.8,
+        "fetched_at": "2026-06-11T00:13:08.016Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-neelam/neelam-linens-and-garments-india-shares"
       },
       "multiples.pe": {
         "provider": "sws_statement",
-        "value": 7.8,
-        "fetched_at": "2026-05-31T21:09:08.823Z",
+        "value": 16.1,
+        "fetched_at": "2026-06-11T00:13:08.016Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-neelam/neelam-linens-and-garments-india-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 18.199713239,
+        "value": 19.225277942,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.05921870449,
-        "fetched_at": "2026-05-31T21:09:08.823Z",
+        "value": 0.05901661834,
+        "fetched_at": "2026-06-11T00:13:08.016Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-neelam/neelam-linens-and-garments-india-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.4160609582,
-        "fetched_at": "2026-05-31T21:09:08.823Z",
+        "value": 0.41919781,
+        "fetched_at": "2026-06-11T00:13:08.016Z",
+        "url": "https://simplywall.st/stocks/in/consumer-durables/nse-neelam/neelam-linens-and-garments-india-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 10.1,
+          "high": 26.5
+        },
+        "fetched_at": "2026-06-11T00:13:08.016Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-neelam/neelam-linens-and-garments-india-shares"
       }
     },
@@ -230,16 +528,16 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 4.23728813559322,
-      "7D": 10.810810810810821,
-      "1M": -8.208955223880594,
-      "3M": 6.034482758620699,
-      "6M": -10.218978102189771,
-      "1Y": -55.27272727272727,
+      "1D": -4.45344129554655,
+      "7D": 0,
+      "1M": -7.8125,
+      "3M": 6.306306306306316,
+      "6M": -18.62068965517241,
+      "1Y": -55.471698113207545,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 4,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -319,6 +617,26 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "1a29f578-911f-4905-9c22-4ac71c439d1c",
+      "type": "brief",
+      "date": "2026-06-03T21:35:13.000Z",
+      "title": "Full year 2026 earnings released: EPS: ₹0.92 (vs ₹1.59 in FY 2025)",
+      "body": "Full year 2026 results: EPS: ₹0.92 (down from ₹1.59 in FY 2025). Revenue: ₹1.21b (up 9.8% from FY 2025). Net income: ₹15.5m (down 42% from FY 2025). Profit margin: 1.3% (down from 2.4% in FY 2025). The decrease in margin was driven by higher expenses.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "528d15be-17df-496b-b3c3-d8c91be407ed",
+      "type": "brief",
+      "date": "2026-06-01T07:57:29.000Z",
+      "title": "New minor risk - Financial data availability",
+      "body": "The company's latest financial reports are more than 6 months old. Last reported fiscal period ended September 2025. This is considered a minor risk. If the company has not reported its earnings on time, it may have been delayed due to audit problems or it may be finding it difficult to reconcile its accounts. Currently, the following risks have been identified for the company: Major Risks Interest payments are not well covered by earnings (2.3x net interest cover). Market cap is less than US$10m (₹248.7m market cap, or US$2.62m). Minor Risk Latest financial reports are more than 6 months old (reported September 2025 fiscal period end).",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "04ec1802-52c4-4394-8edb-04ab9ef22189",
       "type": "event",

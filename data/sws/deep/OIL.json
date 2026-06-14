@@ -3,7 +3,7 @@
   "name": "Oil India Limited",
   "sector": "Energy",
   "sws_url": "https://simplywall.st/stocks/in/energy/nse-oil/oil-india-shares",
-  "parsed_at": "2026-05-31T21:17:59.391Z",
+  "parsed_at": "2026-06-11T00:21:57.064Z",
   "company_id": "8710A506-77C0-4E27-9B55-19BA62C6D152",
   "classification_status": "Active",
   "groww_source": {
@@ -16,34 +16,320 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 4,
+      "valuation": 6,
       "future": 1,
       "past": 2,
       "financial_health": 4,
       "dividends": 4,
       "future_growth": 1,
       "past_performance": 2,
-      "value": 4,
+      "value": 6,
       "health": 4,
       "dividend": 4
     },
-    "snowflake_total": 15,
-    "current_price_inr": 476.15,
+    "snowflake_total": 17,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DECLINE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DECLINE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_EARNS_NET_INTEREST"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 427.35,
     "market_cap_inr": 793703300000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "large7",
     "shares_outstanding": 1626607791,
     "fifty_two_week": {
       "low": 384.6,
       "high": 531
     },
-    "fair_value_inr": 641,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": 493.55556,
       "max": 704.456751,
       "count": 41
     },
-    "upside_pct": 34.62144282263993,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystHighTarget",
+      "owner_classification": null,
+      "narrative_id": "5bf249ec-2654-4f14-8e9c-00d0f870ad10",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 10.51,
       "ps": 2.34,
@@ -60,6 +346,7 @@
       "pe_source_url": "https://groww.in/stocks/oil-india-ltd"
     },
     "rewards": [
+      "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Earnings have grown 5.2% per year over the past 5 years",
       "Earnings are forecast to grow 8.46% per year",
       "Trading at 32.4% below our estimate of its fair value",
@@ -238,8 +525,8 @@
     "dividend_yield_pct": 2.36,
     "industry_benchmarks": {
       "pe": 8.887060213350253,
-      "net_income_margin_1y": 0.1242489666,
-      "future_revenue_growth_3y": 2.150633131,
+      "net_income_margin_1y": 0.1227139714,
+      "future_revenue_growth_3y": 1.998825811,
       "sector_pe": 8.887060213350253
     },
     "industry_benchmarks_meta": {
@@ -275,14 +562,14 @@
       },
       "sws_statement": {
         "company_pe": 11.7,
-        "industry_pe": 19.2,
+        "industry_pe": 18.4,
         "industry_name": "Indian Oil and Gas",
-        "description": "OIL is good value based on its Price-To-Earnings Ratio (11.7x) compared to the Indian Oil and Gas industry average (19.2x).",
+        "description": "OIL is good value based on its Price-To-Earnings Ratio (11.7x) compared to the Indian Oil and Gas industry average (18.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 19.197746836,
+        "industry_pe": 18.359426364,
         "industry_code": "1030000",
         "type": "median_profitable",
         "count": 34,
@@ -294,25 +581,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 14.9,
-        "sample_count": 31,
+        "industry_pe": 15.55,
+        "sample_count": 32,
         "industry_code": "1030000",
         "industry_name": "Energy"
       },
       "sws_primary_industry": {
-        "industry_pe": 14.859404592,
+        "industry_pe": 14.327869158,
         "industry_name": "Energy",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 11.69964228806681
+        "company_pe": 10.50056102447832
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 476.15,
-        "fetched_at": "2026-05-31T21:17:59.391Z",
+        "value": 427.35,
+        "fetched_at": "2026-06-11T00:21:57.064Z",
         "url": "https://simplywall.st/stocks/in/energy/nse-oil/oil-india-shares"
       },
       "market_cap_inr": {
@@ -359,14 +646,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.1242489666,
-        "fetched_at": "2026-05-31T21:17:59.391Z",
+        "value": 0.1227139714,
+        "fetched_at": "2026-06-11T00:21:57.064Z",
         "url": "https://simplywall.st/stocks/in/energy/nse-oil/oil-india-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 2.150633131,
-        "fetched_at": "2026-05-31T21:17:59.391Z",
+        "value": 1.998825811,
+        "fetched_at": "2026-06-11T00:21:57.064Z",
         "url": "https://simplywall.st/stocks/in/energy/nse-oil/oil-india-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -481,7 +768,7 @@
     "latest_revenue": 339461300000,
     "latest_net_income": 66199399999.99999,
     "latest_eps": 46.42,
-    "most_recent_reported_date": "2026-05-22",
+    "most_recent_reported_date": "2026-06-05",
     "pb": 1.37,
     "ps": 2.34,
     "book_value": 356.5601869,
@@ -498,16 +785,16 @@
     "quick_ratio": 0.7738635544989554,
     "cash_ratio": 0.3232533679129746,
     "returns_pct": {
-      "1D": -2.428278688524595,
-      "7D": -4.722361180590299,
-      "1M": -3.388454905143562,
-      "3M": -1.6015705724323208,
-      "6M": 15.234753146176184,
-      "1Y": 12.405571293673265,
+      "1D": -10.211156634100213,
+      "7D": -12.95447601588756,
+      "1M": -6.2828947368421,
+      "3M": -10.838723137909449,
+      "6M": 5.688141461605045,
+      "1Y": -8.156028368794324,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 5,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -559,8 +846,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.25004,
-        "shares": 20333228,
+        "pct": 1.15811,
+        "shares": 18837967,
         "is_insider": null
       },
       {
@@ -594,13 +881,13 @@
         "is_insider": null
       },
       {
-        "pct": 0.42007,
-        "shares": 6832956,
+        "pct": 0.37285,
+        "shares": 6064732,
         "is_insider": null
       },
       {
-        "pct": 0.32485,
-        "shares": 5284004,
+        "pct": 0.32493,
+        "shares": 5285338,
         "is_insider": null
       },
       {
@@ -790,7 +1077,7 @@
     "payment_count": 25
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-22",
+    "most_recent_reported_date": "2026-06-05",
     "latest_year": 2026,
     "latest_revenue": 339461300000,
     "latest_net_income": 66199399999.99999,
@@ -1059,6 +1346,16 @@
   ],
   "news": [
     {
+      "id": "211e9271-3340-4355-89cf-7175b279ed28",
+      "type": "narrative-update",
+      "date": "2026-06-05T19:05:13.000Z",
+      "title": "OIL: Future Upside Will Be Driven By Green Energy And Pipeline Expansion",
+      "body": "Analysts have kept Oil India's fair value estimate steady at ₹641, citing only small tweaks to projected revenue growth, profit margins, and future P/E assumptions that do not materially change their overall view on the stock. What's in the News Oil India held an Analyst/Investor Day, giving the market an opportunity to hear management's latest views on operations, capital allocation, and broader business priorities.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/energy/nse-oil/oil-india-shares/k8tliegj-rising-indian-energy-demand-will-expand-oil-and-gas-opportunities-ob72/updates/9-analysts-have-kept-oil-indias-fair-value-estimate-steady-at",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "e36e46c8-2068-4c0a-803f-29b83a484c59",
       "type": "narrative-update",
       "date": "2026-05-22T18:08:40.000Z",
@@ -1317,16 +1614,6 @@
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/stocks/in/energy/nse-oil/oil-india-shares/news/calculating-the-intrinsic-value-of-oil-india-limited-nseoil",
       "raw_subtype": "article"
-    },
-    {
-      "id": "c7ce4883-bd5c-4c45-9315-721c609af6bd",
-      "type": "narrative-update",
-      "date": "2025-12-14T01:03:18.000Z",
-      "title": "OIL: Future Upside Will Be Driven By Higher Gas Offtake Stability",
-      "body": "Narrative Update on Oil India Analysts have modestly trimmed their price target on Oil India to ₹699.50 from ₹713.31, reflecting slightly weaker revenue growth assumptions, partially offset by improved profit margin expectations and a lower projected valuation multiple. What's in the News Board meeting scheduled on 4 December 2025 to consider promotions of senior executives to Executive Director level, signaling upcoming leadership changes and potential organizational strengthening (company filing).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/energy/nse-oil/oil-india-shares/k8tliegj-rising-indian-energy-demand-will-expand-oil-and-gas-opportunities-ob72/updates/2-narrative-update-on-oil-india-analysts-have-modestly-trimmed",
-      "raw_subtype": "narrative-update"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/OIL.json"

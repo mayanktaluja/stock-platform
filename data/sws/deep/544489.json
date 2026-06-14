@@ -3,7 +3,7 @@
   "name": "LGT Global Hospitality Limited",
   "sector": "Consumer Services",
   "sws_url": "https://simplywall.st/stocks/in/consumer-services/bse-544489/lgt-global-hospitality-shares",
-  "parsed_at": "2026-05-31T20:38:02.961Z",
+  "parsed_at": "2026-06-10T23:37:15.345Z",
   "company_id": "400230CB-5DCC-47EA-B6D0-F31546DEEEC8",
   "classification_status": "Active",
   "groww_source": null,
@@ -11,29 +11,28 @@
     "snowflake": {
       "valuation": 2,
       "future": 0,
-      "past": 4,
+      "past": 1,
       "financial_health": 5,
-      "dividends": 0,
+      "dividends": 2,
       "future_growth": 0,
-      "past_performance": 4,
+      "past_performance": 1,
       "value": 2,
       "health": 5,
-      "dividend": 0
+      "dividend": 2
     },
-    "snowflake_total": 11,
+    "snowflake_total": 10,
     "snowflake_data_quality": {
       "insufficient": true,
-      "insufficient_count": 12,
+      "insufficient_count": 7,
       "checked_count": 30,
       "affected_pillars": [
         "Value",
-        "Future",
-        "Dividends"
+        "Future"
       ],
       "by_pillar": {
         "Value": {
           "checked": 6,
-          "insufficient": 3
+          "insufficient": 1
         },
         "Future": {
           "checked": 6,
@@ -49,7 +48,7 @@
         },
         "Dividends": {
           "checked": 6,
-          "insufficient": 3
+          "insufficient": 0
         }
       },
       "samples": [
@@ -59,32 +58,321 @@
           "reason_code": "OUTCOME_NULL"
         },
         {
-          "pillar": "Value",
-          "title": "Below Future Cash Flow Value",
+          "pillar": "Future",
+          "title": "Future ROE",
           "reason_code": "OUTCOME_NULL"
         },
         {
-          "pillar": "Value",
-          "title": "Significantly Below Future Cash Flow Value",
+          "pillar": "Future",
+          "title": "High Growth Earnings",
           "reason_code": "OUTCOME_NULL"
         }
       ]
     },
-    "current_price_inr": 52.35,
-    "market_cap_inr": 490666063.7434709,
-    "market_cap_usd": 120714180851.549,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOO_EARLY"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOO_EARLY"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 42.9,
+    "market_cap_inr": 402093106.67803055,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
-    "fifty_two_week": null,
-    "fair_value_inr": 30.027746,
+    "fifty_two_week": {
+      "low": 38.32,
+      "high": 83.43
+    },
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -42.64040878701051,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "8f4fbd99-cf35-454f-b632-43ebe469e07a",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
-      "pe": 10.6,
+      "pe": 8.7,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -93,20 +381,21 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": "2026-05-31T20:38:02.961Z",
+      "pe_as_of": "2026-06-10T23:37:15.345Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://simplywall.st/stocks/in/consumer-services/bse-544489/lgt-global-hospitality-shares"
     },
     "rewards": [
-      "Price-To-Earnings ratio (10.6x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (8.7x) is below the Indian market (23.2x)",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading at good value vs. industry average Price-To-Earnings ratio"
     ],
     "risks": [
-      "Does not have a meaningful market cap (₹491M)",
+      "Profit margins (3.4%) are lower than last year (5.2%)",
+      "Does not have a meaningful market cap (₹402M)",
+      "Dividend of 0.58% is not well covered by free cash flows",
       "Highly volatile share price over past 3 months",
-      "High level of [[non-cash earnings]]",
-      "Profit margins (3.3%) are lower than last year (5.2%)"
+      "High level of [[non-cash earnings]]"
     ],
     "dividend": {
       "yield_pct": null,
@@ -118,9 +407,9 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 27.078875295,
-      "net_income_margin_1y": 0.165515606,
-      "future_revenue_growth_3y": 1.224870747
+      "pe": 28.141130414,
+      "net_income_margin_1y": 0.1628077426,
+      "future_revenue_growth_3y": 1.232276429
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -134,30 +423,30 @@
     "pe_benchmark_source": {
       "provider": "sws_industry_api",
       "label": "SWS industry API",
-      "company_pe": 10.6,
+      "company_pe": 8.7,
       "company_pe_source": "sws_statement",
       "company_pe_source_label": "SWS visible statement",
-      "industry_pe": 27.078875295,
+      "industry_pe": 28.141130414,
       "industry_name": "Consumer Services",
       "industry_code": "4210000",
-      "sample_count": 80,
+      "sample_count": 81,
       "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 10.6,
-        "industry_pe": 27.1,
+        "company_pe": 8.7,
+        "industry_pe": 28.1,
         "industry_name": "Indian Hospitality",
-        "description": "544489 is good value based on its Price-To-Earnings Ratio (10.6x) compared to the Indian Hospitality industry average (27.1x).",
+        "description": "544489 is good value based on its Price-To-Earnings Ratio (8.7x) compared to the Indian Hospitality industry average (28.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 27.078875295,
+        "industry_pe": 28.141130414,
         "industry_code": "4210000",
         "type": "median_profitable",
-        "count": 80,
+        "count": 81,
         "source": {
           "type": "country",
           "country": "IN",
@@ -166,7 +455,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 25.25,
+        "industry_pe": 26.450000000000003,
         "sample_count": 80,
         "industry_code": "4210000",
         "industry_name": "Consumer Services"
@@ -179,32 +468,41 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 52.35,
-        "fetched_at": "2026-05-31T20:38:02.961Z",
+        "value": 42.9,
+        "fetched_at": "2026-06-10T23:37:15.345Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/bse-544489/lgt-global-hospitality-shares"
       },
       "multiples.pe": {
         "provider": "sws_statement",
-        "value": 10.6,
-        "fetched_at": "2026-05-31T20:38:02.961Z",
+        "value": 8.7,
+        "fetched_at": "2026-06-10T23:37:15.345Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/bse-544489/lgt-global-hospitality-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 27.078875295,
+        "value": 28.141130414,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.165515606,
-        "fetched_at": "2026-05-31T20:38:02.961Z",
+        "value": 0.1628077426,
+        "fetched_at": "2026-06-10T23:37:15.345Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/bse-544489/lgt-global-hospitality-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 1.224870747,
-        "fetched_at": "2026-05-31T20:38:02.961Z",
+        "value": 1.232276429,
+        "fetched_at": "2026-06-10T23:37:15.345Z",
+        "url": "https://simplywall.st/stocks/in/consumer-services/bse-544489/lgt-global-hospitality-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 38.32,
+          "high": 83.43
+        },
+        "fetched_at": "2026-06-10T23:37:15.345Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/bse-544489/lgt-global-hospitality-shares"
       }
     },
@@ -231,16 +529,16 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 4.51187861848672,
-      "7D": 14.953886693017132,
-      "1M": -6.434316353887402,
-      "3M": -15.727623953638115,
-      "6M": 5.950212507589566,
-      "1Y": -35.648432698217576,
+      "1D": -8.83977900552487,
+      "7D": -15.783274440518255,
+      "1M": -17.816091954022994,
+      "3M": -24.55153007386564,
+      "6M": -42.48558788041293,
+      "1Y": -47.26490473263675,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 4,
+    "recent_news_count": 5,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -321,6 +619,26 @@
   ],
   "news": [
     {
+      "id": "af262fdc-63f7-4888-855b-dd0bef14aa58",
+      "type": "brief",
+      "date": "2026-06-10T11:38:54.000Z",
+      "title": "Investor sentiment deteriorates as stock falls 16%",
+      "body": "After last week's 16% share price decline to ₹42.90, the stock trades at a trailing P/E ratio of 8.7x. Average trailing P/E is 28x in the Hospitality industry in India.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "5bb71d31-5901-404d-995c-6e6551b1b9e6",
+      "type": "brief",
+      "date": "2026-06-06T20:30:18.000Z",
+      "title": "New minor risk - Dividend sustainability",
+      "body": "The dividend is not well covered by cash flows. The company is paying a dividend despite having no free cash flows. Dividend yield: 0.5% This is considered a minor risk. Dividends are ultimately paid out of the company's available cash reserves. Companies that pay out too much of their cash flow are at risk of having to reduce or cut their dividend in future. If cash flow growth slows or cash flows fall, then there may not be enough cash reserves to maintain the same dividend. Or in extreme cases, companies may opt to take on debt to maintain the dividend. This risk is mitigated by the fact the dividend is covered by earnings, however, cash flows are generally more important. For dividend paying companies, any reduction in the dividend can significantly impact the share price. Currently, t",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
       "id": "406e4034-68b3-42f5-acae-67290455bb97",
       "type": "brief",
       "date": "2026-05-31T05:37:43.000Z",
@@ -386,16 +704,6 @@
       "date": "2026-01-28T11:38:06.000Z",
       "title": "Investor sentiment deteriorates as stock falls 18%",
       "body": "After last week's 18% share price decline to ₹57.45, the stock trades at a trailing P/E ratio of 8.5x. Average trailing P/E is 29x in the Hospitality industry in India.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "82f8d88c-6cc1-4d34-8361-048e1f82ccb9",
-      "type": "brief",
-      "date": "2025-12-05T11:49:46.000Z",
-      "title": "Investor sentiment improves as stock rises 19%",
-      "body": "After last week's 19% share price gain to ₹58.87, the stock trades at a trailing P/E ratio of 8.7x. Average trailing P/E is 32x in the Hospitality industry in India.",
       "keyDevTypeId": null,
       "source_url": null,
       "raw_subtype": "BriefActivity"

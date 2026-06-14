@@ -3,7 +3,7 @@
   "name": "Motilal Oswal Financial Services Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-motilalofs/motilal-oswal-financial-services-shares",
-  "parsed_at": "2026-05-31T21:02:57.145Z",
+  "parsed_at": "2026-06-11T00:05:07.821Z",
   "company_id": "9B65698D-8A3C-4388-9364-CDFADB975689",
   "classification_status": "Active",
   "groww_source": {
@@ -65,22 +65,308 @@
         }
       ]
     },
-    "current_price_inr": 879.5,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 841,
     "market_cap_inr": 538318200000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "large7",
-    "shares_outstanding": 601860072,
+    "shares_outstanding": 602044654,
     "fifty_two_week": {
       "low": 614.9,
       "high": 1097.1
     },
-    "fair_value_inr": 1100,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 438.155052,
-      "max": 1881.34,
-      "count": 36
+      "min": 444.146565,
+      "max": 1103.75,
+      "count": 35
     },
-    "upside_pct": 25.071063104036384,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystLowTarget",
+      "owner_classification": null,
+      "narrative_id": "fa0feb12-39ad-40b5-bb21-5f0a03b53c43",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 28.75,
       "ps": 5.75,
@@ -99,17 +385,17 @@
     "rewards": [
       "Earnings are forecast to grow 25.31% per year",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Analysts in good agreement that stock price will rise by 25.5%"
+      "Analysts in good agreement that stock price will rise by 27.7%"
     ],
     "risks": [
-      "Dividend of 0.68% is not well covered by free cash flows",
+      "Dividend of 0.69% is not well covered by free cash flows",
       "Debt is not well covered by [[operating cash flow]]",
       "High level of [[non-cash earnings]]",
       "Profit margins (23.5%) are lower than last year (35.3%)"
     ],
     "dividend": {
       "yield_pct": 0.67,
-      "payout_pct": 19.318146439060403,
+      "payout_pct": 19.324071042256232,
       "annualized_dividend": 6,
       "listing_currency": "INR",
       "recent_payments": [
@@ -275,8 +561,8 @@
     "dividend_yield_pct": 0.67,
     "industry_benchmarks": {
       "pe": 36.165866965242294,
-      "net_income_margin_1y": 0.2564706218,
-      "future_revenue_growth_3y": 0.3320316411,
+      "net_income_margin_1y": 0.257896607,
+      "future_revenue_growth_3y": 0.3297814148,
       "sector_pe": 36.165866965242294
     },
     "industry_benchmarks_meta": {
@@ -311,18 +597,18 @@
         "url": "https://groww.in/stocks/motilal-oswal-financial-services-ltd"
       },
       "sws_statement": {
-        "company_pe": 28.3,
-        "industry_pe": 26.7,
+        "company_pe": 27.8,
+        "industry_pe": 25.9,
         "industry_name": "Indian Capital Markets",
-        "description": "MOTILALOFS is expensive based on its Price-To-Earnings Ratio (28.3x) compared to the Indian Capital Markets industry average (26.7x).",
+        "description": "MOTILALOFS is expensive based on its Price-To-Earnings Ratio (27.8x) compared to the Indian Capital Markets industry average (25.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 26.705392444,
+        "industry_pe": 25.93266606,
         "industry_code": "7130000",
         "type": "median_profitable",
-        "count": 218,
+        "count": 215,
         "source": {
           "type": "country",
           "country": "IN",
@@ -331,25 +617,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.6,
-        "sample_count": 204,
+        "industry_pe": 21.1,
+        "sample_count": 201,
         "industry_code": "7130000",
         "industry_name": "Diversified Financials"
       },
       "sws_primary_industry": {
-        "industry_pe": 15.729172633,
+        "industry_pe": 15.226484123,
         "industry_name": "Diversified Financials",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 28.317182988589373
+        "company_pe": 27.085906244229154
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 879.5,
-        "fetched_at": "2026-05-31T21:02:57.145Z",
+        "value": 841,
+        "fetched_at": "2026-06-11T00:05:07.821Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-motilalofs/motilal-oswal-financial-services-shares"
       },
       "market_cap_inr": {
@@ -396,14 +682,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.2564706218,
-        "fetched_at": "2026-05-31T21:02:57.145Z",
+        "value": 0.257896607,
+        "fetched_at": "2026-06-11T00:05:07.821Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-motilalofs/motilal-oswal-financial-services-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.3320316411,
-        "fetched_at": "2026-05-31T21:02:57.145Z",
+        "value": 0.3297814148,
+        "fetched_at": "2026-06-11T00:05:07.821Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-motilalofs/motilal-oswal-financial-services-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -535,12 +821,12 @@
     "quick_ratio": 2.1040037571371726,
     "cash_ratio": 1.5597047038246916,
     "returns_pct": {
-      "1D": -1.6329269656637984,
-      "7D": 3.537583142033075,
-      "1M": 12.045353207210644,
-      "3M": 21.285251327311595,
-      "6M": -8.332899056751268,
-      "1Y": 7.643351080105262,
+      "1D": -2.695823209533722,
+      "7D": -1.7006603938986564,
+      "1M": -2.2888346694551,
+      "3M": 20.5907657011758,
+      "6M": -2.723960441848355,
+      "1Y": -1.1518570756934596,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -551,102 +837,102 @@
   "ownership": {
     "top_holders": [
       {
-        "pct": 33.83848,
+        "pct": 33.82811,
         "shares": 203660328,
         "is_insider": null
       },
       {
-        "pct": 31.98012,
+        "pct": 31.97032,
         "shares": 192475576,
         "is_insider": null
       },
       {
-        "pct": 5.07432,
+        "pct": 5.07276,
         "shares": 30540288,
         "is_insider": null
       },
       {
-        "pct": 1.92047,
+        "pct": 1.91988,
         "shares": 11558544,
         "is_insider": null
       },
       {
-        "pct": 1.48553,
+        "pct": 1.48508,
         "shares": 8940828,
         "is_insider": null
       },
       {
-        "pct": 1.19267,
+        "pct": 1.19231,
         "shares": 7178214,
         "is_insider": null
       },
       {
-        "pct": 1.12467,
+        "pct": 1.12433,
         "shares": 6768943,
         "is_insider": null
       },
       {
-        "pct": 0.94227,
+        "pct": 0.94199,
         "shares": 5671173,
         "is_insider": null
       },
       {
-        "pct": 0.89748,
+        "pct": 0.8972,
         "shares": 5401548,
         "is_insider": null
       },
       {
-        "pct": 0.79792,
+        "pct": 0.79768,
         "shares": 4802391,
         "is_insider": null
       },
       {
-        "pct": 0.55843,
-        "shares": 3360961,
+        "pct": 0.56077,
+        "shares": 3376098,
         "is_insider": null
       },
       {
-        "pct": 0.51636,
+        "pct": 0.5162,
         "shares": 3107758,
         "is_insider": null
       },
       {
-        "pct": 0.39277,
-        "shares": 2363944,
+        "pct": 0.39551,
+        "shares": 2381143,
         "is_insider": null
       },
       {
-        "pct": 0.37756,
+        "pct": 0.37744,
         "shares": 2272383,
         "is_insider": null
       },
       {
-        "pct": 0.33528,
+        "pct": 0.33518,
         "shares": 2017907,
         "is_insider": null
       },
       {
-        "pct": 0.32046,
+        "pct": 0.32036,
         "shares": 1928734,
         "is_insider": null
       },
       {
-        "pct": 0.24852,
+        "pct": 0.24844,
         "shares": 1495731,
         "is_insider": null
       },
       {
-        "pct": 0.21489,
+        "pct": 0.21482,
         "shares": 1293333,
         "is_insider": null
       },
       {
-        "pct": 0.14954,
+        "pct": 0.14949,
         "shares": 900000,
         "is_insider": null
       },
       {
-        "pct": 0.13556,
+        "pct": 0.13552,
         "shares": 815868,
         "is_insider": null
       }
@@ -663,7 +949,7 @@
   },
   "dividend": {
     "yield_pct": 0.67,
-    "payout_pct": 19.318146439060403,
+    "payout_pct": 19.324071042256232,
     "annualized_dividend": 6,
     "listing_currency": "INR",
     "recent_payments": [
@@ -1071,6 +1357,16 @@
   ],
   "news": [
     {
+      "id": "9920d3a8-6728-49b0-929a-629b91918874",
+      "type": "narrative-update",
+      "date": "2026-06-03T15:09:32.000Z",
+      "title": "MOTILALOFS: Upcoming 2026 Board Review Will Support Bullish Long Term Outlook",
+      "body": "Analysts have trimmed their price target on Motilal Oswal Financial Services from ₹1,123.25 to ₹1,103.75, linking the change to adjusted assumptions for revenue growth, discount rate and future P/E, while maintaining a largely steady profit margin outlook. What's in the News A board meeting of Motilal Oswal Financial Services is scheduled for April 29, 2026, to consider and approve audited standalone and consolidated financial results for the quarter and year ended March 31, 2026 (Key Developments).",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/diversified-financials/nse-motilalofs/motilal-oswal-financial-services-shares/daap1rst-motilalofs-upcoming-board-actions-and-solid-margins-will-support-market-reach/updates/14-analysts-have-trimmed-their-price-target-on-motilal-oswal-fi",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "7b6a7c73-e131-4873-a9ae-f6f017f1bc07",
       "type": "narrative-update",
       "date": "2026-05-20T08:10:26.000Z",
@@ -1238,16 +1534,6 @@
       "body": "Analysts have lifted their price target on Motilal Oswal Financial Services from ₹1,150 to ₹1,200, reflecting updated assumptions around revenue growth, profit margins, a slightly lower future P/E multiple and a revised discount rate. What's in the News Board meeting scheduled for Oct 30, 2025, at 16:00 Indian Standard Time to review and approve unaudited standalone and consolidated financial results for the quarter and half year ended Sep 30, 2025, and to consider director appointments and grant of employee stock options (company filing).",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/diversified-financials/nse-motilalofs/motilal-oswal-financial-services-shares/cdvllhku-digital-adoption-and-rising-indian-savings-will-expand-markets/updates/2-analysts-have-lifted-their-price-target-on-motilal-oswal-fin",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "e4ef0d3e-8bb0-4f28-b9e9-bc63af77b082",
-      "type": "narrative-update",
-      "date": "2025-12-16T10:02:50.000Z",
-      "title": "MOTILALOFS: Stronger Earnings Outlook To Support Higher Future Profit Margins",
-      "body": "Analysts have raised their price target on Motilal Oswal Financial Services from ₹763 to ₹1,063, citing stronger expected revenue growth, slightly higher profit margins, and a richer future valuation multiple to reflect the firm's improved earnings outlook and risk profile. What's in the News Board meeting scheduled for October 30, 2025, to review unaudited standalone and consolidated financial results for the quarter and half year ended September 30, 2025; consider appointments of new directors; and evaluate grant of employee stock options (company filing) Special or extraordinary shareholders meeting set for December 30, 2025, to be conducted via postal ballot in India, indicating forthcoming shareholder resolutions requiring wider participation (company filing) Valuation Changes Fair Va",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/diversified-financials/nse-motilalofs/motilal-oswal-financial-services-shares/cdksnofj-digital-competition-and-high-compliance-costs-will-stifle-future-margins/updates/2-analysts-have-raised-their-price-target-on-motilal-oswal-fin",
       "raw_subtype": "narrative-update"
     }
   ],

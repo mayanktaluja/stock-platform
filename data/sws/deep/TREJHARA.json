@@ -3,7 +3,7 @@
   "name": "Trejhara Solutions Limited",
   "sector": "Software",
   "sws_url": "https://simplywall.st/stocks/in/software/nse-trejhara/trejhara-solutions-shares",
-  "parsed_at": "2026-05-31T22:54:02.547Z",
+  "parsed_at": "2026-06-11T01:58:18.543Z",
   "company_id": "60339F78-CC7A-43C1-A6C2-509357A91D24",
   "classification_status": "Active",
   "groww_source": {
@@ -77,22 +77,308 @@
         }
       ]
     },
-    "current_price_inr": 148.16,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 133.79,
     "market_cap_inr": 3592200000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 137.7,
       "high": 284.85
     },
-    "fair_value_inr": 24.448502,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -83.49858126349892,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "f063231f-9ce0-4026-9c1d-4716c53cd6ff",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 41.38,
       "ps": 2.52,
@@ -112,7 +398,7 @@
       "Earnings grew by 101.1% over the past year"
     ],
     "risks": [
-      "Does not have a meaningful market cap (₹4B)",
+      "Does not have a meaningful market cap (₹3B)",
       "Shareholders have been substantially diluted in the past year"
     ],
     "dividend": {
@@ -153,8 +439,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 18.761595487228476,
-      "net_income_margin_1y": 0.1202305246,
-      "future_revenue_growth_3y": 0.2209798542,
+      "net_income_margin_1y": 0.1114700445,
+      "future_revenue_growth_3y": 0.2213130668,
       "sector_pe": 18.761595487228476
     },
     "industry_benchmarks_meta": {
@@ -189,18 +475,18 @@
         "url": "https://groww.in/stocks/trejhara-solutions-ltd"
       },
       "sws_statement": {
-        "company_pe": 41.9,
-        "industry_pe": 23.6,
+        "company_pe": 37.8,
+        "industry_pe": 23,
         "industry_name": "Indian IT",
-        "description": "TREJHARA is expensive based on its Price-To-Earnings Ratio (41.9x) compared to the Indian IT industry average (23.6x).",
+        "description": "TREJHARA is expensive based on its Price-To-Earnings Ratio (37.8x) compared to the Indian IT industry average (23x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 23.644221907,
+        "industry_pe": 22.997035397,
         "industry_code": "8030000",
         "type": "median_profitable",
-        "count": 126,
+        "count": 127,
         "source": {
           "type": "country",
           "country": "IN",
@@ -209,8 +495,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.4,
-        "sample_count": 123,
+        "industry_pe": 22.5,
+        "sample_count": 126,
         "industry_code": "8030000",
         "industry_name": "Software"
       },
@@ -222,8 +508,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 148.16,
-        "fetched_at": "2026-05-31T22:54:02.547Z",
+        "value": 133.79,
+        "fetched_at": "2026-06-11T01:58:18.543Z",
         "url": "https://simplywall.st/stocks/in/software/nse-trejhara/trejhara-solutions-shares"
       },
       "market_cap_inr": {
@@ -270,14 +556,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.1202305246,
-        "fetched_at": "2026-05-31T22:54:02.547Z",
+        "value": 0.1114700445,
+        "fetched_at": "2026-06-11T01:58:18.543Z",
         "url": "https://simplywall.st/stocks/in/software/nse-trejhara/trejhara-solutions-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.2209798542,
-        "fetched_at": "2026-05-31T22:54:02.547Z",
+        "value": 0.2213130668,
+        "fetched_at": "2026-06-11T01:58:18.543Z",
         "url": "https://simplywall.st/stocks/in/software/nse-trejhara/trejhara-solutions-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -409,12 +695,12 @@
     "quick_ratio": 1.5238941754679494,
     "cash_ratio": 0.2144724458851825,
     "returns_pct": {
-      "1D": -0.18190392777741038,
-      "7D": -1.7506631299734847,
-      "1M": -2.2820208415776335,
-      "3M": -21.78228275789251,
-      "6M": -43.8085485644935,
-      "1Y": -39.767460769168224,
+      "1D": -1.9134897360703913,
+      "7D": -3.921005385996415,
+      "1M": -19.25282153419036,
+      "3M": -16.428259104253865,
+      "6M": -46.01977002219084,
+      "1Y": -43.9576090143677,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -801,46 +1087,6 @@
       "keyDevTypeId": null,
       "source_url": null,
       "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "0b49251c-f98a-4395-9520-c3ec0cb5cf7b",
-      "type": "brief",
-      "date": "2025-12-07T05:41:26.000Z",
-      "title": "New major risk - Shareholder dilution",
-      "body": "The company's shareholders have been substantially diluted in the past year. Increase in shares outstanding: 62% This is considered a major risk. Shareholder dilution occurs when there is an increase in the number of shares on issue that is not proportionally distributed between all shareholders. Often due to the company raising equity capital or some options being converted into stock. All else being equal, if there are more shares outstanding then each existing share will be entitled to a lower proportion of the company's total earnings, thus reducing earnings per share (EPS). While dilution might not always result in lower EPS (like if the company is using the capital to fund an EPS accretive acquisition) in a lot cases it does, along with lower dividends per share and less voting power",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "de4523ab-e966-44ec-a213-fd11b0bf8a68",
-      "type": "event",
-      "date": "2025-12-06T07:27:00.000Z",
-      "title": "Trejhara Solutions Limited, Annual General Meeting, Dec 29, 2025",
-      "body": "Trejhara Solutions Limited, Annual General Meeting, Dec 29, 2025, at 10:00 Indian Standard Time.",
-      "keyDevTypeId": "62",
-      "source_url": null,
-      "raw_subtype": "EventActivity"
-    },
-    {
-      "id": "fd3e0f34-14a9-4aff-abbd-2c48353e4713",
-      "type": "event",
-      "date": "2025-12-05T12:09:00.000Z",
-      "title": "Trejhara Solutions Limited to Report Q3, 2026 Results on Feb 14, 2026",
-      "body": "Trejhara Solutions Limited announced that they will report Q3, 2026 results on Feb 14, 2026",
-      "keyDevTypeId": "55",
-      "source_url": null,
-      "raw_subtype": "EventActivity"
-    },
-    {
-      "id": "4d74ab80-179d-496b-9ee7-8b1cb49fb45f",
-      "type": "event",
-      "date": "2025-12-05T12:09:00.000Z",
-      "title": "Trejhara Solutions Limited to Report Q4, 2026 Results on May 30, 2026",
-      "body": "Trejhara Solutions Limited announced that they will report Q4, 2026 results on May 30, 2026",
-      "keyDevTypeId": "55",
-      "source_url": null,
-      "raw_subtype": "EventActivity"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/TREJHARA.json"

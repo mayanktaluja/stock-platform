@@ -3,7 +3,7 @@
   "name": "Nesco Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-nesco/nesco-shares",
-  "parsed_at": "2026-05-31T21:09:45.216Z",
+  "parsed_at": "2026-06-11T00:13:43.212Z",
   "company_id": "D2242298-4148-4446-B17D-188A71B49C1B",
   "classification_status": "Active",
   "groww_source": {
@@ -16,82 +16,320 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 2,
-      "future": 0,
+      "valuation": 3,
+      "future": 1,
       "past": 2,
       "financial_health": 4,
       "dividends": 5,
-      "future_growth": 0,
+      "future_growth": 1,
       "past_performance": 2,
-      "value": 2,
+      "value": 3,
       "health": 4,
       "dividend": 5
     },
-    "snowflake_total": 13,
-    "snowflake_data_quality": {
-      "insufficient": true,
-      "insufficient_count": 7,
+    "snowflake_total": 15,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
       "checked_count": 30,
-      "affected_pillars": [
-        "Value",
-        "Future"
-      ],
-      "by_pillar": {
-        "Value": {
-          "checked": 6,
-          "insufficient": 1
-        },
-        "Future": {
-          "checked": 6,
-          "insufficient": 6
-        },
-        "Past": {
-          "checked": 6,
-          "insufficient": 0
-        },
-        "Health": {
-          "checked": 6,
-          "insufficient": 0
-        },
-        "Dividends": {
-          "checked": 6,
-          "insufficient": 0
-        }
-      },
-      "samples": [
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
         {
           "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
           "title": "PEG Ratio",
-          "reason_code": "OUTCOME_NULL"
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
         },
         {
           "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
           "title": "Future ROE",
-          "reason_code": "OUTCOME_NULL"
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
         },
         {
           "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
           "title": "High Growth Earnings",
-          "reason_code": "OUTCOME_NULL"
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_5_YEARS_AGO"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_STABLE_IN_PAST_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
         }
       ]
     },
-    "current_price_inr": 1173.6,
+    "current_price_inr": 1084.5,
     "market_cap_inr": 86281700000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 911.65,
       "high": 1638.9
     },
-    "fair_value_inr": 1288.505941,
+    "fair_value_inr": 1316.121357,
     "fair_value_range_inr": {
-      "min": 533.500425,
-      "max": 1288.505941,
+      "min": 86.763743,
+      "max": 1316.121357,
       "count": 3
     },
-    "upside_pct": 9.790894768234491,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "654d63c3-2ba2-4322-8dd6-5c71496513ec",
+      "narrative_type": null,
+      "published_at": "2024-07-25T13:25:15.540Z"
+    },
+    "upside_pct": 21.357432641770398,
     "multiples": {
       "pe": 20.9,
       "ps": 9.22,
@@ -108,11 +346,13 @@
       "pe_source_url": "https://groww.in/stocks/nesco-ltd"
     },
     "rewards": [
-      "Pays a reliable dividend of 0.6%",
+      "Trading below our calculated fair Price-To-Earnings ratio",
+      "Pays a reliable dividend of 0.65%",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Earnings have grown 19.3% per year over the past 5 years",
-      "Price-To-Earnings ratio (20x) is below the Indian market (23.4x)"
+      "Earnings are forecast to grow 8.08% per year",
+      "Price-To-Earnings ratio (18.5x) is below the Indian market (22.9x)"
     ],
     "risks": [],
     "dividend": {
@@ -245,7 +485,7 @@
     "industry_benchmarks": {
       "pe": 31.86659331376836,
       "net_income_margin_1y": 0.1326471542,
-      "future_revenue_growth_3y": 1.380478339,
+      "future_revenue_growth_3y": 1.388878486,
       "sector_pe": 31.86659331376836
     },
     "industry_benchmarks_meta": {
@@ -280,15 +520,15 @@
         "url": "https://groww.in/stocks/nesco-ltd"
       },
       "sws_statement": {
-        "company_pe": 20,
-        "industry_pe": 25.1,
+        "company_pe": 18.5,
+        "industry_pe": 25.4,
         "industry_name": "Indian Real Estate",
-        "description": "NESCO is good value based on its Price-To-Earnings Ratio (20x) compared to the Indian Real Estate industry average (25.1x).",
+        "description": "NESCO is good value based on its Price-To-Earnings Ratio (18.5x) compared to the Indian Real Estate industry average (25.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 24.853140749,
+        "industry_pe": 25.378248006,
         "industry_code": "7310000",
         "type": "median_profitable",
         "count": 149,
@@ -300,8 +540,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 23.2,
-        "sample_count": 144,
+        "industry_pe": 22.95,
+        "sample_count": 142,
         "industry_code": "7310000",
         "industry_name": "Diversified Financials"
       },
@@ -313,8 +553,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1173.6,
-        "fetched_at": "2026-05-31T21:09:45.216Z",
+        "value": 1084.5,
+        "fetched_at": "2026-06-11T00:13:43.212Z",
         "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-nesco/nesco-shares"
       },
       "market_cap_inr": {
@@ -322,6 +562,24 @@
         "value": 86281700000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/nesco-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 1316.121357,
+        "fetched_at": "2026-06-11T00:13:43.212Z",
+        "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-nesco/nesco-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "654d63c3-2ba2-4322-8dd6-5c71496513ec",
+        "narrative_type": null,
+        "published_at": "2024-07-25T13:25:15.540Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 21.357432641770398,
+        "fetched_at": "2026-06-11T00:13:43.212Z",
+        "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-nesco/nesco-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -362,13 +620,13 @@
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.1326471542,
-        "fetched_at": "2026-05-31T21:09:45.216Z",
+        "fetched_at": "2026-06-11T00:13:43.212Z",
         "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-nesco/nesco-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 1.380478339,
-        "fetched_at": "2026-05-31T21:09:45.216Z",
+        "value": 1.388878486,
+        "fetched_at": "2026-06-11T00:13:43.212Z",
         "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-nesco/nesco-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -500,16 +758,16 @@
     "quick_ratio": 2.564735390017557,
     "cash_ratio": 0.1251065964384249,
     "returns_pct": {
-      "1D": -3.803278688524597,
-      "7D": -5.461575640406007,
-      "1M": -3.9449991815354433,
-      "3M": 4.4499822000712,
-      "6M": -8.598130841121502,
-      "1Y": 25.92950265572186,
+      "1D": 0.1940133037693929,
+      "7D": -6.233788690990828,
+      "1M": -14.70033034450213,
+      "3M": 1.7354596622889307,
+      "6M": -12.800514593551505,
+      "1Y": 5.603972929548659,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 5,
+    "recent_news_count": 6,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -581,13 +839,13 @@
         "is_insider": null
       },
       {
-        "pct": 0.1531,
-        "shares": 107874,
+        "pct": 0.15725,
+        "shares": 110796,
         "is_insider": null
       },
       {
-        "pct": 0.15298,
-        "shares": 107792,
+        "pct": 0.1531,
+        "shares": 107874,
         "is_insider": null
       },
       {
@@ -596,13 +854,13 @@
         "is_insider": null
       },
       {
-        "pct": 0.12256,
-        "shares": 86356,
+        "pct": 0.11888,
+        "shares": 83760,
         "is_insider": null
       },
       {
-        "pct": 0.12212,
-        "shares": 86047,
+        "pct": 0.11355,
+        "shares": 80004,
         "is_insider": null
       },
       {
@@ -954,6 +1212,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "5f138b21-3966-4492-83fb-fc06fb13120f",
+      "type": "article",
+      "date": "2026-06-02T00:43:20.000Z",
+      "title": "Nesco's (NSE:NESCO) Earnings Offer More Than Meets The Eye",
+      "body": "The market shrugged off Nesco Limited's ( NSE:NESCO ) solid earnings report. We think that investors might be worried...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-nesco/nesco-shares/news/nescos-nsenesco-earnings-offer-more-than-meets-the-eye",
+      "raw_subtype": "article"
+    },
     {
       "id": "8f39fc78-afb4-4626-afaf-1dd70974ebba",
       "type": "brief",

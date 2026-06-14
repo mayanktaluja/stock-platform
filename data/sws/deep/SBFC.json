@@ -3,7 +3,7 @@
   "name": "SBFC Finance Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-sbfc/sbfc-finance-shares",
-  "parsed_at": "2026-05-31T22:08:18.263Z",
+  "parsed_at": "2026-06-11T01:09:59.145Z",
   "company_id": "99CC3451-B407-47E6-9597-60E7E966BC9F",
   "classification_status": "Active",
   "groww_source": {
@@ -18,16 +18,16 @@
     "snowflake": {
       "valuation": 1,
       "future": 3,
-      "past": 3,
+      "past": 2,
       "financial_health": 3,
       "dividends": 0,
       "future_growth": 3,
-      "past_performance": 3,
+      "past_performance": 2,
       "value": 1,
       "health": 3,
       "dividend": 0
     },
-    "snowflake_total": 10,
+    "snowflake_total": 9,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 4,
@@ -76,22 +76,308 @@
         }
       ]
     },
-    "current_price_inr": 94.3,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 91.63,
     "market_cap_inr": 100829700000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midsmall4",
-    "shares_outstanding": 1105599729,
+    "shares_outstanding": 1106492273,
     "fifty_two_week": {
       "low": 79.6,
       "high": 123
     },
     "fair_value_inr": 130.75,
     "fair_value_range_inr": {
-      "min": 40.091709,
+      "min": 40.49413,
       "max": 130.75,
-      "count": 16
+      "count": 15
     },
-    "upside_pct": 38.653234358430545,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "4741dd98-bd42-44dc-84a4-153026056820",
+      "narrative_type": null,
+      "published_at": "2025-12-16T01:04:16.545Z"
+    },
+    "upside_pct": 42.69344101276875,
     "multiples": {
       "pe": 29.2,
       "ps": 7.69,
@@ -108,10 +394,10 @@
       "pe_source_url": "https://groww.in/stocks/sbfc-finance-ltd"
     },
     "rewards": [
-      "Earnings grew by 30.6% over the past year",
-      "Price-To-Earnings ratio (23.1x) is below the Indian market (23.4x)",
+      "Earnings have grown 38.2% per year over the past 5 years",
+      "Price-To-Earnings ratio (22.5x) is below the Indian market (23.2x)",
       "Earnings are forecast to grow 18.42% per year",
-      "Analysts in good agreement that stock price will rise by 29.8%"
+      "Analysts in good agreement that stock price will rise by 33.6%"
     ],
     "risks": [
       "Debt is not well covered by [[operating cash flow]]",
@@ -128,8 +414,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 18.85756396507594,
-      "net_income_margin_1y": 0.2564706218,
-      "future_revenue_growth_3y": 0.3320316411,
+      "net_income_margin_1y": 0.257896607,
+      "future_revenue_growth_3y": 0.3297814148,
       "sector_pe": 18.85756396507594
     },
     "industry_benchmarks_meta": {
@@ -164,18 +450,18 @@
         "url": "https://groww.in/stocks/sbfc-finance-ltd"
       },
       "sws_statement": {
-        "company_pe": 23.1,
-        "industry_pe": 20,
+        "company_pe": 22.5,
+        "industry_pe": 20.3,
         "industry_name": "Indian Consumer Finance",
-        "description": "SBFC is expensive based on its Price-To-Earnings Ratio (23.1x) compared to the Indian Consumer Finance industry average (20x).",
+        "description": "SBFC is expensive based on its Price-To-Earnings Ratio (22.5x) compared to the Indian Consumer Finance industry average (20.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 20.116846802,
+        "industry_pe": 20.292129088,
         "industry_code": "7120000",
         "type": "median_profitable",
-        "count": 79,
+        "count": 80,
         "source": {
           "type": "country",
           "country": "IN",
@@ -184,25 +470,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.8,
-        "sample_count": 80,
+        "industry_pe": 19.6,
+        "sample_count": 81,
         "industry_code": "7120000",
         "industry_name": "Diversified Financials"
       },
       "sws_primary_industry": {
-        "industry_pe": 15.729172633,
+        "industry_pe": 15.226484123,
         "industry_name": "Diversified Financials",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 26.57908469078867
+        "company_pe": 25.847376961726525
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 94.3,
-        "fetched_at": "2026-05-31T22:08:18.263Z",
+        "value": 91.63,
+        "fetched_at": "2026-06-11T01:09:59.145Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-sbfc/sbfc-finance-shares"
       },
       "market_cap_inr": {
@@ -210,6 +496,24 @@
         "value": 100829700000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/sbfc-finance-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 130.75,
+        "fetched_at": "2026-06-11T01:09:59.145Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-sbfc/sbfc-finance-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "4741dd98-bd42-44dc-84a4-153026056820",
+        "narrative_type": null,
+        "published_at": "2025-12-16T01:04:16.545Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 42.69344101276875,
+        "fetched_at": "2026-06-11T01:09:59.145Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-sbfc/sbfc-finance-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -249,14 +553,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.2564706218,
-        "fetched_at": "2026-05-31T22:08:18.263Z",
+        "value": 0.257896607,
+        "fetched_at": "2026-06-11T01:09:59.145Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-sbfc/sbfc-finance-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.3320316411,
-        "fetched_at": "2026-05-31T22:08:18.263Z",
+        "value": 0.3297814148,
+        "fetched_at": "2026-06-11T01:09:59.145Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-sbfc/sbfc-finance-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -388,118 +692,118 @@
     "quick_ratio": 3.408170971152394,
     "cash_ratio": 3.24241051200725,
     "returns_pct": {
-      "1D": 3.8889500936432757,
-      "7D": 3.4331468684874364,
-      "1M": 0.3191489361702098,
-      "3M": 1.2998173810291047,
-      "6M": -12.99132681306514,
-      "1Y": -17.627533193570937,
+      "1D": -0.17431092711625537,
+      "7D": -1.3351997415742534,
+      "1M": -5.924024640657095,
+      "3M": -0.9726575164811475,
+      "6M": -13.006740719643028,
+      "1Y": -18.514895509115167,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 0,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
   "ownership": {
     "top_holders": [
       {
-        "pct": 52.38681,
+        "pct": 52.34455,
         "shares": 579188410,
         "is_insider": null
       },
       {
-        "pct": 8.10666,
+        "pct": 8.10012,
         "shares": 89627214,
         "is_insider": null
       },
       {
-        "pct": 5.06913,
+        "pct": 5.06504,
         "shares": 56044250,
         "is_insider": null
       },
       {
-        "pct": 3.70017,
+        "pct": 3.69719,
         "shares": 40909091,
         "is_insider": null
       },
       {
-        "pct": 2.40931,
+        "pct": 2.40737,
         "shares": 26637334,
         "is_insider": null
       },
       {
-        "pct": 1.90691,
+        "pct": 1.90538,
         "shares": 21082845,
         "is_insider": null
       },
       {
-        "pct": 1.81889,
+        "pct": 1.81742,
         "shares": 20109635,
         "is_insider": null
       },
       {
-        "pct": 1.53501,
+        "pct": 1.53377,
         "shares": 16971055,
         "is_insider": null
       },
       {
-        "pct": 1.42495,
+        "pct": 1.4238,
         "shares": 15754216,
         "is_insider": null
       },
       {
-        "pct": 1.23831,
+        "pct": 1.23731,
         "shares": 13690780,
         "is_insider": null
       },
       {
-        "pct": 1.23339,
+        "pct": 1.2324,
         "shares": 13636363,
         "is_insider": null
       },
       {
-        "pct": 1.2167,
+        "pct": 1.21572,
         "shares": 13451818,
         "is_insider": null
       },
       {
-        "pct": 1.17583,
+        "pct": 1.17488,
         "shares": 13000000,
         "is_insider": null
       },
       {
-        "pct": 1.01302,
+        "pct": 1.01221,
         "shares": 11200000,
         "is_insider": null
       },
       {
-        "pct": 1.00376,
+        "pct": 1.00295,
         "shares": 11097610,
         "is_insider": null
       },
       {
-        "pct": 0.57855,
+        "pct": 0.57808,
         "shares": 6396418,
         "is_insider": null
       },
       {
-        "pct": 0.54601,
+        "pct": 0.54557,
         "shares": 6036733,
         "is_insider": null
       },
       {
-        "pct": 0.51433,
-        "shares": 5686486,
+        "pct": 0.33323,
+        "shares": 3687186,
         "is_insider": null
       },
       {
-        "pct": 0.31313,
+        "pct": 0.31288,
         "shares": 3461961,
         "is_insider": null
       },
       {
-        "pct": 0.2836,
+        "pct": 0.28337,
         "shares": 3135484,
         "is_insider": null
       }

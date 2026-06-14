@@ -3,7 +3,7 @@
   "name": "TVS Holdings Limited",
   "sector": "Automobiles",
   "sws_url": "https://simplywall.st/stocks/in/automobiles/nse-tvshltd/tvs-holdings-shares",
-  "parsed_at": "2026-05-31T22:55:37.233Z",
+  "parsed_at": "2026-06-11T01:59:57.103Z",
   "company_id": "F568A896-1803-4897-863B-EFAF5432D790",
   "classification_status": "Active",
   "groww_source": {
@@ -77,22 +77,308 @@
         }
       ]
     },
-    "current_price_inr": 13556,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_HIGH_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 13500,
     "market_cap_inr": 272952300000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 10400,
       "high": 16297
     },
-    "fair_value_inr": 892.207066,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 892.207066,
-      "max": 892.207066,
+      "min": 880.244452,
+      "max": 880.244452,
       "count": 1
     },
-    "upside_pct": -93.41836038654469,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "82cd2f80-2d77-451d-ad67-53cc07deb69a",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 8.05,
       "ps": 0.49,
@@ -112,7 +398,7 @@
       "Earnings grew by 48.5% over the past year",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (16.1x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (16.1x) is below the Indian market (23.2x)"
     ],
     "risks": [
       "Debt is not well covered by [[operating cash flow]]",
@@ -286,8 +572,8 @@
     "dividend_yield_pct": 0.64,
     "industry_benchmarks": {
       "pe": 18.85756396507594,
-      "net_income_margin_1y": 0.06791655765,
-      "future_revenue_growth_3y": 2.175173168,
+      "net_income_margin_1y": 0.06813180623,
+      "future_revenue_growth_3y": 1.577312273,
       "sector_pe": 18.85756396507594
     },
     "industry_benchmarks_meta": {
@@ -323,14 +609,14 @@
       },
       "sws_statement": {
         "company_pe": 16.1,
-        "industry_pe": 27,
+        "industry_pe": 26.6,
         "industry_name": "Indian Auto Components",
-        "description": "TVSHLTD is good value based on its Price-To-Earnings Ratio (16.1x) compared to the Indian Auto Components industry average (27x).",
+        "description": "TVSHLTD is good value based on its Price-To-Earnings Ratio (16.1x) compared to the Indian Auto Components industry average (26.6x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 27.035828631,
+        "industry_pe": 26.637397669,
         "industry_code": "4011000",
         "type": "median_profitable",
         "count": 129,
@@ -342,7 +628,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24.55,
+        "industry_pe": 24.95,
         "sample_count": 124,
         "industry_code": "4011000",
         "industry_name": "Automobiles"
@@ -355,8 +641,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 13556,
-        "fetched_at": "2026-05-31T22:55:37.233Z",
+        "value": 13500,
+        "fetched_at": "2026-06-11T01:59:57.103Z",
         "url": "https://simplywall.st/stocks/in/automobiles/nse-tvshltd/tvs-holdings-shares"
       },
       "market_cap_inr": {
@@ -403,14 +689,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.06791655765,
-        "fetched_at": "2026-05-31T22:55:37.233Z",
+        "value": 0.06813180623,
+        "fetched_at": "2026-06-11T01:59:57.103Z",
         "url": "https://simplywall.st/stocks/in/automobiles/nse-tvshltd/tvs-holdings-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 2.175173168,
-        "fetched_at": "2026-05-31T22:55:37.233Z",
+        "value": 1.577312273,
+        "fetched_at": "2026-06-11T01:59:57.103Z",
         "url": "https://simplywall.st/stocks/in/automobiles/nse-tvshltd/tvs-holdings-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -542,16 +828,16 @@
     "quick_ratio": 0.6758586920796941,
     "cash_ratio": 0.4026698882602872,
     "returns_pct": {
-      "1D": 0.5414225320774309,
-      "7D": 0.4371341779654738,
-      "1M": -7.366406997403308,
-      "3M": -10.278641869084652,
-      "6M": -5.440848214285714,
-      "1Y": 15.51768214742224,
+      "1D": -0.4791743457427202,
+      "7D": -0.22172949002217296,
+      "1M": -4.411244069956808,
+      "3M": -3.9009111617312078,
+      "6M": -7.546911382002465,
+      "1Y": 19.02662669723153,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 4,
+    "recent_news_count": 1,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -613,13 +899,13 @@
         "is_insider": null
       },
       {
-        "pct": 0.36809,
-        "shares": 74472,
+        "pct": 0.36516,
+        "shares": 73880,
         "is_insider": null
       },
       {
-        "pct": 0.33364,
-        "shares": 67503,
+        "pct": 0.33586,
+        "shares": 67952,
         "is_insider": null
       },
       {
@@ -648,13 +934,13 @@
         "is_insider": null
       },
       {
-        "pct": 0.01551,
-        "shares": 3138,
+        "pct": 0.01577,
+        "shares": 3190,
         "is_insider": null
       },
       {
-        "pct": 0.01538,
-        "shares": 3111,
+        "pct": 0.01551,
+        "shares": 3138,
         "is_insider": null
       }
     ],
@@ -1035,6 +1321,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "8e701352-f913-4e3c-aa9d-39d4f6c5c5f4",
+      "type": "event",
+      "date": "2026-06-06T14:18:00.000Z",
+      "title": "TVS Holdings Limited, Annual General Meeting, Jul 22, 2026",
+      "body": "TVS Holdings Limited, Annual General Meeting, Jul 22, 2026, at 14:00 Indian Standard Time.",
+      "keyDevTypeId": "62",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
     {
       "id": "dfa189ca-37ba-4dfd-ab0d-3e3465d3c601",
       "type": "brief",

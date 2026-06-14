@@ -3,7 +3,7 @@
   "name": "Mac Hotels Limited",
   "sector": "Consumer Services",
   "sws_url": "https://simplywall.st/stocks/in/consumer-services/bse-541973/mac-hotels-shares",
-  "parsed_at": "2026-05-31T20:01:29.644Z",
+  "parsed_at": "2026-06-10T23:04:30.034Z",
   "company_id": "0037300F-C6E4-4701-AD4C-9514EFFA6693",
   "classification_status": "Active",
   "groww_source": null,
@@ -11,16 +11,16 @@
     "snowflake": {
       "valuation": 0,
       "future": 0,
-      "past": 1,
-      "financial_health": 5,
+      "past": 2,
+      "financial_health": 3,
       "dividends": 0,
       "future_growth": 0,
-      "past_performance": 1,
+      "past_performance": 2,
       "value": 0,
-      "health": 5,
+      "health": 3,
       "dividend": 0
     },
-    "snowflake_total": 6,
+    "snowflake_total": 5,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 11,
@@ -70,21 +70,310 @@
         }
       ]
     },
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
     "current_price_inr": 86,
     "market_cap_inr": 484290816.4904801,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
-    "fifty_two_week": null,
-    "fair_value_inr": 4.644232,
+    "fifty_two_week": {
+      "low": 65,
+      "high": 91
+    },
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -94.59973023255813,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "1c4f32ec-e35c-4de2-8552-15755b83f42f",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
-      "pe": 99,
+      "pe": 145,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -93,16 +382,17 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": "2026-05-31T20:01:29.644Z",
+      "pe_as_of": "2026-06-10T23:04:30.034Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://simplywall.st/stocks/in/consumer-services/bse-541973/mac-hotels-shares"
     },
-    "rewards": [],
+    "rewards": [
+      "Earnings grew by 19.7% over the past year"
+    ],
     "risks": [
       "High level of [[non-cash earnings]]",
       "Makes less than USD$1m in revenue (₹46M)",
       "Shares are highly illiquid",
-      "Profit margins (10.7%) are lower than last year (31.6%)",
       "Does not have a meaningful market cap (₹484M)"
     ],
     "dividend": {
@@ -142,9 +432,9 @@
     },
     "dividend_yield_pct": 0.5880421026,
     "industry_benchmarks": {
-      "pe": 27.078875295,
-      "net_income_margin_1y": 0.165515606,
-      "future_revenue_growth_3y": 1.224870747
+      "pe": 28.141130414,
+      "net_income_margin_1y": 0.1628077426,
+      "future_revenue_growth_3y": 1.232276429
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -158,30 +448,30 @@
     "pe_benchmark_source": {
       "provider": "sws_industry_api",
       "label": "SWS industry API",
-      "company_pe": 99,
+      "company_pe": 145,
       "company_pe_source": "sws_statement",
       "company_pe_source_label": "SWS visible statement",
-      "industry_pe": 27.078875295,
+      "industry_pe": 28.141130414,
       "industry_name": "Consumer Services",
       "industry_code": "4210000",
-      "sample_count": 80,
+      "sample_count": 81,
       "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 99,
-        "industry_pe": 27.1,
+        "company_pe": 145,
+        "industry_pe": 28.1,
         "industry_name": "Indian Hospitality",
-        "description": "541973 is expensive based on its Price-To-Earnings Ratio (99x) compared to the Indian Hospitality industry average (27.1x).",
+        "description": "541973 is expensive based on its Price-To-Earnings Ratio (145x) compared to the Indian Hospitality industry average (28.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 27.078875295,
+        "industry_pe": 28.141130414,
         "industry_code": "4210000",
         "type": "median_profitable",
-        "count": 80,
+        "count": 81,
         "source": {
           "type": "country",
           "country": "IN",
@@ -190,7 +480,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 25.25,
+        "industry_pe": 26.450000000000003,
         "sample_count": 80,
         "industry_code": "4210000",
         "industry_name": "Consumer Services"
@@ -204,31 +494,40 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 86,
-        "fetched_at": "2026-05-31T20:01:29.644Z",
+        "fetched_at": "2026-06-10T23:04:30.034Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/bse-541973/mac-hotels-shares"
       },
       "multiples.pe": {
         "provider": "sws_statement",
-        "value": 99,
-        "fetched_at": "2026-05-31T20:01:29.644Z",
+        "value": 145,
+        "fetched_at": "2026-06-10T23:04:30.034Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/bse-541973/mac-hotels-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 27.078875295,
+        "value": 28.141130414,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.165515606,
-        "fetched_at": "2026-05-31T20:01:29.644Z",
+        "value": 0.1628077426,
+        "fetched_at": "2026-06-10T23:04:30.034Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/bse-541973/mac-hotels-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 1.224870747,
-        "fetched_at": "2026-05-31T20:01:29.644Z",
+        "value": 1.232276429,
+        "fetched_at": "2026-06-10T23:04:30.034Z",
+        "url": "https://simplywall.st/stocks/in/consumer-services/bse-541973/mac-hotels-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 65,
+          "high": 91
+        },
+        "fetched_at": "2026-06-10T23:04:30.034Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/bse-541973/mac-hotels-shares"
       }
     },
@@ -260,7 +559,7 @@
       "1M": 5.006105006104999,
       "3M": 6.567534076827754,
       "6M": -4.444444444444445,
-      "1Y": 1.1764705882352942,
+      "1Y": 11.688311688311687,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -475,16 +774,6 @@
       "id": "5f85c486-6a4b-46c3-a440-4fd294824bac",
       "type": "brief",
       "date": "2026-01-13T11:47:38.000Z",
-      "title": "Less than half of directors are independent",
-      "body": "Following the recent departure of a director, there are only 2 independent directors on the board. The company's board is composed of: 2 independent directors. 3 non-independent directors. Non-Executive Independent Director Desiderio Misquita was the last independent director to join the board, commencing their role in 2025. The company's minority of independent directors is a risk according to the Simply Wall St Risk Model.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "146dba55-8316-49b0-a679-24025ccf27f7",
-      "type": "brief",
-      "date": "2025-12-12T11:25:33.000Z",
       "title": "Less than half of directors are independent",
       "body": "Following the recent departure of a director, there are only 2 independent directors on the board. The company's board is composed of: 2 independent directors. 3 non-independent directors. Non-Executive Independent Director Desiderio Misquita was the last independent director to join the board, commencing their role in 2025. The company's minority of independent directors is a risk according to the Simply Wall St Risk Model.",
       "keyDevTypeId": null,

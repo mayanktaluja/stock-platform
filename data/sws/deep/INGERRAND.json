@@ -3,7 +3,7 @@
   "name": "Ingersoll-Rand (India) Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-ingerrand/ingersoll-rand-india-shares",
-  "parsed_at": "2026-05-31T20:09:11.558Z",
+  "parsed_at": "2026-06-10T23:12:06.637Z",
   "company_id": "BEA7B9C8-1F29-424A-ADAB-7AF21A12A643",
   "classification_status": "Active",
   "groww_source": {
@@ -17,81 +17,319 @@
   "overview": {
     "snowflake": {
       "valuation": 1,
-      "future": 2,
+      "future": 4,
       "past": 3,
       "financial_health": 6,
       "dividends": 3,
-      "future_growth": 2,
+      "future_growth": 4,
       "past_performance": 3,
       "value": 1,
       "health": 6,
       "dividend": 3
     },
-    "snowflake_total": 15,
-    "snowflake_data_quality": {
-      "insufficient": true,
-      "insufficient_count": 4,
+    "snowflake_total": 17,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
       "checked_count": 30,
-      "affected_pillars": [
-        "Value",
-        "Future"
-      ],
-      "by_pillar": {
-        "Value": {
-          "checked": 6,
-          "insufficient": 1
-        },
-        "Future": {
-          "checked": 6,
-          "insufficient": 3
-        },
-        "Past": {
-          "checked": 6,
-          "insufficient": 0
-        },
-        "Health": {
-          "checked": 6,
-          "insufficient": 0
-        },
-        "Dividends": {
-          "checked": 6,
-          "insufficient": 0
-        }
-      },
-      "samples": [
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
         {
           "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
           "title": "PEG Ratio",
-          "reason_code": "OUTCOME_NULL"
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
         },
         {
           "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
           "title": "High Growth Earnings",
-          "reason_code": "OUTCOME_NULL"
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
         },
         {
           "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
           "title": "Earnings vs Market",
-          "reason_code": "OUTCOME_NULL"
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_OUTSTANDING"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_5_YEARS_AGO"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DIVIDENDS_NOT_COVERED"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DIVIDENDS_NOT_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
         }
       ]
     },
-    "current_price_inr": 4352,
+    "current_price_inr": 3921.6,
     "market_cap_inr": 140220300000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 3063.3,
       "high": 4605
     },
-    "fair_value_inr": 4589,
+    "fair_value_inr": 4934,
     "fair_value_range_inr": {
-      "min": 1346.203759,
-      "max": 4589,
+      "min": 1464.891197,
+      "max": 4934,
       "count": 6
     },
-    "upside_pct": 5.44577205882353,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "9451e641-00bc-4f4b-8b6b-e645679ba66f",
+      "narrative_type": null,
+      "published_at": "2024-07-25T12:48:32.634Z"
+    },
+    "upside_pct": 25.815993472052227,
     "multiples": {
       "pe": 54.16,
       "ps": 9.9,
@@ -108,11 +346,11 @@
       "pe_source_url": "https://groww.in/stocks/ingersollrand-india-ltd"
     },
     "rewards": [
-      "Revenue is forecast to grow 15.28% per year",
-      "Trading at good value vs. peer average Price-To-Earnings ratio"
+      "Trading at good value vs. peer average Price-To-Earnings ratio",
+      "Earnings are forecast to grow 18.33% per year"
     ],
     "risks": [
-      "Dividend of 1.84% is not well covered by earnings or free cash flows"
+      "Dividend of 2.04% is not well covered by earnings or free cash flows"
     ],
     "dividend": {
       "yield_pct": 1.8,
@@ -131,7 +369,7 @@
           "divFreqTypeName": "Interim Payment",
           "annualizedDividend": 80,
           "annualizedDividendListingCurrency": 80,
-          "annualizedYield": 2.1438263659
+          "annualizedYield": 2.1395198208
         },
         {
           "exDate": "2025-07-08T00:00:00.000Z",
@@ -202,11 +440,11 @@
           "exDate": "2022-11-22T00:00:00.000Z",
           "payDate": "2022-12-08T00:00:00.000Z",
           "recordDate": "2022-11-23T00:00:00.000Z",
-          "divAmount": 23,
-          "divAmountListingCurrency": 23,
+          "divAmount": 7,
+          "divAmountListingCurrency": 7,
           "currencyIsoCode": "INR",
-          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-          "divFreqTypeName": "Bonus Payment",
+          "dividendTypeName": "No special code applies",
+          "divFreqTypeName": "Interim Payment",
           "annualizedDividend": 14,
           "annualizedDividendListingCurrency": 14,
           "annualizedYield": 0.6851569613
@@ -215,11 +453,11 @@
           "exDate": "2022-11-22T00:00:00.000Z",
           "payDate": "2022-12-08T00:00:00.000Z",
           "recordDate": "2022-11-23T00:00:00.000Z",
-          "divAmount": 7,
-          "divAmountListingCurrency": 7,
+          "divAmount": 23,
+          "divAmountListingCurrency": 23,
           "currencyIsoCode": "INR",
-          "dividendTypeName": "No special code applies",
-          "divFreqTypeName": "Interim Payment",
+          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+          "divFreqTypeName": "Bonus Payment",
           "annualizedDividend": 14,
           "annualizedDividendListingCurrency": 14,
           "annualizedYield": 0.6851569613
@@ -283,7 +521,7 @@
     "industry_benchmarks": {
       "pe": 46.832351756150835,
       "net_income_margin_1y": 0.1031278814,
-      "future_revenue_growth_3y": 0.5858087225,
+      "future_revenue_growth_3y": 0.5969668729,
       "sector_pe": 46.832351756150835
     },
     "industry_benchmarks_meta": {
@@ -318,18 +556,18 @@
         "url": "https://groww.in/stocks/ingersollrand-india-ltd"
       },
       "sws_statement": {
-        "company_pe": 53.7,
-        "industry_pe": 25.9,
+        "company_pe": 48.4,
+        "industry_pe": 26,
         "industry_name": "Indian Machinery",
-        "description": "INGERRAND is expensive based on its Price-To-Earnings Ratio (53.7x) compared to the Indian Machinery industry average (25.9x).",
+        "description": "INGERRAND is expensive based on its Price-To-Earnings Ratio (48.4x) compared to the Indian Machinery industry average (26x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 25.908333666,
+        "industry_pe": 25.989998333,
         "industry_code": "3070000",
         "type": "median_profitable",
-        "count": 217,
+        "count": 220,
         "source": {
           "type": "country",
           "country": "IN",
@@ -338,8 +576,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 25.799999999999997,
-        "sample_count": 218,
+        "industry_pe": 25.6,
+        "sample_count": 219,
         "industry_code": "3070000",
         "industry_name": "Capital Goods"
       },
@@ -351,8 +589,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 4352,
-        "fetched_at": "2026-05-31T20:09:11.558Z",
+        "value": 3921.6,
+        "fetched_at": "2026-06-10T23:12:06.637Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-ingerrand/ingersoll-rand-india-shares"
       },
       "market_cap_inr": {
@@ -360,6 +598,24 @@
         "value": 140220300000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/ingersollrand-india-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 4934,
+        "fetched_at": "2026-06-10T23:12:06.637Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-ingerrand/ingersoll-rand-india-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "9451e641-00bc-4f4b-8b6b-e645679ba66f",
+        "narrative_type": null,
+        "published_at": "2024-07-25T12:48:32.634Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 25.815993472052227,
+        "fetched_at": "2026-06-10T23:12:06.637Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-ingerrand/ingersoll-rand-india-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -400,13 +656,13 @@
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.1031278814,
-        "fetched_at": "2026-05-31T20:09:11.558Z",
+        "fetched_at": "2026-06-10T23:12:06.637Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-ingerrand/ingersoll-rand-india-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.5858087225,
-        "fetched_at": "2026-05-31T20:09:11.558Z",
+        "value": 0.5969668729,
+        "fetched_at": "2026-06-10T23:12:06.637Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-ingerrand/ingersoll-rand-india-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -538,12 +794,12 @@
     "quick_ratio": 1.682406916138697,
     "cash_ratio": 0.6903030492181892,
     "returns_pct": {
-      "1D": -1.9731507343003953,
-      "7D": -2.7942194724263554,
-      "1M": 0.9651076466221318,
-      "3M": 8.62619808306709,
-      "6M": 16.56622472211062,
-      "1Y": 10.451246129638095,
+      "1D": -0.8570345089116443,
+      "7D": 4.49519038610141,
+      "1M": -11.516245487364623,
+      "3M": 2.9291338582677144,
+      "6M": 9.762651141961479,
+      "1Y": 2.263481798268481,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -594,8 +850,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.30813,
-        "shares": 97270,
+        "pct": 0.31109,
+        "shares": 98206,
         "is_insider": null
       },
       {
@@ -619,8 +875,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.1405,
-        "shares": 44353,
+        "pct": 0.14076,
+        "shares": 44435,
         "is_insider": null
       },
       {
@@ -644,8 +900,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.00228,
-        "shares": 720,
+        "pct": 0.00416,
+        "shares": 1314,
         "is_insider": null
       },
       {
@@ -681,7 +937,7 @@
         "divFreqTypeName": "Interim Payment",
         "annualizedDividend": 80,
         "annualizedDividendListingCurrency": 80,
-        "annualizedYield": 2.1438263659
+        "annualizedYield": 2.1395198208
       },
       {
         "exDate": "2025-07-08T00:00:00.000Z",
@@ -752,11 +1008,11 @@
         "exDate": "2022-11-22T00:00:00.000Z",
         "payDate": "2022-12-08T00:00:00.000Z",
         "recordDate": "2022-11-23T00:00:00.000Z",
-        "divAmount": 23,
-        "divAmountListingCurrency": 23,
+        "divAmount": 7,
+        "divAmountListingCurrency": 7,
         "currencyIsoCode": "INR",
-        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-        "divFreqTypeName": "Bonus Payment",
+        "dividendTypeName": "No special code applies",
+        "divFreqTypeName": "Interim Payment",
         "annualizedDividend": 14,
         "annualizedDividendListingCurrency": 14,
         "annualizedYield": 0.6851569613
@@ -765,11 +1021,11 @@
         "exDate": "2022-11-22T00:00:00.000Z",
         "payDate": "2022-12-08T00:00:00.000Z",
         "recordDate": "2022-11-23T00:00:00.000Z",
-        "divAmount": 7,
-        "divAmountListingCurrency": 7,
+        "divAmount": 23,
+        "divAmountListingCurrency": 23,
         "currencyIsoCode": "INR",
-        "dividendTypeName": "No special code applies",
-        "divFreqTypeName": "Interim Payment",
+        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+        "divFreqTypeName": "Bonus Payment",
         "annualizedDividend": 14,
         "annualizedDividendListingCurrency": 14,
         "annualizedYield": 0.6851569613

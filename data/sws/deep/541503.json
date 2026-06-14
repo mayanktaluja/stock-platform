@@ -3,7 +3,7 @@
   "name": "Unick Fix-A-Form and Printers Limited",
   "sector": "Commercial Services",
   "sws_url": "https://simplywall.st/stocks/in/commercial-services/bse-541503/unick-fix-a-form-and-printers-shares",
-  "parsed_at": "2026-05-31T20:00:26.612Z",
+  "parsed_at": "2026-06-11T02:29:02.192Z",
   "company_id": "A3BABC20-37E7-4CAD-969D-CE22D124E38E",
   "classification_status": "Active",
   "groww_source": {
@@ -16,18 +16,18 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 4,
+      "valuation": 3,
       "future": 0,
       "past": 1,
       "financial_health": 4,
       "dividends": 0,
       "future_growth": 0,
       "past_performance": 1,
-      "value": 4,
+      "value": 3,
       "health": 4,
       "dividend": 0
     },
-    "snowflake_total": 9,
+    "snowflake_total": 8,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 10,
@@ -77,22 +77,308 @@
         }
       ]
     },
-    "current_price_inr": 47.6,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 48.45,
     "market_cap_inr": 263300000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 39,
       "high": 77.17
     },
-    "fair_value_inr": 149.774266,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 214.65181932773115,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "5424cd48-4b6c-4077-bc6f-8f3d6fcac66d",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 12.47,
       "ps": 0.46,
@@ -109,15 +395,15 @@
       "pe_source_url": "https://groww.in/stocks/unick-fixaform-and-printers-ltd"
     },
     "rewards": [
-      "Trading at 68.2% below our estimate of its fair value",
-      "Trading at good value vs. industry average Price-To-Earnings ratio",
+      "Trading at 78.9% below our estimate of its fair value",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
     "risks": [
       "Interest payments are not well covered by earnings",
-      "Earnings have declined by 0.8% per year over past 5 years",
+      "Earnings have declined by 4.7% per year over past 5 years",
+      "Profit margins (1.4%) are lower than last year (4.7%)",
       "Shares are highly illiquid",
-      "Does not have a meaningful market cap (₹261M)"
+      "Does not have a meaningful market cap (₹280M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -130,8 +416,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 36.29959033715902,
-      "net_income_margin_1y": 0.09653111726,
-      "future_revenue_growth_3y": 0.3421137967,
+      "net_income_margin_1y": 0.08997360233,
+      "future_revenue_growth_3y": 0.3445516051,
       "sector_pe": 36.29959033715902
     },
     "industry_benchmarks_meta": {
@@ -166,18 +452,18 @@
         "url": "https://groww.in/stocks/unick-fixaform-and-printers-ltd"
       },
       "sws_statement": {
-        "company_pe": 12.4,
+        "company_pe": 32.8,
         "industry_pe": 19.9,
         "industry_name": "Indian Commercial Services",
-        "description": "541503 is good value based on its Price-To-Earnings Ratio (12.4x) compared to the Indian Commercial Services industry average (19.9x).",
+        "description": "541503 is expensive based on its Price-To-Earnings Ratio (32.8x) compared to the Indian Commercial Services industry average (19.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 19.851410996,
+        "industry_pe": 19.925935312,
         "industry_code": "3110000",
         "type": "median_profitable",
-        "count": 55,
+        "count": 56,
         "source": {
           "type": "country",
           "country": "IN",
@@ -186,8 +472,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.6,
-        "sample_count": 56,
+        "industry_pe": 19.2,
+        "sample_count": 57,
         "industry_code": "3110000",
         "industry_name": "Commercial Services"
       },
@@ -199,8 +485,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 47.6,
-        "fetched_at": "2026-05-31T20:00:26.612Z",
+        "value": 48.45,
+        "fetched_at": "2026-06-11T02:29:02.192Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/bse-541503/unick-fix-a-form-and-printers-shares"
       },
       "market_cap_inr": {
@@ -247,14 +533,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.09653111726,
-        "fetched_at": "2026-05-31T20:00:26.612Z",
+        "value": 0.08997360233,
+        "fetched_at": "2026-06-11T02:29:02.192Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/bse-541503/unick-fix-a-form-and-printers-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.3421137967,
-        "fetched_at": "2026-05-31T20:00:26.612Z",
+        "value": 0.3445516051,
+        "fetched_at": "2026-06-11T02:29:02.192Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/bse-541503/unick-fix-a-form-and-printers-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -386,16 +672,16 @@
     "quick_ratio": 0.6260623229461756,
     "cash_ratio": 0.1504957507082153,
     "returns_pct": {
-      "1D": -0.8333333333333304,
-      "7D": 5.403011514614715,
-      "1M": 10.56910569105692,
-      "3M": 5.777777777777781,
-      "6M": -28.421052631578945,
-      "1Y": -36.490993995997336,
+      "1D": -4.999999999999995,
+      "7D": -7.661520869068031,
+      "1M": 13.732394366197187,
+      "3M": 7.666666666666673,
+      "6M": -24.178403755868537,
+      "1Y": -23.544263847246324,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 1,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -640,6 +926,16 @@
     "BSE"
   ],
   "news": [
+    {
+      "id": "3cdff3d8-a9d6-43e2-806e-a6404991c395",
+      "type": "brief",
+      "date": "2026-06-01T07:47:53.000Z",
+      "title": "Full year 2026 earnings released: EPS: ₹1.55 (vs ₹4.76 in FY 2025)",
+      "body": "Full year 2026 results: EPS: ₹1.55 (down from ₹4.76 in FY 2025). Revenue: ₹592.9m (up 5.9% from FY 2025). Net income: ₹8.52m (down 67% from FY 2025). Profit margin: 1.4% (down from 4.7% in FY 2025). The decrease in margin was driven by higher expenses. Over the last 3 years on average, earnings per share has increased by 4% per year whereas the company’s share price has increased by 1% per year.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "4ca4021c-bd46-4290-ba32-acc22c07e805",
       "type": "event",

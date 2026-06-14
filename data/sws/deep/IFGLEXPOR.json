@@ -3,7 +3,7 @@
   "name": "IFGL Refractories Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-ifglexpor/ifgl-refractories-shares",
-  "parsed_at": "2026-05-31T20:03:01.841Z",
+  "parsed_at": "2026-06-10T23:06:20.448Z",
   "company_id": "7460DD89-A479-436E-8AC2-78B0D1215E6B",
   "classification_status": "Active",
   "groww_source": {
@@ -18,16 +18,16 @@
     "snowflake": {
       "valuation": 0,
       "future": 0,
-      "past": 0,
-      "financial_health": 4,
-      "dividends": 3,
+      "past": 1,
+      "financial_health": 5,
+      "dividends": 2,
       "future_growth": 0,
-      "past_performance": 0,
+      "past_performance": 1,
       "value": 0,
-      "health": 4,
-      "dividend": 3
+      "health": 5,
+      "dividend": 2
     },
-    "snowflake_total": 7,
+    "snowflake_total": 8,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 7,
@@ -76,9 +76,287 @@
         }
       ]
     },
-    "current_price_inr": 174.69,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SAME_PB"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_VOLATILE_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 191.37,
     "market_cap_inr": 12505600000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "nano1",
     "shares_outstanding": 72078624,
     "fifty_two_week": {
@@ -91,7 +369,15 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": 83.75407865361498,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "4d8400a6-ff81-4b37-87a2-3edb74099c42",
+      "narrative_type": null,
+      "published_at": "2025-08-16T05:42:35.825Z"
+    },
+    "upside_pct": 67.73788995140305,
     "multiples": {
       "pe": 43.38,
       "ps": 0.67,
@@ -109,10 +395,8 @@
     },
     "rewards": [],
     "risks": [
-      "Earnings have declined by 9.4% per year over past 5 years",
-      "Profit margins (1.6%) are lower than last year (2.9%)",
-      "Large [[one-off items]] impacting financial results",
-      "Dividend of 2% is not well covered by free cash flows"
+      "Earnings have declined by 13% per year over past 5 years",
+      "Dividend of 1.08% is not well covered by free cash flows"
     ],
     "dividend": {
       "yield_pct": 2.02,
@@ -269,8 +553,8 @@
     "dividend_yield_pct": 2.02,
     "industry_benchmarks": {
       "pe": 52.58587225614787,
-      "net_income_margin_1y": 0.09487982097,
-      "future_revenue_growth_3y": 34.387188816,
+      "net_income_margin_1y": 0.09486136614,
+      "future_revenue_growth_3y": 32.656569349,
       "sector_pe": 52.58587225614787
     },
     "industry_benchmarks_meta": {
@@ -305,15 +589,15 @@
         "url": "https://groww.in/stocks/ifgl-refractories-ltd"
       },
       "sws_statement": {
-        "company_pe": 43.6,
-        "industry_pe": 26.9,
+        "company_pe": 41.2,
+        "industry_pe": 28.9,
         "industry_name": "Indian Basic Materials",
-        "description": "IFGLEXPOR is expensive based on its Price-To-Earnings Ratio (43.6x) compared to the Indian Basic Materials industry average (26.9x).",
+        "description": "IFGLEXPOR is expensive based on its Price-To-Earnings Ratio (41.2x) compared to the Indian Basic Materials industry average (28.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 28.763403424,
+        "industry_pe": 28.917195291,
         "industry_code": "2030000",
         "type": "median_profitable",
         "count": 47,
@@ -325,25 +609,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 28.1,
-        "sample_count": 47,
+        "industry_pe": 28.65,
+        "sample_count": 46,
         "industry_code": "2030000",
         "industry_name": "Materials"
       },
       "sws_primary_industry": {
-        "industry_pe": 19.26596559,
+        "industry_pe": 18.498719492,
         "industry_name": "Materials",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 43.213927208879305
+        "company_pe": 47.34014110689354
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 174.69,
-        "fetched_at": "2026-05-31T20:03:01.841Z",
+        "value": 191.37,
+        "fetched_at": "2026-06-10T23:06:20.448Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-ifglexpor/ifgl-refractories-shares"
       },
       "market_cap_inr": {
@@ -351,6 +635,24 @@
         "value": 12505600000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/ifgl-refractories-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 321,
+        "fetched_at": "2026-06-10T23:06:20.448Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-ifglexpor/ifgl-refractories-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "4d8400a6-ff81-4b37-87a2-3edb74099c42",
+        "narrative_type": null,
+        "published_at": "2025-08-16T05:42:35.825Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 67.73788995140305,
+        "fetched_at": "2026-06-10T23:06:20.448Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-ifglexpor/ifgl-refractories-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -390,14 +692,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.09487982097,
-        "fetched_at": "2026-05-31T20:03:01.841Z",
+        "value": 0.09486136614,
+        "fetched_at": "2026-06-10T23:06:20.448Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-ifglexpor/ifgl-refractories-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 34.387188816,
-        "fetched_at": "2026-05-31T20:03:01.841Z",
+        "value": 32.656569349,
+        "fetched_at": "2026-06-10T23:06:20.448Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-ifglexpor/ifgl-refractories-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -529,16 +831,16 @@
     "quick_ratio": 1.1148878976177024,
     "cash_ratio": 0.11192707014434033,
     "returns_pct": {
-      "1D": 0.5641586552299751,
-      "7D": 3.03155411383072,
-      "1M": -6.846904495280756,
-      "3M": 2.1399754429047517,
-      "6M": -20.26928343222273,
-      "1Y": -33.10100526567736,
+      "1D": -3.446014127144291,
+      "7D": -3.1087033567920543,
+      "1M": 4.573770491803281,
+      "3M": 24.346978557504872,
+      "6M": -8.171785028790786,
+      "1Y": -24.40450325893739,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 1,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -1037,6 +1339,16 @@
   ],
   "news": [
     {
+      "id": "a1c3dede-ed4b-45d9-878d-95077153d3e8",
+      "type": "event",
+      "date": "2026-06-01T08:23:00.000Z",
+      "title": "IFGL Refractories Limited, Annual General Meeting, Aug 05, 2026",
+      "body": "IFGL Refractories Limited, Annual General Meeting, Aug 05, 2026.",
+      "keyDevTypeId": "62",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
+    {
       "id": "4cd08c73-d0e6-45a1-962b-107fef2b4634",
       "type": "event",
       "date": "2026-05-22T09:42:00.000Z",
@@ -1104,16 +1416,6 @@
       "body": "David Iben put it well when he said, 'Volatility is not a risk we care about. What we care about is avoiding the...",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/stocks/in/materials/nse-ifglexpor/ifgl-refractories-shares/news/we-think-ifgl-refractories-nseifglexpor-can-stay-on-top-of-i",
-      "raw_subtype": "article"
-    },
-    {
-      "id": "1df5f212-e800-454d-8872-4a08e3d49f37",
-      "type": "article",
-      "date": "2025-12-09T01:38:39.000Z",
-      "title": "IFGL Refractories (NSE:IFGLEXPOR) May Have Issues Allocating Its Capital",
-      "body": "What are the early trends we should look for to identify a stock that could multiply in value over the long term...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/materials/nse-ifglexpor/ifgl-refractories-shares/news/ifgl-refractories-nseifglexpor-may-have-issues-allocating-it-1",
       "raw_subtype": "article"
     }
   ],

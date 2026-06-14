@@ -3,7 +3,7 @@
   "name": "R M Drip and Sprinklers Systems Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-rmdrip/r-m-drip-and-sprinklers-systems-shares",
-  "parsed_at": "2026-05-31T21:54:25.506Z",
+  "parsed_at": "2026-06-11T00:54:19.168Z",
   "company_id": "F30B657F-7790-481E-B59D-64A838914067",
   "classification_status": "Active",
   "groww_source": {
@@ -16,18 +16,18 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 1,
+      "valuation": 2,
       "future": 0,
-      "past": 6,
+      "past": 3,
       "financial_health": 4,
       "dividends": 1,
       "future_growth": 0,
-      "past_performance": 6,
-      "value": 1,
+      "past_performance": 3,
+      "value": 2,
       "health": 4,
       "dividend": 1
     },
-    "snowflake_total": 12,
+    "snowflake_total": 10,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 7,
@@ -76,22 +76,308 @@
         }
       ]
     },
-    "current_price_inr": 17.94,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOO_EARLY"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOO_EARLY"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 16.85,
     "market_cap_inr": 7892300000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 17.11,
       "high": 72.22
     },
-    "fair_value_inr": 0.320846,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 0.320846,
-      "max": 0.320846,
+      "min": 0.333854,
+      "max": 0.333854,
       "count": 1
     },
-    "upside_pct": -98.2115607580825,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "bec338c4-ca27-4a32-b72a-a5e820f52887",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 22.2,
       "ps": 4.28,
@@ -108,14 +394,15 @@
       "pe_source_url": "https://groww.in/stocks/rm-drip-and-sprinklers-system-ltd"
     },
     "rewards": [
-      "Price-To-Earnings ratio (21.9x) is below the Indian market (23.4x)",
+      "Trading at good value vs. peer average Price-To-Earnings ratio",
+      "Price-To-Earnings ratio (20.7x) is below the Indian market (23.2x)",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Earnings grew by 117% over the past year"
+      "Earnings grew by 45.6% over the past year"
     ],
     "risks": [
-      "Does not have a meaningful market cap (₹8B)",
+      "High level of [[non-cash earnings]]",
+      "Does not have a meaningful market cap (₹7B)",
       "Debt is not well covered by [[operating cash flow]]",
-      "Highly volatile share price over past 3 months",
       "Shareholders have been substantially diluted in the past year"
     ],
     "dividend": {
@@ -135,7 +422,7 @@
           "divFreqTypeName": "Annual",
           "annualizedDividend": 0.0292,
           "annualizedDividendListingCurrency": 0.0292,
-          "annualizedYield": 0.0824337236
+          "annualizedYield": 0.0863980211
         }
       ],
       "payment_count": 1
@@ -144,7 +431,7 @@
     "industry_benchmarks": {
       "pe": 40.23659070712202,
       "net_income_margin_1y": 0.1031278814,
-      "future_revenue_growth_3y": 0.5858087225,
+      "future_revenue_growth_3y": 0.5969668729,
       "sector_pe": 40.23659070712202
     },
     "industry_benchmarks_meta": {
@@ -179,18 +466,18 @@
         "url": "https://groww.in/stocks/rm-drip-and-sprinklers-system-ltd"
       },
       "sws_statement": {
-        "company_pe": 21.9,
-        "industry_pe": 25.9,
+        "company_pe": 20.7,
+        "industry_pe": 26,
         "industry_name": "Indian Machinery",
-        "description": "RMDRIP is good value based on its Price-To-Earnings Ratio (21.9x) compared to the Indian Machinery industry average (25.9x).",
+        "description": "RMDRIP is good value based on its Price-To-Earnings Ratio (20.7x) compared to the Indian Machinery industry average (26x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 25.908333666,
+        "industry_pe": 25.989998333,
         "industry_code": "3070000",
         "type": "median_profitable",
-        "count": 217,
+        "count": 220,
         "source": {
           "type": "country",
           "country": "IN",
@@ -199,8 +486,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 25.799999999999997,
-        "sample_count": 218,
+        "industry_pe": 25.6,
+        "sample_count": 219,
         "industry_code": "3070000",
         "industry_name": "Capital Goods"
       },
@@ -212,8 +499,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 17.94,
-        "fetched_at": "2026-05-31T21:54:25.506Z",
+        "value": 16.85,
+        "fetched_at": "2026-06-11T00:54:19.168Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-rmdrip/r-m-drip-and-sprinklers-systems-shares"
       },
       "market_cap_inr": {
@@ -261,13 +548,13 @@
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.1031278814,
-        "fetched_at": "2026-05-31T21:54:25.506Z",
+        "fetched_at": "2026-06-11T00:54:19.168Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-rmdrip/r-m-drip-and-sprinklers-systems-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.5858087225,
-        "fetched_at": "2026-05-31T21:54:25.506Z",
+        "value": 0.5969668729,
+        "fetched_at": "2026-06-11T00:54:19.168Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-rmdrip/r-m-drip-and-sprinklers-systems-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -399,16 +686,16 @@
     "quick_ratio": 3.593333333333333,
     "cash_ratio": 0.006,
     "returns_pct": {
-      "1D": -2.5529603476371476,
-      "7D": -4.726500265533708,
-      "1M": -13.915547024952007,
-      "3M": -56.395452701972545,
-      "6M": -62.0317444246241,
-      "1Y": -43.81239302548308,
+      "1D": 4.984423676012465,
+      "7D": 8.77985797288574,
+      "1M": -10.846560846560832,
+      "3M": -31.273574489533956,
+      "6M": -63.67490606028896,
+      "1Y": -46.95975854193415,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -527,7 +814,7 @@
         "divFreqTypeName": "Annual",
         "annualizedDividend": 0.0292,
         "annualizedDividendListingCurrency": 0.0292,
-        "annualizedYield": 0.0824337236
+        "annualizedYield": 0.0863980211
       }
     ],
     "payment_count": 1
@@ -750,6 +1037,26 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "8dc2c2d4-15be-4976-9ba9-8c4b7178f08f",
+      "type": "article",
+      "date": "2026-06-08T01:26:15.000Z",
+      "title": "There Are Some Holes In R M Drip and Sprinklers Systems' (NSE:RMDRIP) Solid Earnings Release",
+      "body": "The healthy profit announcement from R M Drip and Sprinklers Systems Limited ( NSE:RMDRIP ) didn't seem to impress...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/capital-goods/nse-rmdrip/r-m-drip-and-sprinklers-systems-shares/news/there-are-some-holes-in-r-m-drip-and-sprinklers-systems-nser",
+      "raw_subtype": "article"
+    },
+    {
+      "id": "65e371f0-1f6c-4226-939d-2238625b0b79",
+      "type": "brief",
+      "date": "2026-06-02T12:32:24.000Z",
+      "title": "Full year 2026 earnings released: EPS: ₹1.40 (vs ₹0.58 in FY 2025)",
+      "body": "Full year 2026 results: EPS: ₹1.40 (up from ₹0.58 in FY 2025). Revenue: ₹1.99b (up 52% from FY 2025). Net income: ₹349.4m (up 46% from FY 2025). Profit margin: 18% (in line with FY 2025). Over the last 3 years on average, earnings per share has increased by 69% per year but the company’s share price has increased by 81% per year, which means it is tracking significantly ahead of earnings growth.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "f181b356-3317-413c-9c5c-7a0155cac5f5",
       "type": "event",

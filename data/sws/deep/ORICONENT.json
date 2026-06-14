@@ -3,7 +3,7 @@
   "name": "Oricon Enterprises Limited",
   "sector": "Transportation",
   "sws_url": "https://simplywall.st/stocks/in/transportation/nse-oriconent/oricon-enterprises-shares",
-  "parsed_at": "2026-05-31T21:20:01.548Z",
+  "parsed_at": "2026-06-11T00:23:54.522Z",
   "company_id": "F93A29FF-326F-4612-A13D-B76C4AF12922",
   "classification_status": "Active",
   "groww_source": {
@@ -16,18 +16,18 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 1,
+      "valuation": 0,
       "future": 0,
       "past": 4,
-      "financial_health": 5,
+      "financial_health": 4,
       "dividends": 2,
       "future_growth": 0,
       "past_performance": 4,
-      "value": 1,
-      "health": 5,
+      "value": 0,
+      "health": 4,
       "dividend": 2
     },
-    "snowflake_total": 12,
+    "snowflake_total": 10,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 8,
@@ -77,22 +77,308 @@
         }
       ]
     },
-    "current_price_inr": 64.83,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DIVIDENDS_FALLEN"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 55.28,
     "market_cap_inr": 9994500000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 40,
       "high": 73.12
     },
-    "fair_value_inr": 3.783585,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -94.16383618695048,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "015d0722-2f5b-4fdb-bf93-ee0863fc856d",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 33.32,
       "ps": 13.28,
@@ -109,12 +395,13 @@
       "pe_source_url": "https://groww.in/stocks/oricon-enterprises-ltd"
     },
     "rewards": [
-      "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Earnings grew by 488.8% over the past year"
+      "Earnings grew by 688% over the past year"
     ],
     "risks": [
-      "Large [[one-off items]] impacting financial results",
-      "Dividend of 0.77% is not well covered by earnings or free cash flows"
+      "Does not have a meaningful market cap (₹9B)",
+      "Dividend of 0.36% is not well covered by free cash flows",
+      "Earnings have declined by 48.4% per year over past 5 years",
+      "Does not have meaningful revenue (₹421M)"
     ],
     "dividend": {
       "yield_pct": 0.79,
@@ -191,11 +478,11 @@
           "exDate": "2020-03-19T00:00:00.000Z",
           "payDate": "2020-03-31T00:00:00.000Z",
           "recordDate": "2020-03-21T00:00:00.000Z",
-          "divAmount": 0.3,
-          "divAmountListingCurrency": 0.3,
+          "divAmount": 0.5,
+          "divAmountListingCurrency": 0.5,
           "currencyIsoCode": "INR",
-          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-          "divFreqTypeName": "Bonus Payment",
+          "dividendTypeName": "No special code applies",
+          "divFreqTypeName": "Interim Payment",
           "annualizedDividend": 0.5,
           "annualizedDividendListingCurrency": 0.5,
           "annualizedYield": 3.8073781249
@@ -204,11 +491,11 @@
           "exDate": "2020-03-19T00:00:00.000Z",
           "payDate": "2020-03-31T00:00:00.000Z",
           "recordDate": "2020-03-21T00:00:00.000Z",
-          "divAmount": 0.5,
-          "divAmountListingCurrency": 0.5,
+          "divAmount": 0.3,
+          "divAmountListingCurrency": 0.3,
           "currencyIsoCode": "INR",
-          "dividendTypeName": "No special code applies",
-          "divFreqTypeName": "Interim Payment",
+          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+          "divFreqTypeName": "Bonus Payment",
           "annualizedDividend": 0.5,
           "annualizedDividendListingCurrency": 0.5,
           "annualizedYield": 3.8073781249
@@ -258,8 +545,8 @@
     "dividend_yield_pct": 0.79,
     "industry_benchmarks": {
       "pe": 23.156212158832627,
-      "net_income_margin_1y": 0.1781603166,
-      "future_revenue_growth_3y": 0.07954969199,
+      "net_income_margin_1y": 0.172388116,
+      "future_revenue_growth_3y": 0.08993887846,
       "sector_pe": 23.156212158832627
     },
     "industry_benchmarks_meta": {
@@ -294,18 +581,18 @@
         "url": "https://groww.in/stocks/oricon-enterprises-ltd"
       },
       "sws_statement": {
-        "company_pe": 32.2,
-        "industry_pe": 11.1,
+        "company_pe": 47.5,
+        "industry_pe": 11,
         "industry_name": "Asian Shipping",
-        "description": "ORICONENT is expensive based on its Price-To-Earnings Ratio (32.2x) compared to the Asian Shipping industry average (11.1x).",
+        "description": "ORICONENT is expensive based on its Price-To-Earnings Ratio (47.5x) compared to the Asian Shipping industry average (11x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 13.925224368,
+        "industry_pe": 20.029705924,
         "industry_code": "3230000",
         "type": "median_profitable",
-        "count": 12,
+        "count": 13,
         "source": {
           "type": "country",
           "country": "IN",
@@ -314,8 +601,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 13.95,
-        "sample_count": 12,
+        "industry_pe": 20,
+        "sample_count": 13,
         "industry_code": "3230000",
         "industry_name": "Transportation"
       },
@@ -327,8 +614,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 64.83,
-        "fetched_at": "2026-05-31T21:20:01.548Z",
+        "value": 55.28,
+        "fetched_at": "2026-06-11T00:23:54.522Z",
         "url": "https://simplywall.st/stocks/in/transportation/nse-oriconent/oricon-enterprises-shares"
       },
       "market_cap_inr": {
@@ -375,14 +662,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.1781603166,
-        "fetched_at": "2026-05-31T21:20:01.548Z",
+        "value": 0.172388116,
+        "fetched_at": "2026-06-11T00:23:54.522Z",
         "url": "https://simplywall.st/stocks/in/transportation/nse-oriconent/oricon-enterprises-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.07954969199,
-        "fetched_at": "2026-05-31T21:20:01.548Z",
+        "value": 0.08993887846,
+        "fetched_at": "2026-06-11T00:23:54.522Z",
         "url": "https://simplywall.st/stocks/in/transportation/nse-oriconent/oricon-enterprises-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -514,16 +801,16 @@
     "quick_ratio": 6.340889464594128,
     "cash_ratio": 0.645293609671848,
     "returns_pct": {
-      "1D": 1.233603997501549,
-      "7D": 5.53475500569754,
-      "1M": 0.1854427445526264,
-      "3M": -4.703807143907103,
-      "6M": 10.10529891304347,
-      "1Y": 56.29218900675025,
+      "1D": -4.094378903539208,
+      "7D": -8.279409324705494,
+      "1M": -13.692427790788441,
+      "3M": -15.058389674247078,
+      "6M": -6.161941945340342,
+      "1Y": 20.069504778453524,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 7,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -567,6 +854,11 @@
       {
         "pct": 2.60155,
         "shares": 4085675,
+        "is_insider": null
+      },
+      {
+        "pct": 2.29898,
+        "shares": 3610500,
         "is_insider": null
       },
       {
@@ -622,11 +914,6 @@
       {
         "pct": 0.46369,
         "shares": 728215,
-        "is_insider": null
-      },
-      {
-        "pct": 0.23706,
-        "shares": 372300,
         "is_insider": null
       }
     ],
@@ -715,11 +1002,11 @@
         "exDate": "2020-03-19T00:00:00.000Z",
         "payDate": "2020-03-31T00:00:00.000Z",
         "recordDate": "2020-03-21T00:00:00.000Z",
-        "divAmount": 0.3,
-        "divAmountListingCurrency": 0.3,
+        "divAmount": 0.5,
+        "divAmountListingCurrency": 0.5,
         "currencyIsoCode": "INR",
-        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-        "divFreqTypeName": "Bonus Payment",
+        "dividendTypeName": "No special code applies",
+        "divFreqTypeName": "Interim Payment",
         "annualizedDividend": 0.5,
         "annualizedDividendListingCurrency": 0.5,
         "annualizedYield": 3.8073781249
@@ -728,11 +1015,11 @@
         "exDate": "2020-03-19T00:00:00.000Z",
         "payDate": "2020-03-31T00:00:00.000Z",
         "recordDate": "2020-03-21T00:00:00.000Z",
-        "divAmount": 0.5,
-        "divAmountListingCurrency": 0.5,
+        "divAmount": 0.3,
+        "divAmountListingCurrency": 0.3,
         "currencyIsoCode": "INR",
-        "dividendTypeName": "No special code applies",
-        "divFreqTypeName": "Interim Payment",
+        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+        "divFreqTypeName": "Bonus Payment",
         "annualizedDividend": 0.5,
         "annualizedDividendListingCurrency": 0.5,
         "annualizedYield": 3.8073781249
@@ -1006,6 +1293,46 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "68c18484-df93-45cf-886b-8ca66fa99517",
+      "type": "article",
+      "date": "2026-06-06T03:01:48.000Z",
+      "title": "We Think You Should Be Aware Of Some Concerning Factors In Oricon Enterprises' (NSE:ORICONENT) Earnings",
+      "body": "Oricon Enterprises Limited's ( NSE:ORICONENT ) robust recent earnings didn't do much to move the stock. We believe that...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/transportation/nse-oriconent/oricon-enterprises-shares/news/we-think-you-should-be-aware-of-some-concerning-factors-in-o-15",
+      "raw_subtype": "article"
+    },
+    {
+      "id": "c1877dbf-9afe-430e-bf27-f5486144fd6b",
+      "type": "brief",
+      "date": "2026-06-05T11:30:35.000Z",
+      "title": "New minor risk - Revenue size",
+      "body": "The company makes less than US$5m in revenue. Total revenue: ₹421m (US$4.4m) This is considered a minor risk. Companies with a small amount of revenue are most likely businesses that have not yet released a product to market or are simply a very small company without a wide reach. Either way, risk is elevated with these companies because there is a chance the product may not come to fruition or the company's addressable market or demand may not be as large as expected. In addition, if the company's size is the main factor, it is less likely to have many investors and analysts following it and scrutinizing its performance and outlook. Currently, the following risks have been identified for the company: Major Risk Earnings have declined by 48% per year over the past 5 years. Minor Risks Payi",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "ba5e7d4d-a4c6-488e-969d-8f578c919800",
+      "type": "brief",
+      "date": "2026-06-03T17:09:43.000Z",
+      "title": "New minor risk - Market cap size",
+      "body": "The company's market capitalization is less than US$100m. Market cap: ₹9.55b (US$99.7m) This is considered a minor risk. Companies with a small market capitalization are most likely businesses that have not yet released a product to market or are simply a very small company without a wide reach. Either way, risk is elevated with these companies because there is a chance the product may not come to fruition or the company's addressable market or demand may not be as large as expected. In addition, if the company's size is the main factor, it is less likely to have many investors and analysts following it and scrutinizing its performance and outlook. Currently, the following risks have been identified for the company: Major Risks Dividend is not well covered by earnings and cash flows. Payou",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "53ee12d4-01a9-4421-bd8f-8419c31ef0d8",
+      "type": "brief",
+      "date": "2026-05-31T23:04:40.000Z",
+      "title": "New major risk - Revenue and earnings growth",
+      "body": "Earnings have declined by 48% per year over the past 5 years. This is considered a major risk. Ultimately, shareholders want to see a good return on their investment and that generally comes from sharing in the company's profits. If profits are declining over an extended period, then in most cases the share price will decline over time unless the company can turn around its fortunes. A trend of falling earnings can be very difficult to turn around. If the company is well already established it may also be a sign the company has matured and is in decline. In addition, if the company pays dividends it will also likely need to reduce or cut them, striking a dual blow to total shareholder returns. Currently, the following risks have been identified for the company: Major Risks Dividend is not ",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "be585a83-060b-45f1-89d2-d85028be1b97",
       "type": "event",

@@ -3,7 +3,7 @@
   "name": "Asian Paints Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-asianpaint/asian-paints-shares",
-  "parsed_at": "2026-05-31T21:17:47.154Z",
+  "parsed_at": "2026-06-11T00:14:35.519Z",
   "company_id": "186E88DD-957A-41D1-B8E5-4DDD216621EB",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 4
     },
     "snowflake_total": 16,
-    "current_price_inr": 2671.6,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_50_TO_75"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 2715.1,
     "market_cap_inr": 2563360200000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "mega8",
     "shares_outstanding": 959197790,
     "fifty_two_week": {
       "low": 2115,
       "high": 2985.7
     },
-    "fair_value_inr": 2654.73529,
+    "fair_value_inr": 2818.22222,
     "fair_value_range_inr": {
-      "min": 553.025682,
-      "max": 2654.73529,
+      "min": 652.827557,
+      "max": 2818.22222,
       "count": 87
     },
-    "upside_pct": -0.6312587962269739,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "ed047913-d11a-4d75-8984-2ea56a37e316",
+      "narrative_type": null,
+      "published_at": "2026-06-01T17:04:05.081Z"
+    },
+    "upside_pct": 3.7981002541342934,
     "multiples": {
       "pe": 65.56,
       "ps": 7.4,
@@ -61,14 +347,14 @@
     },
     "rewards": [
       "Earnings grew by 17.9% over the past year",
-      "Earnings are forecast to grow 11.49% per year"
+      "Earnings are forecast to grow 12.02% per year"
     ],
     "risks": [
       "Unstable dividend track record"
     ],
     "dividend": {
       "yield_pct": 0.93,
-      "payout_pct": 61.86184178334408,
+      "payout_pct": 54.99694866773787,
       "annualized_dividend": 24.8,
       "listing_currency": "INR",
       "recent_payments": [
@@ -234,8 +520,8 @@
     "dividend_yield_pct": 0.93,
     "industry_benchmarks": {
       "pe": 54.79926876898152,
-      "net_income_margin_1y": 0.09487982097,
-      "future_revenue_growth_3y": 34.387188816,
+      "net_income_margin_1y": 0.09486136614,
+      "future_revenue_growth_3y": 32.656569349,
       "sector_pe": 54.79926876898152
     },
     "industry_benchmarks_meta": {
@@ -270,18 +556,18 @@
         "url": "https://groww.in/stocks/asian-paints-ltd"
       },
       "sws_statement": {
-        "company_pe": 59.2,
-        "industry_pe": 22.2,
+        "company_pe": 60.1,
+        "industry_pe": 20.7,
         "industry_name": "Indian Chemicals",
-        "description": "ASIANPAINT is expensive based on its Price-To-Earnings Ratio (59.2x) compared to the Indian Chemicals industry average (22.2x).",
+        "description": "ASIANPAINT is expensive based on its Price-To-Earnings Ratio (60.1x) compared to the Indian Chemicals industry average (20.7x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 22.185241114,
+        "industry_pe": 20.665261726,
         "industry_code": "2020000",
         "type": "median_profitable",
-        "count": 304,
+        "count": 302,
         "source": {
           "type": "country",
           "country": "IN",
@@ -290,25 +576,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.5,
-        "sample_count": 293,
+        "industry_pe": 19.6,
+        "sample_count": 294,
         "industry_code": "2020000",
         "industry_name": "Materials"
       },
       "sws_primary_industry": {
-        "industry_pe": 19.26596559,
+        "industry_pe": 18.498719492,
         "industry_name": "Materials",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 66.64116794692825
+        "company_pe": 60.2105706966835
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 2671.6,
-        "fetched_at": "2026-05-31T21:17:47.154Z",
+        "value": 2715.1,
+        "fetched_at": "2026-06-11T00:14:35.519Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-asianpaint/asian-paints-shares"
       },
       "market_cap_inr": {
@@ -316,6 +602,24 @@
         "value": 2563360200000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/asian-paints-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 2818.22222,
+        "fetched_at": "2026-06-11T00:14:35.519Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-asianpaint/asian-paints-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "ed047913-d11a-4d75-8984-2ea56a37e316",
+        "narrative_type": null,
+        "published_at": "2026-06-01T17:04:05.081Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 3.7981002541342934,
+        "fetched_at": "2026-06-11T00:14:35.519Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-asianpaint/asian-paints-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -355,14 +659,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.09487982097,
-        "fetched_at": "2026-05-31T21:17:47.154Z",
+        "value": 0.09486136614,
+        "fetched_at": "2026-06-11T00:14:35.519Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-asianpaint/asian-paints-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 34.387188816,
-        "fetched_at": "2026-05-31T21:17:47.154Z",
+        "value": 32.656569349,
+        "fetched_at": "2026-06-11T00:14:35.519Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-asianpaint/asian-paints-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -471,13 +775,13 @@
         "url": "https://groww.in/stocks/asian-paints-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 4.8573446443228265,
+    "earnings_growth_yoy_pct": 20.248149857381943,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 2.3335617287961394,
-    "latest_revenue": 346495300000,
-    "latest_net_income": 38453600000,
+    "revenue_growth_pct": 5.188922148431103,
+    "latest_revenue": 355835400000,
+    "latest_net_income": 43253500000,
     "latest_eps": 40.76,
-    "most_recent_reported_date": "2026-05-08",
+    "most_recent_reported_date": "2026-06-01",
     "pb": 13.09,
     "ps": 7.4,
     "book_value": 204.1142086,
@@ -494,16 +798,16 @@
     "quick_ratio": 1.4513784115732176,
     "cash_ratio": 0.12326852406350584,
     "returns_pct": {
-      "1D": -0.011227965118461839,
-      "7D": 1.2046367149026338,
-      "1M": 9.165202468025976,
-      "3M": 12.431613500547096,
-      "6M": -7.055385471750632,
-      "1Y": 17.862972603344073,
+      "1D": 0.258483807835752,
+      "7D": 1.9794170673076854,
+      "1M": 5.806476754608161,
+      "3M": 22.235728435080144,
+      "6M": -1.7975983796296395,
+      "1Y": 22.921948569358914,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 4,
+    "recent_news_count": 6,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -555,8 +859,8 @@
         "is_insider": null
       },
       {
-        "pct": 2.00115,
-        "shares": 19195024,
+        "pct": 2.04741,
+        "shares": 19638749,
         "is_insider": null
       },
       {
@@ -622,7 +926,7 @@
   },
   "dividend": {
     "yield_pct": 0.93,
-    "payout_pct": 61.86184178334408,
+    "payout_pct": 54.99694866773787,
     "annualized_dividend": 24.8,
     "listing_currency": "INR",
     "recent_payments": [
@@ -786,44 +1090,44 @@
     "payment_count": 22
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-08",
+    "most_recent_reported_date": "2026-06-01",
     "latest_year": 2026,
-    "latest_revenue": 346495300000,
-    "latest_net_income": 38453600000,
+    "latest_revenue": 355835400000,
+    "latest_net_income": 43253500000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 2.3335617287961394,
-    "earnings_growth_pct": 4.8573446443228265,
-    "net_margin_pct": 11.09787059160687,
+    "revenue_growth_pct": 5.188922148431103,
+    "earnings_growth_pct": 20.248149857381943,
+    "net_margin_pct": 12.155479752717127,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 346495300000,
-        "netIncome": 38453600000,
+        "revenue": 355835400000,
+        "netIncome": 43253500000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 338594000000,
-        "netIncome": 36672300000,
+        "revenue": 338282200000,
+        "netIncome": 35970200000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 354375200000,
-        "netIncome": 54602300000,
+        "revenue": 352269700000,
+        "netIncome": 50798400000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 344300900000,
-        "netIncome": 41064500000,
+        "revenue": 350034600000,
+        "netIncome": 46398900000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 289818700000,
-        "netIncome": 30305700000,
+        "revenue": 319645900000,
+        "netIncome": 34790000000,
         "eps": null
       }
     ]
@@ -1030,6 +1334,36 @@
   ],
   "news": [
     {
+      "id": "4a6ad5f2-229d-4538-b2eb-76bc439669b7",
+      "type": "article",
+      "date": "2026-06-02T00:08:45.000Z",
+      "title": "Asian Paints Limited (NSE:ASIANPAINT) Analysts Are Pretty Bullish On The Stock After Recent Results",
+      "body": "The annual results for Asian Paints Limited ( NSE:ASIANPAINT ) were released last week, making it a good time to...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/materials/nse-asianpaint/asian-paints-shares/news/asian-paints-limited-nseasianpaint-analysts-are-pretty-bulli",
+      "raw_subtype": "article"
+    },
+    {
+      "id": "c2a78f88-b182-40ad-8af3-96d7677a160e",
+      "type": "narrative-update",
+      "date": "2026-06-01T17:04:05.000Z",
+      "title": "ASIANPAINT: Board Review And Dividend Payout Will Shape Fairly Valued Outlook",
+      "body": "Analysts have lifted their price target for Asian Paints from ₹2,654.74 to ₹2,818.22, citing updated assumptions around revenue growth, profit margins, and a slightly lower future P/E multiple. What's in the News A board meeting is scheduled for May 29, 2026 to review audited standalone and consolidated financial results for the quarter and year ended March 31, 2026, and to consider a final dividend recommendation for the year.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/materials/nse-asianpaint/asian-paints-shares/zu99idms-india-urbanization-and-affordable-housing-will-open-new-opportunities-axjq/updates/24-analysts-have-lifted-their-price-target-for-asian-paints-fro",
+      "raw_subtype": "narrative-update"
+    },
+    {
+      "id": "aa46fdc9-4bc6-4eaa-a0fd-87d7ad34fe8e",
+      "type": "brief",
+      "date": "2026-06-01T11:39:13.000Z",
+      "title": "Final dividend increased to ₹23.00",
+      "body": "Dividend of ₹23.00 is 12% higher than last year. Ex-date: 23rd June 2026 Payment date: 8th August 2026 Dividend yield will be 1.0%, which is higher than the industry average of 0.8%. Sustainability & Growth Dividend is covered by both earnings (61% earnings payout ratio) and cash flows (47% cash payout ratio). The dividend has increased by an average of 16% per year over the past 10 years. However, payments have been volatile during that time. EPS is expected to grow by 40% over the next 3 years, which should provide support to the dividend and adequate earnings cover.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
       "id": "3bd580ce-9448-404a-8344-2b2c4e652cf1",
       "type": "brief",
       "date": "2026-05-30T19:43:04.000Z",
@@ -1188,16 +1522,6 @@
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/stocks/in/materials/nse-asianpaint/asian-paints-shares/news/is-asian-paints-nseasianpaint-using-too-much-debt-2",
       "raw_subtype": "article"
-    },
-    {
-      "id": "93cd3e5c-2616-411f-a6d5-bab47b7c8306",
-      "type": "narrative-update",
-      "date": "2025-12-11T19:07:51.000Z",
-      "title": "ASIANPAINT: Dividend Plans And Earnings Will Shape A Balanced Near-Term Outlook",
-      "body": "Analysts have modestly raised their fair value estimate for Asian Paints to ₹2,803 from ₹2,746, citing a slightly lower discount rate, broadly stable long term growth and margin assumptions, and a marginally higher future P E multiple. What's in the News The Board of Directors approved an interim dividend of INR 4.50 per equity share of face value INR 1 for the financial year ending 31 March 2026, with a record date of 18 November 2025 and payment on or after 27 November 2025 (company filing).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/materials/nse-asianpaint/asian-paints-shares/zu99idms-india-urbanization-and-affordable-housing-will-open-new-opportunities-axjq/updates/13-analysts-have-modestly-raised-their-fair-value-estimate-for",
-      "raw_subtype": "narrative-update"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/ASIANPAINT.json"

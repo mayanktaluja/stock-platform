@@ -3,7 +3,7 @@
   "name": "Rossari Biotech Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-rossari/rossari-biotech-shares",
-  "parsed_at": "2026-05-31T21:55:10.926Z",
+  "parsed_at": "2026-06-11T00:55:02.294Z",
   "company_id": "B4105287-7BCA-4A90-A46A-6673538D8C20",
   "classification_status": "Active",
   "groww_source": {
@@ -28,10 +28,288 @@
       "dividend": 0
     },
     "snowflake_total": 9,
-    "current_price_inr": 518.85,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 510.4,
     "market_cap_inr": 29775800000,
-    "market_cap_usd": 120714180851.549,
-    "market_cap_band": "small3",
+    "market_cap_usd": 120753634221.641,
+    "market_cap_band": "micro2",
     "shares_outstanding": 55391616,
     "fifty_two_week": {
       "low": 375,
@@ -39,11 +317,19 @@
     },
     "fair_value_inr": 601.75,
     "fair_value_range_inr": {
-      "min": 484.749893,
+      "min": 491.0448,
       "max": 601.75,
       "count": 8
     },
-    "upside_pct": 15.977642864026206,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "13dfd399-fab9-4d4e-9f6a-dc752cc72508",
+      "narrative_type": null,
+      "published_at": "2026-06-01T17:05:55.310Z"
+    },
+    "upside_pct": 17.89772727272728,
     "multiples": {
       "pe": 19.95,
       "ps": 1.24,
@@ -64,7 +350,7 @@
       "Trading below our calculated fair Price-To-Earnings ratio",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (19.3x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (19.1x) is below the Indian market (22.9x)",
       "Earnings are forecast to grow 11.14% per year"
     ],
     "risks": [
@@ -147,8 +433,8 @@
     "dividend_yield_pct": 0.09,
     "industry_benchmarks": {
       "pe": 40.473660493160494,
-      "net_income_margin_1y": 0.09487982097,
-      "future_revenue_growth_3y": 34.387188816,
+      "net_income_margin_1y": 0.09486136614,
+      "future_revenue_growth_3y": 32.656569349,
       "sector_pe": 40.473660493160494
     },
     "industry_benchmarks_meta": {
@@ -183,18 +469,18 @@
         "url": "https://groww.in/stocks/rossari-biotech-ltd"
       },
       "sws_statement": {
-        "company_pe": 19.3,
-        "industry_pe": 22.2,
+        "company_pe": 19.1,
+        "industry_pe": 20.7,
         "industry_name": "Indian Chemicals",
-        "description": "ROSSARI is good value based on its Price-To-Earnings Ratio (19.3x) compared to the Indian Chemicals industry average (22.2x).",
+        "description": "ROSSARI is good value based on its Price-To-Earnings Ratio (19.1x) compared to the Indian Chemicals industry average (20.7x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 22.185241114,
+        "industry_pe": 20.665261726,
         "industry_code": "2020000",
         "type": "median_profitable",
-        "count": 304,
+        "count": 302,
         "source": {
           "type": "country",
           "country": "IN",
@@ -203,25 +489,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.5,
-        "sample_count": 293,
+        "industry_pe": 19.6,
+        "sample_count": 294,
         "industry_code": "2020000",
         "industry_name": "Materials"
       },
       "sws_primary_industry": {
-        "industry_pe": 19.26596559,
+        "industry_pe": 18.498719492,
         "industry_name": "Materials",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 19.26101610556721
+        "company_pe": 18.947330866881572
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 518.85,
-        "fetched_at": "2026-05-31T21:55:10.926Z",
+        "value": 510.4,
+        "fetched_at": "2026-06-11T00:55:02.294Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-rossari/rossari-biotech-shares"
       },
       "market_cap_inr": {
@@ -229,6 +515,24 @@
         "value": 29775800000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/rossari-biotech-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 601.75,
+        "fetched_at": "2026-06-11T00:55:02.294Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-rossari/rossari-biotech-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "13dfd399-fab9-4d4e-9f6a-dc752cc72508",
+        "narrative_type": null,
+        "published_at": "2026-06-01T17:05:55.310Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 17.89772727272728,
+        "fetched_at": "2026-06-11T00:55:02.294Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-rossari/rossari-biotech-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -268,14 +572,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.09487982097,
-        "fetched_at": "2026-05-31T21:55:10.926Z",
+        "value": 0.09486136614,
+        "fetched_at": "2026-06-11T00:55:02.294Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-rossari/rossari-biotech-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 34.387188816,
-        "fetched_at": "2026-05-31T21:55:10.926Z",
+        "value": 32.656569349,
+        "fetched_at": "2026-06-11T00:55:02.294Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-rossari/rossari-biotech-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -384,13 +688,13 @@
         "url": "https://groww.in/stocks/rossari-biotech-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 9.411342005308775,
+    "earnings_growth_yoy_pct": 10.466777716083657,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 15.193573600654522,
+    "revenue_growth_pct": 12.275576753687288,
     "latest_revenue": 23963650000,
     "latest_net_income": 1492130000,
     "latest_eps": 26.94,
-    "most_recent_reported_date": "2026-05-13",
+    "most_recent_reported_date": "2026-06-01",
     "pb": 2.23,
     "ps": 1.24,
     "book_value": 240.7130254,
@@ -407,16 +711,16 @@
     "quick_ratio": 1.0627818025229243,
     "cash_ratio": 0.11678656466892953,
     "returns_pct": {
-      "1D": -3.415860014892037,
-      "7D": -0.9828244274809116,
-      "1M": 11.102783725910069,
-      "3M": 4.55415617128464,
-      "6M": -13.546613346663328,
-      "1Y": -23.173169467683422,
+      "1D": -1.0085337470907767,
+      "7D": -3.3790818741126403,
+      "1M": -2.8549676437000384,
+      "3M": 12.60893546607832,
+      "6M": -12.804305116596915,
+      "1Y": -25.840900835452235,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 1,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -598,14 +902,14 @@
     "payment_count": 5
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-13",
+    "most_recent_reported_date": "2026-06-01",
     "latest_year": 2026,
     "latest_revenue": 23963650000,
     "latest_net_income": 1492130000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 15.193573600654522,
-    "earnings_growth_pct": 9.411342005308775,
+    "revenue_growth_pct": 12.275576753687288,
+    "earnings_growth_pct": 10.466777716083657,
     "net_margin_pct": 6.226639097132532,
     "yearly_history": [
       {
@@ -616,26 +920,26 @@
       },
       {
         "year": 2025,
-        "revenue": 20802940000,
-        "netIncome": 1363780000,
+        "revenue": 21343600000,
+        "netIncome": 1350750000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 18305580000,
-        "netIncome": 1306890000,
+        "revenue": 19096020000,
+        "netIncome": 1363690000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 16558810000.000002,
-        "netIncome": 1072569999.9999999,
+        "revenue": 16317770000,
+        "netIncome": 1077960000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 14829740000,
-        "netIncome": 976740000,
+        "revenue": 16865740000.000002,
+        "netIncome": 1018330000,
         "eps": null
       }
     ]
@@ -842,6 +1146,16 @@
   ],
   "news": [
     {
+      "id": "ef4be9e4-1faa-46ba-8396-1e79c259225e",
+      "type": "narrative-update",
+      "date": "2026-06-01T17:05:55.000Z",
+      "title": "ROSSARI: New Navi Mumbai R And D Move Will Support Future Upside",
+      "body": "Analysts have maintained their fair value estimate for Rossari Biotech at ₹601.75, with only minor adjustments to inputs such as the discount rate, revenue growth, profit margin, and future P/E assumptions, resulting in an unchanged price target. What's in the News A board meeting is scheduled for May 27, 2026 at 16:00 IST to consider the reappointment of Ms. Esha Padmanabhan Achan as a non-executive independent director and to evaluate the grant of options under the Rossari Employee Stock Option Plan 2019.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/materials/nse-rossari/rossari-biotech-shares/na4mwxn6-rossari-new-expansion-projects-will-drive-global-market-penetration/updates/23-analysts-have-maintained-their-fair-value-estimate-for-rossa",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "8a478b6a-4623-44af-8c15-001504ac4b2b",
       "type": "narrative-update",
       "date": "2026-05-14T01:10:25.000Z",
@@ -1029,16 +1343,6 @@
       "body": "Analysts have reaffirmed their price target on Rossari Biotech at ₹795.75 per share, with only marginal tweaks to underlying assumptions such as discount rate, long term revenue growth, profit margin, and future P E multiple, reflecting a largely unchanged outlook on the company’s earnings trajectory and risk profile. What's in the News Board to meet on December 18, 2025, to consider incorporating a wholly owned subsidiary in the Republic of Singapore (Board Meeting) Successfully commissioned an additional 20,000 MTPA capacity at the Dahej facility, taking total installed capacity to 1,52,500 MTPA (Business Expansions) Commissioned 15,000 MTPA ethoxylation capacity at Unitop in Phase 1 of a 30,000 MTPA plan, with Phase 2 expected by the third quarter of fiscal 2026 (Business Expansions) Bo",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/materials/nse-rossari/rossari-biotech-shares/na4mwxn6-rossari-new-expansion-projects-will-drive-global-market-penetration/updates/13-analysts-have-reaffirmed-their-price-target-on-rossari-biote",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "b4a0e0b6-2cfb-4dc7-97a0-2134a60c885c",
-      "type": "narrative-update",
-      "date": "2025-12-06T23:04:22.000Z",
-      "title": "ROSSARI: Capacity Expansion And Saudi Subsidiary Investment Will Drive Future Upside",
-      "body": "Narrative Update on Rossari Biotech Analysts have maintained their price target for Rossari Biotech at ₹795.75, citing largely unchanged assumptions around discount rate, revenue growth, profit margins, and future valuation multiples. Taken together, these factors suggest limited change in the company’s fundamental outlook.",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/materials/nse-rossari/rossari-biotech-shares/na4mwxn6-rossari-new-expansion-projects-will-drive-global-market-penetration/updates/12-narrative-update-on-rossari-biotech-analysts-have-maintained",
       "raw_subtype": "narrative-update"
     }
   ],

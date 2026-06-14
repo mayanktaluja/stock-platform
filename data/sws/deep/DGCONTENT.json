@@ -3,7 +3,7 @@
   "name": "Digicontent Limited",
   "sector": "Media",
   "sws_url": "https://simplywall.st/stocks/in/media/nse-dgcontent/digicontent-shares",
-  "parsed_at": "2026-05-31T22:33:28.447Z",
+  "parsed_at": "2026-06-11T01:28:33.327Z",
   "company_id": "BF81EB32-8E95-446F-AF64-A2ED8C1EA199",
   "classification_status": "Active",
   "groww_source": {
@@ -77,22 +77,308 @@
         }
       ]
     },
-    "current_price_inr": 26.65,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ONE_TIME"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_EQUITY_NOW_POSITIVE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 25.53,
     "market_cap_inr": 1631600000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 21.61,
       "high": 59.28
     },
-    "fair_value_inr": 9.453189,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -64.52837148217635,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "11226aa8-6c6a-4f52-b42d-2b349ca7916f",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 200.29,
       "ps": 0.33,
@@ -115,7 +401,7 @@
     "risks": [
       "Profit margins (0.2%) are lower than last year (5.5%)",
       "Large [[one-off items]] impacting financial results",
-      "Does not have a meaningful market cap (₹2B)"
+      "Does not have a meaningful market cap (₹1B)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -128,8 +414,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 24.05707083713779,
-      "net_income_margin_1y": 0.1363636364,
-      "future_revenue_growth_3y": 0.327510551,
+      "net_income_margin_1y": 0.1359524332,
+      "future_revenue_growth_3y": 0.3322919567,
       "sector_pe": 24.05707083713779
     },
     "industry_benchmarks_meta": {
@@ -165,17 +451,17 @@
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 1.7,
+        "industry_pe": 1.6,
         "industry_name": "Asian Interactive Media and Services",
-        "description": "DGCONTENT is good value based on its Price-To-Sales Ratio (0.3x) compared to the Asian Interactive Media and Services industry average (1.7x).",
+        "description": "DGCONTENT is good value based on its Price-To-Sales Ratio (0.3x) compared to the Asian Interactive Media and Services industry average (1.6x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 38.103066087,
+        "industry_pe": 43.895412385,
         "industry_code": "4300002",
         "type": "median_profitable",
-        "count": 6,
+        "count": 7,
         "source": {
           "type": "country",
           "country": "IN",
@@ -184,7 +470,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 31.8,
+        "industry_pe": 23.9,
         "sample_count": 5,
         "industry_code": "4300002",
         "industry_name": "Media"
@@ -197,8 +483,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 26.65,
-        "fetched_at": "2026-05-31T22:33:28.447Z",
+        "value": 25.53,
+        "fetched_at": "2026-06-11T01:28:33.327Z",
         "url": "https://simplywall.st/stocks/in/media/nse-dgcontent/digicontent-shares"
       },
       "market_cap_inr": {
@@ -245,14 +531,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.1363636364,
-        "fetched_at": "2026-05-31T22:33:28.447Z",
+        "value": 0.1359524332,
+        "fetched_at": "2026-06-11T01:28:33.327Z",
         "url": "https://simplywall.st/stocks/in/media/nse-dgcontent/digicontent-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.327510551,
-        "fetched_at": "2026-05-31T22:33:28.447Z",
+        "value": 0.3322919567,
+        "fetched_at": "2026-06-11T01:28:33.327Z",
         "url": "https://simplywall.st/stocks/in/media/nse-dgcontent/digicontent-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -384,16 +670,16 @@
     "quick_ratio": 1.4970316301703162,
     "cash_ratio": 0.09547445255474453,
     "returns_pct": {
-      "1D": -4.274425287356327,
-      "7D": -1.5151515151515158,
-      "1M": -15.343074968233806,
-      "3M": -3.7210982658959577,
-      "6M": -22.59657275631717,
-      "1Y": -36.698337292161526,
+      "1D": -4.632050803137835,
+      "7D": -4.738805970149252,
+      "1M": -18.84933248569612,
+      "3M": 2.201761409127305,
+      "6M": -20.018796992481203,
+      "1Y": -51.629405077680936,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 1,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -754,16 +1040,6 @@
       "keyDevTypeId": "55",
       "source_url": null,
       "raw_subtype": "EventActivity"
-    },
-    {
-      "id": "f24deb51-013e-4eab-949c-7b51dcb60b30",
-      "type": "article",
-      "date": "2025-12-09T00:21:57.000Z",
-      "title": "Is Digicontent (NSE:DGCONTENT) Using Too Much Debt?",
-      "body": "David Iben put it well when he said, 'Volatility is not a risk we care about. What we care about is avoiding the...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/media/nse-dgcontent/digicontent-shares/news/is-digicontent-nsedgcontent-using-too-much-debt-1",
-      "raw_subtype": "article"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/DGCONTENT.json"

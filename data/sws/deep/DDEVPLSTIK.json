@@ -3,7 +3,7 @@
   "name": "Ddev Plastiks Industries Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-ddevplstik/ddev-plastiks-industries-shares",
-  "parsed_at": "2026-05-31T22:31:00.348Z",
+  "parsed_at": "2026-06-11T01:25:21.208Z",
   "company_id": "DA70A060-5063-4A7F-A240-B2058DE44764",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 2
     },
     "snowflake_total": 18,
-    "current_price_inr": 247.9,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_STABLE_BUT_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DIVIDENDS_NOT_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 250.85,
     "market_cap_inr": 24932700000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 185.15,
       "high": 360
     },
-    "fair_value_inr": 319.227364,
+    "fair_value_inr": 320.447106,
     "fair_value_range_inr": {
-      "min": 22.305489,
+      "min": 23.183854,
       "max": 348.02,
       "count": 3
     },
-    "upside_pct": 28.772635740217833,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "8cae3433-59d1-43a1-83b4-93f117d6777a",
+      "narrative_type": null,
+      "published_at": "2025-01-16T14:18:53.426Z"
+    },
+    "upside_pct": 27.744511062387893,
     "multiples": {
       "pe": 12.36,
       "ps": 0.85,
@@ -60,15 +346,15 @@
       "pe_source_url": "https://groww.in/stocks/ddev-plastiks-industries-ltd"
     },
     "rewards": [
-      "Price-To-Earnings ratio (12.7x) is below the Indian market (23.4x)",
       "Earnings are forecast to grow 24.61% per year",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
+      "Price-To-Earnings ratio (13x) is below the Indian market (22.9x)",
       "Earnings have grown 30.6% per year over the past 5 years",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading below our calculated fair Price-To-Earnings ratio"
     ],
     "risks": [
-      "Dividend of 0.7% is not well covered by free cash flows",
+      "Dividend of 0.69% is not well covered by free cash flows",
       "High level of [[non-cash earnings]]"
     ],
     "dividend": {
@@ -135,8 +421,8 @@
     "dividend_yield_pct": 0.73,
     "industry_benchmarks": {
       "pe": 43.24653094794537,
-      "net_income_margin_1y": 0.09915925459,
-      "future_revenue_growth_3y": 0.4901950831,
+      "net_income_margin_1y": 0.1007363079,
+      "future_revenue_growth_3y": 0.4930780903,
       "sector_pe": 43.24653094794537
     },
     "industry_benchmarks_meta": {
@@ -171,18 +457,18 @@
         "url": "https://groww.in/stocks/ddev-plastiks-industries-ltd"
       },
       "sws_statement": {
-        "company_pe": 12.7,
-        "industry_pe": 22.2,
+        "company_pe": 13,
+        "industry_pe": 20.7,
         "industry_name": "Indian Chemicals",
-        "description": "DDEVPLSTIK is good value based on its Price-To-Earnings Ratio (12.7x) compared to the Indian Chemicals industry average (22.2x).",
+        "description": "DDEVPLSTIK is good value based on its Price-To-Earnings Ratio (13x) compared to the Indian Chemicals industry average (20.7x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 22.185241114,
+        "industry_pe": 20.665261726,
         "industry_code": "2020000",
         "type": "median_profitable",
-        "count": 304,
+        "count": 302,
         "source": {
           "type": "country",
           "country": "IN",
@@ -191,8 +477,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.5,
-        "sample_count": 293,
+        "industry_pe": 19.6,
+        "sample_count": 294,
         "industry_code": "2020000",
         "industry_name": "Materials"
       },
@@ -204,8 +490,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 247.9,
-        "fetched_at": "2026-05-31T22:31:00.348Z",
+        "value": 250.85,
+        "fetched_at": "2026-06-11T01:25:21.208Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-ddevplstik/ddev-plastiks-industries-shares"
       },
       "market_cap_inr": {
@@ -213,6 +499,24 @@
         "value": 24932700000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/ddev-plastiks-industries-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 320.447106,
+        "fetched_at": "2026-06-11T01:25:21.208Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-ddevplstik/ddev-plastiks-industries-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "8cae3433-59d1-43a1-83b4-93f117d6777a",
+        "narrative_type": null,
+        "published_at": "2025-01-16T14:18:53.426Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 27.744511062387893,
+        "fetched_at": "2026-06-11T01:25:21.208Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-ddevplstik/ddev-plastiks-industries-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -252,14 +556,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.09915925459,
-        "fetched_at": "2026-05-31T22:31:00.348Z",
+        "value": 0.1007363079,
+        "fetched_at": "2026-06-11T01:25:21.208Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-ddevplstik/ddev-plastiks-industries-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.4901950831,
-        "fetched_at": "2026-05-31T22:31:00.348Z",
+        "value": 0.4930780903,
+        "fetched_at": "2026-06-11T01:25:21.208Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-ddevplstik/ddev-plastiks-industries-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -391,12 +695,12 @@
     "quick_ratio": 1.708806567780604,
     "cash_ratio": 0.10924475559696796,
     "returns_pct": {
-      "1D": 2.8417340800663737,
-      "7D": 4.291123264619276,
-      "1M": -1.9421700090977398,
-      "3M": -8.523985239852397,
-      "6M": -9.838152391343876,
-      "1Y": -9.624498724024793,
+      "1D": -0.91246642439564,
+      "7D": 2.6265188397496164,
+      "1M": 4.303534303534301,
+      "3M": -3.556324490580556,
+      "6M": -11.579132886852307,
+      "1Y": -13.485083635109502,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -432,8 +736,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.03399,
-        "shares": 35169,
+        "pct": 0.04383,
+        "shares": 45358,
         "is_insider": null
       },
       {
@@ -708,6 +1012,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "f63c4c2e-e2fc-4e2f-9650-691c4444ffaf",
+      "type": "article",
+      "date": "2026-06-02T03:39:52.000Z",
+      "title": "Ddev Plastiks Industries' (NSE:DDEVPLSTIK) Profits May Not Reveal Underlying Issues",
+      "body": "Ddev Plastiks Industries Limited ( NSE:DDEVPLSTIK ) just released a solid earnings report, and the stock displayed some...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/materials/nse-ddevplstik/ddev-plastiks-industries-shares/news/ddev-plastiks-industries-nseddevplstik-profits-may-not-revea",
+      "raw_subtype": "article"
+    },
     {
       "id": "e45c9843-32db-49d8-955a-37a12a9ff271",
       "type": "article",

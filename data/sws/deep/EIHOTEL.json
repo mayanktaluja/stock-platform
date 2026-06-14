@@ -3,7 +3,7 @@
   "name": "EIH Limited",
   "sector": "Consumer Services",
   "sws_url": "https://simplywall.st/stocks/in/consumer-services/nse-eihotel/eih-shares",
-  "parsed_at": "2026-05-31T22:42:05.422Z",
+  "parsed_at": "2026-06-11T01:37:58.775Z",
   "company_id": "E3AD52F6-AA9A-4369-B6D8-625DD9C68D38",
   "classification_status": "Active",
   "groww_source": {
@@ -16,82 +16,320 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 1,
-      "future": 0,
+      "valuation": 2,
+      "future": 2,
       "past": 2,
       "financial_health": 6,
       "dividends": 4,
-      "future_growth": 0,
+      "future_growth": 2,
       "past_performance": 2,
-      "value": 1,
+      "value": 2,
       "health": 6,
       "dividend": 4
     },
-    "snowflake_total": 13,
-    "snowflake_data_quality": {
-      "insufficient": true,
-      "insufficient_count": 7,
+    "snowflake_total": 16,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
       "checked_count": 30,
-      "affected_pillars": [
-        "Value",
-        "Future"
-      ],
-      "by_pillar": {
-        "Value": {
-          "checked": 6,
-          "insufficient": 1
-        },
-        "Future": {
-          "checked": 6,
-          "insufficient": 6
-        },
-        "Past": {
-          "checked": 6,
-          "insufficient": 0
-        },
-        "Health": {
-          "checked": 6,
-          "insufficient": 0
-        },
-        "Dividends": {
-          "checked": 6,
-          "insufficient": 0
-        }
-      },
-      "samples": [
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
         {
           "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
           "title": "PEG Ratio",
-          "reason_code": "OUTCOME_NULL"
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
         },
         {
           "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
           "title": "Future ROE",
-          "reason_code": "OUTCOME_NULL"
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
         },
         {
           "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
           "title": "High Growth Earnings",
-          "reason_code": "OUTCOME_NULL"
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_NOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
         }
       ]
     },
-    "current_price_inr": 296.2,
+    "current_price_inr": 293.3,
     "market_cap_inr": 196114200000,
-    "market_cap_usd": 120714180851.549,
-    "market_cap_band": null,
-    "shares_outstanding": null,
+    "market_cap_usd": 120753634221.641,
+    "market_cap_band": "medium5",
+    "shares_outstanding": 625364182,
     "fifty_two_week": {
       "low": 271.15,
       "high": 434.8
     },
-    "fair_value_inr": 166.526667,
+    "fair_value_inr": 365,
     "fair_value_range_inr": {
-      "min": 166.526667,
-      "max": 166.526667,
-      "count": 16
+      "min": 44.78226,
+      "max": 365,
+      "count": 25
     },
-    "upside_pct": -43.778978055367986,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "680ef21c-da5a-447c-854d-19876703c0d3",
+      "narrative_type": null,
+      "published_at": "2026-06-01T19:04:11.073Z"
+    },
+    "upside_pct": 24.44595976815547,
     "multiples": {
       "pe": 29.84,
       "ps": 6.66,
@@ -108,14 +346,16 @@
       "pe_source_url": "https://groww.in/stocks/eih-ltd"
     },
     "rewards": [
-      "Trading at good value vs. peer average Price-To-Earnings ratio"
+      "Trading at good value vs. peer average Price-To-Earnings ratio",
+      "Earnings are forecast to grow 18.07% per year",
+      "Trading below our calculated fair Price-To-Earnings ratio"
     ],
     "risks": [
       "Unstable dividend track record"
     ],
     "dividend": {
       "yield_pct": 0.48,
-      "payout_pct": null,
+      "payout_pct": 14.930385703826321,
       "annualized_dividend": 1.5,
       "listing_currency": "INR",
       "recent_payments": [
@@ -203,8 +443,8 @@
     "dividend_yield_pct": 0.48,
     "industry_benchmarks": {
       "pe": 35.67618631448488,
-      "net_income_margin_1y": 0.165515606,
-      "future_revenue_growth_3y": 1.224870747,
+      "net_income_margin_1y": 0.08657243816,
+      "future_revenue_growth_3y": 0.39295204,
       "sector_pe": 35.67618631448488
     },
     "industry_benchmarks_meta": {
@@ -239,18 +479,18 @@
         "url": "https://groww.in/stocks/eih-ltd"
       },
       "sws_statement": {
-        "company_pe": 29.5,
-        "industry_pe": 26.7,
+        "company_pe": 29,
+        "industry_pe": 28.1,
         "industry_name": "Indian Hospitality",
-        "description": "EIHOTEL is expensive based on its Price-To-Earnings Ratio (29.5x) compared to the Indian Hospitality industry average (26.7x).",
+        "description": "EIHOTEL is expensive based on its Price-To-Earnings Ratio (29x) compared to the Indian Hospitality industry average (28.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 27.078875295,
+        "industry_pe": 28.141130414,
         "industry_code": "4210000",
         "type": "median_profitable",
-        "count": 80,
+        "count": 81,
         "source": {
           "type": "country",
           "country": "IN",
@@ -259,21 +499,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 25.25,
+        "industry_pe": 26.450000000000003,
         "sample_count": 80,
         "industry_code": "4210000",
         "industry_name": "Consumer Services"
       },
-      "sws_primary_industry": null,
+      "sws_primary_industry": {
+        "industry_pe": 17.366873383,
+        "industry_name": "Consumer Services",
+        "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
+      },
       "sws_computed": {
-        "company_pe": null
+        "company_pe": 29.193880846215066
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 296.2,
-        "fetched_at": "2026-05-31T22:42:05.422Z",
+        "value": 293.3,
+        "fetched_at": "2026-06-11T01:37:58.775Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/nse-eihotel/eih-shares"
       },
       "market_cap_inr": {
@@ -281,6 +525,24 @@
         "value": 196114200000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/eih-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 365,
+        "fetched_at": "2026-06-11T01:37:58.775Z",
+        "url": "https://simplywall.st/stocks/in/consumer-services/nse-eihotel/eih-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "680ef21c-da5a-447c-854d-19876703c0d3",
+        "narrative_type": null,
+        "published_at": "2026-06-01T19:04:11.073Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 24.44595976815547,
+        "fetched_at": "2026-06-11T01:37:58.775Z",
+        "url": "https://simplywall.st/stocks/in/consumer-services/nse-eihotel/eih-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -319,15 +581,15 @@
         "url": "https://groww.in/stocks/eih-ltd"
       },
       "industry_benchmarks.net_income_margin_1y": {
-        "provider": "sws_industry_api",
-        "value": 0.165515606,
-        "fetched_at": "2026-05-31T22:42:05.422Z",
+        "provider": "sws_primary_industry",
+        "value": 0.08657243816,
+        "fetched_at": "2026-06-11T01:37:58.775Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/nse-eihotel/eih-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
-        "provider": "sws_industry_api",
-        "value": 1.224870747,
-        "fetched_at": "2026-05-31T22:42:05.422Z",
+        "provider": "sws_primary_industry",
+        "value": 0.39295204,
+        "fetched_at": "2026-06-11T01:37:58.775Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/nse-eihotel/eih-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -436,13 +698,13 @@
         "url": "https://groww.in/stocks/eih-ltd"
       }
     },
-    "earnings_growth_yoy_pct": null,
+    "earnings_growth_yoy_pct": -7.75713352370745,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": null,
-    "latest_revenue": null,
-    "latest_net_income": null,
+    "revenue_growth_pct": 3.333486829825236,
+    "latest_revenue": 29396300000,
+    "latest_net_income": 6282800000,
     "latest_eps": 10.51,
-    "most_recent_reported_date": null,
+    "most_recent_reported_date": "2026-06-01",
     "pb": 3.73,
     "ps": 6.66,
     "book_value": 84.1474933,
@@ -459,16 +721,16 @@
     "quick_ratio": 2.5762217737066364,
     "cash_ratio": 1.6111369870102985,
     "returns_pct": {
-      "1D": -5.427841634738187,
-      "7D": -7.089084065244674,
-      "1M": -8.382307454376747,
-      "3M": -5.5334077499601415,
-      "6M": -20.7915496724161,
-      "1Y": -21.411514990713716,
+      "1D": 0.7384509702902402,
+      "7D": 1.0334137099552185,
+      "1M": -10.154694440189916,
+      "3M": -11.60337552742616,
+      "6M": -22.43818590506412,
+      "1Y": -21.303997853501468,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 4,
+    "recent_news_count": 6,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -550,8 +812,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.7388,
-        "shares": 4620160,
+        "pct": 0.73334,
+        "shares": 4586051,
         "is_insider": null
       },
       {
@@ -560,8 +822,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.5683,
-        "shares": 3553972,
+        "pct": 0.56836,
+        "shares": 3554307,
         "is_insider": null
       },
       {
@@ -587,7 +849,7 @@
   },
   "dividend": {
     "yield_pct": 0.48,
-    "payout_pct": null,
+    "payout_pct": 14.930385703826321,
     "annualized_dividend": 1.5,
     "listing_currency": "INR",
     "recent_payments": [
@@ -672,7 +934,49 @@
     ],
     "payment_count": 6
   },
-  "fiscal": null,
+  "fiscal": {
+    "most_recent_reported_date": "2026-06-01",
+    "latest_year": 2026,
+    "latest_revenue": 29396300000,
+    "latest_net_income": 6282800000,
+    "latest_gross_profit": null,
+    "latest_eps": null,
+    "revenue_growth_pct": 3.333486829825236,
+    "earnings_growth_pct": -7.75713352370745,
+    "net_margin_pct": 21.372757796049164,
+    "yearly_history": [
+      {
+        "year": 2026,
+        "revenue": 29396300000,
+        "netIncome": 6282800000,
+        "eps": null
+      },
+      {
+        "year": 2025,
+        "revenue": 28447990000,
+        "netIncome": 6811150000,
+        "eps": null
+      },
+      {
+        "year": 2024,
+        "revenue": 26040300000,
+        "netIncome": 6275380000,
+        "eps": null
+      },
+      {
+        "year": 2023,
+        "revenue": 21782840000,
+        "netIncome": 3620090000,
+        "eps": null
+      },
+      {
+        "year": 2022,
+        "revenue": 13251030000,
+        "netIncome": 901350000,
+        "eps": null
+      }
+    ]
+  },
   "financials": {
     "groww": {
       "basis": "CONSOLIDATED",
@@ -874,6 +1178,26 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "5068b673-8292-466a-a280-bde20b402890",
+      "type": "article",
+      "date": "2026-06-03T00:13:10.000Z",
+      "title": "There May Be Reason For Hope In EIH's (NSE:EIHOTEL) Disappointing Earnings",
+      "body": "EIH Limited's ( NSE:EIHOTEL ) earnings announcement last week didn't impress shareholders. Despite the soft profit...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/consumer-services/nse-eihotel/eih-shares/news/there-may-be-reason-for-hope-in-eihs-nseeihotel-disappointin",
+      "raw_subtype": "article"
+    },
+    {
+      "id": "7e578141-8e5e-4eda-bfdd-810b8e9de9f5",
+      "type": "narrative",
+      "date": "2026-06-01T19:04:11.000Z",
+      "title": "Premium Room Expansion And Mixed Use Assets Will Support Long Term Earnings Quality",
+      "body": "Catalysts About EIH EIH operates luxury and upper upscale hotels under the Oberoi and Trident brands, along with an airline catering and lounges business. What are the underlying business or industry changes driving this perspective?",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/consumer-services/nse-eihotel/eih-shares/8vl38jfk-premium-room-expansion-and-mixed-use-assets-will-support-long-term-earnings-quality",
+      "raw_subtype": "narrative"
+    },
     {
       "id": "a14aca20-7a2c-4604-9ce8-887251b7910d",
       "type": "brief",

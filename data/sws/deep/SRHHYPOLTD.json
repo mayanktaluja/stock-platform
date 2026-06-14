@@ -3,7 +3,7 @@
   "name": "Sree Rayalaseema Hi-Strength Hypo Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-srhhypoltd/sree-rayalaseema-hi-strength-hypo-shares",
-  "parsed_at": "2026-05-31T22:28:59.862Z",
+  "parsed_at": "2026-06-11T01:32:57.153Z",
   "company_id": "A057AB08-E7A1-4C95-86CD-F44A4208D9F7",
   "classification_status": "Active",
   "groww_source": {
@@ -18,16 +18,16 @@
     "snowflake": {
       "valuation": 2,
       "future": 0,
-      "past": 4,
+      "past": 2,
       "financial_health": 6,
       "dividends": 4,
       "future_growth": 0,
-      "past_performance": 4,
+      "past_performance": 2,
       "value": 2,
       "health": 6,
       "dividend": 4
     },
-    "snowflake_total": 16,
+    "snowflake_total": 14,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 7,
@@ -76,22 +76,308 @@
         }
       ]
     },
-    "current_price_inr": 544.45,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 494.25,
     "market_cap_inr": 9474100000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 382.4,
       "high": 716.5
     },
-    "fair_value_inr": 158.301896,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 158.301896,
-      "max": 158.301896,
+      "min": 82.229007,
+      "max": 82.229007,
       "count": 3
     },
-    "upside_pct": -70.92443824042613,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "e7628125-2654-4678-a985-406761070769",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 10.36,
       "ps": 1.43,
@@ -108,14 +394,14 @@
       "pe_source_url": "https://groww.in/stocks/sree-rayalaseema-histrength-hypo-ltd"
     },
     "rewards": [
-      "Earnings have grown 3.2% per year over the past 5 years",
+      "Earnings have grown 0.5% per year over the past 5 years",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (9.9x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (9.4x) is below the Indian market (23.2x)"
     ],
     "risks": [
-      "Does not have a meaningful market cap (₹9B)",
-      "Unstable dividend track record"
+      "Unstable dividend track record",
+      "Does not have a meaningful market cap (₹8B)"
     ],
     "dividend": {
       "yield_pct": 0.54,
@@ -259,8 +545,8 @@
     "dividend_yield_pct": 0.54,
     "industry_benchmarks": {
       "pe": 40.473660493160494,
-      "net_income_margin_1y": 0.09915925459,
-      "future_revenue_growth_3y": 0.4901950831,
+      "net_income_margin_1y": 0.1007363079,
+      "future_revenue_growth_3y": 0.4928230277,
       "sector_pe": 40.473660493160494
     },
     "industry_benchmarks_meta": {
@@ -295,18 +581,18 @@
         "url": "https://groww.in/stocks/sree-rayalaseema-histrength-hypo-ltd"
       },
       "sws_statement": {
-        "company_pe": 9.9,
-        "industry_pe": 22.2,
+        "company_pe": 9.4,
+        "industry_pe": 20.8,
         "industry_name": "Indian Chemicals",
-        "description": "SRHHYPOLTD is good value based on its Price-To-Earnings Ratio (9.9x) compared to the Indian Chemicals industry average (22.2x).",
+        "description": "SRHHYPOLTD is good value based on its Price-To-Earnings Ratio (9.4x) compared to the Indian Chemicals industry average (20.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 22.185241114,
+        "industry_pe": 20.782619721,
         "industry_code": "2020000",
         "type": "median_profitable",
-        "count": 304,
+        "count": 302,
         "source": {
           "type": "country",
           "country": "IN",
@@ -315,8 +601,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.5,
-        "sample_count": 293,
+        "industry_pe": 19.6,
+        "sample_count": 294,
         "industry_code": "2020000",
         "industry_name": "Materials"
       },
@@ -328,8 +614,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 544.45,
-        "fetched_at": "2026-05-31T22:28:59.862Z",
+        "value": 494.25,
+        "fetched_at": "2026-06-11T01:32:57.153Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-srhhypoltd/sree-rayalaseema-hi-strength-hypo-shares"
       },
       "market_cap_inr": {
@@ -376,14 +662,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.09915925459,
-        "fetched_at": "2026-05-31T22:28:59.862Z",
+        "value": 0.1007363079,
+        "fetched_at": "2026-06-11T01:32:57.153Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-srhhypoltd/sree-rayalaseema-hi-strength-hypo-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.4901950831,
-        "fetched_at": "2026-05-31T22:28:59.862Z",
+        "value": 0.4928230277,
+        "fetched_at": "2026-06-11T01:32:57.153Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-srhhypoltd/sree-rayalaseema-hi-strength-hypo-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -515,16 +801,16 @@
     "quick_ratio": 9.898168014523849,
     "cash_ratio": 6.8242284205314405,
     "returns_pct": {
-      "1D": -1.6794582392776443,
-      "7D": 1.9951292618958585,
-      "1M": 9.856739305891853,
-      "3M": 16.947696273225223,
-      "6M": 3.056975203482887,
-      "1Y": 1.086149275900487,
+      "1D": -1.209274435338799,
+      "7D": -3.3724340175953076,
+      "1M": -8.225791477114466,
+      "3M": 9.274817598938755,
+      "6M": 0.6619144602851323,
+      "1Y": -22.281625913986954,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 1,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -962,6 +1248,26 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "4541d168-c02e-40aa-86b6-281c8addcf22",
+      "type": "article",
+      "date": "2026-06-11T00:18:23.000Z",
+      "title": "We Like The Quality Of Sree Rayalaseema Hi-Strength Hypo's (NSE:SRHHYPOLTD) Earnings",
+      "body": "Despite posting healthy earnings, Sree Rayalaseema Hi-Strength Hypo Limited's ( NSE:SRHHYPOLTD ) stock has been quite...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/materials/nse-srhhypoltd/sree-rayalaseema-hi-strength-hypo-shares/news/we-like-the-quality-of-sree-rayalaseema-hi-strength-hypos-ns",
+      "raw_subtype": "article"
+    },
+    {
+      "id": "84a76c1e-3e27-43f7-96eb-a094ce8ec26a",
+      "type": "brief",
+      "date": "2026-05-31T23:03:24.000Z",
+      "title": "Full year 2026 earnings released: EPS: ₹53.28 (vs ₹52.47 in FY 2025)",
+      "body": "Full year 2026 results: EPS: ₹53.28 (up from ₹52.47 in FY 2025). Revenue: ₹7.22b (up 13% from FY 2025). Net income: ₹901.9m (flat on FY 2025). Profit margin: 13% (down from 14% in FY 2025). The decrease in margin was driven by higher expenses. Over the last 3 years on average, earnings per share has fallen by 19% per year but the company’s share price has only fallen by 1% per year, which means it has not declined as severely as earnings.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "894e7deb-bec1-4a72-857e-cb9ed0599e7a",
       "type": "event",

@@ -3,7 +3,7 @@
   "name": "Hindustan Unilever Limited",
   "sector": "Household",
   "sws_url": "https://simplywall.st/stocks/in/household/nse-hindunilvr/hindustan-unilever-shares",
-  "parsed_at": "2026-05-31T23:18:50.409Z",
+  "parsed_at": "2026-06-11T02:13:51.950Z",
   "company_id": "9FEB538E-5042-4601-BD83-AA3BB6B054B4",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 4
     },
     "snowflake_total": 16,
-    "current_price_inr": 2153.5,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_5_YEARS_AGO"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_STABLE_IN_PAST_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DIVIDENDS_NOT_COVERED"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DIVIDENDS_NOT_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 2169.5,
     "market_cap_inr": 5164049200000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "mega8",
-    "shares_outstanding": 2584542524,
+    "shares_outstanding": 2349591262,
     "fifty_two_week": {
       "low": 2022.5,
       "high": 2705.09
     },
-    "fair_value_inr": 2603.8,
+    "fair_value_inr": 2561.10811,
     "fair_value_range_inr": {
-      "min": 616.970439,
-      "max": 2603.8,
+      "min": 684.172359,
+      "max": 2561.10811,
       "count": 49
     },
-    "upside_pct": 20.91014627350825,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "049e231c-61bd-4ce8-9855-d5d8ac4be939",
+      "narrative_type": null,
+      "published_at": "2026-06-03T22:05:10.527Z"
+    },
+    "upside_pct": 18.0506158100945,
     "multiples": {
       "pe": 34.29,
       "ps": 8.1,
@@ -61,14 +347,15 @@
     },
     "rewards": [
       "Trading below our calculated fair Price-To-Earnings ratio",
-      "Earnings are forecast to grow 8.07% per year"
+      "Earnings are forecast to grow 8.07% per year",
+      "Analysts in good agreement that stock price will rise by 20.1%"
     ],
     "risks": [
-      "Dividend of 1.9% is not well covered by earnings or free cash flows"
+      "Dividend of 1.92% is not well covered by earnings or free cash flows"
     ],
     "dividend": {
       "yield_pct": 1.87,
-      "payout_pct": 104.5192594112668,
+      "payout_pct": 95.0177976732813,
       "annualized_dividend": 43,
       "listing_currency": "INR",
       "recent_payments": [
@@ -115,11 +402,11 @@
           "exDate": "2024-11-06T00:00:00.000Z",
           "payDate": "2024-11-21T00:00:00.000Z",
           "recordDate": "2024-11-06T00:00:00.000Z",
-          "divAmount": 19,
-          "divAmountListingCurrency": 19,
+          "divAmount": 10,
+          "divAmountListingCurrency": 10,
           "currencyIsoCode": "INR",
-          "dividendTypeName": "No special code applies",
-          "divFreqTypeName": "Interim Payment",
+          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+          "divFreqTypeName": "Bonus Payment",
           "annualizedDividend": 43,
           "annualizedDividendListingCurrency": 43,
           "annualizedYield": 1.8248516925
@@ -128,11 +415,11 @@
           "exDate": "2024-11-06T00:00:00.000Z",
           "payDate": "2024-11-21T00:00:00.000Z",
           "recordDate": "2024-11-06T00:00:00.000Z",
-          "divAmount": 10,
-          "divAmountListingCurrency": 10,
+          "divAmount": 19,
+          "divAmountListingCurrency": 19,
           "currencyIsoCode": "INR",
-          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-          "divFreqTypeName": "Bonus Payment",
+          "dividendTypeName": "No special code applies",
+          "divFreqTypeName": "Interim Payment",
           "annualizedDividend": 43,
           "annualizedDividendListingCurrency": 43,
           "annualizedYield": 1.8248516925
@@ -234,8 +521,8 @@
     "dividend_yield_pct": 1.87,
     "industry_benchmarks": {
       "pe": 47.946214725606616,
-      "net_income_margin_1y": 0.0970306532,
-      "future_revenue_growth_3y": 0.1350720672,
+      "net_income_margin_1y": 0.09845583874,
+      "future_revenue_growth_3y": 0.1349917147,
       "sector_pe": 47.946214725606616
     },
     "industry_benchmarks_meta": {
@@ -270,15 +557,15 @@
         "url": "https://groww.in/stocks/hindustan-unilever-ltd"
       },
       "sws_statement": {
-        "company_pe": 52.3,
-        "industry_pe": 40.1,
+        "company_pe": 47.1,
+        "industry_pe": 39.3,
         "industry_name": "Indian Personal Products",
-        "description": "HINDUNILVR is expensive based on its Price-To-Earnings Ratio (52.3x) compared to the Indian Personal Products industry average (40.1x).",
+        "description": "HINDUNILVR is expensive based on its Price-To-Earnings Ratio (47.1x) compared to the Indian Personal Products industry average (39.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 40.050618651,
+        "industry_pe": 39.287535026,
         "industry_code": "5220000",
         "type": "median_profitable",
         "count": 25,
@@ -290,25 +577,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 38.35,
+        "industry_pe": 37.25,
         "sample_count": 22,
         "industry_code": "5220000",
         "industry_name": "Household"
       },
       "sws_primary_industry": {
-        "industry_pe": 18.318694458,
+        "industry_pe": 17.897507532,
         "industry_name": "Household",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 52.344703521433274
+        "company_pe": 47.93979350050785
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 2153.5,
-        "fetched_at": "2026-05-31T23:18:50.409Z",
+        "value": 2169.5,
+        "fetched_at": "2026-06-11T02:13:51.950Z",
         "url": "https://simplywall.st/stocks/in/household/nse-hindunilvr/hindustan-unilever-shares"
       },
       "market_cap_inr": {
@@ -316,6 +603,24 @@
         "value": 5164049200000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/hindustan-unilever-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 2561.10811,
+        "fetched_at": "2026-06-11T02:13:51.950Z",
+        "url": "https://simplywall.st/stocks/in/household/nse-hindunilvr/hindustan-unilever-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "049e231c-61bd-4ce8-9855-d5d8ac4be939",
+        "narrative_type": null,
+        "published_at": "2026-06-03T22:05:10.527Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 18.0506158100945,
+        "fetched_at": "2026-06-11T02:13:51.950Z",
+        "url": "https://simplywall.st/stocks/in/household/nse-hindunilvr/hindustan-unilever-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -355,14 +660,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.0970306532,
-        "fetched_at": "2026-05-31T23:18:50.409Z",
+        "value": 0.09845583874,
+        "fetched_at": "2026-06-11T02:13:51.950Z",
         "url": "https://simplywall.st/stocks/in/household/nse-hindunilvr/hindustan-unilever-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.1350720672,
-        "fetched_at": "2026-05-31T23:18:50.409Z",
+        "value": 0.1349917147,
+        "fetched_at": "2026-06-11T02:13:51.950Z",
         "url": "https://simplywall.st/stocks/in/household/nse-hindunilvr/hindustan-unilever-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -471,13 +776,13 @@
         "url": "https://groww.in/stocks/hindustan-unilever-ltd"
       }
     },
-    "earnings_growth_yoy_pct": -0.1502488496572448,
+    "earnings_growth_yoy_pct": -1.5006947660954144,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 3.3237749718794065,
-    "latest_revenue": 652190000000,
+    "revenue_growth_pct": 0.8447002878238017,
+    "latest_revenue": 644680000000,
     "latest_net_income": 106330000000,
     "latest_eps": 64.09,
-    "most_recent_reported_date": "2026-05-04",
+    "most_recent_reported_date": "2026-06-03",
     "pb": 10.6,
     "ps": 8.1,
     "book_value": 207.4359056,
@@ -494,118 +799,118 @@
     "quick_ratio": 0.9153000192938453,
     "cash_ratio": 0.20888803138465495,
     "returns_pct": {
-      "1D": -2.0423944687045164,
-      "7D": -2.273552368850967,
-      "1M": -6.952125820947118,
-      "3M": -7.895299602241132,
-      "6M": -12.693586313143596,
-      "1Y": -9.196323157362114,
+      "1D": 1.7207426856714094,
+      "7D": 3.774036161867411,
+      "1M": -5.968273231622739,
+      "3M": 1.5255744302494223,
+      "6M": -4.029903565425105,
+      "1Y": -8.706446726140383,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 6,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
   "ownership": {
     "top_holders": [
       {
-        "pct": 56.27351,
+        "pct": 61.90068,
         "shares": 1454412858,
         "is_insider": null
       },
       {
-        "pct": 6.12707,
+        "pct": 6.73976,
         "shares": 158356774,
         "is_insider": null
       },
       {
-        "pct": 1.50501,
+        "pct": 1.6555,
         "shares": 38897573,
         "is_insider": null
       },
       {
-        "pct": 1.43054,
-        "shares": 36972970,
+        "pct": 1.47908,
+        "shares": 34752275,
         "is_insider": null
       },
       {
-        "pct": 1.33472,
+        "pct": 1.46818,
         "shares": 34496318,
         "is_insider": null
       },
       {
-        "pct": 1.14943,
+        "pct": 1.26437,
         "shares": 29707464,
         "is_insider": null
       },
       {
-        "pct": 0.63256,
+        "pct": 0.69581,
         "shares": 16348774,
         "is_insider": null
       },
       {
-        "pct": 0.50981,
+        "pct": 0.56079,
         "shares": 13176256,
         "is_insider": null
       },
       {
-        "pct": 0.48095,
+        "pct": 0.52904,
         "shares": 12430384,
         "is_insider": null
       },
       {
-        "pct": 0.44653,
+        "pct": 0.49118,
         "shares": 11540638,
         "is_insider": null
       },
       {
-        "pct": 0.35539,
+        "pct": 0.39093,
         "shares": 9185223,
         "is_insider": null
       },
       {
-        "pct": 0.34175,
+        "pct": 0.37592,
         "shares": 8832607,
         "is_insider": null
       },
       {
-        "pct": 0.33055,
+        "pct": 0.36361,
         "shares": 8543282,
         "is_insider": null
       },
       {
-        "pct": 0.32006,
-        "shares": 8272025,
+        "pct": 0.35216,
+        "shares": 8274388,
         "is_insider": null
       },
       {
-        "pct": 0.29557,
+        "pct": 0.32512,
         "shares": 7639102,
         "is_insider": null
       },
       {
-        "pct": 0.26102,
-        "shares": 6746217,
+        "pct": 0.2889,
+        "shares": 6787974,
         "is_insider": null
       },
       {
-        "pct": 0.17765,
+        "pct": 0.19542,
         "shares": 4591459,
         "is_insider": null
       },
       {
-        "pct": 0.17568,
-        "shares": 4540526,
+        "pct": 0.19296,
+        "shares": 4533731,
         "is_insider": null
       },
       {
-        "pct": 0.15331,
-        "shares": 3962412,
+        "pct": 0.16864,
+        "shares": 3962380,
         "is_insider": null
       },
       {
-        "pct": 0.13159,
+        "pct": 0.14474,
         "shares": 3400903,
         "is_insider": null
       }
@@ -622,7 +927,7 @@
   },
   "dividend": {
     "yield_pct": 1.87,
-    "payout_pct": 104.5192594112668,
+    "payout_pct": 95.0177976732813,
     "annualized_dividend": 43,
     "listing_currency": "INR",
     "recent_payments": [
@@ -669,11 +974,11 @@
         "exDate": "2024-11-06T00:00:00.000Z",
         "payDate": "2024-11-21T00:00:00.000Z",
         "recordDate": "2024-11-06T00:00:00.000Z",
-        "divAmount": 19,
-        "divAmountListingCurrency": 19,
+        "divAmount": 10,
+        "divAmountListingCurrency": 10,
         "currencyIsoCode": "INR",
-        "dividendTypeName": "No special code applies",
-        "divFreqTypeName": "Interim Payment",
+        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+        "divFreqTypeName": "Bonus Payment",
         "annualizedDividend": 43,
         "annualizedDividendListingCurrency": 43,
         "annualizedYield": 1.8248516925
@@ -682,11 +987,11 @@
         "exDate": "2024-11-06T00:00:00.000Z",
         "payDate": "2024-11-21T00:00:00.000Z",
         "recordDate": "2024-11-06T00:00:00.000Z",
-        "divAmount": 10,
-        "divAmountListingCurrency": 10,
+        "divAmount": 19,
+        "divAmountListingCurrency": 19,
         "currencyIsoCode": "INR",
-        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-        "divFreqTypeName": "Bonus Payment",
+        "dividendTypeName": "No special code applies",
+        "divFreqTypeName": "Interim Payment",
         "annualizedDividend": 43,
         "annualizedDividendListingCurrency": 43,
         "annualizedYield": 1.8248516925
@@ -786,44 +1091,44 @@
     "payment_count": 23
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-04",
+    "most_recent_reported_date": "2026-06-03",
     "latest_year": 2026,
-    "latest_revenue": 652190000000,
+    "latest_revenue": 644680000000,
     "latest_net_income": 106330000000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 3.3237749718794065,
-    "earnings_growth_pct": -0.1502488496572448,
-    "net_margin_pct": 16.30353117956424,
+    "revenue_growth_pct": 0.8447002878238017,
+    "earnings_growth_pct": -1.5006947660954144,
+    "net_margin_pct": 16.49345411677111,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 652190000000,
+        "revenue": 644680000000,
         "netIncome": 106330000000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 631210000000,
-        "netIncome": 106490000000,
+        "revenue": 639280000000,
+        "netIncome": 107950000000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 618960000000,
-        "netIncome": 102770000000,
+        "revenue": 621070000000,
+        "netIncome": 103330000000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 605800000000,
-        "netIncome": 101200000000,
+        "revenue": 614520000000,
+        "netIncome": 102940000000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 524460000000,
-        "netIncome": 88740000000,
+        "revenue": 548760000000,
+        "netIncome": 91580000000,
         "eps": null
       }
     ]
@@ -1055,6 +1360,66 @@
   ],
   "news": [
     {
+      "id": "a211384b-32d3-49f2-8fae-dc3a127ea806",
+      "type": "brief",
+      "date": "2026-06-04T12:04:16.000Z",
+      "title": "Full year 2026 earnings: EPS exceeds analyst expectations",
+      "body": "Full year 2026 results: EPS: ₹45.26 (down from ₹45.36 in FY 2025). Revenue: ₹644.7b (up 5.1% from FY 2025). Net income: ₹106.3b (flat on FY 2025). Profit margin: 17% (in line with FY 2025). Revenue was in line with analyst estimates. Earnings per share (EPS) surpassed analyst estimates by 42%. Revenue is forecast to grow 7.1% p.a. on average during the next 3 years, compared to a 7.7% growth forecast for the Personal Products industry in India. Over the last 3 years on average, earnings per share has increased by 2% per year but the company’s share price has fallen by 8% per year, which means it is significantly lagging earnings.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "64eb0236-73c9-4230-9f06-26872634a0af",
+      "type": "narrative-update",
+      "date": "2026-06-03T22:05:10.000Z",
+      "title": "HINDUNILVR: Capacity Expansion And Renewable Facilities Will Support Future Upside Potential",
+      "body": "Analysts have modestly trimmed their Hindustan Unilever price target from ₹2,603.80 to ₹2,561.11, citing slightly softer profit margin assumptions, while revenue growth expectations and the forward P/E profile remain relatively steady. What's in the News A board meeting is scheduled for July 28, 2026 at 14:00 IST to consider Hindustan Unilever's first quarter results for the financial year.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/household/nse-hindunilvr/hindustan-unilever-shares/qy1z6sro-hindunilvr-revenue-expansion-will-drive-market-leadership-amid-shifting-consumer-demand/updates/17-analysts-have-modestly-trimmed-their-hindustan-unilever-pric",
+      "raw_subtype": "narrative-update"
+    },
+    {
+      "id": "b7cf892d-2fe5-47a2-9810-e4bf34711826",
+      "type": "event",
+      "date": "2026-06-02T16:27:00.000Z",
+      "title": "Hindustan Unilever Limited to Report Q4, 2027 Results on Apr 29, 2027",
+      "body": "Hindustan Unilever Limited announced that they will report Q4, 2027 results on Apr 29, 2027",
+      "keyDevTypeId": "55",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
+    {
+      "id": "4775c536-431d-4c07-aaa2-95eac35293da",
+      "type": "event",
+      "date": "2026-06-02T16:27:00.000Z",
+      "title": "Hindustan Unilever Limited to Report Q2, 2027 Results on Oct 28, 2026",
+      "body": "Hindustan Unilever Limited announced that they will report Q2, 2027 results on Oct 28, 2026",
+      "keyDevTypeId": "55",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
+    {
+      "id": "2558ecee-bb07-4478-b734-c7ef0e1677d0",
+      "type": "event",
+      "date": "2026-06-02T16:27:00.000Z",
+      "title": "Hindustan Unilever Limited to Report Q3, 2027 Results on Feb 11, 2027",
+      "body": "Hindustan Unilever Limited announced that they will report Q3, 2027 results on Feb 11, 2027",
+      "keyDevTypeId": "55",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
+    {
+      "id": "97996994-c288-4752-917c-cec7cf952b5d",
+      "type": "event",
+      "date": "2026-06-02T16:27:00.000Z",
+      "title": "Hindustan Unilever Limited to Report Q1, 2027 Results on Jul 28, 2026",
+      "body": "Hindustan Unilever Limited announced that they will report Q1, 2027 results on Jul 28, 2026",
+      "keyDevTypeId": "55",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
+    {
       "id": "8329a1ba-067a-4375-8792-fec858181ad5",
       "type": "article",
       "date": "2026-05-08T00:37:52.000Z",
@@ -1243,16 +1608,6 @@
       "keyDevTypeId": null,
       "source_url": null,
       "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "10791728-09ec-454d-b54d-33720e914bd4",
-      "type": "narrative-update",
-      "date": "2025-12-14T05:06:07.000Z",
-      "title": "HINDUNILVR: Premiumization And Rural Penetration Will Drive Future Margin Resilience",
-      "body": "Analysts have marginally lowered their fair value estimate for Hindustan Unilever by about ₹2 to roughly ₹2,784 per share. This reflects slightly softer long term revenue growth assumptions, partly offset by a modestly higher profit margin outlook.",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/household/nse-hindunilvr/hindustan-unilever-shares/qy1z6sro-hindunilvr-revenue-expansion-will-drive-market-leadership-amid-shifting-consumer-demand/updates/9-analysts-have-marginally-lowered-their-fair-value-estimate-f",
-      "raw_subtype": "narrative-update"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/HINDUNILVR.json"

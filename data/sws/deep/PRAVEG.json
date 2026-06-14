@@ -3,7 +3,7 @@
   "name": "Praveg Limited",
   "sector": "Media",
   "sws_url": "https://simplywall.st/stocks/in/media/nse-praveg/praveg-shares",
-  "parsed_at": "2026-05-31T21:37:19.632Z",
+  "parsed_at": "2026-06-11T00:38:37.838Z",
   "company_id": "2B2081CE-81B2-40D5-AE9C-7403CCC05A92",
   "classification_status": "Active",
   "groww_source": {
@@ -19,15 +19,15 @@
       "valuation": 1,
       "future": 0,
       "past": 0,
-      "financial_health": 5,
-      "dividends": 2,
+      "financial_health": 4,
+      "dividends": 0,
       "future_growth": 0,
       "past_performance": 0,
       "value": 1,
-      "health": 5,
-      "dividend": 2
+      "health": 4,
+      "dividend": 0
     },
-    "snowflake_total": 8,
+    "snowflake_total": 5,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 7,
@@ -76,22 +76,308 @@
         }
       ]
     },
-    "current_price_inr": 272.2,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SAME_PB"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASING_LOSSES"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_LONG_FALLEN"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_VOLATILE_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_LOSS_MAKING"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 220.5,
     "market_cap_inr": 7325900000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 241.4,
       "high": 325
     },
-    "fair_value_inr": 11.943983,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -95.6120562086701,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "5768ed40-f5fc-4d65-a915-85f3c1715ded",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": null,
       "ps": 3.27,
@@ -111,10 +397,9 @@
       "Trading at good value vs. peer average Price-To-Sales ratio"
     ],
     "risks": [
-      "Earnings have declined by 11.9% per year over past 5 years",
-      "Shares are highly illiquid",
-      "Does not have a meaningful market cap (₹7B)",
-      "Dividend of 0.37% is not well covered by free cash flows"
+      "Does not have a meaningful market cap (₹6B)",
+      "Highly volatile share price over past 3 months",
+      "Earnings have declined by 22.2% per year over past 5 years"
     ],
     "dividend": {
       "yield_pct": 0.36,
@@ -128,7 +413,7 @@
     "industry_benchmarks": {
       "pe": 35.67618631448488,
       "net_income_margin_1y": 0.1403672015,
-      "future_revenue_growth_3y": 0.3609417923,
+      "future_revenue_growth_3y": 0.3593822242,
       "sector_pe": 35.67618631448488
     },
     "industry_benchmarks_meta": {
@@ -164,17 +449,17 @@
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 1.5,
+        "industry_pe": 1.4,
         "industry_name": "Indian Media",
-        "description": "PRAVEG is expensive based on its Price-To-Sales Ratio (3.1x) compared to the Indian Media industry average (1.5x).",
+        "description": "PRAVEG is expensive based on its Price-To-Sales Ratio (2.4x) compared to the Indian Media industry average (1.4x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 19.331431755,
+        "industry_pe": 17.228014944,
         "industry_code": "4310000",
         "type": "median_profitable",
-        "count": 54,
+        "count": 55,
         "source": {
           "type": "country",
           "country": "IN",
@@ -183,8 +468,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.05,
-        "sample_count": 56,
+        "industry_pe": 16.1,
+        "sample_count": 59,
         "industry_code": "4310000",
         "industry_name": "Media"
       },
@@ -196,8 +481,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 272.2,
-        "fetched_at": "2026-05-31T21:37:19.632Z",
+        "value": 220.5,
+        "fetched_at": "2026-06-11T00:38:37.838Z",
         "url": "https://simplywall.st/stocks/in/media/nse-praveg/praveg-shares"
       },
       "market_cap_inr": {
@@ -239,13 +524,13 @@
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.1403672015,
-        "fetched_at": "2026-05-31T21:37:19.632Z",
+        "fetched_at": "2026-06-11T00:38:37.838Z",
         "url": "https://simplywall.st/stocks/in/media/nse-praveg/praveg-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.3609417923,
-        "fetched_at": "2026-05-31T21:37:19.632Z",
+        "value": 0.3593822242,
+        "fetched_at": "2026-06-11T00:38:37.838Z",
         "url": "https://simplywall.st/stocks/in/media/nse-praveg/praveg-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -371,16 +656,16 @@
     "quick_ratio": 1.4341057204923968,
     "cash_ratio": 0.1309437605599807,
     "returns_pct": {
-      "1D": -3.4580599397056218,
-      "7D": 6.933804753486536,
-      "1M": -14.348646947765896,
-      "3M": 2.100525131282808,
-      "6M": 2.100525131282808,
-      "1Y": 2.100525131282808,
+      "1D": 0.31847133757961266,
+      "7D": -4.813295920569828,
+      "1M": -24.447490149049177,
+      "3M": -17.29182295573894,
+      "6M": -17.29182295573894,
+      "1Y": -17.29182295573894,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 1,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -732,6 +1017,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "94b71f81-c7eb-45a5-97f6-b9d72d8f8ee2",
+      "type": "brief",
+      "date": "2026-05-31T23:03:51.000Z",
+      "title": "Full year 2026 earnings released: ₹3.81 loss per share (vs ₹5.96 profit in FY 2025)",
+      "body": "Full year 2026 results: ₹3.81 loss per share (down from ₹5.96 profit in FY 2025). Revenue: ₹2.41b (up 44% from FY 2025). Net loss: ₹115.3m (down 175% from profit in FY 2025).",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "3409d408-0eeb-45b5-9b56-b521c9fb613e",
       "type": "event",

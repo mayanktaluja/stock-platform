@@ -3,7 +3,7 @@
   "name": "Equitas Small Finance Bank Limited",
   "sector": "Banks",
   "sws_url": "https://simplywall.st/stocks/in/banks/nse-equitasbnk/equitas-small-finance-bank-shares",
-  "parsed_at": "2026-05-31T22:46:13.909Z",
+  "parsed_at": "2026-06-11T01:43:07.971Z",
   "company_id": "8933C775-B243-427C-9601-135B62E1F7DA",
   "classification_status": "Active",
   "groww_source": {
@@ -76,22 +76,308 @@
         }
       ]
     },
-    "current_price_inr": 70.21,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "BankHealth",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAppropriateBadLoanAllowance",
+          "title": "Allowance for Bad Loans",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAppropriateNonPerformingLoans",
+          "title": "Level of Bad Loans",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasPrimarilyLowRiskFunding",
+          "title": "Low Risk Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_CUSTOMER_DEPOSITS"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAppropriateLoanLevel",
+          "title": "Loan Level",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasPrimarilyDepositFunding",
+          "title": "Low Risk Deposits",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_CUSTOMER_DEPOSITS"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAnAppropriateLevelOfAssets",
+          "title": "Asset Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredIn3Years",
+          "title": "Future Dividend Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 73.52,
     "market_cap_inr": 82284600000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midsmall4",
     "shares_outstanding": 1141572977,
     "fifty_two_week": {
       "low": 50,
       "high": 74.6
     },
-    "fair_value_inr": 90,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 54.599268,
+      "min": 55,
       "max": 90,
       "count": 29
     },
-    "upside_pct": 28.186867967526002,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystHighTarget",
+      "owner_classification": null,
+      "narrative_id": "fecbbbd7-5179-4f78-b906-64062e7879c9",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 80.09,
       "ps": 1.05,
@@ -151,8 +437,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 13.356880346706902,
-      "net_income_margin_1y": 0.3177821454,
-      "future_revenue_growth_3y": 0.2745257838,
+      "net_income_margin_1y": 0.3178841988,
+      "future_revenue_growth_3y": 0.2771620146,
       "sector_pe": 13.356880346706902
     },
     "industry_benchmarks_meta": {
@@ -187,15 +473,15 @@
         "url": "https://groww.in/stocks/equitas-small-finance-bank-ltd"
       },
       "sws_statement": {
-        "company_pe": 77.8,
-        "industry_pe": 11.4,
+        "company_pe": 83,
+        "industry_pe": 11.6,
         "industry_name": "Indian Banks",
-        "description": "EQUITASBNK is expensive based on its Price-To-Earnings Ratio (77.8x) compared to the Indian Banks industry average (11.4x).",
+        "description": "EQUITASBNK is expensive based on its Price-To-Earnings Ratio (83x) compared to the Indian Banks industry average (11.6x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 11.441700538,
+        "industry_pe": 11.624761504,
         "industry_code": "7011000",
         "type": "median_profitable",
         "count": 39,
@@ -207,13 +493,13 @@
         }
       },
       "internal_median": {
-        "industry_pe": 11.4,
+        "industry_pe": 11.75,
         "sample_count": 40,
         "industry_code": "7011000",
         "industry_name": "Banks"
       },
       "sws_primary_industry": {
-        "industry_pe": 11.055229769,
+        "industry_pe": 11.140031027,
         "industry_name": "Banks",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
@@ -224,8 +510,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 70.21,
-        "fetched_at": "2026-05-31T22:46:13.909Z",
+        "value": 73.52,
+        "fetched_at": "2026-06-11T01:43:07.971Z",
         "url": "https://simplywall.st/stocks/in/banks/nse-equitasbnk/equitas-small-finance-bank-shares"
       },
       "market_cap_inr": {
@@ -272,14 +558,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.3177821454,
-        "fetched_at": "2026-05-31T22:46:13.909Z",
+        "value": 0.3178841988,
+        "fetched_at": "2026-06-11T01:43:07.971Z",
         "url": "https://simplywall.st/stocks/in/banks/nse-equitasbnk/equitas-small-finance-bank-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.2745257838,
-        "fetched_at": "2026-05-31T22:46:13.909Z",
+        "value": 0.2771620146,
+        "fetched_at": "2026-06-11T01:43:07.971Z",
         "url": "https://simplywall.st/stocks/in/banks/nse-equitasbnk/equitas-small-finance-bank-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -411,16 +697,16 @@
     "quick_ratio": 0,
     "cash_ratio": 0,
     "returns_pct": {
-      "1D": -2.7292878913826724,
-      "7D": 5.61070998796629,
-      "1M": 4.931998206546102,
-      "3M": 9.07254932421934,
-      "6M": 9.42955112219451,
-      "1Y": 5.026178010471203,
+      "1D": -1.9471859162443423,
+      "7D": 3.6953455571226943,
+      "1M": 5.329512893982806,
+      "3M": 29.550660792951533,
+      "6M": 25.24701873935263,
+      "1Y": 6.212077434267549,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 1,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -780,6 +1066,16 @@
   ],
   "news": [
     {
+      "id": "6405e0f0-874d-4fc1-ac72-c5c1415d9bfc",
+      "type": "narrative-update",
+      "date": "2026-06-05T10:04:50.000Z",
+      "title": "EQUITASBNK: April 2026 Results Will Shape Earnings And Support Fair Outlook",
+      "body": "Analysts have slightly trimmed their fair value estimate for Equitas Small Finance Bank to about ₹79 from roughly ₹80, citing updated assumptions on discount rate, revenue growth, profit margin and future P/E that keep the overall valuation framework broadly intact. What's in the News A board meeting is scheduled on April 30, 2026, to consider and approve the audited financial results for the quarter and financial year ended March 31, 2026.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/banks/nse-equitasbnk/equitas-small-finance-bank-shares/lrydxc3w-rebalancing-loan-portfolios-and-investing-in-tech-will-optimize-operations/updates/15-analysts-have-slightly-trimmed-their-fair-value-estimate-for",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "c79f1fda-e33d-4d70-a2c7-04b2ba2fe5b6",
       "type": "narrative-update",
       "date": "2026-05-09T09:07:44.000Z",
@@ -917,16 +1213,6 @@
       "body": "Analysts have trimmed their price target for Equitas Small Finance Bank from ₹60 to ₹52, reflecting a higher discount rate and lower future valuation multiples, even as they factor in stronger revenue growth and slightly improved profit margins. What's in the News Equitas Small Finance Bank will hold a board meeting on October 31, 2025 to consider and approve its unaudited financial results for the quarter and half year ended September 30, 2025 (Key Developments).",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/banks/nse-equitasbnk/equitas-small-finance-bank-shares/cvx9mlu0-eroding-digital-banking-base-will-exacerbate-valuation-issues/updates/2-analysts-have-trimmed-their-price-target-for-equitas-small-f",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "f2eeed67-1a16-42a6-9989-d3a2fa4fe8a7",
-      "type": "narrative-update",
-      "date": "2025-12-12T11:03:21.000Z",
-      "title": "EQUITASBNK Digital Lending Expansion Will Drive Stronger Profitability Ahead",
-      "body": "Analysts have trimmed their price target on Equitas Small Finance Bank from Rs 97.4 to Rs 85.4, citing a higher required return that offsets improved profit margins and a lower assumed future P/E multiple. What's in the News Board meeting scheduled on October 31, 2025 to consider and approve unaudited financial results for the quarter and half year ended September 30, 2025 (company filing) Launch of fully digital personal loan offering for salaried professionals, enabling instant, paperless approvals and disbursals (company announcement) Digital personal loan targeted at customers with net take home pay of Rs 40,000 and above and credit scores of 730 and higher, with loan amounts starting from Rs 2 lakh and tenures up to 5 years (company announcement) Interest rates on the new digital pers",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/banks/nse-equitasbnk/equitas-small-finance-bank-shares/xsa5bqu9-digital-adoption-and-urbanization-in-india-will-expand-credit-markets/updates/2-analysts-have-trimmed-their-price-target-on-equitas-small-fi",
       "raw_subtype": "narrative-update"
     }
   ],

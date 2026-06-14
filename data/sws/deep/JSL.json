@@ -3,7 +3,7 @@
   "name": "Jindal Stainless Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-jsl/jindal-stainless-shares",
-  "parsed_at": "2026-05-31T20:20:28.323Z",
+  "parsed_at": "2026-06-10T23:22:53.578Z",
   "company_id": "8CAC9A0B-DA05-42C1-9BC5-6E55C1AC4B4C",
   "classification_status": "Active",
   "groww_source": {
@@ -28,9 +28,287 @@
       "dividend": 3
     },
     "snowflake_total": 20,
-    "current_price_inr": 685.1,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_VOLATILE_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 661.9,
     "market_cap_inr": 595519500000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "large7",
     "shares_outstanding": 823830881,
     "fifty_two_week": {
@@ -39,11 +317,19 @@
     },
     "fair_value_inr": 869.92857,
     "fair_value_range_inr": {
-      "min": 352.395832,
+      "min": 350.692603,
       "max": 869.92857,
       "count": 24
     },
-    "upside_pct": 26.978334549700772,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "a0083a4c-1060-4c2f-9616-754b619953cf",
+      "narrative_type": null,
+      "published_at": "2026-05-29T23:05:47.930Z"
+    },
+    "upside_pct": 31.429002870524258,
     "multiples": {
       "pe": 18.7,
       "ps": 1.39,
@@ -65,8 +351,8 @@
       "Trading below our calculated fair Price-To-Earnings ratio",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Earnings grew by 27.5% over the past year",
-      "Analysts in good agreement that stock price will rise by 27%",
-      "Price-To-Earnings ratio (17.7x) is below the Indian market (23.4x)"
+      "Analysts in good agreement that stock price will rise by 31.4%",
+      "Price-To-Earnings ratio (17.1x) is below the Indian market (23.2x)"
     ],
     "risks": [
       "Unstable dividend track record"
@@ -174,8 +460,8 @@
     "dividend_yield_pct": 0.55,
     "industry_benchmarks": {
       "pe": 27.706219018768824,
-      "net_income_margin_1y": 0.09487982097,
-      "future_revenue_growth_3y": 34.387188816,
+      "net_income_margin_1y": 0.09486136614,
+      "future_revenue_growth_3y": 32.656569349,
       "sector_pe": 27.706219018768824
     },
     "industry_benchmarks_meta": {
@@ -210,18 +496,18 @@
         "url": "https://groww.in/stocks/jindal-stainless-ltd"
       },
       "sws_statement": {
-        "company_pe": 17.7,
-        "industry_pe": 22.3,
+        "company_pe": 17.1,
+        "industry_pe": 20.8,
         "industry_name": "Indian Metals and Mining",
-        "description": "JSL is good value based on its Price-To-Earnings Ratio (17.7x) compared to the Indian Metals and Mining industry average (22.3x).",
+        "description": "JSL is good value based on its Price-To-Earnings Ratio (17.1x) compared to the Indian Metals and Mining industry average (20.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 21.899662552,
+        "industry_pe": 20.837327412,
         "industry_code": "2050000",
         "type": "median_profitable",
-        "count": 192,
+        "count": 193,
         "source": {
           "type": "country",
           "country": "IN",
@@ -230,25 +516,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.05,
-        "sample_count": 196,
+        "industry_pe": 19.2,
+        "sample_count": 197,
         "industry_code": "2050000",
         "industry_name": "Materials"
       },
       "sws_primary_industry": {
-        "industry_pe": 19.26596559,
+        "industry_pe": 18.498719492,
         "industry_name": "Materials",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 17.673880492041523
+        "company_pe": 17.075378043617405
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 685.1,
-        "fetched_at": "2026-05-31T20:20:28.323Z",
+        "value": 661.9,
+        "fetched_at": "2026-06-10T23:22:53.578Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-jsl/jindal-stainless-shares"
       },
       "market_cap_inr": {
@@ -256,6 +542,24 @@
         "value": 595519500000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/jindal-stainless-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 869.92857,
+        "fetched_at": "2026-06-10T23:22:53.578Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-jsl/jindal-stainless-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "a0083a4c-1060-4c2f-9616-754b619953cf",
+        "narrative_type": null,
+        "published_at": "2026-05-29T23:05:47.930Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 31.429002870524258,
+        "fetched_at": "2026-06-10T23:22:53.578Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-jsl/jindal-stainless-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -295,14 +599,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.09487982097,
-        "fetched_at": "2026-05-31T20:20:28.323Z",
+        "value": 0.09486136614,
+        "fetched_at": "2026-06-10T23:22:53.578Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-jsl/jindal-stainless-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 34.387188816,
-        "fetched_at": "2026-05-31T20:20:28.323Z",
+        "value": 32.656569349,
+        "fetched_at": "2026-06-10T23:22:53.578Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-jsl/jindal-stainless-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -434,16 +738,16 @@
     "quick_ratio": 0.5714316353580733,
     "cash_ratio": 0.209758758446743,
     "returns_pct": {
-      "1D": -5.137081140958187,
-      "7D": -6.997895879997279,
-      "1M": -12.436094069529647,
-      "3M": -11.75371932762285,
-      "6M": -11.147137020945456,
-      "1Y": 6.539149366301232,
+      "1D": -0.5484186011569345,
+      "7D": -2.897381354067337,
+      "1M": -10.71091326048833,
+      "3M": -11.35069979240608,
+      "6M": -15.75128874180615,
+      "1Y": -8.841757333700597,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 5,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -515,8 +819,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.64631,
-        "shares": 13562775,
+        "pct": 1.56789,
+        "shares": 12916796,
         "is_insider": null
       },
       {
@@ -545,8 +849,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.99068,
-        "shares": 8161545,
+        "pct": 0.99074,
+        "shares": 8162001,
         "is_insider": null
       }
     ],
@@ -930,6 +1234,16 @@
   ],
   "news": [
     {
+      "id": "0cc64daa-e56f-45ee-b783-1e92167947e3",
+      "type": "brief",
+      "date": "2026-06-04T11:36:11.000Z",
+      "title": "Less than half of directors are independent",
+      "body": "Following the recent departure of a director, there are only 4 independent directors on the board. The company's board is composed of: 4 independent directors. 5 non-independent directors. Non-Executive Independent Director Ajay Mankotia was the last independent director to join the board, commencing their role in 2023. The company's minority of independent directors is a risk according to the Simply Wall St Risk Model.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
       "id": "2796aaad-668e-4d74-a8df-8f6e40be1333",
       "type": "narrative-update",
       "date": "2026-05-29T23:05:47.000Z",
@@ -1147,16 +1461,6 @@
       "body": "Analysts have nudged their price target on Jindal Stainless higher to ₹815.46, citing slightly lower perceived discount rates as well as steady expectations for revenue growth, profit margins, and future valuation multiples. What's in the News Board approves incorporation of a wholly owned subsidiary to serve as a centralized shared services entity, reflecting growing operational scale and complexity (Board meeting, November 10, 2025) Board meeting on November 10, 2025 to review unaudited standalone and consolidated financial results for the quarter and half year ended September 30, 2025, and to consider creation of the new subsidiary (Board meeting, November 10, 2025) Company commits about USD 150 million for a new wet milling plant at its Jajpur, Odisha unit, doubling slag processing cap",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/materials/nse-jsl/jindal-stainless-shares/ymacvnon-domestic-demand-and-esg-measures-will-drive-sustained-industry-performance/updates/16-analysts-have-nudged-their-price-target-on-jindal-stainless",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "6c58a4a8-7ff7-4732-8916-1b2a6be8fa58",
-      "type": "narrative-update",
-      "date": "2025-12-08T22:04:10.000Z",
-      "title": "JSL: Wet Milling Expansion And Metro Supply Will Support Steady Outlook",
-      "body": "Analysts have raised their price target for Jindal Stainless from ₹815.46 to ₹815.46, reflecting a stable valuation supported by steady assumptions on revenue growth, profit margins, and future earnings multiples despite a slightly higher discount rate. What's in the News Board approves creation of a wholly owned subsidiary to serve as a centralized shared services entity, reflecting expanding operations and rising business complexity (Board meeting resolution, Nov 10, 2025).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/materials/nse-jsl/jindal-stainless-shares/ymacvnon-domestic-demand-and-esg-measures-will-drive-sustained-industry-performance/updates/15-analysts-have-raised-their-price-target-for-jindal-stainless",
       "raw_subtype": "narrative-update"
     }
   ],

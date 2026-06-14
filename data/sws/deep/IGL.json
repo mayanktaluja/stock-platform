@@ -3,7 +3,7 @@
   "name": "Indraprastha Gas Limited",
   "sector": "Utilities",
   "sws_url": "https://simplywall.st/stocks/in/utilities/nse-igl/indraprastha-gas-shares",
-  "parsed_at": "2026-05-31T20:03:20.453Z",
+  "parsed_at": "2026-06-10T23:06:40.112Z",
   "company_id": "737D9541-0811-4BC5-8A10-BF942778BAEB",
   "classification_status": "Active",
   "groww_source": {
@@ -28,9 +28,287 @@
       "dividend": 4
     },
     "snowflake_total": 15,
-    "current_price_inr": 160.47,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SAME_PE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DIVIDENDS_NOT_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 162.17,
     "market_cap_inr": 230650300000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "medium5",
     "shares_outstanding": 1400001602,
     "fifty_two_week": {
@@ -43,7 +321,15 @@
       "max": 205.53333,
       "count": 18
     },
-    "upside_pct": 28.082090110300996,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "1e7d43d2-d4a3-4a3d-8a16-ee27613c328c",
+      "narrative_type": null,
+      "published_at": "2026-05-14T08:07:56.166Z"
+    },
+    "upside_pct": 26.739427760991564,
     "multiples": {
       "pe": 14.94,
       "ps": 1.43,
@@ -60,14 +346,13 @@
       "pe_source_url": "https://groww.in/stocks/indraprastha-gas-ltd"
     },
     "rewards": [
-      "Price-To-Earnings ratio (14.5x) is below the Indian market (23.4x)",
-      "Analysts in good agreement that stock price will rise by 21.5%",
+      "Price-To-Earnings ratio (14.7x) is below the Indian market (22.9x)",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading below our calculated fair Price-To-Earnings ratio",
-      "Earnings are forecast to grow 8.87% per year"
+      "Earnings are forecast to grow 8.94% per year"
     ],
     "risks": [
-      "Dividend of 2.96% is not well covered by free cash flows"
+      "Dividend of 2.92% is not well covered by free cash flows"
     ],
     "dividend": {
       "yield_pct": 0.91,
@@ -237,8 +522,8 @@
     "dividend_yield_pct": 0.91,
     "industry_benchmarks": {
       "pe": 18.88956298261687,
-      "net_income_margin_1y": 0.1209423191,
-      "future_revenue_growth_3y": 5.427136977,
+      "net_income_margin_1y": 0.1212166852,
+      "future_revenue_growth_3y": 4.632223946,
       "sector_pe": 18.88956298261687
     },
     "industry_benchmarks_meta": {
@@ -273,18 +558,18 @@
         "url": "https://groww.in/stocks/indraprastha-gas-ltd"
       },
       "sws_statement": {
-        "company_pe": 14.5,
-        "industry_pe": 14.3,
+        "company_pe": 14.7,
+        "industry_pe": 13.7,
         "industry_name": "Asian Gas Utilities",
-        "description": "IGL is expensive based on its Price-To-Earnings Ratio (14.5x) compared to the Asian Gas Utilities industry average (14.3x).",
+        "description": "IGL is expensive based on its Price-To-Earnings Ratio (14.7x) compared to the Asian Gas Utilities industry average (13.7x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 14.441519215,
+        "industry_pe": 14.620061798,
         "industry_code": "9530000",
         "type": "median_profitable",
-        "count": 8,
+        "count": 7,
         "source": {
           "type": "country",
           "country": "IN",
@@ -293,25 +578,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 14.350000000000001,
+        "industry_pe": 14.45,
         "sample_count": 8,
         "industry_code": "9530000",
         "industry_name": "Utilities"
       },
       "sws_primary_industry": {
-        "industry_pe": 15.980260868,
+        "industry_pe": 15.472304367,
         "industry_name": "Utilities",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 13.499312415001622
+        "company_pe": 13.6423225172357
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 160.47,
-        "fetched_at": "2026-05-31T20:03:20.453Z",
+        "value": 162.17,
+        "fetched_at": "2026-06-10T23:06:40.112Z",
         "url": "https://simplywall.st/stocks/in/utilities/nse-igl/indraprastha-gas-shares"
       },
       "market_cap_inr": {
@@ -319,6 +604,24 @@
         "value": 230650300000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/indraprastha-gas-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 205.53333,
+        "fetched_at": "2026-06-10T23:06:40.112Z",
+        "url": "https://simplywall.st/stocks/in/utilities/nse-igl/indraprastha-gas-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "1e7d43d2-d4a3-4a3d-8a16-ee27613c328c",
+        "narrative_type": null,
+        "published_at": "2026-05-14T08:07:56.166Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 26.739427760991564,
+        "fetched_at": "2026-06-10T23:06:40.112Z",
+        "url": "https://simplywall.st/stocks/in/utilities/nse-igl/indraprastha-gas-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -358,14 +661,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.1209423191,
-        "fetched_at": "2026-05-31T20:03:20.453Z",
+        "value": 0.1212166852,
+        "fetched_at": "2026-06-10T23:06:40.112Z",
         "url": "https://simplywall.st/stocks/in/utilities/nse-igl/indraprastha-gas-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 5.427136977,
-        "fetched_at": "2026-05-31T20:03:20.453Z",
+        "value": 4.632223946,
+        "fetched_at": "2026-06-10T23:06:40.112Z",
         "url": "https://simplywall.st/stocks/in/utilities/nse-igl/indraprastha-gas-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -497,12 +800,12 @@
     "quick_ratio": 1.1425165442091123,
     "cash_ratio": 0.6066645381719271,
     "returns_pct": {
-      "1D": -2.515035538545662,
-      "7D": 3.1895054980387165,
-      "1M": -4.2256042972247165,
-      "3M": -6.081001989933287,
-      "6M": -19.5154980439362,
-      "1Y": -22.60538246358638,
+      "1D": -0.20307692307693076,
+      "7D": 0.42729749814218343,
+      "1M": 0.9210280664633703,
+      "3M": 0.16058303996046625,
+      "6M": -13.14337743023942,
+      "1Y": -24.10258810314972,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -583,8 +886,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.9228,
-        "shares": 12919182,
+        "pct": 0.92556,
+        "shares": 12957916,
         "is_insider": null
       },
       {
@@ -608,8 +911,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.3674,
-        "shares": 5143602,
+        "pct": 0.36805,
+        "shares": 5152677,
         "is_insider": null
       }
     ],
@@ -1058,6 +1361,16 @@
   ],
   "news": [
     {
+      "id": "737b03b6-b427-4fb1-9b64-4ce183161505",
+      "type": "narrative-update",
+      "date": "2026-06-02T18:09:09.000Z",
+      "title": "IGL: Leadership Changes And Dividend Decision Will Support Future Upside",
+      "body": "Analysts have trimmed their price target on Indraprastha Gas slightly from ₹255.00 to about ₹250.60, reflecting updated assumptions on the discount rate, revenue growth, profit margins and the future P/E. What's in the News Board meeting on May 18, 2026 to consider and approve standalone and consolidated audited financial results for the quarter and year ended March 31, 2026, and to consider a final dividend recommendation for FY 2025-26.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/utilities/nse-igl/indraprastha-gas-shares/ztue83fq-urbanization-and-decarbonization-will-drive-clean-fuel-demand-xgkz/updates/10-analysts-have-trimmed-their-price-target-on-indraprastha-gas",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "f364e021-e439-49b9-82e5-b51f1d96558d",
       "type": "brief",
       "date": "2026-05-19T11:51:00.000Z",
@@ -1225,16 +1538,6 @@
       "body": "Analysts have maintained their fair value estimate for Indraprastha Gas at ₹270.00, as a modest uptick in forecast revenue growth and a slightly lower expected future P E multiple are seen as broadly offsetting a small compression in projected profit margins. What's in the News Board meeting scheduled on November 12, 2025 to approve unaudited financial results for the quarter ended September 30, 2025, indicating upcoming earnings disclosure (company filing) Board to consider an alliance cum partnership agreement with MASAH Construction Company, Saudi Arabia, to jointly pursue licenses for developing natural gas distribution networks in industrial cities across the Kingdom of Saudi Arabia (company filing) Shareholders at the September 26, 2025 AGM approved a final dividend of INR 1.5 per eq",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/utilities/nse-igl/indraprastha-gas-shares/ztue83fq-urbanization-and-decarbonization-will-drive-clean-fuel-demand-xgkz/updates/2-analysts-have-maintained-their-fair-value-estimate-for-indra",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "8572c382-c177-4f6b-a2c1-2482842fc97a",
-      "type": "narrative-update",
-      "date": "2025-12-04T02:03:34.000Z",
-      "title": "IGL: Saudi Gas Network Push Will Drive Long-Term Upside Potential",
-      "body": "Analysts have nudged their price target for Indraprastha Gas slightly higher from ₹225.40 to approximately ₹225.73, citing modestly stronger revenue growth expectations, which are offset by a marginal downward revision in profit margin forecasts and a slightly higher implied future valuation multiple. What's in the News Board meeting scheduled for November 12, 2025, to review and approve unaudited financial results for the quarter ended September 30, 2025 (company filing) The board will consider an alliance and partnership agreement with MASAH Construction Company, Saudi Arabia, to jointly pursue licenses for developing natural gas distribution networks in multiple industrial cities in the Kingdom of Saudi Arabia (company filing) Shareholders approved a final dividend of INR 1.5 per equity",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/utilities/nse-igl/indraprastha-gas-shares/uceoel0u-urbanization-and-cng-adoption-will-expand-future-markets-39od/updates/12-analysts-have-nudged-their-price-target-for-indraprastha-gas",
       "raw_subtype": "narrative-update"
     }
   ],

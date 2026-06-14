@@ -3,7 +3,7 @@
   "name": "Radhagobind Commercial Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/bse-539673/radhagobind-commercial-shares",
-  "parsed_at": "2026-05-31T22:56:18.181Z",
+  "parsed_at": "2026-06-11T02:12:04.102Z",
   "company_id": "FFB1FF27-56C6-48E6-8735-A47E3A8B5B0C",
   "classification_status": "Active",
   "groww_source": null,
@@ -70,17 +70,306 @@
         }
       ]
     },
-    "current_price_inr": 3.05,
-    "market_cap_inr": 43919985.15652565,
-    "market_cap_usd": 120714180851.549,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 28,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_ASSETS"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASING_LOSSES"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_EQUITY"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "IsInterestCoveredByProfit",
+          "result": "uncaptured",
+          "available": false,
+          "insufficient": false,
+          "outcome_name": null
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_EQUITY"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_EQUITY"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_EQUITY"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "IsDebtCoveredByCashflow",
+          "result": "uncaptured",
+          "available": false,
+          "insufficient": false,
+          "outcome_name": null
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_EQUITY"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 2.99,
+    "market_cap_inr": 43055985.448528424,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
-    "fifty_two_week": null,
+    "fifty_two_week": {
+      "low": 1.47,
+      "high": 4.07
+    },
     "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
+    },
+    "fair_value_source_detail": {
+      "method": "missing_consensus_narrative",
+      "owner_name": null,
+      "owner_classification": null,
+      "narrative_id": null,
+      "narrative_type": null,
+      "published_at": null
     },
     "upside_pct": null,
     "multiples": {
@@ -99,11 +388,12 @@
     },
     "rewards": [],
     "risks": [
+      "Latest financial reports are more than 6 months old",
+      "Makes less than USD$1m in revenue (₹0)",
       "Has less than 1 year of [[cash runway]]",
       "Negative shareholders equity",
       "Earnings have declined by 37.8% per year over past 5 years",
-      "Does not have a meaningful market cap (₹44M)",
-      "Makes less than USD$1m in revenue (₹0)"
+      "Does not have a meaningful market cap (₹41M)"
     ],
     "dividend": {
       "yield_pct": null,
@@ -115,9 +405,9 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 27.41492865,
-      "net_income_margin_1y": 0.0679160138,
-      "future_revenue_growth_3y": 0.5897731076
+      "pe": 27.53009064,
+      "net_income_margin_1y": 0.06778428543,
+      "future_revenue_growth_3y": 0.4687060715
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -134,27 +424,27 @@
       "company_pe": null,
       "company_pe_source": null,
       "company_pe_source_label": null,
-      "industry_pe": 27.41492865,
+      "industry_pe": 27.53009064,
       "industry_name": "Retail",
       "industry_code": "4410000",
-      "sample_count": 73,
+      "sample_count": 74,
       "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 1.3,
+        "industry_pe": 1.1,
         "industry_name": "Indian Retail Distributors",
-        "description": "539673 has negative equity and a Price-To-Book Ratio (-0.9x) compared to the Indian Retail Distributors industry average (1.3x).",
+        "description": "539673 has negative equity and a Price-To-Book Ratio (-0.8x) compared to the Indian Retail Distributors industry average (1.1x).",
         "title": "Price-To-Book vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 27.41492865,
+        "industry_pe": 27.53009064,
         "industry_code": "4410000",
         "type": "median_profitable",
-        "count": 73,
+        "count": 74,
         "source": {
           "type": "country",
           "country": "IN",
@@ -163,8 +453,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 23.7,
-        "sample_count": 63,
+        "industry_pe": 21.9,
+        "sample_count": 65,
         "industry_code": "4410000",
         "industry_name": "Retail"
       },
@@ -176,26 +466,35 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 3.05,
-        "fetched_at": "2026-05-31T22:56:18.181Z",
+        "value": 2.99,
+        "fetched_at": "2026-06-11T02:12:04.102Z",
         "url": "https://simplywall.st/stocks/in/retail/bse-539673/radhagobind-commercial-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 27.41492865,
+        "value": 27.53009064,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.0679160138,
-        "fetched_at": "2026-05-31T22:56:18.181Z",
+        "value": 0.06778428543,
+        "fetched_at": "2026-06-11T02:12:04.102Z",
         "url": "https://simplywall.st/stocks/in/retail/bse-539673/radhagobind-commercial-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.5897731076,
-        "fetched_at": "2026-05-31T22:56:18.181Z",
+        "value": 0.4687060715,
+        "fetched_at": "2026-06-11T02:12:04.102Z",
+        "url": "https://simplywall.st/stocks/in/retail/bse-539673/radhagobind-commercial-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 1.47,
+          "high": 4.07
+        },
+        "fetched_at": "2026-06-11T02:12:04.102Z",
         "url": "https://simplywall.st/stocks/in/retail/bse-539673/radhagobind-commercial-shares"
       }
     },
@@ -222,16 +521,16 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 4.452054794520544,
-      "7D": -6.153846153846159,
-      "1M": -11.849710982658964,
-      "3M": -0.3267973856209226,
-      "6M": 76.30057803468208,
-      "1Y": 11.721611721611715,
+      "1D": 3.8194444444444557,
+      "7D": 1.3559322033898318,
+      "1M": -11.011904761904752,
+      "3M": -26.535626535626534,
+      "6M": 98.0132450331126,
+      "1Y": 22.040816326530614,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 1,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -351,6 +650,16 @@
     "BSE"
   ],
   "news": [
+    {
+      "id": "93ad0f26-3fee-421c-8953-6573a5a6a95b",
+      "type": "brief",
+      "date": "2026-06-02T11:26:16.000Z",
+      "title": "New minor risk - Financial data availability",
+      "body": "The company's latest financial reports are more than 6 months old. Last reported fiscal period ended September 2025. This is considered a minor risk. If the company has not reported its earnings on time, it may have been delayed due to audit problems or it may be finding it difficult to reconcile its accounts. Currently, the following risks have been identified for the company: Major Risks Less than 1 year of cash runway based on free cash flow trend (-₹2.2m free cash flow). Negative equity (-₹51m). Earnings have declined by 38% per year over the past 5 years. Revenue is less than US$1m. Market cap is less than US$10m (₹43.2m market cap, or US$454.0k). Minor Risk Latest financial reports are more than 6 months old (reported September 2025 fiscal period end).",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "570603b3-0e61-46b2-9dce-4f52b07e1ad5",
       "type": "event",

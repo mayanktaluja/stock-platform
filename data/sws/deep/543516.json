@@ -3,27 +3,27 @@
   "name": "Dhyaani Tradeventtures Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-543516/dhyaani-tradeventtures-shares",
-  "parsed_at": "2026-05-31T20:13:25.807Z",
+  "parsed_at": "2026-06-10T23:15:00.866Z",
   "company_id": "2D7DACEB-F66A-4456-8CE6-6EC27F49AF19",
   "classification_status": "Active",
   "groww_source": null,
   "overview": {
     "snowflake": {
-      "valuation": 0,
+      "valuation": 2,
       "future": 0,
-      "past": 0,
+      "past": 1,
       "financial_health": 4,
       "dividends": 0,
       "future_growth": 0,
-      "past_performance": 0,
-      "value": 0,
+      "past_performance": 1,
+      "value": 2,
       "health": 4,
       "dividend": 0
     },
-    "snowflake_total": 4,
+    "snowflake_total": 7,
     "snowflake_data_quality": {
       "insufficient": true,
-      "insufficient_count": 12,
+      "insufficient_count": 10,
       "checked_count": 30,
       "affected_pillars": [
         "Value",
@@ -33,7 +33,7 @@
       "by_pillar": {
         "Value": {
           "checked": 6,
-          "insufficient": 3
+          "insufficient": 1
         },
         "Future": {
           "checked": 6,
@@ -59,32 +59,321 @@
           "reason_code": "OUTCOME_NULL"
         },
         {
-          "pillar": "Value",
-          "title": "Below Future Cash Flow Value",
+          "pillar": "Future",
+          "title": "Future ROE",
           "reason_code": "OUTCOME_NULL"
         },
         {
-          "pillar": "Value",
-          "title": "Significantly Below Future Cash Flow Value",
+          "pillar": "Future",
+          "title": "High Growth Earnings",
           "reason_code": "OUTCOME_NULL"
         }
       ]
     },
-    "current_price_inr": 4.93,
-    "market_cap_inr": 83928270.14933373,
-    "market_cap_usd": 120714180851.549,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 4.49,
+    "market_cap_inr": 76437714.59848042,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
-    "fifty_two_week": null,
+    "fifty_two_week": {
+      "low": 4.48,
+      "high": 14.24
+    },
     "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "6762e22f-511d-462d-9e0f-a9f6e94e4316",
+      "narrative_type": null,
+      "published_at": null
+    },
     "upside_pct": null,
     "multiples": {
-      "pe": 38.1,
+      "pe": 117.3,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -93,17 +382,18 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": "2026-05-31T20:13:25.807Z",
+      "pe_as_of": "2026-06-10T23:15:00.866Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://simplywall.st/stocks/in/capital-goods/bse-543516/dhyaani-tradeventtures-shares"
     },
-    "rewards": [],
+    "rewards": [
+      "Trading at 91.1% below our estimate of its fair value"
+    ],
     "risks": [
-      "High level of [[non-cash earnings]]",
-      "Profit margins (0.9%) are lower than last year (2.3%)",
-      "Earnings have declined by 5.3% per year over past 5 years",
-      "Does not have a meaningful market cap (₹84M)",
-      "Does not have meaningful revenue (₹239M)"
+      "Profit margins (0.2%) are lower than last year (2%)",
+      "Earnings have declined by 13.5% per year over past 5 years",
+      "Does not have a meaningful market cap (₹80M)",
+      "Does not have meaningful revenue (₹272M)"
     ],
     "dividend": {
       "yield_pct": null,
@@ -115,9 +405,9 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 23.432792853,
-      "net_income_margin_1y": 0.0528311647,
-      "future_revenue_growth_3y": 0.1545987815
+      "pe": 24.16407612,
+      "net_income_margin_1y": 0.05713572021,
+      "future_revenue_growth_3y": 0.1646852446
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -131,30 +421,30 @@
     "pe_benchmark_source": {
       "provider": "sws_industry_api",
       "label": "SWS industry API",
-      "company_pe": 38.1,
+      "company_pe": 117.3,
       "company_pe_source": "sws_statement",
       "company_pe_source_label": "SWS visible statement",
-      "industry_pe": 23.432792853,
+      "industry_pe": 24.16407612,
       "industry_name": "Capital Goods",
       "industry_code": "3080000",
-      "sample_count": 124,
+      "sample_count": 123,
       "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 38.1,
-        "industry_pe": 23.4,
+        "company_pe": 117.3,
+        "industry_pe": 24.2,
         "industry_name": "Indian Trade Distributors",
-        "description": "543516 is expensive based on its Price-To-Earnings Ratio (38.1x) compared to the Indian Trade Distributors industry average (23.4x).",
+        "description": "543516 is expensive based on its Price-To-Earnings Ratio (117.3x) compared to the Indian Trade Distributors industry average (24.2x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 23.432792853,
+        "industry_pe": 24.16407612,
         "industry_code": "3080000",
         "type": "median_profitable",
-        "count": 124,
+        "count": 123,
         "source": {
           "type": "country",
           "country": "IN",
@@ -163,8 +453,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.5,
-        "sample_count": 119,
+        "industry_pe": 19.85,
+        "sample_count": 122,
         "industry_code": "3080000",
         "industry_name": "Capital Goods"
       },
@@ -176,32 +466,41 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 4.93,
-        "fetched_at": "2026-05-31T20:13:25.807Z",
+        "value": 4.49,
+        "fetched_at": "2026-06-10T23:15:00.866Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-543516/dhyaani-tradeventtures-shares"
       },
       "multiples.pe": {
         "provider": "sws_statement",
-        "value": 38.1,
-        "fetched_at": "2026-05-31T20:13:25.807Z",
+        "value": 117.3,
+        "fetched_at": "2026-06-10T23:15:00.866Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-543516/dhyaani-tradeventtures-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 23.432792853,
+        "value": 24.16407612,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.0528311647,
-        "fetched_at": "2026-05-31T20:13:25.807Z",
+        "value": 0.05713572021,
+        "fetched_at": "2026-06-10T23:15:00.866Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-543516/dhyaani-tradeventtures-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.1545987815,
-        "fetched_at": "2026-05-31T20:13:25.807Z",
+        "value": 0.1646852446,
+        "fetched_at": "2026-06-10T23:15:00.866Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/bse-543516/dhyaani-tradeventtures-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 4.48,
+          "high": 14.24
+        },
+        "fetched_at": "2026-06-10T23:15:00.866Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-543516/dhyaani-tradeventtures-shares"
       }
     },
@@ -228,16 +527,16 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 4.00843881856539,
-      "7D": 1.4403292181069833,
-      "1M": -12.433392539964478,
-      "3M": -34.87450462351387,
-      "6M": -36.46907216494846,
-      "1Y": -60.08097165991902,
+      "1D": -3.8543897216274026,
+      "7D": -9.65794768611669,
+      "1M": -16.542750929368026,
+      "3M": -36.13086770981508,
+      "6M": -55.367793240556665,
+      "1Y": -61.32644272179155,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -373,6 +672,16 @@
   ],
   "news": [
     {
+      "id": "2c1bc37b-b14e-4670-8604-7b3b2e755efa",
+      "type": "brief",
+      "date": "2026-06-03T11:39:44.000Z",
+      "title": "Full year 2026 earnings released: EPS: ₹0.04 (vs ₹0.15 in FY 2025)",
+      "body": "Full year 2026 results: EPS: ₹0.04 (down from ₹0.15 in FY 2025). Revenue: ₹272.2m (up 122% from FY 2025). Net income: ₹678.0k (down 73% from FY 2025). Profit margin: 0.2% (down from 2.0% in FY 2025). The decrease in margin was driven by higher expenses. Over the last 3 years on average, earnings per share has fallen by 19% per year but the company’s share price has fallen by 51% per year, which means it is performing significantly worse than earnings.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
       "id": "133c9086-f56d-4eaf-ae1c-824ee0d7b5c6",
       "type": "brief",
       "date": "2026-05-26T11:35:19.000Z",
@@ -428,16 +737,6 @@
       "date": "2025-12-23T11:22:08.000Z",
       "title": "New major risk - Revenue and earnings growth",
       "body": "Earnings have declined by 5.3% per year over the past 5 years. This is considered a major risk. Ultimately, shareholders want to see a good return on their investment and that generally comes from sharing in the company's profits. If profits are declining over an extended period, then in most cases the share price will decline over time unless the company can turn around its fortunes. A trend of falling earnings can be very difficult to turn around. If the company is well already established it may also be a sign the company has matured and is in decline. In addition, if the company pays dividends it will also likely need to reduce or cut them, striking a dual blow to total shareholder returns. Currently, the following risks have been identified for the company: Major Risks Earnings have d",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "d7e7a1d6-e92e-45ec-abfe-a6f1edf7444e",
-      "type": "brief",
-      "date": "2025-12-09T11:36:06.000Z",
-      "title": "Investor sentiment improves as stock rises 22%",
-      "body": "After last week's 22% share price gain to ₹8.71, the stock trades at a trailing P/E ratio of 59.8x. Average trailing P/E is 27x in the Trade Distributors industry in India. Total loss to shareholders of 63% over the past three years.",
       "keyDevTypeId": null,
       "source_url": null,
       "raw_subtype": "BriefActivity"

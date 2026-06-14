@@ -3,7 +3,7 @@
   "name": "Bhadora Industries Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-bhadora/bhadora-industries-shares",
-  "parsed_at": "2026-05-31T21:34:38.077Z",
+  "parsed_at": "2026-06-11T00:27:47.718Z",
   "company_id": "915766B2-E79B-4CE6-9DA1-495582D49B5C",
   "classification_status": "Active",
   "groww_source": null,
@@ -11,16 +11,16 @@
     "snowflake": {
       "valuation": 2,
       "future": 0,
-      "past": 3,
+      "past": 1,
       "financial_health": 5,
       "dividends": 0,
       "future_growth": 0,
-      "past_performance": 3,
+      "past_performance": 1,
       "value": 2,
       "health": 5,
       "dividend": 0
     },
-    "snowflake_total": 10,
+    "snowflake_total": 8,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 12,
@@ -70,21 +70,310 @@
         }
       ]
     },
-    "current_price_inr": 69.1,
-    "market_cap_inr": 1285260188.4237325,
-    "market_cap_usd": 120714180851.549,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 58.4,
+    "market_cap_inr": 1086240159.2466857,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
-    "fifty_two_week": null,
+    "fifty_two_week": {
+      "low": 50.2,
+      "high": 119
+    },
     "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
+    "fair_value_source_detail": {
+      "method": "missing_consensus_narrative",
+      "owner_name": null,
+      "owner_classification": null,
+      "narrative_id": null,
+      "narrative_type": null,
+      "published_at": null
+    },
     "upside_pct": null,
     "multiples": {
-      "pe": 11.9,
+      "pe": 11.3,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -93,14 +382,13 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": "2026-05-31T21:34:38.077Z",
+      "pe_as_of": "2026-06-11T00:27:47.718Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://simplywall.st/stocks/in/capital-goods/nse-bhadora/bhadora-industries-shares"
     },
     "rewards": [
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (11.9x) is below the Indian market (23.4x)",
-      "Earnings grew by 37% over the past year",
+      "Price-To-Earnings ratio (11.3x) is below the Indian market (23.3x)",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
     "risks": [
@@ -118,9 +406,9 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 29.47654624,
+      "pe": 29.338466824,
       "net_income_margin_1y": 0.1057680891,
-      "future_revenue_growth_3y": 0.8153234448
+      "future_revenue_growth_3y": 0.8432617972
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -134,30 +422,30 @@
     "pe_benchmark_source": {
       "provider": "sws_industry_api",
       "label": "SWS industry API",
-      "company_pe": 11.9,
+      "company_pe": 11.3,
       "company_pe_source": "sws_statement",
       "company_pe_source_label": "SWS visible statement",
-      "industry_pe": 29.47654624,
+      "industry_pe": 29.338466824,
       "industry_name": "Capital Goods",
       "industry_code": "3050000",
-      "sample_count": 123,
+      "sample_count": 124,
       "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 11.9,
-        "industry_pe": 29.5,
+        "company_pe": 11.3,
+        "industry_pe": 29.3,
         "industry_name": "Indian Electrical",
-        "description": "BHADORA is good value based on its Price-To-Earnings Ratio (11.9x) compared to the Indian Electrical industry average (29.5x).",
+        "description": "BHADORA is good value based on its Price-To-Earnings Ratio (11.3x) compared to the Indian Electrical industry average (29.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 29.47654624,
+        "industry_pe": 29.338466824,
         "industry_code": "3050000",
         "type": "median_profitable",
-        "count": 123,
+        "count": 124,
         "source": {
           "type": "country",
           "country": "IN",
@@ -166,8 +454,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 28.2,
-        "sample_count": 127,
+        "industry_pe": 29.3,
+        "sample_count": 129,
         "industry_code": "3050000",
         "industry_name": "Capital Goods"
       },
@@ -179,32 +467,41 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 69.1,
-        "fetched_at": "2026-05-31T21:34:38.077Z",
+        "value": 58.4,
+        "fetched_at": "2026-06-11T00:27:47.718Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-bhadora/bhadora-industries-shares"
       },
       "multiples.pe": {
         "provider": "sws_statement",
-        "value": 11.9,
-        "fetched_at": "2026-05-31T21:34:38.077Z",
+        "value": 11.3,
+        "fetched_at": "2026-06-11T00:27:47.718Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-bhadora/bhadora-industries-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 29.47654624,
+        "value": 29.338466824,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.1057680891,
-        "fetched_at": "2026-05-31T21:34:38.077Z",
+        "fetched_at": "2026-06-11T00:27:47.718Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-bhadora/bhadora-industries-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.8153234448,
-        "fetched_at": "2026-05-31T21:34:38.077Z",
+        "value": 0.8432617972,
+        "fetched_at": "2026-06-11T00:27:47.718Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-bhadora/bhadora-industries-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 50.2,
+          "high": 119
+        },
+        "fetched_at": "2026-06-11T00:27:47.718Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-bhadora/bhadora-industries-shares"
       }
     },
@@ -231,16 +528,16 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -0.6470165348670063,
-      "7D": -4.160887656033287,
-      "1M": -3.356643356643364,
-      "3M": 7.214895267649327,
-      "6M": -12.086513994910943,
-      "1Y": -34.780556866446446,
+      "1D": -3.4710743801652915,
+      "7D": -8.750000000000002,
+      "1M": -19.448275862068968,
+      "3M": -8.750000000000002,
+      "6M": -27.901234567901234,
+      "1Y": -44.87966021708353,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 0,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -340,6 +637,26 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "9416242d-b86a-4454-a9f5-d889d86cac08",
+      "type": "article",
+      "date": "2026-06-08T01:10:14.000Z",
+      "title": "Bhadora Industries' (NSE:BHADORA) Sluggish Earnings Might Be Just The Beginning Of Its Problems",
+      "body": "Last week's earnings announcement from Bhadora Industries Limited ( NSE:BHADORA ) was disappointing to investors, with...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/capital-goods/nse-bhadora/bhadora-industries-shares/news/bhadora-industries-nsebhadora-sluggish-earnings-might-be-jus",
+      "raw_subtype": "article"
+    },
+    {
+      "id": "c21b1a78-c879-4463-865d-7d2229b25835",
+      "type": "brief",
+      "date": "2026-06-01T07:38:58.000Z",
+      "title": "Full year 2026 earnings released: EPS: ₹5.35 (vs ₹8.17 in FY 2025)",
+      "body": "Full year 2026 results: EPS: ₹5.35 (down from ₹8.17 in FY 2025). Revenue: ₹1.26b (up 14% from FY 2025). Net income: ₹99.6m (down 7.7% from FY 2025). Profit margin: 7.9% (down from 9.8% in FY 2025). The decrease in margin was driven by higher expenses.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "cf5eeb7b-48ce-408f-a18d-e58ab85ec0d8",
       "type": "brief",

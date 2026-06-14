@@ -3,7 +3,7 @@
   "name": "Aspinwall and Company Limited",
   "sector": "Food, Beverage & Tobacco",
   "sws_url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-aspinwall/aspinwall-shares",
-  "parsed_at": "2026-05-31T21:18:03.036Z",
+  "parsed_at": "2026-06-11T00:14:55.375Z",
   "company_id": "9E7E11BD-3A71-40CC-9DCF-9616C0618474",
   "classification_status": "Active",
   "groww_source": null,
@@ -69,21 +69,310 @@
         }
       ]
     },
-    "current_price_inr": 241.15,
-    "market_cap_inr": 1885380349.2787054,
-    "market_cap_usd": 120714180851.549,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ONE_TIME"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_VOLATILE_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 236,
+    "market_cap_inr": 1845116161.8485358,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
-    "fifty_two_week": null,
-    "fair_value_inr": 75.278183,
+    "fifty_two_week": {
+      "low": 202.5,
+      "high": 302.05
+    },
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -68.7836686709517,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "a972041e-d514-45a0-a5fc-9775229ef486",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
-      "pe": 14.3,
+      "pe": 14,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -92,23 +381,23 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": "2026-05-31T21:18:03.036Z",
+      "pe_as_of": "2026-06-11T00:14:55.375Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-aspinwall/aspinwall-shares"
     },
     "rewards": [
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (14.3x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (14x) is below the Indian market (23.2x)"
     ],
     "risks": [
       "Earnings have declined by 9.2% per year over past 5 years",
       "Large [[one-off items]] impacting financial results",
-      "Dividend of 2.7% is not well covered by free cash flows",
-      "Does not have a meaningful market cap (₹2B)"
+      "Does not have a meaningful market cap (₹2B)",
+      "Dividend of 2.75% is not well covered by free cash flows"
     ],
     "dividend": {
-      "yield_pct": 2.6806057266,
+      "yield_pct": 2.6805380916,
       "payout_pct": null,
       "annualized_dividend": 6.5,
       "listing_currency": "INR",
@@ -124,7 +413,7 @@
           "divFreqTypeName": "Annual",
           "annualizedDividend": 6.5,
           "annualizedDividendListingCurrency": 6.5,
-          "annualizedYield": 2.6806057266
+          "annualizedYield": 2.6805380916
         },
         {
           "exDate": "2024-07-18T00:00:00.000Z",
@@ -233,11 +522,11 @@
       ],
       "payment_count": 9
     },
-    "dividend_yield_pct": 2.6806057266,
+    "dividend_yield_pct": 2.6805380916,
     "industry_benchmarks": {
-      "pe": 18.830078936,
+      "pe": 18.621768344,
       "net_income_margin_1y": 0.06501183937,
-      "future_revenue_growth_3y": 0.3785430898
+      "future_revenue_growth_3y": 0.3819522721
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -251,30 +540,30 @@
     "pe_benchmark_source": {
       "provider": "sws_industry_api",
       "label": "SWS industry API",
-      "company_pe": 14.3,
+      "company_pe": 14,
       "company_pe_source": "sws_statement",
       "company_pe_source_label": "SWS visible statement",
-      "industry_pe": 18.830078936,
+      "industry_pe": 18.621768344,
       "industry_name": "Food, Beverage & Tobacco",
       "industry_code": "5120000",
-      "sample_count": 217,
+      "sample_count": 224,
       "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 14.3,
-        "industry_pe": 18.8,
+        "company_pe": 14,
+        "industry_pe": 18.7,
         "industry_name": "Indian Food",
-        "description": "ASPINWALL is good value based on its Price-To-Earnings Ratio (14.3x) compared to the Indian Food industry average (18.8x).",
+        "description": "ASPINWALL is good value based on its Price-To-Earnings Ratio (14x) compared to the Indian Food industry average (18.7x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 18.830078936,
+        "industry_pe": 18.621768344,
         "industry_code": "5120000",
         "type": "median_profitable",
-        "count": 217,
+        "count": 224,
         "source": {
           "type": "country",
           "country": "IN",
@@ -283,8 +572,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.9,
-        "sample_count": 218,
+        "industry_pe": 18,
+        "sample_count": 224,
         "industry_code": "5120000",
         "industry_name": "Food, Beverage & Tobacco"
       },
@@ -296,32 +585,41 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 241.15,
-        "fetched_at": "2026-05-31T21:18:03.036Z",
+        "value": 236,
+        "fetched_at": "2026-06-11T00:14:55.375Z",
         "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-aspinwall/aspinwall-shares"
       },
       "multiples.pe": {
         "provider": "sws_statement",
-        "value": 14.3,
-        "fetched_at": "2026-05-31T21:18:03.036Z",
+        "value": 14,
+        "fetched_at": "2026-06-11T00:14:55.375Z",
         "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-aspinwall/aspinwall-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 18.830078936,
+        "value": 18.621768344,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.06501183937,
-        "fetched_at": "2026-05-31T21:18:03.036Z",
+        "fetched_at": "2026-06-11T00:14:55.375Z",
         "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-aspinwall/aspinwall-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.3785430898,
-        "fetched_at": "2026-05-31T21:18:03.036Z",
+        "value": 0.3819522721,
+        "fetched_at": "2026-06-11T00:14:55.375Z",
+        "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-aspinwall/aspinwall-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 202.5,
+          "high": 302.05
+        },
+        "fetched_at": "2026-06-11T00:14:55.375Z",
         "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-aspinwall/aspinwall-shares"
       }
     },
@@ -348,12 +646,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 0.12871616010629558,
-      "7D": 6.252203031371166,
-      "1M": 5.809310692817344,
-      "3M": 11.866215150531156,
-      "6M": -1.4104660670482374,
-      "1Y": -14.181494661921706,
+      "1D": 0.7427644497566845,
+      "7D": -2.8606709199423705,
+      "1M": -3.5474905999673068,
+      "3M": 10.792920520163378,
+      "6M": -0.3378378378378426,
+      "1Y": -17.424772568229535,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -430,7 +728,7 @@
     "groww_period": null
   },
   "dividend": {
-    "yield_pct": 2.6806057266,
+    "yield_pct": 2.6805380916,
     "payout_pct": null,
     "annualized_dividend": 6.5,
     "listing_currency": "INR",
@@ -446,7 +744,7 @@
         "divFreqTypeName": "Annual",
         "annualizedDividend": 6.5,
         "annualizedDividendListingCurrency": 6.5,
-        "annualizedYield": 2.6806057266
+        "annualizedYield": 2.6805380916
       },
       {
         "exDate": "2024-07-18T00:00:00.000Z",
@@ -565,6 +863,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "2a47c63e-c593-431f-8488-c44e07d65fb7",
+      "type": "article",
+      "date": "2026-06-04T00:38:59.000Z",
+      "title": "We Think That There Are More Issues For Aspinwall (NSE:ASPINWALL) Than Just Sluggish Earnings",
+      "body": "Aspinwall and Company Limited's ( NSE:ASPINWALL ) recent weak earnings report didn't cause a big stock movement. Our...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-aspinwall/aspinwall-shares/news/we-think-that-there-are-more-issues-for-aspinwall-nseaspinwa",
+      "raw_subtype": "article"
+    },
     {
       "id": "5d043bfb-dec1-4e5a-b9dd-fb7796e45e66",
       "type": "brief",

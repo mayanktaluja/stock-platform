@@ -3,7 +3,7 @@
   "name": "Neogen Chemicals Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-neogen/neogen-chemicals-shares",
-  "parsed_at": "2026-05-31T21:09:27.383Z",
+  "parsed_at": "2026-06-11T00:13:26.053Z",
   "company_id": "77500DD7-3C75-4AE4-9B1F-5C520C3312C9",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 0
     },
     "snowflake_total": 7,
-    "current_price_inr": 1858.1,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 1995.3,
     "market_cap_inr": 48843400000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "small3",
     "shares_outstanding": 27381674,
     "fifty_two_week": {
       "low": 966.7,
       "high": 1883
     },
-    "fair_value_inr": 1756.25,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 433.042267,
+      "min": 447.564296,
       "max": 2310.51158,
       "count": 10
     },
-    "upside_pct": -5.481405737043212,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystLowTarget",
+      "owner_classification": null,
+      "narrative_id": "5ec52276-ad7c-445c-9b7d-94b966fb6549",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 169.89,
       "ps": 5.65,
@@ -169,8 +455,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 40.473660493160494,
-      "net_income_margin_1y": 0.09487982097,
-      "future_revenue_growth_3y": 34.387188816,
+      "net_income_margin_1y": 0.09486136614,
+      "future_revenue_growth_3y": 32.656569349,
       "sector_pe": 40.473660493160494
     },
     "industry_benchmarks_meta": {
@@ -206,17 +492,17 @@
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 1.2,
+        "industry_pe": 1.1,
         "industry_name": "Indian Chemicals",
-        "description": "NEOGEN is expensive based on its Price-To-Sales Ratio (5.9x) compared to the Indian Chemicals industry average (1.2x).",
+        "description": "NEOGEN is expensive based on its Price-To-Sales Ratio (6.2x) compared to the Indian Chemicals industry average (1.1x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 22.185241114,
+        "industry_pe": 20.665261726,
         "industry_code": "2020000",
         "type": "median_profitable",
-        "count": 304,
+        "count": 302,
         "source": {
           "type": "country",
           "country": "IN",
@@ -225,25 +511,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.5,
-        "sample_count": 293,
+        "industry_pe": 19.6,
+        "sample_count": 294,
         "industry_code": "2020000",
         "industry_name": "Materials"
       },
       "sws_primary_industry": {
-        "industry_pe": 19.26596559,
+        "industry_pe": 18.498719492,
         "industry_name": "Materials",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 257.7400631175279
+        "company_pe": 276.7712975288754
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1858.1,
-        "fetched_at": "2026-05-31T21:09:27.383Z",
+        "value": 1995.3,
+        "fetched_at": "2026-06-11T00:13:26.053Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-neogen/neogen-chemicals-shares"
       },
       "market_cap_inr": {
@@ -290,14 +576,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.09487982097,
-        "fetched_at": "2026-05-31T21:09:27.383Z",
+        "value": 0.09486136614,
+        "fetched_at": "2026-06-11T00:13:26.053Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-neogen/neogen-chemicals-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 34.387188816,
-        "fetched_at": "2026-05-31T21:09:27.383Z",
+        "value": 32.656569349,
+        "fetched_at": "2026-06-11T00:13:26.053Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-neogen/neogen-chemicals-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -429,16 +715,16 @@
     "quick_ratio": 0.6940311702745712,
     "cash_ratio": 0.004167824395665463,
     "returns_pct": {
-      "1D": 4.54033982221221,
-      "7D": 10.135735878134076,
-      "1M": 12.210882299655765,
-      "3M": 26.893396161988658,
-      "6M": 65.12041233448858,
-      "1Y": 11.704941685703968,
+      "1D": 2.9141737157004335,
+      "7D": 4.949505575426042,
+      "1M": 14.547333371605708,
+      "3M": 37.94939159292034,
+      "6M": 83.1054418647334,
+      "1Y": 15.175479104132986,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 7,
+    "recent_news_count": 5,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -465,11 +751,6 @@
         "is_insider": null
       },
       {
-        "pct": 5.78253,
-        "shares": 1583354,
-        "is_insider": null
-      },
-      {
         "pct": 4.81755,
         "shares": 1319125,
         "is_insider": null
@@ -477,6 +758,11 @@
       {
         "pct": 3.65208,
         "shares": 1000000,
+        "is_insider": null
+      },
+      {
+        "pct": 3.29207,
+        "shares": 901425,
         "is_insider": null
       },
       {
@@ -900,6 +1186,16 @@
   ],
   "news": [
     {
+      "id": "303cb373-4005-4257-9762-c052c94d1553",
+      "type": "narrative-update",
+      "date": "2026-06-02T11:05:04.000Z",
+      "title": "NEOGEN: Preferential Equity Issue Will Sustain Pressure On Elevated Future P E",
+      "body": "Analysts have raised their price target on Neogen Chemicals from ₹1,335 to ₹1,455, citing updated assumptions around discount rates, revenue growth, profit margins and future P/E expectations. What's in the News Board meeting scheduled for May 16, 2026 to consider audited standalone and consolidated financial results for the quarter and year ended March 31, 2026, and to consider recommending a final dividend on equity shares, subject to shareholder approval at the 37th AGM.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/materials/nse-neogen/neogen-chemicals-shares/p6wtp9rj-delays-and-export-risks-will-stall-progress-yet-spark-recovery-f8qb/updates/5-analysts-have-raised-their-price-target-on-neogen-chemicals",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "957c0c81-1d1b-41b4-b1d9-29bdac43ad04",
       "type": "article",
       "date": "2026-05-24T03:47:23.000Z",
@@ -1128,26 +1424,6 @@
       "keyDevTypeId": null,
       "source_url": null,
       "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "108a1859-c03e-4b86-9be0-dda9660e7681",
-      "type": "narrative-update",
-      "date": "2025-12-11T23:11:44.000Z",
-      "title": "NEOGEN: Market Perform Initiation Will Support Steady Future Return Potential",
-      "body": "Analysts have nudged their price target for Neogen Chemicals slightly higher, reflecting a modest improvement in fair value to roughly ₹1,812 per share. This is supported by expectations of sustained high revenue growth and stable valuation multiples, despite only minor adjustments to discount rate and profit margin assumptions.",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/materials/nse-neogen/neogen-chemicals-shares/8aswrasm-expanding-lithium-battery-materials-will-secure-global-reach-e5c4/updates/12-analysts-have-nudged-their-price-target-for-neogen-chemicals",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "91f4e0e3-c110-4c76-a2d4-4f4f29bd392b",
-      "type": "article",
-      "date": "2025-12-04T00:13:19.000Z",
-      "title": "Why We're Not Concerned Yet About Neogen Chemicals Limited's (NSE:NEOGEN) 26% Share Price Plunge",
-      "body": "The Neogen Chemicals Limited ( NSE:NEOGEN ) share price has fared very poorly over the last month, falling by a...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/materials/nse-neogen/neogen-chemicals-shares/news/why-were-not-concerned-yet-about-neogen-chemicals-limiteds-n",
-      "raw_subtype": "article"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/NEOGEN.json"

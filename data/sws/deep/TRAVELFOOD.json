@@ -3,7 +3,7 @@
   "name": "Travel Food Services Limited",
   "sector": "Consumer Services",
   "sws_url": "https://simplywall.st/stocks/in/consumer-services/nse-travelfood/travel-food-services-shares",
-  "parsed_at": "2026-05-31T22:53:52.705Z",
+  "parsed_at": "2026-06-11T01:58:10.436Z",
   "company_id": "593A66BC-0131-4C2E-A8C0-9892FFD5F404",
   "classification_status": "Active",
   "groww_source": {
@@ -28,9 +28,287 @@
       "dividend": 3
     },
     "snowflake_total": 18,
-    "current_price_inr": 1224.6,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_NOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOO_EARLY"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOO_EARLY"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 1235.7,
     "market_cap_inr": 160372400000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -39,11 +317,19 @@
     },
     "fair_value_inr": 1540,
     "fair_value_range_inr": {
-      "min": 385.865441,
+      "min": 390.018763,
       "max": 1540,
       "count": 2
     },
-    "upside_pct": 25.755348685285,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "a52d39bd-ff33-4417-8c64-f3b5a27d6784",
+      "narrative_type": null,
+      "published_at": "2025-11-27T11:22:59.135Z"
+    },
+    "upside_pct": 24.625718216395562,
     "multiples": {
       "pe": 35.46,
       "ps": 9.76,
@@ -60,8 +346,8 @@
       "pe_source_url": "https://groww.in/stocks/travel-food-services-ltd"
     },
     "rewards": [
-      "Analysts in good agreement that stock price will rise by 25.8%",
       "Earnings grew by 21.4% over the past year",
+      "Analysts in good agreement that stock price will rise by 24.6%",
       "Earnings are forecast to grow 9.09% per year"
     ],
     "risks": [],
@@ -76,8 +362,8 @@
     "dividend_yield_pct": 0.84,
     "industry_benchmarks": {
       "pe": 54.391168045635034,
-      "net_income_margin_1y": 0.165515606,
-      "future_revenue_growth_3y": 1.224870747,
+      "net_income_margin_1y": 0.1628077426,
+      "future_revenue_growth_3y": 1.221094338,
       "sector_pe": 54.391168045635034
     },
     "industry_benchmarks_meta": {
@@ -112,18 +398,18 @@
         "url": "https://groww.in/stocks/travel-food-services-ltd"
       },
       "sws_statement": {
-        "company_pe": 36.6,
-        "industry_pe": 27.1,
+        "company_pe": 36.9,
+        "industry_pe": 28.1,
         "industry_name": "Indian Hospitality",
-        "description": "TRAVELFOOD is expensive based on its Price-To-Earnings Ratio (36.6x) compared to the Indian Hospitality industry average (27.1x).",
+        "description": "TRAVELFOOD is expensive based on its Price-To-Earnings Ratio (36.9x) compared to the Indian Hospitality industry average (28.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 27.078875295,
+        "industry_pe": 28.141130414,
         "industry_code": "4210000",
         "type": "median_profitable",
-        "count": 80,
+        "count": 81,
         "source": {
           "type": "country",
           "country": "IN",
@@ -132,7 +418,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 25.25,
+        "industry_pe": 26.450000000000003,
         "sample_count": 80,
         "industry_code": "4210000",
         "industry_name": "Consumer Services"
@@ -145,8 +431,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1224.6,
-        "fetched_at": "2026-05-31T22:53:52.705Z",
+        "value": 1235.7,
+        "fetched_at": "2026-06-11T01:58:10.436Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/nse-travelfood/travel-food-services-shares"
       },
       "market_cap_inr": {
@@ -154,6 +440,24 @@
         "value": 160372400000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/travel-food-services-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 1540,
+        "fetched_at": "2026-06-11T01:58:10.436Z",
+        "url": "https://simplywall.st/stocks/in/consumer-services/nse-travelfood/travel-food-services-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "a52d39bd-ff33-4417-8c64-f3b5a27d6784",
+        "narrative_type": null,
+        "published_at": "2025-11-27T11:22:59.135Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 24.625718216395562,
+        "fetched_at": "2026-06-11T01:58:10.436Z",
+        "url": "https://simplywall.st/stocks/in/consumer-services/nse-travelfood/travel-food-services-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -193,14 +497,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.165515606,
-        "fetched_at": "2026-05-31T22:53:52.705Z",
+        "value": 0.1628077426,
+        "fetched_at": "2026-06-11T01:58:10.436Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/nse-travelfood/travel-food-services-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 1.224870747,
-        "fetched_at": "2026-05-31T22:53:52.705Z",
+        "value": 1.221094338,
+        "fetched_at": "2026-06-11T01:58:10.436Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/nse-travelfood/travel-food-services-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -332,12 +636,12 @@
     "quick_ratio": 1.8917391490028044,
     "cash_ratio": 0.08450182925961251,
     "returns_pct": {
-      "1D": 0.22096734593664114,
-      "7D": 8.31416946753936,
-      "1M": -4.328125000000007,
-      "3M": -0.7778317938745856,
-      "6M": -9.012556653540395,
-      "1Y": 13.937476739858576,
+      "1D": 4.348927546022631,
+      "7D": -1.254594853763788,
+      "1M": 2.4456972309733045,
+      "3M": 3.622641509433966,
+      "6M": -3.9412313432835857,
+      "1Y": 14.970227018980284,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -428,8 +732,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.02301,
-        "shares": 30293,
+        "pct": 0.02303,
+        "shares": 30324,
         "is_insider": null
       },
       {

@@ -3,7 +3,7 @@
   "name": "Escorts Kubota Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-escorts/escorts-kubota-shares",
-  "parsed_at": "2026-05-31T22:46:42.236Z",
+  "parsed_at": "2026-06-11T01:43:36.927Z",
   "company_id": "8CC40691-6AE7-4197-A38E-0B18B28356C9",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 5
     },
     "snowflake_total": 20,
-    "current_price_inr": 2859.8,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_STABLE_IN_PAST_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 2740.6,
     "market_cap_inr": 322398100000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midlarge6",
     "shares_outstanding": 111877754,
     "fifty_two_week": {
       "low": 2710.1,
       "high": 4180
     },
-    "fair_value_inr": 2828,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 1007.978052,
+      "min": 1036.241959,
       "max": 3665.36842,
       "count": 9
     },
-    "upside_pct": -1.1119658717392888,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystHighTarget",
+      "owner_classification": null,
+      "narrative_id": "179d2a0b-d515-4bca-9aa3-2461f3830d43",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 13.47,
       "ps": 2.79,
@@ -61,18 +347,18 @@
     },
     "rewards": [
       "Trading below our calculated fair Price-To-Earnings ratio",
-      "Earnings are forecast to grow 9.16% per year",
+      "Earnings are forecast to grow 8.85% per year",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (23.4x) is below the Machinery industry average (26.4x)",
-      "Pays a reliable dividend of 1.15%",
-      "Analysts in good agreement that stock price will rise by 21.4%",
+      "Pays a reliable dividend of 1.2%",
+      "Analysts in good agreement that stock price will rise by 24.9%",
       "Earnings grew by 21.6% over the past year",
-      "Trading at good value vs. industry average Price-To-Earnings ratio"
+      "Trading at good value vs. industry average Price-To-Earnings ratio",
+      "Price-To-Earnings ratio (22.4x) is below the Indian market (23.2x)"
     ],
     "risks": [],
     "dividend": {
       "yield_pct": 0,
-      "payout_pct": 30.568852369929033,
+      "payout_pct": 29.474694787992327,
       "annualized_dividend": 36,
       "listing_currency": "INR",
       "recent_payments": [
@@ -158,11 +444,11 @@
           "exDate": "2021-07-15T00:00:00.000Z",
           "payDate": "2021-08-26T00:00:00.000Z",
           "recordDate": "2021-07-16T00:00:00.000Z",
-          "divAmount": 5,
-          "divAmountListingCurrency": 5,
+          "divAmount": 2.5,
+          "divAmountListingCurrency": 2.5,
           "currencyIsoCode": "INR",
-          "dividendTypeName": "No special code applies",
-          "divFreqTypeName": "Annual",
+          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+          "divFreqTypeName": "Bonus Payment",
           "annualizedDividend": 5,
           "annualizedDividendListingCurrency": 5,
           "annualizedYield": 0.3220433417
@@ -171,11 +457,11 @@
           "exDate": "2021-07-15T00:00:00.000Z",
           "payDate": "2021-08-26T00:00:00.000Z",
           "recordDate": "2021-07-16T00:00:00.000Z",
-          "divAmount": 2.5,
-          "divAmountListingCurrency": 2.5,
+          "divAmount": 5,
+          "divAmountListingCurrency": 5,
           "currencyIsoCode": "INR",
-          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-          "divFreqTypeName": "Bonus Payment",
+          "dividendTypeName": "No special code applies",
+          "divFreqTypeName": "Annual",
           "annualizedDividend": 5,
           "annualizedDividendListingCurrency": 5,
           "annualizedYield": 0.3220433417
@@ -238,8 +524,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 24.54353882911374,
-      "net_income_margin_1y": 0.0775877089,
-      "future_revenue_growth_3y": 0.6569887,
+      "net_income_margin_1y": 0.07792327667,
+      "future_revenue_growth_3y": 0.6221294666,
       "sector_pe": 24.54353882911374
     },
     "industry_benchmarks_meta": {
@@ -274,18 +560,18 @@
         "url": "https://groww.in/stocks/escorts-ltd"
       },
       "sws_statement": {
-        "company_pe": 23.4,
-        "industry_pe": 26.4,
+        "company_pe": 22.4,
+        "industry_pe": 26,
         "industry_name": "Indian Machinery",
-        "description": "ESCORTS is good value based on its Price-To-Earnings Ratio (23.4x) compared to the Indian Machinery industry average (26.4x).",
+        "description": "ESCORTS is good value based on its Price-To-Earnings Ratio (22.4x) compared to the Indian Machinery industry average (26x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 25.908333666,
+        "industry_pe": 25.989998333,
         "industry_code": "3070000",
         "type": "median_profitable",
-        "count": 217,
+        "count": 220,
         "source": {
           "type": "country",
           "country": "IN",
@@ -294,25 +580,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 25.799999999999997,
-        "sample_count": 218,
+        "industry_pe": 25.6,
+        "sample_count": 219,
         "industry_code": "3070000",
         "industry_name": "Capital Goods"
       },
       "sws_primary_industry": {
-        "industry_pe": 21.475319439,
+        "industry_pe": 21.150765987,
         "industry_name": "Capital Goods",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 24.283556668756404
+        "company_pe": 22.43843014888105
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 2859.8,
-        "fetched_at": "2026-05-31T22:46:42.236Z",
+        "value": 2740.6,
+        "fetched_at": "2026-06-11T01:43:36.927Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-escorts/escorts-kubota-shares"
       },
       "market_cap_inr": {
@@ -359,14 +645,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.0775877089,
-        "fetched_at": "2026-05-31T22:46:42.236Z",
+        "value": 0.07792327667,
+        "fetched_at": "2026-06-11T01:43:36.927Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-escorts/escorts-kubota-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.6569887,
-        "fetched_at": "2026-05-31T22:46:42.236Z",
+        "value": 0.6221294666,
+        "fetched_at": "2026-06-11T01:43:36.927Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-escorts/escorts-kubota-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -475,13 +761,13 @@
         "url": "https://groww.in/stocks/escorts-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 17.214536719896802,
+    "earnings_growth_yoy_pct": 11.166612430849334,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 7.5469451028321295,
-    "latest_revenue": 110169800000,
-    "latest_net_income": 13175500000,
+    "revenue_growth_pct": 13.471318164834518,
+    "latest_revenue": 115402600000,
+    "latest_net_income": 13664600000,
     "latest_eps": 213.99,
-    "most_recent_reported_date": "2026-04-18",
+    "most_recent_reported_date": "2026-06-06",
     "pb": 2.61,
     "ps": 2.79,
     "book_value": 1105.9238599,
@@ -498,16 +784,16 @@
     "quick_ratio": 2.784293329026006,
     "cash_ratio": 0.2711613632692618,
     "returns_pct": {
-      "1D": -0.7151784474378526,
-      "7D": -2.4425189329330665,
-      "1M": -13.394506526150018,
-      "3M": -18.72335588017961,
-      "6M": -25.08513648032692,
-      "1Y": -15.480553256886148,
+      "1D": -1.767088426108469,
+      "7D": -0.882459312839063,
+      "1M": -7.621262682441768,
+      "3M": -15.146448696513723,
+      "6M": -25.114080389102934,
+      "1Y": -14.69480499268528,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 4,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -569,8 +855,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.53574,
-        "shares": 599373,
+        "pct": 0.53554,
+        "shares": 599152,
         "is_insider": null
       },
       {
@@ -626,7 +912,7 @@
   },
   "dividend": {
     "yield_pct": 0,
-    "payout_pct": 30.568852369929033,
+    "payout_pct": 29.474694787992327,
     "annualized_dividend": 36,
     "listing_currency": "INR",
     "recent_payments": [
@@ -712,11 +998,11 @@
         "exDate": "2021-07-15T00:00:00.000Z",
         "payDate": "2021-08-26T00:00:00.000Z",
         "recordDate": "2021-07-16T00:00:00.000Z",
-        "divAmount": 5,
-        "divAmountListingCurrency": 5,
+        "divAmount": 2.5,
+        "divAmountListingCurrency": 2.5,
         "currencyIsoCode": "INR",
-        "dividendTypeName": "No special code applies",
-        "divFreqTypeName": "Annual",
+        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+        "divFreqTypeName": "Bonus Payment",
         "annualizedDividend": 5,
         "annualizedDividendListingCurrency": 5,
         "annualizedYield": 0.3220433417
@@ -725,11 +1011,11 @@
         "exDate": "2021-07-15T00:00:00.000Z",
         "payDate": "2021-08-26T00:00:00.000Z",
         "recordDate": "2021-07-16T00:00:00.000Z",
-        "divAmount": 2.5,
-        "divAmountListingCurrency": 2.5,
+        "divAmount": 5,
+        "divAmountListingCurrency": 5,
         "currencyIsoCode": "INR",
-        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-        "divFreqTypeName": "Bonus Payment",
+        "dividendTypeName": "No special code applies",
+        "divFreqTypeName": "Annual",
         "annualizedDividend": 5,
         "annualizedDividendListingCurrency": 5,
         "annualizedYield": 0.3220433417
@@ -790,44 +1076,44 @@
     "payment_count": 13
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-04-18",
+    "most_recent_reported_date": "2026-06-06",
     "latest_year": 2026,
-    "latest_revenue": 110169800000,
-    "latest_net_income": 13175500000,
+    "latest_revenue": 115402600000,
+    "latest_net_income": 13664600000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 7.5469451028321295,
-    "earnings_growth_pct": 17.214536719896802,
-    "net_margin_pct": 11.95926651405376,
+    "revenue_growth_pct": 13.471318164834518,
+    "earnings_growth_pct": 11.166612430849334,
+    "net_margin_pct": 11.840807746099308,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 110169800000,
-        "netIncome": 13175500000,
+        "revenue": 115402600000,
+        "netIncome": 13664600000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 102438800000,
-        "netIncome": 11240500000,
+        "revenue": 101702000000,
+        "netIncome": 12292000000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 98035900000,
-        "netIncome": 9430600000,
+        "revenue": 88044000000,
+        "netIncome": 10523100000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 84286900000,
-        "netIncome": 6367800000,
+        "revenue": 87518000000,
+        "netIncome": 7860400000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 72826500000,
-        "netIncome": 7364700000,
+        "revenue": 75631700000,
+        "netIncome": 6989200000,
         "eps": null
       }
     ]
@@ -1059,6 +1345,16 @@
   ],
   "news": [
     {
+      "id": "c3cb4559-b7fc-4ad0-8795-3f86ee77de8d",
+      "type": "narrative-update",
+      "date": "2026-06-07T22:08:44.000Z",
+      "title": "ESCORTS: Dividend Surge And Tractor Expansion Will Balance Future Return Potential",
+      "body": "Analysts have adjusted their fair value estimate for Escorts Kubota slightly, revising it from ₹2,828 to ₹2,786. This change reflects updated assumptions regarding revenue growth, margins and future P/E multiples.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-escorts/escorts-kubota-shares/m23nft0x-india-demographics-and-tech-shifts-will-hinder-future-prospects-gzre/updates/9-analysts-have-adjusted-their-fair-value-estimate-for-escorts",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "d2a11ca7-46b4-48a7-a0ac-df589b094400",
       "type": "article",
       "date": "2026-05-30T02:09:36.000Z",
@@ -1256,16 +1552,6 @@
       "body": "Analysts have nudged their fair value estimate for Escorts Kubota higher from ₹2,670 to ₹2,731. This reflects modestly higher long term earnings expectations despite slightly lower projected revenue growth and margin assumptions, alongside a richer future P E multiple.",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-escorts/escorts-kubota-shares/m23nft0x-india-demographics-and-tech-shifts-will-hinder-future-prospects-gzre/updates/2-analysts-have-nudged-their-fair-value-estimate-for-escorts-k",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "9c63b4de-2a2e-4b6d-8196-b4eecc97b30d",
-      "type": "narrative-update",
-      "date": "2025-12-09T22:04:34.000Z",
-      "title": "ESCORTS: Product Rollout And Governance Changes Will Shape Balanced 2025 Outlook",
-      "body": "Analysts have modestly raised their price target on Escorts Kubota to ₹3,665, citing slightly higher long term profitability assumptions and a stable forward valuation multiple, despite a marginal uptick in the discount rate and a slightly softer revenue growth outlook. What's in the News Launch of third generation KA6 and KA8 ride on rice transplanters under the Kubota brand in seven key paddy growing states, offering higher productivity, precision planting and enhanced operator comfort (Key Developments) Introduction of the PRO588i G combine harvester in Punjab and Haryana, designed to cut stalks near the base, enable straw reuse, reduce stubble burning and improve Basmati grain quality and export potential (Key Developments) Upcoming November 4, 2025 board meeting to review September qu",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-escorts/escorts-kubota-shares/xa5dpsy0-expanded-exports-and-kubota-integration-will-transform-agri-markets-r4ck/updates/14-analysts-have-modestly-raised-their-price-target-on-escorts",
       "raw_subtype": "narrative-update"
     }
   ],

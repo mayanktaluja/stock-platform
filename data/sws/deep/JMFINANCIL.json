@@ -3,7 +3,7 @@
   "name": "JM Financial Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-jmfinancil/jm-financial-shares",
-  "parsed_at": "2026-05-31T20:18:52.442Z",
+  "parsed_at": "2026-06-10T23:22:23.561Z",
   "company_id": "2F080205-27DD-4DAF-B26A-C98148E627E3",
   "classification_status": "Active",
   "groww_source": {
@@ -76,22 +76,308 @@
         }
       ]
     },
-    "current_price_inr": 130.36,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SAME_PB"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_50_TO_75_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 117.95,
     "market_cap_inr": 125823100000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 112,
       "high": 199.8
     },
-    "fair_value_inr": 160.196621,
+    "fair_value_inr": 160.135766,
     "fair_value_range_inr": {
       "min": 132.28,
       "max": 132.28,
       "count": 1
     },
-    "upside_pct": 22.887865142681786,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "4b69e71c-fa34-414e-9129-abe98c9b5c03",
+      "narrative_type": null,
+      "published_at": "2024-07-25T13:45:24.440Z"
+    },
+    "upside_pct": 35.76580415430266,
     "multiples": {
       "pe": 9.88,
       "ps": 2.96,
@@ -108,11 +394,11 @@
       "pe_source_url": "https://groww.in/stocks/jm-financial-ltd"
     },
     "rewards": [
-      "Price-To-Earnings ratio (10x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (9.4x) is below the Indian market (23.2x)",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Earnings grew by 225.3% over the past year",
+      "Earnings grew by 46.3% over the past year",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Earnings are forecast to grow 7.21% per year",
+      "Earnings are forecast to grow 8.65% per year",
       "Trading below our calculated fair Price-To-Earnings ratio"
     ],
     "risks": [
@@ -287,8 +573,8 @@
     "dividend_yield_pct": 2.05,
     "industry_benchmarks": {
       "pe": 18.85756396507594,
-      "net_income_margin_1y": 0.3861928045,
-      "future_revenue_growth_3y": 0.6191489568,
+      "net_income_margin_1y": 0.3863034101,
+      "future_revenue_growth_3y": 0.6219707352,
       "sector_pe": 18.85756396507594
     },
     "industry_benchmarks_meta": {
@@ -323,18 +609,18 @@
         "url": "https://groww.in/stocks/jm-financial-ltd"
       },
       "sws_statement": {
-        "company_pe": 10,
-        "industry_pe": 27.5,
+        "company_pe": 9.4,
+        "industry_pe": 26.9,
         "industry_name": "Indian Capital Markets",
-        "description": "JMFINANCIL is good value based on its Price-To-Earnings Ratio (10x) compared to the Indian Capital Markets industry average (27.5x).",
+        "description": "JMFINANCIL is good value based on its Price-To-Earnings Ratio (9.4x) compared to the Indian Capital Markets industry average (26.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 26.705392444,
+        "industry_pe": 26.862499542,
         "industry_code": "7130000",
         "type": "median_profitable",
-        "count": 218,
+        "count": 216,
         "source": {
           "type": "country",
           "country": "IN",
@@ -343,8 +629,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.6,
-        "sample_count": 204,
+        "industry_pe": 21.1,
+        "sample_count": 201,
         "industry_code": "7130000",
         "industry_name": "Diversified Financials"
       },
@@ -356,8 +642,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 130.36,
-        "fetched_at": "2026-05-31T20:18:52.442Z",
+        "value": 117.95,
+        "fetched_at": "2026-06-10T23:22:23.561Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-jmfinancil/jm-financial-shares"
       },
       "market_cap_inr": {
@@ -365,6 +651,24 @@
         "value": 125823100000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/jm-financial-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 160.135766,
+        "fetched_at": "2026-06-10T23:22:23.561Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-jmfinancil/jm-financial-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "4b69e71c-fa34-414e-9129-abe98c9b5c03",
+        "narrative_type": null,
+        "published_at": "2024-07-25T13:45:24.440Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 35.76580415430266,
+        "fetched_at": "2026-06-10T23:22:23.561Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-jmfinancil/jm-financial-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -404,14 +708,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.3861928045,
-        "fetched_at": "2026-05-31T20:18:52.442Z",
+        "value": 0.3863034101,
+        "fetched_at": "2026-06-10T23:22:23.561Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-jmfinancil/jm-financial-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.6191489568,
-        "fetched_at": "2026-05-31T20:18:52.442Z",
+        "value": 0.6219707352,
+        "fetched_at": "2026-06-10T23:22:23.561Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-jmfinancil/jm-financial-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -543,16 +847,16 @@
     "quick_ratio": 4.785980782865945,
     "cash_ratio": 2.644214077895406,
     "returns_pct": {
-      "1D": -0.8669201520912443,
-      "7D": 1.0699333229958319,
-      "1M": -4.714567648563693,
-      "3M": 2.0510411773915913,
-      "6M": -10.313037495700021,
-      "1Y": -2.5200029911014554,
+      "1D": -1.065257507129673,
+      "7D": -3.847721529306268,
+      "1M": -16.305967501596538,
+      "3M": -4.4010374452909655,
+      "6M": -19.322845417236653,
+      "1Y": -22.3400052673163,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 5,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -609,8 +913,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.27989,
-        "shares": 12241712,
+        "pct": 1.29855,
+        "shares": 12420239,
         "is_insider": null
       },
       {
@@ -629,8 +933,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.88955,
-        "shares": 8508239,
+        "pct": 0.89068,
+        "shares": 8519067,
         "is_insider": null
       },
       {
@@ -1036,6 +1340,36 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "38dda021-bc09-4388-8b03-2f04b6abab07",
+      "type": "brief",
+      "date": "2026-06-01T11:21:26.000Z",
+      "title": "Final dividend of ₹1.75 announced",
+      "body": "Shareholders will receive a dividend of ₹1.75. Ex-date: 12th June 2026 Payment date: 2nd September 2026 Dividend yield will be 2.7%, which is higher than the industry average of 1.3%. Sustainability & Growth Dividend is covered by both earnings (31% earnings payout ratio) and cash flows (56% cash payout ratio). The dividend has increased by an average of 6.5% per year over the past 10 years. However, payments have been volatile during that time. EPS is expected to grow by 17% over the next 2 years, which should provide support to the dividend and adequate earnings cover.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "06b16f70-ce1f-4702-810b-eef377680465",
+      "type": "brief",
+      "date": "2026-05-31T22:39:48.000Z",
+      "title": "Full year 2026 earnings: EPS and revenues exceed analyst expectations",
+      "body": "Full year 2026 results: EPS: ₹12.57 (up from ₹8.59 in FY 2025). Revenue: ₹32.6b (up 21% from FY 2025). Net income: ₹12.0b (up 46% from FY 2025). Profit margin: 37% (up from 30% in FY 2025). The increase in margin was driven by higher revenue. Revenue exceeded analyst estimates by 4.6%. Earnings per share (EPS) also surpassed analyst estimates by 6.4%. Revenue is forecast to grow 6.7% p.a. on average during the next 2 years, compared to a 15% growth forecast for the Capital Markets industry in India. Over the last 3 years on average, earnings per share has increased by 33% per year but the company’s share price has only increased by 22% per year, which means it is significantly lagging earnings growth.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "2b55dd29-2449-4e48-b575-799960245dca",
+      "type": "event",
+      "date": "2026-05-30T08:25:00.000Z",
+      "title": "JM Financial Limited, Annual General Meeting, Aug 03, 2026",
+      "body": "JM Financial Limited, Annual General Meeting, Aug 03, 2026.",
+      "keyDevTypeId": "62",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
     {
       "id": "662cf474-2b73-4aa7-813b-1ba01d1a166e",
       "type": "event",

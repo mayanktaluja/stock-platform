@@ -3,7 +3,7 @@
   "name": "Gland Pharma Limited",
   "sector": "Pharmaceuticals & Biotech",
   "sws_url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-gland/gland-pharma-shares",
-  "parsed_at": "2026-05-31T23:00:30.371Z",
+  "parsed_at": "2026-06-11T01:57:01.494Z",
   "company_id": "633D3213-946C-4DBD-8E20-AB635C32E5E1",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 3
     },
     "snowflake_total": 17,
-    "current_price_inr": 2250,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_LONG_NO_GROWTH"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_STABLE_BUT_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_50_TO_75_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 2267.8,
     "market_cap_inr": 381131000000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midlarge6",
     "shares_outstanding": 164756423,
     "fifty_two_week": {
       "low": 1513.4,
       "high": 2396
     },
-    "fair_value_inr": 2500,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 1055.028078,
+      "min": 967.060279,
       "max": 3076957.06,
       "count": 14
     },
-    "upside_pct": 11.11111111111111,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystHighTarget",
+      "owner_classification": null,
+      "narrative_id": "959d93c2-1191-466a-bf79-57459ba9e6c3",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 37.1,
       "ps": 5.93,
@@ -60,7 +346,7 @@
       "pe_source_url": "https://groww.in/stocks/gland-pharma-ltd"
     },
     "rewards": [
-      "Earnings are forecast to grow 18.49% per year",
+      "Earnings are forecast to grow 18.09% per year",
       "Trading below our calculated fair Price-To-Earnings ratio",
       "Earnings grew by 47.1% over the past year",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
@@ -68,7 +354,7 @@
     "risks": [],
     "dividend": {
       "yield_pct": 0.86,
-      "payout_pct": 35.00564948263773,
+      "payout_pct": 28.867608544985185,
       "annualized_dividend": 18,
       "listing_currency": "INR",
       "recent_payments": [
@@ -104,8 +390,8 @@
     "dividend_yield_pct": 0.86,
     "industry_benchmarks": {
       "pe": 34.294011798524444,
-      "net_income_margin_1y": 0.1517834297,
-      "future_revenue_growth_3y": 2.756126798,
+      "net_income_margin_1y": 0.1516710327,
+      "future_revenue_growth_3y": 2.535577209,
       "sector_pe": 34.294011798524444
     },
     "industry_benchmarks_meta": {
@@ -140,15 +426,15 @@
         "url": "https://groww.in/stocks/gland-pharma-ltd"
       },
       "sws_statement": {
-        "company_pe": 36.1,
-        "industry_pe": 29,
+        "company_pe": 36.7,
+        "industry_pe": 28.8,
         "industry_name": "Indian Pharmaceuticals",
-        "description": "GLAND is expensive based on its Price-To-Earnings Ratio (36.1x) compared to the Indian Pharmaceuticals industry average (29x).",
+        "description": "GLAND is expensive based on its Price-To-Earnings Ratio (36.7x) compared to the Indian Pharmaceuticals industry average (28.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 29.045511308,
+        "industry_pe": 28.787047453,
         "industry_code": "6120000",
         "type": "median_profitable",
         "count": 152,
@@ -160,25 +446,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 28.1,
-        "sample_count": 151,
+        "industry_pe": 28.15,
+        "sample_count": 152,
         "industry_code": "6120000",
         "industry_name": "Pharmaceuticals & Biotech"
       },
       "sws_primary_industry": {
-        "industry_pe": 23.933255082,
+        "industry_pe": 23.572522071,
         "industry_name": "Pharmaceuticals & Biotech",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 43.75706185329717
+        "company_pe": 36.36997925462078
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 2250,
-        "fetched_at": "2026-05-31T23:00:30.371Z",
+        "value": 2267.8,
+        "fetched_at": "2026-06-11T01:57:01.494Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-gland/gland-pharma-shares"
       },
       "market_cap_inr": {
@@ -225,14 +511,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.1517834297,
-        "fetched_at": "2026-05-31T23:00:30.371Z",
+        "value": 0.1516710327,
+        "fetched_at": "2026-06-11T01:57:01.494Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-gland/gland-pharma-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 2.756126798,
-        "fetched_at": "2026-05-31T23:00:30.371Z",
+        "value": 2.535577209,
+        "fetched_at": "2026-06-11T01:57:01.494Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-gland/gland-pharma-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -341,13 +627,13 @@
         "url": "https://groww.in/stocks/gland-pharma-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 21.28138394275947,
+    "earnings_growth_yoy_pct": 33.37487844808224,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 8.835834533368088,
-    "latest_revenue": 61127690000,
-    "latest_net_income": 8471820000,
+    "revenue_growth_pct": 12.415775356197871,
+    "latest_revenue": 64306500000,
+    "latest_net_income": 10273160000,
     "latest_eps": 62.35,
-    "most_recent_reported_date": "2026-04-29",
+    "most_recent_reported_date": "2026-06-04",
     "pb": 3.68,
     "ps": 5.93,
     "book_value": 628.6823689,
@@ -364,16 +650,16 @@
     "quick_ratio": 3.5954364585923897,
     "cash_ratio": 2.0884792340213876,
     "returns_pct": {
-      "1D": -2.7237354085603114,
-      "7D": -3.5989717223650386,
-      "1M": 29.377264102121792,
-      "3M": 23.477115574580175,
-      "6M": 27.869970447829058,
-      "1Y": 39.59548331058444,
+      "1D": -0.9045226130653186,
+      "7D": 1.590288043721722,
+      "1M": 18.16997550935336,
+      "3M": 37.00235606838641,
+      "6M": 35.1006791373764,
+      "1Y": 34.843619931026296,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 8,
+    "recent_news_count": 7,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -460,8 +746,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.4305,
-        "shares": 709271,
+        "pct": 0.43205,
+        "shares": 711829,
         "is_insider": null
       },
       {
@@ -470,8 +756,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.40327,
-        "shares": 664408,
+        "pct": 0.40219,
+        "shares": 662630,
         "is_insider": null
       },
       {
@@ -492,7 +778,7 @@
   },
   "dividend": {
     "yield_pct": 0.86,
-    "payout_pct": 35.00564948263773,
+    "payout_pct": 28.867608544985185,
     "annualized_dividend": 18,
     "listing_currency": "INR",
     "recent_payments": [
@@ -526,44 +812,44 @@
     "payment_count": 2
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-04-29",
+    "most_recent_reported_date": "2026-06-04",
     "latest_year": 2026,
-    "latest_revenue": 61127690000,
-    "latest_net_income": 8471820000,
+    "latest_revenue": 64306500000,
+    "latest_net_income": 10273160000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 8.835834533368088,
-    "earnings_growth_pct": 21.28138394275947,
-    "net_margin_pct": 13.859218301885774,
+    "revenue_growth_pct": 12.415775356197871,
+    "earnings_growth_pct": 33.37487844808224,
+    "net_margin_pct": 15.975305762247984,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 61127690000,
-        "netIncome": 8471820000,
+        "revenue": 64306500000,
+        "netIncome": 10273160000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 56165040000,
-        "netIncome": 6985260000,
+        "revenue": 57204160000,
+        "netIncome": 7702470000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 56647220000,
-        "netIncome": 7724600000,
+        "revenue": 58577390000,
+        "netIncome": 7221190000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 36246010000,
-        "netIncome": 7810430000,
+        "revenue": 39763960000,
+        "netIncome": 7459760000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 44007080000,
-        "netIncome": 12116640000,
+        "revenue": 41037060000,
+        "netIncome": 10901810000,
         "eps": null
       }
     ]
@@ -769,6 +1055,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "c551f5e2-98a9-4d16-8df1-1128df70bcf6",
+      "type": "narrative-update",
+      "date": "2026-06-04T16:07:17.000Z",
+      "title": "GLAND: Future US Sterile Injectable Approvals Will Drive Rerating",
+      "body": "The analyst fair value estimate for Gland Pharma has been revised from ₹2,500 to ₹2,645, with analysts pointing to fine tuned assumptions around the discount rate, revenue growth, profit margin, and forward P/E to support the higher price target. What's in the News Apotex, Orbicular Pharmaceutical Technologies and Gland Pharma received U.S. FDA approval for generic Infuvite Pediatric Injection, with eligibility for 180-day Competitive Generic Therapy exclusivity for the single dose vial, with Apotex leading commercialization in the U.S. (Source: company announcement) Apotex Corp., in partnership with Orbicular and Gland Pharma, received U.S. FDA approval for two ANDAs for generic Infuvite Adult Injection in single dose and pharmacy bulk package forms, with 180-day Competitive Generic Thera",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/pharmaceuticals-biotech/nse-gland/gland-pharma-shares/fi5qxhyj-global-aging-and-healthcare-infrastructure-expansion-will-spur-high-value-injectables-dd27/updates/5-the-analyst-fair-value-estimate-for-gland-pharma-has-been-re",
+      "raw_subtype": "narrative-update"
+    },
     {
       "id": "1bfb3138-b872-4fad-9796-aa5d36ebbc6d",
       "type": "brief",
@@ -997,16 +1293,6 @@
       "body": "Analysts have raised their price target on Gland Pharma from ₹1,220 to ₹1,680, reflecting higher valuation multiples despite moderating expectations for revenue growth and profit margins. What's in the News Board meeting scheduled on November 3, 2025, at 15:00 IST to review and approve unaudited standalone and consolidated financial results for the quarter and half year ended September 30, 2025 (company filing) Management to release a press note alongside the results, outlining key performance highlights and strategic updates for the reporting period (company filing) An investor presentation will be issued in conjunction with the results, providing additional detail on financial performance and business outlook (company filing) Valuation Changes Fair Value Estimate was raised significantly",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/pharmaceuticals-biotech/nse-gland/gland-pharma-shares/izwkata9-rapid-glp-1-capacity-increase-will-erode-profit-margins-f1xs/updates/2-analysts-have-raised-their-price-target-on-gland-pharma-from",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "3625dce2-fbcc-4298-a979-21bf994bd53d",
-      "type": "narrative-update",
-      "date": "2025-12-08T16:03:00.000Z",
-      "title": "GLAND: Future Earnings Will Be Driven By Stable Margins And US Regulatory Milestones",
-      "body": "Analysts have maintained their price target on Gland Pharma at ₹2,007.83 per share, reflecting unchanged assumptions on revenue growth, profit margins, and future valuation multiples despite the latest review of the company’s fundamentals. What's in the News A board meeting is scheduled on November 3, 2025 at 15:00 IST to consider and approve unaudited standalone and consolidated financial results for the quarter and half year ended September 30, 2025 (company filing).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/pharmaceuticals-biotech/nse-gland/gland-pharma-shares/kfiwkgjc-upcoming-drug-approvals-and-market-exclusivity-will-drive-future-opportunity/updates/17-analysts-have-maintained-their-price-target-on-gland-pharma",
       "raw_subtype": "narrative-update"
     }
   ],

@@ -3,7 +3,7 @@
   "name": "The New India Assurance Company Limited",
   "sector": "Insurance",
   "sws_url": "https://simplywall.st/stocks/in/insurance/nse-niacl/new-india-assurance-shares",
-  "parsed_at": "2026-05-31T21:13:32.630Z",
+  "parsed_at": "2026-06-11T00:16:02.739Z",
   "company_id": "044C63D9-83E0-45DF-B2F7-6261F4C80010",
   "classification_status": "Active",
   "groww_source": {
@@ -70,22 +70,308 @@
         }
       ]
     },
-    "current_price_inr": 157.42,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_OVER_PAST_5_YEARS"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_COMMITMENTS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_LONG_FALLEN"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_VOLATILE_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 150.19,
     "market_cap_inr": 264916000000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midlarge6",
     "shares_outstanding": 1648000000,
     "fifty_two_week": {
       "low": 116.97,
       "high": 214.74
     },
-    "fair_value_inr": 193.33333,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": 193.33333,
       "max": 193.33333,
       "count": 1
     },
-    "upside_pct": 22.813702197941815,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystHighTarget",
+      "owner_classification": null,
+      "narrative_id": "7ba26b23-b111-4259-931a-576bb4c7ef7a",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 18.69,
       "ps": 0.67,
@@ -104,12 +390,12 @@
     "rewards": [
       "Earnings grew by 36.2% over the past year",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (18.4x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (17.6x) is below the Indian market (22.9x)",
       "Trading below our calculated fair Price-To-Earnings ratio",
       "Earnings are forecast to grow 17.34% per year"
     ],
     "risks": [
-      "Dividend of 0.95% is not well covered by free cash flows",
+      "Dividend of 0.99% is not well covered by free cash flows",
       "High level of [[non-cash earnings]]"
     ],
     "dividend": {
@@ -215,8 +501,8 @@
     "dividend_yield_pct": 1.12,
     "industry_benchmarks": {
       "pe": 11.475532211238647,
-      "net_income_margin_1y": 0.1053584011,
-      "future_revenue_growth_3y": 0.2421742058,
+      "net_income_margin_1y": 0.1055126138,
+      "future_revenue_growth_3y": 0.2573088629,
       "sector_pe": 11.475532211238647
     },
     "industry_benchmarks_meta": {
@@ -251,15 +537,15 @@
         "url": "https://groww.in/stocks/the-new-india-assurance-co-ltd"
       },
       "sws_statement": {
-        "company_pe": 18.4,
-        "industry_pe": 11.4,
+        "company_pe": 17.6,
+        "industry_pe": 11.2,
         "industry_name": "Asian Insurance",
-        "description": "NIACL is expensive based on its Price-To-Earnings Ratio (18.4x) compared to the Asian Insurance industry average (11.4x).",
+        "description": "NIACL is expensive based on its Price-To-Earnings Ratio (17.6x) compared to the Asian Insurance industry average (11.2x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 51.832121788,
+        "industry_pe": 51.552177431,
         "industry_code": "7210000",
         "type": "median_profitable",
         "count": 15,
@@ -271,25 +557,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 51.8,
-        "sample_count": 15,
+        "industry_pe": 46.95,
+        "sample_count": 14,
         "industry_code": "7210000",
         "industry_name": "Insurance"
       },
       "sws_primary_industry": {
-        "industry_pe": 11.645006567,
+        "industry_pe": 11.682206384,
         "industry_name": "Insurance",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 18.3697166244176
+        "company_pe": 17.52603061759166
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 157.42,
-        "fetched_at": "2026-05-31T21:13:32.630Z",
+        "value": 150.19,
+        "fetched_at": "2026-06-11T00:16:02.739Z",
         "url": "https://simplywall.st/stocks/in/insurance/nse-niacl/new-india-assurance-shares"
       },
       "market_cap_inr": {
@@ -336,14 +622,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.1053584011,
-        "fetched_at": "2026-05-31T21:13:32.630Z",
+        "value": 0.1055126138,
+        "fetched_at": "2026-06-11T00:16:02.739Z",
         "url": "https://simplywall.st/stocks/in/insurance/nse-niacl/new-india-assurance-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.2421742058,
-        "fetched_at": "2026-05-31T21:13:32.630Z",
+        "value": 0.2573088629,
+        "fetched_at": "2026-06-11T00:16:02.739Z",
         "url": "https://simplywall.st/stocks/in/insurance/nse-niacl/new-india-assurance-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -458,7 +744,7 @@
     "latest_revenue": 497576400000,
     "latest_net_income": 14122600000,
     "latest_eps": 8.6,
-    "most_recent_reported_date": "2026-05-22",
+    "most_recent_reported_date": "2026-06-06",
     "pb": 0.76,
     "ps": 0.67,
     "book_value": 210.1706311,
@@ -475,16 +761,16 @@
     "quick_ratio": 0.4316991919227956,
     "cash_ratio": 0.2688279591591002,
     "returns_pct": {
-      "1D": -1.9556552067762922,
-      "7D": -4.385325558794946,
-      "1M": -2.5745760613937523,
-      "3M": 6.870332654446691,
-      "6M": -7.7689243027888555,
-      "1Y": -16.22585280187324,
+      "1D": -0.47051027170311993,
+      "7D": 2.0451148253838776,
+      "1M": -7.932323913443265,
+      "3M": 8.920153745739366,
+      "6M": -12.639599813866909,
+      "1Y": -24.497285340840534,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 6,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -526,8 +812,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.03884,
-        "shares": 640095,
+        "pct": 0.03874,
+        "shares": 638472,
         "is_insider": null
       },
       {
@@ -536,8 +822,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.02381,
-        "shares": 392368,
+        "pct": 0.02112,
+        "shares": 348134,
         "is_insider": null
       },
       {
@@ -571,13 +857,13 @@
         "is_insider": null
       },
       {
-        "pct": 0.00415,
-        "shares": 68435,
+        "pct": 0.00419,
+        "shares": 69000,
         "is_insider": null
       },
       {
-        "pct": 0.00411,
-        "shares": 67785,
+        "pct": 0.00413,
+        "shares": 68107,
         "is_insider": null
       },
       {
@@ -702,7 +988,7 @@
     "payment_count": 7
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-22",
+    "most_recent_reported_date": "2026-06-06",
     "latest_year": 2026,
     "latest_revenue": 497576400000,
     "latest_net_income": 14122600000,
@@ -971,6 +1257,16 @@
   ],
   "news": [
     {
+      "id": "f223e4d8-9d52-4c36-bb6b-3aa70f1bb917",
+      "type": "narrative-update",
+      "date": "2026-06-07T00:10:41.000Z",
+      "title": "NIACL: Dividend Timeline And Stable Assumptions Will Support Bullish Outlook",
+      "body": "Analysts have maintained their fair value estimate for New India Assurance at ₹180.0, citing only minor adjustments to revenue growth, profit margin and forward P/E assumptions that were not significant enough to warrant a change in the overall price target. What's in the News The New India Assurance Company Limited announced an annual dividend of ₹1.50 per share, with ex date and record date set for 4 September 2026.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/insurance/nse-niacl/new-india-assurance-shares/6jd81q0r-digital-transformation-and-urban-growth-will-expand-indias-insurance-market/updates/8-analysts-have-maintained-their-fair-value-estimate-for-new-i",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "61395bb0-77f0-4d8d-ab2b-d54029d9efa6",
       "type": "narrative-update",
       "date": "2026-05-23T17:07:23.000Z",
@@ -1169,26 +1465,6 @@
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/insurance/nse-niacl/new-india-assurance-shares/6jd81q0r-digital-transformation-and-urban-growth-will-expand-indias-insurance-market/updates/3-analysts-have-kept-their-fair-value-estimate-for-new-india-a",
       "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "805edda3-9fc9-4e89-97d5-46e4459de97e",
-      "type": "narrative-update",
-      "date": "2025-12-14T05:06:23.000Z",
-      "title": "NIACL: Rising Margins And Revenue Mix Will Support Stronger Future Profitability",
-      "body": "Analysts have raised their price target for New India Assurance by ₹10 to ₹250, citing improved expectations for revenue growth and profit margins, even as they apply a slightly higher discount rate and a lower future P E multiple. What's in the News A board meeting is scheduled for November 13, 2025, to consider the unaudited financial results for the quarter ended September 30, 2025 (company filing).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/insurance/nse-niacl/new-india-assurance-shares/6jd81q0r-digital-transformation-and-urban-growth-will-expand-indias-insurance-market/updates/2-analysts-have-raised-their-price-target-for-new-india-assura",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "959ee2a9-7548-4b56-bccf-9edd09eb8f75",
-      "type": "article",
-      "date": "2025-12-11T00:11:32.000Z",
-      "title": "The New India Assurance Company Limited (NSE:NIACL) Doing What It Can To Lift Shares",
-      "body": "When close to half the companies in India have price-to-earnings ratios (or \"P/E's\") above 26x, you may consider The...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/insurance/nse-niacl/new-india-assurance-shares/news/the-new-india-assurance-company-limited-nseniacl-doing-what",
-      "raw_subtype": "article"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/NIACL.json"

@@ -3,7 +3,7 @@
   "name": "KEC International Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-kec/kec-international-shares",
-  "parsed_at": "2026-05-31T20:26:42.962Z",
+  "parsed_at": "2026-06-10T23:32:25.085Z",
   "company_id": "77DB6126-B1BC-43FD-BF0C-54B2E5C026A6",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 3
     },
     "snowflake_total": 13,
-    "current_price_inr": 499.65,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 494.75,
     "market_cap_inr": 133765500000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "medium5",
     "shares_outstanding": 266200000,
     "fifty_two_week": {
       "low": 466,
       "high": 947
     },
-    "fair_value_inr": 776.85,
+    "fair_value_inr": 590.27273,
     "fair_value_range_inr": {
-      "min": 341.739526,
+      "min": 344.61822,
       "max": 1029.32,
       "count": 16
     },
-    "upside_pct": 55.47883518462925,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "1e9c6bd9-d15f-4af0-8edc-2226ce330b92",
+      "narrative_type": null,
+      "published_at": "2026-06-01T18:09:31.557Z"
+    },
+    "upside_pct": 19.30727235977767,
     "multiples": {
       "pe": 22.09,
       "ps": 0.57,
@@ -62,17 +348,18 @@
     "rewards": [
       "Earnings have grown 10.8% per year over the past 5 years",
       "Earnings are forecast to grow 22.74% per year",
+      "Analysts in good agreement that stock price will rise by 20.7%",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (22x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (21.5x) is below the Indian market (22.9x)",
       "Trading below our calculated fair Price-To-Earnings ratio"
     ],
     "risks": [
       "Interest payments are not well covered by earnings",
-      "Dividend of 1.1% is not well covered by free cash flows"
+      "Dividend of 1.12% is not well covered by free cash flows"
     ],
     "dividend": {
       "yield_pct": 1.09,
-      "payout_pct": 21.4992657856094,
+      "payout_pct": 24.17642299245364,
       "annualized_dividend": 5.5,
       "listing_currency": "INR",
       "recent_payments": [
@@ -199,8 +486,8 @@
     "dividend_yield_pct": 1.09,
     "industry_benchmarks": {
       "pe": 24.919301661303475,
-      "net_income_margin_1y": 0.0775877089,
-      "future_revenue_growth_3y": 0.6569887,
+      "net_income_margin_1y": 0.07792327667,
+      "future_revenue_growth_3y": 0.6221294666,
       "sector_pe": 24.919301661303475
     },
     "industry_benchmarks_meta": {
@@ -235,18 +522,18 @@
         "url": "https://groww.in/stocks/kec-international-ltd"
       },
       "sws_statement": {
-        "company_pe": 22,
-        "industry_pe": 15.1,
+        "company_pe": 21.5,
+        "industry_pe": 14.4,
         "industry_name": "Indian Construction",
-        "description": "KEC is expensive based on its Price-To-Earnings Ratio (22x) compared to the Indian Construction industry average (15.1x).",
+        "description": "KEC is expensive based on its Price-To-Earnings Ratio (21.5x) compared to the Indian Construction industry average (14.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 15.073268522,
+        "industry_pe": 14.393596444,
         "industry_code": "3040000",
         "type": "median_profitable",
-        "count": 188,
+        "count": 189,
         "source": {
           "type": "country",
           "country": "IN",
@@ -255,25 +542,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.1,
-        "sample_count": 184,
+        "industry_pe": 13.8,
+        "sample_count": 187,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
       "sws_primary_industry": {
-        "industry_pe": 21.475319439,
+        "industry_pe": 21.150765987,
         "industry_name": "Capital Goods",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 19.531105726872244
+        "company_pe": 21.74779141002989
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 499.65,
-        "fetched_at": "2026-05-31T20:26:42.962Z",
+        "value": 494.75,
+        "fetched_at": "2026-06-10T23:32:25.085Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-kec/kec-international-shares"
       },
       "market_cap_inr": {
@@ -281,6 +568,24 @@
         "value": 133765500000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/kec-international-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 590.27273,
+        "fetched_at": "2026-06-10T23:32:25.085Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-kec/kec-international-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "1e9c6bd9-d15f-4af0-8edc-2226ce330b92",
+        "narrative_type": null,
+        "published_at": "2026-06-01T18:09:31.557Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 19.30727235977767,
+        "fetched_at": "2026-06-10T23:32:25.085Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-kec/kec-international-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -320,14 +625,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.0775877089,
-        "fetched_at": "2026-05-31T20:26:42.962Z",
+        "value": 0.07792327667,
+        "fetched_at": "2026-06-10T23:32:25.085Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-kec/kec-international-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.6569887,
-        "fetched_at": "2026-05-31T20:26:42.962Z",
+        "value": 0.6221294666,
+        "fetched_at": "2026-06-10T23:32:25.085Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-kec/kec-international-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -436,13 +741,13 @@
         "url": "https://groww.in/stocks/kec-international-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 19.318779128850263,
+    "earnings_growth_yoy_pct": -0.3570488350664736,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 9.80106835357285,
-    "latest_revenue": 239879100000,
-    "latest_net_income": 6810000000,
+    "revenue_growth_pct": 5.134027710376161,
+    "latest_revenue": 235055400000,
+    "latest_net_income": 6055900000,
     "latest_eps": 22.75,
-    "most_recent_reported_date": "2026-05-06",
+    "most_recent_reported_date": "2026-06-01",
     "pb": 2.17,
     "ps": 0.57,
     "book_value": 231.3933133,
@@ -459,16 +764,16 @@
     "quick_ratio": 1.1481867322085628,
     "cash_ratio": 0.028428205079793115,
     "returns_pct": {
-      "1D": -0.5671641791044821,
-      "7D": 3.009998969178428,
-      "1M": -11.644562334217511,
-      "3M": -14.633521271143001,
-      "6M": -27.138169886985057,
-      "1Y": -42.10648282254794,
+      "1D": 1.1655249974440218,
+      "7D": -0.6625840779038271,
+      "1M": -14.991408934707904,
+      "3M": -11.738471144411731,
+      "6M": -28.395687097474497,
+      "1Y": -45.739197192366746,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 6,
+    "recent_news_count": 5,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -555,8 +860,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.13091,
-        "shares": 3010494,
+        "pct": 1.13436,
+        "shares": 3019672,
         "is_insider": null
       },
       {
@@ -587,7 +892,7 @@
   },
   "dividend": {
     "yield_pct": 1.09,
-    "payout_pct": 21.4992657856094,
+    "payout_pct": 24.17642299245364,
     "annualized_dividend": 5.5,
     "listing_currency": "INR",
     "recent_payments": [
@@ -712,44 +1017,44 @@
     "payment_count": 9
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-06",
+    "most_recent_reported_date": "2026-06-01",
     "latest_year": 2026,
-    "latest_revenue": 239879100000,
-    "latest_net_income": 6810000000,
+    "latest_revenue": 235055400000,
+    "latest_net_income": 6055900000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 9.80106835357285,
-    "earnings_growth_pct": 19.318779128850263,
-    "net_margin_pct": 2.8389301110434384,
+    "revenue_growth_pct": 5.134027710376161,
+    "earnings_growth_pct": -0.3570488350664736,
+    "net_margin_pct": 2.5763713575608134,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 239879100000,
-        "netIncome": 6810000000,
+        "revenue": 235055400000,
+        "netIncome": 6055900000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 218467000000,
-        "netIncome": 5707400000,
+        "revenue": 223576900000,
+        "netIncome": 6077600000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 199141700000,
-        "netIncome": 3467800000,
+        "revenue": 201824700000,
+        "netIncome": 3920300000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 172817100000,
-        "netIncome": 1760300000,
+        "revenue": 182072200000,
+        "netIncome": 1873400000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 137422600000,
-        "netIncome": 3320800000,
+        "revenue": 145203400000,
+        "netIncome": 3169600000,
         "eps": null
       }
     ]
@@ -955,6 +1260,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "9454be59-c49b-4a42-b341-a4c5cc7b2599",
+      "type": "narrative-update",
+      "date": "2026-06-01T18:09:31.000Z",
+      "title": "KEC: Expanding Global Orders And Upcoming Results Will Support Future Upside",
+      "body": "Analysts have revised their price target for KEC International from ₹776.85 to ₹590.27, citing updated assumptions around discount rate, revenue growth, profit margin and future P/E as key drivers of the change. What's in the News Board meeting scheduled for May 16, 2026, to consider and approve audited standalone and consolidated financial results for the quarter and year ended March 31, 2026, and to consider a dividend recommendation on equity shares.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-kec/kec-international-shares/6ci39mhb-investments-in-energy-transition-and-urbanization-will-fuel-expansion-hlof/updates/17-analysts-have-revised-their-price-target-for-kec-internation",
+      "raw_subtype": "narrative-update"
+    },
     {
       "id": "a3dcec5f-6f14-48df-abcf-7ece0a7de55b",
       "type": "brief",
@@ -1174,26 +1489,6 @@
       "keyDevTypeId": null,
       "source_url": null,
       "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "3ce6cdbd-e90f-44d1-b274-73d57a4ca1ea",
-      "type": "brief",
-      "date": "2025-12-12T11:41:58.000Z",
-      "title": "Now 20% overvalued",
-      "body": "Over the last 90 days, the stock has fallen 21% to ₹691. The fair value is estimated to be ₹575, however this is not to be taken as a sell recommendation but rather should be used as a guide only. Revenue has grown by 13% over the last 3 years. Earnings per share has grown by 42%. For the next 3 years, revenue is forecast to grow by 14% per annum. Earnings are also forecast to grow by 28% per annum over the same time period.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "3acea2b8-347d-4b77-8013-773046ca393c",
-      "type": "article",
-      "date": "2025-12-10T00:11:01.000Z",
-      "title": "A Look At The Fair Value Of KEC International Limited (NSE:KEC)",
-      "body": "Key Insights KEC International's estimated fair value is ₹578 based on 2 Stage Free Cash Flow to Equity Current share...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/capital-goods/nse-kec/kec-international-shares/news/a-look-at-the-fair-value-of-kec-international-limited-nsekec",
-      "raw_subtype": "article"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/KEC.json"

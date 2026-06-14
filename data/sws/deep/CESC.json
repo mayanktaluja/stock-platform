@@ -3,7 +3,7 @@
   "name": "CESC Limited",
   "sector": "Utilities",
   "sws_url": "https://simplywall.st/stocks/in/utilities/nse-cesc/cesc-shares",
-  "parsed_at": "2026-05-31T22:18:38.438Z",
+  "parsed_at": "2026-06-11T01:12:47.466Z",
   "company_id": "E21F8FFB-BFFD-4B6E-9578-C50924D00F05",
   "classification_status": "Active",
   "groww_source": {
@@ -16,21 +16,299 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 3,
+      "valuation": 4,
       "future": 1,
       "past": 5,
       "financial_health": 0,
       "dividends": 5,
       "future_growth": 1,
       "past_performance": 5,
-      "value": 3,
+      "value": 4,
       "health": 0,
       "dividend": 5
     },
-    "snowflake_total": 14,
-    "current_price_inr": 182.09,
+    "snowflake_total": 15,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_STABLE_IN_PAST_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_50_TO_75"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DIVIDENDS_NOT_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 168.2,
     "market_cap_inr": 246224700000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -43,7 +321,15 @@
       "max": 214.27273,
       "count": 20
     },
-    "upside_pct": 17.67407875226536,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "b4a5d312-de5b-4b08-a587-86c222891843",
+      "narrative_type": null,
+      "published_at": "2024-06-19T04:06:02.883Z"
+    },
+    "upside_pct": 27.39163495838288,
     "multiples": {
       "pe": 15.21,
       "ps": 1.33,
@@ -63,13 +349,14 @@
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Earnings are forecast to grow 11.34% per year",
       "Trading below our calculated fair Price-To-Earnings ratio",
-      "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Earnings grew by 12.6% over the past year",
-      "Price-To-Earnings ratio (15.7x) is below the Indian market (23.4x)"
+      "Trading at good value vs. industry average Price-To-Earnings ratio",
+      "Analysts in good agreement that stock price will rise by 24.8%",
+      "Price-To-Earnings ratio (14.8x) is below the Indian market (22.9x)"
     ],
     "risks": [
       "Interest payments are not well covered by earnings",
-      "Dividend of 3.3% is not well covered by free cash flows"
+      "Dividend of 3.49% is not well covered by free cash flows"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -240,7 +527,7 @@
     "industry_benchmarks": {
       "pe": 27.571490272138643,
       "net_income_margin_1y": 0.08093427531,
-      "future_revenue_growth_3y": 0.4232158944,
+      "future_revenue_growth_3y": 0.425150045,
       "sector_pe": 27.571490272138643
     },
     "industry_benchmarks_meta": {
@@ -275,15 +562,15 @@
         "url": "https://groww.in/stocks/cesc-ltd"
       },
       "sws_statement": {
-        "company_pe": 15.7,
-        "industry_pe": 15.7,
+        "company_pe": 14.8,
+        "industry_pe": 14.9,
         "industry_name": "Asian Electric Utilities",
-        "description": "CESC is good value based on its Price-To-Earnings Ratio (15.7x) compared to the Asian Electric Utilities industry average (15.7x).",
+        "description": "CESC is good value based on its Price-To-Earnings Ratio (14.8x) compared to the Asian Electric Utilities industry average (14.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 35.870067449,
+        "industry_pe": 34.475854676,
         "industry_code": "9520000",
         "type": "median_profitable",
         "count": 11,
@@ -295,7 +582,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 36.15,
+        "industry_pe": 36.1,
         "sample_count": 12,
         "industry_code": "9520000",
         "industry_name": "Utilities"
@@ -308,8 +595,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 182.09,
-        "fetched_at": "2026-05-31T22:18:38.438Z",
+        "value": 168.2,
+        "fetched_at": "2026-06-11T01:12:47.466Z",
         "url": "https://simplywall.st/stocks/in/utilities/nse-cesc/cesc-shares"
       },
       "market_cap_inr": {
@@ -317,6 +604,24 @@
         "value": 246224700000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/cesc-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 214.27273,
+        "fetched_at": "2026-06-11T01:12:47.466Z",
+        "url": "https://simplywall.st/stocks/in/utilities/nse-cesc/cesc-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "b4a5d312-de5b-4b08-a587-86c222891843",
+        "narrative_type": null,
+        "published_at": "2024-06-19T04:06:02.883Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 27.39163495838288,
+        "fetched_at": "2026-06-11T01:12:47.466Z",
+        "url": "https://simplywall.st/stocks/in/utilities/nse-cesc/cesc-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -357,13 +662,13 @@
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.08093427531,
-        "fetched_at": "2026-05-31T22:18:38.438Z",
+        "fetched_at": "2026-06-11T01:12:47.466Z",
         "url": "https://simplywall.st/stocks/in/utilities/nse-cesc/cesc-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.4232158944,
-        "fetched_at": "2026-05-31T22:18:38.438Z",
+        "value": 0.425150045,
+        "fetched_at": "2026-06-11T01:12:47.466Z",
         "url": "https://simplywall.st/stocks/in/utilities/nse-cesc/cesc-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -495,16 +800,16 @@
     "quick_ratio": 0.8547808012093726,
     "cash_ratio": 0.5264550264550265,
     "returns_pct": {
-      "1D": -2.033679453381396,
-      "7D": 2.7479968400857717,
-      "1M": -2.510975479173358,
-      "3M": 15.137527663610495,
-      "6M": 6.810183012670117,
-      "1Y": 10.693009118541037,
+      "1D": -2.0270270270270374,
+      "7D": -6.742071412730109,
+      "1M": -7.587495192571839,
+      "3M": 5.507464559026473,
+      "6M": -1.099547245251958,
+      "1Y": -2.0441441966105756,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 1,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -581,8 +886,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.07486,
-        "shares": 14248011,
+        "pct": 1.05532,
+        "shares": 13989073,
         "is_insider": null
       },
       {
@@ -596,8 +901,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.53048,
-        "shares": 7031894,
+        "pct": 0.53033,
+        "shares": 7029855,
         "is_insider": null
       },
       {
@@ -1062,16 +1367,6 @@
       "keyDevTypeId": "16",
       "source_url": null,
       "raw_subtype": "EventActivity"
-    },
-    {
-      "id": "68054776-859e-4595-8ece-f7f662250bff",
-      "type": "article",
-      "date": "2025-12-14T02:00:55.000Z",
-      "title": "We Think CESC (NSE:CESC) Can Stay On Top Of Its Debt",
-      "body": "The external fund manager backed by Berkshire Hathaway's Charlie Munger, Li Lu, makes no bones about it when he says...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/utilities/nse-cesc/cesc-shares/news/we-think-cesc-nsecesc-can-stay-on-top-of-its-debt",
-      "raw_subtype": "article"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/CESC.json"

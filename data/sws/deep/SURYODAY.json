@@ -3,7 +3,7 @@
   "name": "Suryoday Small Finance Bank Limited",
   "sector": "Banks",
   "sws_url": "https://simplywall.st/stocks/in/banks/nse-suryoday/suryoday-small-finance-bank-shares",
-  "parsed_at": "2026-05-31T22:38:30.272Z",
+  "parsed_at": "2026-06-11T01:41:38.848Z",
   "company_id": "BE6C5632-8C38-40F3-BB89-E91203ED6F10",
   "classification_status": "Active",
   "groww_source": {
@@ -20,17 +20,17 @@
       "future": 5,
       "past": 4,
       "financial_health": 4,
-      "dividends": 0,
+      "dividends": 2,
       "future_growth": 5,
       "past_performance": 4,
       "value": 2,
       "health": 4,
-      "dividend": 0
+      "dividend": 2
     },
-    "snowflake_total": 15,
+    "snowflake_total": 17,
     "snowflake_data_quality": {
       "insufficient": true,
-      "insufficient_count": 3,
+      "insufficient_count": 1,
       "checked_count": 30,
       "affected_pillars": [
         "Dividends"
@@ -54,43 +54,319 @@
         },
         "Dividends": {
           "checked": 6,
-          "insufficient": 3
+          "insufficient": 1
         }
       },
       "samples": [
         {
           "pillar": "Dividends",
-          "title": "Growing Dividend",
-          "reason_code": "OUTCOME_NULL"
-        },
-        {
-          "pillar": "Dividends",
-          "title": "Stable Dividend",
-          "reason_code": "OUTCOME_NULL"
-        },
-        {
-          "pillar": "Dividends",
-          "title": "Earnings Coverage",
+          "title": "Future Dividend Coverage",
           "reason_code": "OUTCOME_NULL"
         }
       ]
     },
-    "current_price_inr": 163.59,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "BankHealth",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SAME_PE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAppropriateBadLoanAllowance",
+          "title": "Allowance for Bad Loans",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_LOW_ALLOWANCE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAppropriateNonPerformingLoans",
+          "title": "Level of Bad Loans",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasPrimarilyLowRiskFunding",
+          "title": "Low Risk Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAppropriateLoanLevel",
+          "title": "Loan Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasPrimarilyDepositFunding",
+          "title": "Low Risk Deposits",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAnAppropriateLevelOfAssets",
+          "title": "Asset Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOO_EARLY"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOO_EARLY"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredIn3Years",
+          "title": "Future Dividend Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 170,
     "market_cap_inr": 17628200000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "micro2",
     "shares_outstanding": 106289824,
     "fifty_two_week": {
       "low": 115.41,
       "high": 190.78
     },
-    "fair_value_inr": 236,
+    "fair_value_inr": 240,
     "fair_value_range_inr": {
-      "min": 24.637414,
+      "min": 26.558596,
       "max": 240,
       "count": 9
     },
-    "upside_pct": 44.263096766306006,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "5a573229-1c51-4faa-b371-97df0b6b1f98",
+      "narrative_type": null,
+      "published_at": "2026-06-05T08:06:55.550Z"
+    },
+    "upside_pct": 41.17647058823529,
     "multiples": {
       "pe": 11.6,
       "ps": 0.7,
@@ -110,7 +386,7 @@
       "Earnings grew by 32.2% over the past year",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading below our calculated fair Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (11.4x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (11.9x) is below the Indian market (23.2x)",
       "Earnings are forecast to grow 37.37% per year"
     ],
     "risks": [],
@@ -125,8 +401,8 @@
     "dividend_yield_pct": 0.9,
     "industry_benchmarks": {
       "pe": 13.356880346706902,
-      "net_income_margin_1y": 0.3177821454,
-      "future_revenue_growth_3y": 0.2745257838,
+      "net_income_margin_1y": 0.3178841988,
+      "future_revenue_growth_3y": 0.2771620146,
       "sector_pe": 13.356880346706902
     },
     "industry_benchmarks_meta": {
@@ -161,15 +437,15 @@
         "url": "https://groww.in/stocks/suryoday-small-finance-bank-ltd"
       },
       "sws_statement": {
-        "company_pe": 11.4,
-        "industry_pe": 11.4,
+        "company_pe": 11.9,
+        "industry_pe": 11.9,
         "industry_name": "Indian Banks",
-        "description": "SURYODAY is expensive based on its Price-To-Earnings Ratio (11.4x) compared to the Indian Banks industry average (11.4x).",
+        "description": "SURYODAY is expensive based on its Price-To-Earnings Ratio (11.9x) compared to the Indian Banks industry average (11.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 11.441700538,
+        "industry_pe": 11.702946999,
         "industry_code": "7011000",
         "type": "median_profitable",
         "count": 39,
@@ -181,25 +457,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 11.4,
+        "industry_pe": 11.75,
         "sample_count": 40,
         "industry_code": "7011000",
         "industry_name": "Banks"
       },
       "sws_primary_industry": {
-        "industry_pe": 11.055229769,
+        "industry_pe": 11.140031027,
         "industry_name": "Banks",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 25.396996854082257
+        "company_pe": 11.890024399552543
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 163.59,
-        "fetched_at": "2026-05-31T22:38:30.272Z",
+        "value": 170,
+        "fetched_at": "2026-06-11T01:41:38.848Z",
         "url": "https://simplywall.st/stocks/in/banks/nse-suryoday/suryoday-small-finance-bank-shares"
       },
       "market_cap_inr": {
@@ -207,6 +483,24 @@
         "value": 17628200000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/suryoday-small-finance-bank-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 240,
+        "fetched_at": "2026-06-11T01:41:38.848Z",
+        "url": "https://simplywall.st/stocks/in/banks/nse-suryoday/suryoday-small-finance-bank-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "5a573229-1c51-4faa-b371-97df0b6b1f98",
+        "narrative_type": null,
+        "published_at": "2026-06-05T08:06:55.550Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 41.17647058823529,
+        "fetched_at": "2026-06-11T01:41:38.848Z",
+        "url": "https://simplywall.st/stocks/in/banks/nse-suryoday/suryoday-small-finance-bank-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -246,14 +540,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.3177821454,
-        "fetched_at": "2026-05-31T22:38:30.272Z",
+        "value": 0.3178841988,
+        "fetched_at": "2026-06-11T01:41:38.848Z",
         "url": "https://simplywall.st/stocks/in/banks/nse-suryoday/suryoday-small-finance-bank-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.2745257838,
-        "fetched_at": "2026-05-31T22:38:30.272Z",
+        "value": 0.2771620146,
+        "fetched_at": "2026-06-11T01:41:38.848Z",
         "url": "https://simplywall.st/stocks/in/banks/nse-suryoday/suryoday-small-finance-bank-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -362,13 +656,13 @@
         "url": "https://groww.in/stocks/suryoday-small-finance-bank-ltd"
       }
     },
-    "earnings_growth_yoy_pct": -40.44723332225746,
+    "earnings_growth_yoy_pct": 89.51240803092655,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 3.867265145041459,
-    "latest_revenue": 11197128000,
-    "latest_net_income": 684646000,
+    "revenue_growth_pct": 20.190584017360127,
+    "latest_revenue": 12739000000,
+    "latest_net_income": 1519700000,
     "latest_eps": 14.3,
-    "most_recent_reported_date": "2026-04-27",
+    "most_recent_reported_date": "2026-06-04",
     "pb": 0.85,
     "ps": 0.7,
     "book_value": 195.533283,
@@ -385,12 +679,12 @@
     "quick_ratio": 0,
     "cash_ratio": 0,
     "returns_pct": {
-      "1D": -1.3329312424608009,
-      "7D": 2.6286072772898352,
-      "1M": 7.201834862385327,
-      "3M": 23.856753482737723,
-      "6M": 15.766753945226808,
-      "1Y": 10.8183173011787,
+      "1D": -2.840486940618391,
+      "7D": 0.1944951965580318,
+      "1M": -5.2608114132857775,
+      "3M": 34.578847371754286,
+      "6M": 24.015173621243058,
+      "1Y": 13.001861207125767,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -520,44 +814,44 @@
     "payment_count": 0
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-04-27",
+    "most_recent_reported_date": "2026-06-04",
     "latest_year": 2026,
-    "latest_revenue": 11197128000,
-    "latest_net_income": 684646000,
+    "latest_revenue": 12739000000,
+    "latest_net_income": 1519700000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 3.867265145041459,
-    "earnings_growth_pct": -40.44723332225746,
-    "net_margin_pct": 6.114478641308736,
+    "revenue_growth_pct": 20.190584017360127,
+    "earnings_growth_pct": 89.51240803092655,
+    "net_margin_pct": 11.929507810660176,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 11197128000,
-        "netIncome": 684646000,
+        "revenue": 12739000000,
+        "netIncome": 1519700000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 10780228000,
-        "netIncome": 1149646000,
+        "revenue": 10599000000,
+        "netIncome": 801900000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 10155198000,
-        "netIncome": 2159588000,
+        "revenue": 11050038000,
+        "netIncome": 2384188000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 6073994000,
-        "netIncome": 776909000,
+        "revenue": 7085600000,
+        "netIncome": 1175500000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 2860325000,
-        "netIncome": -930320000,
+        "revenue": 3714325000,
+        "netIncome": -375620000,
         "eps": null
       }
     ]
@@ -732,6 +1026,26 @@
   ],
   "news": [
     {
+      "id": "c0245976-5e22-4894-a511-3944a4aa890a",
+      "type": "brief",
+      "date": "2026-06-09T11:47:30.000Z",
+      "title": "New minor risk - Dividend sustainability",
+      "body": "The company has a short dividend paying track record. Less than a year of continuous dividend payments. Dividend yield: 0.9% This is considered a minor risk. For dividend focussed investors, companies that have not established a long-term track record of consistently maintaining or growing dividends are less attractive than those companies that have a long track record. Those that have a long track record have proven their underlying business is stable enough to consistently maintain or grow the dividend and that the company considers maintaining the dividend to be one of its priorities. For dividend paying companies, any reduction in the dividend can significantly impact the share price. This is currently the only risk that has been identified for the company.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "47d844a6-b7e3-4d85-8f4a-82e210466253",
+      "type": "narrative-update",
+      "date": "2026-06-05T08:06:55.000Z",
+      "title": "SURYODAY: Planned Equity And Debt Raises Will Support Bullish Outlook",
+      "body": "Analysts have lifted their fair value estimate for Suryoday Small Finance Bank slightly from ₹236 to ₹240, citing updated assumptions on discount rate, revenue growth, profit margin and future P/E that together support a modestly higher target. What's in the News A board meeting is scheduled for May 07, 2026 to consider and approve audited financial results for Q4 and the full year ended March 31, 2026, and to consider a dividend recommendation and record date, as per a company filing.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/banks/nse-suryoday/suryoday-small-finance-bank-shares/yvrdhlny-digital-banking-and-inclusive-finance-will-expand-market-reach-fgcv/updates/15-analysts-have-lifted-their-fair-value-estimate-for-suryoday",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "1c21ee70-8801-4745-b470-fc6f72d0f0ce",
       "type": "brief",
       "date": "2026-05-09T19:59:24.000Z",
@@ -877,26 +1191,6 @@
       "date": "2025-12-29T12:29:27.000Z",
       "title": "New minor risk - Share price stability",
       "body": "The company's share price has been volatile over the past 3 months. It is more volatile than 75% of Indian stocks, typically moving 6.9% a week. This is considered a minor risk. Share price volatility indicates the stock is highly sensitive to market conditions or economic conditions rather than being sensitive to its own business performance, which may also be inconsistent. It also increases the risk of potential losses in the short term as the stock tends to have larger drops in price more frequently than other stocks. Currently, the following risks have been identified for the company: Minor Risks Share price has been volatile over the past 3 months (6.9% average weekly change). Profit margins are more than 30% lower than last year (6.1% net profit margin).",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "abdd4a05-2833-4f54-a201-6a89105c0c6c",
-      "type": "narrative-update",
-      "date": "2025-12-15T14:05:17.000Z",
-      "title": "SURYODAY: Upcoming Capital Raise And Board Decisions Will Support Bullish Outlook",
-      "body": "Analysts have raised their price target on Suryoday Small Finance Bank from ₹178 to ₹236, citing expectations of slightly faster revenue growth and a richer future earnings multiple, despite broadly stable profit margins and a marginally lower discount rate. What's in the News Board meeting scheduled on November 6, 2025, to review and approve unaudited financial results for Q2 and the half year ended September 30, 2025 (company filing) Directors to consider raising equity capital via preferential allotment, QIP, private placement, or a mix of equity linked instruments and warrants, subject to shareholder and regulatory approvals (company filing) Proposal on the agenda to issue debt instruments, including bonds and non convertible debentures, contingent on necessary shareholder and statutor",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/banks/nse-suryoday/suryoday-small-finance-bank-shares/yvrdhlny-digital-banking-and-inclusive-finance-will-expand-market-reach-fgcv/updates/6-analysts-have-raised-their-price-target-on-suryoday-small-fi",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "8f57633a-17ad-4acd-a87d-8c072d982d65",
-      "type": "brief",
-      "date": "2025-12-15T12:37:22.000Z",
-      "title": "Price target increased by 40% to ₹236",
-      "body": "Up from ₹168, the current price target is provided by 1 analyst. New target price is 74% above last closing price of ₹136. Stock is down 8.5% over the past year. The company is forecast to post earnings per share of ₹14.80 for next year compared to ₹10.82 last year.",
       "keyDevTypeId": null,
       "source_url": null,
       "raw_subtype": "BriefActivity"

@@ -3,7 +3,7 @@
   "name": "Emami Limited",
   "sector": "Household",
   "sws_url": "https://simplywall.st/stocks/in/household/nse-emamiltd/emami-shares",
-  "parsed_at": "2026-05-31T22:43:09.812Z",
+  "parsed_at": "2026-06-11T01:39:03.015Z",
   "company_id": "1E171B7C-ADB3-4C7A-8518-EEF32A469D6B",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 6
     },
     "snowflake_total": 20,
-    "current_price_inr": 399.1,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_STABLE_IN_PAST_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_50_TO_75"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_50_TO_75_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 394.85,
     "market_cap_inr": 174840100000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 385.5,
       "high": 634.2
     },
-    "fair_value_inr": 561.479433,
+    "fair_value_inr": 545.94418,
     "fair_value_range_inr": {
-      "min": 244.687561,
-      "max": 561.479433,
+      "min": 246.72857,
+      "max": 545.94418,
       "count": 5
     },
-    "upside_pct": 40.686402655975925,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "1d32120f-e955-4b99-ac89-6cbdc71c424f",
+      "narrative_type": null,
+      "published_at": "2024-06-19T03:52:22.801Z"
+    },
+    "upside_pct": 38.26622261618334,
     "multiples": {
       "pe": 22.55,
       "ps": 4.62,
@@ -60,10 +346,10 @@
       "pe_source_url": "https://groww.in/stocks/emami-ltd"
     },
     "rewards": [
-      "Price-To-Earnings ratio (22.5x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (22x) is below the Indian market (22.9x)",
       "Trading below our calculated fair Price-To-Earnings ratio",
-      "Earnings are forecast to grow 8.66% per year",
-      "Pays a high and reliable dividend of 3.01%",
+      "Earnings are forecast to grow 8.52% per year",
+      "Pays a high and reliable dividend of 3.07%",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading at good value vs. industry average Price-To-Earnings ratio"
     ],
@@ -237,7 +523,7 @@
     "industry_benchmarks": {
       "pe": 47.946214725606616,
       "net_income_margin_1y": 0.1701929734,
-      "future_revenue_growth_3y": 0.276221244,
+      "future_revenue_growth_3y": 0.2776314532,
       "sector_pe": 47.946214725606616
     },
     "industry_benchmarks_meta": {
@@ -272,15 +558,15 @@
         "url": "https://groww.in/stocks/emami-ltd"
       },
       "sws_statement": {
-        "company_pe": 22.5,
-        "industry_pe": 40.1,
+        "company_pe": 22,
+        "industry_pe": 39.3,
         "industry_name": "Indian Personal Products",
-        "description": "EMAMILTD is good value based on its Price-To-Earnings Ratio (22.5x) compared to the Indian Personal Products industry average (40.1x).",
+        "description": "EMAMILTD is good value based on its Price-To-Earnings Ratio (22x) compared to the Indian Personal Products industry average (39.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 40.050618651,
+        "industry_pe": 39.287535026,
         "industry_code": "5220000",
         "type": "median_profitable",
         "count": 25,
@@ -292,7 +578,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 38.35,
+        "industry_pe": 37.25,
         "sample_count": 22,
         "industry_code": "5220000",
         "industry_name": "Household"
@@ -305,8 +591,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 399.1,
-        "fetched_at": "2026-05-31T22:43:09.812Z",
+        "value": 394.85,
+        "fetched_at": "2026-06-11T01:39:03.015Z",
         "url": "https://simplywall.st/stocks/in/household/nse-emamiltd/emami-shares"
       },
       "market_cap_inr": {
@@ -314,6 +600,24 @@
         "value": 174840100000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/emami-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 545.94418,
+        "fetched_at": "2026-06-11T01:39:03.015Z",
+        "url": "https://simplywall.st/stocks/in/household/nse-emamiltd/emami-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "1d32120f-e955-4b99-ac89-6cbdc71c424f",
+        "narrative_type": null,
+        "published_at": "2024-06-19T03:52:22.801Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 38.26622261618334,
+        "fetched_at": "2026-06-11T01:39:03.015Z",
+        "url": "https://simplywall.st/stocks/in/household/nse-emamiltd/emami-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -354,13 +658,13 @@
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.1701929734,
-        "fetched_at": "2026-05-31T22:43:09.812Z",
+        "fetched_at": "2026-06-11T01:39:03.015Z",
         "url": "https://simplywall.st/stocks/in/household/nse-emamiltd/emami-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.276221244,
-        "fetched_at": "2026-05-31T22:43:09.812Z",
+        "value": 0.2776314532,
+        "fetched_at": "2026-06-11T01:39:03.015Z",
         "url": "https://simplywall.st/stocks/in/household/nse-emamiltd/emami-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -492,16 +796,16 @@
     "quick_ratio": 1.8315637526245465,
     "cash_ratio": 0.4889291849589616,
     "returns_pct": {
-      "1D": -0.337120739168427,
-      "7D": -0.9431620749565537,
-      "1M": -12.841231709980336,
-      "3M": -13.726761781236489,
-      "6M": -24.769085768143256,
-      "1Y": -31.34354034061585,
+      "1D": 1.0104886160143376,
+      "7D": 1.0492642354446635,
+      "1M": -11.179844786863118,
+      "3M": -7.766876897921046,
+      "6M": -26.81864516726901,
+      "1Y": -33.20646198088471,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -1011,6 +1315,16 @@
   ],
   "news": [
     {
+      "id": "3360c68e-f75c-495f-ab25-3dc0cdeb5f12",
+      "type": "brief",
+      "date": "2026-06-10T17:06:00.000Z",
+      "title": "Price target decreased by 8.2% to ₹545",
+      "body": "Down from ₹594, the current price target is an average from 22 analysts. New target price is 38% above last closing price of ₹395. Stock is down 33% over the past year. The company is forecast to post earnings per share of ₹18.66 for next year compared to ₹17.76 last year.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
       "id": "79619b26-be9e-4cfe-a15e-596fa04990ac",
       "type": "brief",
       "date": "2026-05-22T11:40:54.000Z",
@@ -1078,16 +1392,6 @@
       "body": "Warren Buffett famously said, 'Volatility is far from synonymous with risk.' So it might be obvious that you need to...",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/stocks/in/household/nse-emamiltd/emami-shares/news/heres-why-emami-nseemamiltd-can-manage-its-debt-responsibly-1",
-      "raw_subtype": "article"
-    },
-    {
-      "id": "6c49518c-b1fb-4306-88ec-9b554a139a8a",
-      "type": "article",
-      "date": "2025-12-05T00:14:09.000Z",
-      "title": "There's Reason For Concern Over Emami Limited's (NSE:EMAMILTD) Price",
-      "body": "When close to half the companies in India have price-to-earnings ratios (or \"P/E's\") below 25x, you may consider Emami...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/household/nse-emamiltd/emami-shares/news/theres-reason-for-concern-over-emami-limiteds-nseemamiltd-pr",
       "raw_subtype": "article"
     }
   ],

@@ -3,7 +3,7 @@
   "name": "ideaForge Technology Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-ideaforge/ideaforge-technology-shares",
-  "parsed_at": "2026-05-31T20:02:22.223Z",
+  "parsed_at": "2026-06-10T23:05:36.393Z",
   "company_id": "26FA42FA-2B88-4339-AE1D-1155A601DD6E",
   "classification_status": "Active",
   "groww_source": {
@@ -77,22 +77,308 @@
         }
       ]
     },
-    "current_price_inr": 845,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_EXPECTED_TO_BECOME_PROFITABLE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_EXPECTED_TO_BECOME_PROFITABLE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_EXPECTED_TO_BECOME_PROFITABLE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASING_LOSSES"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 916.7,
     "market_cap_inr": 36707000000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "small3",
     "shares_outstanding": 43387641,
     "fifty_two_week": {
       "low": 366,
       "high": 888
     },
-    "fair_value_inr": 266,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": 107.55,
       "max": 1187,
       "count": 16
     },
-    "upside_pct": -68.52071005917159,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystHighTarget",
+      "owner_classification": null,
+      "narrative_id": "848d6033-88b0-43f9-b56e-322688c0c9e1",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": null,
       "ps": 16.22,
@@ -126,8 +412,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 48.00927223189911,
-      "net_income_margin_1y": 0.0775877089,
-      "future_revenue_growth_3y": 0.6569887,
+      "net_income_margin_1y": 0.07792327667,
+      "future_revenue_growth_3y": 0.6221294666,
       "sector_pe": 48.00927223189911
     },
     "industry_benchmarks_meta": {
@@ -163,17 +449,17 @@
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 9.9,
+        "industry_pe": 9.5,
         "industry_name": "Indian Aerospace & Defense",
-        "description": "IDEAFORGE is expensive based on its Price-To-Sales Ratio (16.2x) compared to the Indian Aerospace & Defense industry average (9.9x).",
+        "description": "IDEAFORGE is expensive based on its Price-To-Sales Ratio (17.6x) compared to the Indian Aerospace & Defense industry average (9.5x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 50.49377995,
+        "industry_pe": 49.204144691,
         "industry_code": "3020000",
         "type": "median_profitable",
-        "count": 22,
+        "count": 21,
         "source": {
           "type": "country",
           "country": "IN",
@@ -182,13 +468,13 @@
         }
       },
       "internal_median": {
-        "industry_pe": 49,
+        "industry_pe": 48.7,
         "sample_count": 20,
         "industry_code": "3020000",
         "industry_name": "Capital Goods"
       },
       "sws_primary_industry": {
-        "industry_pe": 21.475319439,
+        "industry_pe": 21.150765987,
         "industry_name": "Capital Goods",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
@@ -199,8 +485,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 845,
-        "fetched_at": "2026-05-31T20:02:22.223Z",
+        "value": 916.7,
+        "fetched_at": "2026-06-10T23:05:36.393Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-ideaforge/ideaforge-technology-shares"
       },
       "market_cap_inr": {
@@ -241,14 +527,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.0775877089,
-        "fetched_at": "2026-05-31T20:02:22.223Z",
+        "value": 0.07792327667,
+        "fetched_at": "2026-06-10T23:05:36.393Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-ideaforge/ideaforge-technology-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.6569887,
-        "fetched_at": "2026-05-31T20:02:22.223Z",
+        "value": 0.6221294666,
+        "fetched_at": "2026-06-10T23:05:36.393Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-ideaforge/ideaforge-technology-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -353,11 +639,11 @@
     },
     "earnings_growth_yoy_pct": null,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": -34.62435490273918,
-    "latest_revenue": 1053960000,
+    "revenue_growth_pct": 157.53838093936494,
+    "latest_revenue": 2261290000,
     "latest_net_income": 1,
     "latest_eps": null,
-    "most_recent_reported_date": "2026-04-21",
+    "most_recent_reported_date": "2026-06-08",
     "pb": 6.13,
     "ps": 16.22,
     "book_value": 138.090373,
@@ -374,16 +660,16 @@
     "quick_ratio": 1.8454318576388888,
     "cash_ratio": 0.2133246527777778,
     "returns_pct": {
-      "1D": -0.035490358452614994,
-      "7D": 8.898769250596038,
-      "1M": 40.365448504983384,
-      "3M": 104.60048426150121,
-      "6M": 82.36754073594474,
-      "1Y": 59.79576399394858,
+      "1D": -4.9953363042802295,
+      "7D": 6.947442104649136,
+      "1M": 15.279175050301811,
+      "3M": 115.11204974774142,
+      "6M": 115.49130230371418,
+      "1Y": 54.39157894736842,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 4,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -509,44 +795,44 @@
     "payment_count": 0
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-04-21",
+    "most_recent_reported_date": "2026-06-08",
     "latest_year": 2026,
-    "latest_revenue": 1053960000,
+    "latest_revenue": 2261290000,
     "latest_net_income": 1,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": -34.62435490273918,
+    "revenue_growth_pct": 157.53838093936494,
     "earnings_growth_pct": null,
-    "net_margin_pct": 9.488026111047858e-8,
+    "net_margin_pct": 4.422254553816627e-8,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 1053960000,
+        "revenue": 2261290000,
         "netIncome": 1,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 1612160000,
-        "netIncome": -622780000,
+        "revenue": 878040000,
+        "netIncome": -870080000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 3139960000,
-        "netIncome": 452680000,
+        "revenue": 3031160000,
+        "netIncome": 275800000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 1860070000,
-        "netIncome": 319880000,
+        "revenue": 1838060000,
+        "netIncome": 96040000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 1594390000,
-        "netIncome": 440060000,
+        "revenue": 2539110000,
+        "netIncome": 956190000,
         "eps": null
       }
     ]
@@ -732,6 +1018,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "5cf12a2c-72f7-482c-a6fb-ef73fe1506e6",
+      "type": "narrative-update",
+      "date": "2026-06-08T12:05:18.000Z",
+      "title": "IDEAFORGE: Fundraising Plans Will Support Higher Margins And Future Repricing",
+      "body": "Analysts have kept the ideaForge Technology price target broadly steady at around ₹1,187, reflecting updated assumptions on discount rate, revenue growth, profit margin and future P/E that offset each other rather than pointing to a clear change in valuation. What's in the News Board meeting scheduled for Jun 03, 2026, to consider and evaluate proposals for raising funds through various instruments, including equity shares, preference shares, convertible and non-convertible debentures with or without warrants, in one or more tranches.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-ideaforge/ideaforge-technology-shares/69ek8qoy-digitalization-and-uav-adoption-will-transform-global-markets/updates/3-analysts-have-kept-the-ideaforge-technology-price-target-bro",
+      "raw_subtype": "narrative-update"
+    },
     {
       "id": "828490d2-5186-4cae-b50d-24fdab2ee6fe",
       "type": "narrative-update",

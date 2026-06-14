@@ -3,7 +3,7 @@
   "name": "CarTrade Tech Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/nse-cartrade/cartrade-tech-shares",
-  "parsed_at": "2026-05-31T22:16:03.678Z",
+  "parsed_at": "2026-06-11T01:09:42.344Z",
   "company_id": "57B7D63D-9678-4D29-87F6-9BE947C5A7E5",
   "classification_status": "Active",
   "groww_source": {
@@ -16,18 +16,18 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 2,
+      "valuation": 0,
       "future": 4,
       "past": 4,
       "financial_health": 6,
       "dividends": 0,
       "future_growth": 4,
       "past_performance": 4,
-      "value": 2,
+      "value": 0,
       "health": 6,
       "dividend": 0
     },
-    "snowflake_total": 16,
+    "snowflake_total": 14,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 3,
@@ -75,10 +75,288 @@
         }
       ]
     },
-    "current_price_inr": 1735.2,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ONE_TIME"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_5_YEARS_AGO"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 2451.4,
     "market_cap_inr": 82510500000,
-    "market_cap_usd": 120714180851.549,
-    "market_cap_band": "midsmall4",
+    "market_cap_usd": 120753634221.641,
+    "market_cap_band": "medium5",
     "shares_outstanding": 47928035,
     "fifty_two_week": {
       "low": 1485,
@@ -86,11 +364,19 @@
     },
     "fair_value_inr": 2928.42857,
     "fair_value_range_inr": {
-      "min": 845.510054,
+      "min": 896.038831,
       "max": 2928.42857,
       "count": 13
     },
-    "upside_pct": 68.7660540571692,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "6354e11e-7ac2-4eac-b424-90e008f0011a",
+      "narrative_type": null,
+      "published_at": "2026-02-24T18:06:34.588Z"
+    },
+    "upside_pct": 19.45943420086481,
     "multiples": {
       "pe": 33.88,
       "ps": 10.59,
@@ -108,9 +394,7 @@
     },
     "rewards": [
       "Earnings grew by 66% over the past year",
-      "Trading below our calculated fair Price-To-Earnings ratio",
-      "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Earnings are forecast to grow 20.82% per year"
+      "Earnings are forecast to grow 21.25% per year"
     ],
     "risks": [
       "Large [[one-off items]] impacting financial results"
@@ -126,8 +410,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 75.0238404110117,
-      "net_income_margin_1y": 0.04545091336,
-      "future_revenue_growth_3y": 0.4129153131,
+      "net_income_margin_1y": 0.04543187233,
+      "future_revenue_growth_3y": 0.4102879728,
       "sector_pe": 75.0238404110117
     },
     "industry_benchmarks_meta": {
@@ -162,18 +446,18 @@
         "url": "https://groww.in/stocks/cartrade-tech-ltd"
       },
       "sws_statement": {
-        "company_pe": 37.3,
-        "industry_pe": 21.2,
+        "company_pe": 47,
+        "industry_pe": 19.4,
         "industry_name": "Indian Specialty Retail",
-        "description": "CARTRADE is expensive based on its Price-To-Earnings Ratio (37.3x) compared to the Indian Specialty Retail industry average (21.2x).",
+        "description": "CARTRADE is expensive based on its Price-To-Earnings Ratio (47x) compared to the Indian Specialty Retail industry average (19.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 21.18993456,
+        "industry_pe": 19.414215928,
         "industry_code": "4440000",
         "type": "median_profitable",
-        "count": 64,
+        "count": 62,
         "source": {
           "type": "country",
           "country": "IN",
@@ -182,25 +466,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.95,
-        "sample_count": 56,
+        "industry_pe": 17.3,
+        "sample_count": 55,
         "industry_code": "4440000",
         "industry_name": "Retail"
       },
       "sws_primary_industry": {
-        "industry_pe": 15.530073024,
+        "industry_pe": 15.429198664,
         "industry_name": "Retail",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 41.60884719724105
+        "company_pe": 58.7828077566371
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1735.2,
-        "fetched_at": "2026-05-31T22:16:03.678Z",
+        "value": 2451.4,
+        "fetched_at": "2026-06-11T01:09:42.344Z",
         "url": "https://simplywall.st/stocks/in/retail/nse-cartrade/cartrade-tech-shares"
       },
       "market_cap_inr": {
@@ -208,6 +492,24 @@
         "value": 82510500000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/cartrade-tech-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 2928.42857,
+        "fetched_at": "2026-06-11T01:09:42.344Z",
+        "url": "https://simplywall.st/stocks/in/retail/nse-cartrade/cartrade-tech-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "6354e11e-7ac2-4eac-b424-90e008f0011a",
+        "narrative_type": null,
+        "published_at": "2026-02-24T18:06:34.588Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 19.45943420086481,
+        "fetched_at": "2026-06-11T01:09:42.344Z",
+        "url": "https://simplywall.st/stocks/in/retail/nse-cartrade/cartrade-tech-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -247,14 +549,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.04545091336,
-        "fetched_at": "2026-05-31T22:16:03.678Z",
+        "value": 0.04543187233,
+        "fetched_at": "2026-06-11T01:09:42.344Z",
         "url": "https://simplywall.st/stocks/in/retail/nse-cartrade/cartrade-tech-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.4129153131,
-        "fetched_at": "2026-05-31T22:16:03.678Z",
+        "value": 0.4102879728,
+        "fetched_at": "2026-06-11T01:09:42.344Z",
         "url": "https://simplywall.st/stocks/in/retail/nse-cartrade/cartrade-tech-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -386,16 +688,16 @@
     "quick_ratio": 4.794882745767977,
     "cash_ratio": 0.16000155303618574,
     "returns_pct": {
-      "1D": 0.7899628252788183,
-      "7D": -3.4175665145274334,
-      "1M": 5.451230628988153,
-      "3M": -3.6535258189894475,
-      "6M": -43.802830585872975,
-      "1Y": 14.807463279078995,
+      "1D": 12.058877308465908,
+      "7D": 24.963042259264924,
+      "1M": 28.750000000000004,
+      "3M": 46.02966581283136,
+      "6M": -8.30403231839605,
+      "1Y": 47.62134168372879,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 7,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -745,6 +1047,26 @@
   ],
   "news": [
     {
+      "id": "93b40c3f-5dcd-4c8a-8dc9-2f40ee7026eb",
+      "type": "brief",
+      "date": "2026-06-08T11:41:48.000Z",
+      "title": "Investor sentiment improves as stock rises 17%",
+      "body": "After last week's 17% share price gain to ₹2,070, the stock trades at a forward P/E ratio of 36x. Average forward P/E is 41x in the Specialty Retail industry in India. Total returns to shareholders of 304% over the past three years. Simply Wall St's valuation model estimates the intrinsic value at ₹899 per share.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "76759ebc-eb61-413f-ab10-e2244c1e402b",
+      "type": "narrative-update",
+      "date": "2026-06-02T13:07:49.000Z",
+      "title": "CARTRADE: AI Ecosystem And Marketplace Model Will Support Premium Future P E",
+      "body": "Analysts have adjusted their price target on CarTrade Tech to ₹3,381.96 from ₹3,513.00, citing updated assumptions around slightly lower revenue growth and profit margins, partly offset by a modestly lower discount rate and a higher future P/E multiple. Analyst Commentary Bullish analysts point to the revised assumptions for CarTrade Tech as a sign that, even with slightly tempered expectations for revenue growth and profit margins, the valuation still supports an optimistic long term view.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/retail/nse-cartrade/cartrade-tech-shares/m7smtch7-digital-integration-will-expand-pan-india-auto-marketplaces-9opb/updates/5-analysts-have-adjusted-their-price-target-on-cartrade-tech-t",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "568de65f-aaf3-4fb6-bb17-e6e4a577206e",
       "type": "article",
       "date": "2026-05-15T06:45:10.000Z",
@@ -943,26 +1265,6 @@
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/retail/nse-cartrade/cartrade-tech-shares/m4h843jk-rising-regulatory-pressures-and-mobility-shifts-will-harm-auto-margins-7wms/updates/2-analysts-have-lifted-their-fair-value-estimate-for-cartrade",
       "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "fdb61f61-7b3d-4403-aabb-4201159daf47",
-      "type": "narrative-update",
-      "date": "2025-12-11T22:04:33.000Z",
-      "title": "CARTRADE: Marketplace Competition And Merger Decision Will Shape Performance In The Coming Year",
-      "body": "Analysts have modestly raised their price target for CarTrade Tech, citing solid execution, resilient marketplace fundamentals, and an attractive risk or reward profile, even as they factor in a slightly higher discount rate and competitive pressures observed across broader online platform peers. Analyst Commentary Street research on adjacent online marketplace peers highlights a mixed but instructive backdrop for CarTrade Tech.",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/retail/nse-cartrade/cartrade-tech-shares/1y9rj714-cartrade-expanding-competition-will-likely-challenge-market-share-and-margins-ahead/updates/16-analysts-have-modestly-raised-their-price-target-for-cartrad",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "3b432529-fae4-4866-bf4c-a0323fca2810",
-      "type": "article",
-      "date": "2025-12-09T09:33:16.000Z",
-      "title": "Do CarTrade Tech's (NSE:CARTRADE) Earnings Warrant Your Attention?",
-      "body": "The excitement of investing in a company that can reverse its fortunes is a big draw for some speculators, so even...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/retail/nse-cartrade/cartrade-tech-shares/news/do-cartrade-techs-nsecartrade-earnings-warrant-your-attentio",
-      "raw_subtype": "article"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/CARTRADE.json"

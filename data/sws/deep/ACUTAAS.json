@@ -3,7 +3,7 @@
   "name": "Acutaas Chemicals Limited",
   "sector": "Pharmaceuticals & Biotech",
   "sws_url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-acutaas/acutaas-chemicals-shares",
-  "parsed_at": "2026-05-31T20:56:02.624Z",
+  "parsed_at": "2026-06-10T23:54:01.180Z",
   "company_id": "75B0EFC2-775C-4D88-9458-B2603187E16F",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 0
     },
     "snowflake_total": 17,
-    "current_price_inr": 3132.5,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 3207,
     "market_cap_inr": 245777100000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midlarge6",
     "shares_outstanding": 81871200,
     "fifty_two_week": {
       "low": 1059,
       "high": 3075.3
     },
-    "fair_value_inr": 2233.22222,
+    "fair_value_inr": 2486.33333,
     "fair_value_range_inr": {
       "min": 1525.2,
       "max": 5657.68,
       "count": 15
     },
-    "upside_pct": -28.707989784517157,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "6ea5ce1f-5eeb-4a56-8a46-eb135be6c08f",
+      "narrative_type": null,
+      "published_at": "2026-06-05T15:08:11.089Z"
+    },
+    "upside_pct": -22.471676644839416,
     "multiples": {
       "pe": 68.96,
       "ps": 18.34,
@@ -68,7 +354,7 @@
     ],
     "dividend": {
       "yield_pct": 0.08,
-      "payout_pct": 4.279321047344163,
+      "payout_pct": 3.447157137030663,
       "annualized_dividend": 1.5,
       "listing_currency": "INR",
       "recent_payments": [
@@ -130,8 +416,8 @@
     "dividend_yield_pct": 0.08,
     "industry_benchmarks": {
       "pe": 34.294011798524444,
-      "net_income_margin_1y": 0.1517834297,
-      "future_revenue_growth_3y": 2.756126798,
+      "net_income_margin_1y": 0.1516710327,
+      "future_revenue_growth_3y": 2.535577209,
       "sector_pe": 34.294011798524444
     },
     "industry_benchmarks_meta": {
@@ -166,15 +452,15 @@
         "url": "https://groww.in/stocks/ami-organics-ltd"
       },
       "sws_statement": {
-        "company_pe": 72,
-        "industry_pe": 29,
+        "company_pe": 73.5,
+        "industry_pe": 28.8,
         "industry_name": "Indian Pharmaceuticals",
-        "description": "ACUTAAS is expensive based on its Price-To-Earnings Ratio (72x) compared to the Indian Pharmaceuticals industry average (29x).",
+        "description": "ACUTAAS is expensive based on its Price-To-Earnings Ratio (73.5x) compared to the Indian Pharmaceuticals industry average (28.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 29.045511308,
+        "industry_pe": 28.787047453,
         "industry_code": "6120000",
         "type": "median_profitable",
         "count": 152,
@@ -186,25 +472,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 28.1,
-        "sample_count": 151,
+        "industry_pe": 28.15,
+        "sample_count": 152,
         "industry_code": "6120000",
         "industry_name": "Pharmaceuticals & Biotech"
       },
       "sws_primary_industry": {
-        "industry_pe": 23.933255082,
+        "industry_pe": 23.572522071,
         "industry_name": "Pharmaceuticals & Biotech",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 89.36648787203727
+        "company_pe": 73.70021958971557
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 3132.5,
-        "fetched_at": "2026-05-31T20:56:02.624Z",
+        "value": 3207,
+        "fetched_at": "2026-06-10T23:54:01.180Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-acutaas/acutaas-chemicals-shares"
       },
       "market_cap_inr": {
@@ -212,6 +498,24 @@
         "value": 245777100000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/ami-organics-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 2486.33333,
+        "fetched_at": "2026-06-10T23:54:01.180Z",
+        "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-acutaas/acutaas-chemicals-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "6ea5ce1f-5eeb-4a56-8a46-eb135be6c08f",
+        "narrative_type": null,
+        "published_at": "2026-06-05T15:08:11.089Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": -22.471676644839416,
+        "fetched_at": "2026-06-10T23:54:01.180Z",
+        "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-acutaas/acutaas-chemicals-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -251,14 +555,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.1517834297,
-        "fetched_at": "2026-05-31T20:56:02.624Z",
+        "value": 0.1516710327,
+        "fetched_at": "2026-06-10T23:54:01.180Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-acutaas/acutaas-chemicals-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 2.756126798,
-        "fetched_at": "2026-05-31T20:56:02.624Z",
+        "value": 2.535577209,
+        "fetched_at": "2026-06-10T23:54:01.180Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-acutaas/acutaas-chemicals-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -367,13 +671,13 @@
         "url": "https://groww.in/stocks/ami-organics-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 80.81456157506352,
+    "earnings_growth_yoy_pct": 88.43335270972386,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 20.680233057612384,
-    "latest_revenue": 12150997000,
-    "latest_net_income": 2869773000,
+    "revenue_growth_pct": 29.10283738326333,
+    "latest_revenue": 13393668000,
+    "latest_net_income": 3562553000,
     "latest_eps": 43.53,
-    "most_recent_reported_date": "2026-04-25",
+    "most_recent_reported_date": "2026-06-05",
     "pb": 14.86,
     "ps": 18.34,
     "book_value": 201.9717723,
@@ -390,16 +694,16 @@
     "quick_ratio": 2.8159525150556735,
     "cash_ratio": 0.9740912438802478,
     "returns_pct": {
-      "1D": 4.395787509164837,
-      "7D": 6.143263757115756,
-      "1M": 25.179827365728897,
-      "3M": 45.10376134889753,
-      "6M": 70.47619047619048,
-      "1Y": 178.56825255669187,
+      "1D": 0.25948041391815996,
+      "7D": 2.2738144592913923,
+      "1M": 14.115930683556908,
+      "3M": 46.592311560085946,
+      "6M": 92.72836538461539,
+      "1Y": 185.52350427350427,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -491,6 +795,11 @@
         "is_insider": null
       },
       {
+        "pct": 1.16447,
+        "shares": 953363,
+        "is_insider": null
+      },
+      {
         "pct": 1.16036,
         "shares": 950000,
         "is_insider": null
@@ -498,11 +807,6 @@
       {
         "pct": 1.14184,
         "shares": 934840,
-        "is_insider": null
-      },
-      {
-        "pct": 1.12423,
-        "shares": 920417,
         "is_insider": null
       }
     ],
@@ -518,7 +822,7 @@
   },
   "dividend": {
     "yield_pct": 0.08,
-    "payout_pct": 4.279321047344163,
+    "payout_pct": 3.447157137030663,
     "annualized_dividend": 1.5,
     "listing_currency": "INR",
     "recent_payments": [
@@ -578,44 +882,44 @@
     "payment_count": 4
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-04-25",
+    "most_recent_reported_date": "2026-06-05",
     "latest_year": 2026,
-    "latest_revenue": 12150997000,
-    "latest_net_income": 2869773000,
+    "latest_revenue": 13393668000,
+    "latest_net_income": 3562553000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 20.680233057612384,
-    "earnings_growth_pct": 80.81456157506352,
-    "net_margin_pct": 23.617592860898576,
+    "revenue_growth_pct": 29.10283738326333,
+    "earnings_growth_pct": 88.43335270972386,
+    "net_margin_pct": 26.598785336473924,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 12150997000,
-        "netIncome": 2869773000,
+        "revenue": 13393668000,
+        "netIncome": 3562553000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 10068755000,
-        "netIncome": 1587136000,
+        "revenue": 10374418000,
+        "netIncome": 1890617000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 7174745000,
-        "netIncome": 427730000,
+        "revenue": 7404300000,
+        "netIncome": 369963000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 6167345000,
-        "netIncome": 832897000,
+        "revenue": 6280796000,
+        "netIncome": 850771000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 5201350000,
-        "netIncome": 719461000,
+        "revenue": 5380108000,
+        "netIncome": 730830000,
         "eps": null
       }
     ]
@@ -822,6 +1126,16 @@
   ],
   "news": [
     {
+      "id": "d2269610-09d6-4a3b-a1b4-f031e00550e6",
+      "type": "narrative-update",
+      "date": "2026-06-05T15:08:11.000Z",
+      "title": "ACUTAAS: Higher Margin Assumptions And Rich P E Will Pressure Future Returns",
+      "body": "Analysts have lifted the price target for Acutaas Chemicals from ₹2,233.22 to ₹2,486.33, citing updated assumptions that include slightly adjusted revenue growth, a higher profit margin outlook, a marginally different discount rate, and a lower future P/E multiple. What's in the News A board meeting was held on April 30, 2026 to consider and approve the audited standalone and consolidated financial statements for the quarter and year ended March 31, 2026, and to review other matters.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/pharmaceuticals-biotech/nse-acutaas/acutaas-chemicals-shares/acnfecsa-acutaas-profit-margin-and-earnings-outlook-will-support-medium-term-opportunity/updates/24-analysts-have-lifted-the-price-target-for-acutaas-chemicals",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "c365647a-42b3-4ddb-9c16-1402360f8a48",
       "type": "article",
       "date": "2026-05-08T00:20:56.000Z",
@@ -1019,16 +1333,6 @@
       "body": "Analysts have trimmed their price target on Acutaas Chemicals slightly to €1,828 from about €1,832, reflecting small tweaks to their fair value and future P/E assumptions, while keeping growth and margin expectations broadly unchanged. What's in the News Board meeting scheduled for December 22, 2025, for Acutaas Chemicals Limited.",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/pharmaceuticals-biotech/nse-acutaas/acutaas-chemicals-shares/acnfecsa-acutaas-profit-margin-and-earnings-outlook-will-support-medium-term-opportunity/updates/16-analysts-have-trimmed-their-price-target-on-acutaas-chemical",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "a75e0e5e-8efb-46da-aa8d-6cb633d0a322",
-      "type": "narrative-update",
-      "date": "2025-12-16T04:20:33.000Z",
-      "title": "ACUTAAS: Upcoming Board Meeting Will Support Bullish Long Term Earnings Outlook",
-      "body": "Analysts have maintained their 12 month price target for Acutaas Chemicals at $1,831.50, reflecting stable assumptions around revenue growth, profit margins, and future valuation multiples that continue to support the companys current fair value assessment. What's in the News A board meeting is scheduled for October 17, 2025, at 11:00 Indian Standard Time to review and approve the unaudited standalone and consolidated financial results for the second quarter and half year ended September 30, 2025 (company filing).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/pharmaceuticals-biotech/nse-acutaas/acutaas-chemicals-shares/acnfecsa-acutaas-profit-margin-and-earnings-outlook-will-support-medium-term-opportunity/updates/15-analysts-have-maintained-their-12-month-price-target-for-acu",
       "raw_subtype": "narrative-update"
     }
   ],

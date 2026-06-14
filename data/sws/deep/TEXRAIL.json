@@ -3,7 +3,7 @@
   "name": "Texmaco Rail & Engineering Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-texrail/texmaco-rail-engineering-shares",
-  "parsed_at": "2026-05-31T22:48:23.160Z",
+  "parsed_at": "2026-06-11T01:53:08.711Z",
   "company_id": "6D2F32F3-3122-4865-9BE0-E538195F9FD8",
   "classification_status": "Active",
   "groww_source": {
@@ -28,9 +28,287 @@
       "dividend": 4
     },
     "snowflake_total": 15,
-    "current_price_inr": 104.37,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 102.85,
     "market_cap_inr": 44327900000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "small3",
     "shares_outstanding": 406864572,
     "fifty_two_week": {
@@ -39,11 +317,19 @@
     },
     "fair_value_inr": 168,
     "fair_value_range_inr": {
-      "min": 8.991227,
+      "min": 9.356271,
       "max": 168,
       "count": 27
     },
-    "upside_pct": 60.96579476861166,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "f768b545-afb7-40f2-bd3f-524040ea0dd5",
+      "narrative_type": null,
+      "published_at": "2026-06-06T07:06:26.365Z"
+    },
+    "upside_pct": 63.344676713660675,
     "multiples": {
       "pe": 22.89,
       "ps": 1.01,
@@ -61,7 +347,7 @@
     },
     "rewards": [
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (21.8x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (22x) is below the Indian market (22.9x)",
       "Earnings are forecast to grow 15.19% per year",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading below our calculated fair Price-To-Earnings ratio"
@@ -212,8 +498,8 @@
     "dividend_yield_pct": 0.69,
     "industry_benchmarks": {
       "pe": 41.92916323228247,
-      "net_income_margin_1y": 0.0775877089,
-      "future_revenue_growth_3y": 0.6569887,
+      "net_income_margin_1y": 0.07792327667,
+      "future_revenue_growth_3y": 0.6221294666,
       "sector_pe": 41.92916323228247
     },
     "industry_benchmarks_meta": {
@@ -248,18 +534,18 @@
         "url": "https://groww.in/stocks/texmaco-rail-engineering-ltd"
       },
       "sws_statement": {
-        "company_pe": 21.8,
-        "industry_pe": 26.4,
+        "company_pe": 22,
+        "industry_pe": 25.8,
         "industry_name": "Indian Machinery",
-        "description": "TEXRAIL is good value based on its Price-To-Earnings Ratio (21.8x) compared to the Indian Machinery industry average (26.4x).",
+        "description": "TEXRAIL is good value based on its Price-To-Earnings Ratio (22x) compared to the Indian Machinery industry average (25.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 25.908333666,
+        "industry_pe": 25.769114311,
         "industry_code": "3070000",
         "type": "median_profitable",
-        "count": 217,
+        "count": 220,
         "source": {
           "type": "country",
           "country": "IN",
@@ -268,25 +554,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 25.799999999999997,
-        "sample_count": 218,
+        "industry_pe": 25.6,
+        "sample_count": 219,
         "industry_code": "3070000",
         "industry_name": "Capital Goods"
       },
       "sws_primary_industry": {
-        "industry_pe": 21.475319439,
+        "industry_pe": 21.150765987,
         "industry_name": "Capital Goods",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 21.76015070610071
+        "company_pe": 21.443245186571406
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 104.37,
-        "fetched_at": "2026-05-31T22:48:23.160Z",
+        "value": 102.85,
+        "fetched_at": "2026-06-11T01:53:08.711Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-texrail/texmaco-rail-engineering-shares"
       },
       "market_cap_inr": {
@@ -294,6 +580,24 @@
         "value": 44327900000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/texmaco-rail-engineering-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 168,
+        "fetched_at": "2026-06-11T01:53:08.711Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-texrail/texmaco-rail-engineering-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "f768b545-afb7-40f2-bd3f-524040ea0dd5",
+        "narrative_type": null,
+        "published_at": "2026-06-06T07:06:26.365Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 63.344676713660675,
+        "fetched_at": "2026-06-11T01:53:08.711Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-texrail/texmaco-rail-engineering-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -333,14 +637,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.0775877089,
-        "fetched_at": "2026-05-31T22:48:23.160Z",
+        "value": 0.07792327667,
+        "fetched_at": "2026-06-11T01:53:08.711Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-texrail/texmaco-rail-engineering-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.6569887,
-        "fetched_at": "2026-05-31T22:48:23.160Z",
+        "value": 0.6221294666,
+        "fetched_at": "2026-06-11T01:53:08.711Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-texrail/texmaco-rail-engineering-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -449,13 +753,13 @@
         "url": "https://groww.in/stocks/texmaco-rail-engineering-ltd"
       }
     },
-    "earnings_growth_yoy_pct": -21.683249216623,
+    "earnings_growth_yoy_pct": -11.030394985732334,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": -13.55631162267587,
-    "latest_revenue": 44143091000,
+    "revenue_growth_pct": -11.193167390508874,
+    "latest_revenue": 43772664000,
     "latest_net_income": 1951478000,
     "latest_eps": 4.76,
-    "most_recent_reported_date": "2026-05-15",
+    "most_recent_reported_date": "2026-06-05",
     "pb": 1.9,
     "ps": 1.01,
     "book_value": 57.4497248,
@@ -472,16 +776,16 @@
     "quick_ratio": 1.251706522808807,
     "cash_ratio": 0.10378700448213855,
     "returns_pct": {
-      "1D": -4.186174607546132,
-      "7D": -3.5486553922927544,
-      "1M": -1.8340857787810276,
-      "3M": -0.35325568073323504,
-      "6M": -18.518229369974236,
-      "1Y": -35.34658985318714,
+      "1D": -2.3915725538578436,
+      "7D": 0,
+      "1M": -8.071147658205222,
+      "3M": 7.381499269158481,
+      "6M": -18.314669208164563,
+      "1Y": -42.5547363717605,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 5,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -533,11 +837,6 @@
         "is_insider": null
       },
       {
-        "pct": 1.05003,
-        "shares": 4272195,
-        "is_insider": null
-      },
-      {
         "pct": 1.04495,
         "shares": 4251521,
         "is_insider": null
@@ -548,8 +847,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.72802,
-        "shares": 2962068,
+        "pct": 0.71816,
+        "shares": 2921958,
         "is_insider": null
       },
       {
@@ -560,6 +859,11 @@
       {
         "pct": 0.4065,
         "shares": 1653908,
+        "is_insider": null
+      },
+      {
+        "pct": 0.3111,
+        "shares": 1265766,
         "is_insider": null
       },
       {
@@ -578,8 +882,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.08638,
-        "shares": 351462,
+        "pct": 0.07664,
+        "shares": 311839,
         "is_insider": null
       },
       {
@@ -738,44 +1042,44 @@
     "payment_count": 10
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-15",
+    "most_recent_reported_date": "2026-06-05",
     "latest_year": 2026,
-    "latest_revenue": 44143091000,
+    "latest_revenue": 43772664000,
     "latest_net_income": 1951478000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": -13.55631162267587,
-    "earnings_growth_pct": -21.683249216623,
-    "net_margin_pct": 4.420800527992025,
+    "revenue_growth_pct": -11.193167390508874,
+    "earnings_growth_pct": -11.030394985732334,
+    "net_margin_pct": 4.45821163637653,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 44143091000,
+        "revenue": 43772664000,
         "netIncome": 1951478000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 51065719000,
-        "netIncome": 2491776000,
+        "revenue": 49289748000,
+        "netIncome": 2193421000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 35028701000,
-        "netIncome": 1132068000,
+        "revenue": 37377603000,
+        "netIncome": 1367954000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 22432774000,
-        "netIncome": 260262999.99999997,
+        "revenue": 26013979000,
+        "netIncome": 593220000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 16217359000,
-        "netIncome": 205001000,
+        "revenue": 15896008000,
+        "netIncome": -71363000,
         "eps": null
       }
     ]
@@ -982,6 +1286,16 @@
   ],
   "news": [
     {
+      "id": "42e4e28e-df18-4fe9-b817-0ea3c752cd21",
+      "type": "narrative-update",
+      "date": "2026-06-06T07:06:26.000Z",
+      "title": "TEXRAIL: Africa Rail Order Will Drive Future Upside Potential",
+      "body": "Analysts have kept the price target for Texmaco Rail & Engineering steady at ₹168.0, citing updated assumptions around discount rates, revenue growth, profit margins and future P/E that largely offset one another. What's in the News TrinityRail Global Inc.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-texrail/texmaco-rail-engineering-shares/a0b68tun-indian-rail-investments-and-global-contracts-will-stimulate-freight-demand-aa33/updates/22-analysts-have-kept-the-price-target-for-texmaco-rail-and-engin",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "a0d2c848-3dd0-4968-adb5-1056d4abf796",
       "type": "narrative-update",
       "date": "2026-05-15T17:06:09.000Z",
@@ -1140,26 +1454,6 @@
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-texrail/texmaco-rail-engineering-shares/a0b68tun-indian-rail-investments-and-global-contracts-will-stimulate-freight-demand-aa33/updates/13-analysts-have-kept-their-fair-value-estimate-for-texmaco-rai",
       "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "7e808d0f-d774-40a7-825c-c1c98082ccda",
-      "type": "narrative-update",
-      "date": "2025-12-14T23:11:00.000Z",
-      "title": "TEXRAIL: New Rail And Metro Contracts Will Drive Strong Upside Potential",
-      "body": "Analysts have slightly refined their valuation framework for Texmaco Rail & Engineering while maintaining a target of ₹185.50. They cite stable expectations for revenue growth, profit margins, and future earnings multiples that continue to support the existing price target.",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-texrail/texmaco-rail-engineering-shares/a0b68tun-indian-rail-investments-and-global-contracts-will-stimulate-freight-demand-aa33/updates/12-analysts-have-slightly-refined-their-valuation-framework-for",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "aac6b391-2c4a-4aaa-899b-5e186f227129",
-      "type": "article",
-      "date": "2025-12-09T01:08:11.000Z",
-      "title": "The Return Trends At Texmaco Rail & Engineering (NSE:TEXRAIL) Look Promising",
-      "body": "Did you know there are some financial metrics that can provide clues of a potential multi-bagger? Typically, we'll want...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/capital-goods/nse-texrail/texmaco-rail-engineering-shares/news/the-return-trends-at-texmaco-rail-engineering-nsetexrail-loo",
-      "raw_subtype": "article"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/TEXRAIL.json"

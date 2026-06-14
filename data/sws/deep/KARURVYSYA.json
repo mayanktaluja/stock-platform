@@ -3,7 +3,7 @@
   "name": "The Karur Vysya Bank Limited",
   "sector": "Banks",
   "sws_url": "https://simplywall.st/stocks/in/banks/nse-karurvysya/karur-vysya-bank-shares",
-  "parsed_at": "2026-05-31T20:23:44.893Z",
+  "parsed_at": "2026-06-10T23:29:02.470Z",
   "company_id": "37369AAD-9431-4FBB-A041-25BBA75F3171",
   "classification_status": "Active",
   "groww_source": {
@@ -16,18 +16,18 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 4,
+      "valuation": 5,
       "future": 1,
       "past": 4,
       "financial_health": 5,
       "dividends": 4,
       "future_growth": 1,
       "past_performance": 4,
-      "value": 4,
+      "value": 5,
       "health": 5,
       "dividend": 4
     },
-    "snowflake_total": 18,
+    "snowflake_total": 19,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 1,
@@ -65,9 +65,287 @@
         }
       ]
     },
-    "current_price_inr": 288.75,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "BankHealth",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_SUBSTANTIAL_DISCOUNT"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAppropriateBadLoanAllowance",
+          "title": "Allowance for Bad Loans",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAppropriateNonPerformingLoans",
+          "title": "Level of Bad Loans",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasPrimarilyLowRiskFunding",
+          "title": "Low Risk Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAppropriateLoanLevel",
+          "title": "Loan Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasPrimarilyDepositFunding",
+          "title": "Low Risk Deposits",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAnAppropriateLevelOfAssets",
+          "title": "Asset Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredIn3Years",
+          "title": "Future Dividend Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        }
+      ]
+    },
+    "current_price_inr": 272.7,
     "market_cap_inr": 284394900000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midlarge6",
     "shares_outstanding": 966650000,
     "fifty_two_week": {
@@ -76,11 +354,19 @@
     },
     "fair_value_inr": 317.5,
     "fair_value_range_inr": {
-      "min": 285.221839,
+      "min": 286.507242,
       "max": 317.5,
       "count": 19
     },
-    "upside_pct": 9.956709956709958,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "baef1703-8c01-42b3-8624-320069601013",
+      "narrative_type": null,
+      "published_at": "2026-03-04T15:04:44.108Z"
+    },
+    "upside_pct": 16.428309497616432,
     "multiples": {
       "pe": 11.33,
       "ps": 2.16,
@@ -97,11 +383,11 @@
       "pe_source_url": "https://groww.in/stocks/karur-vysya-bank-ltd"
     },
     "rewards": [
-      "Analysts in good agreement that stock price will rise by 23.1%",
+      "Analysts in good agreement that stock price will rise by 29.6%",
       "Trading below our calculated fair Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (11.1x) is below the Indian market (23.4x)",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Earnings are forecast to grow 10.42% per year",
+      "Trading at 4.8% below our estimate of its fair value",
+      "Earnings are forecast to grow 10.41% per year",
       "Earnings grew by 29.3% over the past year",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
@@ -237,8 +523,8 @@
     "dividend_yield_pct": 0.88,
     "industry_benchmarks": {
       "pe": 13.356880346706902,
-      "net_income_margin_1y": 0.3177821454,
-      "future_revenue_growth_3y": 0.2745257838,
+      "net_income_margin_1y": 0.3178841988,
+      "future_revenue_growth_3y": 0.2771620146,
       "sector_pe": 13.356880346706902
     },
     "industry_benchmarks_meta": {
@@ -273,15 +559,15 @@
         "url": "https://groww.in/stocks/karur-vysya-bank-ltd"
       },
       "sws_statement": {
-        "company_pe": 11.1,
-        "industry_pe": 11.4,
+        "company_pe": 10.5,
+        "industry_pe": 11.9,
         "industry_name": "Indian Banks",
-        "description": "KARURVYSYA is good value based on its Price-To-Earnings Ratio (11.1x) compared to the Indian Banks industry average (11.4x).",
+        "description": "KARURVYSYA is good value based on its Price-To-Earnings Ratio (10.5x) compared to the Indian Banks industry average (11.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 11.441700538,
+        "industry_pe": 11.880641305,
         "industry_code": "7011000",
         "type": "median_profitable",
         "count": 39,
@@ -293,25 +579,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 11.4,
+        "industry_pe": 11.75,
         "sample_count": 40,
         "industry_code": "7011000",
         "industry_name": "Banks"
       },
       "sws_primary_industry": {
-        "industry_pe": 11.055229769,
+        "industry_pe": 11.140031027,
         "industry_name": "Banks",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 12.142382454599757
+        "company_pe": 11.467455222058367
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 288.75,
-        "fetched_at": "2026-05-31T20:23:44.893Z",
+        "value": 272.7,
+        "fetched_at": "2026-06-10T23:29:02.470Z",
         "url": "https://simplywall.st/stocks/in/banks/nse-karurvysya/karur-vysya-bank-shares"
       },
       "market_cap_inr": {
@@ -319,6 +605,24 @@
         "value": 284394900000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/karur-vysya-bank-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 317.5,
+        "fetched_at": "2026-06-10T23:29:02.470Z",
+        "url": "https://simplywall.st/stocks/in/banks/nse-karurvysya/karur-vysya-bank-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "baef1703-8c01-42b3-8624-320069601013",
+        "narrative_type": null,
+        "published_at": "2026-03-04T15:04:44.108Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 16.428309497616432,
+        "fetched_at": "2026-06-10T23:29:02.470Z",
+        "url": "https://simplywall.st/stocks/in/banks/nse-karurvysya/karur-vysya-bank-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -358,14 +662,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.3177821454,
-        "fetched_at": "2026-05-31T20:23:44.893Z",
+        "value": 0.3178841988,
+        "fetched_at": "2026-06-10T23:29:02.470Z",
         "url": "https://simplywall.st/stocks/in/banks/nse-karurvysya/karur-vysya-bank-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.2745257838,
-        "fetched_at": "2026-05-31T20:23:44.893Z",
+        "value": 0.2771620146,
+        "fetched_at": "2026-06-10T23:29:02.470Z",
         "url": "https://simplywall.st/stocks/in/banks/nse-karurvysya/karur-vysya-bank-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -497,16 +801,16 @@
     "quick_ratio": 0,
     "cash_ratio": 0,
     "returns_pct": {
-      "1D": -1.8024145553477338,
-      "7D": 0.24301336573511145,
-      "1M": -2.9574861367837375,
-      "3M": -11.480686695278967,
-      "6M": 16.44553776666532,
-      "1Y": 44.57982262021048,
+      "1D": -4.516806722689087,
+      "7D": -5.672777585610526,
+      "1M": -8.119946091644211,
+      "3M": -7.778153533987149,
+      "6M": 11.142810564069112,
+      "1Y": 37.9072033200489,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 4,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -553,8 +857,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.46316,
-        "shares": 14143654,
+        "pct": 1.46682,
+        "shares": 14179023,
         "is_insider": null
       },
       {
@@ -583,13 +887,13 @@
         "is_insider": null
       },
       {
-        "pct": 1.23237,
-        "shares": 11912737,
+        "pct": 1.23414,
+        "shares": 11929790,
         "is_insider": null
       },
       {
-        "pct": 1.23188,
-        "shares": 11907985,
+        "pct": 1.23237,
+        "shares": 11912737,
         "is_insider": null
       },
       {
@@ -957,6 +1261,16 @@
   ],
   "news": [
     {
+      "id": "5e3f7fcd-5697-48c4-ba5a-2f23aa2ba82a",
+      "type": "narrative-update",
+      "date": "2026-06-05T14:07:35.000Z",
+      "title": "KARURVYSYA: Future Stability Will Depend On Leadership Reappointments And Dividend Decisions",
+      "body": "Analysts have maintained Karur Vysya Bank's fair value estimate at around ₹305. The updated price target reflects revised assumptions for the discount rate, revenue growth, profit margin and future P/E, rather than a significant shift in their overall view.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/banks/nse-karurvysya/karur-vysya-bank-shares/5smu9iig-digital-shortfalls-and-regulatory-costs-will-diminish-long-term-value/updates/3-analysts-have-maintained-karur-vysya-banks-fair-value-estim",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "a664ff9f-91ed-4594-bda2-f4464f66ebc4",
       "type": "narrative-update",
       "date": "2026-05-17T17:08:38.000Z",
@@ -1155,36 +1469,6 @@
       "keyDevTypeId": null,
       "source_url": null,
       "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "ee014d92-efbc-4630-8b4c-d53c99348856",
-      "type": "narrative-update",
-      "date": "2025-12-15T23:10:10.000Z",
-      "title": "KARURVYSYA: Future Performance Will Reflect Stable Margins And Gradual Network Expansion",
-      "body": "Analysts have modestly raised their price target on Karur Vysya Bank to ₹270.88, reflecting slightly lower discount rate assumptions and reaffirmed expectations for stable revenue growth, robust profit margins, and a steady future P/E multiple. What's in the News A special and extraordinary shareholders meeting is scheduled for December 20, 2025 via postal ballot in India, indicating upcoming shareholder resolutions requiring wide participation (Key Developments) A board meeting on November 17, 2025 will consider and approve the allotment of 154,722 equity shares under KVB ESOS 2011 and 2018, highlighting ongoing employee stock option grants (Key Developments) A board meeting on October 17, 2025 will review and approve unaudited financial results for the quarter and half year ended Septemb",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/banks/nse-karurvysya/karur-vysya-bank-shares/ldep5ohz-karurvysya-branch-expansions-and-digital-banking-will-support-long-term-stability/updates/15-analysts-have-modestly-raised-their-price-target-on-karur-vy",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "d89b2942-6354-44de-a18c-d26ba2b11823",
-      "type": "brief",
-      "date": "2025-12-12T11:24:29.000Z",
-      "title": "Now 21% overvalued after recent price rise",
-      "body": "Over the last 90 days, the stock has risen 16% to ₹245. The fair value is estimated to be ₹203, however this is not to be taken as a sell recommendation but rather should be used as a guide only. Revenue has grown by 21% over the last 3 years. Earnings per share has grown by 27%. For the next 3 years, revenue is forecast to grow by 7.0% per annum. Earnings are also forecast to grow by 11% per annum over the same time period.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "a8696cc4-ba41-43f2-9da8-fd6d24d8b068",
-      "type": "article",
-      "date": "2025-12-09T01:05:12.000Z",
-      "title": "Should You Be Adding Karur Vysya Bank (NSE:KARURVYSYA) To Your Watchlist Today?",
-      "body": "Investors are often guided by the idea of discovering 'the next big thing', even if that means buying 'story stocks...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/banks/nse-karurvysya/karur-vysya-bank-shares/news/should-you-be-adding-karur-vysya-bank-nsekarurvysya-to-your-1",
-      "raw_subtype": "article"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/KARURVYSYA.json"

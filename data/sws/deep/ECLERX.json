@@ -3,7 +3,7 @@
   "name": "eClerx Services Limited",
   "sector": "Commercial Services",
   "sws_url": "https://simplywall.st/stocks/in/commercial-services/nse-eclerx/eclerx-services-shares",
-  "parsed_at": "2026-05-31T22:40:24.123Z",
+  "parsed_at": "2026-06-11T01:35:48.097Z",
   "company_id": "8FC42BE4-07C1-463C-B900-4190E9456BF5",
   "classification_status": "Active",
   "groww_source": {
@@ -16,34 +16,320 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 3,
+      "valuation": 5,
       "future": 3,
       "past": 6,
       "financial_health": 6,
       "dividends": 0,
       "future_growth": 3,
       "past_performance": 6,
-      "value": 3,
+      "value": 5,
       "health": 6,
       "dividend": 0
     },
-    "snowflake_total": 18,
-    "current_price_inr": 1507.8,
+    "snowflake_total": 20,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_SUBSTANTIAL_DISCOUNT"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_NOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 1359.8,
     "market_cap_inr": 144805200000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "medium5",
     "shares_outstanding": 92617548,
     "fifty_two_week": {
       "low": 1375,
       "high": 2497.5
     },
-    "fair_value_inr": 2093.3,
+    "fair_value_inr": 1859.4,
     "fair_value_range_inr": {
-      "min": 1484.868226,
-      "max": 2093.3,
+      "min": 1520.061672,
+      "max": 1859.4,
       "count": 11
     },
-    "upside_pct": 38.83141000132645,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "fcbad1c3-17ca-44c4-aa1a-ee0e6c8c38ed",
+      "narrative_type": null,
+      "published_at": "2026-06-04T23:10:33.476Z"
+    },
+    "upside_pct": 36.74069716134727,
     "multiples": {
       "pe": 20.5,
       "ps": 3.52,
@@ -62,15 +348,16 @@
     "rewards": [
       "Earnings are forecast to grow 12% per year",
       "Trading below our calculated fair Price-To-Earnings ratio",
+      "Trading at good value vs. industry average Price-To-Earnings ratio",
+      "Trading at 10.5% below our estimate of its fair value",
       "Earnings grew by 30.5% over the past year",
-      "Price-To-Earnings ratio (19.8x) is below the Indian market (23.4x)",
-      "Analysts in good agreement that stock price will rise by 23.3%",
+      "Analysts in good agreement that stock price will rise by 36.7%",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
     "risks": [],
     "dividend": {
       "yield_pct": 0.06,
-      "payout_pct": 0.692197497500041,
+      "payout_pct": 0.6557356654031161,
       "annualized_dividend": 0.5,
       "listing_currency": "INR",
       "recent_payments": [
@@ -210,8 +497,8 @@
     "dividend_yield_pct": 0.06,
     "industry_benchmarks": {
       "pe": 18.761595487228476,
-      "net_income_margin_1y": 0.07234671003,
-      "future_revenue_growth_3y": 0.3740225928,
+      "net_income_margin_1y": 0.07149669577,
+      "future_revenue_growth_3y": 0.358570421,
       "sector_pe": 18.761595487228476
     },
     "industry_benchmarks_meta": {
@@ -246,15 +533,15 @@
         "url": "https://groww.in/stocks/eclerx-services-ltd"
       },
       "sws_statement": {
-        "company_pe": 19.8,
-        "industry_pe": 19.8,
+        "company_pe": 17.8,
+        "industry_pe": 20.3,
         "industry_name": "Indian Professional Services",
-        "description": "ECLERX is expensive based on its Price-To-Earnings Ratio (19.8x) compared to the Indian Professional Services industry average (19.8x).",
+        "description": "ECLERX is good value based on its Price-To-Earnings Ratio (17.8x) compared to the Indian Professional Services industry average (20.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 19.714358381,
+        "industry_pe": 20.253723075,
         "industry_code": "9612010",
         "type": "median_profitable",
         "count": 63,
@@ -266,25 +553,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.1,
-        "sample_count": 59,
+        "industry_pe": 18.6,
+        "sample_count": 57,
         "industry_code": "9612010",
         "industry_name": "Commercial Services"
       },
       "sws_primary_industry": {
-        "industry_pe": 16.094987777,
+        "industry_pe": 16.028068325,
         "industry_name": "Commercial Services",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 20.873907734611237
+        "company_pe": 17.833387156303143
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1507.8,
-        "fetched_at": "2026-05-31T22:40:24.123Z",
+        "value": 1359.8,
+        "fetched_at": "2026-06-11T01:35:48.097Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-eclerx/eclerx-services-shares"
       },
       "market_cap_inr": {
@@ -292,6 +579,24 @@
         "value": 144805200000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/eclerx-services-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 1859.4,
+        "fetched_at": "2026-06-11T01:35:48.097Z",
+        "url": "https://simplywall.st/stocks/in/commercial-services/nse-eclerx/eclerx-services-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "fcbad1c3-17ca-44c4-aa1a-ee0e6c8c38ed",
+        "narrative_type": null,
+        "published_at": "2026-06-04T23:10:33.476Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 36.74069716134727,
+        "fetched_at": "2026-06-11T01:35:48.097Z",
+        "url": "https://simplywall.st/stocks/in/commercial-services/nse-eclerx/eclerx-services-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -331,14 +636,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.07234671003,
-        "fetched_at": "2026-05-31T22:40:24.123Z",
+        "value": 0.07149669577,
+        "fetched_at": "2026-06-11T01:35:48.097Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-eclerx/eclerx-services-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.3740225928,
-        "fetched_at": "2026-05-31T22:40:24.123Z",
+        "value": 0.358570421,
+        "fetched_at": "2026-06-11T01:35:48.097Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-eclerx/eclerx-services-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -447,13 +752,13 @@
         "url": "https://groww.in/stocks/eclerx-services-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 23.64089655733221,
+    "earnings_growth_yoy_pct": 23.645471130580333,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 16.10759789831143,
-    "latest_revenue": 39080250000,
-    "latest_net_income": 6690110000,
+    "revenue_growth_pct": 17.010861733938253,
+    "latest_revenue": 41170260000,
+    "latest_net_income": 7062110000,
     "latest_eps": 75.12,
-    "most_recent_reported_date": "2026-05-09",
+    "most_recent_reported_date": "2026-06-04",
     "pb": 5.65,
     "ps": 3.52,
     "book_value": 272.5572726,
@@ -470,16 +775,16 @@
     "quick_ratio": 3.4037465689464903,
     "cash_ratio": 1.0441580123942387,
     "returns_pct": {
-      "1D": -2.1480952689986457,
-      "7D": -4.430500095075115,
-      "1M": 6.468012992515175,
-      "3M": -4.942630185348638,
-      "6M": -33.7332718043378,
-      "1Y": -12.97974259825706,
+      "1D": -3.9078510352625226,
+      "7D": -5.530081978602205,
+      "1M": -19.44312796208531,
+      "3M": -13.7127990354718,
+      "6M": -39.46355036171397,
+      "1Y": -26.019422757813988,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 6,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -546,8 +851,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.82199,
-        "shares": 761310,
+        "pct": 0.81499,
+        "shares": 754820,
         "is_insider": null
       },
       {
@@ -598,7 +903,7 @@
   },
   "dividend": {
     "yield_pct": 0.06,
-    "payout_pct": 0.692197497500041,
+    "payout_pct": 0.6557356654031161,
     "annualized_dividend": 0.5,
     "listing_currency": "INR",
     "recent_payments": [
@@ -736,44 +1041,44 @@
     "payment_count": 10
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-09",
+    "most_recent_reported_date": "2026-06-04",
     "latest_year": 2026,
-    "latest_revenue": 39080250000,
-    "latest_net_income": 6690110000,
+    "latest_revenue": 41170260000,
+    "latest_net_income": 7062110000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 16.10759789831143,
-    "earnings_growth_pct": 23.64089655733221,
-    "net_margin_pct": 17.118902770581048,
+    "revenue_growth_pct": 17.010861733938253,
+    "earnings_growth_pct": 23.645471130580333,
+    "net_margin_pct": 17.15342579813681,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 39080250000,
-        "netIncome": 6690110000,
+        "revenue": 41170260000,
+        "netIncome": 7062110000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 33658650000,
-        "netIncome": 5410920000,
+        "revenue": 35184990000,
+        "netIncome": 5711580000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 29255430000,
-        "netIncome": 5114560000,
+        "revenue": 30229880000,
+        "netIncome": 5167440000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 26478970000,
-        "netIncome": 4888200000,
+        "revenue": 27145390000,
+        "netIncome": 4959430000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 21603450000,
-        "netIncome": 4174010000,
+        "revenue": 22919200000,
+        "netIncome": 4252930000.0000005,
         "eps": null
       }
     ]
@@ -979,6 +1284,26 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "a2cea176-a84b-4dd6-9714-7e2ecc7e655b",
+      "type": "narrative-update",
+      "date": "2026-06-04T23:10:33.000Z",
+      "title": "ECLERX: Enterprise AI Execution And Governance Will Drive Future Upside",
+      "body": "Analysts have lowered their price target on eClerx Services from ₹2,093.30 to ₹1,859.40, citing updated assumptions around the discount rate, revenue growth, profit margins and future P/E levels. What's in the News eClerx Services formed a unified AI organization to support its enterprise AI strategy, focusing on embedding AI directly into operational workflows across its analytics, digital operations, and business process management businesses.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/commercial-services/nse-eclerx/eclerx-services-shares/pktbgusm-share-repurchase-plans-and-strong-profit-margins-will-drive-future-potential/updates/25-analysts-have-lowered-their-price-target-on-eclerx-services",
+      "raw_subtype": "narrative-update"
+    },
+    {
+      "id": "d2be29d5-8479-4e2e-b038-cc8f0b29ad6a",
+      "type": "brief",
+      "date": "2026-06-01T11:26:06.000Z",
+      "title": "Insufficient new directors",
+      "body": "There is 1 new director who has joined the board in the last 3 years. The company's board is composed of: 1 new director. 5 experienced directors. 3 highly experienced directors. Non-Executive Independent Director Amit Majmudar was the last director to join the board, commencing their role in 2024. The company’s insufficient board refreshment is considered a risk according to the Simply Wall St Risk Model.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "bce0e8fc-f241-4435-be55-4994e75cf252",
       "type": "article",
@@ -1237,16 +1562,6 @@
       "body": "Analysts have nudged their price target for eClerx Services broadly in line with prior estimates, reflecting only marginal tweaks to discount rate, revenue growth, and profit margin assumptions that leave the stock’s fair value effectively unchanged at INR 4,890.40. What's in the News Signed a Memorandum of Understanding with Egypt's Information Technology Industry Development Agency to expand multilingual support and technology-led services, leveraging Egypt's talent pool and infrastructure to enhance global delivery capabilities (Strategic Alliances) The Board of Directors authorized a share buyback plan on October 24, 2025, as part of broader capital allocation decisions (Buyback Transaction Announcements) Announced a share repurchase program of up to 666,666 shares, later adjusted to 6",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/commercial-services/nse-eclerx/eclerx-services-shares/pktbgusm-share-repurchase-plans-and-strong-profit-margins-will-drive-future-potential/updates/15-analysts-have-nudged-their-price-target-for-eclerx-services",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "52d6fce0-767d-4f70-bf3c-7922cdd04130",
-      "type": "narrative-update",
-      "date": "2025-12-09T14:04:16.000Z",
-      "title": "ECLERX: Buyback And Egypt Expansion Will Guide Balanced Future Outlook",
-      "body": "Analysts have nudged their price target on eClerx Services slightly higher to ₹4,890 from ₹4,850, citing marginally improved assumptions for fair value, discount rate, and future earnings multiples. What's in the News Signed a Memorandum of Understanding with Egypt's Information Technology Industry Development Agency to expand multilingual support and technology led services, leveraging a growing delivery center in Cairo to better serve US and European clients (company announcement) Board of Directors authorized a share buyback plan on October 24, 2025, as part of a broader capital allocation strategy (board resolution) Announced a share repurchase program of up to 666,666 shares, about 1.4 percent of outstanding equity, for up to INR 3,000 million at a maximum price of INR 4,500 per share",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/commercial-services/nse-eclerx/eclerx-services-shares/pktbgusm-share-repurchase-plans-and-strong-profit-margins-will-drive-future-potential/updates/14-analysts-have-nudged-their-price-target-on-eclerx-services-s",
       "raw_subtype": "narrative-update"
     }
   ],

@@ -3,7 +3,7 @@
   "name": "Tata Elxsi Limited",
   "sector": "Software",
   "sws_url": "https://simplywall.st/stocks/in/software/nse-tataelxsi/tata-elxsi-shares",
-  "parsed_at": "2026-05-31T22:43:36.218Z",
+  "parsed_at": "2026-06-11T01:47:38.997Z",
   "company_id": "96073312-1626-4D4F-82F2-336A0D65CEB9",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 6
     },
     "snowflake_total": 19,
-    "current_price_inr": 4285.4,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_5_YEARS_AGO"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_STABLE_IN_PAST_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_50_TO_75"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_50_TO_75_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 4092.2,
     "market_cap_inr": 269800700000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 3945,
       "high": 6735
     },
-    "fair_value_inr": 4313.16084,
+    "fair_value_inr": 4313.223461,
     "fair_value_range_inr": {
-      "min": 1179.665947,
-      "max": 4313.16084,
+      "min": 1163.851082,
+      "max": 4313.223461,
       "count": 20
     },
-    "upside_pct": 0.6478004386988361,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "a6919f34-ff35-414e-af17-68f615ce2a97",
+      "narrative_type": null,
+      "published_at": "2024-06-19T03:56:35.130Z"
+    },
+    "upside_pct": 5.401091368945794,
     "multiples": {
       "pe": 42.93,
       "ps": 7.18,
@@ -60,7 +346,7 @@
       "pe_source_url": "https://groww.in/stocks/tata-elxsi-ltd"
     },
     "rewards": [
-      "Pays a high and reliable dividend of 1.75%",
+      "Pays a high and reliable dividend of 1.76%",
       "Earnings are forecast to grow 16.82% per year",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
@@ -221,7 +507,7 @@
     "industry_benchmarks": {
       "pe": 20.79918137809377,
       "net_income_margin_1y": 0.1172391132,
-      "future_revenue_growth_3y": 0.5128865648,
+      "future_revenue_growth_3y": 0.5117326592,
       "sector_pe": 20.79918137809377
     },
     "industry_benchmarks_meta": {
@@ -256,15 +542,15 @@
         "url": "https://groww.in/stocks/tata-elxsi-ltd"
       },
       "sws_statement": {
-        "company_pe": 42.5,
-        "industry_pe": 24.1,
+        "company_pe": 42.2,
+        "industry_pe": 28,
         "industry_name": "Indian Software",
-        "description": "TATAELXSI is expensive based on its Price-To-Earnings Ratio (42.5x) compared to the Indian Software industry average (24.1x).",
+        "description": "TATAELXSI is expensive based on its Price-To-Earnings Ratio (42.2x) compared to the Indian Software industry average (28x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 24.120954879,
+        "industry_pe": 27.955181856,
         "industry_code": "8040000",
         "type": "median_profitable",
         "count": 58,
@@ -276,8 +562,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24.2,
-        "sample_count": 57,
+        "industry_pe": 25.05,
+        "sample_count": 56,
         "industry_code": "8040000",
         "industry_name": "Software"
       },
@@ -289,8 +575,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 4285.4,
-        "fetched_at": "2026-05-31T22:43:36.218Z",
+        "value": 4092.2,
+        "fetched_at": "2026-06-11T01:47:38.997Z",
         "url": "https://simplywall.st/stocks/in/software/nse-tataelxsi/tata-elxsi-shares"
       },
       "market_cap_inr": {
@@ -298,6 +584,24 @@
         "value": 269800700000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/tata-elxsi-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 4313.223461,
+        "fetched_at": "2026-06-11T01:47:38.997Z",
+        "url": "https://simplywall.st/stocks/in/software/nse-tataelxsi/tata-elxsi-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "a6919f34-ff35-414e-af17-68f615ce2a97",
+        "narrative_type": null,
+        "published_at": "2024-06-19T03:56:35.130Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 5.401091368945794,
+        "fetched_at": "2026-06-11T01:47:38.997Z",
+        "url": "https://simplywall.st/stocks/in/software/nse-tataelxsi/tata-elxsi-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -338,13 +642,13 @@
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.1172391132,
-        "fetched_at": "2026-05-31T22:43:36.218Z",
+        "fetched_at": "2026-06-11T01:47:38.997Z",
         "url": "https://simplywall.st/stocks/in/software/nse-tataelxsi/tata-elxsi-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.5128865648,
-        "fetched_at": "2026-05-31T22:43:36.218Z",
+        "value": 0.5117326592,
+        "fetched_at": "2026-06-11T01:47:38.997Z",
         "url": "https://simplywall.st/stocks/in/software/nse-tataelxsi/tata-elxsi-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -476,16 +780,16 @@
     "quick_ratio": 3.920989709243187,
     "cash_ratio": 2.204309171851676,
     "returns_pct": {
-      "1D": -1.0574436645733325,
-      "7D": -0.5961355570504215,
-      "1M": 3.3024780638318387,
-      "3M": -5.043208508752501,
-      "6M": -16.92546282834158,
-      "1Y": -33.21801464858969,
+      "1D": -3.875786902189233,
+      "7D": -5.861513687600648,
+      "1M": -3.6017997220324736,
+      "3M": -5.491916859122406,
+      "6M": -18.652221449160127,
+      "1Y": -38.22628122877199,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -512,8 +816,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.09427,
-        "shares": 681700,
+        "pct": 1.05511,
+        "shares": 657302,
         "is_insider": null
       },
       {
@@ -537,8 +841,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.39428,
-        "shares": 245622,
+        "pct": 0.40252,
+        "shares": 250759,
         "is_insider": null
       },
       {
@@ -547,8 +851,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.2114,
-        "shares": 131695,
+        "pct": 0.20545,
+        "shares": 127992,
         "is_insider": null
       },
       {
@@ -557,8 +861,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.15459,
-        "shares": 96306,
+        "pct": 0.15418,
+        "shares": 96048,
         "is_insider": null
       },
       {
@@ -567,8 +871,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.13759,
-        "shares": 85712,
+        "pct": 0.13748,
+        "shares": 85646,
         "is_insider": null
       },
       {
@@ -582,13 +886,13 @@
         "is_insider": null
       },
       {
-        "pct": 0.11461,
-        "shares": 71401,
+        "pct": 0.11907,
+        "shares": 74180,
         "is_insider": null
       },
       {
-        "pct": 0.09566,
-        "shares": 59596,
+        "pct": 0.11461,
+        "shares": 71401,
         "is_insider": null
       }
     ],
@@ -981,6 +1285,26 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "ee49d6cb-c7ce-4425-a863-b921cd804453",
+      "type": "brief",
+      "date": "2026-06-04T11:47:21.000Z",
+      "title": "Dividend of ₹75.00 announced",
+      "body": "Shareholders will receive a dividend of ₹75.00. Ex-date: 10th June 2026 Payment date: 24th July 2026 Dividend yield will be 1.7%, which is higher than the industry average of 1.2%. Sustainability & Growth Dividend is covered by both earnings (74% earnings payout ratio) and cash flows (72% cash payout ratio). The dividend has increased by an average of 30% per year over the past 10 years and has been stable with no material reductions to payments, indicating a long track record of dividend growth and stability. EPS is expected to grow by 59% over the next 3 years, which should provide support to the dividend and adequate earnings cover.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "ea955d6a-55bd-46a2-8489-474ea63f0b16",
+      "type": "event",
+      "date": "2026-06-01T14:12:00.000Z",
+      "title": "Tata Elxsi Limited, Annual General Meeting, Jun 24, 2026",
+      "body": "Tata Elxsi Limited, Annual General Meeting, Jun 24, 2026, at 10:30 Indian Standard Time.",
+      "keyDevTypeId": "62",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
     {
       "id": "edad625e-e29f-433d-84d2-9e4ba3cc2866",
       "type": "event",

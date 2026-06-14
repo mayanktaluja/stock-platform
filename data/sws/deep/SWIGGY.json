@@ -3,7 +3,7 @@
   "name": "Swiggy Limited",
   "sector": "Consumer Services",
   "sws_url": "https://simplywall.st/stocks/in/consumer-services/nse-swiggy/swiggy-shares",
-  "parsed_at": "2026-05-31T22:39:40.003Z",
+  "parsed_at": "2026-06-11T01:42:49.253Z",
   "company_id": "A89EDC85-6FF6-402C-BA91-5141257FD4A4",
   "classification_status": "Active",
   "groww_source": {
@@ -76,22 +76,308 @@
         }
       ]
     },
-    "current_price_inr": 257.9,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 28,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_EXPECTED_TO_BECOME_PROFITABLE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_EXPECTED_TO_BECOME_PROFITABLE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_EXPECTED_TO_BECOME_PROFITABLE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASING_LOSSES"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "IsInterestCoveredByProfit",
+          "result": "uncaptured",
+          "available": false,
+          "insufficient": false,
+          "outcome_name": null
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "IsDebtCoveredByCashflow",
+          "result": "uncaptured",
+          "available": false,
+          "insufficient": false,
+          "outcome_name": null
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 242.3,
     "market_cap_inr": 747216900000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "large7",
     "shares_outstanding": 2593883025,
     "fifty_two_week": {
       "low": 247.3,
       "high": 474
     },
-    "fair_value_inr": 374,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": 374,
       "max": 650.19736,
-      "count": 22
+      "count": 21
     },
-    "upside_pct": 45.01744862349749,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystHighTarget",
+      "owner_classification": null,
+      "narrative_id": "3a17648d-2def-4b57-a313-439013e1b8b2",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": null,
       "ps": 3.24,
@@ -109,10 +395,10 @@
     },
     "rewards": [
       "Trading at good value vs. industry average Price-To-Sales ratio",
+      "Trading at 46.4% below our estimate of its fair value",
       "Trading below our calculated fair Price-To-Sales ratio",
       "Trading at good value vs. peer average Price-To-Sales ratio",
-      "Earnings are forecast to grow 84.43% per year",
-      "Trading at 43.5% below our estimate of its fair value"
+      "Earnings are forecast to grow 84.43% per year"
     ],
     "risks": [],
     "dividend": {
@@ -126,8 +412,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 117.2719632175943,
-      "net_income_margin_1y": 0.08680669159,
-      "future_revenue_growth_3y": 0.3940313611,
+      "net_income_margin_1y": 0.08657243816,
+      "future_revenue_growth_3y": 0.39295204,
       "sector_pe": 117.2719632175943
     },
     "industry_benchmarks_meta": {
@@ -163,17 +449,17 @@
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 3,
+        "industry_pe": 2.8,
         "industry_name": "Indian Hospitality",
-        "description": "SWIGGY is good value based on its Price-To-Sales Ratio (2.9x) compared to the Indian Hospitality industry average (3x).",
+        "description": "SWIGGY is good value based on its Price-To-Sales Ratio (2.8x) compared to the Indian Hospitality industry average (2.8x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 27.078875295,
+        "industry_pe": 28.141130414,
         "industry_code": "4210000",
         "type": "median_profitable",
-        "count": 80,
+        "count": 81,
         "source": {
           "type": "country",
           "country": "IN",
@@ -182,13 +468,13 @@
         }
       },
       "internal_median": {
-        "industry_pe": 25.25,
+        "industry_pe": 26.450000000000003,
         "sample_count": 80,
         "industry_code": "4210000",
         "industry_name": "Consumer Services"
       },
       "sws_primary_industry": {
-        "industry_pe": 17.518712405,
+        "industry_pe": 17.366873383,
         "industry_name": "Consumer Services",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
@@ -199,8 +485,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 257.9,
-        "fetched_at": "2026-05-31T22:39:40.003Z",
+        "value": 242.3,
+        "fetched_at": "2026-06-11T01:42:49.253Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/nse-swiggy/swiggy-shares"
       },
       "market_cap_inr": {
@@ -241,14 +527,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.08680669159,
-        "fetched_at": "2026-05-31T22:39:40.003Z",
+        "value": 0.08657243816,
+        "fetched_at": "2026-06-11T01:42:49.253Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/nse-swiggy/swiggy-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.3940313611,
-        "fetched_at": "2026-05-31T22:39:40.003Z",
+        "value": 0.39295204,
+        "fetched_at": "2026-06-11T01:42:49.253Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/nse-swiggy/swiggy-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -374,16 +660,16 @@
     "quick_ratio": 3.332171416854624,
     "cash_ratio": 0.8289932335452123,
     "returns_pct": {
-      "1D": -4.710881211897284,
-      "7D": 3.1806361272254406,
-      "1M": -6.218181818181826,
-      "3M": -14.53189726594864,
-      "6M": -31.826592651334927,
-      "1Y": -22.62226222622263,
+      "1D": -3.060612122424476,
+      "7D": -3.8110361254466034,
+      "1M": -8.115282518012885,
+      "3M": -13.741545033819854,
+      "6M": -41.82472989195678,
+      "1Y": -31.947760146046907,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 4,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -445,8 +731,8 @@
         "is_insider": null
       },
       {
-        "pct": 2.17436,
-        "shares": 56400381,
+        "pct": 2.24217,
+        "shares": 58159258,
         "is_insider": null
       },
       {
@@ -480,8 +766,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.42167,
-        "shares": 36876328,
+        "pct": 1.42179,
+        "shares": 36879693,
         "is_insider": null
       },
       {
@@ -733,6 +1019,16 @@
   ],
   "news": [
     {
+      "id": "f3084853-34c9-459e-934c-879cb60dda8f",
+      "type": "brief",
+      "date": "2026-06-02T12:42:58.000Z",
+      "title": "Less than half of directors are independent",
+      "body": "There are 6 new directors who have joined the board in the last 3 years. Of these new board members, 3 were independent directors. The company's board is composed of: 4 independent directors. 5 non-independent directors. Independent Director Faraz Khalid was the last independent director to join the board, commencing their role in 2025. The following issues are considered to be risks according to the Simply Wall St Risk Model: Minority of independent directors. Lack of board continuity.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
       "id": "7bfb0bd5-a522-4323-abcc-e88e197d8c09",
       "type": "brief",
       "date": "2026-05-13T11:24:15.000Z",
@@ -861,26 +1157,6 @@
       "keyDevTypeId": null,
       "source_url": null,
       "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "b6af9080-8322-4a9b-85b3-bda7f99d58c1",
-      "type": "brief",
-      "date": "2025-12-11T11:31:33.000Z",
-      "title": "Second quarter 2026 earnings: Revenues exceed analysts expectations while EPS lags behind",
-      "body": "Second quarter 2026 results: ₹4.59 loss per share (further deteriorated from ₹2.81 loss in 2Q 2025). Revenue: ₹55.6b (up 54% from 2Q 2025). Net loss: ₹10.9b (loss widened 74% from 2Q 2025). Revenue exceeded analyst estimates by 3.6%. Earnings per share (EPS) missed analyst estimates by 3.7%. Revenue is forecast to grow 21% p.a. on average during the next 3 years, compared to a 21% growth forecast for the Hospitality industry in India.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "a512c46f-f9b9-4d31-9bc7-a1df497be7f6",
-      "type": "event",
-      "date": "2025-12-09T00:00:00.000Z",
-      "title": "Swiggy Limited has filed a Follow-on Equity Offering.",
-      "body": "Swiggy Limited has filed a Follow-on Equity Offering.\r\n\r\nSecurity Name: Equity Shares\r\nSecurity Type: Common Stock\r\nPrice(minimum): INR 390.51\r\n\r\nTransaction Features: Regulation S; Subsequent Direct Listing",
-      "keyDevTypeId": "86",
-      "source_url": null,
-      "raw_subtype": "EventActivity"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/SWIGGY.json"

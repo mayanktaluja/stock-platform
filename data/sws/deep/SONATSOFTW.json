@@ -3,7 +3,7 @@
   "name": "Sonata Software Limited",
   "sector": "Software",
   "sws_url": "https://simplywall.st/stocks/in/software/nse-sonatsoftw/sonata-software-shares",
-  "parsed_at": "2026-05-31T22:26:55.688Z",
+  "parsed_at": "2026-06-11T01:30:07.942Z",
   "company_id": "A92DB4EF-8059-427A-85FD-E3CA951AD249",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 5
     },
     "snowflake_total": 21,
-    "current_price_inr": 265.1,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_50_TO_75_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 261,
     "market_cap_inr": 74536900000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midsmall4",
     "shares_outstanding": 276800000,
     "fifty_two_week": {
       "low": 207.15,
       "high": 452.8
     },
-    "fair_value_inr": 470,
+    "fair_value_inr": 340.375,
     "fair_value_range_inr": {
-      "min": 245.45752,
-      "max": 557.86,
+      "min": 237.973731,
+      "max": 470,
       "count": 30
     },
-    "upside_pct": 77.29158807996981,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "8943ef6b-3a2b-4934-ab1e-bcc8d749b6b6",
+      "narrative_type": null,
+      "published_at": "2026-06-03T14:03:16.115Z"
+    },
+    "upside_pct": 30.411877394636015,
     "multiples": {
       "pe": 16.05,
       "ps": 0.7,
@@ -63,9 +349,9 @@
       "Earnings are forecast to grow 14.58% per year",
       "Trading below our calculated fair Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (15.8x) is below the Indian market (23.4x)",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Analysts in good agreement that stock price will rise by 28.4%",
+      "Price-To-Earnings ratio (15.6x) is below the Indian market (23.2x)",
+      "Analysts in good agreement that stock price will rise by 30.4%",
       "Earnings have grown 5.6% per year over the past 5 years"
     ],
     "risks": [
@@ -73,7 +359,7 @@
     ],
     "dividend": {
       "yield_pct": 1.54,
-      "payout_pct": 31.35335961216075,
+      "payout_pct": 29.802536660996147,
       "annualized_dividend": 5,
       "listing_currency": "INR",
       "recent_payments": [
@@ -239,8 +525,8 @@
     "dividend_yield_pct": 1.54,
     "industry_benchmarks": {
       "pe": 18.761595487228476,
-      "net_income_margin_1y": 0.09947274985,
-      "future_revenue_growth_3y": 1.4123928,
+      "net_income_margin_1y": 0.0994330966,
+      "future_revenue_growth_3y": 1.401190197,
       "sector_pe": 18.761595487228476
     },
     "industry_benchmarks_meta": {
@@ -275,18 +561,18 @@
         "url": "https://groww.in/stocks/sonata-software-ltd"
       },
       "sws_statement": {
-        "company_pe": 15.8,
-        "industry_pe": 23.6,
+        "company_pe": 15.6,
+        "industry_pe": 23,
         "industry_name": "Indian IT",
-        "description": "SONATSOFTW is good value based on its Price-To-Earnings Ratio (15.8x) compared to the Indian IT industry average (23.6x).",
+        "description": "SONATSOFTW is good value based on its Price-To-Earnings Ratio (15.6x) compared to the Indian IT industry average (23x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 23.644221907,
+        "industry_pe": 22.997035397,
         "industry_code": "8030000",
         "type": "median_profitable",
-        "count": 126,
+        "count": 127,
         "source": {
           "type": "country",
           "country": "IN",
@@ -295,25 +581,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.4,
-        "sample_count": 123,
+        "industry_pe": 22.5,
+        "sample_count": 126,
         "industry_code": "8030000",
         "industry_name": "Software"
       },
       "sws_primary_industry": {
-        "industry_pe": 20.803345639,
+        "industry_pe": 20.24766845,
         "industry_name": "Software",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 16.623551266367635
+        "company_pe": 15.556924137039989
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 265.1,
-        "fetched_at": "2026-05-31T22:26:55.688Z",
+        "value": 261,
+        "fetched_at": "2026-06-11T01:30:07.942Z",
         "url": "https://simplywall.st/stocks/in/software/nse-sonatsoftw/sonata-software-shares"
       },
       "market_cap_inr": {
@@ -321,6 +607,24 @@
         "value": 74536900000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/sonata-software-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 340.375,
+        "fetched_at": "2026-06-11T01:30:07.942Z",
+        "url": "https://simplywall.st/stocks/in/software/nse-sonatsoftw/sonata-software-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "8943ef6b-3a2b-4934-ab1e-bcc8d749b6b6",
+        "narrative_type": null,
+        "published_at": "2026-06-03T14:03:16.115Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 30.411877394636015,
+        "fetched_at": "2026-06-11T01:30:07.942Z",
+        "url": "https://simplywall.st/stocks/in/software/nse-sonatsoftw/sonata-software-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -360,14 +664,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.09947274985,
-        "fetched_at": "2026-05-31T22:26:55.688Z",
+        "value": 0.0994330966,
+        "fetched_at": "2026-06-11T01:30:07.942Z",
         "url": "https://simplywall.st/stocks/in/software/nse-sonatsoftw/sonata-software-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 1.4123928,
-        "fetched_at": "2026-05-31T22:26:55.688Z",
+        "value": 1.401190197,
+        "fetched_at": "2026-06-11T01:30:07.942Z",
         "url": "https://simplywall.st/stocks/in/software/nse-sonatsoftw/sonata-software-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -476,13 +780,13 @@
         "url": "https://groww.in/stocks/sonata-software-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 3.94423905620835,
+    "earnings_growth_yoy_pct": 8.406088052663522,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 6.153240296340052,
-    "latest_revenue": 107822500000,
-    "latest_net_income": 4414200000,
+    "revenue_growth_pct": 1.002737140160453,
+    "latest_revenue": 107012400000,
+    "latest_net_income": 4643900000,
     "latest_eps": 16.56,
-    "most_recent_reported_date": "2026-03-13",
+    "most_recent_reported_date": "2026-06-03",
     "pb": 3.91,
     "ps": 0.7,
     "book_value": 67.9323788,
@@ -499,16 +803,16 @@
     "quick_ratio": 1.0391080760816722,
     "cash_ratio": 0.16002901677199807,
     "returns_pct": {
-      "1D": -0.24459078080902247,
-      "7D": -1.0451661067562354,
-      "1M": 0.7946465913843702,
-      "3M": -1.1558538404175862,
-      "6M": -25.825405707890308,
-      "1Y": -35.663147676252876,
+      "1D": -0.7793195210036158,
+      "7D": -2.3751636431643997,
+      "1M": -12.694430506773704,
+      "3M": 7.651062074654573,
+      "6M": -25.439222968147412,
+      "1Y": -39.05429071803853,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 1,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -585,8 +889,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.36755,
-        "shares": 3785391,
+        "pct": 1.37195,
+        "shares": 3797561,
         "is_insider": null
       },
       {
@@ -610,8 +914,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.79396,
-        "shares": 2197681,
+        "pct": 0.78271,
+        "shares": 2166541,
         "is_insider": null
       }
     ],
@@ -627,7 +931,7 @@
   },
   "dividend": {
     "yield_pct": 1.54,
-    "payout_pct": 31.35335961216075,
+    "payout_pct": 29.802536660996147,
     "annualized_dividend": 5,
     "listing_currency": "INR",
     "recent_payments": [
@@ -791,44 +1095,44 @@
     "payment_count": 20
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-03-13",
+    "most_recent_reported_date": "2026-06-03",
     "latest_year": 2026,
-    "latest_revenue": 107822500000,
-    "latest_net_income": 4414200000,
+    "latest_revenue": 107012400000,
+    "latest_net_income": 4643900000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 6.153240296340052,
-    "earnings_growth_pct": 3.94423905620835,
-    "net_margin_pct": 4.09395070602147,
+    "revenue_growth_pct": 1.002737140160453,
+    "earnings_growth_pct": 8.406088052663522,
+    "net_margin_pct": 4.339590552122932,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 107822500000,
-        "netIncome": 4414200000,
+        "revenue": 107012400000,
+        "netIncome": 4643900000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 101572500000,
-        "netIncome": 4246700000,
+        "revenue": 105950000000,
+        "netIncome": 4283800000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 86130600000,
-        "netIncome": 3085000000,
+        "revenue": 91249600000,
+        "netIncome": 2940100000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 74491200000,
-        "netIncome": 4519000000,
+        "revenue": 76857900000,
+        "netIncome": 4642600000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 55533700000,
-        "netIncome": 3764300000,
+        "revenue": 60636900000,
+        "netIncome": 3974600000,
         "eps": null
       }
     ]
@@ -1060,6 +1364,16 @@
   ],
   "news": [
     {
+      "id": "8cca5237-f08e-469d-9dfc-c16084d6de74",
+      "type": "narrative-update",
+      "date": "2026-06-03T14:03:16.000Z",
+      "title": "SONATSOFTW: New CEO And AI Focus Will Support Perceived Undervalued Upside",
+      "body": "Analysts have trimmed their price target on Sonata Software from about ₹346.14 to roughly ₹340.38, citing updated assumptions around fair value, discount rate, revenue growth, profit margin and future P/E as the key drivers of this change. What's in the News Board meeting scheduled for May 7, 2026 to review and approve audited standalone and consolidated financial results for the quarter and year ended March 31, 2026, and to consider recommending a final dividend for FY 2025-26.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/software/nse-sonatsoftw/sonata-software-shares/rqag95pb-sonatsoftw-digital-alliance-and-ai-driven-services-will-expand-global-market-reach/updates/25-analysts-have-trimmed-their-price-target-on-sonata-software",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "da161357-d817-4c5f-808f-bbbd58049ee6",
       "type": "narrative-update",
       "date": "2026-05-13T16:07:30.000Z",
@@ -1268,16 +1582,6 @@
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/stocks/in/software/nse-sonatsoftw/sonata-software-shares/news/sonata-software-nsesonatsoftw-might-be-having-difficulty-usi",
       "raw_subtype": "article"
-    },
-    {
-      "id": "288e1d3a-258e-480a-8031-f412dcee14fb",
-      "type": "narrative-update",
-      "date": "2025-12-15T08:05:44.000Z",
-      "title": "SONATSOFTW: Global Alliance Will Expand Reach And Drive Profit Margins Higher",
-      "body": "Analysts have nudged their price target for Sonata Software higher to approximately ₹421 from about ₹401, citing slightly stronger expectations for long term revenue growth, profit margins, and a modestly higher future earnings multiple. What's in the News Sonata Software has scheduled a board meeting on November 13, 2025 to review and approve its unaudited standalone and consolidated financial results for the second quarter and half year ended September 30, 2025 (company filing) The board will also consider declaring a second interim dividend for the 2025 to 26 financial year at the same November 13, 2025 meeting (company filing) Sonata Software and adesso SE have entered a strategic partnership to accelerate digital transformation for enterprise clients, combining AI driven software and ",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/software/nse-sonatsoftw/sonata-software-shares/rqag95pb-sonatsoftw-digital-alliance-and-ai-driven-services-will-expand-global-market-reach/updates/15-analysts-have-nudged-their-price-target-for-sonata-software",
-      "raw_subtype": "narrative-update"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/SONATSOFTW.json"

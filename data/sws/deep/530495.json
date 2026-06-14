@@ -3,7 +3,7 @@
   "name": "Stratmont Industries Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-530495/stratmont-industries-shares",
-  "parsed_at": "2026-05-31T21:37:43.110Z",
+  "parsed_at": "2026-06-11T00:48:15.472Z",
   "company_id": "66128DF3-83E7-42EA-8427-674323BA8A62",
   "classification_status": "Active",
   "groww_source": {
@@ -19,23 +19,22 @@
       "valuation": 0,
       "future": 0,
       "past": 5,
-      "financial_health": 5,
-      "dividends": 1,
+      "financial_health": 3,
+      "dividends": 2,
       "future_growth": 0,
       "past_performance": 5,
       "value": 0,
-      "health": 5,
-      "dividend": 1
+      "health": 3,
+      "dividend": 2
     },
-    "snowflake_total": 11,
+    "snowflake_total": 10,
     "snowflake_data_quality": {
       "insufficient": true,
-      "insufficient_count": 8,
+      "insufficient_count": 7,
       "checked_count": 30,
       "affected_pillars": [
         "Value",
-        "Future",
-        "Dividends"
+        "Future"
       ],
       "by_pillar": {
         "Value": {
@@ -56,7 +55,7 @@
         },
         "Dividends": {
           "checked": 6,
-          "insufficient": 1
+          "insufficient": 0
         }
       },
       "samples": [
@@ -77,22 +76,308 @@
         }
       ]
     },
-    "current_price_inr": 77.42,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOO_EARLY"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOO_EARLY"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DIVIDENDS_NOT_COVERED"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 66.64,
     "market_cap_inr": 2251300000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 45.31,
       "high": 121
     },
-    "fair_value_inr": 10.672217,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -86.21516791526737,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "c52aa7e8-f393-49df-a405-133be030c430",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 81.44,
       "ps": 1.48,
@@ -109,11 +394,11 @@
       "pe_source_url": "https://groww.in/stocks/stratmont-industries-ltd"
     },
     "rewards": [
-      "Earnings grew by 170.5% over the past year"
+      "Earnings grew by 153.1% over the past year"
     ],
     "risks": [
-      "Does not have a meaningful market cap (₹2B)",
-      "Has a high level of debt"
+      "Interest payments are not well covered by earnings",
+      "Does not have a meaningful market cap (₹2B)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -132,7 +417,7 @@
           "divFreqTypeName": "Interim Payment",
           "annualizedDividend": 0.2,
           "annualizedDividendListingCurrency": 0.2,
-          "annualizedYield": 0.3111257083
+          "annualizedYield": 0.3080486915
         }
       ],
       "payment_count": 1
@@ -140,8 +425,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 80.0113529025094,
-      "net_income_margin_1y": 0.0528311647,
-      "future_revenue_growth_3y": 0.1545987815,
+      "net_income_margin_1y": 0.05713572021,
+      "future_revenue_growth_3y": 0.1646852446,
       "sector_pe": 80.0113529025094
     },
     "industry_benchmarks_meta": {
@@ -176,18 +461,18 @@
         "url": "https://groww.in/stocks/stratmont-industries-ltd"
       },
       "sws_statement": {
-        "company_pe": 80,
-        "industry_pe": 23.4,
+        "company_pe": 73.9,
+        "industry_pe": 24.2,
         "industry_name": "Indian Trade Distributors",
-        "description": "530495 is expensive based on its Price-To-Earnings Ratio (80x) compared to the Indian Trade Distributors industry average (23.4x).",
+        "description": "530495 is expensive based on its Price-To-Earnings Ratio (73.9x) compared to the Indian Trade Distributors industry average (24.2x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 23.432792853,
+        "industry_pe": 24.16407612,
         "industry_code": "3080000",
         "type": "median_profitable",
-        "count": 124,
+        "count": 123,
         "source": {
           "type": "country",
           "country": "IN",
@@ -196,8 +481,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.5,
-        "sample_count": 119,
+        "industry_pe": 19.85,
+        "sample_count": 122,
         "industry_code": "3080000",
         "industry_name": "Capital Goods"
       },
@@ -209,8 +494,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 77.42,
-        "fetched_at": "2026-05-31T21:37:43.110Z",
+        "value": 66.64,
+        "fetched_at": "2026-06-11T00:48:15.472Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-530495/stratmont-industries-shares"
       },
       "market_cap_inr": {
@@ -257,14 +542,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.0528311647,
-        "fetched_at": "2026-05-31T21:37:43.110Z",
+        "value": 0.05713572021,
+        "fetched_at": "2026-06-11T00:48:15.472Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-530495/stratmont-industries-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.1545987815,
-        "fetched_at": "2026-05-31T21:37:43.110Z",
+        "value": 0.1646852446,
+        "fetched_at": "2026-06-11T00:48:15.472Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-530495/stratmont-industries-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -396,16 +681,16 @@
     "quick_ratio": 1.5450236966824644,
     "cash_ratio": 0.08341232227488152,
     "returns_pct": {
-      "1D": -1.999999999999998,
-      "7D": 3.8497652582159687,
-      "1M": 32.34188034188035,
-      "3M": 12.955938138313385,
-      "6M": 14.037413462954781,
-      "1Y": -14.07325194228634,
+      "1D": -1.9999999999999991,
+      "7D": -8.587105624142668,
+      "1M": 8.56956663408276,
+      "3M": -6.167276823430014,
+      "6M": 0.9696969696969706,
+      "1Y": -19.817109854409818,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 1,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -464,7 +749,7 @@
         "divFreqTypeName": "Interim Payment",
         "annualizedDividend": 0.2,
         "annualizedDividendListingCurrency": 0.2,
-        "annualizedYield": 0.3111257083
+        "annualizedYield": 0.3080486915
       }
     ],
     "payment_count": 1
@@ -635,6 +920,16 @@
   ],
   "news": [
     {
+      "id": "16cc9724-6eb1-43f7-898b-2fe5b402503d",
+      "type": "brief",
+      "date": "2026-06-02T11:49:25.000Z",
+      "title": "Full year 2026 earnings released: EPS: ₹0.92 (vs ₹0.36 in FY 2025)",
+      "body": "Full year 2026 results: EPS: ₹0.92 (up from ₹0.36 in FY 2025). Revenue: ₹1.87b (up 101% from FY 2025). Net income: ₹26.2m (up 153% from FY 2025). Profit margin: 1.4% (up from 1.1% in FY 2025). The increase in margin was driven by higher revenue. Over the last 3 years on average, earnings per share has fallen by 53% per year but the company’s share price has increased by 56% per year, which means it is well ahead of earnings.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
       "id": "2f6270b9-7290-4e37-8b6a-5d6fa336dac2",
       "type": "event",
       "date": "2026-05-24T09:52:00.000Z",
@@ -701,16 +996,6 @@
       "title": "Stratmont Industries Limited to Report Q3, 2026 Results on Feb 14, 2026",
       "body": "Stratmont Industries Limited announced that they will report Q3, 2026 results at 12:15 PM, Indian Standard Time on Feb 14, 2026",
       "keyDevTypeId": "55",
-      "source_url": null,
-      "raw_subtype": "EventActivity"
-    },
-    {
-      "id": "84d3b0e1-0d9b-4e61-959f-0d769a5b3e03",
-      "type": "event",
-      "date": "2025-12-09T00:00:00.000Z",
-      "title": "Stratmont Industries Limited (BSE:530495) acquired 99% stake in Stratmont Coal And Commodity Private Limited.",
-      "body": "Stratmont Industries Limited (BSE:530495) acquired 99% stake in Stratmont Coal And Commodity Private Limited on December 9, 2025. Consequently, Stratmont Coal And Commodity Private Limited has now become a subsidiary of the company.\n\nStratmont Industries Limited (BSE:530495) completed the acquisition of 99% stake in Stratmont Coal And Commodity Private Limited on December 9, 2025.",
-      "keyDevTypeId": "81",
       "source_url": null,
       "raw_subtype": "EventActivity"
     }

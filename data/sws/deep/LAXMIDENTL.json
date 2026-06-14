@@ -3,7 +3,7 @@
   "name": "Laxmi Dental Limited",
   "sector": "Healthcare",
   "sws_url": "https://simplywall.st/stocks/in/healthcare/nse-laxmidentl/laxmi-dental-shares",
-  "parsed_at": "2026-05-31T20:37:44.111Z",
+  "parsed_at": "2026-06-10T23:44:34.909Z",
   "company_id": "8FF8400F-2656-47E8-A4B0-1AA1073DB851",
   "classification_status": "Active",
   "groww_source": {
@@ -75,9 +75,287 @@
         }
       ]
     },
-    "current_price_inr": 232.55,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_NOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 218.13,
     "market_cap_inr": 13375000000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -86,11 +364,19 @@
     },
     "fair_value_inr": 326.66667,
     "fair_value_range_inr": {
-      "min": 139.721996,
+      "min": 143.414485,
       "max": 326.66667,
       "count": 2
     },
-    "upside_pct": 40.47158460546119,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "c8eda50f-f206-4d07-8f8c-c009c20bdd10",
+      "narrative_type": null,
+      "published_at": "2025-01-17T17:29:28.153Z"
+    },
+    "upside_pct": 49.75779122541604,
     "multiples": {
       "pe": 46.26,
       "ps": 4.92,
@@ -125,8 +411,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 59.71694269463179,
-      "net_income_margin_1y": 0.1640330925,
-      "future_revenue_growth_3y": 0.4764759288,
+      "net_income_margin_1y": 0.1630170759,
+      "future_revenue_growth_3y": 0.4650719357,
       "sector_pe": 59.71694269463179
     },
     "industry_benchmarks_meta": {
@@ -161,15 +447,15 @@
         "url": "https://groww.in/stocks/laxmi-dental-ltd"
       },
       "sws_statement": {
-        "company_pe": 44.1,
-        "industry_pe": 24.8,
+        "company_pe": 41.4,
+        "industry_pe": 24.4,
         "industry_name": "Asian Medical Equipment",
-        "description": "LAXMIDENTL is expensive based on its Price-To-Earnings Ratio (44.1x) compared to the Asian Medical Equipment industry average (24.8x).",
+        "description": "LAXMIDENTL is expensive based on its Price-To-Earnings Ratio (41.4x) compared to the Asian Medical Equipment industry average (24.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 23.792028554,
+        "industry_pe": 23.852908826,
         "industry_code": "6020000",
         "type": "median_profitable",
         "count": 18,
@@ -181,7 +467,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 23,
+        "industry_pe": 21.6,
         "sample_count": 17,
         "industry_code": "6020000",
         "industry_name": "Healthcare"
@@ -194,8 +480,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 232.55,
-        "fetched_at": "2026-05-31T20:37:44.111Z",
+        "value": 218.13,
+        "fetched_at": "2026-06-10T23:44:34.909Z",
         "url": "https://simplywall.st/stocks/in/healthcare/nse-laxmidentl/laxmi-dental-shares"
       },
       "market_cap_inr": {
@@ -203,6 +489,24 @@
         "value": 13375000000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/laxmi-dental-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 326.66667,
+        "fetched_at": "2026-06-10T23:44:34.909Z",
+        "url": "https://simplywall.st/stocks/in/healthcare/nse-laxmidentl/laxmi-dental-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "c8eda50f-f206-4d07-8f8c-c009c20bdd10",
+        "narrative_type": null,
+        "published_at": "2025-01-17T17:29:28.153Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 49.75779122541604,
+        "fetched_at": "2026-06-10T23:44:34.909Z",
+        "url": "https://simplywall.st/stocks/in/healthcare/nse-laxmidentl/laxmi-dental-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -242,14 +546,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.1640330925,
-        "fetched_at": "2026-05-31T20:37:44.111Z",
+        "value": 0.1630170759,
+        "fetched_at": "2026-06-10T23:44:34.909Z",
         "url": "https://simplywall.st/stocks/in/healthcare/nse-laxmidentl/laxmi-dental-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.4764759288,
-        "fetched_at": "2026-05-31T20:37:44.111Z",
+        "value": 0.4650719357,
+        "fetched_at": "2026-06-10T23:44:34.909Z",
         "url": "https://simplywall.st/stocks/in/healthcare/nse-laxmidentl/laxmi-dental-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -381,16 +685,16 @@
     "quick_ratio": 5.422864566417668,
     "cash_ratio": 0.3098408574212406,
     "returns_pct": {
-      "1D": -4.3515814584789965,
-      "7D": -6.711328626444154,
-      "1M": 13.356080916402636,
-      "3M": 20.761281611881405,
-      "6M": -16.062082656560186,
-      "1Y": -40.44051735177359,
+      "1D": -2.8157718868344817,
+      "7D": -6.841768097373483,
+      "1M": 1.5266464975564353,
+      "3M": 18.761909947187895,
+      "6M": -18.379794200187092,
+      "1Y": -45.84657398212513,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 5,
+    "recent_news_count": 4,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },

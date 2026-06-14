@@ -3,7 +3,7 @@
   "name": "Hero MotoCorp Limited",
   "sector": "Automobiles",
   "sws_url": "https://simplywall.st/stocks/in/automobiles/nse-heromotoco/hero-motocorp-shares",
-  "parsed_at": "2026-05-31T23:17:23.098Z",
+  "parsed_at": "2026-06-11T02:12:17.717Z",
   "company_id": "4825AEA3-F49C-4C1E-86E1-22C11E58763E",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 5
     },
     "snowflake_total": 20,
-    "current_price_inr": 4903,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_50_TO_75"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_50_TO_75_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 4856.7,
     "market_cap_inr": 1015331600000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 4158.1,
       "high": 6388.5
     },
-    "fair_value_inr": 5937.456238,
+    "fair_value_inr": 5933.290632,
     "fair_value_range_inr": {
-      "min": 2157.778637,
+      "min": 2158.495639,
       "max": 6899.66,
       "count": 20
     },
-    "upside_pct": 21.098434387109926,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "a59ae014-7280-4d14-a7a0-251957287d72",
+      "narrative_type": null,
+      "published_at": "2024-06-19T03:51:23.576Z"
+    },
+    "upside_pct": 22.167122367039358,
     "multiples": {
       "pe": 17.58,
       "ps": 2.14,
@@ -61,8 +347,8 @@
     },
     "rewards": [
       "Earnings grew by 31.1% over the past year",
-      "Price-To-Earnings ratio (17.1x) is below the Indian market (23.4x)",
-      "Analysts in good agreement that stock price will rise by 21.1%",
+      "Price-To-Earnings ratio (16.9x) is below the Indian market (22.9x)",
+      "Analysts in good agreement that stock price will rise by 22.2%",
       "Trading below our calculated fair Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
@@ -238,7 +524,7 @@
     "industry_benchmarks": {
       "pe": 24.54353882911374,
       "net_income_margin_1y": 0.1036335065,
-      "future_revenue_growth_3y": 0.3225016148,
+      "future_revenue_growth_3y": 0.3259792129,
       "sector_pe": 24.54353882911374
     },
     "industry_benchmarks_meta": {
@@ -273,15 +559,15 @@
         "url": "https://groww.in/stocks/hero-motocorp-ltd"
       },
       "sws_statement": {
-        "company_pe": 17.1,
-        "industry_pe": 16.5,
+        "company_pe": 16.9,
+        "industry_pe": 16,
         "industry_name": "Asian Auto",
-        "description": "HEROMOTOCO is expensive based on its Price-To-Earnings Ratio (17.1x) compared to the Asian Auto industry average (16.5x).",
+        "description": "HEROMOTOCO is expensive based on its Price-To-Earnings Ratio (16.9x) compared to the Asian Auto industry average (16x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 27.210445305,
+        "industry_pe": 27.654661504,
         "industry_code": "4020000",
         "type": "median_profitable",
         "count": 15,
@@ -293,7 +579,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 27.65,
+        "industry_pe": 28.25,
         "sample_count": 18,
         "industry_code": "4020000",
         "industry_name": "Automobiles"
@@ -306,8 +592,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 4903,
-        "fetched_at": "2026-05-31T23:17:23.098Z",
+        "value": 4856.7,
+        "fetched_at": "2026-06-11T02:12:17.717Z",
         "url": "https://simplywall.st/stocks/in/automobiles/nse-heromotoco/hero-motocorp-shares"
       },
       "market_cap_inr": {
@@ -315,6 +601,24 @@
         "value": 1015331600000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/hero-motocorp-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 5933.290632,
+        "fetched_at": "2026-06-11T02:12:17.717Z",
+        "url": "https://simplywall.st/stocks/in/automobiles/nse-heromotoco/hero-motocorp-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "a59ae014-7280-4d14-a7a0-251957287d72",
+        "narrative_type": null,
+        "published_at": "2024-06-19T03:51:23.576Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 22.167122367039358,
+        "fetched_at": "2026-06-11T02:12:17.717Z",
+        "url": "https://simplywall.st/stocks/in/automobiles/nse-heromotoco/hero-motocorp-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -355,13 +659,13 @@
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.1036335065,
-        "fetched_at": "2026-05-31T23:17:23.098Z",
+        "fetched_at": "2026-06-11T02:12:17.717Z",
         "url": "https://simplywall.st/stocks/in/automobiles/nse-heromotoco/hero-motocorp-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.3225016148,
-        "fetched_at": "2026-05-31T23:17:23.098Z",
+        "value": 0.3259792129,
+        "fetched_at": "2026-06-11T02:12:17.717Z",
         "url": "https://simplywall.st/stocks/in/automobiles/nse-heromotoco/hero-motocorp-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -493,16 +797,16 @@
     "quick_ratio": 1.6411448326136144,
     "cash_ratio": 0.07741058708665806,
     "returns_pct": {
-      "1D": -3.3891625615763545,
-      "7D": -1.2686266612968182,
-      "1M": -4.135301593508652,
-      "3M": -14.13309982486865,
-      "6M": -20.592760547412748,
-      "1Y": 15.847175294756982,
+      "1D": 0.026774313135893683,
+      "7D": 0.3263855894565098,
+      "1M": -7.111026106914033,
+      "3M": -9.969413291315233,
+      "6M": -18.511744966442954,
+      "1Y": 10.121760424460913,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 4,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -519,8 +823,8 @@
         "is_insider": null
       },
       {
-        "pct": 5.73022,
-        "shares": 11465756,
+        "pct": 5.13797,
+        "shares": 10280714,
         "is_insider": null
       },
       {
@@ -544,8 +848,8 @@
         "is_insider": null
       },
       {
-        "pct": 2.43298,
-        "shares": 4868224,
+        "pct": 2.44525,
+        "shares": 4892769,
         "is_insider": null
       },
       {
@@ -589,8 +893,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.7451,
-        "shares": 1490892,
+        "pct": 0.74542,
+        "shares": 1491537,
         "is_insider": null
       },
       {
@@ -1120,16 +1424,6 @@
       "keyDevTypeId": "55",
       "source_url": null,
       "raw_subtype": "EventActivity"
-    },
-    {
-      "id": "e622bcc5-1e53-4f8c-84e6-21858bc5946b",
-      "type": "article",
-      "date": "2025-12-04T03:47:15.000Z",
-      "title": "Here's Why Hero MotoCorp (NSE:HEROMOTOCO) Has Caught The Eye Of Investors",
-      "body": "It's common for many investors, especially those who are inexperienced, to buy shares in companies with a good story...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/automobiles/nse-heromotoco/hero-motocorp-shares/news/heres-why-hero-motocorp-nseheromotoco-has-caught-the-eye-of",
-      "raw_subtype": "article"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/HEROMOTOCO.json"

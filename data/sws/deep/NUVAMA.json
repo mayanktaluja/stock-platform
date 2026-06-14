@@ -3,7 +3,7 @@
   "name": "Nuvama Wealth Management Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-nuvama/nuvama-wealth-management-shares",
-  "parsed_at": "2026-05-31T21:17:12.022Z",
+  "parsed_at": "2026-06-11T00:21:07.991Z",
   "company_id": "32A9B91C-B693-41DB-A79A-340520338370",
   "classification_status": "Active",
   "groww_source": {
@@ -16,14 +16,14 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 2,
+      "valuation": 3,
       "future": 3,
-      "past": 3,
+      "past": 2,
       "financial_health": 3,
       "dividends": 3,
       "future_growth": 3,
-      "past_performance": 3,
-      "value": 2,
+      "past_performance": 2,
+      "value": 3,
       "health": 3,
       "dividend": 3
     },
@@ -65,22 +65,308 @@
         }
       ]
     },
-    "current_price_inr": 1554.6,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_HIGH_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_LONG_FALLEN"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_VOLATILE_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 1522.2,
     "market_cap_inr": 279691200000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midlarge6",
-    "shares_outstanding": 182179612,
+    "shares_outstanding": 182251463,
     "fifty_two_week": {
       "low": 1096.9,
       "high": 1701.7
     },
-    "fair_value_inr": 1630,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 707.923655,
+      "min": 710.193609,
       "max": 10465,
-      "count": 10
+      "count": 11
     },
-    "upside_pct": 4.85012221793388,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystLowTarget",
+      "owner_classification": null,
+      "narrative_id": "bce7920c-1e0d-48e9-b29d-fdd5a41f4e28",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 26.89,
       "ps": 6.01,
@@ -97,18 +383,16 @@
       "pe_source_url": "https://groww.in/stocks/nuvama-wealth-management-ltd"
     },
     "rewards": [
-      "Earnings grew by 5.6% over the past year",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (27.2x) is below the Capital Markets industry average (27.5x)",
-      "Earnings are forecast to grow 16.33% per year"
+      "Earnings are forecast to grow 16.33% per year",
+      "Earnings have grown 32.8% per year over the past 5 years"
     ],
     "risks": [
       "Dividend of 1.8% is not well covered by free cash flows"
     ],
     "dividend": {
       "yield_pct": 0.91,
-      "payout_pct": 74.72402052178592,
+      "payout_pct": 74.7534914133943,
       "annualized_dividend": 42.7,
       "listing_currency": "INR",
       "recent_payments": [
@@ -170,8 +454,8 @@
     "dividend_yield_pct": 0.91,
     "industry_benchmarks": {
       "pe": 36.165866965242294,
-      "net_income_margin_1y": 0.2564706218,
-      "future_revenue_growth_3y": 0.3320316411,
+      "net_income_margin_1y": 0.257896607,
+      "future_revenue_growth_3y": 0.3297814148,
       "sector_pe": 36.165866965242294
     },
     "industry_benchmarks_meta": {
@@ -206,18 +490,18 @@
         "url": "https://groww.in/stocks/nuvama-wealth-management-ltd"
       },
       "sws_statement": {
-        "company_pe": 27.2,
-        "industry_pe": 27.5,
+        "company_pe": 27.3,
+        "industry_pe": 25.9,
         "industry_name": "Indian Capital Markets",
-        "description": "NUVAMA is good value based on its Price-To-Earnings Ratio (27.2x) compared to the Indian Capital Markets industry average (27.5x).",
+        "description": "NUVAMA is expensive based on its Price-To-Earnings Ratio (27.3x) compared to the Indian Capital Markets industry average (25.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 26.705392444,
+        "industry_pe": 25.93266606,
         "industry_code": "7130000",
         "type": "median_profitable",
-        "count": 218,
+        "count": 215,
         "source": {
           "type": "country",
           "country": "IN",
@@ -226,25 +510,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.6,
-        "sample_count": 204,
+        "industry_pe": 21.1,
+        "sample_count": 201,
         "industry_code": "7130000",
         "industry_name": "Diversified Financials"
       },
       "sws_primary_industry": {
-        "industry_pe": 15.729172633,
+        "industry_pe": 15.226484123,
         "industry_name": "Diversified Financials",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 27.205143396526548
+        "company_pe": 26.64865682188965
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1554.6,
-        "fetched_at": "2026-05-31T21:17:12.022Z",
+        "value": 1522.2,
+        "fetched_at": "2026-06-11T00:21:07.991Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-nuvama/nuvama-wealth-management-shares"
       },
       "market_cap_inr": {
@@ -291,14 +575,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.2564706218,
-        "fetched_at": "2026-05-31T21:17:12.022Z",
+        "value": 0.257896607,
+        "fetched_at": "2026-06-11T00:21:07.991Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-nuvama/nuvama-wealth-management-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.3320316411,
-        "fetched_at": "2026-05-31T21:17:12.022Z",
+        "value": 0.3297814148,
+        "fetched_at": "2026-06-11T00:21:07.991Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-nuvama/nuvama-wealth-management-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -413,7 +697,7 @@
     "latest_revenue": 36540200000,
     "latest_net_income": 10410400000,
     "latest_eps": 57.1,
-    "most_recent_reported_date": "2026-05-25",
+    "most_recent_reported_date": "2026-06-08",
     "pb": 6.82,
     "ps": 6.01,
     "book_value": 225.1389122,
@@ -430,118 +714,118 @@
     "quick_ratio": 1.3971548396193085,
     "cash_ratio": 1.1778595143091646,
     "returns_pct": {
-      "1D": 1.1319281811085,
-      "7D": 4.976703356067244,
-      "1M": 15.497771173848433,
-      "3M": 24.877500200819327,
-      "6M": 4.160804020100496,
-      "1Y": 6.029191106261074,
+      "1D": -2.2225077081192133,
+      "7D": -2.3040883126885223,
+      "1M": -4.791093319989987,
+      "3M": 28.58590978205779,
+      "6M": 3.522850924918386,
+      "1Y": 2.6502124216063088,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 6,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
   "ownership": {
     "top_holders": [
       {
-        "pct": 53.22239,
+        "pct": 53.20141,
         "shares": 96960340,
         "is_insider": null
       },
       {
-        "pct": 4.89152,
+        "pct": 4.88959,
         "shares": 8911345,
         "is_insider": null
       },
       {
-        "pct": 4.46916,
+        "pct": 4.4674,
         "shares": 8141902,
         "is_insider": null
       },
       {
-        "pct": 2.44447,
+        "pct": 2.44351,
         "shares": 4453325,
         "is_insider": null
       },
       {
-        "pct": 2.14166,
+        "pct": 2.14081,
         "shares": 3901660,
         "is_insider": null
       },
       {
-        "pct": 1.37227,
+        "pct": 1.37173,
         "shares": 2500000,
         "is_insider": null
       },
       {
-        "pct": 1.30045,
+        "pct": 1.29994,
         "shares": 2369163,
         "is_insider": null
       },
       {
-        "pct": 1.19077,
+        "pct": 1.1903,
         "shares": 2169345,
         "is_insider": null
       },
       {
-        "pct": 1.18755,
+        "pct": 1.18708,
         "shares": 2163479,
         "is_insider": null
       },
       {
-        "pct": 1.18708,
+        "pct": 1.18661,
         "shares": 2162615,
         "is_insider": null
       },
       {
-        "pct": 1.1684,
+        "pct": 1.16794,
         "shares": 2128580,
         "is_insider": null
       },
       {
-        "pct": 1.06378,
+        "pct": 1.06336,
         "shares": 1937985,
         "is_insider": null
       },
       {
-        "pct": 0.86529,
+        "pct": 0.86495,
         "shares": 1576385,
         "is_insider": null
       },
       {
-        "pct": 0.84613,
-        "shares": 1541483,
+        "pct": 0.84842,
+        "shares": 1546255,
         "is_insider": null
       },
       {
-        "pct": 0.6332,
+        "pct": 0.63295,
         "shares": 1153556,
         "is_insider": null
       },
       {
-        "pct": 0.36016,
+        "pct": 0.36002,
         "shares": 656145,
         "is_insider": null
       },
       {
-        "pct": 0.33599,
+        "pct": 0.33586,
         "shares": 612105,
         "is_insider": null
       },
       {
-        "pct": 0.33326,
+        "pct": 0.33313,
         "shares": 607135,
         "is_insider": null
       },
       {
-        "pct": 0.31857,
+        "pct": 0.31845,
         "shares": 580371,
         "is_insider": null
       },
       {
-        "pct": 0.29329,
+        "pct": 0.29317,
         "shares": 534315,
         "is_insider": null
       }
@@ -558,7 +842,7 @@
   },
   "dividend": {
     "yield_pct": 0.91,
-    "payout_pct": 74.72402052178592,
+    "payout_pct": 74.7534914133943,
     "annualized_dividend": 42.7,
     "listing_currency": "INR",
     "recent_payments": [
@@ -618,7 +902,7 @@
     "payment_count": 4
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-25",
+    "most_recent_reported_date": "2026-06-08",
     "latest_year": 2026,
     "latest_revenue": 36540200000,
     "latest_net_income": 10410400000,
@@ -861,6 +1145,26 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "320e87b6-410e-4491-960a-0a1ec3fddaad",
+      "type": "narrative-update",
+      "date": "2026-06-09T08:03:16.000Z",
+      "title": "NUVAMA: Interim Dividend And Board Decisions Will Support Steady Fair Value View",
+      "body": "Analysts have kept the Nuvama Wealth Management price target unchanged at ₹1,630. They have made only small refinements to assumptions around the discount rate, revenue growth, profit margin and future P/E, which help support their existing valuation stance.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/diversified-financials/nse-nuvama/nuvama-wealth-management-shares/v8ecvz97-fee-compression-fintech-rivalry-will-squeeze-margins-and-spark-adaptation/updates/10-analysts-have-kept-the-nuvama-wealth-management-price-target",
+      "raw_subtype": "narrative-update"
+    },
+    {
+      "id": "18da0218-e4af-4420-9dc9-e29ac7fc609e",
+      "type": "brief",
+      "date": "2026-06-01T12:25:15.000Z",
+      "title": "Insufficient new directors",
+      "body": "No new directors have joined the board in the last 3 years. The company's board is composed of: No new directors. 8 experienced directors. No highly experienced directors. Non-Executive Independent Director Kamlesh Vikamsey was the last director to join the board, commencing their role in 2023. The following issues are considered to be risks according to the Simply Wall St Risk Model: Insufficient board refreshment.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "a0076339-bb00-43e4-babc-8624541e5c86",
       "type": "narrative-update",

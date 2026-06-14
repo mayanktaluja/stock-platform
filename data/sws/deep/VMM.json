@@ -3,7 +3,7 @@
   "name": "Vishal Mega Mart Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/nse-vmm/vishal-mega-mart-shares",
-  "parsed_at": "2026-05-31T23:11:50.055Z",
+  "parsed_at": "2026-06-11T02:19:02.753Z",
   "company_id": "0B5BDE0A-51B4-4A20-BC09-1590214D5FF2",
   "classification_status": "Active",
   "groww_source": {
@@ -75,22 +75,308 @@
         }
       ]
     },
-    "current_price_inr": 121.77,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_NOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 118.84,
     "market_cap_inr": 567888000000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "large7",
-    "shares_outstanding": 4673227806,
+    "shares_outstanding": 4676375306,
     "fifty_two_week": {
       "low": 98.77,
       "high": 157.6
     },
-    "fair_value_inr": 117.78174,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 48.148738,
+      "min": 49.25158,
       "max": 159.64286,
       "count": 17
     },
-    "upside_pct": -3.2752402069475215,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystLowTarget",
+      "owner_classification": null,
+      "narrative_id": "efb5b4dc-891b-4b92-9a28-30976196ff5f",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 67.85,
       "ps": 4.4,
@@ -108,7 +394,7 @@
     },
     "rewards": [
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Analysts in good agreement that stock price will rise by 20.8%",
+      "Analysts in good agreement that stock price will rise by 23.7%",
       "Earnings are forecast to grow 19.66% per year",
       "Earnings have grown 27.3% per year over the past 5 years"
     ],
@@ -124,8 +410,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 75.0238404110117,
-      "net_income_margin_1y": 0.04545091336,
-      "future_revenue_growth_3y": 0.4129153131,
+      "net_income_margin_1y": 0.04543187233,
+      "future_revenue_growth_3y": 0.4102879728,
       "sector_pe": 75.0238404110117
     },
     "industry_benchmarks_meta": {
@@ -160,15 +446,15 @@
         "url": "https://groww.in/stocks/vishal-mega-mart-ltd"
       },
       "sws_statement": {
-        "company_pe": 67.8,
+        "company_pe": 66.2,
         "industry_pe": 19.5,
         "industry_name": "Asian Multiline Retail",
-        "description": "VMM is expensive based on its Price-To-Earnings Ratio (67.8x) compared to the Asian Multiline Retail industry average (19.5x).",
+        "description": "VMM is expensive based on its Price-To-Earnings Ratio (66.2x) compared to the Asian Multiline Retail industry average (19.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 52.777974163,
+        "industry_pe": 52.160102327,
         "industry_code": "4430000",
         "type": "median_profitable",
         "count": 6,
@@ -180,25 +466,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 52.8,
+        "industry_pe": 51.55,
         "sample_count": 6,
         "industry_code": "4430000",
         "industry_name": "Retail"
       },
       "sws_primary_industry": {
-        "industry_pe": 15.530073024,
+        "industry_pe": 15.429198664,
         "industry_name": "Retail",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 77.29521266703613
+        "company_pe": 75.4861611574119
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 121.77,
-        "fetched_at": "2026-05-31T23:11:50.055Z",
+        "value": 118.84,
+        "fetched_at": "2026-06-11T02:19:02.753Z",
         "url": "https://simplywall.st/stocks/in/retail/nse-vmm/vishal-mega-mart-shares"
       },
       "market_cap_inr": {
@@ -245,14 +531,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.04545091336,
-        "fetched_at": "2026-05-31T23:11:50.055Z",
+        "value": 0.04543187233,
+        "fetched_at": "2026-06-11T02:19:02.753Z",
         "url": "https://simplywall.st/stocks/in/retail/nse-vmm/vishal-mega-mart-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.4129153131,
-        "fetched_at": "2026-05-31T23:11:50.055Z",
+        "value": 0.4102879728,
+        "fetched_at": "2026-06-11T02:19:02.753Z",
         "url": "https://simplywall.st/stocks/in/retail/nse-vmm/vishal-mega-mart-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -384,118 +670,118 @@
     "quick_ratio": 0.8198228909221914,
     "cash_ratio": 0.23044711132459925,
     "returns_pct": {
-      "1D": 0.2634829147797391,
-      "7D": 0.09041591320072286,
-      "1M": -0.8871886700309324,
-      "3M": 3.3876719307182843,
-      "6M": -10.33136966126658,
-      "1Y": -3.8986662457580286,
+      "1D": 0.4904447826822241,
+      "7D": -1.2054202344334548,
+      "1M": -2.590163934426227,
+      "3M": 12.039219383426051,
+      "6M": -11.82013801291089,
+      "1Y": -7.8973882042935735,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
   "ownership": {
     "top_holders": [
       {
-        "pct": 40.12169,
+        "pct": 40.09469,
         "shares": 1874977956,
         "is_insider": null
       },
       {
-        "pct": 8.8069,
+        "pct": 8.80097,
         "shares": 411566437,
         "is_insider": null
       },
       {
-        "pct": 4.28047,
+        "pct": 4.27759,
         "shares": 200036136,
         "is_insider": null
       },
       {
-        "pct": 3.47474,
+        "pct": 3.4724,
         "shares": 162382459,
         "is_insider": null
       },
       {
-        "pct": 2.52308,
+        "pct": 2.52138,
         "shares": 117909394,
         "is_insider": null
       },
       {
-        "pct": 2.23379,
-        "shares": 104390180,
+        "pct": 2.26724,
+        "shares": 106024677,
         "is_insider": null
       },
       {
-        "pct": 1.89385,
+        "pct": 1.89257,
         "shares": 88503842,
         "is_insider": null
       },
       {
-        "pct": 1.83151,
+        "pct": 1.83028,
         "shares": 85590825,
         "is_insider": null
       },
       {
-        "pct": 1.6103,
+        "pct": 1.60922,
         "shares": 75252965,
         "is_insider": null
       },
       {
-        "pct": 1.28731,
+        "pct": 1.28645,
         "shares": 60159007,
         "is_insider": null
       },
       {
-        "pct": 1.13412,
+        "pct": 1.13336,
         "shares": 53000000,
         "is_insider": null
       },
       {
-        "pct": 1.11631,
+        "pct": 1.11555,
         "shares": 52167491,
         "is_insider": null
       },
       {
-        "pct": 1.01215,
+        "pct": 1.04701,
+        "shares": 48962082,
+        "is_insider": null
+      },
+      {
+        "pct": 1.01147,
         "shares": 47300000,
         "is_insider": null
       },
       {
-        "pct": 0.96263,
-        "shares": 44985812,
-        "is_insider": null
-      },
-      {
-        "pct": 0.88882,
+        "pct": 0.88822,
         "shares": 41536468,
         "is_insider": null
       },
       {
-        "pct": 0.77013,
+        "pct": 0.76962,
         "shares": 35990100,
         "is_insider": null
       },
       {
-        "pct": 0.75452,
+        "pct": 0.75401,
         "shares": 35260451,
         "is_insider": null
       },
       {
-        "pct": 0.67699,
+        "pct": 0.67654,
         "shares": 31637394,
         "is_insider": null
       },
       {
-        "pct": 0.6723,
+        "pct": 0.67185,
         "shares": 31418158,
         "is_insider": null
       },
       {
-        "pct": 0.59361,
+        "pct": 0.59321,
         "shares": 27740792,
         "is_insider": null
       }
@@ -742,6 +1028,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "ea4b569f-eac0-49fa-9bb0-04fb008686a9",
+      "type": "event",
+      "date": "2026-06-09T03:56:00.000Z",
+      "title": "Vishal Mega Mart Limited Announces Appointment of Anurag Krishna to Vice President & Head – Internal Audit and Senior Management Personnel, Effective June 09, 2026",
+      "body": "VISHAL MEGA MART LIMITED had, based on the recommendation of the Nomination and Remuneration Committee and Audit Committee, approved the appointment of Mr. Anurag Krishna as Vice President & Head – Internal Audit and Senior Management Personnel of the Company, by way of a circular resolution passed on June 09, 2026. Mr. Anurag Krishna is a seasoned Internal Audit, Risk Management, and Compliance leader with over 17 years of experience across Retail, Manufacturing, Media, Telecom, and FMCG sectors. A Chartered Accountant by qualification, he has extensive expertise in Internal Audit, Enterprise Risk Management (ERM), Internal Controls, Investigations, Governance, and Process Improvement. Most recently, he served as Head of Internal Audit at Goodyear India, where he led Internal Audit for bo",
+      "keyDevTypeId": "16",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
     {
       "id": "9beb562e-6bfa-4d0e-b4e8-347a7b831e5c",
       "type": "article",

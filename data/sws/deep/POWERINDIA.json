@@ -3,7 +3,7 @@
   "name": "Hitachi Energy India Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-powerindia/hitachi-energy-india-shares",
-  "parsed_at": "2026-05-31T21:36:15.577Z",
+  "parsed_at": "2026-06-11T00:37:25.204Z",
   "company_id": "7176A204-67C0-4352-9D08-9AB7346AE491",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 0
     },
     "snowflake_total": 16,
-    "current_price_inr": 38445,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_NOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 33265,
     "market_cap_inr": 1673957500000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "mega8",
     "shares_outstanding": 44572363,
     "fifty_two_week": {
       "low": 16111,
       "high": 37695
     },
-    "fair_value_inr": 23871.86667,
+    "fair_value_inr": 30967.58824,
     "fair_value_range_inr": {
-      "min": 3036.734887,
-      "max": 28500,
+      "min": 3325.401831,
+      "max": 30967.58824,
       "count": 18
     },
-    "upside_pct": -37.90644642996489,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "85f7c422-afd5-4fcf-a4ba-7d789e1c9b67",
+      "narrative_type": null,
+      "published_at": "2026-06-02T17:06:37.192Z"
+    },
+    "upside_pct": -6.906393386442204,
     "multiples": {
       "pe": 169.45,
       "ps": 21.14,
@@ -60,7 +346,7 @@
       "pe_source_url": "https://groww.in/stocks/abb-power-products-systems-india-ltd"
     },
     "rewards": [
-      "Earnings are forecast to grow 27.93% per year",
+      "Earnings are forecast to grow 28.22% per year",
       "Earnings grew by 157.3% over the past year"
     ],
     "risks": [
@@ -68,7 +354,7 @@
     ],
     "dividend": {
       "yield_pct": 0,
-      "payout_pct": 3.1789339688803833,
+      "payout_pct": 2.7072620869776483,
       "annualized_dividend": 6,
       "listing_currency": "INR",
       "recent_payments": [
@@ -143,8 +429,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 62.3919347209494,
-      "net_income_margin_1y": 0.0775877089,
-      "future_revenue_growth_3y": 0.6569887,
+      "net_income_margin_1y": 0.07792327667,
+      "future_revenue_growth_3y": 0.6221294666,
       "sector_pe": 62.3919347209494
     },
     "industry_benchmarks_meta": {
@@ -180,17 +466,17 @@
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 2,
+        "industry_pe": 1.9,
         "industry_name": "Indian Electrical",
-        "description": "POWERINDIA is expensive based on its Price-To-Sales Ratio (21x) compared to the Indian Electrical industry average (2x).",
+        "description": "POWERINDIA is expensive based on its Price-To-Sales Ratio (18.2x) compared to the Indian Electrical industry average (1.9x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 29.47654624,
+        "industry_pe": 28.698415755,
         "industry_code": "3050000",
         "type": "median_profitable",
-        "count": 123,
+        "count": 124,
         "source": {
           "type": "country",
           "country": "IN",
@@ -199,25 +485,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 28.2,
-        "sample_count": 127,
+        "industry_pe": 29.3,
+        "sample_count": 129,
         "industry_code": "3050000",
         "industry_name": "Capital Goods"
       },
       "sws_primary_industry": {
-        "industry_pe": 21.475319439,
+        "industry_pe": 21.150765987,
         "industry_name": "Capital Goods",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 203.69019405601054
+        "company_pe": 150.09512220551912
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 38445,
-        "fetched_at": "2026-05-31T21:36:15.577Z",
+        "value": 33265,
+        "fetched_at": "2026-06-11T00:37:25.204Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-powerindia/hitachi-energy-india-shares"
       },
       "market_cap_inr": {
@@ -225,6 +511,24 @@
         "value": 1673957500000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/abb-power-products-systems-india-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 30967.58824,
+        "fetched_at": "2026-06-11T00:37:25.204Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-powerindia/hitachi-energy-india-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "85f7c422-afd5-4fcf-a4ba-7d789e1c9b67",
+        "narrative_type": null,
+        "published_at": "2026-06-02T17:06:37.192Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": -6.906393386442204,
+        "fetched_at": "2026-06-11T00:37:25.204Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-powerindia/hitachi-energy-india-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -264,14 +568,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.0775877089,
-        "fetched_at": "2026-05-31T21:36:15.577Z",
+        "value": 0.07792327667,
+        "fetched_at": "2026-06-11T00:37:25.204Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-powerindia/hitachi-energy-india-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.6569887,
-        "fetched_at": "2026-05-31T21:36:15.577Z",
+        "value": 0.6221294666,
+        "fetched_at": "2026-06-11T00:37:25.204Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-powerindia/hitachi-energy-india-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -380,13 +684,13 @@
         "url": "https://groww.in/stocks/abb-power-products-systems-india-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 119.09214021563625,
+    "earnings_growth_yoy_pct": 95.54992477630849,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 14.114798439450393,
-    "latest_revenue": 72861500000,
-    "latest_net_income": 8412700000.000001,
+    "revenue_growth_pct": 24.64771386915808,
+    "latest_revenue": 81477100000,
+    "latest_net_income": 9878400000,
     "latest_eps": 221.63,
-    "most_recent_reported_date": "2026-03-16",
+    "most_recent_reported_date": "2026-06-02",
     "pb": 32.34,
     "ps": 21.14,
     "book_value": 1161.2474395,
@@ -403,16 +707,16 @@
     "quick_ratio": 1.3257761965881565,
     "cash_ratio": 0.7006994323555823,
     "returns_pct": {
-      "1D": 2.3834886817576564,
-      "7D": 8.128252003937561,
-      "1M": 16.90740459175916,
-      "3M": 50.39902980987403,
-      "6M": 74.30631120783461,
-      "1Y": 100.01560792882785,
+      "1D": -3.8861600693441205,
+      "7D": -5.4703040636544475,
+      "1M": 0.7419745608721987,
+      "3M": 33.701768488745984,
+      "6M": 70.28410545175326,
+      "1Y": 89.71712102201437,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 6,
+    "recent_news_count": 8,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -429,8 +733,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.20776,
-        "shares": 538328,
+        "pct": 1.17439,
+        "shares": 523454,
         "is_insider": null
       },
       {
@@ -444,8 +748,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.58819,
-        "shares": 262168,
+        "pct": 0.58873,
+        "shares": 262413,
         "is_insider": null
       },
       {
@@ -474,6 +778,11 @@
         "is_insider": null
       },
       {
+        "pct": 0.25118,
+        "shares": 111957,
+        "is_insider": null
+      },
+      {
         "pct": 0.24616,
         "shares": 109721,
         "is_insider": null
@@ -494,28 +803,23 @@
         "is_insider": null
       },
       {
-        "pct": 0.15066,
-        "shares": 67153,
+        "pct": 0.14605,
+        "shares": 65098,
         "is_insider": null
       },
       {
-        "pct": 0.14618,
-        "shares": 65154,
+        "pct": 0.14126,
+        "shares": 62965,
         "is_insider": null
       },
       {
-        "pct": 0.1393,
-        "shares": 62089,
+        "pct": 0.12963,
+        "shares": 57778,
         "is_insider": null
       },
       {
         "pct": 0.12723,
         "shares": 56708,
-        "is_insider": null
-      },
-      {
-        "pct": 0.11904,
-        "shares": 53060,
         "is_insider": null
       }
     ],
@@ -531,7 +835,7 @@
   },
   "dividend": {
     "yield_pct": 0,
-    "payout_pct": 3.1789339688803833,
+    "payout_pct": 2.7072620869776483,
     "annualized_dividend": 6,
     "listing_currency": "INR",
     "recent_payments": [
@@ -604,44 +908,44 @@
     "payment_count": 5
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-03-16",
+    "most_recent_reported_date": "2026-06-02",
     "latest_year": 2026,
-    "latest_revenue": 72861500000,
-    "latest_net_income": 8412700000.000001,
+    "latest_revenue": 81477100000,
+    "latest_net_income": 9878400000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 14.114798439450393,
-    "earnings_growth_pct": 119.09214021563625,
-    "net_margin_pct": 11.546152632048477,
+    "revenue_growth_pct": 24.64771386915808,
+    "earnings_growth_pct": 95.54992477630849,
+    "net_margin_pct": 12.124142857318192,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 72861500000,
-        "netIncome": 8412700000.000001,
+        "revenue": 81477100000,
+        "netIncome": 9878400000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 63849300000,
-        "netIncome": 3839800000,
+        "revenue": 65365900000,
+        "netIncome": 5051600000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 52374900000,
-        "netIncome": 1637800000,
+        "revenue": 55246700000,
+        "netIncome": 1717900000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 44685100000,
-        "netIncome": 939000000,
+        "revenue": 45225800000,
+        "netIncome": 949700000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 38684300000,
-        "netIncome": 1639600000,
+        "revenue": 40706600000,
+        "netIncome": 1490000000,
         "eps": null
       }
     ]
@@ -810,6 +1114,36 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "e8f13aa7-7a25-496b-b5b9-578e31ac7291",
+      "type": "narrative-update",
+      "date": "2026-06-02T17:06:37.000Z",
+      "title": "POWERINDIA: Elevated Margin Assumptions Will Test Sustainability Of Current Market Optimism",
+      "body": "Analysts have lifted their price target on Hitachi Energy India from ₹23,871.87 to ₹30,967.59, citing updated assumptions that now pair a fair value of ₹30,967.59 with a 16.6% discount rate, a 33.9% revenue growth outlook, a 14.6% profit margin and a future P/E of 75.27. What's in the News Hitachi Energy India announced an annual dividend of ₹8.00 per share, payable on September 27, 2026, with an ex date and record date of August 21, 2026.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-powerindia/hitachi-energy-india-shares/44h9m9u7-grid-modernization-and-hvdc-expansion-will-shape-future-infrastructure-r76v/updates/18-analysts-have-lifted-their-price-target-on-hitachi-energy-in",
+      "raw_subtype": "narrative-update"
+    },
+    {
+      "id": "5aaa5e6d-910b-4604-a014-d9b76398a38e",
+      "type": "article",
+      "date": "2026-06-02T03:21:06.000Z",
+      "title": "There May Be Underlying Issues With The Quality Of Hitachi Energy India's (NSE:POWERINDIA) Earnings",
+      "body": "Hitachi Energy India Limited ( NSE:POWERINDIA ) just reported some strong earnings, and the market reacted accordingly...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/capital-goods/nse-powerindia/hitachi-energy-india-shares/news/there-may-be-underlying-issues-with-the-quality-of-hitachi-e",
+      "raw_subtype": "article"
+    },
+    {
+      "id": "a205c50d-a81d-4865-95c7-174758bf0773",
+      "type": "brief",
+      "date": "2026-06-01T12:19:31.000Z",
+      "title": "Consensus EPS estimates increase by 10%, revenue downgraded",
+      "body": "The consensus outlook for fiscal year 2027 has been updated. 2027 revenue forecast fell from ₹115.9b to ₹114.0b. EPS estimate rose from ₹307 to ₹339. Net income forecast to grow 53% next year vs 25% growth forecast for Electrical industry in India. Consensus price target up from ₹25,705 to ₹30,968. Share price rose 2.1% to ₹36,380 over the past week.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "6c2cd918-a10e-4079-a4e5-705f045d43e9",
       "type": "article",
@@ -1028,16 +1362,6 @@
       "body": "Analysts have raised their price target for Hitachi Energy India significantly, from ₹13,350 to ₹17,400, citing expectations of stronger profit margins and a higher justified future valuation multiple, despite only modest adjustments to growth and discount rate assumptions. What's in the News Board meeting scheduled for November 3, 2025, to consider and approve unaudited financial results for the second quarter and half year ended September 30, 2025 (company filing) Valuation Changes Fair Value: Raised significantly from ₹13,350 to ₹17,400, implying a notable upward reassessment of intrinsic value.",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-powerindia/hitachi-energy-india-shares/qb4566ad-supply-chain-disruptions-and-tariffs-will-derail-hvdc-projects-frp5/updates/2-analysts-have-raised-their-price-target-for-hitachi-energy-i",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "153af41e-80d5-457a-b154-a8e804286a4b",
-      "type": "narrative-update",
-      "date": "2025-12-07T08:02:48.000Z",
-      "title": "POWERINDIA: Future Earnings Strength And Margins Will Support Long-Term Potential",
-      "body": "Analysts have nudged their price target for Hitachi Energy India higher to ₹22,232 from ₹21,895, citing marginally stronger expectations for revenue growth, profit margins, and the company’s future earnings multiple despite a slightly higher discount rate. What's in the News A board meeting is scheduled on November 3, 2025, to consider and approve the unaudited financial results for the second quarter and half year ended September 30, 2025 (company filing).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-powerindia/hitachi-energy-india-shares/44h9m9u7-grid-modernization-and-hvdc-expansion-will-shape-future-infrastructure-r76v/updates/15-analysts-have-nudged-their-price-target-for-hitachi-energy-i",
       "raw_subtype": "narrative-update"
     }
   ],

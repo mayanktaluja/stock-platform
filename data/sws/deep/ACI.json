@@ -3,7 +3,7 @@
   "name": "Archean Chemical Industries Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-aci/archean-chemical-industries-shares",
-  "parsed_at": "2026-05-31T20:55:40.196Z",
+  "parsed_at": "2026-06-10T23:53:40.602Z",
   "company_id": "31B0D7AE-1FB1-49F7-9644-EFEE421B29E1",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 2
     },
     "snowflake_total": 15,
-    "current_price_inr": 525.25,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_LONG_NO_GROWTH"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_VOLATILE_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 536.95,
     "market_cap_inr": 65957600000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midsmall4",
     "shares_outstanding": 123458394,
     "fifty_two_week": {
       "low": 483,
       "high": 727.6
     },
-    "fair_value_inr": 600.33333,
+    "fair_value_inr": 580.66667,
     "fair_value_range_inr": {
-      "min": 469.68589,
+      "min": 476.454272,
       "max": 1115.92,
       "count": 52
     },
-    "upside_pct": 14.294779628748225,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "e2542c60-4892-45d5-8acf-c483bf353557",
+      "narrative_type": null,
+      "published_at": "2026-06-03T21:08:25.219Z"
+    },
+    "upside_pct": 8.141664959493419,
     "multiples": {
       "pe": 42.74,
       "ps": 6.33,
@@ -64,11 +350,11 @@
     ],
     "risks": [
       "Profit margins (9.9%) are lower than last year (15.6%)",
-      "Dividend of 0.48% is not well covered by free cash flows"
+      "Dividend of 0.47% is not well covered by free cash flows"
     ],
     "dividend": {
       "yield_pct": 0.47,
-      "payout_pct": 25.288815162834965,
+      "payout_pct": 34.660046940184955,
       "annualized_dividend": 3,
       "listing_currency": "INR",
       "recent_payments": [
@@ -143,8 +429,8 @@
     "dividend_yield_pct": 0.47,
     "industry_benchmarks": {
       "pe": 43.24653094794537,
-      "net_income_margin_1y": 0.09487982097,
-      "future_revenue_growth_3y": 34.387188816,
+      "net_income_margin_1y": 0.09486136614,
+      "future_revenue_growth_3y": 32.656569349,
       "sector_pe": 43.24653094794537
     },
     "industry_benchmarks_meta": {
@@ -179,18 +465,18 @@
         "url": "https://groww.in/stocks/archean-chemical-industries-ltd"
       },
       "sws_statement": {
-        "company_pe": 60.7,
-        "industry_pe": 22.2,
+        "company_pe": 62,
+        "industry_pe": 20.8,
         "industry_name": "Indian Chemicals",
-        "description": "ACI is expensive based on its Price-To-Earnings Ratio (60.7x) compared to the Indian Chemicals industry average (22.2x).",
+        "description": "ACI is expensive based on its Price-To-Earnings Ratio (62x) compared to the Indian Chemicals industry average (20.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 22.185241114,
+        "industry_pe": 20.782619721,
         "industry_code": "2020000",
         "type": "median_profitable",
-        "count": 304,
+        "count": 302,
         "source": {
           "type": "country",
           "country": "IN",
@@ -199,25 +485,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.5,
-        "sample_count": 293,
+        "industry_pe": 19.6,
+        "sample_count": 294,
         "industry_code": "2020000",
         "industry_name": "Materials"
       },
       "sws_primary_industry": {
-        "industry_pe": 19.26596559,
+        "industry_pe": 18.498719492,
         "industry_name": "Materials",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 44.27650054759689
+        "company_pe": 62.03570734844104
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 525.25,
-        "fetched_at": "2026-05-31T20:55:40.196Z",
+        "value": 536.95,
+        "fetched_at": "2026-06-10T23:53:40.602Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-aci/archean-chemical-industries-shares"
       },
       "market_cap_inr": {
@@ -225,6 +511,24 @@
         "value": 65957600000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/archean-chemical-industries-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 580.66667,
+        "fetched_at": "2026-06-10T23:53:40.602Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-aci/archean-chemical-industries-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "e2542c60-4892-45d5-8acf-c483bf353557",
+        "narrative_type": null,
+        "published_at": "2026-06-03T21:08:25.219Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 8.141664959493419,
+        "fetched_at": "2026-06-10T23:53:40.602Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-aci/archean-chemical-industries-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -264,14 +568,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.09487982097,
-        "fetched_at": "2026-05-31T20:55:40.196Z",
+        "value": 0.09486136614,
+        "fetched_at": "2026-06-10T23:53:40.602Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-aci/archean-chemical-industries-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 34.387188816,
-        "fetched_at": "2026-05-31T20:55:40.196Z",
+        "value": 32.656569349,
+        "fetched_at": "2026-06-10T23:53:40.602Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-aci/archean-chemical-industries-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -380,13 +684,13 @@
         "url": "https://groww.in/stocks/archean-chemical-industries-ltd"
       }
     },
-    "earnings_growth_yoy_pct": -9.676673325163877,
+    "earnings_growth_yoy_pct": -32.14496396093773,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 8.13303978730817,
-    "latest_revenue": 11256843000,
-    "latest_net_income": 1464581000,
+    "revenue_growth_pct": -3.5366137674725726,
+    "latest_revenue": 10810507000,
+    "latest_net_income": 1068594000,
     "latest_eps": 12.5,
-    "most_recent_reported_date": "2026-04-26",
+    "most_recent_reported_date": "2026-06-03",
     "pb": 3.3,
     "ps": 6.33,
     "book_value": 161.838527,
@@ -403,16 +707,16 @@
     "quick_ratio": 0.8019673123486685,
     "cash_ratio": 0.11243946731234868,
     "returns_pct": {
-      "1D": -1.6661986333426897,
-      "7D": -1.804075528136096,
-      "1M": -15.57502210077955,
-      "3M": -8.834504903237,
-      "6M": 2.5678578402655687,
-      "1Y": -14.745982795000815,
+      "1D": -1.3503582583134135,
+      "7D": 0.2707749766573381,
+      "1M": -13.915831663326648,
+      "3M": -5.107360607934961,
+      "6M": 9.704770660945972,
+      "1Y": -16.304263112773736,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 9,
+    "recent_news_count": 4,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -469,8 +773,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.90091,
-        "shares": 1112252,
+        "pct": 0.89989,
+        "shares": 1110992,
         "is_insider": null
       },
       {
@@ -531,7 +835,7 @@
   },
   "dividend": {
     "yield_pct": 0.47,
-    "payout_pct": 25.288815162834965,
+    "payout_pct": 34.660046940184955,
     "annualized_dividend": 3,
     "listing_currency": "INR",
     "recent_payments": [
@@ -604,44 +908,44 @@
     "payment_count": 5
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-04-26",
+    "most_recent_reported_date": "2026-06-03",
     "latest_year": 2026,
-    "latest_revenue": 11256843000,
-    "latest_net_income": 1464581000,
+    "latest_revenue": 10810507000,
+    "latest_net_income": 1068594000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 8.13303978730817,
-    "earnings_growth_pct": -9.676673325163877,
-    "net_margin_pct": 13.010583873293783,
+    "revenue_growth_pct": -3.5366137674725726,
+    "earnings_growth_pct": -32.14496396093773,
+    "net_margin_pct": 9.88477228681319,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 11256843000,
-        "netIncome": 1464581000,
+        "revenue": 10810507000,
+        "netIncome": 1068594000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 10410179000,
-        "netIncome": 1621487000,
+        "revenue": 11206850000,
+        "netIncome": 1574819000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 13300895000,
-        "netIncome": 3189775000,
+        "revenue": 11996877000,
+        "netIncome": 2699778000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 14410659000,
-        "netIncome": 3825592000,
+        "revenue": 13838860000,
+        "netIncome": 3920167000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 11304371000,
-        "netIncome": 1882092000,
+        "revenue": 13299510000,
+        "netIncome": 2543000000,
         "eps": null
       }
     ]
@@ -872,6 +1176,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "35674365-b181-4911-a9a6-76d9d1126f4d",
+      "type": "narrative-update",
+      "date": "2026-06-03T21:08:25.000Z",
+      "title": "ACI: Fair Outlook Will Reflect Board Decisions And Dividend Policy",
+      "body": "Analysts have trimmed their price target on Archean Chemical Industries to ₹580.67 from ₹600.33, reflecting updated assumptions around lower revenue growth and profit margins, partly balanced by a slightly reduced discount rate and a higher future P/E multiple. What's in the News Board meeting scheduled for May 11, 2026, to review and approve audited standalone and consolidated financial results for the quarter and year ended March 31, 2026, to consider reappointing independent directors Mr. Kandheri Munuswamy Mohandass and Mr. Chittoor Ghatambu Sethuram, and to recommend any dividend on equity shares for FY 2026.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/materials/nse-aci/archean-chemical-industries-shares/hci6sz4a-renewable-energy-and-sustainable-agriculture-will-unlock-new-potential-kprc/updates/21-analysts-have-trimmed-their-price-target-on-archean-chemical",
+      "raw_subtype": "narrative-update"
+    },
     {
       "id": "b12b3fa1-d147-4928-8154-9556a15d2d81",
       "type": "brief",
@@ -1110,16 +1424,6 @@
       "body": "Analysts have increased their price target on Archean Chemical Industries to ₹654.43 per share. This reflects a modest upward revision supported by slightly higher assumed future valuation multiples, which more than offset minor trims to revenue growth and margin expectations.",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/materials/nse-aci/archean-chemical-industries-shares/hci6sz4a-renewable-energy-and-sustainable-agriculture-will-unlock-new-potential-kprc/updates/12-analysts-have-increased-their-price-target-on-archean-chemic",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "cfcc3776-2474-416d-a904-627c9344f818",
-      "type": "narrative-update",
-      "date": "2025-12-11T10:04:51.000Z",
-      "title": "ACI: Upcoming Financial Review Will Support Bullish Long Term Outlook",
-      "body": "Analysts have nudged their price target for Archean Chemical Industries slightly higher to reflect modest improvements in discount rate assumptions, along with sustained expectations for strong revenue growth, stable profit margins, and an attractive future P/E multiple, implying fair value of ₹654.43 per share. What's in the News Board meeting scheduled on November 14, 2025, at 16:30 IST to review and approve unaudited standalone and consolidated financial results for the quarter and half year ended September 30, 2025 (company filing) Limited Review Report from statutory auditors on standalone and consolidated unaudited financial results to be considered by the board in the upcoming meeting (company filing) Unaudited financial results for the period ended September 30, 2025, are planned t",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/materials/nse-aci/archean-chemical-industries-shares/hci6sz4a-renewable-energy-and-sustainable-agriculture-will-unlock-new-potential-kprc/updates/11-analysts-have-nudged-their-price-target-for-archean-chemical",
       "raw_subtype": "narrative-update"
     }
   ],

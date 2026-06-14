@@ -3,7 +3,7 @@
   "name": "Can Fin Homes Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-canfinhome/can-fin-homes-shares",
-  "parsed_at": "2026-05-31T22:15:08.787Z",
+  "parsed_at": "2026-06-11T01:08:44.425Z",
   "company_id": "1FDB59F1-CB9B-4637-A8F7-EE6E311D29AB",
   "classification_status": "Active",
   "groww_source": {
@@ -65,22 +65,308 @@
         }
       ]
     },
-    "current_price_inr": 829.65,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_SUBSTANTIAL_DISCOUNT"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_STABLE_IN_PAST_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 845.9,
     "market_cap_inr": 110677700000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 708.6,
       "high": 971.5
     },
-    "fair_value_inr": 1072.426961,
+    "fair_value_inr": 1079.969632,
     "fair_value_range_inr": {
-      "min": 989.093518,
-      "max": 1072.426961,
+      "min": 1023.956962,
+      "max": 1079.969632,
       "count": 6
     },
-    "upside_pct": 29.26257590550231,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "994ed395-17d6-44f3-8615-046db95e1810",
+      "narrative_type": null,
+      "published_at": "2024-07-25T13:37:24.039Z"
+    },
+    "upside_pct": 27.671076013713215,
     "multiples": {
       "pe": 10.19,
       "ps": 2.63,
@@ -100,13 +386,13 @@
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading below our calculated fair Price-To-Earnings ratio",
-      "Earnings are forecast to grow 9.05% per year",
-      "Analysts in good agreement that stock price will rise by 29.3%",
-      "Trading at 16.1% below our estimate of its fair value",
+      "Earnings are forecast to grow 9.08% per year",
+      "Analysts in good agreement that stock price will rise by 30.7%",
+      "Trading at 19.4% below our estimate of its fair value",
       "Earnings grew by 26.7% over the past year"
     ],
     "risks": [
-      "Dividend of 1.92% is not well covered by free cash flows",
+      "Dividend of 1.94% is not well covered by free cash flows",
       "Debt is not well covered by [[operating cash flow]]"
     ],
     "dividend": {
@@ -278,7 +564,7 @@
     "industry_benchmarks": {
       "pe": 23.373691419264986,
       "net_income_margin_1y": 0.4629887388,
-      "future_revenue_growth_3y": 0.5092423002,
+      "future_revenue_growth_3y": 0.5075143927,
       "sector_pe": 23.373691419264986
     },
     "industry_benchmarks_meta": {
@@ -313,18 +599,18 @@
         "url": "https://groww.in/stocks/can-fin-homes-ltd"
       },
       "sws_statement": {
-        "company_pe": 10.2,
-        "industry_pe": 25.6,
+        "company_pe": 10.1,
+        "industry_pe": 26.4,
         "industry_name": "Indian Diversified Financial",
-        "description": "CANFINHOME is good value based on its Price-To-Earnings Ratio (10.2x) compared to the Indian Diversified Financial industry average (25.6x).",
+        "description": "CANFINHOME is good value based on its Price-To-Earnings Ratio (10.1x) compared to the Indian Diversified Financial industry average (26.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 25.581812879,
+        "industry_pe": 26.387641502,
         "industry_code": "7110000",
         "type": "median_profitable",
-        "count": 131,
+        "count": 126,
         "source": {
           "type": "country",
           "country": "IN",
@@ -333,8 +619,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.4,
-        "sample_count": 124,
+        "industry_pe": 20.95,
+        "sample_count": 118,
         "industry_code": "7110000",
         "industry_name": "Diversified Financials"
       },
@@ -346,8 +632,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 829.65,
-        "fetched_at": "2026-05-31T22:15:08.787Z",
+        "value": 845.9,
+        "fetched_at": "2026-06-11T01:08:44.425Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-canfinhome/can-fin-homes-shares"
       },
       "market_cap_inr": {
@@ -355,6 +641,24 @@
         "value": 110677700000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/can-fin-homes-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 1079.969632,
+        "fetched_at": "2026-06-11T01:08:44.425Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-canfinhome/can-fin-homes-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "994ed395-17d6-44f3-8615-046db95e1810",
+        "narrative_type": null,
+        "published_at": "2024-07-25T13:37:24.039Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 27.671076013713215,
+        "fetched_at": "2026-06-11T01:08:44.425Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-canfinhome/can-fin-homes-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -395,13 +699,13 @@
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.4629887388,
-        "fetched_at": "2026-05-31T22:15:08.787Z",
+        "fetched_at": "2026-06-11T01:08:44.425Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-canfinhome/can-fin-homes-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.5092423002,
-        "fetched_at": "2026-05-31T22:15:08.787Z",
+        "value": 0.5075143927,
+        "fetched_at": "2026-06-11T01:08:44.425Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-canfinhome/can-fin-homes-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -533,16 +837,16 @@
     "quick_ratio": 2.732583913869538,
     "cash_ratio": 2.4105446485117166,
     "returns_pct": {
-      "1D": -0.396182243832171,
-      "7D": -2.6974725854688324,
-      "1M": -4.829366217378838,
-      "3M": -1.6303059046715676,
-      "6M": -6.206545701204,
-      "1Y": 4.773631369577566,
+      "1D": 2.285368802902053,
+      "7D": 3.391798569944387,
+      "1M": -1.099029580264232,
+      "3M": -3.054266231161536,
+      "6M": -7.592309372951715,
+      "1Y": 3.989181879648403,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 1,
+    "recent_news_count": 5,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -609,8 +913,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.34807,
-        "shares": 1795008,
+        "pct": 1.352,
+        "shares": 1800239,
         "is_insider": null
       },
       {
@@ -1014,6 +1318,56 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "9283932c-a77b-4f4c-b0bb-3b844e7441a5",
+      "type": "brief",
+      "date": "2026-06-10T12:29:46.000Z",
+      "title": "Final dividend of ₹8.00 announced",
+      "body": "Shareholders will receive a dividend of ₹8.00. Ex-date: 3rd July 2026 Payment date: 28th August 2026 Dividend yield will be 1.8%, which is higher than the industry average of 1.3%. Sustainability & Growth Dividend is covered by earnings (18% earnings payout ratio) but the company has no free cash flows available, indicating it may be using cash reserves or debt to pay the dividend. The dividend has increased by an average of 28% per year over the past 10 years and has been stable with no material reductions to payments, indicating a long track record of dividend growth and stability. EPS is expected to grow by 30% over the next 3 years, which should provide support to the dividend and adequate earnings cover.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "7ed074ba-329b-44db-8635-baa12b7eb43a",
+      "type": "event",
+      "date": "2026-06-08T14:12:00.000Z",
+      "title": "Can Fin Homes Limited, Annual General Meeting, Jul 29, 2026",
+      "body": "Can Fin Homes Limited, Annual General Meeting, Jul 29, 2026, at 11:00 Indian Standard Time.",
+      "keyDevTypeId": "62",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
+    {
+      "id": "c439096f-5368-4812-bbbe-3ee9b933362c",
+      "type": "event",
+      "date": "2026-06-08T09:17:00.000Z",
+      "title": "Can Fin Homes Limited Recommends Final Dividend for the Financial Year Ended March 31, 2026",
+      "body": "Can Fin Homes Limited announced that the Board of Directors at its meeting held on June 08, 2026. The Board of Directors has fixed July 03, 2026 as the 'Record Date' for determining entitlement of the members to Final Dividend of INR 8.00/- per equity share of the face value of INR 2.00/- each for the financial year ended March 31, 2026. If the dividend as recommended by the Board of Directors is approved at the AGM, payment of such dividend, subject to deduction of tax at source, will be made within 30 days from the date of conclusion of Annual General Meeting (AGM) as under: To all Beneficial Owners in respect of shares held in dematerialized form as per the data as may be made available by the National Securities Depository Limited and the Central Depository Services (India) Limited as ",
+      "keyDevTypeId": "46",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
+    {
+      "id": "4ab550eb-77e7-4f47-a782-d62c6cdab747",
+      "type": "event",
+      "date": "2026-06-08T09:17:00.000Z",
+      "title": "Can Fin Homes Limited Approves Appointment of Shri U. Jagadish Bhat as Head of the Credit Dept, Effective from July 01, 2026",
+      "body": "Can Fin Homes Limited announced that the Board of Directors at its meeting held on June 08, 2026. The Board of Directors, on the recommendations of the NRC, has approved the appointment of Shri U. Jagadish Bhat, Vice President as Head of the Credit Dept. of the Company effective from July 01, 2026. Shri Jagadish Bhat is a seasoned credit professional with over 20 years of experience in retail banking and financial services, specializing in housing loans, mortgage loans, SME finance, and unsecured lending. He has held senior leadership roles across institutions such as Piramal Capital & Housing Finance, Dhanlaxmi Bank, Corporation Bank, Development Credit Bank, ING Vysya Bank, and ICICI Bank. His expertise spans credit underwriting, risk management, team leadership, and business development",
+      "keyDevTypeId": "16",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
+    {
+      "id": "58d83e98-2772-4036-ba96-dc4b4f096cd7",
+      "type": "brief",
+      "date": "2026-06-05T11:42:01.000Z",
+      "title": "Now 21% undervalued after recent price drop",
+      "body": "Over the last 90 days, the stock has fallen 2.3% to ₹808. The fair value is estimated to be ₹1,019, however this is not to be taken as a buy recommendation but rather should be used as a guide only. Revenue has grown by 15% over the last 3 years. Earnings per share has grown by 17%. For the next 3 years, revenue is forecast to grow by 12% per annum. Earnings are also forecast to grow by 9.1% per annum over the same time period.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "5e5e03e6-c973-4735-a0c1-859be59d10ba",
       "type": "brief",

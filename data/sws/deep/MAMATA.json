@@ -3,7 +3,7 @@
   "name": "Mamata Machinery Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-mamata/mamata-machinery-shares",
-  "parsed_at": "2026-05-31T20:45:37.642Z",
+  "parsed_at": "2026-06-10T23:50:59.876Z",
   "company_id": "D89F3DB5-DF40-43D3-9CFC-9D37225C651E",
   "classification_status": "Active",
   "groww_source": {
@@ -16,26 +16,25 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 2,
+      "valuation": 1,
       "future": 0,
-      "past": 5,
-      "financial_health": 5,
-      "dividends": 0,
+      "past": 2,
+      "financial_health": 6,
+      "dividends": 1,
       "future_growth": 0,
-      "past_performance": 5,
-      "value": 2,
-      "health": 5,
-      "dividend": 0
+      "past_performance": 2,
+      "value": 1,
+      "health": 6,
+      "dividend": 1
     },
-    "snowflake_total": 12,
+    "snowflake_total": 10,
     "snowflake_data_quality": {
       "insufficient": true,
-      "insufficient_count": 8,
+      "insufficient_count": 7,
       "checked_count": 30,
       "affected_pillars": [
         "Value",
-        "Future",
-        "Health"
+        "Future"
       ],
       "by_pillar": {
         "Value": {
@@ -52,7 +51,7 @@
         },
         "Health": {
           "checked": 6,
-          "insufficient": 1
+          "insufficient": 0
         },
         "Dividends": {
           "checked": 6,
@@ -77,22 +76,308 @@
         }
       ]
     },
-    "current_price_inr": 408.9,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOO_EARLY"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOO_EARLY"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 356.5,
     "market_cap_inr": 10384500000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 297,
       "high": 541
     },
-    "fair_value_inr": 177.470857,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 88.09,
+      "min": 5.716678,
       "max": 247.29,
       "count": 4
     },
-    "upside_pct": -56.597980679872826,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "6ee9f2c6-9421-4655-9e4a-d61e21ba83bc",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 28.46,
       "ps": 4.46,
@@ -109,12 +394,12 @@
       "pe_source_url": "https://groww.in/stocks/mamata-machinery-ltd"
     },
     "rewards": [
-      "Price-To-Earnings ratio (23.9x) is below the Machinery industry average (26.4x)",
-      "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Earnings grew by 20.1% over the past year"
+      "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
-    "risks": [],
+    "risks": [
+      "Profit margins (6.5%) are lower than last year (16%)",
+      "Does not have a meaningful market cap (₹9B)"
+    ],
     "dividend": {
       "yield_pct": 0.12,
       "payout_pct": null,
@@ -132,7 +417,7 @@
           "divFreqTypeName": "Annual",
           "annualizedDividend": 0.5,
           "annualizedDividendListingCurrency": 0.5,
-          "annualizedYield": 0.1207585904
+          "annualizedYield": 0.1213482451
         }
       ],
       "payment_count": 1
@@ -140,8 +425,8 @@
     "dividend_yield_pct": 0.12,
     "industry_benchmarks": {
       "pe": 46.832351756150835,
-      "net_income_margin_1y": 0.1031278814,
-      "future_revenue_growth_3y": 0.5858087225,
+      "net_income_margin_1y": 0.1061182964,
+      "future_revenue_growth_3y": 0.5866767627,
       "sector_pe": 46.832351756150835
     },
     "industry_benchmarks_meta": {
@@ -176,18 +461,18 @@
         "url": "https://groww.in/stocks/mamata-machinery-ltd"
       },
       "sws_statement": {
-        "company_pe": 23.9,
-        "industry_pe": 26.4,
+        "company_pe": 60,
+        "industry_pe": 25.8,
         "industry_name": "Indian Machinery",
-        "description": "MAMATA is good value based on its Price-To-Earnings Ratio (23.9x) compared to the Indian Machinery industry average (26.4x).",
+        "description": "MAMATA is expensive based on its Price-To-Earnings Ratio (60x) compared to the Indian Machinery industry average (25.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 25.908333666,
+        "industry_pe": 25.769114311,
         "industry_code": "3070000",
         "type": "median_profitable",
-        "count": 217,
+        "count": 220,
         "source": {
           "type": "country",
           "country": "IN",
@@ -196,8 +481,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 25.799999999999997,
-        "sample_count": 218,
+        "industry_pe": 25.6,
+        "sample_count": 219,
         "industry_code": "3070000",
         "industry_name": "Capital Goods"
       },
@@ -209,8 +494,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 408.9,
-        "fetched_at": "2026-05-31T20:45:37.642Z",
+        "value": 356.5,
+        "fetched_at": "2026-06-10T23:50:59.876Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-mamata/mamata-machinery-shares"
       },
       "market_cap_inr": {
@@ -257,14 +542,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.1031278814,
-        "fetched_at": "2026-05-31T20:45:37.642Z",
+        "value": 0.1061182964,
+        "fetched_at": "2026-06-10T23:50:59.876Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-mamata/mamata-machinery-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.5858087225,
-        "fetched_at": "2026-05-31T20:45:37.642Z",
+        "value": 0.5866767627,
+        "fetched_at": "2026-06-10T23:50:59.876Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-mamata/mamata-machinery-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -396,16 +681,16 @@
     "quick_ratio": 0.6412054304042967,
     "cash_ratio": 0.2846486647769655,
     "returns_pct": {
-      "1D": -2.9547881808472876,
-      "7D": 0.47917434574271744,
-      "1M": 0.7515091782678217,
-      "3M": -6.590519703026847,
-      "6M": -3.515809344030211,
-      "1Y": -7.614098508811577,
+      "1D": -2.874267810924945,
+      "7D": -5.92426441483045,
+      "1M": -13.48137361970635,
+      "3M": -8.272224366396495,
+      "6M": -15.159447881960968,
+      "1Y": -22.280357532156092,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 1,
+    "recent_news_count": 4,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -504,7 +789,7 @@
         "divFreqTypeName": "Annual",
         "annualizedDividend": 0.5,
         "annualizedDividendListingCurrency": 0.5,
-        "annualizedYield": 0.1207585904
+        "annualizedYield": 0.1213482451
       }
     ],
     "payment_count": 1
@@ -711,6 +996,36 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "b1a57d34-5cae-48c7-b2ac-dbb041e9d63b",
+      "type": "article",
+      "date": "2026-06-06T04:15:36.000Z",
+      "title": "There May Be Reason For Hope In Mamata Machinery's (NSE:MAMATA) Disappointing Earnings",
+      "body": "Mamata Machinery Limited's ( NSE:MAMATA ) earnings announcement last week didn't impress shareholders. While the...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/capital-goods/nse-mamata/mamata-machinery-shares/news/there-may-be-reason-for-hope-in-mamata-machinerys-nsemamata",
+      "raw_subtype": "article"
+    },
+    {
+      "id": "84727c09-bcd7-4260-8b1f-c545f7e8ab8e",
+      "type": "brief",
+      "date": "2026-06-01T17:10:31.000Z",
+      "title": "New minor risk - Market cap size",
+      "body": "The company's market capitalization is less than US$100m. Market cap: ₹9.47b (US$99.9m) This is considered a minor risk. Companies with a small market capitalization are most likely businesses that have not yet released a product to market or are simply a very small company without a wide reach. Either way, risk is elevated with these companies because there is a chance the product may not come to fruition or the company's addressable market or demand may not be as large as expected. In addition, if the company's size is the main factor, it is less likely to have many investors and analysts following it and scrutinizing its performance and outlook. Currently, the following risks have been identified for the company: Minor Risks Profit margins are more than 30% lower than last year (6.3% ne",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "95a0f8a1-1902-4471-ab5b-6f0a3426b92b",
+      "type": "brief",
+      "date": "2026-05-31T22:55:36.000Z",
+      "title": "Full year 2026 earnings released: EPS: ₹6.12 (vs ₹16.56 in FY 2025)",
+      "body": "Full year 2026 results: EPS: ₹6.12 (down from ₹16.56 in FY 2025). Revenue: ₹2.39b (down 6.2% from FY 2025). Net income: ₹150.5m (down 63% from FY 2025). Profit margin: 6.3% (down from 16% in FY 2025). The decrease in margin was primarily driven by lower revenue.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "5fefb4d1-40bb-44e8-aae6-b102517fb1b3",
       "type": "event",

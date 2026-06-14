@@ -3,7 +3,7 @@
   "name": "Fortis Healthcare Limited",
   "sector": "Healthcare",
   "sws_url": "https://simplywall.st/stocks/in/healthcare/nse-fortis/fortis-healthcare-shares",
-  "parsed_at": "2026-05-31T22:53:09.570Z",
+  "parsed_at": "2026-06-11T01:50:43.249Z",
   "company_id": "5E29F90B-646D-4353-A912-74E7C0E3D58D",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 0
     },
     "snowflake_total": 12,
-    "current_price_inr": 928.45,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 989,
     "market_cap_inr": 725288300000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "large7",
     "shares_outstanding": 754958148,
     "fifty_two_week": {
       "low": 698.7,
       "high": 1104.3
     },
-    "fair_value_inr": 1076.61111,
+    "fair_value_inr": 1098.57895,
     "fair_value_range_inr": {
       "min": 399.503611,
-      "max": 1093.22222,
+      "max": 1098.57895,
       "count": 11
     },
-    "upside_pct": 15.957898648284777,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "ea303224-3ce1-404a-8c93-64622cb417e6",
+      "narrative_type": null,
+      "published_at": "2026-06-07T09:09:05.892Z"
+    },
+    "upside_pct": 11.079772497472202,
     "multiples": {
       "pe": 68.13,
       "ps": 7.95,
@@ -61,12 +347,12 @@
     },
     "rewards": [
       "Earnings grew by 34.6% over the past year",
-      "Earnings are forecast to grow 23.53% per year"
+      "Earnings are forecast to grow 23.62% per year"
     ],
     "risks": [],
     "dividend": {
       "yield_pct": 0.1,
-      "payout_pct": 7.865579565945965,
+      "payout_pct": 7.246809767897252,
       "annualized_dividend": 1,
       "listing_currency": "INR",
       "recent_payments": [
@@ -115,8 +401,8 @@
     "dividend_yield_pct": 0.1,
     "industry_benchmarks": {
       "pe": 59.71694269463179,
-      "net_income_margin_1y": 0.1041750126,
-      "future_revenue_growth_3y": 2.366911977,
+      "net_income_margin_1y": 0.1021808233,
+      "future_revenue_growth_3y": 2.289381694,
       "sector_pe": 59.71694269463179
     },
     "industry_benchmarks_meta": {
@@ -151,18 +437,18 @@
         "url": "https://groww.in/stocks/fortis-healthcare-ltd"
       },
       "sws_statement": {
-        "company_pe": 67.3,
-        "industry_pe": 40.5,
+        "company_pe": 71.7,
+        "industry_pe": 39.3,
         "industry_name": "Indian Healthcare",
-        "description": "FORTIS is expensive based on its Price-To-Earnings Ratio (67.3x) compared to the Indian Healthcare industry average (40.5x).",
+        "description": "FORTIS is expensive based on its Price-To-Earnings Ratio (71.7x) compared to the Indian Healthcare industry average (39.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 37.439100813,
+        "industry_pe": 39.275601591,
         "industry_code": "6030000",
         "type": "median_profitable",
-        "count": 80,
+        "count": 79,
         "source": {
           "type": "country",
           "country": "IN",
@@ -171,25 +457,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 35.1,
-        "sample_count": 75,
+        "industry_pe": 33.650000000000006,
+        "sample_count": 74,
         "industry_code": "6030000",
         "industry_name": "Healthcare"
       },
       "sws_primary_industry": {
-        "industry_pe": 22.65435289,
+        "industry_pe": 22.129830496,
         "industry_name": "Healthcare",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 73.02797348002532
+        "company_pe": 71.67094860450383
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 928.45,
-        "fetched_at": "2026-05-31T22:53:09.570Z",
+        "value": 989,
+        "fetched_at": "2026-06-11T01:50:43.249Z",
         "url": "https://simplywall.st/stocks/in/healthcare/nse-fortis/fortis-healthcare-shares"
       },
       "market_cap_inr": {
@@ -197,6 +483,24 @@
         "value": 725288300000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/fortis-healthcare-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 1098.57895,
+        "fetched_at": "2026-06-11T01:50:43.249Z",
+        "url": "https://simplywall.st/stocks/in/healthcare/nse-fortis/fortis-healthcare-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "ea303224-3ce1-404a-8c93-64622cb417e6",
+        "narrative_type": null,
+        "published_at": "2026-06-07T09:09:05.892Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 11.079772497472202,
+        "fetched_at": "2026-06-11T01:50:43.249Z",
+        "url": "https://simplywall.st/stocks/in/healthcare/nse-fortis/fortis-healthcare-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -236,14 +540,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.1041750126,
-        "fetched_at": "2026-05-31T22:53:09.570Z",
+        "value": 0.1021808233,
+        "fetched_at": "2026-06-11T01:50:43.249Z",
         "url": "https://simplywall.st/stocks/in/healthcare/nse-fortis/fortis-healthcare-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 2.366911977,
-        "fetched_at": "2026-05-31T22:53:09.570Z",
+        "value": 2.289381694,
+        "fetched_at": "2026-06-11T01:50:43.249Z",
         "url": "https://simplywall.st/stocks/in/healthcare/nse-fortis/fortis-healthcare-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -352,13 +656,13 @@
         "url": "https://groww.in/stocks/fortis-healthcare-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 10.510800253115821,
+    "earnings_growth_yoy_pct": 19.946779359086424,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 8.39887962059303,
-    "latest_revenue": 87737367000,
-    "latest_net_income": 9598252000,
+    "revenue_growth_pct": 12.82069904549766,
+    "latest_revenue": 91278400000,
+    "latest_net_income": 10417800000,
     "latest_eps": 14.1,
-    "most_recent_reported_date": "2026-05-22",
+    "most_recent_reported_date": "2026-06-06",
     "pb": 7.33,
     "ps": 7.95,
     "book_value": 131.0741287,
@@ -375,16 +679,16 @@
     "quick_ratio": 0.7962884160756502,
     "cash_ratio": 0.25707328605200946,
     "returns_pct": {
-      "1D": -3.377042356124459,
-      "7D": -3.3267388588088225,
-      "1M": -0.7217707442258341,
-      "3M": -1.5063915557205678,
-      "6M": 1.0172995321510196,
-      "1Y": 28.531875129784734,
+      "1D": -0.07577671129072998,
+      "7D": 6.315506584251546,
+      "1M": 1.5244058923163808,
+      "3M": 15.066899360093078,
+      "6M": 13.15142154338997,
+      "1Y": 29.407916257769056,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 4,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -503,7 +807,7 @@
   },
   "dividend": {
     "yield_pct": 0.1,
-    "payout_pct": 7.865579565945965,
+    "payout_pct": 7.246809767897252,
     "annualized_dividend": 1,
     "listing_currency": "INR",
     "recent_payments": [
@@ -550,25 +854,25 @@
     "payment_count": 3
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-22",
+    "most_recent_reported_date": "2026-06-06",
     "latest_year": 2026,
-    "latest_revenue": 87737367000,
-    "latest_net_income": 9598252000,
+    "latest_revenue": 91278400000,
+    "latest_net_income": 10417800000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 8.39887962059303,
-    "earnings_growth_pct": 10.510800253115821,
-    "net_margin_pct": 10.93975386792722,
+    "revenue_growth_pct": 12.82069904549766,
+    "earnings_growth_pct": 19.946779359086424,
+    "net_margin_pct": 11.413214955564515,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 87737367000,
-        "netIncome": 9598252000,
+        "revenue": 91278400000,
+        "netIncome": 10417800000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 80939367000,
+        "revenue": 80905721000,
         "netIncome": 8685352000,
         "eps": null
       },
@@ -819,6 +1123,16 @@
   ],
   "news": [
     {
+      "id": "c26556e7-1773-478c-839f-78e8c9ead305",
+      "type": "narrative-update",
+      "date": "2026-06-07T09:09:05.000Z",
+      "title": "FORTIS: Upcoming Board Decisions Will Support Future Upside Potential",
+      "body": "Analysts have nudged their price target on Fortis Healthcare to ₹1,098.58 from ₹1,076.61, reflecting updated views on slightly softer revenue growth and profit margins, alongside a higher assumed future P/E multiple. What's in the News A board meeting is scheduled for May 22, 2026 at 09:35 IST to review and approve audited standalone and consolidated financial results for the quarter and full year ended March 31, 2026 (Key Developments).",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/healthcare/nse-fortis/fortis-healthcare-shares/p6js1kxw-expanding-capacity-and-specialty-care-will-transform-indias-healthcare-landscape-108h/updates/23-analysts-have-nudged-their-price-target-on-fortis-healthcare",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "f24e1849-af98-40d7-b436-1f32336a9df2",
       "type": "article",
       "date": "2026-05-27T00:12:48.000Z",
@@ -987,26 +1301,6 @@
       "keyDevTypeId": "16",
       "source_url": null,
       "raw_subtype": "EventActivity"
-    },
-    {
-      "id": "fc7c04d5-ca1e-4036-b247-8760a31dde90",
-      "type": "narrative-update",
-      "date": "2025-12-15T02:04:42.000Z",
-      "title": "FORTIS: Open Offer Progress Will Support Future Upside Despite Ongoing Litigation",
-      "body": "Analysts have nudged their price target for Fortis Healthcare slightly higher from ₹1,054.25 to ₹1,056.75, citing marginal upgrades to long term revenue growth and profit margin assumptions while keeping the discount rate broadly unchanged. What's in the News Northern TK Venture Pte Ltd, an indirect wholly owned subsidiary of IHH Healthcare, has progressed its long pending open offer process to acquire a 26.1% stake in Fortis Healthcare for about INR 33.5 billion, following SEBI approval on October 1, 2025.",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/healthcare/nse-fortis/fortis-healthcare-shares/p6js1kxw-expanding-capacity-and-specialty-care-will-transform-indias-healthcare-landscape-108h/updates/13-analysts-have-nudged-their-price-target-for-fortis-healthcar",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "cc6dad91-28bd-4c43-ac55-fb7afb6141e4",
-      "type": "brief",
-      "date": "2025-12-07T22:44:13.000Z",
-      "title": "Price target increased by 7.0% to ₹1,057",
-      "body": "Up from ₹988, the current price target is an average from 16 analysts. New target price is 19% above last closing price of ₹889. Stock is up 24% over the past year. The company is forecast to post earnings per share of ₹15.12 for next year compared to ₹10.26 last year.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/FORTIS.json"

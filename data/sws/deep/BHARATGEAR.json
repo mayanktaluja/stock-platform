@@ -3,7 +3,7 @@
   "name": "Bharat Gears Limited",
   "sector": "Automobiles",
   "sws_url": "https://simplywall.st/stocks/in/automobiles/nse-bharatgear/bharat-gears-shares",
-  "parsed_at": "2026-05-31T21:35:10.053Z",
+  "parsed_at": "2026-06-11T00:28:21.767Z",
   "company_id": "0B7B5EBC-AE88-4A19-A460-9C0172195F00",
   "classification_status": "Active",
   "groww_source": {
@@ -16,18 +16,18 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 4,
+      "valuation": 2,
       "future": 0,
-      "past": 3,
-      "financial_health": 4,
+      "past": 5,
+      "financial_health": 5,
       "dividends": 0,
       "future_growth": 0,
-      "past_performance": 3,
-      "value": 4,
-      "health": 4,
+      "past_performance": 5,
+      "value": 2,
+      "health": 5,
       "dividend": 0
     },
-    "snowflake_total": 11,
+    "snowflake_total": 12,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 9,
@@ -77,22 +77,308 @@
         }
       ]
     },
-    "current_price_inr": 119.41,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 110.86,
     "market_cap_inr": 1845700000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 83.8,
       "high": 154.2
     },
-    "fair_value_inr": 267.743954,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 124.22238840968092,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "5b262641-0621-4a0f-91ad-a84f74843cd9",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 14.04,
       "ps": 0.25,
@@ -110,13 +396,12 @@
     },
     "rewards": [
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Became profitable this year",
-      "Trading at 55.4% below our estimate of its fair value"
+      "Earnings grew by 417.7% over the past year",
+      "Price-To-Earnings ratio (10.4x) is below the Indian market (22.9x)",
+      "Trading at good value vs. industry average Price-To-Earnings ratio"
     ],
     "risks": [
-      "Does not have a meaningful market cap (₹2B)",
-      "Interest payments are not well covered by earnings"
+      "Does not have a meaningful market cap (₹2B)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -143,8 +428,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 42.08016762401909,
-      "net_income_margin_1y": 0.06791655765,
-      "future_revenue_growth_3y": 2.175173168,
+      "net_income_margin_1y": 0.06741188528,
+      "future_revenue_growth_3y": 1.578279624,
       "sector_pe": 42.08016762401909
     },
     "industry_benchmarks_meta": {
@@ -179,15 +464,15 @@
         "url": "https://groww.in/stocks/bharat-gears-ltd"
       },
       "sws_statement": {
-        "company_pe": 13.9,
-        "industry_pe": 27,
+        "company_pe": 10.4,
+        "industry_pe": 26.3,
         "industry_name": "Indian Auto Components",
-        "description": "BHARATGEAR is good value based on its Price-To-Earnings Ratio (13.9x) compared to the Indian Auto Components industry average (27x).",
+        "description": "BHARATGEAR is good value based on its Price-To-Earnings Ratio (10.4x) compared to the Indian Auto Components industry average (26.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 27.035828631,
+        "industry_pe": 26.250505976,
         "industry_code": "4011000",
         "type": "median_profitable",
         "count": 129,
@@ -199,7 +484,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24.55,
+        "industry_pe": 24.95,
         "sample_count": 124,
         "industry_code": "4011000",
         "industry_name": "Automobiles"
@@ -212,8 +497,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 119.41,
-        "fetched_at": "2026-05-31T21:35:10.053Z",
+        "value": 110.86,
+        "fetched_at": "2026-06-11T00:28:21.767Z",
         "url": "https://simplywall.st/stocks/in/automobiles/nse-bharatgear/bharat-gears-shares"
       },
       "market_cap_inr": {
@@ -260,14 +545,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.06791655765,
-        "fetched_at": "2026-05-31T21:35:10.053Z",
+        "value": 0.06741188528,
+        "fetched_at": "2026-06-11T00:28:21.767Z",
         "url": "https://simplywall.st/stocks/in/automobiles/nse-bharatgear/bharat-gears-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 2.175173168,
-        "fetched_at": "2026-05-31T21:35:10.053Z",
+        "value": 1.578279624,
+        "fetched_at": "2026-06-11T00:28:21.767Z",
         "url": "https://simplywall.st/stocks/in/automobiles/nse-bharatgear/bharat-gears-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -399,16 +684,16 @@
     "quick_ratio": 0.7139411928392542,
     "cash_ratio": 0.05959558482515536,
     "returns_pct": {
-      "1D": -0.566241985177789,
-      "7D": 8.742373190055545,
-      "1M": 10.268722873764881,
-      "3M": 11.838531422684277,
-      "6M": 9.149908592321747,
-      "1Y": 36.98520133073304,
+      "1D": -0.7164606842199509,
+      "7D": -3.0265920223932765,
+      "1M": -3.2635253054101176,
+      "3M": 12.892057026476575,
+      "6M": 6.228440015331545,
+      "1Y": 20.06931658182606,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 1,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -683,6 +968,16 @@
   ],
   "news": [
     {
+      "id": "f72dd0a7-0349-411c-9238-47632596bc25",
+      "type": "brief",
+      "date": "2026-06-03T11:34:54.000Z",
+      "title": "Full year 2026 earnings released: EPS: ₹10.75 (vs ₹2.08 in FY 2025)",
+      "body": "Full year 2026 results: EPS: ₹10.75 (up from ₹2.08 in FY 2025). Revenue: ₹7.91b (up 22% from FY 2025). Net income: ₹165.0m (up 418% from FY 2025). Profit margin: 2.1% (up from 0.5% in FY 2025). The increase in margin was driven by higher revenue. Over the last 3 years on average, earnings per share has increased by 35% per year but the company’s share price has fallen by 2% per year, which means it is significantly lagging earnings.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
       "id": "2ac1b24f-dda9-48ac-882b-c6e55a2a2723",
       "type": "event",
       "date": "2026-05-08T10:08:00.000Z",
@@ -748,16 +1043,6 @@
       "date": "2025-12-24T11:52:10.000Z",
       "title": "Now 20% undervalued after recent price drop",
       "body": "Over the last 90 days, the stock has fallen 9.3% to ₹107. The fair value is estimated to be ₹134, however this is not to be taken as a buy recommendation but rather should be used as a guide only. Revenue has declined by 6.3% over the last 3 years. Earnings per share has declined by 68%.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "40a1fa45-b32c-4ea0-8cf3-779b1d6aaf3d",
-      "type": "brief",
-      "date": "2025-12-03T11:38:35.000Z",
-      "title": "Now 21% undervalued",
-      "body": "Over the last 90 days, the stock has risen 17% to ₹107. The fair value is estimated to be ₹135, however this is not to be taken as a buy recommendation but rather should be used as a guide only. Revenue has declined by 6.3% over the last 3 years. Earnings per share has declined by 68%.",
       "keyDevTypeId": null,
       "source_url": null,
       "raw_subtype": "BriefActivity"

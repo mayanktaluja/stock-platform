@@ -3,27 +3,27 @@
   "name": "Safa Systems & Technologies Limited",
   "sector": "Tech",
   "sws_url": "https://simplywall.st/stocks/in/tech/bse-543461/safa-systems-technologies-shares",
-  "parsed_at": "2026-05-31T20:13:01.837Z",
+  "parsed_at": "2026-06-10T23:14:36.247Z",
   "company_id": "91EE4216-43DA-4D40-BED7-E4B14DE9BC61",
   "classification_status": "Active",
   "groww_source": null,
   "overview": {
     "snowflake": {
-      "valuation": 3,
+      "valuation": 2,
       "future": 0,
       "past": 3,
-      "financial_health": 4,
+      "financial_health": 3,
       "dividends": 0,
       "future_growth": 0,
       "past_performance": 3,
-      "value": 3,
-      "health": 4,
+      "value": 2,
+      "health": 3,
       "dividend": 0
     },
-    "snowflake_total": 10,
+    "snowflake_total": 8,
     "snowflake_data_quality": {
       "insufficient": true,
-      "insufficient_count": 10,
+      "insufficient_count": 12,
       "checked_count": 30,
       "affected_pillars": [
         "Value",
@@ -33,7 +33,7 @@
       "by_pillar": {
         "Value": {
           "checked": 6,
-          "insufficient": 1
+          "insufficient": 3
         },
         "Future": {
           "checked": 6,
@@ -59,32 +59,321 @@
           "reason_code": "OUTCOME_NULL"
         },
         {
-          "pillar": "Future",
-          "title": "Future ROE",
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
           "reason_code": "OUTCOME_NULL"
         },
         {
-          "pillar": "Future",
-          "title": "High Growth Earnings",
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
           "reason_code": "OUTCOME_NULL"
         }
       ]
     },
-    "current_price_inr": 23.15,
-    "market_cap_inr": 578230265.2005451,
-    "market_cap_usd": 120714180851.549,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 24.5,
+    "market_cap_inr": 611949956.6917217,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
-    "fifty_two_week": null,
-    "fair_value_inr": 86.589539,
+    "fifty_two_week": {
+      "low": 16.25,
+      "high": 39.81
+    },
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 274.0368855291577,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "4befd4a8-c965-4d73-8f95-ed8541ec54e2",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
-      "pe": 22.2,
+      "pe": 12.2,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -93,13 +382,15 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": "2026-05-31T20:13:01.837Z",
+      "pe_as_of": "2026-06-10T23:14:36.247Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://simplywall.st/stocks/in/tech/bse-543461/safa-systems-technologies-shares"
     },
     "rewards": [
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Trading at 73.3% below our estimate of its fair value"
+      "Price-To-Earnings ratio (12.2x) is below the Indian market (22.9x)",
+      "Earnings have grown 38.3% per year over the past 5 years",
+      "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
     "risks": [
       "Interest payments are not well covered by earnings",
@@ -115,9 +406,9 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 33.78759453,
+      "pe": 30.403176606,
       "net_income_margin_1y": 0.07373093212,
-      "future_revenue_growth_3y": 1.141410219
+      "future_revenue_growth_3y": 1.162165232
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -131,30 +422,30 @@
     "pe_benchmark_source": {
       "provider": "sws_industry_api",
       "label": "SWS industry API",
-      "company_pe": 22.2,
+      "company_pe": 12.2,
       "company_pe_source": "sws_statement",
       "company_pe_source_label": "SWS visible statement",
-      "industry_pe": 33.78759453,
+      "industry_pe": 30.403176606,
       "industry_name": "Tech",
       "industry_code": "8130000",
-      "sample_count": 59,
+      "sample_count": 62,
       "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 22.2,
-        "industry_pe": 33.8,
+        "company_pe": 12.2,
+        "industry_pe": 30.4,
         "industry_name": "Indian Electronic",
-        "description": "543461 is good value based on its Price-To-Earnings Ratio (22.2x) compared to the Indian Electronic industry average (33.8x).",
+        "description": "543461 is good value based on its Price-To-Earnings Ratio (12.2x) compared to the Indian Electronic industry average (30.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 33.78759453,
+        "industry_pe": 30.403176606,
         "industry_code": "8130000",
         "type": "median_profitable",
-        "count": 59,
+        "count": 62,
         "source": {
           "type": "country",
           "country": "IN",
@@ -163,7 +454,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 29.1,
+        "industry_pe": 26,
         "sample_count": 58,
         "industry_code": "8130000",
         "industry_name": "Tech"
@@ -176,32 +467,41 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 23.15,
-        "fetched_at": "2026-05-31T20:13:01.837Z",
+        "value": 24.5,
+        "fetched_at": "2026-06-10T23:14:36.247Z",
         "url": "https://simplywall.st/stocks/in/tech/bse-543461/safa-systems-technologies-shares"
       },
       "multiples.pe": {
         "provider": "sws_statement",
-        "value": 22.2,
-        "fetched_at": "2026-05-31T20:13:01.837Z",
+        "value": 12.2,
+        "fetched_at": "2026-06-10T23:14:36.247Z",
         "url": "https://simplywall.st/stocks/in/tech/bse-543461/safa-systems-technologies-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 33.78759453,
+        "value": 30.403176606,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.07373093212,
-        "fetched_at": "2026-05-31T20:13:01.837Z",
+        "fetched_at": "2026-06-10T23:14:36.247Z",
         "url": "https://simplywall.st/stocks/in/tech/bse-543461/safa-systems-technologies-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 1.141410219,
-        "fetched_at": "2026-05-31T20:13:01.837Z",
+        "value": 1.162165232,
+        "fetched_at": "2026-06-10T23:14:36.247Z",
+        "url": "https://simplywall.st/stocks/in/tech/bse-543461/safa-systems-technologies-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 16.25,
+          "high": 39.81
+        },
+        "fetched_at": "2026-06-10T23:14:36.247Z",
         "url": "https://simplywall.st/stocks/in/tech/bse-543461/safa-systems-technologies-shares"
       }
     },
@@ -228,12 +528,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -4.967159277504109,
-      "7D": -3.0569514237855966,
-      "1M": 15.692153923038465,
-      "3M": 25.81521739130435,
-      "6M": -41.834170854271356,
-      "1Y": -41.84878171313741,
+      "1D": 5.831533477321821,
+      "7D": 5.831533477321821,
+      "1M": 4.25531914893617,
+      "3M": 42.441860465116285,
+      "6M": -28.215646059185474,
+      "1Y": -38.457673951268525,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -358,6 +658,16 @@
   ],
   "news": [
     {
+      "id": "9ffd5746-2677-448e-b997-b4fab82dd58d",
+      "type": "brief",
+      "date": "2026-06-01T03:52:38.000Z",
+      "title": "Full year 2026 earnings released: EPS: ₹1.90 (vs ₹1.53 in FY 2025)",
+      "body": "Full year 2026 results: EPS: ₹1.90 (up from ₹1.53 in FY 2025). Revenue: ₹4.36b (down 16% from FY 2025). Net income: ₹47.5m (up 25% from FY 2025). Profit margin: 1.1% (up from 0.7% in FY 2025). The increase in margin was driven by lower expenses. Over the last 3 years on average, earnings per share has increased by 6% per year but the company’s share price has increased by 37% per year, which means it is tracking significantly ahead of earnings growth.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
       "id": "c2148115-bdbb-4949-a0e9-113b44424ae8",
       "type": "event",
       "date": "2026-05-19T12:24:00.000Z",
@@ -403,26 +713,6 @@
       "date": "2026-01-01T11:40:30.000Z",
       "title": "Investor sentiment deteriorates as stock falls 19%",
       "body": "After last week's 19% share price decline to ₹23.85, the stock trades at a trailing P/E ratio of 22.9x. Average trailing P/E is 35x in the Electronic industry in India. Total returns to shareholders of 161% over the past three years.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "cb9fccf4-afc8-45f5-bb13-593e641196ba",
-      "type": "brief",
-      "date": "2025-12-10T18:17:01.000Z",
-      "title": "New major risk - Market cap size",
-      "body": "The company's market capitalization is less than US$10m. Market cap: ₹897.2m (US$9.97m) This is considered a major risk. Companies with a small market capitalization are most likely businesses that have not yet released a product to market or are simply a very small company without a wide reach. Either way, risk is elevated with these companies because there is a chance the product may not come to fruition or the company's addressable market or demand may not be as large as expected. In addition, if the company's size is the main factor, it is less likely to have many investors and analysts following it and scrutinizing its performance and outlook. Currently, the following risks have been identified for the company: Major Risks Interest payments are not well covered by earnings (1.5x net i",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "e8a46e3b-1bb5-481e-96d2-5172bffd99a9",
-      "type": "brief",
-      "date": "2025-12-09T11:47:32.000Z",
-      "title": "Insufficient new directors",
-      "body": "No new directors have joined the board in the last 3 years. The company's board is composed of: No new directors. 5 experienced directors. No highly experienced directors. Independent Director Bengolan Anilkumar was the last director to join the board, commencing their role in 2021. The company’s insufficient board refreshment is considered a risk according to the Simply Wall St Risk Model.",
       "keyDevTypeId": null,
       "source_url": null,
       "raw_subtype": "BriefActivity"

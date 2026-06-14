@@ -3,7 +3,7 @@
   "name": "Ircon International Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-ircon/ircon-international-shares",
-  "parsed_at": "2026-05-31T20:12:25.639Z",
+  "parsed_at": "2026-06-10T23:16:01.728Z",
   "company_id": "9BDD6AA7-D771-4ABD-A74D-4162763822C3",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 2
     },
     "snowflake_total": 10,
-    "current_price_inr": 136.9,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_LONG_FALLEN"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_VOLATILE_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 133.01,
     "market_cap_inr": 131343000000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "medium5",
     "shares_outstanding": 940515740,
     "fifty_two_week": {
       "low": 114.5,
       "high": 225.52
     },
-    "fair_value_inr": 146,
+    "fair_value_inr": 144.25,
     "fair_value_range_inr": {
-      "min": 26.785602,
-      "max": 146,
+      "min": 27.146869,
+      "max": 144.25,
       "count": 23
     },
-    "upside_pct": 6.647187728268805,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "ef174483-327a-4e81-9534-d3aef450fe61",
+      "narrative_type": null,
+      "published_at": "2026-06-04T04:27:02.443Z"
+    },
+    "upside_pct": 8.450492444177137,
     "multiples": {
       "pe": 22.2,
       "ps": 1.45,
@@ -60,18 +346,18 @@
       "pe_source_url": "https://groww.in/stocks/ircon-international-ltd"
     },
     "rewards": [
-      "Price-To-Earnings ratio (21.6x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (21x) is below the Indian market (23.2x)",
       "Earnings are forecast to grow 14.62% per year",
       "Trading below our calculated fair Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
     "risks": [
       "High level of [[non-cash earnings]]",
-      "Dividend of 1.39% is not well covered by free cash flows"
+      "Dividend of 1.43% is not well covered by free cash flows"
     ],
     "dividend": {
       "yield_pct": 1.36,
-      "payout_pct": 40.5447473809214,
+      "payout_pct": 41.85545385997615,
       "annualized_dividend": 2.65,
       "listing_currency": "INR",
       "recent_payments": [
@@ -237,8 +523,8 @@
     "dividend_yield_pct": 1.36,
     "industry_benchmarks": {
       "pe": 24.919301661303475,
-      "net_income_margin_1y": 0.0775877089,
-      "future_revenue_growth_3y": 0.6569887,
+      "net_income_margin_1y": 0.07792327667,
+      "future_revenue_growth_3y": 0.6221294666,
       "sector_pe": 24.919301661303475
     },
     "industry_benchmarks_meta": {
@@ -273,18 +559,18 @@
         "url": "https://groww.in/stocks/ircon-international-ltd"
       },
       "sws_statement": {
-        "company_pe": 21.6,
-        "industry_pe": 15.1,
+        "company_pe": 21,
+        "industry_pe": 14.5,
         "industry_name": "Indian Construction",
-        "description": "IRCON is expensive based on its Price-To-Earnings Ratio (21.6x) compared to the Indian Construction industry average (15.1x).",
+        "description": "IRCON is expensive based on its Price-To-Earnings Ratio (21x) compared to the Indian Construction industry average (14.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 15.073268522,
+        "industry_pe": 14.393596444,
         "industry_code": "3040000",
         "type": "median_profitable",
-        "count": 188,
+        "count": 189,
         "source": {
           "type": "country",
           "country": "IN",
@@ -293,25 +579,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.1,
-        "sample_count": 184,
+        "industry_pe": 13.8,
+        "sample_count": 187,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
       "sws_primary_industry": {
-        "industry_pe": 21.475319439,
+        "industry_pe": 21.150765987,
         "industry_name": "Capital Goods",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 20.945569496030714
+        "company_pe": 21.008278935529916
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 136.9,
-        "fetched_at": "2026-05-31T20:12:25.639Z",
+        "value": 133.01,
+        "fetched_at": "2026-06-10T23:16:01.728Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-ircon/ircon-international-shares"
       },
       "market_cap_inr": {
@@ -319,6 +605,24 @@
         "value": 131343000000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/ircon-international-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 144.25,
+        "fetched_at": "2026-06-10T23:16:01.728Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-ircon/ircon-international-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "ef174483-327a-4e81-9534-d3aef450fe61",
+        "narrative_type": null,
+        "published_at": "2026-06-04T04:27:02.443Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 8.450492444177137,
+        "fetched_at": "2026-06-10T23:16:01.728Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-ircon/ircon-international-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -358,14 +662,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.0775877089,
-        "fetched_at": "2026-05-31T20:12:25.639Z",
+        "value": 0.07792327667,
+        "fetched_at": "2026-06-10T23:16:01.728Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-ircon/ircon-international-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.6569887,
-        "fetched_at": "2026-05-31T20:12:25.639Z",
+        "value": 0.6221294666,
+        "fetched_at": "2026-06-10T23:16:01.728Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-ircon/ircon-international-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -474,13 +778,13 @@
         "url": "https://groww.in/stocks/ircon-international-ltd"
       }
     },
-    "earnings_growth_yoy_pct": -15.491950894268708,
+    "earnings_growth_yoy_pct": -10.85111161015046,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": -13.619862485338647,
-    "latest_revenue": 92941400000,
-    "latest_net_income": 6147200000,
+    "revenue_growth_pct": -11.577261512877325,
+    "latest_revenue": 90710500000,
+    "latest_net_income": 5954700000,
     "latest_eps": 6.29,
-    "most_recent_reported_date": "2026-05-15",
+    "most_recent_reported_date": "2026-06-03",
     "pb": 1.98,
     "ps": 1.45,
     "book_value": 70.5851361,
@@ -497,12 +801,12 @@
     "quick_ratio": 1.649000574776138,
     "cash_ratio": 0.6725789827720993,
     "returns_pct": {
-      "1D": -1.9762279822425826,
-      "7D": -2.8388928317955995,
-      "1M": -10.709626924080347,
-      "3M": -4.672376575447398,
-      "6M": -14.926671638081023,
-      "1Y": -29.748037152973776,
+      "1D": -2.4066329151074926,
+      "7D": -1.7070647354419173,
+      "1M": -12.67152517891144,
+      "3M": -2.5924569754668765,
+      "6M": -15.366505472130317,
+      "1Y": -38.34708445350886,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -523,13 +827,13 @@
         "is_insider": null
       },
       {
-        "pct": 0.77336,
-        "shares": 7273614,
+        "pct": 0.77575,
+        "shares": 7296008,
         "is_insider": null
       },
       {
-        "pct": 0.59742,
-        "shares": 5618830,
+        "pct": 0.60004,
+        "shares": 5643494,
         "is_insider": null
       },
       {
@@ -543,8 +847,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.09819,
-        "shares": 923508,
+        "pct": 0.12148,
+        "shares": 1142569,
         "is_insider": null
       },
       {
@@ -573,8 +877,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.02663,
-        "shares": 250488,
+        "pct": 0.02743,
+        "shares": 257961,
         "is_insider": null
       },
       {
@@ -625,7 +929,7 @@
   },
   "dividend": {
     "yield_pct": 1.36,
-    "payout_pct": 40.5447473809214,
+    "payout_pct": 41.85545385997615,
     "annualized_dividend": 2.65,
     "listing_currency": "INR",
     "recent_payments": [
@@ -789,44 +1093,44 @@
     "payment_count": 17
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-15",
+    "most_recent_reported_date": "2026-06-03",
     "latest_year": 2026,
-    "latest_revenue": 92941400000,
-    "latest_net_income": 6147200000,
+    "latest_revenue": 90710500000,
+    "latest_net_income": 5954700000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": -13.619862485338647,
-    "earnings_growth_pct": -15.491950894268708,
-    "net_margin_pct": 6.614060042134076,
+    "revenue_growth_pct": -11.577261512877325,
+    "earnings_growth_pct": -10.85111161015046,
+    "net_margin_pct": 6.564510172471764,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 92941400000,
-        "netIncome": 6147200000,
+        "revenue": 90710500000,
+        "netIncome": 5954700000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 107595800000,
-        "netIncome": 7274100000,
+        "revenue": 102587300000,
+        "netIncome": 6679500000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 125136500000,
-        "netIncome": 9295700000,
+        "revenue": 118542000000,
+        "netIncome": 9662300000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 103679300000,
-        "netIncome": 7652300000,
+        "revenue": 110831700000,
+        "netIncome": 8080200000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 73796700000,
-        "netIncome": 5923400000,
+        "revenue": 82395400000,
+        "netIncome": 6479200000,
         "eps": null
       }
     ]
@@ -1058,6 +1362,16 @@
   ],
   "news": [
     {
+      "id": "674757bc-737d-437b-b998-fb1a4fae4762",
+      "type": "narrative-update",
+      "date": "2026-06-04T04:27:02.000Z",
+      "title": "IRCON: Proposed RVNL Merger And Board Decisions Will Guide Steady Outlook",
+      "body": "Analysts have trimmed Ircon International's indicative fair value slightly from ₹146.00 to ₹144.25, reflecting updated assumptions around revenue growth, profit margins, the discount rate, and future P/E levels. What's in the News The Government of India is considering a merger of Ircon International with Rail Vikas Nigam Limited (RVNL), aimed at creating a larger railway infrastructure company with combined technical and financial resources.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-ircon/ircon-international-shares/rssh2kk5-expanding-into-railways-and-roads-projects-will-leverage-existing-expertise-s4c0/updates/22-analysts-have-trimmed-ircon-internationals-indicative-fair",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "3d7c038e-af6c-498c-a9e9-a83e132c0a3c",
       "type": "article",
       "date": "2026-05-30T03:41:32.000Z",
@@ -1255,26 +1569,6 @@
       "body": "Analysts have marginally reaffirmed their outlook on Ircon International, keeping the fair value estimate effectively unchanged at ₹147.00. Modest tweaks to the discount rate, revenue growth, profit margin, and future P/E assumptions did not justify a material revision in the target price.",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-ircon/ircon-international-shares/rssh2kk5-expanding-into-railways-and-roads-projects-will-leverage-existing-expertise-s4c0/updates/12-analysts-have-marginally-reaffirmed-their-outlook-on-ircon-i",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "e1e0215f-9e70-4d34-b657-5e6959613c11",
-      "type": "article",
-      "date": "2025-12-04T00:31:20.000Z",
-      "title": "Ircon International Limited's (NSE:IRCON) Shareholders Might Be Looking For Exit",
-      "body": "With a median price-to-earnings (or \"P/E\") ratio of close to 26x in India, you could be forgiven for feeling...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/capital-goods/nse-ircon/ircon-international-shares/news/ircon-international-limiteds-nseircon-shareholders-might-be",
-      "raw_subtype": "article"
-    },
-    {
-      "id": "0e850d1a-abda-4211-9ca4-6ddc4fd965ad",
-      "type": "narrative-update",
-      "date": "2025-12-03T16:06:04.000Z",
-      "title": "IRCON: Order Wins And Higher Discount Rate Will Likely Shape Returns Ahead",
-      "body": "Analysts have marginally trimmed their fair value estimate for Ircon International to ₹147.0 from about ₹147.7, reflecting a slightly higher discount rate and modestly lower expected future valuation multiples, while keeping revenue growth and profit margin assumptions broadly unchanged. What's in the News Board meeting scheduled for November 12, 2025 to consider and approve unaudited standalone and consolidated financial results for the quarter and half year ended September 30, 2025 (company filing) Ircon, in a 51:49 joint venture with Finolex J Power Systems, won a turnkey contract from Maharashtra State Electricity Transmission Co. Ltd.",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-ircon/ircon-international-shares/rssh2kk5-expanding-into-railways-and-roads-projects-will-leverage-existing-expertise-s4c0/updates/11-analysts-have-marginally-trimmed-their-fair-value-estimate-f",
       "raw_subtype": "narrative-update"
     }
   ],

@@ -3,7 +3,7 @@
   "name": "GHCL Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-ghcl/ghcl-shares",
-  "parsed_at": "2026-05-31T22:59:28.056Z",
+  "parsed_at": "2026-06-11T01:56:00.409Z",
   "company_id": "FFF98A25-5869-43DE-ABA6-D26839C60D58",
   "classification_status": "Active",
   "groww_source": {
@@ -28,9 +28,287 @@
       "dividend": 5
     },
     "snowflake_total": 17,
-    "current_price_inr": 454.15,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_EARNS_NET_INTEREST"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 432.95,
     "market_cap_inr": 42579300000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "small3",
     "shares_outstanding": 90084460,
     "fifty_two_week": {
@@ -39,11 +317,19 @@
     },
     "fair_value_inr": 850,
     "fair_value_range_inr": {
-      "min": 242.555311,
+      "min": 247.701177,
       "max": 850,
       "count": 17
     },
-    "upside_pct": 87.1628316635473,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "556f22ba-3285-4a48-a431-7dfcc996679d",
+      "narrative_type": null,
+      "published_at": "2026-01-27T14:12:11.864Z"
+    },
+    "upside_pct": 96.32752049890289,
     "multiples": {
       "pe": 9.01,
       "ps": 1.39,
@@ -64,7 +350,7 @@
       "Trading below our calculated fair Price-To-Earnings ratio",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Earnings are forecast to grow 17.44% per year",
-      "Price-To-Earnings ratio (8.7x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (8.4x) is below the Indian market (22.9x)"
     ],
     "risks": [
       "Unstable dividend track record"
@@ -237,8 +523,8 @@
     "dividend_yield_pct": 2.59,
     "industry_benchmarks": {
       "pe": 40.473660493160494,
-      "net_income_margin_1y": 0.09487982097,
-      "future_revenue_growth_3y": 34.387188816,
+      "net_income_margin_1y": 0.09486136614,
+      "future_revenue_growth_3y": 32.656569349,
       "sector_pe": 40.473660493160494
     },
     "industry_benchmarks_meta": {
@@ -273,18 +559,18 @@
         "url": "https://groww.in/stocks/ghcl-ltd"
       },
       "sws_statement": {
-        "company_pe": 8.7,
-        "industry_pe": 22.2,
+        "company_pe": 8.4,
+        "industry_pe": 20.7,
         "industry_name": "Indian Chemicals",
-        "description": "GHCL is good value based on its Price-To-Earnings Ratio (8.7x) compared to the Indian Chemicals industry average (22.2x).",
+        "description": "GHCL is good value based on its Price-To-Earnings Ratio (8.4x) compared to the Indian Chemicals industry average (20.7x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 22.185241114,
+        "industry_pe": 20.665261726,
         "industry_code": "2020000",
         "type": "median_profitable",
-        "count": 304,
+        "count": 302,
         "source": {
           "type": "country",
           "country": "IN",
@@ -293,25 +579,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.5,
-        "sample_count": 293,
+        "industry_pe": 19.6,
+        "sample_count": 294,
         "industry_code": "2020000",
         "industry_name": "Materials"
       },
       "sws_primary_industry": {
-        "industry_pe": 19.26596559,
+        "industry_pe": 18.498719492,
         "industry_name": "Materials",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 7.183820458121159
+        "company_pe": 6.848475321685688
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 454.15,
-        "fetched_at": "2026-05-31T22:59:28.056Z",
+        "value": 432.95,
+        "fetched_at": "2026-06-11T01:56:00.409Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-ghcl/ghcl-shares"
       },
       "market_cap_inr": {
@@ -319,6 +605,24 @@
         "value": 42579300000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/ghcl-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 850,
+        "fetched_at": "2026-06-11T01:56:00.409Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-ghcl/ghcl-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "556f22ba-3285-4a48-a431-7dfcc996679d",
+        "narrative_type": null,
+        "published_at": "2026-01-27T14:12:11.864Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 96.32752049890289,
+        "fetched_at": "2026-06-11T01:56:00.409Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-ghcl/ghcl-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -358,14 +662,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.09487982097,
-        "fetched_at": "2026-05-31T22:59:28.056Z",
+        "value": 0.09486136614,
+        "fetched_at": "2026-06-11T01:56:00.409Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-ghcl/ghcl-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 34.387188816,
-        "fetched_at": "2026-05-31T22:59:28.056Z",
+        "value": 32.656569349,
+        "fetched_at": "2026-06-11T01:56:00.409Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-ghcl/ghcl-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -497,12 +801,12 @@
     "quick_ratio": 3.0202764346318767,
     "cash_ratio": 0.2050907763890156,
     "returns_pct": {
-      "1D": -1.9326279421291397,
-      "7D": 2.010332434860734,
-      "1M": -11.969373909672418,
-      "3M": -5.227462437395662,
-      "6M": -21.044853963838676,
-      "1Y": -26.166476995610477,
+      "1D": -1.1868081707177882,
+      "7D": -3.088975937325128,
+      "1M": -11.831789023521031,
+      "3M": -6.570996978851962,
+      "6M": -24.861159319680677,
+      "1Y": -32.027631682235665,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -563,8 +867,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.90585,
-        "shares": 1716873,
+        "pct": 1.89451,
+        "shares": 1706662,
         "is_insider": null
       },
       {
@@ -1058,6 +1362,16 @@
   ],
   "news": [
     {
+      "id": "1460911b-6482-4689-b3ee-38dda16b6f7f",
+      "type": "article",
+      "date": "2026-06-08T08:21:34.000Z",
+      "title": "We Think That There Are More Issues For GHCL (NSE:GHCL) Than Just Sluggish Earnings",
+      "body": "GHCL Limited's ( NSE:GHCL ) recent weak earnings report didn't cause a big stock movement. We think that investors are...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/materials/nse-ghcl/ghcl-shares/news/we-think-that-there-are-more-issues-for-ghcl-nseghcl-than-ju",
+      "raw_subtype": "article"
+    },
+    {
       "id": "90b0afbc-9773-49f6-b979-1c292360e9e6",
       "type": "brief",
       "date": "2026-05-06T11:34:14.000Z",
@@ -1136,16 +1450,6 @@
       "keyDevTypeId": "55",
       "source_url": null,
       "raw_subtype": "EventActivity"
-    },
-    {
-      "id": "a0b0e3f2-38d9-4616-b3ed-2635bc35fe64",
-      "type": "narrative-update",
-      "date": "2025-12-15T02:07:06.000Z",
-      "title": "GHCL: Share Buyback Will Drive Improved Capital Returns Ahead",
-      "body": "Analysts have trimmed their price target on GHCL from ₹900 to ₹850, citing slightly softer expectations for revenue growth, profit margins, and future valuation multiples, despite a marginally lower discount rate. What's in the News On November 1, 2025, the Board of Directors approved a share buyback plan, initiating a capital return to shareholders (Key Developments).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/materials/nse-ghcl/ghcl-shares/eqd8wba7-clean-energy-and-urbanization-will-expand-soda-ash-markets-tx75/updates/2-analysts-have-trimmed-their-price-target-on-ghcl-from-indian-rupee900-t",
-      "raw_subtype": "narrative-update"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/GHCL.json"

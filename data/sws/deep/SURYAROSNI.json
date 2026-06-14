@@ -3,7 +3,7 @@
   "name": "Surya Roshni Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-suryarosni/surya-roshni-shares",
-  "parsed_at": "2026-05-31T22:38:26.093Z",
+  "parsed_at": "2026-06-11T01:41:32.801Z",
   "company_id": "2DECD6C2-3E2C-4FA8-9225-0E50C1C902EE",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 6
     },
     "snowflake_total": 21,
-    "current_price_inr": 235.45,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SAME_PB"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_STABLE_IN_PAST_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 247.61,
     "market_cap_inr": 51710300000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "small3",
     "shares_outstanding": 217568008,
     "fifty_two_week": {
       "low": 187.35,
       "high": 359
     },
-    "fair_value_inr": 268,
+    "fair_value_inr": 221,
     "fair_value_range_inr": {
-      "min": 98.230423,
-      "max": 268,
+      "min": 98.050888,
+      "max": 221,
       "count": 17
     },
-    "upside_pct": 13.824591208324492,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "801e5f52-ece9-4943-bc34-877378c9b773",
+      "narrative_type": null,
+      "published_at": "2026-06-01T14:08:18.043Z"
+    },
+    "upside_pct": -10.746738823149313,
     "multiples": {
       "pe": 18.1,
       "ps": 0.69,
@@ -60,17 +346,17 @@
       "pe_source_url": "https://groww.in/stocks/surya-roshni-ltd"
     },
     "rewards": [
-      "Pays a high and reliable dividend of 2.12%",
+      "Pays a high and reliable dividend of 2.02%",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Earnings are forecast to grow 24.21% per year",
       "Trading below our calculated fair Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (17.9x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (18.8x) is below the Indian market (23.2x)"
     ],
     "risks": [],
     "dividend": {
       "yield_pct": 2.1,
-      "payout_pct": 29.11410686397985,
+      "payout_pct": 32.35240313494979,
       "annualized_dividend": 4.25,
       "listing_currency": "INR",
       "recent_payments": [
@@ -236,8 +522,8 @@
     "dividend_yield_pct": 2.1,
     "industry_benchmarks": {
       "pe": 41.92916323228247,
-      "net_income_margin_1y": 0.09487982097,
-      "future_revenue_growth_3y": 34.387188816,
+      "net_income_margin_1y": 0.09486136614,
+      "future_revenue_growth_3y": 32.656569349,
       "sector_pe": 41.92916323228247
     },
     "industry_benchmarks_meta": {
@@ -272,18 +558,18 @@
         "url": "https://groww.in/stocks/surya-roshni-ltd"
       },
       "sws_statement": {
-        "company_pe": 17.9,
-        "industry_pe": 21.9,
+        "company_pe": 18.8,
+        "industry_pe": 20.8,
         "industry_name": "Indian Metals and Mining",
-        "description": "SURYAROSNI is good value based on its Price-To-Earnings Ratio (17.9x) compared to the Indian Metals and Mining industry average (21.9x).",
+        "description": "SURYAROSNI is good value based on its Price-To-Earnings Ratio (18.8x) compared to the Indian Metals and Mining industry average (20.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 21.899662552,
+        "industry_pe": 20.840689637,
         "industry_code": "2050000",
         "type": "median_profitable",
-        "count": 192,
+        "count": 194,
         "source": {
           "type": "country",
           "country": "IN",
@@ -292,25 +578,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.05,
-        "sample_count": 196,
+        "industry_pe": 19.2,
+        "sample_count": 197,
         "industry_code": "2050000",
         "industry_name": "Materials"
       },
       "sws_primary_industry": {
-        "industry_pe": 19.26596559,
+        "industry_pe": 18.498719492,
         "industry_name": "Materials",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 16.129215202644836
+        "company_pe": 18.84889068292922
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 235.45,
-        "fetched_at": "2026-05-31T22:38:26.093Z",
+        "value": 247.61,
+        "fetched_at": "2026-06-11T01:41:32.801Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-suryarosni/surya-roshni-shares"
       },
       "market_cap_inr": {
@@ -318,6 +604,24 @@
         "value": 51710300000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/surya-roshni-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 221,
+        "fetched_at": "2026-06-11T01:41:32.801Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-suryarosni/surya-roshni-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "801e5f52-ece9-4943-bc34-877378c9b773",
+        "narrative_type": null,
+        "published_at": "2026-06-01T14:08:18.043Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": -10.746738823149313,
+        "fetched_at": "2026-06-11T01:41:32.801Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-suryarosni/surya-roshni-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -357,14 +661,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.09487982097,
-        "fetched_at": "2026-05-31T22:38:26.093Z",
+        "value": 0.09486136614,
+        "fetched_at": "2026-06-11T01:41:32.801Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-suryarosni/surya-roshni-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 34.387188816,
-        "fetched_at": "2026-05-31T22:38:26.093Z",
+        "value": 32.656569349,
+        "fetched_at": "2026-06-11T01:41:32.801Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-suryarosni/surya-roshni-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -473,13 +777,13 @@
         "url": "https://groww.in/stocks/surya-roshni-ltd"
       }
     },
-    "earnings_growth_yoy_pct": -8.366993652625505,
+    "earnings_growth_yoy_pct": -0.684550698450205,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 1.1717525992251074,
-    "latest_revenue": 75230000000,
-    "latest_net_income": 3176000000,
+    "revenue_growth_pct": 5.501734945153347,
+    "latest_revenue": 75404200000,
+    "latest_net_income": 2858100000,
     "latest_eps": 13.13,
-    "most_recent_reported_date": "2026-04-25",
+    "most_recent_reported_date": "2026-06-01",
     "pb": 1.96,
     "ps": 0.69,
     "book_value": 121.0079769,
@@ -496,16 +800,16 @@
     "quick_ratio": 1.9575417189577407,
     "cash_ratio": 0.5628176294437058,
     "returns_pct": {
-      "1D": -0.8213984835720376,
-      "7D": -4.191251271617502,
-      "1M": -2.5374617104065007,
-      "3M": 5.191439932091308,
-      "6M": -10.475285171102666,
-      "1Y": -29.081325301204824,
+      "1D": -0.9361872374474796,
+      "7D": -2.373536253597753,
+      "1M": -1.3112793941809455,
+      "3M": 11.460724735539053,
+      "6M": -5.1847597166379344,
+      "1Y": -27.87357995921934,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 4,
+    "recent_news_count": 5,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -607,8 +911,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.86832,
-        "shares": 1889177,
+        "pct": 0.80912,
+        "shares": 1760387,
         "is_insider": null
       }
     ],
@@ -624,7 +928,7 @@
   },
   "dividend": {
     "yield_pct": 2.1,
-    "payout_pct": 29.11410686397985,
+    "payout_pct": 32.35240313494979,
     "annualized_dividend": 4.25,
     "listing_currency": "INR",
     "recent_payments": [
@@ -788,44 +1092,44 @@
     "payment_count": 15
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-04-25",
+    "most_recent_reported_date": "2026-06-01",
     "latest_year": 2026,
-    "latest_revenue": 75230000000,
-    "latest_net_income": 3176000000,
+    "latest_revenue": 75404200000,
+    "latest_net_income": 2858100000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 1.1717525992251074,
-    "earnings_growth_pct": -8.366993652625505,
-    "net_margin_pct": 4.221720058487306,
+    "revenue_growth_pct": 5.501734945153347,
+    "earnings_growth_pct": -0.684550698450205,
+    "net_margin_pct": 3.790372419573446,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 75230000000,
-        "netIncome": 3176000000,
+        "revenue": 75404200000,
+        "netIncome": 2858100000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 74358700000,
-        "netIncome": 3466000000,
+        "revenue": 71472000000,
+        "netIncome": 2877800000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 78092700000,
-        "netIncome": 3291600000,
+        "revenue": 78271900000,
+        "netIncome": 3624800000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 79967100000,
-        "netIncome": 3355200000,
+        "revenue": 80320900000,
+        "netIncome": 3724100000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 77308200000,
-        "netIncome": 2049199999.9999998,
+        "revenue": 81172300000,
+        "netIncome": 1898600000,
         "eps": null
       }
     ]
@@ -1031,6 +1335,26 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "0afeeb56-ff19-4c20-8587-39b41b285393",
+      "type": "narrative-update",
+      "date": "2026-06-01T14:08:18.000Z",
+      "title": "SURYAROSNI: Lower Future Multiple Will Weigh On Upcoming Results Outlook",
+      "body": "Analysts have reset the fair value estimate for Surya Roshni to ₹221 from ₹268. This reflects updated assumptions around slightly lower revenue growth, a modestly different discount rate, a revised future P/E multiple, and a small adjustment to the expected profit margin.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/materials/nse-suryarosni/surya-roshni-shares/j59ph21d-government-spending-and-exports-will-revive-steel-and-lighting-sectors-pan4/updates/16-analysts-have-reset-the-fair-value-estimate-for-surya-roshni",
+      "raw_subtype": "narrative-update"
+    },
+    {
+      "id": "00638948-43fc-4aa8-99dc-0e4c6cf06631",
+      "type": "brief",
+      "date": "2026-06-01T12:34:03.000Z",
+      "title": "Investor sentiment improves as stock rises 15%",
+      "body": "After last week's 15% share price gain to ₹250, the stock trades at a forward P/E ratio of 14x. Average forward P/E is 18x in the Metals and Mining industry in India. Total returns to shareholders of 32% over the past three years.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "ae2637ce-a1d4-4cda-b591-04960bad4967",
       "type": "brief",

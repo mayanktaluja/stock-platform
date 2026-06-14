@@ -3,7 +3,7 @@
   "name": "Ethos Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/nse-ethosltd/ethos-shares",
-  "parsed_at": "2026-05-31T22:47:11.603Z",
+  "parsed_at": "2026-06-11T01:44:09.853Z",
   "company_id": "9F2071AF-8E8D-4B60-A679-8EC814418079",
   "classification_status": "Active",
   "groww_source": {
@@ -75,22 +75,308 @@
         }
       ]
     },
-    "current_price_inr": 2381.5,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 2384.8,
     "market_cap_inr": 64146200000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midsmall4",
     "shares_outstanding": 26757693,
     "fifty_two_week": {
       "low": 1919.4,
       "high": 3245.9
     },
-    "fair_value_inr": 2950,
+    "fair_value_inr": 2800,
     "fair_value_range_inr": {
-      "min": 624.582134,
+      "min": 643.120743,
       "max": 6058.51,
       "count": 15
     },
-    "upside_pct": 23.871509552802856,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "c1d04488-ce45-4327-8330-248f45cbd115",
+      "narrative_type": null,
+      "published_at": "2026-06-02T15:07:29.221Z"
+    },
+    "upside_pct": 17.410265011741018,
     "multiples": {
       "pe": 66.72,
       "ps": 3.97,
@@ -121,8 +407,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 75.0238404110117,
-      "net_income_margin_1y": 0.04545091336,
-      "future_revenue_growth_3y": 0.4129153131,
+      "net_income_margin_1y": 0.04543187233,
+      "future_revenue_growth_3y": 0.4102879728,
       "sector_pe": 75.0238404110117
     },
     "industry_benchmarks_meta": {
@@ -157,18 +443,18 @@
         "url": "https://groww.in/stocks/ethos-ltd"
       },
       "sws_statement": {
-        "company_pe": 67.2,
-        "industry_pe": 21.2,
+        "company_pe": 67.3,
+        "industry_pe": 19.3,
         "industry_name": "Indian Specialty Retail",
-        "description": "ETHOSLTD is expensive based on its Price-To-Earnings Ratio (67.2x) compared to the Indian Specialty Retail industry average (21.2x).",
+        "description": "ETHOSLTD is expensive based on its Price-To-Earnings Ratio (67.3x) compared to the Indian Specialty Retail industry average (19.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 21.18993456,
+        "industry_pe": 19.335449999,
         "industry_code": "4440000",
         "type": "median_profitable",
-        "count": 64,
+        "count": 62,
         "source": {
           "type": "country",
           "country": "IN",
@@ -177,25 +463,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.95,
-        "sample_count": 56,
+        "industry_pe": 17.3,
+        "sample_count": 55,
         "industry_code": "4440000",
         "industry_name": "Retail"
       },
       "sws_primary_industry": {
-        "industry_pe": 15.530073024,
+        "industry_pe": 15.429198664,
         "industry_name": "Retail",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 66.71808722457504
+        "company_pe": 67.33668716617494
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 2381.5,
-        "fetched_at": "2026-05-31T22:47:11.603Z",
+        "value": 2384.8,
+        "fetched_at": "2026-06-11T01:44:09.853Z",
         "url": "https://simplywall.st/stocks/in/retail/nse-ethosltd/ethos-shares"
       },
       "market_cap_inr": {
@@ -203,6 +489,24 @@
         "value": 64146200000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/ethos-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 2800,
+        "fetched_at": "2026-06-11T01:44:09.853Z",
+        "url": "https://simplywall.st/stocks/in/retail/nse-ethosltd/ethos-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "c1d04488-ce45-4327-8330-248f45cbd115",
+        "narrative_type": null,
+        "published_at": "2026-06-02T15:07:29.221Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 17.410265011741018,
+        "fetched_at": "2026-06-11T01:44:09.853Z",
+        "url": "https://simplywall.st/stocks/in/retail/nse-ethosltd/ethos-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -242,14 +546,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.04545091336,
-        "fetched_at": "2026-05-31T22:47:11.603Z",
+        "value": 0.04543187233,
+        "fetched_at": "2026-06-11T01:44:09.853Z",
         "url": "https://simplywall.st/stocks/in/retail/nse-ethosltd/ethos-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.4129153131,
-        "fetched_at": "2026-05-31T22:47:11.603Z",
+        "value": 0.4102879728,
+        "fetched_at": "2026-06-11T01:44:09.853Z",
         "url": "https://simplywall.st/stocks/in/retail/nse-ethosltd/ethos-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -358,13 +662,13 @@
         "url": "https://groww.in/stocks/ethos-ltd"
       }
     },
-    "earnings_growth_yoy_pct": -0.8063318443958171,
+    "earnings_growth_yoy_pct": 2.445542306735998,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 20.60680053987326,
-    "latest_revenue": 15095474000,
-    "latest_net_income": 955115000,
+    "revenue_growth_pct": 25.191309800755175,
+    "latest_revenue": 16584054000,
+    "latest_net_income": 947652000,
     "latest_eps": 35.93,
-    "most_recent_reported_date": "2026-04-27",
+    "most_recent_reported_date": "2026-06-02",
     "pb": 4.31,
     "ps": 3.97,
     "book_value": 556.0709935,
@@ -381,16 +685,16 @@
     "quick_ratio": 2.992943928760094,
     "cash_ratio": 2.496604029884537,
     "returns_pct": {
-      "1D": -0.3473093982760139,
-      "7D": -1.0922834122435494,
-      "1M": -2.3695322428565646,
-      "3M": -2.104657376577458,
-      "6M": -21.97175715081419,
-      "1Y": -14.8886744576677,
+      "1D": -1.3199817933545595,
+      "7D": 1.2224108658743709,
+      "1M": 1.0679776233259992,
+      "3M": 13.163139413495307,
+      "6M": -21.809836065573766,
+      "1Y": -20.559626915389735,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -492,8 +796,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.27331,
-        "shares": 73131,
+        "pct": 0.26735,
+        "shares": 71537,
         "is_insider": null
       }
     ],
@@ -516,44 +820,44 @@
     "payment_count": 0
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-04-27",
+    "most_recent_reported_date": "2026-06-02",
     "latest_year": 2026,
-    "latest_revenue": 15095474000,
-    "latest_net_income": 955115000,
+    "latest_revenue": 16584054000,
+    "latest_net_income": 947652000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 20.60680053987326,
-    "earnings_growth_pct": -0.8063318443958171,
-    "net_margin_pct": 6.327161373004915,
+    "revenue_growth_pct": 25.191309800755175,
+    "earnings_growth_pct": 2.445542306735998,
+    "net_margin_pct": 5.714236096915748,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 15095474000,
-        "netIncome": 955115000,
+        "revenue": 16584054000,
+        "netIncome": 947652000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 12516271000,
-        "netIncome": 962879000,
+        "revenue": 13246969000,
+        "netIncome": 925030000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 9989921000,
-        "netIncome": 832996000,
+        "revenue": 10422187000,
+        "netIncome": 879421000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 7885337000,
-        "netIncome": 602982000,
+        "revenue": 8449948000,
+        "netIncome": 656574000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 5772837000,
-        "netIncome": 233880000,
+        "revenue": 6619032000,
+        "netIncome": 353489000,
         "eps": null
       }
     ]
@@ -784,6 +1088,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "5cd72c14-4f7b-4bf0-b090-1bb94276bacb",
+      "type": "narrative-update",
+      "date": "2026-06-02T15:07:29.000Z",
+      "title": "ETHOSLTD: Upcoming Results And Board Appointment Will Support Constructive Future P E Repricing",
+      "body": "Analysts now peg Ethos' price target at ₹2,800, down from ₹2,950. This reflects updated assumptions for slightly softer revenue growth and profit margins, along with an adjusted discount rate and future P/E outlook.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/retail/nse-ethosltd/ethos-shares/j1f74q41-boutique-expansion-and-digitalization-will-boost-luxury-lifestyle-4wfl/updates/18-analysts-now-peg-ethos-price-target-at-indian-rupee2800-down-from-indian-rupee2",
+      "raw_subtype": "narrative-update"
+    },
     {
       "id": "f4620e82-34b9-4cdd-b794-f59ab3285dd2",
       "type": "article",

@@ -3,7 +3,7 @@
   "name": "G R Infraprojects Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-grinfra/g-r-infraprojects-shares",
-  "parsed_at": "2026-05-31T23:11:23.730Z",
+  "parsed_at": "2026-06-11T02:05:50.653Z",
   "company_id": "9EBB21AE-BC08-42A2-B4CF-5D6767D166D3",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 1
     },
     "snowflake_total": 9,
-    "current_price_inr": 899.7,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOO_EARLY"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOO_EARLY"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 859.55,
     "market_cap_inr": 88492300000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midsmall4",
     "shares_outstanding": 96760529,
     "fifty_two_week": {
       "low": 785,
       "high": 1444.4
     },
-    "fair_value_inr": 1690,
+    "fair_value_inr": 1295.41667,
     "fair_value_range_inr": {
-      "min": 375.099258,
+      "min": 375.130044,
       "max": 1690,
       "count": 9
     },
-    "upside_pct": 87.84039124152494,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "97720c12-b17b-429e-a138-7fb9142d5d7f",
+      "narrative_type": null,
+      "published_at": "2026-06-05T14:03:22.614Z"
+    },
+    "upside_pct": 50.70870455470887,
     "multiples": {
       "pe": 9.8,
       "ps": 1.05,
@@ -62,7 +348,7 @@
     "rewards": [
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading below our calculated fair Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (9.6x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (9.2x) is below the Indian market (22.9x)",
       "Trading at good value vs. industry average Price-To-Earnings ratio"
     ],
     "risks": [
@@ -70,7 +356,7 @@
     ],
     "dividend": {
       "yield_pct": 0.27,
-      "payout_pct": 2.199557640370382,
+      "payout_pct": 2.679333518600277,
       "annualized_dividend": 2.5,
       "listing_currency": "INR",
       "recent_payments": [
@@ -106,8 +392,8 @@
     "dividend_yield_pct": 0.27,
     "industry_benchmarks": {
       "pe": 24.919301661303475,
-      "net_income_margin_1y": 0.0775877089,
-      "future_revenue_growth_3y": 0.6569887,
+      "net_income_margin_1y": 0.07792327667,
+      "future_revenue_growth_3y": 0.6221294666,
       "sector_pe": 24.919301661303475
     },
     "industry_benchmarks_meta": {
@@ -142,18 +428,18 @@
         "url": "https://groww.in/stocks/gr-infraprojects-ltd"
       },
       "sws_statement": {
-        "company_pe": 9.6,
-        "industry_pe": 15.1,
+        "company_pe": 9.2,
+        "industry_pe": 14.4,
         "industry_name": "Indian Construction",
-        "description": "GRINFRA is good value based on its Price-To-Earnings Ratio (9.6x) compared to the Indian Construction industry average (15.1x).",
+        "description": "GRINFRA is good value based on its Price-To-Earnings Ratio (9.2x) compared to the Indian Construction industry average (14.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 15.073268522,
+        "industry_pe": 14.393596444,
         "industry_code": "3040000",
         "type": "median_profitable",
-        "count": 188,
+        "count": 189,
         "source": {
           "type": "country",
           "country": "IN",
@@ -162,25 +448,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.1,
-        "sample_count": 184,
+        "industry_pe": 13.8,
+        "sample_count": 187,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
       "sws_primary_industry": {
-        "industry_pe": 21.475319439,
+        "industry_pe": 21.150765987,
         "industry_name": "Capital Goods",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 7.915768036164931
+        "company_pe": 9.212084503651472
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 899.7,
-        "fetched_at": "2026-05-31T23:11:23.730Z",
+        "value": 859.55,
+        "fetched_at": "2026-06-11T02:05:50.653Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-grinfra/g-r-infraprojects-shares"
       },
       "market_cap_inr": {
@@ -188,6 +474,24 @@
         "value": 88492300000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/gr-infraprojects-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 1295.41667,
+        "fetched_at": "2026-06-11T02:05:50.653Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-grinfra/g-r-infraprojects-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "97720c12-b17b-429e-a138-7fb9142d5d7f",
+        "narrative_type": null,
+        "published_at": "2026-06-05T14:03:22.614Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 50.70870455470887,
+        "fetched_at": "2026-06-11T02:05:50.653Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-grinfra/g-r-infraprojects-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -227,14 +531,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.0775877089,
-        "fetched_at": "2026-05-31T23:11:23.730Z",
+        "value": 0.07792327667,
+        "fetched_at": "2026-06-11T02:05:50.653Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-grinfra/g-r-infraprojects-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.6569887,
-        "fetched_at": "2026-05-31T23:11:23.730Z",
+        "value": 0.6221294666,
+        "fetched_at": "2026-06-11T02:05:50.653Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-grinfra/g-r-infraprojects-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -343,13 +647,13 @@
         "url": "https://groww.in/stocks/gr-infraprojects-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 8.422951930307878,
+    "earnings_growth_yoy_pct": -18.142181091692784,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 10.531466246473082,
-    "latest_revenue": 81766826000,
-    "latest_net_income": 10997726000,
+    "revenue_growth_pct": 14.232883964291348,
+    "latest_revenue": 83986189000,
+    "latest_net_income": 9028414000,
     "latest_eps": 93.28,
-    "most_recent_reported_date": "2026-02-11",
+    "most_recent_reported_date": "2026-06-05",
     "pb": 0.94,
     "ps": 1.05,
     "book_value": 969.3673924,
@@ -366,16 +670,16 @@
     "quick_ratio": 3.022916448265018,
     "cash_ratio": 0.6353338924415557,
     "returns_pct": {
-      "1D": -1.359500054818548,
-      "7D": -4.2770507500797885,
-      "1M": -1.1535926170072512,
-      "3M": -5.359490874664696,
-      "6M": -16.29919062238348,
-      "1Y": -31.178765394324177,
+      "1D": -0.31891453090571725,
+      "7D": -2.351604657767685,
+      "1M": -13.604382349984926,
+      "3M": -6.722734671730879,
+      "6M": -16.231361465744076,
+      "1Y": -38.255154083758356,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 4,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -494,7 +798,7 @@
   },
   "dividend": {
     "yield_pct": 0.27,
-    "payout_pct": 2.199557640370382,
+    "payout_pct": 2.679333518600277,
     "annualized_dividend": 2.5,
     "listing_currency": "INR",
     "recent_payments": [
@@ -528,44 +832,44 @@
     "payment_count": 2
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-02-11",
+    "most_recent_reported_date": "2026-06-05",
     "latest_year": 2026,
-    "latest_revenue": 81766826000,
-    "latest_net_income": 10997726000,
+    "latest_revenue": 83986189000,
+    "latest_net_income": 9028414000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 10.531466246473082,
-    "earnings_growth_pct": 8.422951930307878,
-    "net_margin_pct": 13.45010750447865,
+    "revenue_growth_pct": 14.232883964291348,
+    "earnings_growth_pct": -18.142181091692784,
+    "net_margin_pct": 10.749879364094019,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 81766826000,
-        "netIncome": 10997726000,
+        "revenue": 83986189000,
+        "netIncome": 9028414000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 73976062000,
-        "netIncome": 10143356000,
+        "revenue": 73521902000,
+        "netIncome": 11029385000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 89801501000,
-        "netIncome": 13236486000,
+        "revenue": 85322219000,
+        "netIncome": 11692597000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 94815149000,
-        "netIncome": 14544268000,
+        "revenue": 92675945000,
+        "netIncome": 13594092000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 84583476000,
-        "netIncome": 8319135000,
+        "revenue": 88860151000,
+        "netIncome": 10155002000,
         "eps": null
       }
     ]
@@ -771,6 +1075,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "42e999fd-a458-4893-9f22-2f875be48446",
+      "type": "narrative-update",
+      "date": "2026-06-05T14:03:22.000Z",
+      "title": "GRINFRA: New Road And Energy Contracts Will Support Bullish Outlook",
+      "body": "The analyst price target for G R Infraprojects has been trimmed from ₹1,332.50 to about ₹1,295.42 as analysts factor in updated assumptions around revenue growth, profit margin and future P/E expectations. What's in the News Board meeting scheduled for May 11, 2026 to review and approve audited standalone and consolidated financial results for the quarter and year ended March 31, 2026, and to consider several governance and audit appointments.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-grinfra/g-r-infraprojects-shares/dtekhvi3-nhai-bidding-and-diversification-will-advance-market-prospects-amid-delays-n2nd/updates/16-the-analyst-price-target-for-g-r-infraprojects-has-been-trim",
+      "raw_subtype": "narrative-update"
+    },
     {
       "id": "f8a906de-9f46-4f80-8594-be4407455e5a",
       "type": "article",

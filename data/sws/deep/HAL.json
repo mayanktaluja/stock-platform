@@ -3,7 +3,7 @@
   "name": "Hindustan Aeronautics Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-hal/hindustan-aeronautics-shares",
-  "parsed_at": "2026-05-31T23:13:43.541Z",
+  "parsed_at": "2026-06-11T02:08:29.230Z",
   "company_id": "9D12BA68-8444-41A7-87BC-A1ACB5CA6204",
   "classification_status": "Active",
   "groww_source": {
@@ -16,34 +16,320 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 3,
+      "valuation": 4,
       "future": 3,
       "past": 4,
       "financial_health": 6,
       "dividends": 3,
       "future_growth": 3,
       "past_performance": 4,
-      "value": 3,
+      "value": 4,
       "health": 6,
       "dividend": 3
     },
-    "snowflake_total": 19,
-    "current_price_inr": 4303.8,
+    "snowflake_total": 20,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_NOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_VOLATILE_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 4219.2,
     "market_cap_inr": 2952340700000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "mega8",
     "shares_outstanding": 668775000,
     "fifty_two_week": {
       "low": 3479.1,
       "high": 5147
     },
-    "fair_value_inr": 5161.04545,
+    "fair_value_inr": 5157.45833,
     "fair_value_range_inr": {
-      "min": 1353.164071,
-      "max": 5161.04545,
-      "count": 118
+      "min": 1366.034673,
+      "max": 5157.45833,
+      "count": 117
     },
-    "upside_pct": 19.918338445095017,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "10bbec52-3f6e-460c-85e3-e59bf5873f0e",
+      "narrative_type": null,
+      "published_at": "2026-06-05T16:04:43.805Z"
+    },
+    "upside_pct": 22.237825417140705,
     "multiples": {
       "pe": 32.39,
       "ps": 8.92,
@@ -63,7 +349,8 @@
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading below our calculated fair Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (31.6x) is below the Aerospace & Defense industry average (50.5x)",
+      "Price-To-Earnings ratio (31.3x) is below the Aerospace & Defense industry average (49.8x)",
+      "Analysts in good agreement that stock price will rise by 21%",
       "Earnings have grown 19% per year over the past 5 years",
       "Earnings are forecast to grow 12.08% per year"
     ],
@@ -72,7 +359,7 @@
     ],
     "dividend": {
       "yield_pct": 0.79,
-      "payout_pct": 30.070209910321054,
+      "payout_pct": 29.34639519066216,
       "annualized_dividend": 40,
       "listing_currency": "INR",
       "recent_payments": [
@@ -87,7 +374,7 @@
           "divFreqTypeName": "Interim Payment",
           "annualizedDividend": 40,
           "annualizedDividendListingCurrency": 40,
-          "annualizedYield": 0.9048750434
+          "annualizedYield": 0.9062109106
         },
         {
           "exDate": "2025-08-21T00:00:00.000Z",
@@ -100,7 +387,7 @@
           "divFreqTypeName": "Final Payment",
           "annualizedDividend": 40,
           "annualizedDividendListingCurrency": 40,
-          "annualizedYield": 0.9048750434
+          "annualizedYield": 0.9062109106
         },
         {
           "exDate": "2025-02-18T00:00:00.000Z",
@@ -238,8 +525,8 @@
     "dividend_yield_pct": 0.79,
     "industry_benchmarks": {
       "pe": 48.00927223189911,
-      "net_income_margin_1y": 0.0775877089,
-      "future_revenue_growth_3y": 0.6569887,
+      "net_income_margin_1y": 0.07792327667,
+      "future_revenue_growth_3y": 0.6221294666,
       "sector_pe": 48.00927223189911
     },
     "industry_benchmarks_meta": {
@@ -274,18 +561,18 @@
         "url": "https://groww.in/stocks/hindustan-aeronautics-ltd"
       },
       "sws_statement": {
-        "company_pe": 31.6,
-        "industry_pe": 50.5,
+        "company_pe": 31.3,
+        "industry_pe": 49.8,
         "industry_name": "Indian Aerospace & Defense",
-        "description": "HAL is good value based on its Price-To-Earnings Ratio (31.6x) compared to the Indian Aerospace & Defense industry average (50.5x).",
+        "description": "HAL is good value based on its Price-To-Earnings Ratio (31.3x) compared to the Indian Aerospace & Defense industry average (49.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 50.49377995,
+        "industry_pe": 49.795004412,
         "industry_code": "3020000",
         "type": "median_profitable",
-        "count": 22,
+        "count": 21,
         "source": {
           "type": "country",
           "country": "IN",
@@ -294,25 +581,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 49,
+        "industry_pe": 48.7,
         "sample_count": 20,
         "industry_code": "3020000",
         "industry_name": "Capital Goods"
       },
       "sws_primary_industry": {
-        "industry_pe": 21.475319439,
+        "industry_pe": 21.150765987,
         "industry_name": "Capital Goods",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 32.354042353009945
+        "company_pe": 30.954577647110447
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 4303.8,
-        "fetched_at": "2026-05-31T23:13:43.541Z",
+        "value": 4219.2,
+        "fetched_at": "2026-06-11T02:08:29.230Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-hal/hindustan-aeronautics-shares"
       },
       "market_cap_inr": {
@@ -320,6 +607,24 @@
         "value": 2952340700000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/hindustan-aeronautics-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 5157.45833,
+        "fetched_at": "2026-06-11T02:08:29.230Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-hal/hindustan-aeronautics-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "10bbec52-3f6e-460c-85e3-e59bf5873f0e",
+        "narrative_type": null,
+        "published_at": "2026-06-05T16:04:43.805Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 22.237825417140705,
+        "fetched_at": "2026-06-11T02:08:29.230Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-hal/hindustan-aeronautics-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -359,14 +664,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.0775877089,
-        "fetched_at": "2026-05-31T23:13:43.541Z",
+        "value": 0.07792327667,
+        "fetched_at": "2026-06-11T02:08:29.230Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-hal/hindustan-aeronautics-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.6569887,
-        "fetched_at": "2026-05-31T23:13:43.541Z",
+        "value": 0.6221294666,
+        "fetched_at": "2026-06-11T02:08:29.230Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-hal/hindustan-aeronautics-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -475,13 +780,13 @@
         "url": "https://groww.in/stocks/hindustan-aeronautics-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 6.361091948594773,
+    "earnings_growth_yoy_pct": 9.684576824687092,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 6.020861206644729,
-    "latest_revenue": 328462700000,
-    "latest_net_income": 88961800000,
+    "revenue_growth_pct": 5.202645516439731,
+    "latest_revenue": 330888200000,
+    "latest_net_income": 91156000000,
     "latest_eps": 136.3,
-    "most_recent_reported_date": "2026-05-14",
+    "most_recent_reported_date": "2026-06-05",
     "pb": 7.19,
     "ps": 8.92,
     "book_value": 613.6760121,
@@ -498,12 +803,12 @@
     "quick_ratio": 1.9181296475055953,
     "cash_ratio": 1.0426434699238523,
     "returns_pct": {
-      "1D": -2.4745071380013557,
-      "7D": -1.4788023074809875,
-      "1M": -1.0984465483959962,
-      "3M": 9.98160073597057,
-      "6M": -5.252729834448738,
-      "1Y": -14.217376572123342,
+      "1D": -1.046015291524001,
+      "7D": -1.0529771815858104,
+      "1M": -11.29239114437694,
+      "3M": 5.1252024417590585,
+      "6M": -1.9360836722835604,
+      "1Y": -16.28239215841899,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -529,8 +834,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.12381,
-        "shares": 7515765,
+        "pct": 1.06214,
+        "shares": 7103295,
         "is_insider": null
       },
       {
@@ -549,8 +854,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.51935,
-        "shares": 3473292,
+        "pct": 0.51914,
+        "shares": 3471884,
         "is_insider": null
       },
       {
@@ -626,7 +931,7 @@
   },
   "dividend": {
     "yield_pct": 0.79,
-    "payout_pct": 30.070209910321054,
+    "payout_pct": 29.34639519066216,
     "annualized_dividend": 40,
     "listing_currency": "INR",
     "recent_payments": [
@@ -641,7 +946,7 @@
         "divFreqTypeName": "Interim Payment",
         "annualizedDividend": 40,
         "annualizedDividendListingCurrency": 40,
-        "annualizedYield": 0.9048750434
+        "annualizedYield": 0.9062109106
       },
       {
         "exDate": "2025-08-21T00:00:00.000Z",
@@ -654,7 +959,7 @@
         "divFreqTypeName": "Final Payment",
         "annualizedDividend": 40,
         "annualizedDividendListingCurrency": 40,
-        "annualizedYield": 0.9048750434
+        "annualizedYield": 0.9062109106
       },
       {
         "exDate": "2025-02-18T00:00:00.000Z",
@@ -790,44 +1095,44 @@
     "payment_count": 16
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-14",
+    "most_recent_reported_date": "2026-06-05",
     "latest_year": 2026,
-    "latest_revenue": 328462700000,
-    "latest_net_income": 88961800000,
+    "latest_revenue": 330888200000,
+    "latest_net_income": 91156000000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 6.020861206644729,
-    "earnings_growth_pct": 6.361091948594773,
-    "net_margin_pct": 27.084292980603276,
+    "revenue_growth_pct": 5.202645516439731,
+    "earnings_growth_pct": 9.684576824687092,
+    "net_margin_pct": 27.548882069532855,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 328462700000,
-        "netIncome": 88961800000,
+        "revenue": 330888200000,
+        "netIncome": 91156000000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 309809500000,
-        "netIncome": 83641300000,
+        "revenue": 314524600000,
+        "netIncome": 83107400000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 303810800000,
-        "netIncome": 76210500000,
+        "revenue": 308132300000,
+        "netIncome": 82439700000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 269274599999.99997,
-        "netIncome": 58277400000,
+        "revenue": 272203500000,
+        "netIncome": 60218400000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 246200200000,
-        "netIncome": 50800400000,
+        "revenue": 266266500000,
+        "netIncome": 55054700000,
         "eps": null
       }
     ]
@@ -1059,6 +1364,26 @@
   ],
   "news": [
     {
+      "id": "6e505871-e378-4419-9b7e-3f3868e31fe2",
+      "type": "narrative-update",
+      "date": "2026-06-05T16:04:43.000Z",
+      "title": "HAL: New Leadership And Defence Orders Will Support Future Share Returns",
+      "body": "Narrative Update on Hindustan Aeronautics Analysts have made a marginal downward tweak to Hindustan Aeronautics' fair value estimate, from ₹5,161.05 to ₹5,157.46. This reflects updated assumptions around a slightly higher discount rate, lower revenue growth expectations, higher profit margins and a somewhat lower future P/E multiple.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-hal/hindustan-aeronautics-shares/53zk18pc-new-defense-orders-and-pipeline-will-drive-aerospace-modernization/updates/10-narrative-update-on-hindustan-aeronautics-analysts-have-made",
+      "raw_subtype": "narrative-update"
+    },
+    {
+      "id": "50e3130d-3e80-4c13-a16b-c6044a730670",
+      "type": "narrative",
+      "date": "2026-05-31T20:03:25.000Z",
+      "title": "Long Order Book And Defense Self Reliance Will Reshape This Aerospace Leader",
+      "body": "Catalysts About Hindustan Aeronautics Hindustan Aeronautics is an Indian aerospace and defense company that designs, manufactures and services aircraft, helicopters, engines and related systems. What are the underlying business or industry changes driving this perspective?",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-hal/hindustan-aeronautics-shares/c7buteh5-long-order-book-and-defense-self-reliance-will-reshape-this-aerospace-leader",
+      "raw_subtype": "narrative"
+    },
+    {
       "id": "aa79b167-a195-4622-bc45-45c764ba9ad7",
       "type": "narrative",
       "date": "2026-05-17T19:03:12.000Z",
@@ -1207,16 +1532,6 @@
       "keyDevTypeId": "16",
       "source_url": null,
       "raw_subtype": "EventActivity"
-    },
-    {
-      "id": "f957ff9e-dba0-45f7-9d34-327e8f15238a",
-      "type": "article",
-      "date": "2025-12-09T00:39:41.000Z",
-      "title": "What Hindustan Aeronautics Limited's (NSE:HAL) P/E Is Not Telling You",
-      "body": "Hindustan Aeronautics Limited's ( NSE:HAL ) price-to-earnings (or \"P/E\") ratio of 33.9x might make it look like a sell...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/capital-goods/nse-hal/hindustan-aeronautics-shares/news/what-hindustan-aeronautics-limiteds-nsehal-pe-is-not-telling",
-      "raw_subtype": "article"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/HAL.json"

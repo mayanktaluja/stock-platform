@@ -3,7 +3,7 @@
   "name": "Central Bank of India",
   "sector": "Banks",
   "sws_url": "https://simplywall.st/stocks/in/banks/nse-centralbk/central-bank-of-india-shares",
-  "parsed_at": "2026-05-31T22:18:13.050Z",
+  "parsed_at": "2026-06-11T01:12:15.644Z",
   "company_id": "7C12F8B4-B760-459E-9790-86FB6569C20A",
   "classification_status": "Active",
   "groww_source": {
@@ -20,14 +20,14 @@
       "future": 0,
       "past": 3,
       "financial_health": 4,
-      "dividends": 4,
+      "dividends": 3,
       "future_growth": 0,
       "past_performance": 3,
       "value": 2,
       "health": 4,
-      "dividend": 4
+      "dividend": 3
     },
-    "snowflake_total": 13,
+    "snowflake_total": 12,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 9,
@@ -78,22 +78,308 @@
         }
       ]
     },
-    "current_price_inr": 30.77,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "BankHealth",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAppropriateBadLoanAllowance",
+          "title": "Allowance for Bad Loans",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAppropriateNonPerformingLoans",
+          "title": "Level of Bad Loans",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasPrimarilyLowRiskFunding",
+          "title": "Low Risk Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAppropriateLoanLevel",
+          "title": "Loan Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasPrimarilyDepositFunding",
+          "title": "Low Risk Deposits",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAnAppropriateLevelOfAssets",
+          "title": "Asset Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_MODERATE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOO_EARLY"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOO_EARLY"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredIn3Years",
+          "title": "Future Dividend Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        }
+      ]
+    },
+    "current_price_inr": 30.76,
     "market_cap_inr": 279235700000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 30.52,
       "high": 41.2
     },
-    "fair_value_inr": 17.954532,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 17.954532,
+      "min": 18.158585,
       "max": 2613361.8,
       "count": 3
     },
-    "upside_pct": -41.64922976925577,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "d7ed4c6e-3fc5-40b1-aae4-ff4c39fcd8cb",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 6.16,
       "ps": 0.66,
@@ -111,13 +397,11 @@
     },
     "rewards": [
       "Earnings grew by 15% over the past year",
-      "Price-To-Earnings ratio (6.2x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (6.2x) is below the Indian market (22.9x)",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
-    "risks": [
-      "Unstable dividend track record"
-    ],
+    "risks": [],
     "dividend": {
       "yield_pct": 5.83,
       "payout_pct": null,
@@ -182,8 +466,8 @@
     "dividend_yield_pct": 5.83,
     "industry_benchmarks": {
       "pe": 12.587464209030458,
-      "net_income_margin_1y": 0.2781474604,
-      "future_revenue_growth_3y": 0.1287410551,
+      "net_income_margin_1y": 0.2781476236,
+      "future_revenue_growth_3y": 0.1262692753,
       "sector_pe": 12.587464209030458
     },
     "industry_benchmarks_meta": {
@@ -219,14 +503,14 @@
       },
       "sws_statement": {
         "company_pe": 6.2,
-        "industry_pe": 11.4,
+        "industry_pe": 11.6,
         "industry_name": "Indian Banks",
-        "description": "CENTRALBK is good value based on its Price-To-Earnings Ratio (6.2x) compared to the Indian Banks industry average (11.4x).",
+        "description": "CENTRALBK is good value based on its Price-To-Earnings Ratio (6.2x) compared to the Indian Banks industry average (11.6x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 11.441700538,
+        "industry_pe": 11.624761504,
         "industry_code": "7011000",
         "type": "median_profitable",
         "count": 39,
@@ -238,7 +522,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 11.4,
+        "industry_pe": 11.75,
         "sample_count": 40,
         "industry_code": "7011000",
         "industry_name": "Banks"
@@ -251,8 +535,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 30.77,
-        "fetched_at": "2026-05-31T22:18:13.050Z",
+        "value": 30.76,
+        "fetched_at": "2026-06-11T01:12:15.644Z",
         "url": "https://simplywall.st/stocks/in/banks/nse-centralbk/central-bank-of-india-shares"
       },
       "market_cap_inr": {
@@ -299,14 +583,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.2781474604,
-        "fetched_at": "2026-05-31T22:18:13.050Z",
+        "value": 0.2781476236,
+        "fetched_at": "2026-06-11T01:12:15.644Z",
         "url": "https://simplywall.st/stocks/in/banks/nse-centralbk/central-bank-of-india-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.1287410551,
-        "fetched_at": "2026-05-31T22:18:13.050Z",
+        "value": 0.1262692753,
+        "fetched_at": "2026-06-11T01:12:15.644Z",
         "url": "https://simplywall.st/stocks/in/banks/nse-centralbk/central-bank-of-india-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -438,12 +722,12 @@
     "quick_ratio": 0,
     "cash_ratio": 0,
     "returns_pct": {
-      "1D": -0.2269779507133602,
-      "7D": -1.598976654940838,
-      "1M": -15.093818984547466,
-      "3M": -23.20938357873721,
-      "6M": -19.80714099556945,
-      "1Y": -23.96837163330862,
+      "1D": -1.0296010296010192,
+      "7D": 1.5516672169032764,
+      "1M": -13.692480359147021,
+      "3M": -15.979240644632608,
+      "6M": -15.540911587040087,
+      "1Y": -23.349115375031147,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -499,23 +783,23 @@
         "is_insider": null
       },
       {
-        "pct": 0.03146,
-        "shares": 2847577,
-        "is_insider": null
-      },
-      {
         "pct": 0.02996,
         "shares": 2711409,
         "is_insider": null
       },
       {
-        "pct": 0.0295,
-        "shares": 2669794,
+        "pct": 0.02942,
+        "shares": 2662713,
         "is_insider": null
       },
       {
-        "pct": 0.0191,
-        "shares": 1729238,
+        "pct": 0.02922,
+        "shares": 2645023,
+        "is_insider": null
+      },
+      {
+        "pct": 0.01912,
+        "shares": 1730887,
         "is_insider": null
       },
       {
@@ -827,6 +1111,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "7d393ef9-e579-49cc-a6f0-f39b87a09d3a",
+      "type": "event",
+      "date": "2026-06-04T08:15:00.000Z",
+      "title": "Central Bank of India, Annual General Meeting, Jul 17, 2026",
+      "body": "Central Bank of India, Annual General Meeting, Jul 17, 2026.",
+      "keyDevTypeId": "62",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
     {
       "id": "b4c8eb1b-2eba-4e1d-b2fb-ae01763175a9",
       "type": "brief",

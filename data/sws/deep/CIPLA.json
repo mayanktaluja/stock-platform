@@ -3,7 +3,7 @@
   "name": "Cipla Limited",
   "sector": "Pharmaceuticals & Biotech",
   "sws_url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-cipla/cipla-shares",
-  "parsed_at": "2026-05-31T22:20:32.910Z",
+  "parsed_at": "2026-06-11T01:14:47.164Z",
   "company_id": "41EEDA0D-3F9F-41CB-91E0-77C8846B9C9F",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 4
     },
     "snowflake_total": 15,
-    "current_price_inr": 1401,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_EARNS_NET_INTEREST"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_STABLE_IN_PAST_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DIVIDENDS_NOT_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 1377,
     "market_cap_inr": 1145622700000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "mega8",
-    "shares_outstanding": 807782631,
+    "shares_outstanding": 807800546,
     "fifty_two_week": {
       "low": 1165.7,
       "high": 1673
     },
-    "fair_value_inr": 1429.83333,
+    "fair_value_inr": 1459.56757,
     "fair_value_range_inr": {
-      "min": 646.421705,
+      "min": 646.407369,
       "max": 1459.56757,
       "count": 44
     },
-    "upside_pct": 2.058053533190573,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "15784651-ff1f-420c-bc27-b26562f25d1d",
+      "narrative_type": null,
+      "published_at": "2026-06-05T18:10:52.407Z"
+    },
+    "upside_pct": 5.996192447349305,
     "multiples": {
       "pe": 29.66,
       "ps": 4.13,
@@ -60,32 +346,20 @@
       "pe_source_url": "https://groww.in/stocks/cipla-ltd"
     },
     "rewards": [
-      "Trading at good value vs. peer average Price-To-Earnings ratio",
+      "Price-To-Earnings ratio (28.7x) is below the Pharmaceuticals industry average (28.8x)",
+      "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading below our calculated fair Price-To-Earnings ratio",
       "Earnings are forecast to grow 13.67% per year"
     ],
     "risks": [
-      "Dividend of 0.93% is not well covered by free cash flows"
+      "Dividend of 0.94% is not well covered by free cash flows"
     ],
     "dividend": {
       "yield_pct": 0.92,
-      "payout_pct": 23.097626495953968,
+      "payout_pct": 27.07085452009806,
       "annualized_dividend": 13,
       "listing_currency": "INR",
       "recent_payments": [
-        {
-          "exDate": "2025-06-27T00:00:00.000Z",
-          "payDate": "2025-08-15T00:00:00.000Z",
-          "recordDate": "2025-06-27T00:00:00.000Z",
-          "divAmount": 13,
-          "divAmountListingCurrency": 13,
-          "currencyIsoCode": "INR",
-          "dividendTypeName": "No special code applies",
-          "divFreqTypeName": "Annual",
-          "annualizedDividend": 13,
-          "annualizedDividendListingCurrency": 13,
-          "annualizedYield": 0.9015401327
-        },
         {
           "exDate": "2025-06-27T00:00:00.000Z",
           "payDate": "2025-08-15T00:00:00.000Z",
@@ -95,6 +369,19 @@
           "currencyIsoCode": "INR",
           "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
           "divFreqTypeName": "Bonus Payment",
+          "annualizedDividend": 13,
+          "annualizedDividendListingCurrency": 13,
+          "annualizedYield": 0.9015401327
+        },
+        {
+          "exDate": "2025-06-27T00:00:00.000Z",
+          "payDate": "2025-08-15T00:00:00.000Z",
+          "recordDate": "2025-06-27T00:00:00.000Z",
+          "divAmount": 13,
+          "divAmountListingCurrency": 13,
+          "currencyIsoCode": "INR",
+          "dividendTypeName": "No special code applies",
+          "divFreqTypeName": "Annual",
           "annualizedDividend": 13,
           "annualizedDividendListingCurrency": 13,
           "annualizedYield": 0.9015401327
@@ -235,8 +522,8 @@
     "dividend_yield_pct": 0.92,
     "industry_benchmarks": {
       "pe": 34.294011798524444,
-      "net_income_margin_1y": 0.1517834297,
-      "future_revenue_growth_3y": 2.756126798,
+      "net_income_margin_1y": 0.1516710327,
+      "future_revenue_growth_3y": 2.535577209,
       "sector_pe": 34.294011798524444
     },
     "industry_benchmarks_meta": {
@@ -271,15 +558,15 @@
         "url": "https://groww.in/stocks/cipla-ltd"
       },
       "sws_statement": {
-        "company_pe": 29.2,
-        "industry_pe": 29,
+        "company_pe": 28.7,
+        "industry_pe": 28.8,
         "industry_name": "Indian Pharmaceuticals",
-        "description": "CIPLA is expensive based on its Price-To-Earnings Ratio (29.2x) compared to the Indian Pharmaceuticals industry average (29x).",
+        "description": "CIPLA is good value based on its Price-To-Earnings Ratio (28.7x) compared to the Indian Pharmaceuticals industry average (28.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 29.045511308,
+        "industry_pe": 28.787047453,
         "industry_code": "6120000",
         "type": "median_profitable",
         "count": 152,
@@ -291,25 +578,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 28.1,
-        "sample_count": 151,
+        "industry_pe": 28.15,
+        "sample_count": 152,
         "industry_code": "6120000",
         "industry_name": "Pharmaceuticals & Biotech"
       },
       "sws_primary_industry": {
-        "industry_pe": 23.933255082,
+        "industry_pe": 23.572522071,
         "industry_name": "Pharmaceuticals & Biotech",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 24.892134400639623
+        "company_pe": 28.674282057057713
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1401,
-        "fetched_at": "2026-05-31T22:20:32.910Z",
+        "value": 1377,
+        "fetched_at": "2026-06-11T01:14:47.164Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-cipla/cipla-shares"
       },
       "market_cap_inr": {
@@ -317,6 +604,24 @@
         "value": 1145622700000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/cipla-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 1459.56757,
+        "fetched_at": "2026-06-11T01:14:47.164Z",
+        "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-cipla/cipla-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "15784651-ff1f-420c-bc27-b26562f25d1d",
+        "narrative_type": null,
+        "published_at": "2026-06-05T18:10:52.407Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 5.996192447349305,
+        "fetched_at": "2026-06-11T01:14:47.164Z",
+        "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-cipla/cipla-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -356,14 +661,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.1517834297,
-        "fetched_at": "2026-05-31T22:20:32.910Z",
+        "value": 0.1516710327,
+        "fetched_at": "2026-06-11T01:14:47.164Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-cipla/cipla-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 2.756126798,
-        "fetched_at": "2026-05-31T22:20:32.910Z",
+        "value": 2.535577209,
+        "fetched_at": "2026-06-11T01:14:47.164Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-cipla/cipla-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -472,13 +777,13 @@
         "url": "https://groww.in/stocks/cipla-ltd"
       }
     },
-    "earnings_growth_yoy_pct": -13.771213764954899,
+    "earnings_growth_yoy_pct": -28.062494204914234,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 2.566247509850565,
-    "latest_revenue": 279671900000,
-    "latest_net_income": 45464300000,
+    "revenue_growth_pct": 1.2671936511494701,
+    "latest_revenue": 278278400000,
+    "latest_net_income": 38792300000,
     "latest_eps": 47.81,
-    "most_recent_reported_date": "2026-04-26",
+    "most_recent_reported_date": "2026-06-05",
     "pb": 3.33,
     "ps": 4.13,
     "book_value": 426.2432141,
@@ -495,118 +800,118 @@
     "quick_ratio": 2.502162230754863,
     "cash_ratio": 0.18641237939486055,
     "returns_pct": {
-      "1D": -1.2128049640389258,
-      "7D": 0.12864493996569143,
-      "1M": 6.3296903460837965,
-      "3M": 3.9163328882955017,
-      "6M": -8.509109906615292,
-      "1Y": -4.706842606448106,
+      "1D": 0.03632401017072285,
+      "7D": 0.13089005235601764,
+      "1M": 5.525327611311204,
+      "3M": 3.979460847240055,
+      "6M": -9.252669039145912,
+      "1Y": -9.509101662614185,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 4,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
   "ownership": {
     "top_holders": [
       {
-        "pct": 18.63387,
+        "pct": 18.63346,
         "shares": 150521183,
         "is_insider": null
       },
       {
-        "pct": 9.09095,
+        "pct": 9.09075,
         "shares": 73435137,
         "is_insider": null
       },
       {
-        "pct": 5.69237,
+        "pct": 5.69225,
         "shares": 45982000,
         "is_insider": null
       },
       {
-        "pct": 4.68171,
+        "pct": 4.68161,
         "shares": 37818048,
         "is_insider": null
       },
       {
-        "pct": 3.44701,
+        "pct": 3.44693,
         "shares": 27844320,
         "is_insider": null
       },
       {
-        "pct": 3.44623,
+        "pct": 3.44615,
         "shares": 27838028,
         "is_insider": null
       },
       {
-        "pct": 2.9787,
-        "shares": 24061412,
+        "pct": 2.90551,
+        "shares": 23470711,
         "is_insider": null
       },
       {
-        "pct": 2.3235,
+        "pct": 2.32345,
         "shares": 18768854,
         "is_insider": null
       },
       {
-        "pct": 1.96107,
+        "pct": 1.96103,
         "shares": 15841191,
         "is_insider": null
       },
       {
-        "pct": 1.87487,
+        "pct": 1.87482,
         "shares": 15144841,
         "is_insider": null
       },
       {
-        "pct": 1.83945,
+        "pct": 1.83941,
         "shares": 14858727,
         "is_insider": null
       },
       {
-        "pct": 1.58605,
+        "pct": 1.58601,
         "shares": 12811815,
         "is_insider": null
       },
       {
-        "pct": 1.55916,
+        "pct": 1.55912,
         "shares": 12594616,
         "is_insider": null
       },
       {
-        "pct": 1.50953,
+        "pct": 1.5095,
         "shares": 12193735,
         "is_insider": null
       },
       {
-        "pct": 1.4238,
+        "pct": 1.42377,
         "shares": 11501236,
         "is_insider": null
       },
       {
-        "pct": 1.40426,
+        "pct": 1.40423,
         "shares": 11343347,
         "is_insider": null
       },
       {
-        "pct": 1.35426,
+        "pct": 1.35423,
         "shares": 10939500,
         "is_insider": null
       },
       {
-        "pct": 1.34193,
+        "pct": 1.3419,
         "shares": 10839873,
         "is_insider": null
       },
       {
-        "pct": 1.05014,
+        "pct": 1.05011,
         "shares": 8482833,
         "is_insider": null
       },
       {
-        "pct": 1.02804,
+        "pct": 1.02801,
         "shares": 8304291,
         "is_insider": null
       }
@@ -623,23 +928,10 @@
   },
   "dividend": {
     "yield_pct": 0.92,
-    "payout_pct": 23.097626495953968,
+    "payout_pct": 27.07085452009806,
     "annualized_dividend": 13,
     "listing_currency": "INR",
     "recent_payments": [
-      {
-        "exDate": "2025-06-27T00:00:00.000Z",
-        "payDate": "2025-08-15T00:00:00.000Z",
-        "recordDate": "2025-06-27T00:00:00.000Z",
-        "divAmount": 13,
-        "divAmountListingCurrency": 13,
-        "currencyIsoCode": "INR",
-        "dividendTypeName": "No special code applies",
-        "divFreqTypeName": "Annual",
-        "annualizedDividend": 13,
-        "annualizedDividendListingCurrency": 13,
-        "annualizedYield": 0.9015401327
-      },
       {
         "exDate": "2025-06-27T00:00:00.000Z",
         "payDate": "2025-08-15T00:00:00.000Z",
@@ -649,6 +941,19 @@
         "currencyIsoCode": "INR",
         "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
         "divFreqTypeName": "Bonus Payment",
+        "annualizedDividend": 13,
+        "annualizedDividendListingCurrency": 13,
+        "annualizedYield": 0.9015401327
+      },
+      {
+        "exDate": "2025-06-27T00:00:00.000Z",
+        "payDate": "2025-08-15T00:00:00.000Z",
+        "recordDate": "2025-06-27T00:00:00.000Z",
+        "divAmount": 13,
+        "divAmountListingCurrency": 13,
+        "currencyIsoCode": "INR",
+        "dividendTypeName": "No special code applies",
+        "divFreqTypeName": "Annual",
         "annualizedDividend": 13,
         "annualizedDividendListingCurrency": 13,
         "annualizedYield": 0.9015401327
@@ -787,44 +1092,44 @@
     "payment_count": 12
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-04-26",
+    "most_recent_reported_date": "2026-06-05",
     "latest_year": 2026,
-    "latest_revenue": 279671900000,
-    "latest_net_income": 45464300000,
+    "latest_revenue": 278278400000,
+    "latest_net_income": 38792300000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 2.566247509850565,
-    "earnings_growth_pct": -13.771213764954899,
-    "net_margin_pct": 16.256298898816794,
+    "revenue_growth_pct": 1.2671936511494701,
+    "earnings_growth_pct": -28.062494204914234,
+    "net_margin_pct": 13.940104585911087,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 279671900000,
-        "netIncome": 45464300000,
+        "revenue": 278278400000,
+        "netIncome": 38792300000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 272674400000.00003,
-        "netIncome": 52725200000,
+        "revenue": 274796200000,
+        "netIncome": 53925000000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 255367100000,
-        "netIncome": 41215500000,
+        "revenue": 258921900000,
+        "netIncome": 43034900000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 225592500000,
-        "netIncome": 28019100000,
+        "revenue": 235107600000,
+        "netIncome": 31112100000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 217078400000,
-        "netIncome": 25167500000,
+        "revenue": 216104900000,
+        "netIncome": 24884300000,
         "eps": null
       }
     ]
@@ -1055,6 +1360,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "878bcd27-7d8b-4fb3-99b2-e1742744f16b",
+      "type": "narrative-update",
+      "date": "2026-06-05T18:10:52.000Z",
+      "title": "CIPLA: Fair Outlook As New CEO And Respiratory Portfolio Changes Take Shape",
+      "body": "Analysts have raised their price target on Cipla by about ₹30 to ₹1,459.57, citing updated assumptions for revenue growth, profit margins and a slightly lower future P/E multiple, alongside a marginally higher discount rate. What's in the News Cipla launched Ciposcillo, an advanced oscillometer for early detection of respiratory diseases like COPD and asthma.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/pharmaceuticals-biotech/nse-cipla/cipla-shares/0w1mslxy-emerging-markets-and-chronic-therapies-will-open-new-horizons-aafb/updates/19-analysts-have-raised-their-price-target-on-cipla-by-about-indian-rupee3",
+      "raw_subtype": "narrative-update"
+    },
     {
       "id": "df8a087e-72ce-4440-8478-07c2e4d724c2",
       "type": "article",

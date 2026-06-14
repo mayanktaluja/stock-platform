@@ -3,7 +3,7 @@
   "name": "Power Mech Projects Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-powermech/power-mech-projects-shares",
-  "parsed_at": "2026-05-31T21:36:20.723Z",
+  "parsed_at": "2026-06-11T00:37:29.523Z",
   "company_id": "D9D7BF6B-C3CC-41E9-969D-63064B8F9931",
   "classification_status": "Active",
   "groww_source": {
@@ -28,9 +28,287 @@
       "dividend": 0
     },
     "snowflake_total": 14,
-    "current_price_inr": 2500.7,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 2546,
     "market_cap_inr": 78402100000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midsmall4",
     "shares_outstanding": 31616292,
     "fifty_two_week": {
@@ -39,11 +317,19 @@
     },
     "fair_value_inr": 2644,
     "fair_value_range_inr": {
-      "min": 676.679994,
-      "max": 2819,
+      "min": 679.867293,
+      "max": 2950,
       "count": 14
     },
-    "upside_pct": 5.730395489263014,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "80f4caa4-e59c-40cc-b542-50958c3b0859",
+      "narrative_type": null,
+      "published_at": "2026-05-20T08:10:14.492Z"
+    },
+    "upside_pct": 3.8491751767478397,
     "multiples": {
       "pe": 19.04,
       "ps": 1.29,
@@ -61,7 +347,7 @@
     },
     "rewards": [
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (21.7x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (22.2x) is below the Indian market (22.9x)",
       "Earnings are forecast to grow 23.1% per year",
       "Earnings have grown 30.5% per year over the past 5 years",
       "Trading below our calculated fair Price-To-Earnings ratio"
@@ -183,8 +469,8 @@
     "dividend_yield_pct": 0.06,
     "industry_benchmarks": {
       "pe": 24.919301661303475,
-      "net_income_margin_1y": 0.0775877089,
-      "future_revenue_growth_3y": 0.6569887,
+      "net_income_margin_1y": 0.07792327667,
+      "future_revenue_growth_3y": 0.6221294666,
       "sector_pe": 24.919301661303475
     },
     "industry_benchmarks_meta": {
@@ -219,18 +505,18 @@
         "url": "https://groww.in/stocks/power-mech-projects-ltd"
       },
       "sws_statement": {
-        "company_pe": 21.7,
-        "industry_pe": 15.1,
+        "company_pe": 22.2,
+        "industry_pe": 14.4,
         "industry_name": "Indian Construction",
-        "description": "POWERMECH is expensive based on its Price-To-Earnings Ratio (21.7x) compared to the Indian Construction industry average (15.1x).",
+        "description": "POWERMECH is expensive based on its Price-To-Earnings Ratio (22.2x) compared to the Indian Construction industry average (14.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 15.073268522,
+        "industry_pe": 14.393596444,
         "industry_code": "3040000",
         "type": "median_profitable",
-        "count": 188,
+        "count": 189,
         "source": {
           "type": "country",
           "country": "IN",
@@ -239,25 +525,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.1,
-        "sample_count": 184,
+        "industry_pe": 13.8,
+        "sample_count": 187,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
       "sws_primary_industry": {
-        "industry_pe": 21.475319439,
+        "industry_pe": 21.150765987,
         "industry_name": "Capital Goods",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 23.345103317211443
+        "company_pe": 23.76799817875808
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 2500.7,
-        "fetched_at": "2026-05-31T21:36:20.723Z",
+        "value": 2546,
+        "fetched_at": "2026-06-11T00:37:29.523Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-powermech/power-mech-projects-shares"
       },
       "market_cap_inr": {
@@ -265,6 +551,24 @@
         "value": 78402100000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/power-mech-projects-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 2644,
+        "fetched_at": "2026-06-11T00:37:29.523Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-powermech/power-mech-projects-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "80f4caa4-e59c-40cc-b542-50958c3b0859",
+        "narrative_type": null,
+        "published_at": "2026-05-20T08:10:14.492Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 3.8491751767478397,
+        "fetched_at": "2026-06-11T00:37:29.523Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-powermech/power-mech-projects-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -304,14 +608,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.0775877089,
-        "fetched_at": "2026-05-31T21:36:20.723Z",
+        "value": 0.07792327667,
+        "fetched_at": "2026-06-11T00:37:29.523Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-powermech/power-mech-projects-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.6569887,
-        "fetched_at": "2026-05-31T21:36:20.723Z",
+        "value": 0.6221294666,
+        "fetched_at": "2026-06-11T00:37:29.523Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-powermech/power-mech-projects-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -443,16 +747,16 @@
     "quick_ratio": 1.6025061695457878,
     "cash_ratio": 0.20547922363769758,
     "returns_pct": {
-      "1D": 0.7412480360955418,
-      "7D": -1.7290839784650451,
-      "1M": 1.6834058471922757,
-      "3M": 20.405411911984192,
-      "6M": 5.155376140616455,
-      "1Y": -20.039010040289064,
+      "1D": -0.28199906000312625,
+      "7D": 0.8396704689480281,
+      "1M": 0.7718187215515535,
+      "3M": 28.57287142712857,
+      "6M": 13.925183461607293,
+      "1Y": -18.379123521302862,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 5,
+    "recent_news_count": 4,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -544,8 +848,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.76853,
-        "shares": 242982,
+        "pct": 0.77375,
+        "shares": 244632,
         "is_insider": null
       },
       {
@@ -927,6 +1231,16 @@
   ],
   "news": [
     {
+      "id": "d0744283-e256-4f56-a1de-12522a628a1b",
+      "type": "narrative-update",
+      "date": "2026-06-05T01:05:38.000Z",
+      "title": "POWERMECH: New Rail And Metro Contracts Will Support Bullish Outlook",
+      "body": "Analysts have lifted their price target on Power Mech Projects from ₹2,688 to ₹2,950, citing updated assumptions around revenue growth, profit margins, discount rate and future P/E multiples. What's in the News Board meeting on May 20, 2026 to review audited standalone and consolidated financial results for Q4 and FY 2025-26, the balance sheet and profit and loss statements, and to consider a dividend recommendation and other corporate matters (source: company board notice).",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-powermech/power-mech-projects-shares/dd4uga53-accelerated-urbanization-and-renewable-energy-will-unlock-secular-potential-zi3u/updates/4-analysts-have-lifted-their-price-target-on-power-mech-projec",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "2b3a2db0-2c8c-4c36-883d-8422944c8ca7",
       "type": "article",
       "date": "2026-05-26T04:37:10.000Z",
@@ -1085,26 +1399,6 @@
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-powermech/power-mech-projects-shares/b53rdsk2-indian-infrastructure-investments-will-drive-long-term-expansion-ysr4/updates/12-analysts-have-kept-their-fair-value-estimate-for-power-mech",
       "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "2041c982-aaaf-42d5-8258-675eed51acea",
-      "type": "narrative-update",
-      "date": "2025-12-15T13:03:12.000Z",
-      "title": "POWERMECH: Large EPC Order Will Drive Stronger Prospects Ahead",
-      "body": "Analysts have raised their price target on Power Mech Projects from ₹2,370 to ₹2,800. They cited expectations of slightly faster revenue growth, modestly higher profit margins, and support from a lower implied discount rate and marginally higher future valuation multiples.",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-powermech/power-mech-projects-shares/86llls5g-tightening-regulations-and-cost-overruns-will-cripple-conventional-projects-c17m/updates/2-analysts-have-raised-their-price-target-on-power-mech-projec",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "40316752-f730-4a02-850d-0b3b240f9909",
-      "type": "article",
-      "date": "2025-12-10T05:35:17.000Z",
-      "title": "Investors Shouldn't Overlook Power Mech Projects' (NSE:POWERMECH) Impressive Returns On Capital",
-      "body": "Finding a business that has the potential to grow substantially is not easy, but it is possible if we look at a few key...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/capital-goods/nse-powermech/power-mech-projects-shares/news/investors-shouldnt-overlook-power-mech-projects-nsepowermech",
-      "raw_subtype": "article"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/POWERMECH.json"

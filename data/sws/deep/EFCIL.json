@@ -3,7 +3,7 @@
   "name": "EFC (I) Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/nse-efcil/efc-i-shares",
-  "parsed_at": "2026-05-31T22:41:28.535Z",
+  "parsed_at": "2026-06-11T01:36:21.704Z",
   "company_id": "8A554CE8-5B2B-4821-B8C2-26B154E360FB",
   "classification_status": "Active",
   "groww_source": {
@@ -17,17 +17,17 @@
   "overview": {
     "snowflake": {
       "valuation": 3,
-      "future": 6,
+      "future": 5,
       "past": 5,
       "financial_health": 3,
       "dividends": 0,
-      "future_growth": 6,
+      "future_growth": 5,
       "past_performance": 5,
       "value": 3,
       "health": 3,
       "dividend": 0
     },
-    "snowflake_total": 17,
+    "snowflake_total": 16,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 5,
@@ -76,22 +76,308 @@
         }
       ]
     },
-    "current_price_inr": 180.44,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 185.72,
     "market_cap_inr": 28265100000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 171.55,
       "high": 351.5
     },
-    "fair_value_inr": 274.224924,
+    "fair_value_inr": 276.893467,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 51.975683883839494,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "5c3b153b-61f7-4939-8348-ec14d36fab08",
+      "narrative_type": null,
+      "published_at": "2025-08-20T16:41:46.945Z"
+    },
+    "upside_pct": 49.091894787852674,
     "multiples": {
       "pe": 50.95,
       "ps": 10.81,
@@ -108,11 +394,11 @@
       "pe_source_url": "https://groww.in/stocks/amani-trading-and-exports-ltd"
     },
     "rewards": [
-      "Price-To-Earnings ratio (10.7x) is below the Indian market (23.4x)",
+      "Earnings are forecast to grow 21.86% per year",
+      "Price-To-Earnings ratio (11x) is below the Indian market (22.9x)",
       "Trading below our calculated fair Price-To-Earnings ratio",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Earnings grew by 105.2% over the past year",
-      "Earnings are forecast to grow 22.2% per year",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
     "risks": [
@@ -130,8 +416,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 47.340707233385,
-      "net_income_margin_1y": 0.0679160138,
-      "future_revenue_growth_3y": 0.5897731076,
+      "net_income_margin_1y": 0.06778428543,
+      "future_revenue_growth_3y": 0.4687060715,
       "sector_pe": 47.340707233385
     },
     "industry_benchmarks_meta": {
@@ -166,18 +452,18 @@
         "url": "https://groww.in/stocks/amani-trading-and-exports-ltd"
       },
       "sws_statement": {
-        "company_pe": 10.7,
-        "industry_pe": 28.9,
+        "company_pe": 11,
+        "industry_pe": 27.5,
         "industry_name": "Indian Retail Distributors",
-        "description": "EFCIL is good value based on its Price-To-Earnings Ratio (10.7x) compared to the Indian Retail Distributors industry average (28.9x).",
+        "description": "EFCIL is good value based on its Price-To-Earnings Ratio (11x) compared to the Indian Retail Distributors industry average (27.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 27.41492865,
+        "industry_pe": 27.53009064,
         "industry_code": "4410000",
         "type": "median_profitable",
-        "count": 73,
+        "count": 74,
         "source": {
           "type": "country",
           "country": "IN",
@@ -186,8 +472,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 23.7,
-        "sample_count": 63,
+        "industry_pe": 21.9,
+        "sample_count": 65,
         "industry_code": "4410000",
         "industry_name": "Retail"
       },
@@ -199,8 +485,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 180.44,
-        "fetched_at": "2026-05-31T22:41:28.535Z",
+        "value": 185.72,
+        "fetched_at": "2026-06-11T01:36:21.704Z",
         "url": "https://simplywall.st/stocks/in/retail/nse-efcil/efc-i-shares"
       },
       "market_cap_inr": {
@@ -208,6 +494,24 @@
         "value": 28265100000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/amani-trading-and-exports-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 276.893467,
+        "fetched_at": "2026-06-11T01:36:21.704Z",
+        "url": "https://simplywall.st/stocks/in/retail/nse-efcil/efc-i-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "5c3b153b-61f7-4939-8348-ec14d36fab08",
+        "narrative_type": null,
+        "published_at": "2025-08-20T16:41:46.945Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 49.091894787852674,
+        "fetched_at": "2026-06-11T01:36:21.704Z",
+        "url": "https://simplywall.st/stocks/in/retail/nse-efcil/efc-i-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -247,14 +551,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.0679160138,
-        "fetched_at": "2026-05-31T22:41:28.535Z",
+        "value": 0.06778428543,
+        "fetched_at": "2026-06-11T01:36:21.704Z",
         "url": "https://simplywall.st/stocks/in/retail/nse-efcil/efc-i-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.5897731076,
-        "fetched_at": "2026-05-31T22:41:28.535Z",
+        "value": 0.4687060715,
+        "fetched_at": "2026-06-11T01:36:21.704Z",
         "url": "https://simplywall.st/stocks/in/retail/nse-efcil/efc-i-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -386,16 +690,16 @@
     "quick_ratio": 4.07034795763994,
     "cash_ratio": 3.0786686838124053,
     "returns_pct": {
-      "1D": -5.578231292517005,
-      "7D": -5.494160163410679,
-      "1M": -5.444636587538654,
-      "3M": -19.374441465594288,
-      "6M": -34.097881665449236,
-      "1Y": -47.67580107293026,
+      "1D": -0.37549619139576695,
+      "7D": 4.625091544138363,
+      "1M": -0.4555930749852572,
+      "3M": -14.955582013004854,
+      "6M": -37.06540155879364,
+      "1Y": -46.14470059446136,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 5,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -717,6 +1021,26 @@
   ],
   "news": [
     {
+      "id": "48de10b9-8c70-45c9-88c4-3ffdfa31ad26",
+      "type": "article",
+      "date": "2026-06-05T01:43:02.000Z",
+      "title": "We Think That There Are Issues Underlying EFC (I)'s (NSE:EFCIL) Earnings",
+      "body": "EFC (I) Limited's ( NSE:EFCIL ) robust earnings report didn't manage to move the market for its stock. We did some...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/retail/nse-efcil/efc-i-shares/news/we-think-that-there-are-issues-underlying-efc-is-nseefcil-ea",
+      "raw_subtype": "article"
+    },
+    {
+      "id": "041dba77-b2c5-4af1-889c-e4131247df9c",
+      "type": "brief",
+      "date": "2026-06-01T11:24:53.000Z",
+      "title": "Insufficient new directors",
+      "body": "No new directors have joined the board in the last 3 years. The company's board is composed of: No new directors. 7 experienced directors. No highly experienced directors. Independent Director Mangina Rao was the last director to join the board, commencing their role in 2023. The following issues are considered to be risks according to the Simply Wall St Risk Model: Insufficient board refreshment.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
       "id": "39463772-491e-4e75-88bb-641842a0342c",
       "type": "article",
       "date": "2026-05-31T04:26:20.000Z",
@@ -805,16 +1129,6 @@
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/stocks/in/retail/nse-efcil/efc-i-shares/news/efc-i-nseefcil-seems-to-use-debt-quite-sensibly",
       "raw_subtype": "article"
-    },
-    {
-      "id": "ace362d2-c516-4d8b-b1af-c20670992f83",
-      "type": "brief",
-      "date": "2025-12-12T11:59:46.000Z",
-      "title": "Investor sentiment improves as stock rises 16%",
-      "body": "After last week's 16% share price gain to ₹295, the stock trades at a forward P/E ratio of 12x. Average forward P/E is 11x in the Retail Distributors industry in Asia.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/EFCIL.json"

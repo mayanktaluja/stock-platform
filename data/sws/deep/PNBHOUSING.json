@@ -3,7 +3,7 @@
   "name": "PNB Housing Finance Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-pnbhousing/pnb-housing-finance-shares",
-  "parsed_at": "2026-05-31T21:32:29.916Z",
+  "parsed_at": "2026-06-11T00:34:42.810Z",
   "company_id": "FF56F886-A205-43D1-8D0C-2E2DF4BB20D5",
   "classification_status": "Active",
   "groww_source": {
@@ -16,18 +16,18 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 3,
+      "valuation": 4,
       "future": 2,
       "past": 3,
       "financial_health": 3,
       "dividends": 2,
       "future_growth": 2,
       "past_performance": 3,
-      "value": 3,
+      "value": 4,
       "health": 3,
       "dividend": 2
     },
-    "snowflake_total": 13,
+    "snowflake_total": 14,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 1,
@@ -65,22 +65,308 @@
         }
       ]
     },
-    "current_price_inr": 1030.5,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_VOLATILE_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 968.5,
     "market_cap_inr": 281007100000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midlarge6",
-    "shares_outstanding": 260549578,
+    "shares_outstanding": 260589923,
     "fifty_two_week": {
       "low": 729.6,
       "high": 1141.9
     },
-    "fair_value_inr": 1184.16667,
+    "fair_value_inr": 1190.83333,
     "fair_value_range_inr": {
-      "min": 765.837359,
-      "max": 1184.16667,
+      "min": 788.846424,
+      "max": 1190.83333,
       "count": 21
     },
-    "upside_pct": 14.911855409995153,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "596cc8cb-9b9d-4473-81e9-053dd1b86291",
+      "narrative_type": null,
+      "published_at": "2026-06-06T02:09:36.702Z"
+    },
+    "upside_pct": 22.956461538461532,
     "multiples": {
       "pe": 12.26,
       "ps": 3.3,
@@ -99,18 +385,19 @@
     "rewards": [
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Earnings grew by 18.3% over the past year",
+      "Analysts in good agreement that stock price will rise by 20.5%",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (11.7x) is below the Indian market (23.4x)",
-      "Earnings are forecast to grow 7.52% per year",
-      "Trading below our calculated fair Price-To-Earnings ratio"
+      "Earnings are forecast to grow 7.49% per year",
+      "Trading below our calculated fair Price-To-Earnings ratio",
+      "Price-To-Earnings ratio (11.2x) is below the Indian market (22.9x)"
     ],
     "risks": [
       "Debt is not well covered by [[operating cash flow]]",
-      "Dividend of 0.78% is not well covered by free cash flows"
+      "Dividend of 0.81% is not well covered by free cash flows"
     ],
     "dividend": {
       "yield_pct": 0.74,
-      "payout_pct": 5.685776653689706,
+      "payout_pct": 5.6866570721530705,
       "annualized_dividend": 5,
       "listing_currency": "INR",
       "recent_payments": [
@@ -172,8 +459,8 @@
     "dividend_yield_pct": 0.74,
     "industry_benchmarks": {
       "pe": 18.85756396507594,
-      "net_income_margin_1y": 0.2564706218,
-      "future_revenue_growth_3y": 0.3320316411,
+      "net_income_margin_1y": 0.257896607,
+      "future_revenue_growth_3y": 0.3297814148,
       "sector_pe": 18.85756396507594
     },
     "industry_benchmarks_meta": {
@@ -208,18 +495,18 @@
         "url": "https://groww.in/stocks/pnb-housing-finance-ltd"
       },
       "sws_statement": {
-        "company_pe": 11.7,
-        "industry_pe": 25.6,
+        "company_pe": 11.2,
+        "industry_pe": 26.4,
         "industry_name": "Indian Diversified Financial",
-        "description": "PNBHOUSING is good value based on its Price-To-Earnings Ratio (11.7x) compared to the Indian Diversified Financial industry average (25.6x).",
+        "description": "PNBHOUSING is good value based on its Price-To-Earnings Ratio (11.2x) compared to the Indian Diversified Financial industry average (26.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 25.581812879,
+        "industry_pe": 26.387641502,
         "industry_code": "7110000",
         "type": "median_profitable",
-        "count": 131,
+        "count": 126,
         "source": {
           "type": "country",
           "country": "IN",
@@ -228,25 +515,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.4,
-        "sample_count": 124,
+        "industry_pe": 20.95,
+        "sample_count": 118,
         "industry_code": "7110000",
         "industry_name": "Diversified Financials"
       },
       "sws_primary_industry": {
-        "industry_pe": 15.729172633,
+        "industry_pe": 15.226484123,
         "industry_name": "Diversified Financials",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 11.718385683254484
+        "company_pe": 11.015054748760498
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1030.5,
-        "fetched_at": "2026-05-31T21:32:29.916Z",
+        "value": 968.5,
+        "fetched_at": "2026-06-11T00:34:42.810Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-pnbhousing/pnb-housing-finance-shares"
       },
       "market_cap_inr": {
@@ -254,6 +541,24 @@
         "value": 281007100000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/pnb-housing-finance-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 1190.83333,
+        "fetched_at": "2026-06-11T00:34:42.810Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-pnbhousing/pnb-housing-finance-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "596cc8cb-9b9d-4473-81e9-053dd1b86291",
+        "narrative_type": null,
+        "published_at": "2026-06-06T02:09:36.702Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 22.956461538461532,
+        "fetched_at": "2026-06-11T00:34:42.810Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-pnbhousing/pnb-housing-finance-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -293,14 +598,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.2564706218,
-        "fetched_at": "2026-05-31T21:32:29.916Z",
+        "value": 0.257896607,
+        "fetched_at": "2026-06-11T00:34:42.810Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-pnbhousing/pnb-housing-finance-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.3320316411,
-        "fetched_at": "2026-05-31T21:32:29.916Z",
+        "value": 0.3297814148,
+        "fetched_at": "2026-06-11T00:34:42.810Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-pnbhousing/pnb-housing-finance-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -409,13 +714,13 @@
         "url": "https://groww.in/stocks/pnb-housing-finance-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 18.34061586455525,
+    "earnings_growth_yoy_pct": 12.490487669564962,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 18.577358168564253,
+    "revenue_growth_pct": 12.605885910915474,
     "latest_revenue": 38909500000,
     "latest_net_income": 22912400000,
     "latest_eps": 87.93,
-    "most_recent_reported_date": "2026-04-26",
+    "most_recent_reported_date": "2026-06-05",
     "pb": 1.46,
     "ps": 3.3,
     "book_value": 737.5254462,
@@ -432,12 +737,12 @@
     "quick_ratio": 1.347226585442476,
     "cash_ratio": 1.1402380724734678,
     "returns_pct": {
-      "1D": -4.397439465627617,
-      "7D": -2.746319365798406,
-      "1M": -2.141398793979389,
-      "3M": 24.946953622309792,
-      "6M": 13.829669722743848,
-      "1Y": -3.9877014814124623,
+      "1D": -2.0728008088978767,
+      "7D": -2.4672708962739174,
+      "1M": -9.722222222222218,
+      "3M": 24.14279305261809,
+      "6M": 3.3507629922100075,
+      "1Y": -13.665537528971292,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -448,102 +753,102 @@
   "ownership": {
     "top_holders": [
       {
-        "pct": 28.03735,
+        "pct": 28.03301,
         "shares": 73051205,
         "is_insider": null
       },
       {
-        "pct": 3.15318,
+        "pct": 3.15269,
         "shares": 8215602,
         "is_insider": null
       },
       {
-        "pct": 2.89918,
+        "pct": 2.89873,
         "shares": 7553800,
         "is_insider": null
       },
       {
-        "pct": 2.78122,
+        "pct": 2.78079,
         "shares": 7246466,
         "is_insider": null
       },
       {
-        "pct": 2.69248,
+        "pct": 2.69207,
         "shares": 7015255,
         "is_insider": null
       },
       {
-        "pct": 2.51082,
+        "pct": 2.51043,
         "shares": 6541926,
         "is_insider": null
       },
       {
-        "pct": 2.27237,
+        "pct": 2.27202,
         "shares": 5920650,
         "is_insider": null
       },
       {
-        "pct": 2.24855,
+        "pct": 2.2482,
         "shares": 5858582,
         "is_insider": null
       },
       {
-        "pct": 2.08897,
+        "pct": 2.08864,
         "shares": 5442791,
         "is_insider": null
       },
       {
-        "pct": 2.02796,
+        "pct": 2.02765,
         "shares": 5283842,
         "is_insider": null
       },
       {
-        "pct": 2.01899,
+        "pct": 2.01868,
         "shares": 5260482,
         "is_insider": null
       },
       {
-        "pct": 1.95901,
+        "pct": 1.95871,
         "shares": 5104193,
         "is_insider": null
       },
       {
-        "pct": 1.94455,
+        "pct": 1.94425,
         "shares": 5066515,
         "is_insider": null
       },
       {
-        "pct": 1.89124,
+        "pct": 1.89095,
         "shares": 4927613,
         "is_insider": null
       },
       {
-        "pct": 1.58897,
+        "pct": 1.58873,
         "shares": 4140064,
         "is_insider": null
       },
       {
-        "pct": 1.52883,
+        "pct": 1.52859,
         "shares": 3983357,
         "is_insider": null
       },
       {
-        "pct": 1.38763,
-        "shares": 3615477,
+        "pct": 1.38374,
+        "shares": 3605892,
         "is_insider": null
       },
       {
-        "pct": 1.3334,
+        "pct": 1.33319,
         "shares": 3474170,
         "is_insider": null
       },
       {
-        "pct": 1.32673,
+        "pct": 1.32653,
         "shares": 3456800,
         "is_insider": null
       },
       {
-        "pct": 1.14153,
+        "pct": 1.14136,
         "shares": 2974260,
         "is_insider": null
       }
@@ -560,7 +865,7 @@
   },
   "dividend": {
     "yield_pct": 0.74,
-    "payout_pct": 5.685776653689706,
+    "payout_pct": 5.6866570721530705,
     "annualized_dividend": 5,
     "listing_currency": "INR",
     "recent_payments": [
@@ -620,14 +925,14 @@
     "payment_count": 4
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-04-26",
+    "most_recent_reported_date": "2026-06-05",
     "latest_year": 2026,
     "latest_revenue": 38909500000,
     "latest_net_income": 22912400000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 18.577358168564253,
-    "earnings_growth_pct": 18.34061586455525,
+    "revenue_growth_pct": 12.605885910915474,
+    "earnings_growth_pct": 12.490487669564962,
     "net_margin_pct": 58.88639021318701,
     "yearly_history": [
       {
@@ -638,26 +943,26 @@
       },
       {
         "year": 2025,
-        "revenue": 32813600000,
-        "netIncome": 19361400000,
+        "revenue": 34553700000,
+        "netIncome": 20368300000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 29896700000,
-        "netIncome": 15080100000,
+        "revenue": 31371200000,
+        "netIncome": 15935000000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 37679900000,
-        "netIncome": 10460000000,
+        "revenue": 39342000000,
+        "netIncome": 11583600000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 21301300000,
-        "netIncome": 8364799999.999999,
+        "revenue": 21330000000,
+        "netIncome": 8281600000,
         "eps": null
       }
     ]
@@ -889,6 +1194,26 @@
   ],
   "news": [
     {
+      "id": "17e4c77a-f9d5-4798-aa26-0c08353e0dd3",
+      "type": "narrative-update",
+      "date": "2026-06-06T02:09:36.000Z",
+      "title": "PNBHOUSING: Dividend Outlook Will Support Future Upside Potential",
+      "body": "Analysts have inched up their price target for PNB Housing Finance from ₹1,184.17 to ₹1,190.83, citing adjusted assumptions such as a slightly lower discount rate and refined fair value and future P/E inputs. What's in the News A board meeting is scheduled for April 20, 2026, to consider and approve audited standalone and consolidated financial results for the quarter and year ended March 31, 2026, and to review a proposal on recommending a dividend for FY 2025-26.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/diversified-financials/nse-pnbhousing/pnb-housing-finance-shares/fh2xnbgk-pnbhousing-upcoming-capital-raise-will-drive-momentum-amidst-unchanged-long-term-outlook/updates/19-analysts-have-inched-up-their-price-target-for-pnb-housing-f",
+      "raw_subtype": "narrative-update"
+    },
+    {
+      "id": "9087533f-ba0f-4efa-876b-1ddcab3364a1",
+      "type": "event",
+      "date": "2026-06-01T08:23:00.000Z",
+      "title": "PNB Housing Finance Limited, Annual General Meeting, Aug 17, 2026",
+      "body": "PNB Housing Finance Limited, Annual General Meeting, Aug 17, 2026, at 15:00 Indian Standard Time.",
+      "keyDevTypeId": "62",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
+    {
       "id": "bfd25e33-69c7-4bab-9c1f-fcdae5927eda",
       "type": "brief",
       "date": "2026-04-27T12:01:19.000Z",
@@ -1006,26 +1331,6 @@
       "body": "Narrative Update On PNB Housing Finance Analysts have maintained their fair value estimate for PNB Housing Finance at Rs 1,094. This reflects only marginal adjustments to the discount rate and growth assumptions that do not materially alter their long term valuation outlook.",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/diversified-financials/nse-pnbhousing/pnb-housing-finance-shares/fh2xnbgk-pnbhousing-upcoming-capital-raise-will-drive-momentum-amidst-unchanged-long-term-outlook/updates/16-narrative-update-on-pnb-housing-finance-analysts-have-mainta",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "5bd709bb-6404-4afd-9002-4ed798619db1",
-      "type": "article",
-      "date": "2025-12-04T01:09:53.000Z",
-      "title": "Earnings Working Against PNB Housing Finance Limited's (NSE:PNBHOUSING) Share Price",
-      "body": "PNB Housing Finance Limited's ( NSE:PNBHOUSING ) price-to-earnings (or \"P/E\") ratio of 10.6x might make it look like a...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/diversified-financials/nse-pnbhousing/pnb-housing-finance-shares/news/earnings-working-against-pnb-housing-finance-limiteds-nsepnb",
-      "raw_subtype": "article"
-    },
-    {
-      "id": "0ecec12b-443b-415f-aff3-6e14d7d3785d",
-      "type": "narrative-update",
-      "date": "2025-12-03T23:05:40.000Z",
-      "title": "PNBHOUSING: Leadership Change Will Support Continued Strength In Core Business",
-      "body": "Narrative Update on PNB Housing Finance Analysts have kept their price target for PNB Housing Finance broadly unchanged around ₹1,094, citing only marginal tweaks to the discount rate, revenue growth, profit margin, and future valuation assumptions that together leave their fundamental outlook intact. What's in the News Managing Director and CEO Girish Kousgi will step down after a three year tenure effective October 28, 2025, to pursue external opportunities, and has joined IIFL Home Finance (company disclosure).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/diversified-financials/nse-pnbhousing/pnb-housing-finance-shares/fh2xnbgk-pnbhousing-upcoming-capital-raise-will-drive-momentum-amidst-unchanged-long-term-outlook/updates/15-narrative-update-on-pnb-housing-finance-analysts-have-kept-t",
       "raw_subtype": "narrative-update"
     }
   ],

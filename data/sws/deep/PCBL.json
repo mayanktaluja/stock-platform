@@ -3,7 +3,7 @@
   "name": "PCBL Chemical Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-pcbl/pcbl-chemical-shares",
-  "parsed_at": "2026-05-31T21:26:50.208Z",
+  "parsed_at": "2026-06-11T00:29:39.716Z",
   "company_id": "E266E86F-2BEB-4549-B9AE-70A4032BCF86",
   "classification_status": "Active",
   "groww_source": {
@@ -28,10 +28,288 @@
       "dividend": 5
     },
     "snowflake_total": 11,
-    "current_price_inr": 289.85,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_STABLE_IN_PAST_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DIVIDENDS_NOT_COVERED"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 287.15,
     "market_cap_inr": 113179500000,
-    "market_cap_usd": 120714180851.549,
-    "market_cap_band": "medium5",
+    "market_cap_usd": 120753634221.641,
+    "market_cap_band": "midsmall4",
     "shares_outstanding": 393462604,
     "fifty_two_week": {
       "low": 226.5,
@@ -39,11 +317,19 @@
     },
     "fair_value_inr": 362.3,
     "fair_value_range_inr": {
-      "min": 222.677163,
+      "min": 225.359552,
       "max": 362.3,
       "count": 32
     },
-    "upside_pct": 24.995687424529923,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "06964b01-4435-4e08-af14-8a507f6c4bba",
+      "narrative_type": null,
+      "published_at": "2026-04-28T05:04:07.706Z"
+    },
+    "upside_pct": 26.17099077137386,
     "multiples": {
       "pe": 57.19,
       "ps": 1.38,
@@ -60,16 +346,16 @@
       "pe_source_url": "https://groww.in/stocks/phillips-carbon-black-ltd"
     },
     "rewards": [
-      "Earnings are forecast to grow 42.2% per year"
+      "Earnings are forecast to grow 39.68% per year"
     ],
     "risks": [
       "Profit margins (2.4%) are lower than last year (5.2%)",
       "Interest payments are not well covered by earnings",
-      "Dividend of 2.07% is not well covered by earnings"
+      "Dividend of 2.09% is not well covered by earnings"
     ],
     "dividend": {
       "yield_pct": 0,
-      "payout_pct": 119.30942659321776,
+      "payout_pct": 91.58102350841804,
       "annualized_dividend": 6,
       "listing_currency": "INR",
       "recent_payments": [
@@ -158,8 +444,8 @@
           "divAmount": 1.75,
           "divAmountListingCurrency": 1.75,
           "currencyIsoCode": "INR",
-          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-          "divFreqTypeName": "Bonus Payment",
+          "dividendTypeName": "No special code applies",
+          "divFreqTypeName": "Interim Payment",
           "annualizedDividend": 1.75,
           "annualizedDividendListingCurrency": 1.75,
           "annualizedYield": 4.3017273658
@@ -171,8 +457,8 @@
           "divAmount": 1.75,
           "divAmountListingCurrency": 1.75,
           "currencyIsoCode": "INR",
-          "dividendTypeName": "No special code applies",
-          "divFreqTypeName": "Interim Payment",
+          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+          "divFreqTypeName": "Bonus Payment",
           "annualizedDividend": 1.75,
           "annualizedDividendListingCurrency": 1.75,
           "annualizedYield": 4.3017273658
@@ -235,8 +521,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 40.473660493160494,
-      "net_income_margin_1y": 0.09487982097,
-      "future_revenue_growth_3y": 34.387188816,
+      "net_income_margin_1y": 0.09486136614,
+      "future_revenue_growth_3y": 32.656569349,
       "sector_pe": 40.473660493160494
     },
     "industry_benchmarks_meta": {
@@ -271,18 +557,18 @@
         "url": "https://groww.in/stocks/phillips-carbon-black-ltd"
       },
       "sws_statement": {
-        "company_pe": 57.6,
-        "industry_pe": 22.2,
+        "company_pe": 57.1,
+        "industry_pe": 20.8,
         "industry_name": "Indian Chemicals",
-        "description": "PCBL is expensive based on its Price-To-Earnings Ratio (57.6x) compared to the Indian Chemicals industry average (22.2x).",
+        "description": "PCBL is expensive based on its Price-To-Earnings Ratio (57.1x) compared to the Indian Chemicals industry average (20.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 22.185241114,
+        "industry_pe": 20.782619721,
         "industry_code": "2020000",
         "type": "median_profitable",
-        "count": 304,
+        "count": 302,
         "source": {
           "type": "country",
           "country": "IN",
@@ -291,25 +577,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.5,
-        "sample_count": 293,
+        "industry_pe": 19.6,
+        "sample_count": 294,
         "industry_code": "2020000",
         "industry_name": "Materials"
       },
       "sws_primary_industry": {
-        "industry_pe": 19.26596559,
+        "industry_pe": 18.498719492,
         "industry_name": "Materials",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 57.63639549674029
+        "company_pe": 43.82915150073706
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 289.85,
-        "fetched_at": "2026-05-31T21:26:50.208Z",
+        "value": 287.15,
+        "fetched_at": "2026-06-11T00:29:39.716Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-pcbl/pcbl-chemical-shares"
       },
       "market_cap_inr": {
@@ -317,6 +603,24 @@
         "value": 113179500000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/phillips-carbon-black-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 362.3,
+        "fetched_at": "2026-06-11T00:29:39.716Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-pcbl/pcbl-chemical-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "06964b01-4435-4e08-af14-8a507f6c4bba",
+        "narrative_type": null,
+        "published_at": "2026-04-28T05:04:07.706Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 26.17099077137386,
+        "fetched_at": "2026-06-11T00:29:39.716Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-pcbl/pcbl-chemical-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -356,14 +660,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.09487982097,
-        "fetched_at": "2026-05-31T21:26:50.208Z",
+        "value": 0.09486136614,
+        "fetched_at": "2026-06-11T00:29:39.716Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-pcbl/pcbl-chemical-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 34.387188816,
-        "fetched_at": "2026-05-31T21:26:50.208Z",
+        "value": 32.656569349,
+        "fetched_at": "2026-06-11T00:29:39.716Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-pcbl/pcbl-chemical-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -472,13 +776,13 @@
         "url": "https://groww.in/stocks/phillips-carbon-black-ltd"
       }
     },
-    "earnings_growth_yoy_pct": -54.470777726645196,
+    "earnings_growth_yoy_pct": -40.68568798895536,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": -2.098462087634233,
-    "latest_revenue": 82278900000,
-    "latest_net_income": 1978700000,
+    "revenue_growth_pct": -2.3026444953446172,
+    "latest_revenue": 82107300000,
+    "latest_net_income": 2577800000,
     "latest_eps": 5.03,
-    "most_recent_reported_date": "2026-05-13",
+    "most_recent_reported_date": "2026-04-27",
     "pb": 2.83,
     "ps": 1.38,
     "book_value": 101.8215266,
@@ -495,16 +799,16 @@
     "quick_ratio": 0.5419773908922374,
     "cash_ratio": 0.08029160452182155,
     "returns_pct": {
-      "1D": 0.817391304347834,
-      "7D": -1.1425648021827988,
-      "1M": -2.972583938673717,
-      "3M": -6.318681318681304,
-      "6M": -10.856527756420101,
-      "1Y": -27.008310249307478,
+      "1D": 1.1447692849594928,
+      "7D": -1.2891027844620147,
+      "1M": -2.3797382287948325,
+      "3M": 5.569852941176462,
+      "6M": -8.375877472878111,
+      "1Y": -30.0827854881909,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -591,8 +895,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.76952,
-        "shares": 3027757,
+        "pct": 0.77123,
+        "shares": 3034515,
         "is_insider": null
       },
       {
@@ -623,7 +927,7 @@
   },
   "dividend": {
     "yield_pct": 0,
-    "payout_pct": 119.30942659321776,
+    "payout_pct": 91.58102350841804,
     "annualized_dividend": 6,
     "listing_currency": "INR",
     "recent_payments": [
@@ -712,8 +1016,8 @@
         "divAmount": 1.75,
         "divAmountListingCurrency": 1.75,
         "currencyIsoCode": "INR",
-        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-        "divFreqTypeName": "Bonus Payment",
+        "dividendTypeName": "No special code applies",
+        "divFreqTypeName": "Interim Payment",
         "annualizedDividend": 1.75,
         "annualizedDividendListingCurrency": 1.75,
         "annualizedYield": 4.3017273658
@@ -725,8 +1029,8 @@
         "divAmount": 1.75,
         "divAmountListingCurrency": 1.75,
         "currencyIsoCode": "INR",
-        "dividendTypeName": "No special code applies",
-        "divFreqTypeName": "Interim Payment",
+        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+        "divFreqTypeName": "Bonus Payment",
         "annualizedDividend": 1.75,
         "annualizedDividendListingCurrency": 1.75,
         "annualizedYield": 4.3017273658
@@ -787,20 +1091,20 @@
     "payment_count": 13
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-13",
+    "most_recent_reported_date": "2026-04-27",
     "latest_year": 2026,
-    "latest_revenue": 82278900000,
-    "latest_net_income": 1978700000,
+    "latest_revenue": 82107300000,
+    "latest_net_income": 2577800000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": -2.098462087634233,
-    "earnings_growth_pct": -54.470777726645196,
-    "net_margin_pct": 2.404869292127143,
+    "revenue_growth_pct": -2.3026444953446172,
+    "earnings_growth_pct": -40.68568798895536,
+    "net_margin_pct": 3.139550320129879,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 82278900000,
-        "netIncome": 1978700000,
+        "revenue": 82107300000,
+        "netIncome": 2577800000,
         "eps": null
       },
       {
@@ -1056,6 +1360,26 @@
   ],
   "news": [
     {
+      "id": "97892d65-7eff-4378-8ab3-0a0e8bf14e20",
+      "type": "event",
+      "date": "2026-06-09T12:48:00.000Z",
+      "title": "PCBL Chemical Limited Announces Appointment of Vaneet Kumar as Chief – Batteries and Executive Director, Effective June 9, 2026",
+      "body": "PCBL Chemical Limited had appointed Mr. Vaneet Kumar as Chief – Batteries and Executive Director effective June 9, 2026. Mr. Vaneet Kumar brings a valuable industry experience of more than 20 years in energy storage, automotive sector and leading cutting-edge innovation in battery technology. This experience includes his tenure with SVOLT Energy Technology, ACME Cleantech Solution Pvt. Ltd, Great Wall Motors Pvt. Ltd, etc. His last assignment was as SVP & CTO - Battery with Adani New Industries Ltd. He has completed his B.Tech in Instrumentation Engineering from Punjab Technical University and M.Tech in Instrumentation from IIT Bombay.",
+      "keyDevTypeId": "16",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
+    {
+      "id": "44720cc9-9d29-4945-ac6b-88a184a0bc0e",
+      "type": "narrative-update",
+      "date": "2026-06-04T04:25:04.000Z",
+      "title": "PCBL: Board Meeting And Margins Will Drive A Cautious Overvaluation View",
+      "body": "Analysts have made a modest upward adjustment to the PCBL Chemical price target to ₹261, supported by slightly higher assumptions for revenue growth and profit margins, while keeping valuation multiples broadly similar. What's in the News A board meeting is scheduled for April 30, 2026, to consider and approve the audited standalone and consolidated financial results for the quarter and financial year ended March 31, 2026 (company filing).",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/materials/nse-pcbl/pcbl-chemical-shares/bcrk5w69-carbon-reliance-will-shrink-margins-amid-ev-and-excess-supply/updates/5-analysts-have-made-a-modest-upward-adjustment-to-the-pcbl-ch",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "c45af62f-2374-4460-8cb1-15dde19bdc91",
       "type": "brief",
       "date": "2026-05-15T11:36:22.000Z",
@@ -1284,16 +1608,6 @@
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/stocks/in/materials/nse-pcbl/pcbl-chemical-shares/news/with-pcbl-chemical-limited-nsepcbl-it-looks-like-youll-get-w",
       "raw_subtype": "article"
-    },
-    {
-      "id": "0276efd6-ddf8-4d91-a865-09b5bde7e341",
-      "type": "narrative-update",
-      "date": "2025-12-15T23:08:45.000Z",
-      "title": "PCBL: Leadership Transition And Margin Pressures Will Shape A Balanced Outlook",
-      "body": "Analysts have trimmed their price target for PCBL Chemical from ₹394 to ₹340, citing a higher required return and softer margin outlook, partially offset by stronger expected revenue growth and slightly lower valuation multiples. What's in the News Resignation of Managing Director Kaushik Roy effective November 3, 2025, following a board meeting, with the company citing personal reasons for his departure (Key Developments) Special shareholders meeting on December 11, 2025 via postal ballot to consider the appointment of Nilesh Koul as the new Managing Director (Key Developments) Board meeting on October 17, 2025 to review unaudited standalone and consolidated financial results for the quarter and half year ended September 30, 2025, and to consider an interim dividend and record date for fi",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/materials/nse-pcbl/pcbl-chemical-shares/bcrk5w69-carbon-reliance-will-shrink-margins-amid-ev-and-excess-supply/updates/2-analysts-have-trimmed-their-price-target-for-pcbl-chemical-f",
-      "raw_subtype": "narrative-update"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/PCBL.json"

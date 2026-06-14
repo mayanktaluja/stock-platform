@@ -3,24 +3,24 @@
   "name": "Nanta Tech Limited",
   "sector": "Tech",
   "sws_url": "https://simplywall.st/stocks/in/tech/bse-544668/nanta-tech-shares",
-  "parsed_at": "2026-05-31T20:46:52.950Z",
+  "parsed_at": "2026-06-10T23:46:48.636Z",
   "company_id": "46F50745-DC89-4320-B5A7-B5E97CADFE13",
   "classification_status": "Active",
   "groww_source": null,
   "overview": {
     "snowflake": {
-      "valuation": 2,
+      "valuation": 1,
       "future": 0,
       "past": 4,
       "financial_health": 4,
       "dividends": 0,
       "future_growth": 0,
       "past_performance": 4,
-      "value": 2,
+      "value": 1,
       "health": 4,
       "dividend": 0
     },
-    "snowflake_total": 10,
+    "snowflake_total": 9,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 13,
@@ -71,21 +71,310 @@
         }
       ]
     },
-    "current_price_inr": 373.35,
-    "market_cap_inr": 1915348867.4592319,
-    "market_cap_usd": 120714180851.549,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 410,
+    "market_cap_inr": 2103369587.942373,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
-    "fifty_two_week": null,
+    "fifty_two_week": {
+      "low": 245.7,
+      "high": 448.5
+    },
     "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
+    "fair_value_source_detail": {
+      "method": "missing_consensus_narrative",
+      "owner_name": null,
+      "owner_classification": null,
+      "narrative_id": null,
+      "narrative_type": null,
+      "published_at": null
+    },
     "upside_pct": null,
     "multiples": {
-      "pe": 23.4,
+      "pe": 25.7,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -94,15 +383,14 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": "2026-05-31T20:46:52.950Z",
+      "pe_as_of": "2026-06-10T23:46:48.636Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://simplywall.st/stocks/in/tech/bse-544668/nanta-tech-shares"
     },
     "rewards": [
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (23.4x) is below the Electronic industry average (33.8x)",
       "Earnings grew by 71.7% over the past year",
-      "Trading at good value vs. peer average Price-To-Earnings ratio"
+      "Price-To-Earnings ratio (25.7x) is below the Electronic industry average (30.4x)"
     ],
     "risks": [
       "Does not have a meaningful market cap (₹2B)",
@@ -119,9 +407,9 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 33.78759453,
+      "pe": 30.403176606,
       "net_income_margin_1y": 0.07373093212,
-      "future_revenue_growth_3y": 1.141410219
+      "future_revenue_growth_3y": 1.162165232
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -135,30 +423,30 @@
     "pe_benchmark_source": {
       "provider": "sws_industry_api",
       "label": "SWS industry API",
-      "company_pe": 23.4,
+      "company_pe": 25.7,
       "company_pe_source": "sws_statement",
       "company_pe_source_label": "SWS visible statement",
-      "industry_pe": 33.78759453,
+      "industry_pe": 30.403176606,
       "industry_name": "Tech",
       "industry_code": "8130000",
-      "sample_count": 59,
+      "sample_count": 62,
       "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 23.4,
-        "industry_pe": 33.8,
+        "company_pe": 25.7,
+        "industry_pe": 30.4,
         "industry_name": "Indian Electronic",
-        "description": "544668 is good value based on its Price-To-Earnings Ratio (23.4x) compared to the Indian Electronic industry average (33.8x).",
+        "description": "544668 is good value based on its Price-To-Earnings Ratio (25.7x) compared to the Indian Electronic industry average (30.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 33.78759453,
+        "industry_pe": 30.403176606,
         "industry_code": "8130000",
         "type": "median_profitable",
-        "count": 59,
+        "count": 62,
         "source": {
           "type": "country",
           "country": "IN",
@@ -167,7 +455,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 29.1,
+        "industry_pe": 26,
         "sample_count": 58,
         "industry_code": "8130000",
         "industry_name": "Tech"
@@ -180,32 +468,41 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 373.35,
-        "fetched_at": "2026-05-31T20:46:52.950Z",
+        "value": 410,
+        "fetched_at": "2026-06-10T23:46:48.636Z",
         "url": "https://simplywall.st/stocks/in/tech/bse-544668/nanta-tech-shares"
       },
       "multiples.pe": {
         "provider": "sws_statement",
-        "value": 23.4,
-        "fetched_at": "2026-05-31T20:46:52.950Z",
+        "value": 25.7,
+        "fetched_at": "2026-06-10T23:46:48.636Z",
         "url": "https://simplywall.st/stocks/in/tech/bse-544668/nanta-tech-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 33.78759453,
+        "value": 30.403176606,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.07373093212,
-        "fetched_at": "2026-05-31T20:46:52.950Z",
+        "fetched_at": "2026-06-10T23:46:48.636Z",
         "url": "https://simplywall.st/stocks/in/tech/bse-544668/nanta-tech-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 1.141410219,
-        "fetched_at": "2026-05-31T20:46:52.950Z",
+        "value": 1.162165232,
+        "fetched_at": "2026-06-10T23:46:48.636Z",
+        "url": "https://simplywall.st/stocks/in/tech/bse-544668/nanta-tech-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 245.7,
+          "high": 448.5
+        },
+        "fetched_at": "2026-06-10T23:46:48.636Z",
         "url": "https://simplywall.st/stocks/in/tech/bse-544668/nanta-tech-shares"
       }
     },
@@ -232,12 +529,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -4.999999999999994,
-      "7D": 9.166666666666673,
-      "1M": -16.75585284280936,
-      "3M": 34.033387183629515,
-      "6M": 51.95360195360197,
-      "1Y": 51.95360195360197,
+      "1D": -0.06093845216331505,
+      "7D": 21.445497630331744,
+      "1M": 1.1222098902454092,
+      "3M": 47.37598849748383,
+      "6M": 66.87016687016688,
+      "1Y": 66.87016687016688,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -331,6 +628,16 @@
     "BSE"
   ],
   "news": [
+    {
+      "id": "02cb34e9-d4a8-4442-92c5-74fcc42955a8",
+      "type": "brief",
+      "date": "2026-06-08T11:28:26.000Z",
+      "title": "Investor sentiment improves as stock rises 16%",
+      "body": "After last week's 16% share price gain to ₹410, the stock trades at a trailing P/E ratio of 25.8x. Average trailing P/E is 30x in the Electronic industry in India.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "80e3fd62-de9c-44d4-a300-ee235be01018",
       "type": "event",

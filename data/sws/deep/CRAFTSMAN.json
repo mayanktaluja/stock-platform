@@ -3,7 +3,7 @@
   "name": "Craftsman Automation Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-craftsman/craftsman-automation-shares",
-  "parsed_at": "2026-05-31T22:24:31.144Z",
+  "parsed_at": "2026-06-11T01:20:03.143Z",
   "company_id": "C385E021-C4A2-4219-A9F8-D9164EF63948",
   "classification_status": "Active",
   "groww_source": {
@@ -28,9 +28,287 @@
       "dividend": 0
     },
     "snowflake_total": 11,
-    "current_price_inr": 9074,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 8986.5,
     "market_cap_inr": 207219100000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "medium5",
     "shares_outstanding": 23855583,
     "fifty_two_week": {
@@ -39,11 +317,19 @@
     },
     "fair_value_inr": 8310.125,
     "fair_value_range_inr": {
-      "min": 1588.546847,
+      "min": 1616.480153,
       "max": 8310.125,
       "count": 11
     },
-    "upside_pct": -8.418283006391889,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "6ddc65a3-ab87-4642-9ead-777f27c39744",
+      "narrative_type": null,
+      "published_at": "2026-03-07T00:15:47.730Z"
+    },
+    "upside_pct": -7.52656762922161,
     "multiples": {
       "pe": 53.97,
       "ps": 2.57,
@@ -130,8 +416,8 @@
     "dividend_yield_pct": 0.13,
     "industry_benchmarks": {
       "pe": 35.35685650485562,
-      "net_income_margin_1y": 0.0775877089,
-      "future_revenue_growth_3y": 0.6569887,
+      "net_income_margin_1y": 0.07792327667,
+      "future_revenue_growth_3y": 0.6221294666,
       "sector_pe": 35.35685650485562
     },
     "industry_benchmarks_meta": {
@@ -166,18 +452,18 @@
         "url": "https://groww.in/stocks/craftsman-automation-ltd"
       },
       "sws_statement": {
-        "company_pe": 56.4,
-        "industry_pe": 26.4,
+        "company_pe": 56.7,
+        "industry_pe": 25.8,
         "industry_name": "Indian Machinery",
-        "description": "CRAFTSMAN is expensive based on its Price-To-Earnings Ratio (56.4x) compared to the Indian Machinery industry average (26.4x).",
+        "description": "CRAFTSMAN is expensive based on its Price-To-Earnings Ratio (56.7x) compared to the Indian Machinery industry average (25.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 25.908333666,
+        "industry_pe": 25.769114311,
         "industry_code": "3070000",
         "type": "median_profitable",
-        "count": 217,
+        "count": 220,
         "source": {
           "type": "country",
           "country": "IN",
@@ -186,25 +472,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 25.799999999999997,
-        "sample_count": 218,
+        "industry_pe": 25.6,
+        "sample_count": 219,
         "industry_code": "3070000",
         "industry_name": "Capital Goods"
       },
       "sws_primary_industry": {
-        "industry_pe": 21.475319439,
+        "industry_pe": 21.150765987,
         "industry_name": "Capital Goods",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 64.74607727155804
+        "company_pe": 64.12173500119643
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 9074,
-        "fetched_at": "2026-05-31T22:24:31.144Z",
+        "value": 8986.5,
+        "fetched_at": "2026-06-11T01:20:03.143Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-craftsman/craftsman-automation-shares"
       },
       "market_cap_inr": {
@@ -212,6 +498,24 @@
         "value": 207219100000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/craftsman-automation-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 8310.125,
+        "fetched_at": "2026-06-11T01:20:03.143Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-craftsman/craftsman-automation-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "6ddc65a3-ab87-4642-9ead-777f27c39744",
+        "narrative_type": null,
+        "published_at": "2026-03-07T00:15:47.730Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": -7.52656762922161,
+        "fetched_at": "2026-06-11T01:20:03.143Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-craftsman/craftsman-automation-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -251,14 +555,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.0775877089,
-        "fetched_at": "2026-05-31T22:24:31.144Z",
+        "value": 0.07792327667,
+        "fetched_at": "2026-06-11T01:20:03.143Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-craftsman/craftsman-automation-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.6569887,
-        "fetched_at": "2026-05-31T22:24:31.144Z",
+        "value": 0.6221294666,
+        "fetched_at": "2026-06-11T01:20:03.143Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-craftsman/craftsman-automation-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -390,16 +694,16 @@
     "quick_ratio": 0.6122046794501597,
     "cash_ratio": 0.058331620384418366,
     "returns_pct": {
-      "1D": 4.436899349715141,
-      "7D": 4.274879338083199,
-      "1M": 17.07631765692536,
-      "3M": 20.568695190007972,
-      "6M": 29.17645384013097,
-      "1Y": 62.39821029082774,
+      "1D": -1.5339944118774995,
+      "7D": 0.9889307186604483,
+      "1M": 2.0497388144446966,
+      "3M": 22.198803372314387,
+      "6M": 28.085803876852903,
+      "1Y": 66.60177975528366,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 9,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -847,6 +1151,16 @@
   ],
   "news": [
     {
+      "id": "8074cebf-40bc-449b-97e4-1b89a07cb841",
+      "type": "narrative-update",
+      "date": "2026-06-07T12:05:43.000Z",
+      "title": "CRAFTSMAN: Upcoming Capital Raise And Dividend Will Support Long Term Confidence",
+      "body": "Analysts have raised their price target on Craftsman Automation from ₹9,800 to ₹11,000, citing updated assumptions on discount rate, revenue growth, profit margin and future P/E, which together support a higher valuation framework. What's in the News A board meeting is scheduled for May 07, 2026 to consider and approve audited standalone and consolidated financial results for the quarter and year ended March 31, 2026, and to consider and recommend a final dividend, if any.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-craftsman/craftsman-automation-shares/snhmd9s3-reshoring-and-ev-demand-will-reshape-global-component-markets/updates/6-analysts-have-raised-their-price-target-on-craftsman-automat",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "dead97ba-247f-4c71-94b4-d37caf320840",
       "type": "narrative-update",
       "date": "2026-05-24T10:04:51.000Z",
@@ -1094,16 +1408,6 @@
       "body": "Analysts have maintained their price target on Craftsman Automation at ₹7,814 per share, citing stable assumptions on revenue growth, profit margins, and valuation multiples that continue to support the existing fair value assessment. What's in the News The board meeting is scheduled for November 08, 2025 to review and approve unaudited standalone and consolidated financial results for the quarter and half year ended September 30, 2025, subject to limited review by statutory auditors (company filing).",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-craftsman/craftsman-automation-shares/o6li1v4g-new-plants-and-automation-will-power-indias-manufacturing-expansion-4hnc/updates/14-analysts-have-maintained-their-price-target-on-craftsman-aut",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "9a254de4-0182-4d4f-83f8-3e2b2f4a948b",
-      "type": "narrative-update",
-      "date": "2025-12-11T05:05:32.000Z",
-      "title": "CRAFTSMAN: Upcoming Board Review Will Support Positive Long Term Profitability Outlook",
-      "body": "Analysts have reaffirmed their price target on Craftsman Automation at ₹7,814 per share, citing unchanged long term growth assumptions and profitability outlook despite marginal tweaks to the discount rate and valuation multiples. What's in the News An upcoming board meeting is scheduled for November 8, 2025, to review unaudited standalone and consolidated financial results for the quarter and half year ended September 30, 2025 (company filing) Statutory auditors will conduct a limited review of the financial results to be presented at the November 8, 2025 board meeting (company filing) The board agenda also includes consideration of other business matters, indicating potential additional corporate decisions or updates alongside the financial review (company filing) Valuation Changes Fair ",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-craftsman/craftsman-automation-shares/o6li1v4g-new-plants-and-automation-will-power-indias-manufacturing-expansion-4hnc/updates/13-analysts-have-reaffirmed-their-price-target-on-craftsman-aut",
       "raw_subtype": "narrative-update"
     }
   ],

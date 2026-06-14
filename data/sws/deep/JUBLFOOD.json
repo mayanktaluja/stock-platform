@@ -3,7 +3,7 @@
   "name": "Jubilant FoodWorks Limited",
   "sector": "Consumer Services",
   "sws_url": "https://simplywall.st/stocks/in/consumer-services/nse-jublfood/jubilant-foodworks-shares",
-  "parsed_at": "2026-05-31T20:21:16.758Z",
+  "parsed_at": "2026-06-10T23:26:35.076Z",
   "company_id": "2F6438A3-BE45-48CC-B307-7FF4E36010D6",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 4
     },
     "snowflake_total": 14,
-    "current_price_inr": 427.5,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_STABLE_IN_PAST_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 425.05,
     "market_cap_inr": 282050800000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midlarge6",
     "shares_outstanding": 655286368,
     "fifty_two_week": {
       "low": 408.8,
       "high": 718.95
     },
-    "fair_value_inr": 597.55172,
+    "fair_value_inr": 547.75862,
     "fair_value_range_inr": {
-      "min": 305.709643,
-      "max": 597.55172,
-      "count": 17
+      "min": 309.609293,
+      "max": 547.75862,
+      "count": 18
     },
-    "upside_pct": 39.77818011695908,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "c717beda-0b47-484b-97b7-da8fa791d99f",
+      "narrative_type": null,
+      "published_at": "2026-06-06T08:06:23.833Z"
+    },
+    "upside_pct": 28.869220091753895,
     "multiples": {
       "pe": 63.51,
       "ps": 2.96,
@@ -61,7 +347,7 @@
     },
     "rewards": [
       "Earnings grew by 64% over the past year",
-      "Analysts in good agreement that stock price will rise by 28.1%",
+      "Analysts in good agreement that stock price will rise by 28.9%",
       "Earnings are forecast to grow 21.77% per year"
     ],
     "risks": [
@@ -69,7 +355,7 @@
     ],
     "dividend": {
       "yield_pct": 0.28,
-      "payout_pct": 24.91227935180345,
+      "payout_pct": 21.236689431667187,
       "annualized_dividend": 1.2,
       "listing_currency": "INR",
       "recent_payments": [
@@ -209,8 +495,8 @@
     "dividend_yield_pct": 0.28,
     "industry_benchmarks": {
       "pe": 54.391168045635034,
-      "net_income_margin_1y": 0.08680669159,
-      "future_revenue_growth_3y": 0.3940313611,
+      "net_income_margin_1y": 0.08657243816,
+      "future_revenue_growth_3y": 0.39295204,
       "sector_pe": 54.391168045635034
     },
     "industry_benchmarks_meta": {
@@ -245,18 +531,18 @@
         "url": "https://groww.in/stocks/jubilant-foodworks-ltd"
       },
       "sws_statement": {
-        "company_pe": 75.7,
-        "industry_pe": 27.1,
+        "company_pe": 75.2,
+        "industry_pe": 28.1,
         "industry_name": "Indian Hospitality",
-        "description": "JUBLFOOD is expensive based on its Price-To-Earnings Ratio (75.7x) compared to the Indian Hospitality industry average (27.1x).",
+        "description": "JUBLFOOD is expensive based on its Price-To-Earnings Ratio (75.2x) compared to the Indian Hospitality industry average (28.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 27.078875295,
+        "industry_pe": 28.141130414,
         "industry_code": "4210000",
         "type": "median_profitable",
-        "count": 80,
+        "count": 81,
         "source": {
           "type": "country",
           "country": "IN",
@@ -265,25 +551,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 25.25,
+        "industry_pe": 26.450000000000003,
         "sample_count": 80,
         "industry_code": "4210000",
         "industry_name": "Consumer Services"
       },
       "sws_primary_industry": {
-        "industry_pe": 17.518712405,
+        "industry_pe": 17.366873383,
         "industry_name": "Consumer Services",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 88.7499951907998
+        "company_pe": 75.22212369108449
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 427.5,
-        "fetched_at": "2026-05-31T20:21:16.758Z",
+        "value": 425.05,
+        "fetched_at": "2026-06-10T23:26:35.076Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/nse-jublfood/jubilant-foodworks-shares"
       },
       "market_cap_inr": {
@@ -291,6 +577,24 @@
         "value": 282050800000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/jubilant-foodworks-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 547.75862,
+        "fetched_at": "2026-06-10T23:26:35.076Z",
+        "url": "https://simplywall.st/stocks/in/consumer-services/nse-jublfood/jubilant-foodworks-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "c717beda-0b47-484b-97b7-da8fa791d99f",
+        "narrative_type": null,
+        "published_at": "2026-06-06T08:06:23.833Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 28.869220091753895,
+        "fetched_at": "2026-06-10T23:26:35.076Z",
+        "url": "https://simplywall.st/stocks/in/consumer-services/nse-jublfood/jubilant-foodworks-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -330,14 +634,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.08680669159,
-        "fetched_at": "2026-05-31T20:21:16.758Z",
+        "value": 0.08657243816,
+        "fetched_at": "2026-06-10T23:26:35.076Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/nse-jublfood/jubilant-foodworks-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.3940313611,
-        "fetched_at": "2026-05-31T20:21:16.758Z",
+        "value": 0.39295204,
+        "fetched_at": "2026-06-10T23:26:35.076Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/nse-jublfood/jubilant-foodworks-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -446,13 +750,13 @@
         "url": "https://groww.in/stocks/jubilant-foodworks-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 39.84103988622922,
+    "earnings_growth_yoy_pct": 41.463321451630776,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 12.278575820409579,
-    "latest_revenue": 91414140000,
-    "latest_net_income": 3156450000,
+    "revenue_growth_pct": 12.314555650248032,
+    "latest_revenue": 95125060000,
+    "latest_net_income": 3702760000,
     "latest_eps": 6.73,
-    "most_recent_reported_date": "2026-04-30",
+    "most_recent_reported_date": "2026-06-05",
     "pb": 12.31,
     "ps": 2.96,
     "book_value": 34.7369207,
@@ -469,16 +773,16 @@
     "quick_ratio": 0.2804007138634892,
     "cash_ratio": 0.06643116336556655,
     "returns_pct": {
-      "1D": 0.04680552305171744,
-      "7D": -2.0954998282377137,
-      "1M": -11.928306551297894,
-      "3M": -17.772648586266588,
-      "6M": -28.92768079800499,
-      "1Y": -35.26650514839491,
+      "1D": 0.532166508987701,
+      "7D": -1.6770761045570206,
+      "1M": -7.698154180238868,
+      "3M": -7.948023822414724,
+      "6M": -27.161340073686908,
+      "1Y": -38.85932105868815,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 4,
+    "recent_news_count": 5,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -495,23 +799,18 @@
         "is_insider": null
       },
       {
+        "pct": 5.20543,
+        "shares": 34232511,
+        "is_insider": null
+      },
+      {
         "pct": 3.19619,
         "shares": 21019152,
         "is_insider": null
       },
       {
-        "pct": 2.47997,
-        "shares": 16309022,
-        "is_insider": null
-      },
-      {
         "pct": 2.20981,
         "shares": 14532400,
-        "is_insider": null
-      },
-      {
-        "pct": 2.18802,
-        "shares": 14389079,
         "is_insider": null
       },
       {
@@ -535,8 +834,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.55066,
-        "shares": 10197635,
+        "pct": 1.55081,
+        "shares": 10198588,
         "is_insider": null
       },
       {
@@ -547,6 +846,11 @@
       {
         "pct": 1.35406,
         "shares": 8904705,
+        "is_insider": null
+      },
+      {
+        "pct": 1.23986,
+        "shares": 8153729,
         "is_insider": null
       },
       {
@@ -597,7 +901,7 @@
   },
   "dividend": {
     "yield_pct": 0.28,
-    "payout_pct": 24.91227935180345,
+    "payout_pct": 21.236689431667187,
     "annualized_dividend": 1.2,
     "listing_currency": "INR",
     "recent_payments": [
@@ -735,44 +1039,44 @@
     "payment_count": 10
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-04-30",
+    "most_recent_reported_date": "2026-06-05",
     "latest_year": 2026,
-    "latest_revenue": 91414140000,
-    "latest_net_income": 3156450000,
+    "latest_revenue": 95125060000,
+    "latest_net_income": 3702760000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 12.278575820409579,
-    "earnings_growth_pct": 39.84103988622922,
-    "net_margin_pct": 3.4529122081113495,
+    "revenue_growth_pct": 12.314555650248032,
+    "earnings_growth_pct": 41.463321451630776,
+    "net_margin_pct": 3.8925179127350877,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 91414140000,
-        "netIncome": 3156450000,
+        "revenue": 95125060000,
+        "netIncome": 3702760000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 81417260000,
-        "netIncome": 2257170000,
+        "revenue": 84695220000,
+        "netIncome": 2617470000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 56550860000,
-        "netIncome": 4000230000,
+        "revenue": 62526100000,
+        "netIncome": 4296890000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 51582470000,
-        "netIncome": 3532010000,
+        "revenue": 52376930000,
+        "netIncome": 2693650000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 43961220000,
-        "netIncome": 4203920000,
+        "revenue": 47580306000,
+        "netIncome": 4636276000,
         "eps": null
       }
     ]
@@ -1004,6 +1308,16 @@
   ],
   "news": [
     {
+      "id": "480c8da9-bf90-4648-8bd4-f2048cebe721",
+      "type": "narrative-update",
+      "date": "2026-06-06T08:06:23.000Z",
+      "title": "JUBLFOOD: Upcoming Board Meetings On Results And Franchise Will Drive Bullish Phase",
+      "body": "Analysts have trimmed their price target on Jubilant FoodWorks from about ₹598 to around ₹548, citing updated assumptions on discount rates, revenue growth, profit margins and future P/E that lead to a slightly more conservative view of fair value. What's in the News Board meeting scheduled on May 20, 2026, at 15:00 IST to consider and approve the audited standalone and consolidated financial results for the year ended March 31, 2026, the limited reviewed financial results for the quarter ended March 31, 2026, and to take on record the auditors' reports.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/consumer-services/nse-jublfood/jubilant-foodworks-shares/j9boalaq-store-expansion-and-digital-investment-will-shape-restaurant-success-y6z1/updates/16-analysts-have-trimmed-their-price-target-on-jubilant-foodwor",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "baf958c5-9a45-47ea-8be1-62cd2c82011d",
       "type": "article",
       "date": "2026-05-28T00:11:23.000Z",
@@ -1191,26 +1505,6 @@
       "body": "Analysts have modestly reduced their price target on Jubilant FoodWorks by about ₹10 to approximately ₹900 per share. They cited a lower required return, offset by expectations of faster revenue growth and stronger profit margins, along with a more reasonable future earnings multiple.",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/consumer-services/nse-jublfood/jubilant-foodworks-shares/jmx5ichf-indias-digital-shift-and-urbanization-will-fuel-qsr-expansion-hg9w/updates/2-analysts-have-modestly-reduced-their-price-target-on-jubilan",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "adceb2a7-74c5-4dae-ad5c-34a1f62f4ea1",
-      "type": "article",
-      "date": "2025-12-09T00:33:45.000Z",
-      "title": "There's Been No Shortage Of Growth Recently For Jubilant FoodWorks' (NSE:JUBLFOOD) Returns On Capital",
-      "body": "To find a multi-bagger stock, what are the underlying trends we should look for in a business? Amongst other things...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/consumer-services/nse-jublfood/jubilant-foodworks-shares/news/theres-been-no-shortage-of-growth-recently-for-jubilant-food",
-      "raw_subtype": "article"
-    },
-    {
-      "id": "a95034de-8e59-4135-a6f9-362fb9c8587e",
-      "type": "narrative-update",
-      "date": "2025-12-05T01:02:06.000Z",
-      "title": "JUBLFOOD: Upcoming Board Meeting Will Signal Next Phase Of Bullish Momentum",
-      "body": "Analysts have slightly lowered their price target for Jubilant FoodWorks to Rs 691.93 from Rs 698.73, citing marginally higher discount rates and slightly softer long term profit margin expectations, which are only partly offset by a small uptick in projected revenue growth. What's in the News A board meeting is scheduled for November 13, 2025, to consider unaudited consolidated and standalone financial results for the quarter and half year ended September 30, 2025 (company filing).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/consumer-services/nse-jublfood/jubilant-foodworks-shares/j9boalaq-store-expansion-and-digital-investment-will-shape-restaurant-success-y6z1/updates/12-analysts-have-slightly-lowered-their-price-target-for-jubila",
       "raw_subtype": "narrative-update"
     }
   ],

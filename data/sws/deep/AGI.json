@@ -3,7 +3,7 @@
   "name": "AGI Greenpac Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-agi/agi-greenpac-shares",
-  "parsed_at": "2026-05-31T21:00:20.422Z",
+  "parsed_at": "2026-06-10T23:58:02.497Z",
   "company_id": "69B8E191-4133-4515-BCBD-4F0B4487632E",
   "classification_status": "Active",
   "groww_source": {
@@ -18,16 +18,16 @@
     "snowflake": {
       "valuation": 2,
       "future": 0,
-      "past": 3,
+      "past": 4,
       "financial_health": 6,
       "dividends": 4,
       "future_growth": 0,
-      "past_performance": 3,
+      "past_performance": 4,
       "value": 2,
       "health": 6,
       "dividend": 4
     },
-    "snowflake_total": 15,
+    "snowflake_total": 16,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 7,
@@ -76,9 +76,287 @@
         }
       ]
     },
-    "current_price_inr": 589.95,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 615.2,
     "market_cap_inr": 38012900000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -87,11 +365,19 @@
     },
     "fair_value_inr": 1518.117647,
     "fair_value_range_inr": {
-      "min": 514.367143,
-      "max": 514.367143,
+      "min": 513.305423,
+      "max": 513.305423,
       "count": 3
     },
-    "upside_pct": 157.32988337994743,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "5a8156c9-3dec-4e47-b102-895da4ade49c",
+      "narrative_type": null,
+      "published_at": "2024-07-25T12:57:44.838Z"
+    },
+    "upside_pct": 146.76814808192455,
     "multiples": {
       "pe": 10.81,
       "ps": 1.42,
@@ -108,13 +394,12 @@
       "pe_source_url": "https://groww.in/stocks/hsil-ltd"
     },
     "rewards": [
+      "Earnings grew by 9.1% over the past year",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Earnings have grown 22.7% per year over the past 5 years",
-      "Price-To-Earnings ratio (10.8x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (11.4x) is below the Indian market (22.9x)"
     ],
     "risks": [
-      "Highly volatile share price over past 3 months",
       "Unstable dividend track record"
     ],
     "dividend": {
@@ -203,19 +488,6 @@
         },
         {
           "exDate": "2019-08-19T00:00:00.000Z",
-          "payDate": "2019-12-26T00:00:00.000Z",
-          "recordDate": "2019-08-20T00:00:00.000Z",
-          "divAmount": null,
-          "divAmountListingCurrency": null,
-          "currencyIsoCode": "INR",
-          "dividendTypeName": "Stock dividend in stock of another issue or company (this is a catchall code for spinoffs, mergers, etc.)",
-          "divFreqTypeName": null,
-          "annualizedDividend": 3,
-          "annualizedDividendListingCurrency": 3,
-          "annualizedYield": 4.8926665867
-        },
-        {
-          "exDate": "2019-08-19T00:00:00.000Z",
           "payDate": "2019-09-07T00:00:00.000Z",
           "recordDate": "2019-08-20T00:00:00.000Z",
           "divAmount": 3,
@@ -223,6 +495,19 @@
           "currencyIsoCode": "INR",
           "dividendTypeName": "No special code applies",
           "divFreqTypeName": "Annual",
+          "annualizedDividend": 3,
+          "annualizedDividendListingCurrency": 3,
+          "annualizedYield": 4.8926665867
+        },
+        {
+          "exDate": "2019-08-19T00:00:00.000Z",
+          "payDate": "2019-12-26T00:00:00.000Z",
+          "recordDate": "2019-08-20T00:00:00.000Z",
+          "divAmount": null,
+          "divAmountListingCurrency": null,
+          "currencyIsoCode": "INR",
+          "dividendTypeName": "Stock dividend in stock of another issue or company (this is a catchall code for spinoffs, mergers, etc.)",
+          "divFreqTypeName": null,
           "annualizedDividend": 3,
           "annualizedDividendListingCurrency": 3,
           "annualizedYield": 4.8926665867
@@ -272,8 +557,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 23.156212158832627,
-      "net_income_margin_1y": 0.08290400815,
-      "future_revenue_growth_3y": 0.1742544252,
+      "net_income_margin_1y": 0.06909072618,
+      "future_revenue_growth_3y": 0.1689719642,
       "sector_pe": 23.156212158832627
     },
     "industry_benchmarks_meta": {
@@ -308,18 +593,18 @@
         "url": "https://groww.in/stocks/hsil-ltd"
       },
       "sws_statement": {
-        "company_pe": 10.8,
-        "industry_pe": 16.9,
+        "company_pe": 11.4,
+        "industry_pe": 17,
         "industry_name": "Indian Packaging",
-        "description": "AGI is good value based on its Price-To-Earnings Ratio (10.8x) compared to the Indian Packaging industry average (16.9x).",
+        "description": "AGI is good value based on its Price-To-Earnings Ratio (11.4x) compared to the Indian Packaging industry average (17x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 17.117180323,
+        "industry_pe": 17.045579205,
         "industry_code": "2040000",
         "type": "median_profitable",
-        "count": 84,
+        "count": 86,
         "source": {
           "type": "country",
           "country": "IN",
@@ -328,8 +613,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17,
-        "sample_count": 85,
+        "industry_pe": 16.950000000000003,
+        "sample_count": 86,
         "industry_code": "2040000",
         "industry_name": "Materials"
       },
@@ -341,8 +626,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 589.95,
-        "fetched_at": "2026-05-31T21:00:20.422Z",
+        "value": 615.2,
+        "fetched_at": "2026-06-10T23:58:02.497Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-agi/agi-greenpac-shares"
       },
       "market_cap_inr": {
@@ -350,6 +635,24 @@
         "value": 38012900000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/hsil-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 1518.117647,
+        "fetched_at": "2026-06-10T23:58:02.497Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-agi/agi-greenpac-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "5a8156c9-3dec-4e47-b102-895da4ade49c",
+        "narrative_type": null,
+        "published_at": "2024-07-25T12:57:44.838Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 146.76814808192455,
+        "fetched_at": "2026-06-10T23:58:02.497Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-agi/agi-greenpac-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -389,14 +692,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.08290400815,
-        "fetched_at": "2026-05-31T21:00:20.422Z",
+        "value": 0.06909072618,
+        "fetched_at": "2026-06-10T23:58:02.497Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-agi/agi-greenpac-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.1742544252,
-        "fetched_at": "2026-05-31T21:00:20.422Z",
+        "value": 0.1689719642,
+        "fetched_at": "2026-06-10T23:58:02.497Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-agi/agi-greenpac-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -528,16 +831,16 @@
     "quick_ratio": 0.8841817141923359,
     "cash_ratio": 0.11600893319170956,
     "returns_pct": {
-      "1D": 0.5282440146545152,
-      "7D": 1.6541742052209911,
-      "1M": -7.4950999607996796,
-      "3M": 10.291643297812689,
-      "6M": -22.957884427032315,
-      "1Y": -30.508274927852053,
+      "1D": -0.5335489086499523,
+      "7D": 0.7946260342426514,
+      "1M": -2.2172772788683037,
+      "3M": 13.831066703672864,
+      "6M": -15.174077904170968,
+      "1Y": -28.825128709434832,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 1,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -599,11 +902,6 @@
         "is_insider": null
       },
       {
-        "pct": 0.13585,
-        "shares": 87892,
-        "is_insider": null
-      },
-      {
         "pct": 0.13555,
         "shares": 87698,
         "is_insider": null
@@ -616,6 +914,11 @@
       {
         "pct": 0.10318,
         "shares": 66756,
+        "is_insider": null
+      },
+      {
+        "pct": 0.07583,
+        "shares": 49061,
         "is_insider": null
       },
       {
@@ -740,19 +1043,6 @@
       },
       {
         "exDate": "2019-08-19T00:00:00.000Z",
-        "payDate": "2019-12-26T00:00:00.000Z",
-        "recordDate": "2019-08-20T00:00:00.000Z",
-        "divAmount": null,
-        "divAmountListingCurrency": null,
-        "currencyIsoCode": "INR",
-        "dividendTypeName": "Stock dividend in stock of another issue or company (this is a catchall code for spinoffs, mergers, etc.)",
-        "divFreqTypeName": null,
-        "annualizedDividend": 3,
-        "annualizedDividendListingCurrency": 3,
-        "annualizedYield": 4.8926665867
-      },
-      {
-        "exDate": "2019-08-19T00:00:00.000Z",
         "payDate": "2019-09-07T00:00:00.000Z",
         "recordDate": "2019-08-20T00:00:00.000Z",
         "divAmount": 3,
@@ -760,6 +1050,19 @@
         "currencyIsoCode": "INR",
         "dividendTypeName": "No special code applies",
         "divFreqTypeName": "Annual",
+        "annualizedDividend": 3,
+        "annualizedDividendListingCurrency": 3,
+        "annualizedYield": 4.8926665867
+      },
+      {
+        "exDate": "2019-08-19T00:00:00.000Z",
+        "payDate": "2019-12-26T00:00:00.000Z",
+        "recordDate": "2019-08-20T00:00:00.000Z",
+        "divAmount": null,
+        "divAmountListingCurrency": null,
+        "currencyIsoCode": "INR",
+        "dividendTypeName": "Stock dividend in stock of another issue or company (this is a catchall code for spinoffs, mergers, etc.)",
+        "divFreqTypeName": null,
         "annualizedDividend": 3,
         "annualizedDividendListingCurrency": 3,
         "annualizedYield": 4.8926665867
@@ -1033,6 +1336,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "c8761553-6476-4842-9a35-043647cdeceb",
+      "type": "brief",
+      "date": "2026-06-09T11:30:59.000Z",
+      "title": "Now 21% overvalued after recent price rise",
+      "body": "Over the last 90 days, the stock has risen 16% to ₹619. The fair value is estimated to be ₹513, however this is not to be taken as a sell recommendation but rather should be used as a guide only. Revenue has grown by 4.9% over the last 3 years. Earnings per share has grown by 13%.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "defaaed4-9e06-41cd-b5c6-03987d628de2",
       "type": "brief",

@@ -3,7 +3,7 @@
   "name": "Shree Digvijay Cement Company Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-shredigcem/shree-digvijay-cement-shares",
-  "parsed_at": "2026-05-31T22:16:34.862Z",
+  "parsed_at": "2026-06-11T01:17:48.698Z",
   "company_id": "7E9EAFAE-1CDA-45D8-84E0-3AAA9FDAC9F3",
   "classification_status": "Active",
   "groww_source": {
@@ -76,22 +76,308 @@
         }
       ]
     },
-    "current_price_inr": 70.98,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_LONG_FALLEN"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_VOLATILE_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_50_TO_75"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 69.65,
     "market_cap_inr": 10572700000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 53.9,
       "high": 107.7
     },
-    "fair_value_inr": 7.893117,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 7.893117,
-      "max": 7.893117,
+      "min": 8.133942,
+      "max": 8.133942,
       "count": 1
     },
-    "upside_pct": -88.87980135249366,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "ee1343e6-72bb-45c5-a351-16e3bfd2fe5b",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 42.31,
       "ps": 1.42,
@@ -111,7 +397,7 @@
     "risks": [
       "High level of [[non-cash earnings]]",
       "Earnings have declined by 10.4% per year over past 5 years",
-      "Dividend of 1.4% is not well covered by free cash flows"
+      "Dividend of 1.44% is not well covered by free cash flows"
     ],
     "dividend": {
       "yield_pct": 1.4,
@@ -229,8 +515,8 @@
     "dividend_yield_pct": 1.4,
     "industry_benchmarks": {
       "pe": 33.46668783055572,
-      "net_income_margin_1y": 0.06992827437,
-      "future_revenue_growth_3y": 0.1136712015,
+      "net_income_margin_1y": 0.06942786673,
+      "future_revenue_growth_3y": 0.1087216085,
       "sector_pe": 33.46668783055572
     },
     "industry_benchmarks_meta": {
@@ -265,15 +551,15 @@
         "url": "https://groww.in/stocks/shree-digvijay-cement-company-ltd"
       },
       "sws_statement": {
-        "company_pe": 42.4,
+        "company_pe": 41.2,
         "industry_pe": 28.8,
         "industry_name": "Indian Basic Materials",
-        "description": "SHREDIGCEM is expensive based on its Price-To-Earnings Ratio (42.4x) compared to the Indian Basic Materials industry average (28.8x).",
+        "description": "SHREDIGCEM is expensive based on its Price-To-Earnings Ratio (41.2x) compared to the Indian Basic Materials industry average (28.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 28.763403424,
+        "industry_pe": 28.803893999,
         "industry_code": "2030000",
         "type": "median_profitable",
         "count": 47,
@@ -285,8 +571,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 28.1,
-        "sample_count": 47,
+        "industry_pe": 28.65,
+        "sample_count": 46,
         "industry_code": "2030000",
         "industry_name": "Materials"
       },
@@ -298,8 +584,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 70.98,
-        "fetched_at": "2026-05-31T22:16:34.862Z",
+        "value": 69.65,
+        "fetched_at": "2026-06-11T01:17:48.698Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-shredigcem/shree-digvijay-cement-shares"
       },
       "market_cap_inr": {
@@ -346,14 +632,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.06992827437,
-        "fetched_at": "2026-05-31T22:16:34.862Z",
+        "value": 0.06942786673,
+        "fetched_at": "2026-06-11T01:17:48.698Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-shredigcem/shree-digvijay-cement-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.1136712015,
-        "fetched_at": "2026-05-31T22:16:34.862Z",
+        "value": 0.1087216085,
+        "fetched_at": "2026-06-11T01:17:48.698Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-shredigcem/shree-digvijay-cement-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -485,12 +771,12 @@
     "quick_ratio": 2.207241766467066,
     "cash_ratio": 0.02259543413173653,
     "returns_pct": {
-      "1D": -1.183349575386321,
-      "7D": 0.21177467174926684,
-      "1M": -1.7305828603073514,
-      "3M": 2.1883098186006484,
-      "6M": -21.220865704772464,
-      "1Y": -13.131807612287346,
+      "1D": -0.5994005994005817,
+      "7D": -3.5585710329548506,
+      "1M": -7.515602177665643,
+      "3M": 10.014215763702422,
+      "6M": -22.100436192819586,
+      "1Y": -11.835443037974676,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -985,16 +1271,6 @@
       "keyDevTypeId": "81",
       "source_url": null,
       "raw_subtype": "EventActivity"
-    },
-    {
-      "id": "d4032bbb-b820-4ba7-87df-16cb7ff24c1d",
-      "type": "brief",
-      "date": "2025-12-12T11:53:26.000Z",
-      "title": "Executive Chairman recently sold ₹33m worth of stock",
-      "body": "On the 10th of December, Anil Singhvi sold around 369k shares on-market at roughly ₹89.96 per share. This transaction amounted to 32% of their direct individual holding at the time of the trade. This was the largest sale by an insider in the last 3 months. This was Anil's only on-market trade for the last 12 months.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/SHREDIGCEM.json"

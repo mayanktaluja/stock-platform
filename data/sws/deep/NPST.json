@@ -3,7 +3,7 @@
   "name": "Network People Services Technologies Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-npst/network-people-services-technologies-shares",
-  "parsed_at": "2026-05-31T21:15:48.088Z",
+  "parsed_at": "2026-06-11T00:18:21.788Z",
   "company_id": "F39209FA-8297-4B43-969A-FA3B4FF2F3B5",
   "classification_status": "Active",
   "groww_source": {
@@ -20,14 +20,14 @@
       "future": 0,
       "past": 1,
       "financial_health": 5,
-      "dividends": 1,
+      "dividends": 0,
       "future_growth": 0,
       "past_performance": 1,
       "value": 1,
       "health": 5,
-      "dividend": 1
+      "dividend": 0
     },
-    "snowflake_total": 8,
+    "snowflake_total": 7,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 7,
@@ -76,22 +76,308 @@
         }
       ]
     },
-    "current_price_inr": 1155.3,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOO_EARLY"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOO_EARLY"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 1650.7,
     "market_cap_inr": 21468900000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 846.6,
       "high": 2388.3
     },
-    "fair_value_inr": 241.32131,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 241.32131,
-      "max": 241.32131,
+      "min": 248.932746,
+      "max": 248.932746,
       "count": 3
     },
-    "upside_pct": -79.11180559162122,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "ff62e13b-5242-4434-b007-66d1f011f11b",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 62.06,
       "ps": 13.45,
@@ -132,7 +418,7 @@
           "divFreqTypeName": "Annual",
           "annualizedDividend": 2,
           "annualizedDividendListingCurrency": 2,
-          "annualizedYield": 0.1453282352
+          "annualizedYield": 0.1451738631
         }
       ],
       "payment_count": 1
@@ -141,7 +427,7 @@
     "industry_benchmarks": {
       "pe": 18.761595487228476,
       "net_income_margin_1y": 0.4629887388,
-      "future_revenue_growth_3y": 0.5092423002,
+      "future_revenue_growth_3y": 0.5075143927,
       "sector_pe": 18.761595487228476
     },
     "industry_benchmarks_meta": {
@@ -176,18 +462,18 @@
         "url": "https://groww.in/stocks/network-people-services-technologies-ltd"
       },
       "sws_statement": {
-        "company_pe": 51.3,
-        "industry_pe": 25.6,
+        "company_pe": 69.9,
+        "industry_pe": 26.4,
         "industry_name": "Indian Diversified Financial",
-        "description": "NPST is expensive based on its Price-To-Earnings Ratio (51.3x) compared to the Indian Diversified Financial industry average (25.6x).",
+        "description": "NPST is expensive based on its Price-To-Earnings Ratio (69.9x) compared to the Indian Diversified Financial industry average (26.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 25.581812879,
+        "industry_pe": 26.387641502,
         "industry_code": "7110000",
         "type": "median_profitable",
-        "count": 131,
+        "count": 126,
         "source": {
           "type": "country",
           "country": "IN",
@@ -196,8 +482,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.4,
-        "sample_count": 124,
+        "industry_pe": 20.95,
+        "sample_count": 118,
         "industry_code": "7110000",
         "industry_name": "Diversified Financials"
       },
@@ -209,8 +495,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1155.3,
-        "fetched_at": "2026-05-31T21:15:48.088Z",
+        "value": 1650.7,
+        "fetched_at": "2026-06-11T00:18:21.788Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-npst/network-people-services-technologies-shares"
       },
       "market_cap_inr": {
@@ -258,13 +544,13 @@
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.4629887388,
-        "fetched_at": "2026-05-31T21:15:48.088Z",
+        "fetched_at": "2026-06-11T00:18:21.788Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-npst/network-people-services-technologies-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.5092423002,
-        "fetched_at": "2026-05-31T21:15:48.088Z",
+        "value": 0.5075143927,
+        "fetched_at": "2026-06-11T00:18:21.788Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-npst/network-people-services-technologies-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -396,12 +682,12 @@
     "quick_ratio": 7.428372255141164,
     "cash_ratio": 6.047403276402927,
     "returns_pct": {
-      "1D": 12.427014402491247,
-      "7D": 13.065179095713447,
-      "1M": -4.303168357838065,
-      "3M": -1.1296534017971798,
-      "6M": -30.058118416273157,
-      "1Y": -46.87054495286273,
+      "1D": 4.952950152594106,
+      "7D": 18.77248524967622,
+      "1M": 36.36513837257332,
+      "3M": 67.61779041429733,
+      "6M": 13.786447921692977,
+      "1Y": -23.37294587317797,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -494,7 +780,7 @@
         "divFreqTypeName": "Annual",
         "annualizedDividend": 2,
         "annualizedDividendListingCurrency": 2,
-        "annualizedYield": 0.1453282352
+        "annualizedYield": 0.1451738631
       }
     ],
     "payment_count": 1
@@ -726,6 +1012,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "15810a29-3da5-42c4-97ee-5404f27399c4",
+      "type": "brief",
+      "date": "2026-06-04T11:28:35.000Z",
+      "title": "Investor sentiment improves as stock rises 39%",
+      "body": "After last week's 39% share price gain to ₹1,429, the stock trades at a trailing P/E ratio of 63.5x. Average trailing P/E is 26x in the Diversified Financial industry in India. Total returns to shareholders of 508% over the past three years.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "43d729e6-2307-41ed-a3c4-c374d1a1ab3a",
       "type": "brief",

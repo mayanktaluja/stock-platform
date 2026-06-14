@@ -3,7 +3,7 @@
   "name": "Brookfield India Real Estate Trust",
   "sector": "Real Estate",
   "sws_url": "https://simplywall.st/stocks/in/real-estate/nse-biret/brookfield-india-real-estate-trust-shares",
-  "parsed_at": "2026-05-31T21:36:21.970Z",
+  "parsed_at": "2026-06-11T00:29:34.376Z",
   "company_id": "D18CC8A9-343A-44EB-9690-A455EC207B03",
   "classification_status": "Active",
   "groww_source": null,
@@ -12,31 +12,320 @@
       "valuation": 4,
       "future": 4,
       "past": 5,
-      "financial_health": 3,
+      "financial_health": 0,
       "dividends": 4,
       "future_growth": 4,
       "past_performance": 5,
       "value": 4,
-      "health": 3,
+      "health": 0,
       "dividend": 4
     },
-    "snowflake_total": 20,
-    "current_price_inr": 318.88,
-    "market_cap_inr": 264632411506,
-    "market_cap_usd": 120714180851.549,
+    "snowflake_total": 17,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SAME_PE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_LONG_FALLEN"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_VOLATILE_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_50_TO_75"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 319.2,
+    "market_cap_inr": 264897973384,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midlarge6",
     "shares_outstanding": 829880869,
-    "fifty_two_week": null,
-    "fair_value_inr": 375.46154,
+    "fifty_two_week": {
+      "low": 306.9,
+      "high": 369
+    },
+    "fair_value_inr": 367.53333,
     "fair_value_range_inr": {
-      "min": 375.46154,
-      "max": 492.170589,
+      "min": 367.53333,
+      "max": 429.774136,
       "count": 13
     },
-    "upside_pct": 17.74383467134973,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "6e3b7845-40dc-478d-b81d-ac46375f27c0",
+      "narrative_type": null,
+      "published_at": "2026-06-05T13:04:32.323Z"
+    },
+    "upside_pct": 15.142020676691725,
     "multiples": {
-      "pe": 55,
-      "ps": 9.810662264865819,
+      "pe": 55.1,
+      "ps": 8.718349200828332,
       "pb": null,
       "ev_ebitda": null
     },
@@ -44,7 +333,7 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": "2026-05-31T21:36:21.970Z",
+      "pe_as_of": "2026-06-11T00:29:34.376Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://simplywall.st/stocks/in/real-estate/nse-biret/brookfield-india-real-estate-trust-shares"
     },
@@ -53,7 +342,7 @@
       "Earnings are forecast to grow 26.19% per year",
       "Earnings grew by 160.5% over the past year",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Trading at 35.2% below our estimate of its fair value"
+      "Trading at 26.9% below our estimate of its fair value"
     ],
     "risks": [
       "Shareholders have been substantially diluted in the past year",
@@ -61,7 +350,7 @@
       "Interest payments are not well covered by earnings"
     ],
     "dividend": {
-      "yield_pct": 5.8883897515,
+      "yield_pct": 5.8882718926,
       "payout_pct": null,
       "annualized_dividend": 19.25,
       "listing_currency": "INR",
@@ -77,7 +366,7 @@
           "divFreqTypeName": "Other Dividend",
           "annualizedDividend": 19.25,
           "annualizedDividendListingCurrency": 19.25,
-          "annualizedYield": 5.8883897515
+          "annualizedYield": 5.8882718926
         },
         {
           "exDate": "2026-02-03T00:00:00.000Z",
@@ -90,7 +379,7 @@
           "divFreqTypeName": "Bonus Payment",
           "annualizedDividend": 19.25,
           "annualizedDividendListingCurrency": 19.25,
-          "annualizedYield": 5.8883897515
+          "annualizedYield": 5.8882718926
         },
         {
           "exDate": "2026-02-03T00:00:00.000Z",
@@ -103,7 +392,7 @@
           "divFreqTypeName": "Bonus Payment",
           "annualizedDividend": 19.25,
           "annualizedDividendListingCurrency": 19.25,
-          "annualizedYield": 5.8883897515
+          "annualizedYield": 5.8882718926
         },
         {
           "exDate": "2026-02-03T00:00:00.000Z",
@@ -116,7 +405,7 @@
           "divFreqTypeName": "Interim Payment",
           "annualizedDividend": 19.25,
           "annualizedDividendListingCurrency": 19.25,
-          "annualizedYield": 5.8883897515
+          "annualizedYield": 5.8882718926
         },
         {
           "exDate": "2025-11-07T00:00:00.000Z",
@@ -129,7 +418,7 @@
           "divFreqTypeName": "Interim Payment",
           "annualizedDividend": 19.25,
           "annualizedDividendListingCurrency": 19.25,
-          "annualizedYield": 5.8883897515
+          "annualizedYield": 5.8882718926
         },
         {
           "exDate": "2025-11-07T00:00:00.000Z",
@@ -142,7 +431,7 @@
           "divFreqTypeName": "Bonus Payment",
           "annualizedDividend": 19.25,
           "annualizedDividendListingCurrency": 19.25,
-          "annualizedYield": 5.8883897515
+          "annualizedYield": 5.8882718926
         },
         {
           "exDate": "2025-11-07T00:00:00.000Z",
@@ -155,7 +444,7 @@
           "divFreqTypeName": "Bonus Payment",
           "annualizedDividend": 19.25,
           "annualizedDividendListingCurrency": 19.25,
-          "annualizedYield": 5.8883897515
+          "annualizedYield": 5.8882718926
         },
         {
           "exDate": "2025-11-07T00:00:00.000Z",
@@ -168,33 +457,7 @@
           "divFreqTypeName": "Other Dividend",
           "annualizedDividend": 19.25,
           "annualizedDividendListingCurrency": 19.25,
-          "annualizedYield": 5.8883897515
-        },
-        {
-          "exDate": "2025-08-06T00:00:00.000Z",
-          "payDate": "2025-08-13T00:00:00.000Z",
-          "recordDate": "2025-08-06T00:00:00.000Z",
-          "divAmount": 0.02,
-          "divAmountListingCurrency": 0.02,
-          "currencyIsoCode": "INR",
-          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-          "divFreqTypeName": "Bonus Payment",
-          "annualizedDividend": 19.25,
-          "annualizedDividendListingCurrency": 19.25,
-          "annualizedYield": 5.8883897515
-        },
-        {
-          "exDate": "2025-08-06T00:00:00.000Z",
-          "payDate": "2025-08-13T00:00:00.000Z",
-          "recordDate": "2025-08-06T00:00:00.000Z",
-          "divAmount": 1.89,
-          "divAmountListingCurrency": 1.89,
-          "currencyIsoCode": "INR",
-          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-          "divFreqTypeName": "Bonus Payment",
-          "annualizedDividend": 19.25,
-          "annualizedDividendListingCurrency": 19.25,
-          "annualizedYield": 5.8883897515
+          "annualizedYield": 5.8882718926
         },
         {
           "exDate": "2025-08-06T00:00:00.000Z",
@@ -207,7 +470,7 @@
           "divFreqTypeName": "Interim Payment",
           "annualizedDividend": 19.25,
           "annualizedDividendListingCurrency": 19.25,
-          "annualizedYield": 5.8883897515
+          "annualizedYield": 5.8882718926
         },
         {
           "exDate": "2025-08-06T00:00:00.000Z",
@@ -220,16 +483,42 @@
           "divFreqTypeName": "Other Dividend",
           "annualizedDividend": 19.25,
           "annualizedDividendListingCurrency": 19.25,
-          "annualizedYield": 5.8883897515
+          "annualizedYield": 5.8882718926
+        },
+        {
+          "exDate": "2025-08-06T00:00:00.000Z",
+          "payDate": "2025-08-13T00:00:00.000Z",
+          "recordDate": "2025-08-06T00:00:00.000Z",
+          "divAmount": 1.89,
+          "divAmountListingCurrency": 1.89,
+          "currencyIsoCode": "INR",
+          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+          "divFreqTypeName": "Bonus Payment",
+          "annualizedDividend": 19.25,
+          "annualizedDividendListingCurrency": 19.25,
+          "annualizedYield": 5.8882718926
+        },
+        {
+          "exDate": "2025-08-06T00:00:00.000Z",
+          "payDate": "2025-08-13T00:00:00.000Z",
+          "recordDate": "2025-08-06T00:00:00.000Z",
+          "divAmount": 0.02,
+          "divAmountListingCurrency": 0.02,
+          "currencyIsoCode": "INR",
+          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+          "divFreqTypeName": "Bonus Payment",
+          "annualizedDividend": 19.25,
+          "annualizedDividendListingCurrency": 19.25,
+          "annualizedYield": 5.8882718926
         }
       ],
       "payment_count": 70
     },
-    "dividend_yield_pct": 5.8883897515,
+    "dividend_yield_pct": 5.8882718926,
     "industry_benchmarks": {
-      "pe": 54.990838374,
-      "net_income_margin_1y": 0.4415609452,
-      "future_revenue_growth_3y": 0.1735244847
+      "pe": 55.014981366,
+      "net_income_margin_1y": 0.4424393139,
+      "future_revenue_growth_3y": 0.1746746805
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -243,10 +532,10 @@
     "pe_benchmark_source": {
       "provider": "sws_industry_api",
       "label": "SWS industry API",
-      "company_pe": 55,
+      "company_pe": 55.1,
       "company_pe_source": "sws_statement",
       "company_pe_source_label": "SWS visible statement",
-      "industry_pe": 54.990838374,
+      "industry_pe": 55.014981366,
       "industry_name": "Real Estate",
       "industry_code": "9622296",
       "sample_count": 5,
@@ -255,15 +544,15 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 55,
+        "company_pe": 55.1,
         "industry_pe": 14.2,
         "industry_name": "Asian Office REITs",
-        "description": "BIRET is expensive based on its Price-To-Earnings Ratio (55x) compared to the Asian Office REITs industry average (14.2x).",
+        "description": "BIRET is expensive based on its Price-To-Earnings Ratio (55.1x) compared to the Asian Office REITs industry average (14.2x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 54.990838374,
+        "industry_pe": 55.014981366,
         "industry_code": "9622296",
         "type": "median_profitable",
         "count": 5,
@@ -275,68 +564,95 @@
         }
       },
       "internal_median": {
-        "industry_pe": 75.9,
-        "sample_count": 4,
+        "industry_pe": 55.1,
+        "sample_count": 5,
         "industry_code": "9622296",
         "industry_name": "Real Estate"
       },
       "sws_primary_industry": {
-        "industry_pe": 15.708321102,
+        "industry_pe": 15.582633056,
         "industry_name": "Real Estate",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 51.04358648315343
+        "company_pe": 55.046022356212205
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 318.88,
-        "fetched_at": "2026-05-31T21:36:21.970Z",
+        "value": 319.2,
+        "fetched_at": "2026-06-11T00:29:34.376Z",
+        "url": "https://simplywall.st/stocks/in/real-estate/nse-biret/brookfield-india-real-estate-trust-shares"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 367.53333,
+        "fetched_at": "2026-06-11T00:29:34.376Z",
+        "url": "https://simplywall.st/stocks/in/real-estate/nse-biret/brookfield-india-real-estate-trust-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "6e3b7845-40dc-478d-b81d-ac46375f27c0",
+        "narrative_type": null,
+        "published_at": "2026-06-05T13:04:32.323Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 15.142020676691725,
+        "fetched_at": "2026-06-11T00:29:34.376Z",
         "url": "https://simplywall.st/stocks/in/real-estate/nse-biret/brookfield-india-real-estate-trust-shares"
       },
       "multiples.pe": {
         "provider": "sws_statement",
-        "value": 55,
-        "fetched_at": "2026-05-31T21:36:21.970Z",
+        "value": 55.1,
+        "fetched_at": "2026-06-11T00:29:34.376Z",
         "url": "https://simplywall.st/stocks/in/real-estate/nse-biret/brookfield-india-real-estate-trust-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 54.990838374,
+        "value": 55.014981366,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.4415609452,
-        "fetched_at": "2026-05-31T21:36:21.970Z",
+        "value": 0.4424393139,
+        "fetched_at": "2026-06-11T00:29:34.376Z",
         "url": "https://simplywall.st/stocks/in/real-estate/nse-biret/brookfield-india-real-estate-trust-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.1735244847,
-        "fetched_at": "2026-05-31T21:36:21.970Z",
+        "value": 0.1746746805,
+        "fetched_at": "2026-06-11T00:29:34.376Z",
+        "url": "https://simplywall.st/stocks/in/real-estate/nse-biret/brookfield-india-real-estate-trust-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 306.9,
+          "high": 369
+        },
+        "fetched_at": "2026-06-11T00:29:34.376Z",
         "url": "https://simplywall.st/stocks/in/real-estate/nse-biret/brookfield-india-real-estate-trust-shares"
       }
     },
-    "earnings_growth_yoy_pct": 180.60402684563758,
+    "earnings_growth_yoy_pct": 86.94642135686982,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 10.184234325867068,
-    "latest_revenue": 26973960000,
-    "latest_net_income": 5184440000,
+    "revenue_growth_pct": 21.060652725920217,
+    "latest_revenue": 30383960000,
+    "latest_net_income": 4812300000,
     "latest_eps": null,
-    "most_recent_reported_date": "2026-05-09",
+    "most_recent_reported_date": "2026-06-04",
     "pb": null,
-    "ps": 9.810662264865819,
+    "ps": 8.718349200828332,
     "book_value": null,
     "face_value": null,
     "sector_pe": null,
     "roe_pct": null,
     "roa_pct": null,
     "roic_pct": null,
-    "net_margin_pct": 19.220166412347318,
+    "net_margin_pct": 15.838290993010787,
     "operating_margin_pct": null,
     "debt_to_equity_pct": null,
     "debt_to_asset_pct": null,
@@ -344,16 +660,16 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -0.26272988865258096,
-      "7D": -0.4557657488917961,
-      "1M": -1.6530964717493257,
-      "3M": -13.582655826558268,
-      "6M": -4.090471607314732,
-      "1Y": 4.880936718852774,
+      "1D": -0.015661707126080303,
+      "7D": -0.25000000000000355,
+      "1M": -2.1339220014716815,
+      "3M": -6.14801093763783,
+      "6M": -6.97945504881247,
+      "1Y": 3.4214618973561444,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 1,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -425,8 +741,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.95723,
-        "shares": 7943901,
+        "pct": 0.97691,
+        "shares": 8107149,
         "is_insider": null
       },
       {
@@ -471,7 +787,7 @@
     "groww_period": null
   },
   "dividend": {
-    "yield_pct": 5.8883897515,
+    "yield_pct": 5.8882718926,
     "payout_pct": null,
     "annualized_dividend": 19.25,
     "listing_currency": "INR",
@@ -487,7 +803,7 @@
         "divFreqTypeName": "Other Dividend",
         "annualizedDividend": 19.25,
         "annualizedDividendListingCurrency": 19.25,
-        "annualizedYield": 5.8883897515
+        "annualizedYield": 5.8882718926
       },
       {
         "exDate": "2026-02-03T00:00:00.000Z",
@@ -500,7 +816,7 @@
         "divFreqTypeName": "Bonus Payment",
         "annualizedDividend": 19.25,
         "annualizedDividendListingCurrency": 19.25,
-        "annualizedYield": 5.8883897515
+        "annualizedYield": 5.8882718926
       },
       {
         "exDate": "2026-02-03T00:00:00.000Z",
@@ -513,7 +829,7 @@
         "divFreqTypeName": "Bonus Payment",
         "annualizedDividend": 19.25,
         "annualizedDividendListingCurrency": 19.25,
-        "annualizedYield": 5.8883897515
+        "annualizedYield": 5.8882718926
       },
       {
         "exDate": "2026-02-03T00:00:00.000Z",
@@ -526,7 +842,7 @@
         "divFreqTypeName": "Interim Payment",
         "annualizedDividend": 19.25,
         "annualizedDividendListingCurrency": 19.25,
-        "annualizedYield": 5.8883897515
+        "annualizedYield": 5.8882718926
       },
       {
         "exDate": "2025-11-07T00:00:00.000Z",
@@ -539,7 +855,7 @@
         "divFreqTypeName": "Interim Payment",
         "annualizedDividend": 19.25,
         "annualizedDividendListingCurrency": 19.25,
-        "annualizedYield": 5.8883897515
+        "annualizedYield": 5.8882718926
       },
       {
         "exDate": "2025-11-07T00:00:00.000Z",
@@ -552,7 +868,7 @@
         "divFreqTypeName": "Bonus Payment",
         "annualizedDividend": 19.25,
         "annualizedDividendListingCurrency": 19.25,
-        "annualizedYield": 5.8883897515
+        "annualizedYield": 5.8882718926
       },
       {
         "exDate": "2025-11-07T00:00:00.000Z",
@@ -565,7 +881,7 @@
         "divFreqTypeName": "Bonus Payment",
         "annualizedDividend": 19.25,
         "annualizedDividendListingCurrency": 19.25,
-        "annualizedYield": 5.8883897515
+        "annualizedYield": 5.8882718926
       },
       {
         "exDate": "2025-11-07T00:00:00.000Z",
@@ -578,33 +894,7 @@
         "divFreqTypeName": "Other Dividend",
         "annualizedDividend": 19.25,
         "annualizedDividendListingCurrency": 19.25,
-        "annualizedYield": 5.8883897515
-      },
-      {
-        "exDate": "2025-08-06T00:00:00.000Z",
-        "payDate": "2025-08-13T00:00:00.000Z",
-        "recordDate": "2025-08-06T00:00:00.000Z",
-        "divAmount": 0.02,
-        "divAmountListingCurrency": 0.02,
-        "currencyIsoCode": "INR",
-        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-        "divFreqTypeName": "Bonus Payment",
-        "annualizedDividend": 19.25,
-        "annualizedDividendListingCurrency": 19.25,
-        "annualizedYield": 5.8883897515
-      },
-      {
-        "exDate": "2025-08-06T00:00:00.000Z",
-        "payDate": "2025-08-13T00:00:00.000Z",
-        "recordDate": "2025-08-06T00:00:00.000Z",
-        "divAmount": 1.89,
-        "divAmountListingCurrency": 1.89,
-        "currencyIsoCode": "INR",
-        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-        "divFreqTypeName": "Bonus Payment",
-        "annualizedDividend": 19.25,
-        "annualizedDividendListingCurrency": 19.25,
-        "annualizedYield": 5.8883897515
+        "annualizedYield": 5.8882718926
       },
       {
         "exDate": "2025-08-06T00:00:00.000Z",
@@ -617,7 +907,7 @@
         "divFreqTypeName": "Interim Payment",
         "annualizedDividend": 19.25,
         "annualizedDividendListingCurrency": 19.25,
-        "annualizedYield": 5.8883897515
+        "annualizedYield": 5.8882718926
       },
       {
         "exDate": "2025-08-06T00:00:00.000Z",
@@ -630,50 +920,76 @@
         "divFreqTypeName": "Other Dividend",
         "annualizedDividend": 19.25,
         "annualizedDividendListingCurrency": 19.25,
-        "annualizedYield": 5.8883897515
+        "annualizedYield": 5.8882718926
+      },
+      {
+        "exDate": "2025-08-06T00:00:00.000Z",
+        "payDate": "2025-08-13T00:00:00.000Z",
+        "recordDate": "2025-08-06T00:00:00.000Z",
+        "divAmount": 1.89,
+        "divAmountListingCurrency": 1.89,
+        "currencyIsoCode": "INR",
+        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+        "divFreqTypeName": "Bonus Payment",
+        "annualizedDividend": 19.25,
+        "annualizedDividendListingCurrency": 19.25,
+        "annualizedYield": 5.8882718926
+      },
+      {
+        "exDate": "2025-08-06T00:00:00.000Z",
+        "payDate": "2025-08-13T00:00:00.000Z",
+        "recordDate": "2025-08-06T00:00:00.000Z",
+        "divAmount": 0.02,
+        "divAmountListingCurrency": 0.02,
+        "currencyIsoCode": "INR",
+        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+        "divFreqTypeName": "Bonus Payment",
+        "annualizedDividend": 19.25,
+        "annualizedDividendListingCurrency": 19.25,
+        "annualizedYield": 5.8882718926
       }
     ],
     "payment_count": 70
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-09",
+    "most_recent_reported_date": "2026-06-04",
     "latest_year": 2026,
-    "latest_revenue": 26973960000,
-    "latest_net_income": 5184440000,
+    "latest_revenue": 30383960000,
+    "latest_net_income": 4812300000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 10.184234325867068,
-    "earnings_growth_pct": 180.60402684563758,
-    "net_margin_pct": 19.220166412347318,
+    "revenue_growth_pct": 21.060652725920217,
+    "earnings_growth_pct": 86.94642135686982,
+    "net_margin_pct": 15.838290993010787,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 26973960000,
-        "netIncome": 5184440000,
+        "revenue": 30383960000,
+        "netIncome": 4812300000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 24480780000,
-        "netIncome": 1847600000,
+        "revenue": 25098130000,
+        "netIncome": 2574160000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 18389870000,
-        "netIncome": 121100000,
+        "revenue": 21056750000,
+        "netIncome": 871160000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 12119760000,
-        "netIncome": 1312320000,
+        "revenue": 12363290000,
+        "netIncome": 570840000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 8917710000,
-        "netIncome": 2462850000,
+        "revenue": 9643000000,
+        "netIncome": 2195940000,
         "eps": null
       }
     ]
@@ -687,6 +1003,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "f54e2cb3-ede8-48a6-b37d-e7977e0b88c7",
+      "type": "narrative-update",
+      "date": "2026-06-05T13:04:32.000Z",
+      "title": "BIRET: Upcoming FY 2026 Distributions Will Support Forward Upside Potential",
+      "body": "Analysts have trimmed their price target on Brookfield India Real Estate Trust from ₹375.46 to ₹367.53 as they factor in updated assumptions on revenue growth, profit margins, discount rate and future P/E expectations. What's in the News Declared a distribution of ₹4,564.35 million (₹5.50 per unit) for the quarter ended 31 March 2026, with components across interest payments, SPV and NCD debt repayment, dividend, and interest on fixed deposits.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/real-estate/nse-biret/brookfield-india-real-estate-trust-shares/a5s2ror3-analysts-reaffirm-price-target-for-brookfield-india-real-estate-trust-amid-growth-and-fundraising-plans/updates/25-analysts-have-trimmed-their-price-target-on-brookfield-india",
+      "raw_subtype": "narrative-update"
+    },
     {
       "id": "a1b46853-8c85-4822-bb9c-fdeae4abbbef",
       "type": "brief",
@@ -895,16 +1221,6 @@
       "body": "Analysts have modestly raised their price target on Brookfield India Real Estate Trust, citing a slightly lower discount rate and steady expectations for revenue growth and profit margins that together support a fair value estimate of ₹350.88 per unit. What's in the News Filed a follow-on equity offering of units, with a minimum price of INR 327.33 per unit under Regulation S and a subsequent direct listing structure (Key Developments).",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/real-estate/nse-biret/brookfield-india-real-estate-trust-shares/a5s2ror3-analysts-reaffirm-price-target-for-brookfield-india-real-estate-trust-amid-growth-and-fundraising-plans/updates/15-analysts-have-modestly-raised-their-price-target-on-brookfie",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "71179967-181f-4c63-85e5-ea4dfbf16488",
-      "type": "narrative-update",
-      "date": "2025-12-04T10:05:35.000Z",
-      "title": "BIRET: Board Will Weigh Distributions And Fundraising Amid Mixed Earnings Outlook",
-      "body": "Analysts have nudged their price target on Brookfield India Real Estate Trust slightly higher to approximately ₹351, from about ₹347, citing a modestly richer future earnings multiple despite slightly softer assumptions for growth and profitability. What's in the News A board meeting is scheduled for November 04, 2025, to review unaudited standalone and consolidated financial results for the quarter and half year ended September 30, 2025, and to consider declaring a distribution to unitholders for the quarter.",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/real-estate/nse-biret/brookfield-india-real-estate-trust-shares/a5s2ror3-analysts-reaffirm-price-target-for-brookfield-india-real-estate-trust-amid-growth-and-fundraising-plans/updates/14-analysts-have-nudged-their-price-target-on-brookfield-india",
       "raw_subtype": "narrative-update"
     }
   ],

@@ -3,7 +3,7 @@
   "name": "Antony Waste Handling Cell Limited",
   "sector": "Commercial Services",
   "sws_url": "https://simplywall.st/stocks/in/commercial-services/nse-awhcl/antony-waste-handling-cell-shares",
-  "parsed_at": "2026-05-31T21:23:17.404Z",
+  "parsed_at": "2026-06-11T00:19:13.217Z",
   "company_id": "44983653-58EC-4A43-9BDF-5EC9EC0ED0E9",
   "classification_status": "Active",
   "groww_source": {
@@ -16,83 +16,320 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 2,
-      "future": 0,
-      "past": 4,
+      "valuation": 3,
+      "future": 1,
+      "past": 2,
       "financial_health": 4,
       "dividends": 0,
-      "future_growth": 0,
-      "past_performance": 4,
-      "value": 2,
+      "future_growth": 1,
+      "past_performance": 2,
+      "value": 3,
       "health": 4,
       "dividend": 0
     },
     "snowflake_total": 10,
-    "snowflake_data_quality": {
-      "insufficient": true,
-      "insufficient_count": 11,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
       "checked_count": 30,
-      "affected_pillars": [
-        "Value",
-        "Future",
-        "Dividends"
-      ],
-      "by_pillar": {
-        "Value": {
-          "checked": 6,
-          "insufficient": 3
-        },
-        "Future": {
-          "checked": 6,
-          "insufficient": 5
-        },
-        "Past": {
-          "checked": 6,
-          "insufficient": 0
-        },
-        "Health": {
-          "checked": 6,
-          "insufficient": 0
-        },
-        "Dividends": {
-          "checked": 6,
-          "insufficient": 3
-        }
-      },
-      "samples": [
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
         {
           "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
           "title": "PEG Ratio",
-          "reason_code": "OUTCOME_NULL"
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
         },
         {
           "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
           "title": "Below Future Cash Flow Value",
-          "reason_code": "OUTCOME_NULL"
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
         },
         {
           "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SAME_PB"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
           "title": "Significantly Below Future Cash Flow Value",
-          "reason_code": "OUTCOME_NULL"
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
         }
       ]
     },
-    "current_price_inr": 467.85,
+    "current_price_inr": 442.85,
     "market_cap_inr": 13406600000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "nano1",
     "shares_outstanding": 28364911,
     "fifty_two_week": {
       "low": 372.5,
       "high": 693
     },
-    "fair_value_inr": 670,
+    "fair_value_inr": 600,
     "fair_value_range_inr": {
-      "min": 670,
-      "max": 670,
+      "min": 600,
+      "max": 600,
       "count": 9
     },
-    "upside_pct": 43.20829325638559,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "2bcb7ab9-df85-445d-b411-8976f7e4ef26",
+      "narrative_type": null,
+      "published_at": "2026-06-03T03:06:40.564Z"
+    },
+    "upside_pct": 35.48605622671332,
     "multiples": {
       "pe": 13.29,
       "ps": 1.33,
@@ -110,14 +347,11 @@
     },
     "rewards": [
       "Trading at good value vs. industry average Price-To-Earnings ratio",
+      "Revenue is forecast to grow 17.22% per year",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (16x) is below the Indian market (23.4x)",
-      "Earnings grew by 13.8% over the past year"
+      "Price-To-Earnings ratio (16.8x) is below the Indian market (22.9x)"
     ],
-    "risks": [
-      "Large [[one-off items]] impacting financial results",
-      "Has a high level of debt"
-    ],
+    "risks": [],
     "dividend": {
       "yield_pct": 0,
       "payout_pct": null,
@@ -129,8 +363,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 53.98741913742747,
-      "net_income_margin_1y": 0.07234671003,
-      "future_revenue_growth_3y": 0.3740225928,
+      "net_income_margin_1y": 0.07149669577,
+      "future_revenue_growth_3y": 0.358570421,
       "sector_pe": 53.98741913742747
     },
     "industry_benchmarks_meta": {
@@ -165,18 +399,18 @@
         "url": "https://groww.in/stocks/antony-waste-handling-cell-ltd"
       },
       "sws_statement": {
-        "company_pe": 16,
-        "industry_pe": 19.2,
+        "company_pe": 16.8,
+        "industry_pe": 19.9,
         "industry_name": "Indian Commercial Services",
-        "description": "AWHCL is good value based on its Price-To-Earnings Ratio (16x) compared to the Indian Commercial Services industry average (19.2x).",
+        "description": "AWHCL is good value based on its Price-To-Earnings Ratio (16.8x) compared to the Indian Commercial Services industry average (19.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 19.851410996,
+        "industry_pe": 19.925935312,
         "industry_code": "3110000",
         "type": "median_profitable",
-        "count": 55,
+        "count": 56,
         "source": {
           "type": "country",
           "country": "IN",
@@ -185,25 +419,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.6,
-        "sample_count": 56,
+        "industry_pe": 19.2,
+        "sample_count": 57,
         "industry_code": "3110000",
         "industry_name": "Commercial Services"
       },
       "sws_primary_industry": {
-        "industry_pe": 16.094987777,
+        "industry_pe": 16.028068325,
         "industry_name": "Commercial Services",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 15.496937649591514
+        "company_pe": 16.649282525570896
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 467.85,
-        "fetched_at": "2026-05-31T21:23:17.404Z",
+        "value": 442.85,
+        "fetched_at": "2026-06-11T00:19:13.217Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-awhcl/antony-waste-handling-cell-shares"
       },
       "market_cap_inr": {
@@ -211,6 +445,24 @@
         "value": 13406600000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/antony-waste-handling-cell-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 600,
+        "fetched_at": "2026-06-11T00:19:13.217Z",
+        "url": "https://simplywall.st/stocks/in/commercial-services/nse-awhcl/antony-waste-handling-cell-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "2bcb7ab9-df85-445d-b411-8976f7e4ef26",
+        "narrative_type": null,
+        "published_at": "2026-06-03T03:06:40.564Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 35.48605622671332,
+        "fetched_at": "2026-06-11T00:19:13.217Z",
+        "url": "https://simplywall.st/stocks/in/commercial-services/nse-awhcl/antony-waste-handling-cell-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -250,14 +502,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.07234671003,
-        "fetched_at": "2026-05-31T21:23:17.404Z",
+        "value": 0.07149669577,
+        "fetched_at": "2026-06-11T00:19:13.217Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-awhcl/antony-waste-handling-cell-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.3740225928,
-        "fetched_at": "2026-05-31T21:23:17.404Z",
+        "value": 0.358570421,
+        "fetched_at": "2026-06-11T00:19:13.217Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-awhcl/antony-waste-handling-cell-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -366,13 +618,13 @@
         "url": "https://groww.in/stocks/antony-waste-handling-cell-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 22.51078349320801,
+    "earnings_growth_yoy_pct": -11.895036037424738,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 8.957889514226805,
-    "latest_revenue": 9539747000,
-    "latest_net_income": 856332000,
+    "revenue_growth_pct": 13.639910995543172,
+    "latest_revenue": 10840960000,
+    "latest_net_income": 754471000,
     "latest_eps": 35.53,
-    "most_recent_reported_date": "2025-09-03",
+    "most_recent_reported_date": "2026-06-02",
     "pb": 1.94,
     "ps": 1.33,
     "book_value": 243.3645725,
@@ -389,16 +641,16 @@
     "quick_ratio": 1.1953595465816507,
     "cash_ratio": 0.24082789332523657,
     "returns_pct": {
-      "1D": -0.9317098994176765,
-      "7D": 0.34316353887399953,
-      "1M": -8.747805734347576,
-      "3M": -5.043637101684588,
-      "6M": 1.7839660611334809,
-      "1Y": -24.46722634807878,
+      "1D": -0.7174083622912204,
+      "7D": -2.5096312603192024,
+      "1M": -10.553423550797818,
+      "3M": -8.775363065197233,
+      "6M": -0.5166797708637436,
+      "1Y": -30.690977384771895,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 5,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -480,8 +732,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.56823,
-        "shares": 161177,
+        "pct": 0.58291,
+        "shares": 165342,
         "is_insider": null
       },
       {
@@ -524,16 +776,22 @@
     "payment_count": 0
   },
   "fiscal": {
-    "most_recent_reported_date": "2025-09-03",
-    "latest_year": 2025,
-    "latest_revenue": 9539747000,
-    "latest_net_income": 856332000,
+    "most_recent_reported_date": "2026-06-02",
+    "latest_year": 2026,
+    "latest_revenue": 10840960000,
+    "latest_net_income": 754471000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 8.957889514226805,
-    "earnings_growth_pct": 22.51078349320801,
-    "net_margin_pct": 8.976464470179344,
+    "revenue_growth_pct": 13.639910995543172,
+    "earnings_growth_pct": -11.895036037424738,
+    "net_margin_pct": 6.959448240746206,
     "yearly_history": [
+      {
+        "year": 2026,
+        "revenue": 10840960000,
+        "netIncome": 754471000,
+        "eps": null
+      },
       {
         "year": 2025,
         "revenue": 9539747000,
@@ -542,26 +800,20 @@
       },
       {
         "year": 2024,
-        "revenue": 8755444000,
-        "netIncome": 698985000,
+        "revenue": 8785622000,
+        "netIncome": 854466000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 8676245000,
-        "netIncome": 674670000,
+        "revenue": 8425105000,
+        "netIncome": 631489000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 7844971000,
-        "netIncome": 796070000,
-        "eps": null
-      },
-      {
-        "year": 2021,
-        "revenue": 5565246000,
-        "netIncome": 601882000,
+        "revenue": 7381591000,
+        "netIncome": 743324000,
         "eps": null
       }
     ]
@@ -747,6 +999,36 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "10670dd0-721f-43c9-9c5f-f833692afb68",
+      "type": "narrative-update",
+      "date": "2026-06-03T03:06:40.000Z",
+      "title": "AWHCL: Waste To Energy Projects Will Support Long Term Earnings Potential",
+      "body": "Analysts have trimmed the price target on Antony Waste Handling Cell to ₹600 from ₹670, citing updated assumptions that include a different blend of revenue growth, profit margin outlook and future P/E expectations. What's in the News A board meeting is scheduled for May 29, 2026 to review and approve audited standalone and consolidated financial results for the quarter and financial year ended March 31, 2026, and to consider recommending a final dividend on equity shares for shareholder approval at the Twenty fifth Annual General Meeting.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/commercial-services/nse-awhcl/antony-waste-handling-cell-shares/zlw258qj-urbanization-and-waste-to-energy-trends-will-expand-markets-despite-regulatory-risks-kqlq/updates/11-analysts-have-trimmed-the-price-target-on-antony-waste-handl",
+      "raw_subtype": "narrative-update"
+    },
+    {
+      "id": "76d20728-0194-4f9b-ad60-5d67c64a978c",
+      "type": "brief",
+      "date": "2026-06-02T12:38:45.000Z",
+      "title": "Price target decreased by 10% to ₹600",
+      "body": "Down from ₹670, the current price target is provided by 1 analyst. New target price is 30% above last closing price of ₹463. Stock is down 24% over the past year. The company is forecast to post earnings per share of ₹20.70 for next year compared to ₹26.59 last year.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "13f96efe-800c-40c5-8e74-ce8418dde599",
+      "type": "brief",
+      "date": "2026-05-31T22:56:39.000Z",
+      "title": "Full year 2026 earnings: EPS in line with analyst expectations despite revenue beat",
+      "body": "Full year 2026 results: EPS: ₹26.59 (down from ₹30.10 in FY 2025). Revenue: ₹10.8b (up 16% from FY 2025). Net income: ₹754.5m (down 12% from FY 2025). Profit margin: 7.0% (down from 9.1% in FY 2025). The decrease in margin was driven by higher expenses. Revenue exceeded analyst estimates by 8.5%. Earnings per share (EPS) were mostly in line with analyst estimates. Over the last 3 years on average, earnings per share has increased by 7% per year but the company’s share price has increased by 23% per year, which means it is tracking significantly ahead of earnings growth.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "27438ec6-78b1-4158-aeda-b19989bd92b2",
       "type": "event",

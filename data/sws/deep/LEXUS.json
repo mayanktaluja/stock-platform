@@ -3,7 +3,7 @@
   "name": "Lexus Granito (India) Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-lexus/lexus-granito-india-shares",
-  "parsed_at": "2026-05-31T20:38:10.829Z",
+  "parsed_at": "2026-06-10T23:45:02.517Z",
   "company_id": "F6D41CA2-9FBE-40EC-A227-57D379F41556",
   "classification_status": "Active",
   "groww_source": null,
@@ -11,19 +11,19 @@
     "snowflake": {
       "valuation": 2,
       "future": 0,
-      "past": 2,
-      "financial_health": 2,
+      "past": 3,
+      "financial_health": 3,
       "dividends": 0,
       "future_growth": 0,
-      "past_performance": 2,
+      "past_performance": 3,
       "value": 2,
-      "health": 2,
+      "health": 3,
       "dividend": 0
     },
-    "snowflake_total": 6,
+    "snowflake_total": 8,
     "snowflake_data_quality": {
       "insufficient": true,
-      "insufficient_count": 13,
+      "insufficient_count": 11,
       "checked_count": 30,
       "affected_pillars": [
         "Value",
@@ -34,7 +34,7 @@
       "by_pillar": {
         "Value": {
           "checked": 6,
-          "insufficient": 3
+          "insufficient": 1
         },
         "Future": {
           "checked": 6,
@@ -60,32 +60,321 @@
           "reason_code": "OUTCOME_NULL"
         },
         {
-          "pillar": "Value",
-          "title": "Below Future Cash Flow Value",
+          "pillar": "Future",
+          "title": "Future ROE",
           "reason_code": "OUTCOME_NULL"
         },
         {
-          "pillar": "Value",
-          "title": "Significantly Below Future Cash Flow Value",
+          "pillar": "Future",
+          "title": "High Growth Earnings",
           "reason_code": "OUTCOME_NULL"
         }
       ]
     },
-    "current_price_inr": 17.77,
-    "market_cap_inr": 358789219.89808935,
-    "market_cap_usd": 120714180851.549,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_BECOME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 15.06,
+    "market_cap_inr": 304072349.55910105,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
-    "fifty_two_week": null,
+    "fifty_two_week": {
+      "low": 15.06,
+      "high": 38.31
+    },
     "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "9b97a4ac-0932-4349-afab-ebf7f1ba1c09",
+      "narrative_type": null,
+      "published_at": null
+    },
     "upside_pct": null,
     "multiples": {
-      "pe": 16.2,
+      "pe": 29.2,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -94,20 +383,19 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": "2026-05-31T20:38:10.829Z",
+      "pe_as_of": "2026-06-10T23:45:02.517Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://simplywall.st/stocks/in/capital-goods/nse-lexus/lexus-granito-india-shares"
     },
     "rewards": [
-      "Price-To-Earnings ratio (16.2x) is below the Indian market (23.4x)",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Became profitable this year",
-      "Trading at good value vs. industry average Price-To-Earnings ratio"
+      "Trading at good value vs. industry average Price-To-Earnings ratio",
+      "Price-To-Earnings ratio (29.2x) is below the Building industry average (30.4x)"
     ],
     "risks": [
       "Debt is not well covered by [[operating cash flow]]",
-      "Large [[one-off items]] impacting financial results",
-      "Does not have a meaningful market cap (₹359M)"
+      "Does not have a meaningful market cap (₹304M)"
     ],
     "dividend": {
       "yield_pct": null,
@@ -119,9 +407,9 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 27.141472172,
-      "net_income_margin_1y": 0.09027086979,
-      "future_revenue_growth_3y": 0.4918096257
+      "pe": 30.337735065,
+      "net_income_margin_1y": 0.09031717049,
+      "future_revenue_growth_3y": 0.488763681
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -135,30 +423,30 @@
     "pe_benchmark_source": {
       "provider": "sws_industry_api",
       "label": "SWS industry API",
-      "company_pe": 16.2,
+      "company_pe": 29.2,
       "company_pe_source": "sws_statement",
       "company_pe_source_label": "SWS visible statement",
-      "industry_pe": 27.141472172,
+      "industry_pe": 30.337735065,
       "industry_name": "Capital Goods",
       "industry_code": "3030000",
-      "sample_count": 55,
+      "sample_count": 58,
       "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 16.2,
-        "industry_pe": 27.1,
+        "company_pe": 29.2,
+        "industry_pe": 30.4,
         "industry_name": "Indian Building",
-        "description": "LEXUS is good value based on its Price-To-Earnings Ratio (16.2x) compared to the Indian Building industry average (27.1x).",
+        "description": "LEXUS is good value based on its Price-To-Earnings Ratio (29.2x) compared to the Indian Building industry average (30.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 27.141472172,
+        "industry_pe": 30.337735065,
         "industry_code": "3030000",
         "type": "median_profitable",
-        "count": 55,
+        "count": 58,
         "source": {
           "type": "country",
           "country": "IN",
@@ -167,7 +455,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24.5,
+        "industry_pe": 28.1,
         "sample_count": 55,
         "industry_code": "3030000",
         "industry_name": "Capital Goods"
@@ -180,32 +468,41 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 17.77,
-        "fetched_at": "2026-05-31T20:38:10.829Z",
+        "value": 15.06,
+        "fetched_at": "2026-06-10T23:45:02.517Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-lexus/lexus-granito-india-shares"
       },
       "multiples.pe": {
         "provider": "sws_statement",
-        "value": 16.2,
-        "fetched_at": "2026-05-31T20:38:10.829Z",
+        "value": 29.2,
+        "fetched_at": "2026-06-10T23:45:02.517Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-lexus/lexus-granito-india-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 27.141472172,
+        "value": 30.337735065,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.09027086979,
-        "fetched_at": "2026-05-31T20:38:10.829Z",
+        "value": 0.09031717049,
+        "fetched_at": "2026-06-10T23:45:02.517Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-lexus/lexus-granito-india-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.4918096257,
-        "fetched_at": "2026-05-31T20:38:10.829Z",
+        "value": 0.488763681,
+        "fetched_at": "2026-06-10T23:45:02.517Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-lexus/lexus-granito-india-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 15.06,
+          "high": 38.31
+        },
+        "fetched_at": "2026-06-10T23:45:02.517Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-lexus/lexus-granito-india-shares"
       }
     },
@@ -232,12 +529,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -4.922418405564482,
-      "7D": -5.629314922995214,
-      "1M": 0.6228765571913897,
-      "3M": -53.615244061602716,
-      "6M": -35.87152652472032,
-      "1Y": -43.78361278076558,
+      "1D": -3.151125401929262,
+      "7D": -12.18658892128279,
+      "1M": -24.624624624624623,
+      "3M": -58.76232201533406,
+      "6M": -44.36645733284078,
+      "1Y": -57.445606103419045,
       "5Y": null
     },
     "next_earnings_date": null,

@@ -3,7 +3,7 @@
   "name": "Axel Polymers Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/bse-513642/axel-polymers-shares",
-  "parsed_at": "2026-05-31T20:48:31.399Z",
+  "parsed_at": "2026-06-10T23:51:07.685Z",
   "company_id": "691D6802-ECC8-4D9D-962C-822A6E0E9825",
   "classification_status": "Active",
   "groww_source": {
@@ -16,21 +16,21 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 2,
+      "valuation": 1,
       "future": 0,
-      "past": 3,
-      "financial_health": 4,
+      "past": 0,
+      "financial_health": 3,
       "dividends": 0,
       "future_growth": 0,
-      "past_performance": 3,
-      "value": 2,
-      "health": 4,
+      "past_performance": 0,
+      "value": 1,
+      "health": 3,
       "dividend": 0
     },
-    "snowflake_total": 9,
+    "snowflake_total": 4,
     "snowflake_data_quality": {
       "insufficient": true,
-      "insufficient_count": 10,
+      "insufficient_count": 12,
       "checked_count": 30,
       "affected_pillars": [
         "Value",
@@ -40,7 +40,7 @@
       "by_pillar": {
         "Value": {
           "checked": 6,
-          "insufficient": 1
+          "insufficient": 3
         },
         "Future": {
           "checked": 6,
@@ -66,33 +66,319 @@
           "reason_code": "OUTCOME_NULL"
         },
         {
-          "pillar": "Future",
-          "title": "Future ROE",
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
           "reason_code": "OUTCOME_NULL"
         },
         {
-          "pillar": "Future",
-          "title": "High Growth Earnings",
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
           "reason_code": "OUTCOME_NULL"
         }
       ]
     },
-    "current_price_inr": 44.71,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SAME_PB"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASING_LOSSES"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 44.46,
     "market_cap_inr": 489400000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 32.64,
       "high": 60
     },
-    "fair_value_inr": 92.616583,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 107.14959293222994,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "1c3d583d-fff9-48ee-aade-5af532c76464",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 29.46,
       "ps": 1.07,
@@ -109,15 +395,15 @@
       "pe_source_url": "https://groww.in/stocks/axel-polymers-ltd"
     },
     "rewards": [
-      "Became profitable this year",
-      "Trading at 51.7% below our estimate of its fair value"
+      "Trading at good value vs. industry average Price-To-Sales ratio"
     ],
     "risks": [
       "Highly volatile share price over past 3 months",
+      "Earnings have declined by 17% per year over past 5 years",
       "Shareholders have been diluted in the past year",
-      "Does not have a meaningful market cap (₹492M)",
+      "Does not have a meaningful market cap (₹490M)",
       "Interest payments are not well covered by earnings",
-      "Does not have meaningful revenue (₹421M)"
+      "Does not have meaningful revenue (₹444M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -130,8 +416,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 43.71458189540049,
-      "net_income_margin_1y": 0.09915925459,
-      "future_revenue_growth_3y": 0.4901950831,
+      "net_income_margin_1y": 0.1007363079,
+      "future_revenue_growth_3y": 0.4928230277,
       "sector_pe": 43.71458189540049
     },
     "industry_benchmarks_meta": {
@@ -166,18 +452,18 @@
         "url": "https://groww.in/stocks/axel-polymers-ltd"
       },
       "sws_statement": {
-        "company_pe": 29,
-        "industry_pe": 22.2,
+        "company_pe": null,
+        "industry_pe": 1.2,
         "industry_name": "Indian Chemicals",
-        "description": "513642 is expensive based on its Price-To-Earnings Ratio (29x) compared to the Indian Chemicals industry average (22.2x).",
-        "title": "Price-To-Earnings vs Industry",
+        "description": "513642 is good value based on its Price-To-Sales Ratio (1.1x) compared to the Indian Chemicals industry average (1.2x).",
+        "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 22.185241114,
+        "industry_pe": 20.782619721,
         "industry_code": "2020000",
         "type": "median_profitable",
-        "count": 304,
+        "count": 302,
         "source": {
           "type": "country",
           "country": "IN",
@@ -186,8 +472,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.5,
-        "sample_count": 293,
+        "industry_pe": 19.6,
+        "sample_count": 294,
         "industry_code": "2020000",
         "industry_name": "Materials"
       },
@@ -199,8 +485,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 44.71,
-        "fetched_at": "2026-05-31T20:48:31.399Z",
+        "value": 44.46,
+        "fetched_at": "2026-06-10T23:51:07.685Z",
         "url": "https://simplywall.st/stocks/in/materials/bse-513642/axel-polymers-shares"
       },
       "market_cap_inr": {
@@ -247,14 +533,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.09915925459,
-        "fetched_at": "2026-05-31T20:48:31.399Z",
+        "value": 0.1007363079,
+        "fetched_at": "2026-06-10T23:51:07.685Z",
         "url": "https://simplywall.st/stocks/in/materials/bse-513642/axel-polymers-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.4901950831,
-        "fetched_at": "2026-05-31T20:48:31.399Z",
+        "value": 0.4928230277,
+        "fetched_at": "2026-06-10T23:51:07.685Z",
         "url": "https://simplywall.st/stocks/in/materials/bse-513642/axel-polymers-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -386,16 +672,16 @@
     "quick_ratio": 0.31462829736211023,
     "cash_ratio": 0.05899280575539568,
     "returns_pct": {
-      "1D": 0.49449314452685744,
-      "7D": 0.4719101123595525,
-      "1M": -1.7362637362637343,
-      "3M": -2.1877050973528767,
-      "6M": -6.26834381551363,
-      "1Y": 29.594202898550726,
+      "1D": -3.2637075718015662,
+      "7D": -0.08988764044943628,
+      "1M": -7.317073170731703,
+      "3M": -1.5500442869796187,
+      "6M": -4.8169556840077075,
+      "1Y": 27.50215084599944,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 1,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -691,6 +977,16 @@
   ],
   "news": [
     {
+      "id": "63f93ba2-2bc6-4c66-8cc1-e8737df784e1",
+      "type": "brief",
+      "date": "2026-06-03T11:27:58.000Z",
+      "title": "Full year 2026 earnings released: ₹1.22 loss per share (vs ₹0.20 profit in FY 2025)",
+      "body": "Full year 2026 results: ₹1.22 loss per share (down from ₹0.20 profit in FY 2025). Revenue: ₹445.1m (down 43% from FY 2025). Net loss: ₹11.3m (down ₹13.0m from profit in FY 2025). Over the last 3 years on average, earnings per share has fallen by 58% per year but the company’s share price has only fallen by 1% per year, which means it has not declined as severely as earnings.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
       "id": "a6bb7e67-c24f-4495-b005-e93e97f3acd9",
       "type": "event",
       "date": "2026-05-25T14:51:00.000Z",
@@ -736,26 +1032,6 @@
       "date": "2025-12-30T18:27:37.000Z",
       "title": "New minor risk - Shareholder dilution",
       "body": "The company's shareholders have been diluted in the past year. Increase in shares outstanding: 29% This is considered a minor risk. Shareholder dilution occurs when there is an increase in the number of shares on issue that is not proportionally distributed between all shareholders. Often due to the company raising equity capital or some options being converted into stock. All else being equal, if there are more shares outstanding then each existing share will be entitled to a lower proportion of the company's total earnings, thus reducing earnings per share (EPS). While dilution might not always result in lower EPS (like if the company is using the capital to fund an EPS accretive acquisition) in a lot cases it does, along with lower dividends per share and less voting power at shareholde",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "2742eb28-96fe-4bee-bf1e-1d3a5d6d90ce",
-      "type": "brief",
-      "date": "2025-12-08T08:36:37.000Z",
-      "title": "Insider recently sold ₹3.4m worth of stock",
-      "body": "On the 3rd of December, Aarasp Bodhanwala sold around 61k shares on-market at roughly ₹55.56 per share. This transaction amounted to 6.2% of their direct individual holding at the time of the trade. This was the largest sale by an insider in the last 3 months. This was the only on-market transaction from insiders over the last 12 months.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "08aa941a-33e3-49fb-879f-58fbcadd1969",
-      "type": "brief",
-      "date": "2025-12-03T11:52:30.000Z",
-      "title": "Investor sentiment improves as stock rises 22%",
-      "body": "After last week's 22% share price gain to ₹55.46, the stock trades at a trailing P/E ratio of 30.2x. Average trailing P/E is 24x in the Chemicals industry in India. Total returns to shareholders of 14% over the past three years.",
       "keyDevTypeId": null,
       "source_url": null,
       "raw_subtype": "BriefActivity"

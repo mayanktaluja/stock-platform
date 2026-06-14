@@ -3,7 +3,7 @@
   "name": "Sansera Engineering Limited",
   "sector": "Automobiles",
   "sws_url": "https://simplywall.st/stocks/in/automobiles/nse-sansera/sansera-engineering-shares",
-  "parsed_at": "2026-05-31T22:03:51.647Z",
+  "parsed_at": "2026-06-11T01:05:24.997Z",
   "company_id": "521B6DA7-6FFA-4628-BAA7-DBCF68008C04",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 1
     },
     "snowflake_total": 16,
-    "current_price_inr": 2861,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_STABLE_BUT_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 2881.3,
     "market_cap_inr": 182810600000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "medium5",
     "shares_outstanding": 62332048,
     "fifty_two_week": {
       "low": 1216.3,
       "high": 2992.2
     },
-    "fair_value_inr": 2301.33333,
+    "fair_value_inr": 2893.5,
     "fair_value_range_inr": {
-      "min": 869.681919,
-      "max": 2549.27,
+      "min": 915.791598,
+      "max": 2893.5,
       "count": 19
     },
-    "upside_pct": -19.561924851450545,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "d15e3056-0d46-4567-8fdd-3be4fd910baa",
+      "narrative_type": null,
+      "published_at": "2026-06-01T05:10:05.494Z"
+    },
+    "upside_pct": 0.4234199840349779,
     "multiples": {
       "pe": 55.93,
       "ps": 5.24,
@@ -61,12 +347,12 @@
     },
     "rewards": [
       "Earnings grew by 50.6% over the past year",
-      "Earnings are forecast to grow 23.34% per year"
+      "Earnings are forecast to grow 23.69% per year"
     ],
     "risks": [],
     "dividend": {
       "yield_pct": 0.14,
-      "payout_pct": 7.73341614717144,
+      "payout_pct": 6.250745353113969,
       "annualized_dividend": 3.25,
       "listing_currency": "INR",
       "recent_payments": [
@@ -128,8 +414,8 @@
     "dividend_yield_pct": 0.14,
     "industry_benchmarks": {
       "pe": 35.35685650485562,
-      "net_income_margin_1y": 0.06373692101,
-      "future_revenue_growth_3y": 0.4240176673,
+      "net_income_margin_1y": 0.06320108827,
+      "future_revenue_growth_3y": 0.4149538086,
       "sector_pe": 35.35685650485562
     },
     "industry_benchmarks_meta": {
@@ -164,15 +450,15 @@
         "url": "https://groww.in/stocks/sansera-engineering-ltd"
       },
       "sws_statement": {
-        "company_pe": 55,
-        "industry_pe": 27,
+        "company_pe": 55.4,
+        "industry_pe": 26.6,
         "industry_name": "Indian Auto Components",
-        "description": "SANSERA is expensive based on its Price-To-Earnings Ratio (55x) compared to the Indian Auto Components industry average (27x).",
+        "description": "SANSERA is expensive based on its Price-To-Earnings Ratio (55.4x) compared to the Indian Auto Components industry average (26.6x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 27.035828631,
+        "industry_pe": 26.637397669,
         "industry_code": "4011000",
         "type": "median_profitable",
         "count": 129,
@@ -184,25 +470,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24.55,
+        "industry_pe": 24.95,
         "sample_count": 124,
         "industry_code": "4011000",
         "industry_name": "Automobiles"
       },
       "sws_primary_industry": {
-        "industry_pe": 19.117936258,
+        "industry_pe": 19.1352443,
         "industry_name": "Automobiles",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 68.07785722171535
+        "company_pe": 55.416223341314705
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 2861,
-        "fetched_at": "2026-05-31T22:03:51.647Z",
+        "value": 2881.3,
+        "fetched_at": "2026-06-11T01:05:24.997Z",
         "url": "https://simplywall.st/stocks/in/automobiles/nse-sansera/sansera-engineering-shares"
       },
       "market_cap_inr": {
@@ -210,6 +496,24 @@
         "value": 182810600000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/sansera-engineering-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 2893.5,
+        "fetched_at": "2026-06-11T01:05:24.997Z",
+        "url": "https://simplywall.st/stocks/in/automobiles/nse-sansera/sansera-engineering-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "d15e3056-0d46-4567-8fdd-3be4fd910baa",
+        "narrative_type": null,
+        "published_at": "2026-06-01T05:10:05.494Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 0.4234199840349779,
+        "fetched_at": "2026-06-11T01:05:24.997Z",
+        "url": "https://simplywall.st/stocks/in/automobiles/nse-sansera/sansera-engineering-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -249,14 +553,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.06373692101,
-        "fetched_at": "2026-05-31T22:03:51.647Z",
+        "value": 0.06320108827,
+        "fetched_at": "2026-06-11T01:05:24.997Z",
         "url": "https://simplywall.st/stocks/in/automobiles/nse-sansera/sansera-engineering-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.4240176673,
-        "fetched_at": "2026-05-31T22:03:51.647Z",
+        "value": 0.4149538086,
+        "fetched_at": "2026-06-11T01:05:24.997Z",
         "url": "https://simplywall.st/stocks/in/automobiles/nse-sansera/sansera-engineering-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -365,13 +669,13 @@
         "url": "https://groww.in/stocks/sansera-engineering-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 21.745738134632187,
+    "earnings_growth_yoy_pct": 42.25928933564515,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 8.753655837024654,
-    "latest_revenue": 32808269999.999996,
-    "latest_net_income": 2619530000,
+    "revenue_growth_pct": 14.334216192240321,
+    "latest_revenue": 34979170000,
+    "latest_net_income": 3240880000,
     "latest_eps": 52.44,
-    "most_recent_reported_date": "2026-05-12",
+    "most_recent_reported_date": "2026-05-31",
     "pb": 5.92,
     "ps": 5.24,
     "book_value": 495.3112259,
@@ -388,16 +692,16 @@
     "quick_ratio": 1.0973653622626889,
     "cash_ratio": 0.384695854320031,
     "returns_pct": {
-      "1D": -2.7433116905190813,
-      "7D": 0.25229518536687284,
-      "1M": 11.902061250831157,
-      "3M": 22.150115276236026,
-      "6M": 63.56983591561375,
-      "1Y": 113.17338499366664,
+      "1D": -2.704801782940498,
+      "7D": -1.1493069850418554,
+      "1M": 16.402052276491737,
+      "3M": 38.550682823619944,
+      "6M": 69.56803201506591,
+      "1Y": 109.30553537701586,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 6,
+    "recent_news_count": 5,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -494,8 +798,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.21269,
-        "shares": 755893,
+        "pct": 1.21551,
+        "shares": 757651,
         "is_insider": null
       },
       {
@@ -516,7 +820,7 @@
   },
   "dividend": {
     "yield_pct": 0.14,
-    "payout_pct": 7.73341614717144,
+    "payout_pct": 6.250745353113969,
     "annualized_dividend": 3.25,
     "listing_currency": "INR",
     "recent_payments": [
@@ -576,44 +880,44 @@
     "payment_count": 4
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-12",
+    "most_recent_reported_date": "2026-05-31",
     "latest_year": 2026,
-    "latest_revenue": 32808269999.999996,
-    "latest_net_income": 2619530000,
+    "latest_revenue": 34979170000,
+    "latest_net_income": 3240880000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 8.753655837024654,
-    "earnings_growth_pct": 21.745738134632187,
-    "net_margin_pct": 7.984358821723914,
+    "revenue_growth_pct": 14.334216192240321,
+    "earnings_growth_pct": 42.25928933564515,
+    "net_margin_pct": 9.265171243342824,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 32808269999.999996,
-        "netIncome": 2619530000,
+        "revenue": 34979170000,
+        "netIncome": 3240880000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 30167510000,
-        "netIncome": 2151640000,
+        "revenue": 30593790000,
+        "netIncome": 2278150000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 28114320000,
-        "netIncome": 1857550000,
+        "revenue": 28952990000,
+        "netIncome": 1906160000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 23466250000,
-        "netIncome": 1461950000,
+        "revenue": 24759480000,
+        "netIncome": 1567990000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 19890320000,
-        "netIncome": 1304520000,
+        "revenue": 21302400000,
+        "netIncome": 1458970000,
         "eps": null
       }
     ]
@@ -820,6 +1124,16 @@
   ],
   "news": [
     {
+      "id": "8e7526f2-6f86-423b-866e-d585d87eaca8",
+      "type": "narrative-update",
+      "date": "2026-06-01T05:10:05.000Z",
+      "title": "SANSERA: Future Returns Will Reflect Stable Assumptions And Balanced Pricing",
+      "body": "Analysts have raised their price target on Sansera Engineering from about ₹2,301 to about ₹2,894, citing updated assumptions for revenue growth, profit margins and future P/E. These changes result in a higher fair value estimate despite a slightly higher discount rate.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/automobiles/nse-sansera/sansera-engineering-shares/hx5dx10f-diversification-into-aerospace-and-semiconductors-will-expand-horizons-lvh6/updates/24-analysts-have-raised-their-price-target-on-sansera-engineeri",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "93f5d405-88bb-4547-9c30-b43c3a3d44c9",
       "type": "brief",
       "date": "2026-05-28T19:42:37.000Z",
@@ -1017,16 +1331,6 @@
       "body": "Analysts have nudged their price target for Sansera Engineering slightly higher to Rs 1,711, citing marginally lower perceived risk and steady expectations for revenue growth, profit margins, and future valuation multiples. What's in the News Board meeting scheduled on November 12, 2025 at 15:15 IST to review and approve unaudited financial results for the quarter and half year ended September 30, 2025 (company filing) Board to consider an additional investment of INR 300,000,000 in MMRFIC Technology Private Limited, indicating a continued strategic focus on technology driven growth (company filing) Valuation Changes Fair Value: Unchanged at ₹1,711 per share, indicating no revision to the core intrinsic value estimate.",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/automobiles/nse-sansera/sansera-engineering-shares/hx5dx10f-diversification-into-aerospace-and-semiconductors-will-expand-horizons-lvh6/updates/14-analysts-have-nudged-their-price-target-for-sansera-engineer",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "b129c6b4-4e12-434f-97f6-3379f5dbc8bc",
-      "type": "narrative-update",
-      "date": "2025-12-13T17:07:37.000Z",
-      "title": "SANSERA: Dividend, Subsidiary Investment And Margins Will Shape Measured Return Prospects",
-      "body": "Analysts have modestly reaffirmed their view on Sansera Engineering, keeping the fair value estimate effectively unchanged at ₹1,711.00. Slightly lower discount rate assumptions and stable expectations for revenue growth, profit margins, and future valuation multiples continue to support the stock’s long term upside potential.",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/automobiles/nse-sansera/sansera-engineering-shares/hx5dx10f-diversification-into-aerospace-and-semiconductors-will-expand-horizons-lvh6/updates/13-analysts-have-modestly-reaffirmed-their-view-on-sansera-engi",
       "raw_subtype": "narrative-update"
     }
   ],

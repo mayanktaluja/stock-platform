@@ -3,7 +3,7 @@
   "name": "State Bank of India",
   "sector": "Banks",
   "sws_url": "https://simplywall.st/stocks/in/banks/nse-sbin/state-bank-of-india-shares",
-  "parsed_at": "2026-05-31T22:08:35.816Z",
+  "parsed_at": "2026-06-11T01:10:16.213Z",
   "company_id": "3A474B3C-DC16-4C6A-B602-FC78BAE4BCA7",
   "classification_status": "Active",
   "groww_source": {
@@ -16,14 +16,14 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 4,
-      "future": 0,
+      "valuation": 3,
+      "future": 1,
       "past": 2,
       "financial_health": 5,
       "dividends": 5,
-      "future_growth": 0,
+      "future_growth": 1,
       "past_performance": 2,
-      "value": 4,
+      "value": 3,
       "health": 5,
       "dividend": 5
     },
@@ -65,22 +65,308 @@
         }
       ]
     },
-    "current_price_inr": 964.4,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "BankHealth",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DECLINE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DECLINE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAppropriateBadLoanAllowance",
+          "title": "Allowance for Bad Loans",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAppropriateNonPerformingLoans",
+          "title": "Level of Bad Loans",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasPrimarilyLowRiskFunding",
+          "title": "Low Risk Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAppropriateLoanLevel",
+          "title": "Loan Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasPrimarilyDepositFunding",
+          "title": "Low Risk Deposits",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAnAppropriateLevelOfAssets",
+          "title": "Asset Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_MODERATE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredIn3Years",
+          "title": "Future Dividend Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        }
+      ]
+    },
+    "current_price_inr": 1003.25,
     "market_cap_inr": 8932007100000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "mega8",
     "shares_outstanding": 9230617586,
     "fifty_two_week": {
       "low": 781.7,
       "high": 1234.7
     },
-    "fair_value_inr": 1198.71795,
+    "fair_value_inr": 1195,
     "fair_value_range_inr": {
       "min": 443.94,
-      "max": 1198.71795,
+      "max": 1195,
       "count": 150
     },
-    "upside_pct": 24.296759643301534,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "b265afa8-3426-4c59-8add-cc836e4b91df",
+      "narrative_type": null,
+      "published_at": "2026-06-04T05:04:00.577Z"
+    },
+    "upside_pct": 19.11288312982806,
     "multiples": {
       "pe": 10.31,
       "ps": 1.25,
@@ -98,18 +384,18 @@
     },
     "rewards": [
       "Trading at good value vs. peer average Price-To-Earnings ratio",
+      "Earnings are forecast to grow 7.05% per year",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Analysts in good agreement that stock price will rise by 23.9%",
       "Earnings have grown 22.9% per year over the past 5 years",
       "Trading below our calculated fair Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (10.7x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (11.1x) is below the Indian market (23.2x)"
     ],
     "risks": [
       "Unstable dividend track record"
     ],
     "dividend": {
       "yield_pct": 1.79,
-      "payout_pct": 17.62829976007925,
+      "payout_pct": 17.619323522957043,
       "annualized_dividend": 15.9,
       "listing_currency": "INR",
       "recent_payments": [
@@ -210,8 +496,8 @@
     "dividend_yield_pct": 1.79,
     "industry_benchmarks": {
       "pe": 12.587464209030458,
-      "net_income_margin_1y": 0.3177821454,
-      "future_revenue_growth_3y": 0.2745257838,
+      "net_income_margin_1y": 0.3178841988,
+      "future_revenue_growth_3y": 0.2771620146,
       "sector_pe": 12.587464209030458
     },
     "industry_benchmarks_meta": {
@@ -246,15 +532,15 @@
         "url": "https://groww.in/stocks/state-bank-of-india"
       },
       "sws_statement": {
-        "company_pe": 10.7,
-        "industry_pe": 11.4,
+        "company_pe": 11.1,
+        "industry_pe": 11.9,
         "industry_name": "Indian Banks",
-        "description": "SBIN is good value based on its Price-To-Earnings Ratio (10.7x) compared to the Indian Banks industry average (11.4x).",
+        "description": "SBIN is good value based on its Price-To-Earnings Ratio (11.1x) compared to the Indian Banks industry average (11.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 11.441700538,
+        "industry_pe": 11.880641305,
         "industry_code": "7011000",
         "type": "median_profitable",
         "count": 39,
@@ -266,25 +552,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 11.4,
+        "industry_pe": 11.75,
         "sample_count": 40,
         "industry_code": "7011000",
         "industry_name": "Banks"
       },
       "sws_primary_industry": {
-        "industry_pe": 11.055229769,
+        "industry_pe": 11.140031027,
         "industry_name": "Banks",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 10.692284458251843
+        "company_pe": 11.117349889563933
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 964.4,
-        "fetched_at": "2026-05-31T22:08:35.816Z",
+        "value": 1003.25,
+        "fetched_at": "2026-06-11T01:10:16.213Z",
         "url": "https://simplywall.st/stocks/in/banks/nse-sbin/state-bank-of-india-shares"
       },
       "market_cap_inr": {
@@ -292,6 +578,24 @@
         "value": 8932007100000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/state-bank-of-india"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 1195,
+        "fetched_at": "2026-06-11T01:10:16.213Z",
+        "url": "https://simplywall.st/stocks/in/banks/nse-sbin/state-bank-of-india-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "b265afa8-3426-4c59-8add-cc836e4b91df",
+        "narrative_type": null,
+        "published_at": "2026-06-04T05:04:00.577Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 19.11288312982806,
+        "fetched_at": "2026-06-11T01:10:16.213Z",
+        "url": "https://simplywall.st/stocks/in/banks/nse-sbin/state-bank-of-india-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -331,14 +635,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.3177821454,
-        "fetched_at": "2026-05-31T22:08:35.816Z",
+        "value": 0.3178841988,
+        "fetched_at": "2026-06-11T01:10:16.213Z",
         "url": "https://simplywall.st/stocks/in/banks/nse-sbin/state-bank-of-india-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.2745257838,
-        "fetched_at": "2026-05-31T22:08:35.816Z",
+        "value": 0.2771620146,
+        "fetched_at": "2026-06-11T01:10:16.213Z",
         "url": "https://simplywall.st/stocks/in/banks/nse-sbin/state-bank-of-india-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -447,13 +751,13 @@
         "url": "https://groww.in/stocks/state-bank-of-india"
       }
     },
-    "earnings_growth_yoy_pct": 7.3426145202440045,
+    "earnings_growth_yoy_pct": 4.86032217758832,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 7.906538709574411,
-    "latest_revenue": 3700534030000,
-    "latest_net_income": 832563671000,
+    "revenue_growth_pct": 7.5044651798481325,
+    "latest_revenue": 3766784270000,
+    "latest_net_income": 832987824000,
     "latest_eps": 93.89,
-    "most_recent_reported_date": "2026-05-07",
+    "most_recent_reported_date": "2026-06-03",
     "pb": 1.57,
     "ps": 1.25,
     "book_value": 616.1833155,
@@ -470,59 +774,59 @@
     "quick_ratio": 0,
     "cash_ratio": 0,
     "returns_pct": {
-      "1D": -0.3513122545980551,
-      "7D": 1.6013485040033641,
-      "1M": -11.270586070475675,
-      "3M": -19.747025047848883,
-      "6M": -1.4913176710929543,
-      "1Y": 18.527622442081977,
+      "1D": 0.054851899870345514,
+      "7D": 3.379875315575244,
+      "1M": 3.045398520953161,
+      "3M": -7.551603391079989,
+      "6M": 4.163422104552772,
+      "1Y": 23.09060793816331,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 6,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
   "ownership": {
     "top_holders": [
       {
-        "pct": 55.0453,
-        "shares": 5081020868,
+        "pct": 55.04349,
+        "shares": 5080854438,
         "is_insider": null
       },
       {
-        "pct": 9.5106,
-        "shares": 877887310,
+        "pct": 8.7,
+        "shares": 803063730,
         "is_insider": null
       },
       {
-        "pct": 3.17843,
-        "shares": 293388895,
+        "pct": 3.37,
+        "shares": 311071813,
         "is_insider": null
       },
       {
-        "pct": 1.79001,
-        "shares": 165228923,
+        "pct": 1.97,
+        "shares": 181843166,
         "is_insider": null
       },
       {
-        "pct": 1.7593,
-        "shares": 162394716,
+        "pct": 1.73,
+        "shares": 159689684,
         "is_insider": null
       },
       {
-        "pct": 1.70116,
-        "shares": 157027862,
+        "pct": 1.22,
+        "shares": 112613535,
         "is_insider": null
       },
       {
-        "pct": 1.38919,
-        "shares": 128230399,
+        "pct": 1.2,
+        "shares": 110767411,
         "is_insider": null
       },
       {
-        "pct": 1.05649,
-        "shares": 97520927,
+        "pct": 1.03,
+        "shares": 95075361,
         "is_insider": null
       },
       {
@@ -531,13 +835,13 @@
         "is_insider": null
       },
       {
-        "pct": 0.86258,
-        "shares": 79621098,
+        "pct": 0.85785,
+        "shares": 79185015,
         "is_insider": null
       },
       {
-        "pct": 0.82215,
-        "shares": 75889586,
+        "pct": 0.83461,
+        "shares": 77039663,
         "is_insider": null
       },
       {
@@ -571,18 +875,18 @@
         "is_insider": null
       },
       {
+        "pct": 0.43005,
+        "shares": 39696138,
+        "is_insider": null
+      },
+      {
         "pct": 0.42408,
         "shares": 39145146,
         "is_insider": null
       },
       {
-        "pct": 0.39929,
-        "shares": 36857179,
-        "is_insider": null
-      },
-      {
-        "pct": 0.25206,
-        "shares": 23267101,
+        "pct": 0.27247,
+        "shares": 25150538,
         "is_insider": null
       }
     ],
@@ -598,7 +902,7 @@
   },
   "dividend": {
     "yield_pct": 1.79,
-    "payout_pct": 17.62829976007925,
+    "payout_pct": 17.619323522957043,
     "annualized_dividend": 15.9,
     "listing_currency": "INR",
     "recent_payments": [
@@ -697,44 +1001,44 @@
     "payment_count": 7
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-07",
+    "most_recent_reported_date": "2026-06-03",
     "latest_year": 2026,
-    "latest_revenue": 3700534030000,
-    "latest_net_income": 832563671000,
+    "latest_revenue": 3766784270000,
+    "latest_net_income": 832987824000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 7.906538709574411,
-    "earnings_growth_pct": 7.3426145202440045,
-    "net_margin_pct": 22.498473578420246,
+    "revenue_growth_pct": 7.5044651798481325,
+    "earnings_growth_pct": 4.86032217758832,
+    "net_margin_pct": 22.114030544149003,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 3700534030000,
-        "netIncome": 832563671000,
+        "revenue": 3766784270000,
+        "netIncome": 832987824000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 3429388130000,
-        "netIncome": 775613371000,
+        "revenue": 3503839830000,
+        "netIncome": 794378471000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 3271338797000,
-        "netIncome": 670846661000,
+        "revenue": 3319632597000,
+        "netIncome": 678728261000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 2652130458000,
-        "netIncome": 556481728000,
+        "revenue": 2885696558000,
+        "netIncome": 668598628000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 2241020572000,
-        "netIncome": 353738798000,
+        "revenue": 2140426472000,
+        "netIncome": 353190798000,
         "eps": null
       }
     ]
@@ -966,6 +1270,16 @@
   ],
   "news": [
     {
+      "id": "5fff928b-4586-47ea-ba41-99e98636f30d",
+      "type": "narrative-update",
+      "date": "2026-06-04T05:04:00.000Z",
+      "title": "SBIN: Upcoming Dividend And Fundraising Plan Will Support Bullish Outlook",
+      "body": "Analysts have trimmed their price target on State Bank of India slightly from ₹1,198.72 to ₹1,195.00 as they factor in a higher discount rate, softer revenue growth assumptions and a lower future P/E, partly offset by a modestly stronger profit margin outlook. What's in the News Board meeting on May 08, 2026 to consider and approve financial results for the quarter and year ended March 31, 2026, review the dividend, and address other matters.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/banks/nse-sbin/state-bank-of-india-shares/asujnfal-analysts-raise-state-bank-of-india-price-target-amid-minor-valuation-adjustments-and-board-meetings/updates/26-analysts-have-trimmed-their-price-target-on-state-bank-of-in",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "e70820db-854b-4b99-9c6a-e5c3bbdc0df5",
       "type": "event",
       "date": "2026-05-15T08:14:00.000Z",
@@ -1143,16 +1457,6 @@
       "body": "Analysts have nudged their price target on State Bank of India slightly higher to ₹1,077.36 from ₹1,076.59, citing marginal improvements in long term profit margin assumptions and a modestly lower discount rate that together support a slightly richer future earnings multiple. What's in the News State Bank of India received regulatory approval to appoint 10 Chartered Accountant firms as Statutory Central Auditors for FY 2025-26, including 8 continuing and 2 newly appointed firms, reinforcing audit oversight for the bank.",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/banks/nse-sbin/state-bank-of-india-shares/asujnfal-analysts-raise-state-bank-of-india-price-target-amid-minor-valuation-adjustments-and-board-meetings/updates/16-analysts-have-nudged-their-price-target-on-state-bank-of-ind",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "8609d84e-cd27-4de4-9749-912a5d1dd23d",
-      "type": "narrative-update",
-      "date": "2025-12-03T19:05:53.000Z",
-      "title": "SBIN: Subsidiary IPO Stake Sale Will Support Stronger Future Earnings Potential",
-      "body": "Analysts have modestly raised their price target for State Bank of India to ₹1,076.59 from ₹1,074.18, citing a slightly lower discount rate, stable long term revenue growth and profit margin assumptions, and a marginally higher forward P E multiple in their updated valuation model. What's in the News State Bank of India plans to sell a 6% stake, about 3.20 crore shares, in its subsidiary SBI Funds Management Limited via an IPO, alongside a 3.70% stake sale by co promoter Amundi India Holding.",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/banks/nse-sbin/state-bank-of-india-shares/asujnfal-analysts-raise-state-bank-of-india-price-target-amid-minor-valuation-adjustments-and-board-meetings/updates/15-analysts-have-modestly-raised-their-price-target-for-state-b",
       "raw_subtype": "narrative-update"
     }
   ],

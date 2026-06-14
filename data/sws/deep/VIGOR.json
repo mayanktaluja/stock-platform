@@ -3,24 +3,24 @@
   "name": "Vigor Plast India Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-vigor/vigor-plast-india-shares",
-  "parsed_at": "2026-05-31T23:06:41.440Z",
+  "parsed_at": "2026-06-11T02:12:55.762Z",
   "company_id": "369EE3E8-D54C-4E22-9348-D361F1CFB9E3",
   "classification_status": "Active",
   "groww_source": null,
   "overview": {
     "snowflake": {
-      "valuation": 1,
+      "valuation": 2,
       "future": 0,
       "past": 5,
       "financial_health": 6,
       "dividends": 0,
       "future_growth": 0,
       "past_performance": 5,
-      "value": 1,
+      "value": 2,
       "health": 6,
       "dividend": 0
     },
-    "snowflake_total": 12,
+    "snowflake_total": 13,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 12,
@@ -70,21 +70,310 @@
         }
       ]
     },
-    "current_price_inr": 65.4,
-    "market_cap_inr": 677001049.5022589,
-    "market_cap_usd": 120714180851.549,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 85,
+    "market_cap_inr": 879894330.392844,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
-    "fifty_two_week": null,
-    "fair_value_inr": 90.391523,
+    "fifty_two_week": {
+      "low": 45.85,
+      "high": 95.9
+    },
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 38.213337920489295,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "a3ca7c5d-59d7-4d71-b430-cff9ba1df31c",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
-      "pe": 7.4,
+      "pe": 9.6,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -93,17 +382,18 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": "2026-05-31T23:06:41.440Z",
+      "pe_as_of": "2026-06-11T02:12:55.762Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://simplywall.st/stocks/in/capital-goods/nse-vigor/vigor-plast-india-shares"
     },
     "rewards": [
+      "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Earnings grew by 77.1% over the past year",
-      "Price-To-Earnings ratio (7.4x) is below the Indian market (23.4x)",
-      "Trading at good value vs. industry average Price-To-Earnings ratio"
+      "Trading at good value vs. industry average Price-To-Earnings ratio",
+      "Price-To-Earnings ratio (9.6x) is below the Indian market (23.2x)"
     ],
     "risks": [
-      "Does not have a meaningful market cap (₹677M)",
+      "Does not have a meaningful market cap (₹880M)",
       "High level of [[non-cash earnings]]",
       "Highly volatile share price over past 3 months"
     ],
@@ -117,9 +407,9 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 27.141472172,
-      "net_income_margin_1y": 0.09027086979,
-      "future_revenue_growth_3y": 0.4918096257
+      "pe": 30.395757786,
+      "net_income_margin_1y": 0.09031717049,
+      "future_revenue_growth_3y": 0.4889812705
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -133,30 +423,30 @@
     "pe_benchmark_source": {
       "provider": "sws_industry_api",
       "label": "SWS industry API",
-      "company_pe": 7.4,
+      "company_pe": 9.6,
       "company_pe_source": "sws_statement",
       "company_pe_source_label": "SWS visible statement",
-      "industry_pe": 27.141472172,
+      "industry_pe": 30.395757786,
       "industry_name": "Capital Goods",
       "industry_code": "3030000",
-      "sample_count": 55,
+      "sample_count": 58,
       "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 7.4,
-        "industry_pe": 27.1,
+        "company_pe": 9.6,
+        "industry_pe": 30.4,
         "industry_name": "Indian Building",
-        "description": "VIGOR is good value based on its Price-To-Earnings Ratio (7.4x) compared to the Indian Building industry average (27.1x).",
+        "description": "VIGOR is good value based on its Price-To-Earnings Ratio (9.6x) compared to the Indian Building industry average (30.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 27.141472172,
+        "industry_pe": 30.395757786,
         "industry_code": "3030000",
         "type": "median_profitable",
-        "count": 55,
+        "count": 58,
         "source": {
           "type": "country",
           "country": "IN",
@@ -165,7 +455,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24.5,
+        "industry_pe": 28.1,
         "sample_count": 55,
         "industry_code": "3030000",
         "industry_name": "Capital Goods"
@@ -178,32 +468,41 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 65.4,
-        "fetched_at": "2026-05-31T23:06:41.440Z",
+        "value": 85,
+        "fetched_at": "2026-06-11T02:12:55.762Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-vigor/vigor-plast-india-shares"
       },
       "multiples.pe": {
         "provider": "sws_statement",
-        "value": 7.4,
-        "fetched_at": "2026-05-31T23:06:41.440Z",
+        "value": 9.6,
+        "fetched_at": "2026-06-11T02:12:55.762Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-vigor/vigor-plast-india-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 27.141472172,
+        "value": 30.395757786,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.09027086979,
-        "fetched_at": "2026-05-31T23:06:41.440Z",
+        "value": 0.09031717049,
+        "fetched_at": "2026-06-11T02:12:55.762Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-vigor/vigor-plast-india-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.4918096257,
-        "fetched_at": "2026-05-31T23:06:41.440Z",
+        "value": 0.4889812705,
+        "fetched_at": "2026-06-11T02:12:55.762Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-vigor/vigor-plast-india-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 45.85,
+          "high": 95.9
+        },
+        "fetched_at": "2026-06-11T02:12:55.762Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-vigor/vigor-plast-india-shares"
       }
     },
@@ -230,16 +529,16 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 20.00000000000001,
-      "7D": 25.769230769230777,
-      "1M": 17.73177317731775,
-      "3M": 20.887245841035128,
-      "6M": -19.259259259259252,
-      "1Y": -23.687281213535584,
+      "1D": -0.17615971814445763,
+      "7D": 10.38961038961039,
+      "1M": 28.30188679245283,
+      "3M": 61.904761904761905,
+      "6M": 5.590062111801243,
+      "1Y": -0.8168028004667477,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 4,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },

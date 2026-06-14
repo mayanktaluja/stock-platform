@@ -3,7 +3,7 @@
   "name": "Om Freight Forwarders Limited",
   "sector": "Transportation",
   "sws_url": "https://simplywall.st/stocks/in/transportation/nse-omfreight/om-freight-forwarders-shares",
-  "parsed_at": "2026-05-31T21:18:30.043Z",
+  "parsed_at": "2026-06-11T00:22:28.472Z",
   "company_id": "F2002D28-76FC-429F-828C-744A91FB6D36",
   "classification_status": "Active",
   "groww_source": {
@@ -18,16 +18,16 @@
     "snowflake": {
       "valuation": 1,
       "future": 0,
-      "past": 2,
+      "past": 1,
       "financial_health": 4,
       "dividends": 0,
       "future_growth": 0,
-      "past_performance": 2,
+      "past_performance": 1,
       "value": 1,
       "health": 4,
       "dividend": 0
     },
-    "snowflake_total": 7,
+    "snowflake_total": 6,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 12,
@@ -77,22 +77,308 @@
         }
       ]
     },
-    "current_price_inr": 84.23,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SAME_PB"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 82.45,
     "market_cap_inr": 2907900000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 58.95,
       "high": 107.4
     },
-    "fair_value_inr": 120.257484,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 42.77274605247536,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "67be837f-9f3b-4930-800b-59afd1649020",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 15.23,
       "ps": 0.65,
@@ -109,10 +395,11 @@
       "pe_source_url": "https://groww.in/stocks/om-freight-forwarders-ltd"
     },
     "rewards": [
-      "Price-To-Earnings ratio (17.7x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (17.1x) is below the Indian market (22.9x)",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
     "risks": [
+      "High level of [[non-cash earnings]]",
       "Does not have a meaningful market cap (₹3B)"
     ],
     "dividend": {
@@ -127,7 +414,7 @@
     "industry_benchmarks": {
       "pe": 44.15202093698116,
       "net_income_margin_1y": 0.04875633592,
-      "future_revenue_growth_3y": 0.4923863598,
+      "future_revenue_growth_3y": 0.4999162272,
       "sector_pe": 44.15202093698116
     },
     "industry_benchmarks_meta": {
@@ -162,15 +449,15 @@
         "url": "https://groww.in/stocks/om-freight-forwarders-ltd"
       },
       "sws_statement": {
-        "company_pe": 17.7,
-        "industry_pe": 15.9,
+        "company_pe": 17.1,
+        "industry_pe": 16.7,
         "industry_name": "Indian Logistics",
-        "description": "OMFREIGHT is expensive based on its Price-To-Earnings Ratio (17.7x) compared to the Indian Logistics industry average (15.9x).",
+        "description": "OMFREIGHT is expensive based on its Price-To-Earnings Ratio (17.1x) compared to the Indian Logistics industry average (16.7x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 15.905276181,
+        "industry_pe": 16.669517793,
         "industry_code": "3210000",
         "type": "median_profitable",
         "count": 40,
@@ -182,8 +469,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.25,
-        "sample_count": 36,
+        "industry_pe": 15.15,
+        "sample_count": 38,
         "industry_code": "3210000",
         "industry_name": "Transportation"
       },
@@ -195,8 +482,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 84.23,
-        "fetched_at": "2026-05-31T21:18:30.043Z",
+        "value": 82.45,
+        "fetched_at": "2026-06-11T00:22:28.472Z",
         "url": "https://simplywall.st/stocks/in/transportation/nse-omfreight/om-freight-forwarders-shares"
       },
       "market_cap_inr": {
@@ -244,13 +531,13 @@
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.04875633592,
-        "fetched_at": "2026-05-31T21:18:30.043Z",
+        "fetched_at": "2026-06-11T00:22:28.472Z",
         "url": "https://simplywall.st/stocks/in/transportation/nse-omfreight/om-freight-forwarders-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.4923863598,
-        "fetched_at": "2026-05-31T21:18:30.043Z",
+        "value": 0.4999162272,
+        "fetched_at": "2026-06-11T00:22:28.472Z",
         "url": "https://simplywall.st/stocks/in/transportation/nse-omfreight/om-freight-forwarders-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -382,16 +669,16 @@
     "quick_ratio": 1.597135253600501,
     "cash_ratio": 0.2381026925485285,
     "returns_pct": {
-      "1D": -2.4890020838156883,
-      "7D": -5.423310128003591,
-      "1M": -0.6135693215339186,
-      "3M": 5.896404324867987,
-      "6M": -11.625222956667713,
-      "1Y": -1.5659693817926719,
+      "1D": 1.4894140817331463,
+      "7D": -0.9371620809804171,
+      "1M": -5.218990688584886,
+      "3M": 7.679247747159475,
+      "6M": -7.26577437858508,
+      "1Y": -3.646137665069523,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 4,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -647,6 +934,26 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "8d8e05a1-49e2-4dbb-935b-75f3b4d0bd4e",
+      "type": "article",
+      "date": "2026-06-04T02:30:37.000Z",
+      "title": "Earnings Troubles May Signal Larger Issues for Om Freight Forwarders (NSE:OMFREIGHT) Shareholders",
+      "body": "Om Freight Forwarders Limited's ( NSE:OMFREIGHT ) recent weak earnings report didn't cause a big stock movement. Our...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/transportation/nse-omfreight/om-freight-forwarders-shares/news/earnings-troubles-may-signal-larger-issues-for-om-freight-fo",
+      "raw_subtype": "article"
+    },
+    {
+      "id": "c7ca74a0-419e-4054-a92c-2919eeb0a866",
+      "type": "brief",
+      "date": "2026-06-01T07:56:34.000Z",
+      "title": "New major risk - Earnings quality",
+      "body": "The company has a high level of non-cash earnings. Accrual ratio: 20% This is considered a major risk. Non-cash earnings can arise from many different things. However, if a company consistently has a high level of non-cash earnings, it may be a sign that they are recognizing revenue from customers before the full value of the sales are received as cash or they are not depreciating the value of their assets appropriately. These are practices that inflate earnings, while not providing a similar increase to cash flows. Companies in some select industries naturally have a high level of non-cash earnings and it is not a major concern. However, in the worst case scenario it can be an early sign of performance manipulation by management. Currently, the following risks have been identified for the",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "38f29629-aeb4-4d96-b964-fec6f8e2f436",
       "type": "brief",

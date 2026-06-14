@@ -3,7 +3,7 @@
   "name": "Tradewell Holdings Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/bse-531203/tradewell-holdings-shares",
-  "parsed_at": "2026-05-31T21:50:51.080Z",
+  "parsed_at": "2026-06-11T01:01:31.462Z",
   "company_id": "86033DBF-2875-4C2D-AC6F-D2CBC2B7BBB4",
   "classification_status": "Active",
   "groww_source": {
@@ -18,16 +18,16 @@
     "snowflake": {
       "valuation": 2,
       "future": 0,
-      "past": 5,
-      "financial_health": 2,
+      "past": 2,
+      "financial_health": 1,
       "dividends": 0,
       "future_growth": 0,
-      "past_performance": 5,
+      "past_performance": 2,
       "value": 2,
-      "health": 2,
+      "health": 1,
       "dividend": 0
     },
-    "snowflake_total": 9,
+    "snowflake_total": 5,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 11,
@@ -78,22 +78,308 @@
         }
       ]
     },
-    "current_price_inr": 49.74,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_BECOME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 40.62,
     "market_cap_inr": 157100000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 40,
       "high": 102.74
     },
-    "fair_value_inr": 3.852981,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -92.25375753920386,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "675ca720-740a-44b2-a042-c8d55a431b51",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 6.2,
       "ps": 2.84,
@@ -110,16 +396,17 @@
       "pe_source_url": "https://groww.in/stocks/brand-realty-services-ltd"
     },
     "rewards": [
-      "Earnings grew by 160.1% over the past year",
+      "Became profitable this year",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (5.9x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (9.6x) is below the Indian market (23.2x)"
     ],
     "risks": [
-      "Makes less than USD$1m in revenue (₹12M)",
+      "High level of [[non-cash earnings]]",
+      "Makes less than USD$1m in revenue (₹15M)",
       "Debt is not well covered by [[operating cash flow]]",
       "Highly volatile share price over past 3 months",
-      "Does not have a meaningful market cap (₹149M)"
+      "Does not have a meaningful market cap (₹122M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -132,8 +419,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 23.373691419264986,
-      "net_income_margin_1y": 0.3861928045,
-      "future_revenue_growth_3y": 0.6191489568,
+      "net_income_margin_1y": 0.3863034101,
+      "future_revenue_growth_3y": 0.6219707352,
       "sector_pe": 23.373691419264986
     },
     "industry_benchmarks_meta": {
@@ -168,18 +455,18 @@
         "url": "https://groww.in/stocks/brand-realty-services-ltd"
       },
       "sws_statement": {
-        "company_pe": 5.9,
-        "industry_pe": 26.7,
+        "company_pe": 9.6,
+        "industry_pe": 26.9,
         "industry_name": "Indian Capital Markets",
-        "description": "531203 is good value based on its Price-To-Earnings Ratio (5.9x) compared to the Indian Capital Markets industry average (26.7x).",
+        "description": "531203 is good value based on its Price-To-Earnings Ratio (9.6x) compared to the Indian Capital Markets industry average (26.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 26.705392444,
+        "industry_pe": 26.862499542,
         "industry_code": "7130000",
         "type": "median_profitable",
-        "count": 218,
+        "count": 216,
         "source": {
           "type": "country",
           "country": "IN",
@@ -188,8 +475,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.6,
-        "sample_count": 204,
+        "industry_pe": 21.1,
+        "sample_count": 201,
         "industry_code": "7130000",
         "industry_name": "Diversified Financials"
       },
@@ -201,8 +488,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 49.74,
-        "fetched_at": "2026-05-31T21:50:51.080Z",
+        "value": 40.62,
+        "fetched_at": "2026-06-11T01:01:31.462Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-531203/tradewell-holdings-shares"
       },
       "market_cap_inr": {
@@ -249,14 +536,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.3861928045,
-        "fetched_at": "2026-05-31T21:50:51.080Z",
+        "value": 0.3863034101,
+        "fetched_at": "2026-06-11T01:01:31.462Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-531203/tradewell-holdings-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.6191489568,
-        "fetched_at": "2026-05-31T21:50:51.080Z",
+        "value": 0.6219707352,
+        "fetched_at": "2026-06-11T01:01:31.462Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-531203/tradewell-holdings-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -388,16 +675,16 @@
     "quick_ratio": 1.4610849056603774,
     "cash_ratio": 0.11438679245283018,
     "returns_pct": {
-      "1D": -4.985673352435529,
-      "7D": -18.45901639344262,
-      "1M": -37.824999999999996,
-      "3M": -36.91819911223842,
-      "6M": -25.393730313484326,
-      "1Y": -14.668039114770966,
+      "1D": -1.0475030450669909,
+      "7D": -4.982456140350884,
+      "1M": -43.188811188811194,
+      "3M": -50.402930402930416,
+      "6M": -39.07304634768262,
+      "1Y": -29.917184265010356,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 4,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -635,6 +922,26 @@
     "BSE"
   ],
   "news": [
+    {
+      "id": "220f8039-457a-4aec-8569-dea0c23a5af1",
+      "type": "brief",
+      "date": "2026-06-06T22:34:01.000Z",
+      "title": "Investor sentiment deteriorates as stock falls 17%",
+      "body": "After last week's 17% share price decline to ₹41.05, the stock trades at a trailing P/E ratio of 9.7x. Average trailing P/E is 27x in the Capital Markets industry in India. Total returns to shareholders of 11% over the past three years.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "73b15d66-2157-4104-86f1-72dbea4416d1",
+      "type": "brief",
+      "date": "2026-06-02T11:28:55.000Z",
+      "title": "Full year 2026 earnings released: EPS: ₹4.23 (vs ₹1.25 loss in FY 2025)",
+      "body": "Full year 2026 results: EPS: ₹4.23 (up from ₹1.25 loss in FY 2025). Revenue: ₹52.0m (down 38% from FY 2025). Net income: ₹12.7m (up ₹16.5m from FY 2025). Profit margin: 25% (up from net loss in FY 2025). The move to profitability was driven by lower expenses. Over the last 3 years on average, earnings per share has increased by 54% per year but the company’s share price has only increased by 7% per year, which means it is significantly lagging earnings growth.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "ebb11c59-37a5-4c28-8a34-5f5f3b68b737",
       "type": "event",

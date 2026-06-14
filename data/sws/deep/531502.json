@@ -3,7 +3,7 @@
   "name": "Esaar (India) Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/bse-531502/esaar-india-shares",
-  "parsed_at": "2026-05-31T22:01:11.206Z",
+  "parsed_at": "2026-06-11T01:13:23.093Z",
   "company_id": "6D18709A-7EF6-4A86-98D1-D138854B034F",
   "classification_status": "Active",
   "groww_source": {
@@ -18,16 +18,16 @@
     "snowflake": {
       "valuation": 2,
       "future": 0,
-      "past": 0,
-      "financial_health": 2,
+      "past": 2,
+      "financial_health": 3,
       "dividends": 0,
       "future_growth": 0,
-      "past_performance": 0,
+      "past_performance": 2,
       "value": 2,
-      "health": 2,
+      "health": 3,
       "dividend": 0
     },
-    "snowflake_total": 4,
+    "snowflake_total": 7,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 12,
@@ -77,46 +77,334 @@
         }
       ]
     },
-    "current_price_inr": 10.44,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_BECOME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_HIGH_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 12.19,
     "market_cap_inr": 209500000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 7.66,
       "high": 20.07
     },
-    "fair_value_inr": 0.965707,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -90.74993295019156,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "91fd03f5-be13-4b74-b85a-862a12ac4a18",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
-      "pe": null,
+      "pe": 2.2,
       "ps": 0.93,
       "pb": 0.94,
       "ev_ebitda": 18.97,
       "peg": 0
     },
     "multiples_meta": {
-      "pe_source": null,
-      "pe_source_label": null,
+      "pe_source": "sws_statement",
+      "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": null,
+      "pe_as_of": "2026-06-11T01:13:23.093Z",
       "pe_basis": "trailing_ttm",
-      "pe_source_url": null
+      "pe_source_url": "https://simplywall.st/stocks/in/diversified-financials/bse-531502/esaar-india-shares"
     },
     "rewards": [
-      "Trading at good value vs. peer average Price-To-Sales ratio",
-      "Trading at good value vs. industry average Price-To-Sales ratio"
+      "Became profitable this year",
+      "Trading at good value vs. peer average Price-To-Earnings ratio",
+      "Trading at good value vs. industry average Price-To-Earnings ratio",
+      "Price-To-Earnings ratio (2.2x) is below the Indian market (23.2x)"
     ],
     "risks": [
-      "Earnings have declined by 58% per year over past 5 years",
-      "Makes less than USD$1m in revenue (₹95M)",
+      "Does not have meaningful revenue (₹418M)",
+      "Earnings have declined by 50.6% per year over past 5 years",
       "Interest payments are not well covered by earnings",
-      "Does not have a meaningful market cap (₹213M)"
+      "Does not have a meaningful market cap (₹249M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -129,8 +417,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 23.373691419264986,
-      "net_income_margin_1y": 0.3861928045,
-      "future_revenue_growth_3y": 0.6191489568,
+      "net_income_margin_1y": 0.3863034101,
+      "future_revenue_growth_3y": 0.6219707352,
       "sector_pe": 23.373691419264986
     },
     "industry_benchmarks_meta": {
@@ -145,9 +433,9 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": null,
-      "company_pe_source": null,
-      "company_pe_source_label": null,
+      "company_pe": 2.2,
+      "company_pe_source": "sws_statement",
+      "company_pe_source_label": "SWS visible statement",
       "industry_pe": 23.373691419264986,
       "industry_name": "Finance",
       "industry_id": 26,
@@ -165,18 +453,18 @@
         "url": "https://groww.in/stocks/esaar-india-ltd"
       },
       "sws_statement": {
-        "company_pe": null,
-        "industry_pe": 6.8,
+        "company_pe": 2.2,
+        "industry_pe": 26.9,
         "industry_name": "Indian Capital Markets",
-        "description": "531502 is good value based on its Price-To-Sales Ratio (2.3x) compared to the Indian Capital Markets industry average (6.8x).",
-        "title": "Price-To-Sales vs Industry",
+        "description": "531502 is good value based on its Price-To-Earnings Ratio (2.2x) compared to the Indian Capital Markets industry average (26.9x).",
+        "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 26.705392444,
+        "industry_pe": 26.862499542,
         "industry_code": "7130000",
         "type": "median_profitable",
-        "count": 218,
+        "count": 216,
         "source": {
           "type": "country",
           "country": "IN",
@@ -185,8 +473,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.6,
-        "sample_count": 204,
+        "industry_pe": 21.1,
+        "sample_count": 201,
         "industry_code": "7130000",
         "industry_name": "Diversified Financials"
       },
@@ -198,8 +486,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 10.44,
-        "fetched_at": "2026-05-31T22:01:11.206Z",
+        "value": 12.19,
+        "fetched_at": "2026-06-11T01:13:23.093Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-531502/esaar-india-shares"
       },
       "market_cap_inr": {
@@ -207,6 +495,12 @@
         "value": 209500000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/esaar-india-ltd"
+      },
+      "multiples.pe": {
+        "provider": "sws_statement",
+        "value": 2.2,
+        "fetched_at": "2026-06-11T01:13:23.093Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/bse-531502/esaar-india-shares"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
@@ -240,14 +534,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.3861928045,
-        "fetched_at": "2026-05-31T22:01:11.206Z",
+        "value": 0.3863034101,
+        "fetched_at": "2026-06-11T01:13:23.093Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-531502/esaar-india-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.6191489568,
-        "fetched_at": "2026-05-31T22:01:11.206Z",
+        "value": 0.6219707352,
+        "fetched_at": "2026-06-11T01:13:23.093Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-531502/esaar-india-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -373,16 +667,16 @@
     "quick_ratio": 0.180623973727422,
     "cash_ratio": 0.1475095785440613,
     "returns_pct": {
-      "1D": 1.8536585365853608,
-      "7D": -1.0426540284360304,
-      "1M": -8.979947689625119,
-      "3M": -0.9487666034155564,
-      "6M": -16.41313050440353,
-      "1Y": 0.3846153846153764,
+      "1D": 1.9230769230769118,
+      "7D": 10.216998191681727,
+      "1M": 0.8271298593879209,
+      "3M": 35.44444444444444,
+      "6M": 1.5833333333333293,
+      "1Y": 7.306338028169016,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 1,
+    "recent_news_count": 4,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -682,6 +976,36 @@
     "BSE"
   ],
   "news": [
+    {
+      "id": "f6625472-1527-44f6-ad31-78534211a787",
+      "type": "event",
+      "date": "2026-06-10T12:50:00.000Z",
+      "title": "Esaar (India) Ltd Appoints Dipesh B. Mistri as Chief Financial Officer, Effective June 10, 2026",
+      "body": "Esaar (India) Ltd. at its board meeting held on June 10, 2026 and approved the appointment of Mr. Dipesh B. Mistri as Chief Financial Officer and Key Managerial Personnel of the Company with effect from June 10, 2026. Mr. Dipesh B. Mistri has around 10+ years of professional experience in the field of finance, accounts, taxation, corporate law, and regulatory compliances, with strong knowledge of financial management and reporting. He has extensive experience in financial planning and analysis, budgeting, forecasting, fund management, statutory audits, internal financial controls, and preparation of financial statements in accordance with applicable accounting standards, contributing effectively to sound financial governance and decision-making.",
+      "keyDevTypeId": "102",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
+    {
+      "id": "dda7b31e-382e-45f5-ae9c-b7f75c38af9b",
+      "type": "event",
+      "date": "2026-06-10T12:50:00.000Z",
+      "title": "Esaar (India) Ltd Appoints Dipesh B. Mistri as Key Managerial Personnel Changes, Effective June 10, 2026",
+      "body": "Esaar (India) Ltd. held a board meeting on June 10, 2026 and approved the Appointment of Mr. Dipesh B. Mistri as the Key Managerial Personnel (KMP) of the Company with effect June 10, 2026. Mr. Dipesh B. Mistri has around 10+ years of professional experience in the field of finance, accounts, taxation, corporate law, and regulatory compliances, with strong knowledge of financial management and reporting. He has extensive experience in financial planning and analysis, budgeting, forecasting, fund management, statutory audits, internal financial controls, and preparation of financial statements in accordance with applicable accounting standards, contributing effectively to sound financial governance and decision-making.",
+      "keyDevTypeId": "16",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
+    {
+      "id": "a90b9036-2b38-4d13-bc40-d66acfa76e9f",
+      "type": "brief",
+      "date": "2026-06-02T11:27:36.000Z",
+      "title": "Full year 2026 earnings released: EPS: ₹5.45 (vs ₹1.10 loss in FY 2025)",
+      "body": "Full year 2026 results: EPS: ₹5.45 (up from ₹1.10 loss in FY 2025). Revenue: ₹417.9m (up 121% from FY 2025). Net income: ₹111.4m (up ₹133.8m from FY 2025). Profit margin: 27% (up from net loss in FY 2025). The move to profitability was driven by higher revenue. Over the last 3 years on average, earnings per share has fallen by 54% per year but the company’s share price has increased by 23% per year, which means it is well ahead of earnings.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "d0e77fc1-8e50-4793-8d4e-5297321f58ba",
       "type": "event",

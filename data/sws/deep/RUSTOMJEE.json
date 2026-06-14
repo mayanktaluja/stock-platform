@@ -3,7 +3,7 @@
   "name": "Keystone Realtors Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-rustomjee/keystone-realtors-shares",
-  "parsed_at": "2026-05-31T21:59:01.986Z",
+  "parsed_at": "2026-06-11T00:59:00.036Z",
   "company_id": "0267E44D-20C9-4994-A34D-E6F57287AEF6",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 2
     },
     "snowflake_total": 12,
-    "current_price_inr": 397.95,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOO_EARLY"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOO_EARLY"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 381.05,
     "market_cap_inr": 50261300000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "small3",
     "shares_outstanding": 126233335,
     "fifty_two_week": {
       "low": 358.8,
       "high": 697
     },
-    "fair_value_inr": 722.66667,
+    "fair_value_inr": 692.33333,
     "fair_value_range_inr": {
-      "min": 722.66667,
-      "max": 722.66667,
+      "min": 692.33333,
+      "max": 692.33333,
       "count": 5
     },
-    "upside_pct": 81.59735393893705,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "ff8aa0af-cb98-4ddd-a817-ca428bbe654f",
+      "narrative_type": null,
+      "published_at": "2026-06-05T19:05:47.544Z"
+    },
+    "upside_pct": 81.69094082141451,
     "multiples": {
       "pe": 52.95,
       "ps": 1.9,
@@ -61,15 +347,15 @@
     },
     "rewards": [
       "Earnings are forecast to grow 58.19% per year",
-      "Analysts in good agreement that stock price will rise by 74%"
+      "Analysts in good agreement that stock price will rise by 81.7%"
     ],
     "risks": [
       "Profit margins (2.9%) are lower than last year (8.6%)",
-      "Dividend of 0.38% is not well covered by free cash flows"
+      "Dividend of 0.39% is not well covered by free cash flows"
     ],
     "dividend": {
       "yield_pct": 0,
-      "payout_pct": 20.752959502411226,
+      "payout_pct": 24.01090571899569,
       "annualized_dividend": 1.5,
       "listing_currency": "INR",
       "recent_payments": [
@@ -84,7 +370,7 @@
           "divFreqTypeName": "Annual",
           "annualizedDividend": 1.5,
           "annualizedDividendListingCurrency": 1.5,
-          "annualizedYield": 0.2944958866
+          "annualizedYield": 0.2972534418
         }
       ],
       "payment_count": 1
@@ -92,8 +378,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 31.86659331376836,
-      "net_income_margin_1y": 0.177719107,
-      "future_revenue_growth_3y": 0.2915412391,
+      "net_income_margin_1y": 0.1791986372,
+      "future_revenue_growth_3y": 0.2879177477,
       "sector_pe": 31.86659331376836
     },
     "industry_benchmarks_meta": {
@@ -128,15 +414,15 @@
         "url": "https://groww.in/stocks/keystone-realtors-ltd"
       },
       "sws_statement": {
-        "company_pe": 63.7,
-        "industry_pe": 24.9,
+        "company_pe": 61,
+        "industry_pe": 25.7,
         "industry_name": "Indian Real Estate",
-        "description": "RUSTOMJEE is expensive based on its Price-To-Earnings Ratio (63.7x) compared to the Indian Real Estate industry average (24.9x).",
+        "description": "RUSTOMJEE is expensive based on its Price-To-Earnings Ratio (61x) compared to the Indian Real Estate industry average (25.7x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 24.853140749,
+        "industry_pe": 25.658287008,
         "industry_code": "7310000",
         "type": "median_profitable",
         "count": 149,
@@ -148,25 +434,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 23.2,
-        "sample_count": 144,
+        "industry_pe": 22.95,
+        "sample_count": 142,
         "industry_code": "7310000",
         "industry_name": "Diversified Financials"
       },
       "sws_primary_industry": {
-        "industry_pe": 13.254496843,
+        "industry_pe": 13.224967906,
         "industry_name": "Diversified Financials",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 55.05760155989697
+        "company_pe": 60.99570416148872
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 397.95,
-        "fetched_at": "2026-05-31T21:59:01.986Z",
+        "value": 381.05,
+        "fetched_at": "2026-06-11T00:59:00.036Z",
         "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-rustomjee/keystone-realtors-shares"
       },
       "market_cap_inr": {
@@ -174,6 +460,24 @@
         "value": 50261300000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/keystone-realtors-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 692.33333,
+        "fetched_at": "2026-06-11T00:59:00.036Z",
+        "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-rustomjee/keystone-realtors-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "ff8aa0af-cb98-4ddd-a817-ca428bbe654f",
+        "narrative_type": null,
+        "published_at": "2026-06-05T19:05:47.544Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 81.69094082141451,
+        "fetched_at": "2026-06-11T00:59:00.036Z",
+        "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-rustomjee/keystone-realtors-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -213,14 +517,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.177719107,
-        "fetched_at": "2026-05-31T21:59:01.986Z",
+        "value": 0.1791986372,
+        "fetched_at": "2026-06-11T00:59:00.036Z",
         "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-rustomjee/keystone-realtors-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.2915412391,
-        "fetched_at": "2026-05-31T21:59:01.986Z",
+        "value": 0.2879177477,
+        "fetched_at": "2026-06-11T00:59:00.036Z",
         "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-rustomjee/keystone-realtors-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -329,13 +633,13 @@
         "url": "https://groww.in/stocks/keystone-realtors-ltd"
       }
     },
-    "earnings_growth_yoy_pct": -46.94114910444289,
+    "earnings_growth_yoy_pct": -50.91192032368503,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": -18.99506012674018,
-    "latest_revenue": 16234200000,
-    "latest_net_income": 912400000,
+    "revenue_growth_pct": 46.456179314954774,
+    "latest_revenue": 27168500000,
+    "latest_net_income": 788600000,
     "latest_eps": 7.52,
-    "most_recent_reported_date": "2026-04-23",
+    "most_recent_reported_date": "2026-06-05",
     "pb": 1.76,
     "ps": 1.9,
     "book_value": 226.8205427,
@@ -352,16 +656,16 @@
     "quick_ratio": 0.617908295472077,
     "cash_ratio": 0.27779614429153004,
     "returns_pct": {
-      "1D": 0.18882175226586104,
-      "7D": 0.759589821496392,
-      "1M": -0.2381549260466254,
-      "3M": -4.511097780443913,
-      "6M": -26.42137376352039,
-      "1Y": -25.372714486638536,
+      "1D": -0.23563293624819406,
+      "7D": -2.6567888619236113,
+      "1M": -10.499119201409275,
+      "3M": -3.6170481851523997,
+      "6M": -29.337042188224384,
+      "1Y": -32.901919351998586,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 1,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -443,8 +747,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.06743,
-        "shares": 85122,
+        "pct": 0.07333,
+        "shares": 92564,
         "is_insider": null
       },
       {
@@ -480,7 +784,7 @@
   },
   "dividend": {
     "yield_pct": 0,
-    "payout_pct": 20.752959502411226,
+    "payout_pct": 24.01090571899569,
     "annualized_dividend": 1.5,
     "listing_currency": "INR",
     "recent_payments": [
@@ -495,50 +799,50 @@
         "divFreqTypeName": "Annual",
         "annualizedDividend": 1.5,
         "annualizedDividendListingCurrency": 1.5,
-        "annualizedYield": 0.2944958866
+        "annualizedYield": 0.2972534418
       }
     ],
     "payment_count": 1
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-04-23",
+    "most_recent_reported_date": "2026-06-05",
     "latest_year": 2026,
-    "latest_revenue": 16234200000,
-    "latest_net_income": 912400000,
+    "latest_revenue": 27168500000,
+    "latest_net_income": 788600000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": -18.99506012674018,
-    "earnings_growth_pct": -46.94114910444289,
-    "net_margin_pct": 5.620233827352132,
+    "revenue_growth_pct": 46.456179314954774,
+    "earnings_growth_pct": -50.91192032368503,
+    "net_margin_pct": 2.9026262031396652,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 16234200000,
-        "netIncome": 912400000,
+        "revenue": 27168500000,
+        "netIncome": 788600000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 20041000000,
-        "netIncome": 1719600000,
+        "revenue": 18550600000,
+        "netIncome": 1606500000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 22222500000,
-        "netIncome": 1122100000,
+        "revenue": 23724500000,
+        "netIncome": 910600000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 6856600000,
-        "netIncome": 819500000,
+        "revenue": 7890600000,
+        "netIncome": 1239500000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 12693700000,
-        "netIncome": 1396200000,
+        "revenue": 13541840000,
+        "netIncome": 1442650000,
         "eps": null
       }
     ]
@@ -770,6 +1074,16 @@
   ],
   "news": [
     {
+      "id": "dae84ef6-e2e5-4bcb-8715-ba43a8c7abc0",
+      "type": "narrative-update",
+      "date": "2026-06-05T19:05:47.000Z",
+      "title": "RUSTOMJEE: Upcoming Board Meeting Will Shape Confidence In Future Earnings",
+      "body": "Analysts have trimmed their price target on Keystone Realtors to about ₹692 from roughly ₹723, pointing to more measured revenue growth expectations. This is partly offset by firmer margin assumptions and a slightly lower projected P/E multiple.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/real-estate-management-and-development/nse-rustomjee/keystone-realtors-shares/tddk8501-sion-and-lokhandwala-redevelopment-will-transform-mumbai-real-estate/updates/13-analysts-have-trimmed-their-price-target-on-keystone-realtor",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "f8718fe4-a4b3-4ffd-86a0-cb811fb9dedf",
       "type": "brief",
       "date": "2026-05-13T11:54:18.000Z",
@@ -957,16 +1271,6 @@
       "body": "Analysts have modestly lifted their price target on Keystone Realtors, pointing to slightly lower perceived risk in discount rates and a marginally more attractive future earnings multiple. Together, these factors support a fair value estimate of ₹793.33 per share.",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/real-estate-management-and-development/nse-rustomjee/keystone-realtors-shares/tddk8501-sion-and-lokhandwala-redevelopment-will-transform-mumbai-real-estate/updates/4-analysts-have-modestly-lifted-their-price-target-on-keystone",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "b1b4a7b7-3daf-4a6a-aaa1-c28f36b52843",
-      "type": "narrative-update",
-      "date": "2025-12-05T00:10:20.000Z",
-      "title": "RUSTOMJEE: Fundraising Plans And Stable Margins Will Drive Strong Future Performance",
-      "body": "Analysts have modestly trimmed their price target on Keystone Realtors to ₹793 from ₹812, reflecting slightly higher perceived risk in discount rates and valuation multiples while maintaining broadly unchanged views on revenue growth and profit margins. What's in the News Board meeting scheduled on November 12, 2025, to review and approve unaudited standalone and consolidated financial results for the quarter and half year ended September 30, 2025, along with the limited review report with an unmodified opinion, and to consider other routine business (Key Developments).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/real-estate-management-and-development/nse-rustomjee/keystone-realtors-shares/tddk8501-sion-and-lokhandwala-redevelopment-will-transform-mumbai-real-estate/updates/3-analysts-have-modestly-trimmed-their-price-target-on-keyston",
       "raw_subtype": "narrative-update"
     }
   ],

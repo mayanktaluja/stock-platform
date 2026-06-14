@@ -3,7 +3,7 @@
   "name": "Nazara Technologies Limited",
   "sector": "Media",
   "sws_url": "https://simplywall.st/stocks/in/media/nse-nazara/nazara-technologies-shares",
-  "parsed_at": "2026-05-31T21:08:11.978Z",
+  "parsed_at": "2026-06-11T00:12:07.765Z",
   "company_id": "57EBD619-EA37-4BCD-B5A8-7B6C065A8CB0",
   "classification_status": "Active",
   "groww_source": {
@@ -75,22 +75,308 @@
         }
       ]
     },
-    "current_price_inr": 277.75,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ONE_TIME"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 279.95,
     "market_cap_inr": 107249600000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midsmall4",
     "shares_outstanding": 370465024,
     "fifty_two_week": {
       "low": 215.7,
       "high": 363.25
     },
-    "fair_value_inr": 180,
+    "fair_value_inr": 289.4,
     "fair_value_range_inr": {
       "min": 289.4,
       "max": 1487.19,
       "count": 6
     },
-    "upside_pct": -35.193519351935194,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "f95aba86-0615-4251-9467-37970841f783",
+      "narrative_type": null,
+      "published_at": "2026-04-15T07:04:33.769Z"
+    },
+    "upside_pct": 3.37560278621182,
     "multiples": {
       "pe": 131,
       "ps": 5.86,
@@ -123,8 +409,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 117.2719632175943,
-      "net_income_margin_1y": 0.1066140819,
-      "future_revenue_growth_3y": 0.5690837194,
+      "net_income_margin_1y": 0.1052710613,
+      "future_revenue_growth_3y": 0.5707613972,
       "sector_pe": 117.2719632175943
     },
     "industry_benchmarks_meta": {
@@ -159,18 +445,18 @@
         "url": "https://groww.in/stocks/nazara-technologies-ltd"
       },
       "sws_statement": {
-        "company_pe": 127.2,
-        "industry_pe": 25,
+        "company_pe": 127.5,
+        "industry_pe": 31.6,
         "industry_name": "Indian Entertainment",
-        "description": "NAZARA is expensive based on its Price-To-Earnings Ratio (127.2x) compared to the Indian Entertainment industry average (25x).",
+        "description": "NAZARA is expensive based on its Price-To-Earnings Ratio (127.5x) compared to the Indian Entertainment industry average (31.6x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 24.954356788,
+        "industry_pe": 31.640552766,
         "industry_code": "4300001",
         "type": "median_profitable",
-        "count": 40,
+        "count": 41,
         "source": {
           "type": "country",
           "country": "IN",
@@ -179,25 +465,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.25,
-        "sample_count": 36,
+        "industry_pe": 20.45,
+        "sample_count": 38,
         "industry_code": "4300001",
         "industry_name": "Media"
       },
       "sws_primary_industry": {
-        "industry_pe": 16.475096844,
+        "industry_pe": 16.321854198,
         "industry_name": "Media",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 235.24613721079106
+        "company_pe": 237.10947295107454
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 277.75,
-        "fetched_at": "2026-05-31T21:08:11.978Z",
+        "value": 279.95,
+        "fetched_at": "2026-06-11T00:12:07.765Z",
         "url": "https://simplywall.st/stocks/in/media/nse-nazara/nazara-technologies-shares"
       },
       "market_cap_inr": {
@@ -205,6 +491,24 @@
         "value": 107249600000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/nazara-technologies-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 289.4,
+        "fetched_at": "2026-06-11T00:12:07.765Z",
+        "url": "https://simplywall.st/stocks/in/media/nse-nazara/nazara-technologies-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "f95aba86-0615-4251-9467-37970841f783",
+        "narrative_type": null,
+        "published_at": "2026-04-15T07:04:33.769Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 3.37560278621182,
+        "fetched_at": "2026-06-11T00:12:07.765Z",
+        "url": "https://simplywall.st/stocks/in/media/nse-nazara/nazara-technologies-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -244,14 +548,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.1066140819,
-        "fetched_at": "2026-05-31T21:08:11.978Z",
+        "value": 0.1052710613,
+        "fetched_at": "2026-06-11T00:12:07.765Z",
         "url": "https://simplywall.st/stocks/in/media/nse-nazara/nazara-technologies-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.5690837194,
-        "fetched_at": "2026-05-31T21:08:11.978Z",
+        "value": 0.5707613972,
+        "fetched_at": "2026-06-11T00:12:07.765Z",
         "url": "https://simplywall.st/stocks/in/media/nse-nazara/nazara-technologies-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -383,16 +687,16 @@
     "quick_ratio": 2.0398401109973245,
     "cash_ratio": 0.42139341283736914,
     "returns_pct": {
-      "1D": -4.058721934369603,
-      "7D": -2.0282186948853616,
-      "1M": 4.546994391538369,
-      "3M": 4.890483383685796,
-      "6M": 8.687145372725489,
-      "1Y": -13.540856031128405,
+      "1D": 0.5026027643151956,
+      "7D": 3.0174793008279623,
+      "1M": 3.5318047337278147,
+      "3M": 15.443298969072162,
+      "6M": 24.00885935769656,
+      "1Y": -12.096710887824798,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 8,
+    "recent_news_count": 5,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -1025,16 +1329,6 @@
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/stocks/in/media/nse-nazara/nazara-technologies-shares/news/investors-appear-satisfied-with-nazara-technologies-limiteds",
       "raw_subtype": "article"
-    },
-    {
-      "id": "2af6436d-1ce1-4009-a521-91f4eda9c15c",
-      "type": "narrative-update",
-      "date": "2025-12-07T19:03:10.000Z",
-      "title": "NAZARA: Upcoming Stock Split Will Support Bullish Long Term Outlook",
-      "body": "Analysts have modestly raised their price target on Nazara Technologies to ₹275.48 per share from ₹275.48, reflecting a slightly higher discount rate and unchanged long term assumptions on growth, margins and valuation multiples. What's in the News Nazara Technologies closed a private placement transaction on November 12, 2025, strengthening its funding position for future growth (company filing).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/media/nse-nazara/nazara-technologies-shares/ktm40scr-expanding-gaming-ecosystem-and-corporate-moves-will-shape-global-ambitions/updates/16-analysts-have-modestly-raised-their-price-target-on-nazara-t",
-      "raw_subtype": "narrative-update"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/NAZARA.json"

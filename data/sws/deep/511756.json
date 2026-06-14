@@ -3,7 +3,7 @@
   "name": "Abirami Financial Services (India) Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/bse-511756/abirami-financial-services-india-shares",
-  "parsed_at": "2026-05-31T20:39:04.378Z",
+  "parsed_at": "2026-06-10T23:38:00.569Z",
   "company_id": "97ACE857-EE67-4DC6-8DF3-1E084FE269A1",
   "classification_status": "Active",
   "groww_source": null,
@@ -69,21 +69,310 @@
         }
       ]
     },
-    "current_price_inr": 32,
-    "market_cap_inr": 172799992.9898583,
-    "market_cap_usd": 120714180851.549,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_5_YEARS_AGO"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DIVIDENDS_NOT_COVERED"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 32.4,
+    "market_cap_inr": 174959992.9022315,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
-    "fifty_two_week": null,
-    "fair_value_inr": 1.751613,
+    "fifty_two_week": {
+      "low": 28.86,
+      "high": 55.49
+    },
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -94.52620937500001,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "c085ca01-8eb2-4f81-8aad-920ddd6bb272",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
-      "pe": 33.7,
+      "pe": 34.2,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -92,7 +381,7 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": "2026-05-31T20:39:04.378Z",
+      "pe_as_of": "2026-06-10T23:38:00.569Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://simplywall.st/stocks/in/diversified-financials/bse-511756/abirami-financial-services-india-shares"
     },
@@ -102,11 +391,11 @@
     "risks": [
       "Makes less than USD$1m in revenue (₹13M)",
       "High level of [[non-cash earnings]]",
-      "Dividend of 4.69% is not well covered by earnings or free cash flows",
-      "Does not have a meaningful market cap (₹173M)"
+      "Dividend of 4.63% is not well covered by earnings or free cash flows",
+      "Does not have a meaningful market cap (₹175M)"
     ],
     "dividend": {
-      "yield_pct": 3.9134459931,
+      "yield_pct": 3.9409174679,
       "payout_pct": null,
       "annualized_dividend": 1.5,
       "listing_currency": "INR",
@@ -122,7 +411,7 @@
           "divFreqTypeName": "Annual",
           "annualizedDividend": 1.5,
           "annualizedDividendListingCurrency": 1.5,
-          "annualizedYield": 3.9134459931
+          "annualizedYield": 3.9409174679
         },
         {
           "exDate": "2024-08-16T00:00:00.000Z",
@@ -179,11 +468,11 @@
       ],
       "payment_count": 5
     },
-    "dividend_yield_pct": 3.9134459931,
+    "dividend_yield_pct": 3.9409174679,
     "industry_benchmarks": {
-      "pe": 25.581812879,
+      "pe": 25.750965002,
       "net_income_margin_1y": 0.4629887388,
-      "future_revenue_growth_3y": 0.5092423002
+      "future_revenue_growth_3y": 0.5078508908
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -197,30 +486,30 @@
     "pe_benchmark_source": {
       "provider": "sws_industry_api",
       "label": "SWS industry API",
-      "company_pe": 33.7,
+      "company_pe": 34.2,
       "company_pe_source": "sws_statement",
       "company_pe_source_label": "SWS visible statement",
-      "industry_pe": 25.581812879,
+      "industry_pe": 25.750965002,
       "industry_name": "Diversified Financials",
       "industry_code": "7110000",
-      "sample_count": 131,
+      "sample_count": 126,
       "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 33.7,
-        "industry_pe": 25.6,
+        "company_pe": 34.2,
+        "industry_pe": 25.8,
         "industry_name": "Indian Diversified Financial",
-        "description": "511756 is expensive based on its Price-To-Earnings Ratio (33.7x) compared to the Indian Diversified Financial industry average (25.6x).",
+        "description": "511756 is expensive based on its Price-To-Earnings Ratio (34.2x) compared to the Indian Diversified Financial industry average (25.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 25.581812879,
+        "industry_pe": 25.750965002,
         "industry_code": "7110000",
         "type": "median_profitable",
-        "count": 131,
+        "count": 126,
         "source": {
           "type": "country",
           "country": "IN",
@@ -229,8 +518,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.4,
-        "sample_count": 124,
+        "industry_pe": 20.95,
+        "sample_count": 118,
         "industry_code": "7110000",
         "industry_name": "Diversified Financials"
       },
@@ -242,32 +531,41 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 32,
-        "fetched_at": "2026-05-31T20:39:04.378Z",
+        "value": 32.4,
+        "fetched_at": "2026-06-10T23:38:00.569Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-511756/abirami-financial-services-india-shares"
       },
       "multiples.pe": {
         "provider": "sws_statement",
-        "value": 33.7,
-        "fetched_at": "2026-05-31T20:39:04.378Z",
+        "value": 34.2,
+        "fetched_at": "2026-06-10T23:38:00.569Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-511756/abirami-financial-services-india-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 25.581812879,
+        "value": 25.750965002,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.4629887388,
-        "fetched_at": "2026-05-31T20:39:04.378Z",
+        "fetched_at": "2026-06-10T23:38:00.569Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-511756/abirami-financial-services-india-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.5092423002,
-        "fetched_at": "2026-05-31T20:39:04.378Z",
+        "value": 0.5078508908,
+        "fetched_at": "2026-06-10T23:38:00.569Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/bse-511756/abirami-financial-services-india-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 28.86,
+          "high": 55.49
+        },
+        "fetched_at": "2026-06-10T23:38:00.569Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-511756/abirami-financial-services-india-shares"
       }
     },
@@ -294,16 +592,16 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 0,
-      "7D": 1.8135539293668477,
-      "1M": 6.241699867197871,
-      "3M": -9.219858156028367,
-      "6M": -25.407925407925408,
-      "1Y": -28.873082907312742,
+      "1D": -0.9174311926605634,
+      "7D": -3.312444046553266,
+      "1M": 6.684227856437265,
+      "3M": 1.2499999999999956,
+      "6M": -20.000000000000004,
+      "1Y": -29.565217391304348,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 1,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -381,7 +679,7 @@
     "groww_period": null
   },
   "dividend": {
-    "yield_pct": 3.9134459931,
+    "yield_pct": 3.9409174679,
     "payout_pct": null,
     "annualized_dividend": 1.5,
     "listing_currency": "INR",
@@ -397,7 +695,7 @@
         "divFreqTypeName": "Annual",
         "annualizedDividend": 1.5,
         "annualizedDividendListingCurrency": 1.5,
-        "annualizedYield": 3.9134459931
+        "annualizedYield": 3.9409174679
       },
       {
         "exDate": "2024-08-16T00:00:00.000Z",
@@ -464,6 +762,26 @@
     "BSE"
   ],
   "news": [
+    {
+      "id": "7753b4f0-b658-41b5-80c3-5baa10979ef9",
+      "type": "event",
+      "date": "2026-06-10T12:32:00.000Z",
+      "title": "Abirami Financial Services (India) Limited Announces Appointment of Santhosh Veerappan to Non-Executive Independent Director, Effective April 27, 2026",
+      "body": "Abirami Financial Services (India) Limited informed that the Members of the Company vide its Postal Ballot Resolution dated June 9, 2026 approved the regularisation of the appointment of Mr. Santhosh Veerappan (DIN: 11638469) as Non-Executive Independent Director for a period of five years and not liable to retire by rotation. The appointment was with effect from April 27, 2026 for a continuous period of five years and not liable to retire by rotation. Mr. Santhosh Veerappan is a distinguished Company Secretary and corporate governance professional with a pre and post qualification experience of 10 years in regulatory affairs, finance, and secretarial compliance. His career is defined by a rigorous commitment to transparency and the implementation of robust governance frameworks within the",
+      "keyDevTypeId": "16",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
+    {
+      "id": "c6d9d7c2-636e-471d-80f4-8562d950fa44",
+      "type": "brief",
+      "date": "2026-06-05T11:35:48.000Z",
+      "title": "New minor risk - Share price stability",
+      "body": "The company's share price has been volatile over the past 3 months. It is more volatile than 75% of Indian stocks, typically moving 8.7% a week. This is considered a minor risk. Share price volatility indicates the stock is highly sensitive to market conditions or economic conditions rather than being sensitive to its own business performance, which may also be inconsistent. It also increases the risk of potential losses in the short term as the stock tends to have larger drops in price more frequently than other stocks. Currently, the following risks have been identified for the company: Major Risks Dividend is not well covered by earnings and cash flows. Payout ratio: 169% Paying a dividend despite having no free cash flows. High level of non-cash earnings (81% accrual ratio). Revenue is",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "3efc69ee-1efa-493d-9680-63a49e134cb4",
       "type": "event",

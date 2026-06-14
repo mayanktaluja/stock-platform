@@ -3,7 +3,7 @@
   "name": "Rainbow Children's Medicare Limited",
   "sector": "Healthcare",
   "sws_url": "https://simplywall.st/stocks/in/healthcare/nse-rainbow/rainbow-childrens-medicare-shares",
-  "parsed_at": "2026-05-31T21:46:00.372Z",
+  "parsed_at": "2026-06-11T00:47:18.571Z",
   "company_id": "34263D96-3B15-475F-96BE-95F69EB3FD48",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 2
     },
     "snowflake_total": 13,
-    "current_price_inr": 1380.3,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_NOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_STABLE_BUT_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 1340.6,
     "market_cap_inr": 139821600000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "medium5",
     "shares_outstanding": 101559156,
     "fifty_two_week": {
       "low": 1084,
       "high": 1645.7
     },
-    "fair_value_inr": 1531.6,
+    "fair_value_inr": 1586.15385,
     "fair_value_range_inr": {
-      "min": 595.378352,
-      "max": 1531.6,
+      "min": 595.35761,
+      "max": 1586.15385,
       "count": 10
     },
-    "upside_pct": 10.96138520611461,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "a6d8200b-4339-443a-9078-527051555693",
+      "narrative_type": null,
+      "published_at": "2026-06-08T06:05:34.920Z"
+    },
+    "upside_pct": 18.316712665970464,
     "multiples": {
       "pe": 49.67,
       "ps": 8.21,
@@ -67,7 +353,7 @@
     "risks": [],
     "dividend": {
       "yield_pct": 0.25,
-      "payout_pct": 11.826852784193468,
+      "payout_pct": 10.946902268227921,
       "annualized_dividend": 3,
       "listing_currency": "INR",
       "recent_payments": [
@@ -129,8 +415,8 @@
     "dividend_yield_pct": 0.25,
     "industry_benchmarks": {
       "pe": 59.71694269463179,
-      "net_income_margin_1y": 0.1041750126,
-      "future_revenue_growth_3y": 2.366911977,
+      "net_income_margin_1y": 0.1021808233,
+      "future_revenue_growth_3y": 2.289381694,
       "sector_pe": 59.71694269463179
     },
     "industry_benchmarks_meta": {
@@ -165,18 +451,18 @@
         "url": "https://groww.in/stocks/rainbow-childrens-medicare-ltd"
       },
       "sws_statement": {
-        "company_pe": 50.4,
-        "industry_pe": 37.4,
+        "company_pe": 48.4,
+        "industry_pe": 39.3,
         "industry_name": "Indian Healthcare",
-        "description": "RAINBOW is expensive based on its Price-To-Earnings Ratio (50.4x) compared to the Indian Healthcare industry average (37.4x).",
+        "description": "RAINBOW is expensive based on its Price-To-Earnings Ratio (48.4x) compared to the Indian Healthcare industry average (39.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 37.439100813,
+        "industry_pe": 39.275601591,
         "industry_code": "6030000",
         "type": "median_profitable",
-        "count": 80,
+        "count": 79,
         "source": {
           "type": "country",
           "country": "IN",
@@ -185,25 +471,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 35.1,
-        "sample_count": 75,
+        "industry_pe": 33.650000000000006,
+        "sample_count": 74,
         "industry_code": "6030000",
         "industry_name": "Healthcare"
       },
       "sws_primary_industry": {
-        "industry_pe": 22.65435289,
+        "industry_pe": 22.129830496,
         "industry_name": "Healthcare",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 54.41534966007414
+        "company_pe": 48.918057269287836
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1380.3,
-        "fetched_at": "2026-05-31T21:46:00.372Z",
+        "value": 1340.6,
+        "fetched_at": "2026-06-11T00:47:18.571Z",
         "url": "https://simplywall.st/stocks/in/healthcare/nse-rainbow/rainbow-childrens-medicare-shares"
       },
       "market_cap_inr": {
@@ -211,6 +497,24 @@
         "value": 139821600000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/rainbow-childrens-medicare-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 1586.15385,
+        "fetched_at": "2026-06-11T00:47:18.571Z",
+        "url": "https://simplywall.st/stocks/in/healthcare/nse-rainbow/rainbow-childrens-medicare-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "a6d8200b-4339-443a-9078-527051555693",
+        "narrative_type": null,
+        "published_at": "2026-06-08T06:05:34.920Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 18.316712665970464,
+        "fetched_at": "2026-06-11T00:47:18.571Z",
+        "url": "https://simplywall.st/stocks/in/healthcare/nse-rainbow/rainbow-childrens-medicare-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -250,14 +554,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.1041750126,
-        "fetched_at": "2026-05-31T21:46:00.372Z",
+        "value": 0.1021808233,
+        "fetched_at": "2026-06-11T00:47:18.571Z",
         "url": "https://simplywall.st/stocks/in/healthcare/nse-rainbow/rainbow-childrens-medicare-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 2.366911977,
-        "fetched_at": "2026-05-31T21:46:00.372Z",
+        "value": 2.289381694,
+        "fetched_at": "2026-06-11T00:47:18.571Z",
         "url": "https://simplywall.st/stocks/in/healthcare/nse-rainbow/rainbow-childrens-medicare-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -366,13 +670,13 @@
         "url": "https://groww.in/stocks/rainbow-childrens-medicare-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 0.08741598352694355,
+    "earnings_growth_yoy_pct": 8.132794591864485,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 4.85545744187165,
-    "latest_revenue": 16132830000,
-    "latest_net_income": 2576150000,
+    "revenue_growth_pct": 10.691625643938755,
+    "latest_revenue": 17030770000,
+    "latest_net_income": 2783230000,
     "latest_eps": 27.72,
-    "most_recent_reported_date": "2026-05-23",
+    "most_recent_reported_date": "2026-06-07",
     "pb": 8.48,
     "ps": 8.21,
     "book_value": 162.2777523,
@@ -389,12 +693,12 @@
     "quick_ratio": 3.3822616649425603,
     "cash_ratio": 0.18451570751891982,
     "returns_pct": {
-      "1D": 0.2323723767337191,
-      "7D": 1.8671586715867126,
-      "1M": 9.183673469387747,
-      "3M": 16.020845591325536,
-      "6M": 2.1460815510989417,
-      "1Y": 0.4438946296026713,
+      "1D": 1.0477123690359436,
+      "7D": -1.0042829714960964,
+      "1M": 3.5612205484743074,
+      "3M": 14.190800681430998,
+      "6M": -3.191796649335647,
+      "1Y": -3.6302206886636474,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -517,7 +821,7 @@
   },
   "dividend": {
     "yield_pct": 0.25,
-    "payout_pct": 11.826852784193468,
+    "payout_pct": 10.946902268227921,
     "annualized_dividend": 3,
     "listing_currency": "INR",
     "recent_payments": [
@@ -577,20 +881,20 @@
     "payment_count": 4
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-23",
+    "most_recent_reported_date": "2026-06-07",
     "latest_year": 2026,
-    "latest_revenue": 16132830000,
-    "latest_net_income": 2576150000,
+    "latest_revenue": 17030770000,
+    "latest_net_income": 2783230000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 4.85545744187165,
-    "earnings_growth_pct": 0.08741598352694355,
-    "net_margin_pct": 15.968370087579178,
+    "revenue_growth_pct": 10.691625643938755,
+    "earnings_growth_pct": 8.132794591864485,
+    "net_margin_pct": 16.342361502151697,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 16132830000,
-        "netIncome": 2576150000,
+        "revenue": 17030770000,
+        "netIncome": 2783230000,
         "eps": null
       },
       {
@@ -821,6 +1125,16 @@
   ],
   "news": [
     {
+      "id": "d2e1848d-5d3f-405f-a4d9-9fcd7da9b514",
+      "type": "narrative-update",
+      "date": "2026-06-08T06:05:34.000Z",
+      "title": "RAINBOW: Dividend Catalyst And Higher Earnings Multiple Will Support Confident Forward Outlook",
+      "body": "Analysts have raised their fair value estimate for Rainbow Children's Medicare from ₹1,531.60 to ₹1,586.15 as they adjust assumptions related to revenue growth, profit margins, and a higher future P/E of about 58.6x. What's in the News A board meeting was scheduled for May 23, 2026, at 16:45 IST to consider and approve the financial results for the quarter and financial year ended March 31, 2026, and to consider a final dividend on the equity shares for FY 2025-26.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/healthcare/nse-rainbow/rainbow-childrens-medicare-shares/x3z6lj8p-expansion-into-tier-two-and-three-markets-will-improve-healthcare-95vd/updates/23-analysts-have-raised-their-fair-value-estimate-for-rainbow-c",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "a7200839-4def-46be-a2cc-cdc000bb69e7",
       "type": "article",
       "date": "2026-05-27T00:37:59.000Z",
@@ -1009,16 +1323,6 @@
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/stocks/in/healthcare/nse-rainbow/rainbow-childrens-medicare-shares/news/heres-why-rainbow-childrens-medicare-nserainbow-has-caught-t-3",
       "raw_subtype": "article"
-    },
-    {
-      "id": "a641e8ff-54ef-43e1-9c75-914768620256",
-      "type": "narrative-update",
-      "date": "2025-12-16T04:19:51.000Z",
-      "title": "RAINBOW: New CEO Will Drive Margin Resilience And Profitable Expansion",
-      "body": "Analysts have modestly raised their price target on Rainbow Children's Medicare to ₹1,604.55, citing sustained expectations for strong double digit revenue growth, resilient profit margins and supportive future valuation multiples. What's in the News The board has appointed industry veteran Abrarali Dalal as Chief Executive Officer and Key Managerial Personnel, effective January 20, 2026, bringing over 25 years of multi location healthcare leadership experience to support the next phase of growth (Key Developments).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/healthcare/nse-rainbow/rainbow-childrens-medicare-shares/x3z6lj8p-expansion-into-tier-two-and-three-markets-will-improve-healthcare-95vd/updates/13-analysts-have-modestly-raised-their-price-target-on-rainbow",
-      "raw_subtype": "narrative-update"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/RAINBOW.json"

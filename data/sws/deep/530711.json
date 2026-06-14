@@ -3,7 +3,7 @@
   "name": "Jagan Lamps Limited",
   "sector": "Automobiles",
   "sws_url": "https://simplywall.st/stocks/in/automobiles/bse-530711/jagan-lamps-shares",
-  "parsed_at": "2026-05-31T21:39:47.902Z",
+  "parsed_at": "2026-06-11T00:50:25.958Z",
   "company_id": "86EBA828-E985-4A88-BD01-7A4F406933BF",
   "classification_status": "Active",
   "groww_source": {
@@ -16,18 +16,18 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 1,
+      "valuation": 3,
       "future": 0,
-      "past": 3,
-      "financial_health": 4,
+      "past": 2,
+      "financial_health": 5,
       "dividends": 0,
       "future_growth": 0,
-      "past_performance": 3,
-      "value": 1,
-      "health": 4,
+      "past_performance": 2,
+      "value": 3,
+      "health": 5,
       "dividend": 0
     },
-    "snowflake_total": 8,
+    "snowflake_total": 10,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 9,
@@ -77,22 +77,308 @@
         }
       ]
     },
-    "current_price_inr": 52.59,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 49.35,
     "market_cap_inr": 395900000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 38.3,
       "high": 97
     },
-    "fair_value_inr": 0.529991,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -98.99222095455409,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "029b07db-ddd1-41ef-8a18-566797a5c7bb",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 15.06,
       "ps": 0.87,
@@ -110,11 +396,11 @@
     },
     "rewards": [
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (15.1x) is below the Indian market (23.4x)"
+      "Trading at 90% below our estimate of its fair value"
     ],
     "risks": [
-      "Does not have meaningful revenue (₹456M)",
-      "Does not have a meaningful market cap (₹384M)",
+      "Does not have meaningful revenue (₹420M)",
+      "Does not have a meaningful market cap (₹365M)",
       "Highly volatile share price over past 3 months"
     ],
     "dividend": {
@@ -155,8 +441,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 42.08016762401909,
-      "net_income_margin_1y": 0.06791655765,
-      "future_revenue_growth_3y": 2.175173168,
+      "net_income_margin_1y": 0.06741188528,
+      "future_revenue_growth_3y": 1.578279624,
       "sector_pe": 42.08016762401909
     },
     "industry_benchmarks_meta": {
@@ -191,15 +477,15 @@
         "url": "https://groww.in/stocks/jagan-lamps-ltd"
       },
       "sws_statement": {
-        "company_pe": 15.1,
-        "industry_pe": 27,
+        "company_pe": 19.1,
+        "industry_pe": 26.3,
         "industry_name": "Indian Auto Components",
-        "description": "530711 is good value based on its Price-To-Earnings Ratio (15.1x) compared to the Indian Auto Components industry average (27x).",
+        "description": "530711 is good value based on its Price-To-Earnings Ratio (19.1x) compared to the Indian Auto Components industry average (26.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 27.035828631,
+        "industry_pe": 26.250505976,
         "industry_code": "4011000",
         "type": "median_profitable",
         "count": 129,
@@ -211,7 +497,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24.55,
+        "industry_pe": 24.95,
         "sample_count": 124,
         "industry_code": "4011000",
         "industry_name": "Automobiles"
@@ -224,8 +510,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 52.59,
-        "fetched_at": "2026-05-31T21:39:47.902Z",
+        "value": 49.35,
+        "fetched_at": "2026-06-11T00:50:25.958Z",
         "url": "https://simplywall.st/stocks/in/automobiles/bse-530711/jagan-lamps-shares"
       },
       "market_cap_inr": {
@@ -272,14 +558,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.06791655765,
-        "fetched_at": "2026-05-31T21:39:47.902Z",
+        "value": 0.06741188528,
+        "fetched_at": "2026-06-11T00:50:25.958Z",
         "url": "https://simplywall.st/stocks/in/automobiles/bse-530711/jagan-lamps-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 2.175173168,
-        "fetched_at": "2026-05-31T21:39:47.902Z",
+        "value": 1.578279624,
+        "fetched_at": "2026-06-11T00:50:25.958Z",
         "url": "https://simplywall.st/stocks/in/automobiles/bse-530711/jagan-lamps-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -411,16 +697,16 @@
     "quick_ratio": 0.8314214463840399,
     "cash_ratio": 0.011471321695760598,
     "returns_pct": {
-      "1D": -3.0241563710123427,
-      "7D": 1.1151701595847057,
-      "1M": -2.484702391989609,
-      "3M": -13.772749631087061,
-      "6M": -26.9988895058301,
-      "1Y": -22.88856304985337,
+      "1D": -1.3788968824940002,
+      "7D": -1.7714968152866253,
+      "1M": -8.475519287833828,
+      "3M": -12.623937677053817,
+      "6M": -27.977232924693514,
+      "1Y": -34.199999999999996,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 1,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -647,6 +933,16 @@
     "BSE"
   ],
   "news": [
+    {
+      "id": "4ef96a40-1f83-4234-8d96-127803d441ba",
+      "type": "brief",
+      "date": "2026-05-31T22:36:27.000Z",
+      "title": "Full year 2026 earnings released: EPS: ₹2.62 (vs ₹3.89 in FY 2025)",
+      "body": "Full year 2026 results: EPS: ₹2.62 (down from ₹3.89 in FY 2025). Revenue: ₹424.0m (down 15% from FY 2025). Net income: ₹19.2m (down 33% from FY 2025). Profit margin: 4.5% (down from 5.7% in FY 2025). The decrease in margin was driven by lower revenue. Over the last 3 years on average, earnings per share has fallen by 6% per year whereas the company’s share price has fallen by 8% per year.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "c7e36a90-89b6-4502-b953-4421a14e2091",
       "type": "event",

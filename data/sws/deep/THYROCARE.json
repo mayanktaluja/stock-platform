@@ -3,7 +3,7 @@
   "name": "Thyrocare Technologies Limited",
   "sector": "Healthcare",
   "sws_url": "https://simplywall.st/stocks/in/healthcare/nse-thyrocare/thyrocare-technologies-shares",
-  "parsed_at": "2026-05-31T22:49:25.472Z",
+  "parsed_at": "2026-06-11T01:54:14.048Z",
   "company_id": "ED2C8291-22DA-4CF1-A406-F2E9CEFCBAEE",
   "classification_status": "Active",
   "groww_source": {
@@ -20,30 +20,316 @@
       "future": 4,
       "past": 5,
       "financial_health": 6,
-      "dividends": 3,
+      "dividends": 4,
       "future_growth": 4,
       "past_performance": 5,
       "value": 1,
       "health": 6,
-      "dividend": 3
+      "dividend": 4
     },
-    "snowflake_total": 19,
-    "current_price_inr": 506.3,
+    "snowflake_total": 20,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_5_YEARS_AGO"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DIVIDENDS_NOT_COVERED"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 532.8,
     "market_cap_inr": 81548300000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 291.36,
       "high": 536.66
     },
-    "fair_value_inr": 599.881517,
+    "fair_value_inr": 600.338028,
     "fair_value_range_inr": {
-      "min": 599.881517,
-      "max": 599.881517,
+      "min": 600.338028,
+      "max": 600.338028,
       "count": 2
     },
-    "upside_pct": 18.483412403713217,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "4e9ce0c0-6c25-4dc7-8cf4-2d59fdd29f7f",
+      "narrative_type": null,
+      "published_at": "2024-06-19T04:05:20.348Z"
+    },
+    "upside_pct": 12.676056306306318,
     "multiples": {
       "pe": 50.08,
       "ps": 9.83,
@@ -65,7 +351,7 @@
       "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
     "risks": [
-      "Dividend of 2.76% is not well covered by earnings or free cash flows"
+      "Dividend of 1.7% is not well covered by earnings"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -235,8 +521,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 59.71694269463179,
-      "net_income_margin_1y": 0.1249783351,
-      "future_revenue_growth_3y": 0.8191622289,
+      "net_income_margin_1y": 0.1248504866,
+      "future_revenue_growth_3y": 0.8327047803,
       "sector_pe": 59.71694269463179
     },
     "industry_benchmarks_meta": {
@@ -271,18 +557,18 @@
         "url": "https://groww.in/stocks/thyrocare-technologies-ltd"
       },
       "sws_statement": {
-        "company_pe": 49.4,
-        "industry_pe": 37.4,
+        "company_pe": 53.5,
+        "industry_pe": 39.3,
         "industry_name": "Indian Healthcare",
-        "description": "THYROCARE is expensive based on its Price-To-Earnings Ratio (49.4x) compared to the Indian Healthcare industry average (37.4x).",
+        "description": "THYROCARE is expensive based on its Price-To-Earnings Ratio (53.5x) compared to the Indian Healthcare industry average (39.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 37.439100813,
+        "industry_pe": 39.275601591,
         "industry_code": "6030000",
         "type": "median_profitable",
-        "count": 80,
+        "count": 79,
         "source": {
           "type": "country",
           "country": "IN",
@@ -291,8 +577,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 35.1,
-        "sample_count": 75,
+        "industry_pe": 33.650000000000006,
+        "sample_count": 74,
         "industry_code": "6030000",
         "industry_name": "Healthcare"
       },
@@ -304,8 +590,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 506.3,
-        "fetched_at": "2026-05-31T22:49:25.472Z",
+        "value": 532.8,
+        "fetched_at": "2026-06-11T01:54:14.048Z",
         "url": "https://simplywall.st/stocks/in/healthcare/nse-thyrocare/thyrocare-technologies-shares"
       },
       "market_cap_inr": {
@@ -313,6 +599,24 @@
         "value": 81548300000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/thyrocare-technologies-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 600.338028,
+        "fetched_at": "2026-06-11T01:54:14.048Z",
+        "url": "https://simplywall.st/stocks/in/healthcare/nse-thyrocare/thyrocare-technologies-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "4e9ce0c0-6c25-4dc7-8cf4-2d59fdd29f7f",
+        "narrative_type": null,
+        "published_at": "2024-06-19T04:05:20.348Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 12.676056306306318,
+        "fetched_at": "2026-06-11T01:54:14.048Z",
+        "url": "https://simplywall.st/stocks/in/healthcare/nse-thyrocare/thyrocare-technologies-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -352,14 +656,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.1249783351,
-        "fetched_at": "2026-05-31T22:49:25.472Z",
+        "value": 0.1248504866,
+        "fetched_at": "2026-06-11T01:54:14.048Z",
         "url": "https://simplywall.st/stocks/in/healthcare/nse-thyrocare/thyrocare-technologies-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.8191622289,
-        "fetched_at": "2026-05-31T22:49:25.472Z",
+        "value": 0.8327047803,
+        "fetched_at": "2026-06-11T01:54:14.048Z",
         "url": "https://simplywall.st/stocks/in/healthcare/nse-thyrocare/thyrocare-technologies-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -491,12 +795,12 @@
     "quick_ratio": 2.9463197161313808,
     "cash_ratio": 0.6201437539805296,
     "returns_pct": {
-      "1D": -1.1422434833544794,
-      "7D": 8.683052484705374,
-      "1M": 25.213305304810184,
-      "3M": 28.61679156611204,
-      "6M": 2.1383901553358933,
-      "1Y": 50.296853651883744,
+      "1D": -2.76485080755545,
+      "7D": 1.4470677837014296,
+      "1M": 10.803784964126011,
+      "3M": 45.15733551287289,
+      "6M": 22.27194492254732,
+      "1Y": 61.97811123021696,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -557,13 +861,13 @@
         "is_insider": null
       },
       {
-        "pct": 0.18234,
-        "shares": 290216,
+        "pct": 0.1831,
+        "shares": 291428,
         "is_insider": null
       },
       {
-        "pct": 0.15005,
-        "shares": 238835,
+        "pct": 0.14091,
+        "shares": 224283,
         "is_insider": null
       },
       {
@@ -577,8 +881,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.0998,
-        "shares": 158854,
+        "pct": 0.10644,
+        "shares": 169422,
         "is_insider": null
       },
       {
@@ -1009,6 +1313,26 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "c227b2d1-be8c-47c6-966d-d9d4e767036c",
+      "type": "brief",
+      "date": "2026-06-09T11:44:17.000Z",
+      "title": "Full year 2026 earnings: EPS exceeds analyst expectations",
+      "body": "Full year 2026 results: EPS: ₹10.27 (up from ₹5.76 in FY 2025). Revenue: ₹8.29b (up 21% from FY 2025). Net income: ₹1.63b (up 78% from FY 2025). Profit margin: 20% (up from 13% in FY 2025). The increase in margin was driven by higher revenue. Revenue was in line with analyst estimates. Earnings per share (EPS) surpassed analyst estimates by 3.4%. Revenue is forecast to grow 15% p.a. on average during the next 3 years, compared to a 18% growth forecast for the Healthcare industry in India. Over the last 3 years on average, earnings per share has increased by 34% per year but the company’s share price has increased by 52% per year, which means it is tracking significantly ahead of earnings growth.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "7abaa3f7-a58e-496b-a160-0a9c4d811288",
+      "type": "event",
+      "date": "2026-06-05T08:15:00.000Z",
+      "title": "Thyrocare Technologies Limited, Annual General Meeting, Jun 30, 2026",
+      "body": "Thyrocare Technologies Limited, Annual General Meeting, Jun 30, 2026, at 11:00 Indian Standard Time. Location: d-37/3. ttc industrial area, midc, turbhe, navi mumbai - 400703., navi mumba India",
+      "keyDevTypeId": "62",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
     {
       "id": "da4ed5ce-6a2d-4f55-a629-3698ec8ed144",
       "type": "brief",

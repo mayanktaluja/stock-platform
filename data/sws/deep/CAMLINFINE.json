@@ -3,7 +3,7 @@
   "name": "Camlin Fine Sciences Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-camlinfine/camlin-fine-sciences-shares",
-  "parsed_at": "2026-05-31T22:14:47.147Z",
+  "parsed_at": "2026-06-11T01:08:21.190Z",
   "company_id": "43231131-412D-4FB4-9817-33B126E52FC9",
   "classification_status": "Active",
   "groww_source": {
@@ -76,22 +76,308 @@
         }
       ]
     },
-    "current_price_inr": 122.05,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_EXPECTED_TO_BECOME_PROFITABLE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_EXPECTED_TO_BECOME_PROFITABLE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_EXPECTED_TO_BECOME_PROFITABLE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASING_LOSSES"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 127.41,
     "market_cap_inr": 25030200000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 96.21,
       "high": 333.3
     },
-    "fair_value_inr": 177.282119,
+    "fair_value_inr": 177.444292,
     "fair_value_range_inr": {
-      "min": 177.282119,
-      "max": 438.096055,
+      "min": 177.444292,
+      "max": 448.307327,
       "count": 4
     },
-    "upside_pct": 45.25368209750103,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "bbeb45a3-4def-4e86-b7fb-a77fb2fd895a",
+      "narrative_type": null,
+      "published_at": "2024-06-19T03:51:07.722Z"
+    },
+    "upside_pct": 39.27030217408367,
     "multiples": {
       "pe": 105.93,
       "ps": 1.45,
@@ -111,10 +397,11 @@
       "Trading at good value vs. peer average Price-To-Sales ratio",
       "Trading below our calculated fair Price-To-Sales ratio",
       "Earnings are forecast to grow 105.9% per year",
-      "Trading at 72.1% below our estimate of its fair value"
+      "Trading at 70.5% below our estimate of its fair value"
     ],
     "risks": [
-      "Interest payments are not well covered by earnings"
+      "Interest payments are not well covered by earnings",
+      "Highly volatile share price over past 3 months"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -141,8 +428,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 40.473660493160494,
-      "net_income_margin_1y": 0.09915925459,
-      "future_revenue_growth_3y": 0.4901950831,
+      "net_income_margin_1y": 0.1007363079,
+      "future_revenue_growth_3y": 0.4930780903,
       "sector_pe": 40.473660493160494
     },
     "industry_benchmarks_meta": {
@@ -178,17 +465,17 @@
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 1.2,
+        "industry_pe": 1.1,
         "industry_name": "Indian Chemicals",
-        "description": "CAMLINFINE is expensive based on its Price-To-Sales Ratio (1.4x) compared to the Indian Chemicals industry average (1.2x).",
+        "description": "CAMLINFINE is expensive based on its Price-To-Sales Ratio (1.5x) compared to the Indian Chemicals industry average (1.1x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 22.185241114,
+        "industry_pe": 20.665261726,
         "industry_code": "2020000",
         "type": "median_profitable",
-        "count": 304,
+        "count": 302,
         "source": {
           "type": "country",
           "country": "IN",
@@ -197,8 +484,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.5,
-        "sample_count": 293,
+        "industry_pe": 19.6,
+        "sample_count": 294,
         "industry_code": "2020000",
         "industry_name": "Materials"
       },
@@ -210,8 +497,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 122.05,
-        "fetched_at": "2026-05-31T22:14:47.147Z",
+        "value": 127.41,
+        "fetched_at": "2026-06-11T01:08:21.190Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-camlinfine/camlin-fine-sciences-shares"
       },
       "market_cap_inr": {
@@ -219,6 +506,24 @@
         "value": 25030200000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/camlin-fine-sciences-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 177.444292,
+        "fetched_at": "2026-06-11T01:08:21.190Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-camlinfine/camlin-fine-sciences-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "bbeb45a3-4def-4e86-b7fb-a77fb2fd895a",
+        "narrative_type": null,
+        "published_at": "2024-06-19T03:51:07.722Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 39.27030217408367,
+        "fetched_at": "2026-06-11T01:08:21.190Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-camlinfine/camlin-fine-sciences-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -258,14 +563,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.09915925459,
-        "fetched_at": "2026-05-31T22:14:47.147Z",
+        "value": 0.1007363079,
+        "fetched_at": "2026-06-11T01:08:21.190Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-camlinfine/camlin-fine-sciences-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.4901950831,
-        "fetched_at": "2026-05-31T22:14:47.147Z",
+        "value": 0.4930780903,
+        "fetched_at": "2026-06-11T01:08:21.190Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-camlinfine/camlin-fine-sciences-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -397,12 +702,12 @@
     "quick_ratio": 0.7519857966790501,
     "cash_ratio": 0.157242256932329,
     "returns_pct": {
-      "1D": -6.252400337967587,
-      "7D": 1.1603812681309502,
-      "1M": -0.6592869933257385,
-      "3M": -17.47802569303584,
-      "6M": -25.99442153771525,
-      "1Y": -49.65764725292856,
+      "1D": -4.239007891770022,
+      "7D": 8.813733025877523,
+      "1M": 0.7591933570581207,
+      "3M": -12.088594493893611,
+      "6M": -22.235107421875004,
+      "1Y": -57.798681726342295,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -503,8 +808,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.38739,
-        "shares": 744130,
+        "pct": 0.37436,
+        "shares": 719090,
         "is_insider": null
       },
       {
@@ -861,36 +1166,6 @@
       "keyDevTypeId": null,
       "source_url": null,
       "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "d1023070-35d6-4eba-bd53-bb1468fecd8c",
-      "type": "brief",
-      "date": "2025-12-12T12:04:09.000Z",
-      "title": "Now 28% overvalued",
-      "body": "Over the last 90 days, the stock has fallen 27% to ₹164. The fair value is estimated to be ₹128, however this is not to be taken as a sell recommendation but rather should be used as a guide only. Revenue has been flat over the last 3 years. Meanwhile, the company has become profitable. Revenue is forecast to grow by 48% in 2 years. Earnings are forecast to grow by 707% in the next 2 years.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "97d13f8d-e289-4c0b-b376-f04336a0669e",
-      "type": "article",
-      "date": "2025-12-09T01:30:46.000Z",
-      "title": "The Returns On Capital At Camlin Fine Sciences (NSE:CAMLINFINE) Don't Inspire Confidence",
-      "body": "What trends should we look for it we want to identify stocks that can multiply in value over the long term? Amongst...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/materials/nse-camlinfine/camlin-fine-sciences-shares/news/the-returns-on-capital-at-camlin-fine-sciences-nsecamlinfine",
-      "raw_subtype": "article"
-    },
-    {
-      "id": "2f9e8667-49a9-44f6-bf4b-e898e7b8001b",
-      "type": "article",
-      "date": "2025-12-09T00:05:25.000Z",
-      "title": "It's Down 26% But Camlin Fine Sciences Limited (NSE:CAMLINFINE) Could Be Riskier Than It Looks",
-      "body": "The Camlin Fine Sciences Limited ( NSE:CAMLINFINE ) share price has fared very poorly over the last month, falling by a...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/materials/nse-camlinfine/camlin-fine-sciences-shares/news/its-down-26-but-camlin-fine-sciences-limited-nsecamlinfine-c",
-      "raw_subtype": "article"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/CAMLINFINE.json"

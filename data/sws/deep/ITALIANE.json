@@ -3,7 +3,7 @@
   "name": "Italian Edibles Limited",
   "sector": "Food, Beverage & Tobacco",
   "sws_url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-italiane/italian-edibles-shares",
-  "parsed_at": "2026-05-31T20:13:16.578Z",
+  "parsed_at": "2026-06-10T23:16:51.254Z",
   "company_id": "99FCC5F6-CFF6-4F8F-821E-75D9E256FC71",
   "classification_status": "Active",
   "groww_source": null,
@@ -13,14 +13,14 @@
       "future": 0,
       "past": 4,
       "financial_health": 3,
-      "dividends": 2,
+      "dividends": 1,
       "future_growth": 0,
       "past_performance": 4,
       "value": 2,
       "health": 3,
-      "dividend": 2
+      "dividend": 1
     },
-    "snowflake_total": 11,
+    "snowflake_total": 10,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 7,
@@ -69,21 +69,310 @@
         }
       ]
     },
-    "current_price_inr": 33.25,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOO_EARLY"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOO_EARLY"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 36,
     "market_cap_inr": null,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
-    "fifty_two_week": null,
-    "fair_value_inr": 1.765537,
+    "fifty_two_week": {
+      "low": 24.1,
+      "high": 48.3
+    },
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -94.69011428571429,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "2d1a1354-5523-4078-baee-2bcfe3862cd2",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
-      "pe": 12.2,
+      "pe": 13.2,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -92,7 +381,7 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": "2026-05-31T20:13:16.578Z",
+      "pe_as_of": "2026-06-10T23:16:51.254Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-italiane/italian-edibles-shares"
     },
@@ -100,17 +389,15 @@
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Earnings grew by 32.2% over the past year",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (12.2x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (13.2x) is below the Indian market (23.2x)"
     ],
     "risks": [
-      "Highly volatile share price over past 3 months",
       "Interest payments are not well covered by earnings",
-      "Dividend of 0.3% is not well covered by free cash flows",
-      "Does not have a meaningful market cap (₹491M)",
+      "Does not have a meaningful market cap (₹532M)",
       "High level of [[non-cash earnings]]"
     ],
     "dividend": {
-      "yield_pct": 0.300248739,
+      "yield_pct": 0.2996519272,
       "payout_pct": null,
       "annualized_dividend": 0.1,
       "listing_currency": "INR",
@@ -126,16 +413,16 @@
           "divFreqTypeName": "Annual",
           "annualizedDividend": 0.1,
           "annualizedDividendListingCurrency": 0.1,
-          "annualizedYield": 0.300248739
+          "annualizedYield": 0.2996519272
         }
       ],
       "payment_count": 1
     },
-    "dividend_yield_pct": 0.300248739,
+    "dividend_yield_pct": 0.2996519272,
     "industry_benchmarks": {
-      "pe": 18.830078936,
+      "pe": 18.650324238,
       "net_income_margin_1y": 0.06501183937,
-      "future_revenue_growth_3y": 0.3785430898
+      "future_revenue_growth_3y": 0.3838575841
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -149,30 +436,30 @@
     "pe_benchmark_source": {
       "provider": "sws_industry_api",
       "label": "SWS industry API",
-      "company_pe": 12.2,
+      "company_pe": 13.2,
       "company_pe_source": "sws_statement",
       "company_pe_source_label": "SWS visible statement",
-      "industry_pe": 18.830078936,
+      "industry_pe": 18.650324238,
       "industry_name": "Food, Beverage & Tobacco",
       "industry_code": "5120000",
-      "sample_count": 217,
+      "sample_count": 224,
       "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 12.2,
-        "industry_pe": 18.8,
+        "company_pe": 13.2,
+        "industry_pe": 18.7,
         "industry_name": "Indian Food",
-        "description": "ITALIANE is good value based on its Price-To-Earnings Ratio (12.2x) compared to the Indian Food industry average (18.8x).",
+        "description": "ITALIANE is good value based on its Price-To-Earnings Ratio (13.2x) compared to the Indian Food industry average (18.7x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 18.830078936,
+        "industry_pe": 18.650324238,
         "industry_code": "5120000",
         "type": "median_profitable",
-        "count": 217,
+        "count": 224,
         "source": {
           "type": "country",
           "country": "IN",
@@ -181,8 +468,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.9,
-        "sample_count": 218,
+        "industry_pe": 18,
+        "sample_count": 224,
         "industry_code": "5120000",
         "industry_name": "Food, Beverage & Tobacco"
       },
@@ -194,32 +481,41 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 33.25,
-        "fetched_at": "2026-05-31T20:13:16.578Z",
+        "value": 36,
+        "fetched_at": "2026-06-10T23:16:51.254Z",
         "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-italiane/italian-edibles-shares"
       },
       "multiples.pe": {
         "provider": "sws_statement",
-        "value": 12.2,
-        "fetched_at": "2026-05-31T20:13:16.578Z",
+        "value": 13.2,
+        "fetched_at": "2026-06-10T23:16:51.254Z",
         "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-italiane/italian-edibles-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 18.830078936,
+        "value": 18.650324238,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.06501183937,
-        "fetched_at": "2026-05-31T20:13:16.578Z",
+        "fetched_at": "2026-06-10T23:16:51.254Z",
         "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-italiane/italian-edibles-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.3785430898,
-        "fetched_at": "2026-05-31T20:13:16.578Z",
+        "value": 0.3838575841,
+        "fetched_at": "2026-06-10T23:16:51.254Z",
+        "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-italiane/italian-edibles-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 24.1,
+          "high": 48.3
+        },
+        "fetched_at": "2026-06-10T23:16:51.254Z",
         "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-italiane/italian-edibles-shares"
       }
     },
@@ -246,12 +542,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -5,
-      "7D": -5.940594059405944,
-      "1M": -12.5,
-      "3M": -25.364758698092025,
-      "6M": 1.993865030674842,
-      "1Y": -10.135135135135135,
+      "1D": -3.3557046979865772,
+      "7D": 8.270676691729323,
+      "1M": -11.764705882352935,
+      "3M": -14.285714285714285,
+      "6M": 12.5,
+      "1Y": 3.151862464183385,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -272,7 +568,7 @@
     "groww_period": null
   },
   "dividend": {
-    "yield_pct": 0.300248739,
+    "yield_pct": 0.2996519272,
     "payout_pct": null,
     "annualized_dividend": 0.1,
     "listing_currency": "INR",
@@ -288,7 +584,7 @@
         "divFreqTypeName": "Annual",
         "annualizedDividend": 0.1,
         "annualizedDividendListingCurrency": 0.1,
-        "annualizedYield": 0.300248739
+        "annualizedYield": 0.2996519272
       }
     ],
     "payment_count": 1
@@ -362,16 +658,6 @@
       "keyDevTypeId": null,
       "source_url": null,
       "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "6a7ddf59-a3a2-4412-a476-5fbb8204f59f",
-      "type": "article",
-      "date": "2025-12-03T00:09:12.000Z",
-      "title": "Italian Edibles (NSE:ITALIANE) Has A Somewhat Strained Balance Sheet",
-      "body": "The external fund manager backed by Berkshire Hathaway's Charlie Munger, Li Lu, makes no bones about it when he says...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-italiane/italian-edibles-shares/news/italian-edibles-nseitaliane-has-a-somewhat-strained-balance-1",
-      "raw_subtype": "article"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/ITALIANE.json"

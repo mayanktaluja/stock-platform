@@ -3,7 +3,7 @@
   "name": "Paisalo Digital Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-paisalo/paisalo-digital-shares",
-  "parsed_at": "2026-05-31T21:24:13.570Z",
+  "parsed_at": "2026-06-11T00:27:01.477Z",
   "company_id": "7A16482E-0B54-48C2-85A0-F51AC84505D6",
   "classification_status": "Active",
   "groww_source": {
@@ -16,18 +16,18 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 1,
+      "valuation": 0,
       "future": 3,
       "past": 2,
       "financial_health": 2,
       "dividends": 3,
       "future_growth": 3,
       "past_performance": 2,
-      "value": 1,
+      "value": 0,
       "health": 2,
       "dividend": 3
     },
-    "snowflake_total": 11,
+    "snowflake_total": 10,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 1,
@@ -65,22 +65,308 @@
         }
       ]
     },
-    "current_price_inr": 51.58,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SAME_PE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_STABLE_IN_PAST_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 59.51,
     "market_cap_inr": 44866700000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 29.38,
       "high": 51.45
     },
-    "fair_value_inr": 75.029092,
+    "fair_value_inr": 75.138889,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 45.461597518418,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "44f02288-c932-4b9b-a2ef-a0d3234b9cc3",
+      "narrative_type": null,
+      "published_at": "2024-07-25T13:46:57.635Z"
+    },
+    "upside_pct": 26.262626449336263,
     "multiples": {
       "pe": 18.9,
       "ps": 4.76,
@@ -98,9 +384,7 @@
     },
     "rewards": [
       "Earnings are forecast to grow 14.07% per year",
-      "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Earnings have grown 28% per year over the past 5 years",
-      "Price-To-Earnings ratio (19.6x) is below the Indian market (23.4x)"
+      "Earnings have grown 28% per year over the past 5 years"
     ],
     "risks": [
       "Debt is not well covered by [[operating cash flow]]"
@@ -122,7 +406,7 @@
           "divFreqTypeName": "Annual",
           "annualizedDividend": 0.1,
           "annualizedDividendListingCurrency": 0.1,
-          "annualizedYield": 0.2721375279
+          "annualizedYield": 0.2684489242
         },
         {
           "exDate": "2024-09-13T00:00:00.000Z",
@@ -247,8 +531,8 @@
     "dividend_yield_pct": 0.2,
     "industry_benchmarks": {
       "pe": 18.85756396507594,
-      "net_income_margin_1y": 0.318282225,
-      "future_revenue_growth_3y": 1.129623645,
+      "net_income_margin_1y": 0.3172599264,
+      "future_revenue_growth_3y": 1.14035062,
       "sector_pe": 18.85756396507594
     },
     "industry_benchmarks_meta": {
@@ -283,18 +567,18 @@
         "url": "https://groww.in/stocks/paisalo-digital-ltd"
       },
       "sws_statement": {
-        "company_pe": 19.6,
+        "company_pe": 22.9,
         "industry_pe": 20.1,
         "industry_name": "Indian Consumer Finance",
-        "description": "PAISALO is good value based on its Price-To-Earnings Ratio (19.6x) compared to the Indian Consumer Finance industry average (20.1x).",
+        "description": "PAISALO is expensive based on its Price-To-Earnings Ratio (22.9x) compared to the Indian Consumer Finance industry average (20.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 20.116846802,
+        "industry_pe": 20.092697454,
         "industry_code": "7120000",
         "type": "median_profitable",
-        "count": 79,
+        "count": 80,
         "source": {
           "type": "country",
           "country": "IN",
@@ -303,8 +587,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.8,
-        "sample_count": 80,
+        "industry_pe": 19.6,
+        "sample_count": 81,
         "industry_code": "7120000",
         "industry_name": "Diversified Financials"
       },
@@ -316,8 +600,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 51.58,
-        "fetched_at": "2026-05-31T21:24:13.570Z",
+        "value": 59.51,
+        "fetched_at": "2026-06-11T00:27:01.477Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-paisalo/paisalo-digital-shares"
       },
       "market_cap_inr": {
@@ -325,6 +609,24 @@
         "value": 44866700000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/paisalo-digital-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 75.138889,
+        "fetched_at": "2026-06-11T00:27:01.477Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-paisalo/paisalo-digital-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "44f02288-c932-4b9b-a2ef-a0d3234b9cc3",
+        "narrative_type": null,
+        "published_at": "2024-07-25T13:46:57.635Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 26.262626449336263,
+        "fetched_at": "2026-06-11T00:27:01.477Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-paisalo/paisalo-digital-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -364,14 +666,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.318282225,
-        "fetched_at": "2026-05-31T21:24:13.570Z",
+        "value": 0.3172599264,
+        "fetched_at": "2026-06-11T00:27:01.477Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-paisalo/paisalo-digital-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 1.129623645,
-        "fetched_at": "2026-05-31T21:24:13.570Z",
+        "value": 1.14035062,
+        "fetched_at": "2026-06-11T00:27:01.477Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-paisalo/paisalo-digital-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -503,12 +805,12 @@
     "quick_ratio": 1.8470095115266805,
     "cash_ratio": 1.2091729808157343,
     "returns_pct": {
-      "1D": 4.497568881685573,
-      "7D": 2.503974562798088,
-      "1M": 8.293092588704589,
-      "3M": 45.050618672665905,
-      "6M": 37.620064034151554,
-      "1Y": 61.997487437185924,
+      "1D": -1.113326686606849,
+      "7D": 10.367210682492574,
+      "1M": 22.297575010275384,
+      "3M": 84.98601181224743,
+      "6M": 57.392224279291185,
+      "1Y": 79.35503315250149,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -519,13 +821,13 @@
   "ownership": {
     "top_holders": [
       {
-        "pct": 21.1236,
-        "shares": 190559880,
+        "pct": 21.50382,
+        "shares": 193989880,
         "is_insider": null
       },
       {
-        "pct": 12.57859,
-        "shares": 113473800,
+        "pct": 12.77812,
+        "shares": 115273800,
         "is_insider": null
       },
       {
@@ -539,13 +841,13 @@
         "is_insider": null
       },
       {
-        "pct": 4.78873,
-        "shares": 43200000,
+        "pct": 4.79937,
+        "shares": 43296000,
         "is_insider": null
       },
       {
-        "pct": 4.59984,
-        "shares": 41496000,
+        "pct": 4.78873,
+        "shares": 43200000,
         "is_insider": null
       },
       {
@@ -554,13 +856,13 @@
         "is_insider": null
       },
       {
-        "pct": 3.08656,
-        "shares": 27844400,
+        "pct": 3.46677,
+        "shares": 31274400,
         "is_insider": null
       },
       {
-        "pct": 2.89067,
-        "shares": 26077220,
+        "pct": 3.27199,
+        "shares": 29517220,
         "is_insider": null
       },
       {
@@ -646,7 +948,7 @@
         "divFreqTypeName": "Annual",
         "annualizedDividend": 0.1,
         "annualizedDividendListingCurrency": 0.1,
-        "annualizedYield": 0.2721375279
+        "annualizedYield": 0.2684489242
       },
       {
         "exDate": "2024-09-13T00:00:00.000Z",

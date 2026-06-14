@@ -3,7 +3,7 @@
   "name": "Aurionpro Solutions Limited",
   "sector": "Software",
   "sws_url": "https://simplywall.st/stocks/in/software/nse-aurionpro/aurionpro-solutions-shares",
-  "parsed_at": "2026-05-31T21:21:29.035Z",
+  "parsed_at": "2026-06-11T00:17:26.774Z",
   "company_id": "3CD9FAE7-D65B-489C-8CA3-A63AD9BDBA3A",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 3
     },
     "snowflake_total": 18,
-    "current_price_inr": 794.8,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SAME_PB"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 746.6,
     "market_cap_inr": 44709400000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "small3",
     "shares_outstanding": 53709500,
     "fifty_two_week": {
       "low": 719.6,
       "high": 1665.9
     },
-    "fair_value_inr": 1545,
+    "fair_value_inr": 1095,
     "fair_value_range_inr": {
-      "min": 128.334604,
+      "min": 126.327641,
       "max": 2462.5,
       "count": 17
     },
-    "upside_pct": 94.3885254151988,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "641b8f06-e224-4065-881e-756df240e00a",
+      "narrative_type": null,
+      "published_at": "2026-06-02T09:04:21.686Z"
+    },
+    "upside_pct": 46.66488079292794,
     "multiples": {
       "pe": 21.11,
       "ps": 3.17,
@@ -63,17 +349,17 @@
       "Earnings are forecast to grow 16.31% per year",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading below our calculated fair Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (20x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (19.3x) is below the Indian market (22.9x)",
       "Earnings grew by 14.4% over the past year",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
     "risks": [
-      "Dividend of 0.5% is not well covered by free cash flows",
+      "Dividend of 0.52% is not well covered by free cash flows",
       "High level of [[non-cash earnings]]"
     ],
     "dividend": {
       "yield_pct": 0.48,
-      "payout_pct": 10.843459844907402,
+      "payout_pct": 10.088251894969257,
       "annualized_dividend": 4,
       "listing_currency": "INR",
       "recent_payments": [
@@ -226,8 +512,8 @@
     "dividend_yield_pct": 0.48,
     "industry_benchmarks": {
       "pe": 18.761595487228476,
-      "net_income_margin_1y": 0.09947274985,
-      "future_revenue_growth_3y": 1.4123928,
+      "net_income_margin_1y": 0.0994330966,
+      "future_revenue_growth_3y": 1.401190197,
       "sector_pe": 18.761595487228476
     },
     "industry_benchmarks_meta": {
@@ -262,15 +548,15 @@
         "url": "https://groww.in/stocks/aurionpro-solutions-ltd"
       },
       "sws_statement": {
-        "company_pe": 20,
-        "industry_pe": 24.1,
+        "company_pe": 19.3,
+        "industry_pe": 28,
         "industry_name": "Indian Software",
-        "description": "AURIONPRO is good value based on its Price-To-Earnings Ratio (20x) compared to the Indian Software industry average (24.1x).",
+        "description": "AURIONPRO is good value based on its Price-To-Earnings Ratio (19.3x) compared to the Indian Software industry average (28x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 24.120954879,
+        "industry_pe": 27.955181856,
         "industry_code": "8040000",
         "type": "median_profitable",
         "count": 58,
@@ -282,25 +568,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24.2,
-        "sample_count": 57,
+        "industry_pe": 25.05,
+        "sample_count": 56,
         "industry_code": "8040000",
         "industry_name": "Software"
       },
       "sws_primary_industry": {
-        "industry_pe": 20.803345639,
+        "industry_pe": 20.24766845,
         "industry_name": "Software",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 21.54595471183101
+        "company_pe": 18.82972216196012
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 794.8,
-        "fetched_at": "2026-05-31T21:21:29.035Z",
+        "value": 746.6,
+        "fetched_at": "2026-06-11T00:17:26.774Z",
         "url": "https://simplywall.st/stocks/in/software/nse-aurionpro/aurionpro-solutions-shares"
       },
       "market_cap_inr": {
@@ -308,6 +594,24 @@
         "value": 44709400000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/aurionpro-solutions-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 1095,
+        "fetched_at": "2026-06-11T00:17:26.774Z",
+        "url": "https://simplywall.st/stocks/in/software/nse-aurionpro/aurionpro-solutions-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "641b8f06-e224-4065-881e-756df240e00a",
+        "narrative_type": null,
+        "published_at": "2026-06-02T09:04:21.686Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 46.66488079292794,
+        "fetched_at": "2026-06-11T00:17:26.774Z",
+        "url": "https://simplywall.st/stocks/in/software/nse-aurionpro/aurionpro-solutions-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -347,14 +651,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.09947274985,
-        "fetched_at": "2026-05-31T21:21:29.035Z",
+        "value": 0.0994330966,
+        "fetched_at": "2026-06-11T00:17:26.774Z",
         "url": "https://simplywall.st/stocks/in/software/nse-aurionpro/aurionpro-solutions-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 1.4123928,
-        "fetched_at": "2026-05-31T21:21:29.035Z",
+        "value": 1.401190197,
+        "fetched_at": "2026-06-11T00:17:26.774Z",
         "url": "https://simplywall.st/stocks/in/software/nse-aurionpro/aurionpro-solutions-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -463,13 +767,13 @@
         "url": "https://groww.in/stocks/aurionpro-solutions-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 6.4200590521892655,
+    "earnings_growth_yoy_pct": 9.741870952481795,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 18.713645080070872,
-    "latest_revenue": 13924720000,
-    "latest_net_income": 1981268000,
+    "revenue_growth_pct": 13.052724178003638,
+    "latest_revenue": 14110851000,
+    "latest_net_income": 2129585999.9999998,
     "latest_eps": 38.32,
-    "most_recent_reported_date": "2026-05-07",
+    "most_recent_reported_date": "2026-06-01",
     "pb": 2.57,
     "ps": 3.17,
     "book_value": 314.6849983,
@@ -486,16 +790,16 @@
     "quick_ratio": 2.34615605442958,
     "cash_ratio": 0.39231785037606937,
     "returns_pct": {
-      "1D": -1.6944959802102717,
-      "7D": -2.9548229548229603,
-      "1M": -8.126228181713104,
-      "3M": -10.565995273995734,
-      "6M": -27.594060307916564,
-      "1Y": -40.65999701358818,
+      "1D": -2.5835073068893473,
+      "7D": -7.7759248965474566,
+      "1M": -14.703530218210892,
+      "3M": -18.97552770090618,
+      "6M": -35.162831089882765,
+      "1Y": -47.06090902644827,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 6,
+    "recent_news_count": 4,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -614,7 +918,7 @@
   },
   "dividend": {
     "yield_pct": 0.48,
-    "payout_pct": 10.843459844907402,
+    "payout_pct": 10.088251894969257,
     "annualized_dividend": 4,
     "listing_currency": "INR",
     "recent_payments": [
@@ -765,44 +1069,44 @@
     "payment_count": 11
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-07",
+    "most_recent_reported_date": "2026-06-01",
     "latest_year": 2026,
-    "latest_revenue": 13924720000,
-    "latest_net_income": 1981268000,
+    "latest_revenue": 14110851000,
+    "latest_net_income": 2129585999.9999998,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 18.713645080070872,
-    "earnings_growth_pct": 6.4200590521892655,
-    "net_margin_pct": 14.228422546377953,
+    "revenue_growth_pct": 13.052724178003638,
+    "earnings_growth_pct": 9.741870952481795,
+    "net_margin_pct": 15.091832519526992,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 13924720000,
-        "netIncome": 1981268000,
+        "revenue": 14110851000,
+        "netIncome": 2129585999.9999998,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 11729671000,
-        "netIncome": 1861743000,
+        "revenue": 12481655000,
+        "netIncome": 1940541000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 8874715000,
-        "netIncome": 1409723000,
+        "revenue": 9503990000,
+        "netIncome": 1525962000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 6593316000,
-        "netIncome": 973293000,
+        "revenue": 7125091000,
+        "netIncome": 1055960000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 5050122000,
-        "netIncome": 706718000,
+        "revenue": 5347223000,
+        "netIncome": 799983000,
         "eps": null
       }
     ]
@@ -1009,6 +1313,16 @@
   ],
   "news": [
     {
+      "id": "a60aa5ed-bbf8-421e-8d4f-ec5c44cd5c0d",
+      "type": "narrative-update",
+      "date": "2026-06-02T09:04:21.000Z",
+      "title": "AURIONPRO: AI Banking Stack Will Drive Long Term Upside",
+      "body": "The analyst price target for Aurionpro Solutions has been revised from ₹1,545 to ₹1,095, with analysts citing updated assumptions on revenue growth, profit margins, and future P/E multiples as the drivers of this change. What's in the News Aurionpro Solutions launched Fintra, an AI native trade finance platform that uses specialized AI agents for document processing, compliance screening, clause recommendation, and risk scoring, with human oversight built in through an operating layer and the Confidence-Gated Handoff Protocol (source: company announcement).",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/software/nse-aurionpro/aurionpro-solutions-shares/xli8p2k0-new-geographies-and-proprietary-ai-will-unlock-future-opportunities-u00r/updates/22-the-analyst-price-target-for-aurionpro-solutions-has-been-re",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "b0d25a34-58fd-48d5-a2a2-95c11ab09a33",
       "type": "article",
       "date": "2026-05-19T01:04:03.000Z",
@@ -1206,26 +1520,6 @@
       "body": "Analysts have slightly fine tuned their fair value estimate for Aurionpro Solutions to ₹1,570 per share. This reflects marginal adjustments to discount rate, growth, and profitability assumptions while maintaining their overall positive view on the company.",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/software/nse-aurionpro/aurionpro-solutions-shares/xli8p2k0-new-geographies-and-proprietary-ai-will-unlock-future-opportunities-u00r/updates/14-analysts-have-slightly-fine-tuned-their-fair-value-estimate",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "b85dca89-e7bd-4dd4-afa0-0eec35897e82",
-      "type": "article",
-      "date": "2025-12-16T00:30:53.000Z",
-      "title": "Returns Are Gaining Momentum At Aurionpro Solutions (NSE:AURIONPRO)",
-      "body": "Finding a business that has the potential to grow substantially is not easy, but it is possible if we look at a few key...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/software/nse-aurionpro/aurionpro-solutions-shares/news/returns-are-gaining-momentum-at-aurionpro-solutions-nseaurio",
-      "raw_subtype": "article"
-    },
-    {
-      "id": "ea85b32e-00b3-44e8-92a8-3338c9c832ac",
-      "type": "narrative-update",
-      "date": "2025-12-06T16:02:57.000Z",
-      "title": "AURIONPRO: Upcoming UK Expansion Will Drive Future AI-Led Lending Opportunities",
-      "body": "Narrative Update on Aurionpro Solutions Analysts have reaffirmed their fair value estimate for Aurionpro Solutions at ₹1,570, citing largely unchanged expectations for revenue growth, profit margins, and future valuation multiples, despite a slightly higher discount rate. What's in the News Lexsi Labs, an Aurionpro Solutions subsidiary, launched Orion-MSP foundation models and the TabTune open source library to bring enterprise grade AI to structured and tabular data use cases in sectors such as banking, insurance, and healthcare (Key Developments) Aurionpro won a multi year, multi million dollar mandate to implement its next generation cash management platform for a leading Indian public sector bank, including software licensing, implementation, and an extended AMC, strengthening its posi",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/software/nse-aurionpro/aurionpro-solutions-shares/xli8p2k0-new-geographies-and-proprietary-ai-will-unlock-future-opportunities-u00r/updates/13-narrative-update-on-aurionpro-solutions-analysts-have-reaffi",
       "raw_subtype": "narrative-update"
     }
   ],

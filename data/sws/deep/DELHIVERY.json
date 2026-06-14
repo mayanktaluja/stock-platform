@@ -3,7 +3,7 @@
   "name": "Delhivery Limited",
   "sector": "Transportation",
   "sws_url": "https://simplywall.st/stocks/in/transportation/nse-delhivery/delhivery-shares",
-  "parsed_at": "2026-05-31T22:32:29.327Z",
+  "parsed_at": "2026-06-11T01:27:28.255Z",
   "company_id": "C033ABC6-D4F4-489D-9D47-8E3D99541A13",
   "classification_status": "Active",
   "groww_source": {
@@ -76,22 +76,308 @@
         }
       ]
     },
-    "current_price_inr": 452.35,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 431.1,
     "market_cap_inr": 344185400000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midlarge6",
     "shares_outstanding": 748717499,
     "fifty_two_week": {
       "low": 342.85,
       "high": 490
     },
-    "fair_value_inr": 424.67169,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 158.141529,
+      "min": 161.729409,
       "max": 600,
       "count": 23
     },
-    "upside_pct": -6.118781916657458,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystLowTarget",
+      "owner_classification": null,
+      "narrative_id": "09bffe24-cae6-442d-a643-e16f8eb23c5b",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 225.34,
       "ps": 3.28,
@@ -108,8 +394,8 @@
       "pe_source_url": "https://groww.in/stocks/delhivery-ltd"
     },
     "rewards": [
-      "Analysts in good agreement that stock price will rise by 21.4%",
-      "Earnings are forecast to grow 39.48% per year",
+      "Analysts in good agreement that stock price will rise by 27.6%",
+      "Earnings are forecast to grow 39.3% per year",
       "Trading below our calculated fair Price-To-Sales ratio"
     ],
     "risks": [],
@@ -124,8 +410,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 44.15202093698116,
-      "net_income_margin_1y": 0.0855806491,
-      "future_revenue_growth_3y": 0.2461430868,
+      "net_income_margin_1y": 0.08504600388,
+      "future_revenue_growth_3y": 0.2369784758,
       "sector_pe": 44.15202093698116
     },
     "industry_benchmarks_meta": {
@@ -161,14 +447,14 @@
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 0.6,
+        "industry_pe": 0.5,
         "industry_name": "Indian Logistics",
-        "description": "DELHIVERY is expensive based on its Price-To-Sales Ratio (3.2x) compared to the Indian Logistics industry average (0.6x).",
+        "description": "DELHIVERY is expensive based on its Price-To-Sales Ratio (3.1x) compared to the Indian Logistics industry average (0.5x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 15.905276181,
+        "industry_pe": 16.726315431,
         "industry_code": "3210000",
         "type": "median_profitable",
         "count": 40,
@@ -180,25 +466,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.25,
-        "sample_count": 36,
+        "industry_pe": 15.15,
+        "sample_count": 38,
         "industry_code": "3210000",
         "industry_name": "Transportation"
       },
       "sws_primary_industry": {
-        "industry_pe": 14.294446817,
+        "industry_pe": 13.861367421,
         "industry_name": "Transportation",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 221.60000044011517
+        "company_pe": 211.40985735734495
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 452.35,
-        "fetched_at": "2026-05-31T22:32:29.327Z",
+        "value": 431.1,
+        "fetched_at": "2026-06-11T01:27:28.255Z",
         "url": "https://simplywall.st/stocks/in/transportation/nse-delhivery/delhivery-shares"
       },
       "market_cap_inr": {
@@ -245,14 +531,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.0855806491,
-        "fetched_at": "2026-05-31T22:32:29.327Z",
+        "value": 0.08504600388,
+        "fetched_at": "2026-06-11T01:27:28.255Z",
         "url": "https://simplywall.st/stocks/in/transportation/nse-delhivery/delhivery-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.2461430868,
-        "fetched_at": "2026-05-31T22:32:29.327Z",
+        "value": 0.2369784758,
+        "fetched_at": "2026-06-11T01:27:28.255Z",
         "url": "https://simplywall.st/stocks/in/transportation/nse-delhivery/delhivery-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -361,13 +647,13 @@
         "url": "https://groww.in/stocks/delhivery-ltd"
       }
     },
-    "earnings_growth_yoy_pct": -5.721423724631423,
+    "earnings_growth_yoy_pct": -23.20004829046716,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 10.277465009968202,
-    "latest_revenue": 98498740000,
-    "latest_net_income": 1528350000,
+    "revenue_growth_pct": 16.067744558572183,
+    "latest_revenue": 105083070000,
+    "latest_net_income": 1526760000,
     "latest_eps": 2.04,
-    "most_recent_reported_date": "2026-04-30",
+    "most_recent_reported_date": "2026-06-01",
     "pb": 3.55,
     "ps": 3.28,
     "book_value": 129.3807311,
@@ -384,12 +670,12 @@
     "quick_ratio": 2.5761827741690544,
     "cash_ratio": 0.12707443793198497,
     "returns_pct": {
-      "1D": -1.6095704187058135,
-      "7D": 1.0612153708668453,
-      "1M": -2.9916362856530108,
-      "3M": 4.372404245500703,
-      "6M": 6.135617081182552,
-      "1Y": 23.390616475722858,
+      "1D": -1.8889394629039498,
+      "7D": -1.5528659511303848,
+      "1M": -10.028174893039749,
+      "3M": 5.609995100440969,
+      "6M": 4.5597865631821515,
+      "1Y": 17.980295566502477,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -495,8 +781,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.3412,
-        "shares": 10041768,
+        "pct": 1.34691,
+        "shares": 10084584,
         "is_insider": null
       }
     ],
@@ -519,44 +805,44 @@
     "payment_count": 0
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-04-30",
+    "most_recent_reported_date": "2026-06-01",
     "latest_year": 2026,
-    "latest_revenue": 98498740000,
-    "latest_net_income": 1528350000,
+    "latest_revenue": 105083070000,
+    "latest_net_income": 1526760000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 10.277465009968202,
-    "earnings_growth_pct": -5.721423724631423,
-    "net_margin_pct": 1.5516442139259852,
+    "revenue_growth_pct": 16.067744558572183,
+    "earnings_growth_pct": -23.20004829046716,
+    "net_margin_pct": 1.4529076853198142,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 98498740000,
-        "netIncome": 1528350000,
+        "revenue": 105083070000,
+        "netIncome": 1526760000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 89319010000,
-        "netIncome": 1621100000,
+        "revenue": 90535980000,
+        "netIncome": 1987970000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 81415380000,
-        "netIncome": -2491860000,
+        "revenue": 83840600000,
+        "netIncome": -1053470000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 72253010000,
-        "netIncome": -10077790000,
+        "revenue": 74093420000,
+        "netIncome": -6979190000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 68822860000,
-        "netIncome": -10110000000,
+        "revenue": 73103050000,
+        "netIncome": -12807600000,
         "eps": null
       }
     ]
@@ -767,6 +1053,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "0920b075-441a-459f-b992-1c5569059586",
+      "type": "narrative-update",
+      "date": "2026-06-02T03:08:10.000Z",
+      "title": "DELHIVERY: Board And Remuneration Decisions Will Shape Outlook While Pricing Stays Measured",
+      "body": "Analysts have raised their price target on Delhivery from ₹424.67 to ₹455.93, citing updated assumptions around discount rates, revenue growth, profit margins, and future P/E expectations. What's in the News A board meeting is scheduled for May 16, 2026 at 13:00 Indian Standard Time to consider and approve audited standalone and consolidated financial results for the quarter and financial year ended March 31, 2026, and to consider a declaration with respect to the audit report with unmodified opinion.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/transportation/nse-delhivery/delhivery-shares/x4aznxix-automation-and-protectionism-will-erode-margins-in-indian-logistics-z0te/updates/5-analysts-have-raised-their-price-target-on-delhivery-from-indian-rupee4",
+      "raw_subtype": "narrative-update"
+    },
     {
       "id": "78616103-6e26-4e02-b7f1-27ae046084ee",
       "type": "article",
@@ -986,26 +1282,6 @@
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/transportation/nse-delhivery/delhivery-shares/c623e4r7-rising-secular-e-commerce-trends-will-expand-organized-logistics-networks-kx1y/updates/2-analysts-have-modestly-raised-their-fair-value-estimate-for",
       "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "705e24c0-b2a1-49cd-9a49-4d7c13344e95",
-      "type": "narrative-update",
-      "date": "2025-12-10T04:21:06.000Z",
-      "title": "DELHIVERY: New Financial Services Arm Will Drive Future Logistics Expansion",
-      "body": "Narrative Update on Delhivery Analysts have maintained their fair value estimate for Delhivery at ₹498.65 per share, citing only marginal tweaks to the discount rate, revenue growth, profit margin, and future P/E assumptions that are not material enough to alter the overall valuation outlook. What's in the News The board has approved the incorporation of Delhivery Financial Services Private Limited, a wholly owned subsidiary in India that will offer payments, FASTag aggregation, fuel cards and insurance solutions to logistics partners and MSMEs, backed by an initial investment of up to ₹12 crore (regulatory filing).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/transportation/nse-delhivery/delhivery-shares/ojl1941f-analysts-slightly-raise-delhivery-price-target-amid-improved-profit-margin-forecasts/updates/15-narrative-update-on-delhivery-analysts-have-maintained-their",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "86b27066-2231-45c3-8384-382432913c1a",
-      "type": "article",
-      "date": "2025-12-08T08:28:39.000Z",
-      "title": "Investors Appear Satisfied With Delhivery Limited's (NSE:DELHIVERY) Prospects",
-      "body": "When you see that almost half of the companies in the Logistics industry in India have price-to-sales ratios (or \"P/S...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/transportation/nse-delhivery/delhivery-shares/news/investors-appear-satisfied-with-delhivery-limiteds-nsedelhiv-1",
-      "raw_subtype": "article"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/DELHIVERY.json"

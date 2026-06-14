@@ -3,7 +3,7 @@
   "name": "Hindustan Petroleum Corporation Limited",
   "sector": "Energy",
   "sws_url": "https://simplywall.st/stocks/in/energy/nse-hindpetro/hindustan-petroleum-shares",
-  "parsed_at": "2026-05-31T23:18:45.397Z",
+  "parsed_at": "2026-06-11T02:13:45.772Z",
   "company_id": "1F2B7830-816B-4FF9-AF15-AEBC0363EE86",
   "classification_status": "Active",
   "groww_source": {
@@ -28,9 +28,287 @@
       "dividend": 5
     },
     "snowflake_total": 18,
-    "current_price_inr": 393.85,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DECLINE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DECLINE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DECLINE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DECLINE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 374.4,
     "market_cap_inr": 856874100000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "large7",
     "shares_outstanding": 2127822517,
     "fifty_two_week": {
@@ -39,11 +317,19 @@
     },
     "fair_value_inr": 399.29032,
     "fair_value_range_inr": {
-      "min": 214.594603,
+      "min": 219.252853,
       "max": 399.29032,
       "count": 22
     },
-    "upside_pct": 1.3813177605687408,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "307253f3-9881-45da-8d0b-9ce88631c5cf",
+      "narrative_type": null,
+      "published_at": "2026-05-29T10:05:48.184Z"
+    },
+    "upside_pct": 6.648055555555564,
     "multiples": {
       "pe": 4.75,
       "ps": 0.2,
@@ -64,12 +350,12 @@
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading below our calculated fair Price-To-Earnings ratio",
       "Earnings grew by 167.9% over the past year",
-      "Price-To-Earnings ratio (4.6x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (4.4x) is below the Indian market (23.2x)"
     ],
     "risks": [
-      "Unstable dividend track record",
-      "Earnings are forecast to decline by an average of 20.7% per year for the next 3 years",
-      "Has a high level of debt"
+      "Earnings are forecast to decline by an average of 20.1% per year for the next 3 years",
+      "Has a high level of debt",
+      "Unstable dividend track record"
     ],
     "dividend": {
       "yield_pct": 6.02,
@@ -239,8 +525,8 @@
     "dividend_yield_pct": 6.02,
     "industry_benchmarks": {
       "pe": 13.906516649220263,
-      "net_income_margin_1y": 0.1242489666,
-      "future_revenue_growth_3y": 2.150633131,
+      "net_income_margin_1y": 0.1227139714,
+      "future_revenue_growth_3y": 1.998825811,
       "sector_pe": 13.906516649220263
     },
     "industry_benchmarks_meta": {
@@ -275,15 +561,15 @@
         "url": "https://groww.in/stocks/hindustan-petroleum-corporation-ltd"
       },
       "sws_statement": {
-        "company_pe": 4.6,
-        "industry_pe": 19.2,
+        "company_pe": 4.4,
+        "industry_pe": 18.7,
         "industry_name": "Indian Oil and Gas",
-        "description": "HINDPETRO is good value based on its Price-To-Earnings Ratio (4.6x) compared to the Indian Oil and Gas industry average (19.2x).",
+        "description": "HINDPETRO is good value based on its Price-To-Earnings Ratio (4.4x) compared to the Indian Oil and Gas industry average (18.7x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 19.197746836,
+        "industry_pe": 18.699888481,
         "industry_code": "1030000",
         "type": "median_profitable",
         "count": 34,
@@ -295,25 +581,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 14.9,
-        "sample_count": 31,
+        "industry_pe": 15.55,
+        "sample_count": 32,
         "industry_code": "1030000",
         "industry_name": "Energy"
       },
       "sws_primary_industry": {
-        "industry_pe": 14.859404592,
+        "industry_pe": 14.327869158,
         "industry_name": "Energy",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 4.6436970487460725
+        "company_pe": 4.414371397868552
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 393.85,
-        "fetched_at": "2026-05-31T23:18:45.397Z",
+        "value": 374.4,
+        "fetched_at": "2026-06-11T02:13:45.772Z",
         "url": "https://simplywall.st/stocks/in/energy/nse-hindpetro/hindustan-petroleum-shares"
       },
       "market_cap_inr": {
@@ -321,6 +607,24 @@
         "value": 856874100000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/hindustan-petroleum-corporation-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 399.29032,
+        "fetched_at": "2026-06-11T02:13:45.772Z",
+        "url": "https://simplywall.st/stocks/in/energy/nse-hindpetro/hindustan-petroleum-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "307253f3-9881-45da-8d0b-9ce88631c5cf",
+        "narrative_type": null,
+        "published_at": "2026-05-29T10:05:48.184Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 6.648055555555564,
+        "fetched_at": "2026-06-11T02:13:45.772Z",
+        "url": "https://simplywall.st/stocks/in/energy/nse-hindpetro/hindustan-petroleum-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -360,14 +664,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.1242489666,
-        "fetched_at": "2026-05-31T23:18:45.397Z",
+        "value": 0.1227139714,
+        "fetched_at": "2026-06-11T02:13:45.772Z",
         "url": "https://simplywall.st/stocks/in/energy/nse-hindpetro/hindustan-petroleum-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 2.150633131,
-        "fetched_at": "2026-05-31T23:18:45.397Z",
+        "value": 1.998825811,
+        "fetched_at": "2026-06-11T02:13:45.772Z",
         "url": "https://simplywall.st/stocks/in/energy/nse-hindpetro/hindustan-petroleum-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -499,16 +803,16 @@
     "quick_ratio": 0.19290628314470556,
     "cash_ratio": 0.0019383468927651796,
     "returns_pct": {
-      "1D": -2.2462149416728603,
-      "7D": 1.0778904144745403,
-      "1M": 3.4813452443510244,
-      "3M": -10.233618233618229,
-      "6M": -13.912568306010925,
-      "1Y": -3.5154336109750037,
+      "1D": -1.9895287958115244,
+      "7D": -2.525384014579548,
+      "1M": -0.8999470619375421,
+      "3M": -2.5887862625211513,
+      "6M": -18.59099804305284,
+      "1Y": -9.75051223333736,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 7,
+    "recent_news_count": 4,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -535,8 +839,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.64124,
-        "shares": 34922646,
+        "pct": 1.71861,
+        "shares": 36569070,
         "is_insider": null
       },
       {
@@ -1060,6 +1364,16 @@
   ],
   "news": [
     {
+      "id": "e740b2bd-f22c-4eb1-84ad-5c9d7b34f617",
+      "type": "brief",
+      "date": "2026-06-04T11:28:38.000Z",
+      "title": "Consensus EPS estimates fall by 74%, revenue upgraded",
+      "body": "The consensus outlook for fiscal year 2027 has been updated. 2027 revenue forecast increased from ₹5.26t to ₹5.35t. EPS estimate fell from ₹13.99 to ₹3.59 per share. Net income forecast to shrink 130% next year vs 7.7% growth forecast for Oil and Gas industry in India . Consensus price target broadly unchanged at ₹396. Share price fell 3.9% to ₹387 over the past week.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
       "id": "51a9461a-7008-4dd6-93f1-d02f647ed16f",
       "type": "narrative-update",
       "date": "2026-05-29T10:05:48.000Z",
@@ -1297,26 +1611,6 @@
       "body": "Analysts have raised their fair value estimate for Hindustan Petroleum from ₹303.46 to ₹328.11, reflecting a lower perceived discount rate and slightly improved long term revenue expectations, while profit margin and valuation multiple assumptions remain largely unchanged. What's in the News Board meeting scheduled for October 29, 2025, to review unaudited financial results for the quarter and half year ended September 30, 2025, and to consider an interim equity dividend for FY 2025-2026 (company filing).",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/energy/nse-hindpetro/hindustan-petroleum-shares/d14znalp-indias-clean-mobility-shift-will-crush-traditional-fuel-revenues-1z8p/updates/2-analysts-have-raised-their-fair-value-estimate-for-hindustan",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "4ef5f9dd-314b-4518-bba9-a1a4f6df7839",
-      "type": "article",
-      "date": "2025-12-15T00:02:11.000Z",
-      "title": "Here's Why We Think Hindustan Petroleum (NSE:HINDPETRO) Might Deserve Your Attention Today",
-      "body": "For beginners, it can seem like a good idea (and an exciting prospect) to buy a company that tells a good story to...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/energy/nse-hindpetro/hindustan-petroleum-shares/news/heres-why-we-think-hindustan-petroleum-nsehindpetro-might-de",
-      "raw_subtype": "article"
-    },
-    {
-      "id": "d003f1ec-8d65-448e-a22f-b51d77cd1433",
-      "type": "narrative-update",
-      "date": "2025-12-12T03:09:23.000Z",
-      "title": "HINDPETRO: Lower Risk Profile And Interim Dividend Will Support Future Upside",
-      "body": "Analysts have raised their price target on Hindustan Petroleum to ₹687 from ₹614, citing expectations of stronger revenue growth and a lower perceived risk profile, partly offset by only a slight moderation in long term profit margin assumptions and a marginally higher future P/E multiple. What's in the News Board meeting scheduled on October 29, 2025 to review unaudited financial results for the quarter and half year ended September 30, 2025 and to consider an interim equity dividend for FY 2025-2026 (board notice) Board declares a 50 percent interim dividend, equal to INR 5 per equity share of face value INR 10, for FY 2025-2026, with record date fixed as November 6, 2025 and payment to be completed on or before November 27, 2025 (company filing) Valuation Changes Fair Value: raised mode",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/energy/nse-hindpetro/hindustan-petroleum-shares/cqrpcan2-urbanization-and-digital-advances-will-drive-energy-transformation-krbe/updates/2-analysts-have-raised-their-price-target-on-hindustan-petrole",
       "raw_subtype": "narrative-update"
     }
   ],

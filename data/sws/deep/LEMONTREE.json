@@ -3,7 +3,7 @@
   "name": "Lemon Tree Hotels Limited",
   "sector": "Consumer Services",
   "sws_url": "https://simplywall.st/stocks/in/consumer-services/nse-lemontree/lemon-tree-hotels-shares",
-  "parsed_at": "2026-05-31T20:38:01.230Z",
+  "parsed_at": "2026-06-10T23:44:53.517Z",
   "company_id": "DD72B988-5F62-4231-A90C-1F5CEDE9A061",
   "classification_status": "Active",
   "groww_source": {
@@ -17,17 +17,17 @@
   "overview": {
     "snowflake": {
       "valuation": 2,
-      "future": 3,
+      "future": 4,
       "past": 4,
       "financial_health": 4,
       "dividends": 0,
-      "future_growth": 3,
+      "future_growth": 4,
       "past_performance": 4,
       "value": 2,
       "health": 4,
       "dividend": 0
     },
-    "snowflake_total": 13,
+    "snowflake_total": 14,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 3,
@@ -75,22 +75,308 @@
         }
       ]
     },
-    "current_price_inr": 113.95,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 106.83,
     "market_cap_inr": 94713100000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midsmall4",
-    "shares_outstanding": 791847500,
+    "shares_outstanding": 791856500,
     "fifty_two_week": {
       "low": 99.61,
       "high": 180.68
     },
-    "fair_value_inr": 183.52562,
+    "fair_value_inr": 157.31818,
     "fair_value_range_inr": {
-      "min": 77.166993,
-      "max": 183.52562,
+      "min": 63.854197,
+      "max": 157.31818,
       "count": 16
     },
-    "upside_pct": 61.05802544975867,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "11f7c54c-7dfc-47a1-8026-0197f4569fe1",
+      "narrative_type": null,
+      "published_at": "2026-06-04T10:05:03.223Z"
+    },
+    "upside_pct": 47.26030141346065,
     "multiples": {
       "pe": 33.87,
       "ps": 6.74,
@@ -108,9 +394,9 @@
     },
     "rewards": [
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Analysts in good agreement that stock price will rise by 47.3%",
+      "Analysts in good agreement that stock price will rise by 45.7%",
       "Earnings grew by 15.5% over the past year",
-      "Earnings are forecast to grow 26.46% per year"
+      "Earnings are forecast to grow 24.72% per year"
     ],
     "risks": [
       "Has a high level of debt"
@@ -126,8 +412,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 35.67618631448488,
-      "net_income_margin_1y": 0.08680669159,
-      "future_revenue_growth_3y": 0.3940313611,
+      "net_income_margin_1y": 0.08657243816,
+      "future_revenue_growth_3y": 0.39295204,
       "sector_pe": 35.67618631448488
     },
     "industry_benchmarks_meta": {
@@ -162,18 +448,18 @@
         "url": "https://groww.in/stocks/lemon-tree-hotels-ltd"
       },
       "sws_statement": {
-        "company_pe": 39.7,
-        "industry_pe": 26.7,
+        "company_pe": 37.7,
+        "industry_pe": 28.1,
         "industry_name": "Indian Hospitality",
-        "description": "LEMONTREE is expensive based on its Price-To-Earnings Ratio (39.7x) compared to the Indian Hospitality industry average (26.7x).",
+        "description": "LEMONTREE is expensive based on its Price-To-Earnings Ratio (37.7x) compared to the Indian Hospitality industry average (28.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 27.078875295,
+        "industry_pe": 28.141130414,
         "industry_code": "4210000",
         "type": "median_profitable",
-        "count": 80,
+        "count": 81,
         "source": {
           "type": "country",
           "country": "IN",
@@ -182,25 +468,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 25.25,
+        "industry_pe": 26.450000000000003,
         "sample_count": 80,
         "industry_code": "4210000",
         "industry_name": "Consumer Services"
       },
       "sws_primary_industry": {
-        "industry_pe": 17.518712405,
+        "industry_pe": 17.366873383,
         "industry_name": "Consumer Services",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 41.00194970626887
+        "company_pe": 37.25020779464968
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 113.95,
-        "fetched_at": "2026-05-31T20:38:01.230Z",
+        "value": 106.83,
+        "fetched_at": "2026-06-10T23:44:53.517Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/nse-lemontree/lemon-tree-hotels-shares"
       },
       "market_cap_inr": {
@@ -208,6 +494,24 @@
         "value": 94713100000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/lemon-tree-hotels-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 157.31818,
+        "fetched_at": "2026-06-10T23:44:53.517Z",
+        "url": "https://simplywall.st/stocks/in/consumer-services/nse-lemontree/lemon-tree-hotels-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "11f7c54c-7dfc-47a1-8026-0197f4569fe1",
+        "narrative_type": null,
+        "published_at": "2026-06-04T10:05:03.223Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 47.26030141346065,
+        "fetched_at": "2026-06-10T23:44:53.517Z",
+        "url": "https://simplywall.st/stocks/in/consumer-services/nse-lemontree/lemon-tree-hotels-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -247,14 +551,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.08680669159,
-        "fetched_at": "2026-05-31T20:38:01.230Z",
+        "value": 0.08657243816,
+        "fetched_at": "2026-06-10T23:44:53.517Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/nse-lemontree/lemon-tree-hotels-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.3940313611,
-        "fetched_at": "2026-05-31T20:38:01.230Z",
+        "value": 0.39295204,
+        "fetched_at": "2026-06-10T23:44:53.517Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/nse-lemontree/lemon-tree-hotels-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -363,13 +667,13 @@
         "url": "https://groww.in/stocks/lemon-tree-hotels-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 11.94626543446954,
+    "earnings_growth_yoy_pct": 5.576282146943242,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 5.4083428296902465,
-    "latest_revenue": 13576993000,
-    "latest_net_income": 2200652000,
+    "revenue_growth_pct": 8.909396917852868,
+    "latest_revenue": 14526661000,
+    "latest_net_income": 2270968000,
     "latest_eps": 3.53,
-    "most_recent_reported_date": "2026-02-05",
+    "most_recent_reported_date": "2026-06-03",
     "pb": 7.66,
     "ps": 6.74,
     "book_value": 15.6134905,
@@ -386,94 +690,94 @@
     "quick_ratio": 0.8644609626780331,
     "cash_ratio": 0.15737082856845824,
     "returns_pct": {
-      "1D": -4.708145174778387,
-      "7D": 0.5648221692701443,
-      "1M": -3.9369414938458953,
-      "3M": 0.24632708718219506,
-      "6M": -28.00278005939218,
-      "1Y": -17.91528598184699,
+      "1D": -1.0741735345865326,
+      "7D": -3.373733719247471,
+      "1M": -7.777969613259672,
+      "3M": 1.318285280728377,
+      "6M": -34.41988950276244,
+      "1Y": -24.491094147582693,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 5,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
   "ownership": {
     "top_holders": [
       {
-        "pct": 21.10567,
+        "pct": 21.10543,
         "shares": 167124781,
         "is_insider": null
       },
       {
-        "pct": 14.99416,
+        "pct": 14.99399,
         "shares": 118730914,
         "is_insider": null
       },
       {
-        "pct": 6.03204,
+        "pct": 6.03197,
         "shares": 47764528,
         "is_insider": null
       },
       {
-        "pct": 3.82573,
+        "pct": 3.82568,
         "shares": 30293926,
         "is_insider": null
       },
       {
-        "pct": 3.44871,
+        "pct": 3.44867,
         "shares": 27308531,
         "is_insider": null
       },
       {
-        "pct": 3.13501,
+        "pct": 3.13497,
         "shares": 24824482,
         "is_insider": null
       },
       {
-        "pct": 2.11264,
+        "pct": 2.11262,
         "shares": 16728887,
         "is_insider": null
       },
       {
-        "pct": 2.00063,
+        "pct": 2.00061,
         "shares": 15841957,
         "is_insider": null
       },
       {
-        "pct": 1.34554,
-        "shares": 10654639,
+        "pct": 1.34904,
+        "shares": 10682455,
         "is_insider": null
       },
       {
-        "pct": 1.3242,
+        "pct": 1.32418,
         "shares": 10485639,
         "is_insider": null
       },
       {
-        "pct": 1.15463,
+        "pct": 1.15461,
         "shares": 9142877,
         "is_insider": null
       },
       {
-        "pct": 1.04479,
+        "pct": 1.04478,
         "shares": 8273136,
         "is_insider": null
       },
       {
-        "pct": 0.87737,
+        "pct": 0.87736,
         "shares": 6947428,
         "is_insider": null
       },
       {
-        "pct": 0.85664,
+        "pct": 0.85663,
         "shares": 6783280,
         "is_insider": null
       },
       {
-        "pct": 0.53594,
-        "shares": 4243809,
+        "pct": 0.53946,
+        "shares": 4271730,
         "is_insider": null
       },
       {
@@ -482,12 +786,12 @@
         "is_insider": null
       },
       {
-        "pct": 0.39526,
+        "pct": 0.39525,
         "shares": 3129825,
         "is_insider": null
       },
       {
-        "pct": 0.32957,
+        "pct": 0.32956,
         "shares": 2609670,
         "is_insider": null
       },
@@ -521,44 +825,44 @@
     "payment_count": 0
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-02-05",
+    "most_recent_reported_date": "2026-06-03",
     "latest_year": 2026,
-    "latest_revenue": 13576993000,
-    "latest_net_income": 2200652000,
+    "latest_revenue": 14526661000,
+    "latest_net_income": 2270968000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 5.4083428296902465,
-    "earnings_growth_pct": 11.94626543446954,
-    "net_margin_pct": 16.208684794932132,
+    "revenue_growth_pct": 8.909396917852868,
+    "earnings_growth_pct": 5.576282146943242,
+    "net_margin_pct": 15.633103849535694,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 13576993000,
-        "netIncome": 2200652000,
+        "revenue": 14526661000,
+        "netIncome": 2270968000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 12880378000,
-        "netIncome": 1965811000,
+        "revenue": 13338299000,
+        "netIncome": 2151021000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 10727543000,
-        "netIncome": 1484899000,
+        "revenue": 11149118000,
+        "netIncome": 1448397000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 8756507000,
-        "netIncome": 1145636000,
+        "revenue": 9052049000,
+        "netIncome": 1241727000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 4026622000,
-        "netIncome": -874339000,
+        "revenue": 5521266000,
+        "netIncome": -334620000,
         "eps": null
       }
     ]
@@ -770,6 +1074,26 @@
   ],
   "news": [
     {
+      "id": "e58f3934-f4d1-4c21-93dd-5ec4451cb04d",
+      "type": "event",
+      "date": "2026-06-08T15:24:00.000Z",
+      "title": "Lemon Tree Hotels Limited Announces Appointment of Kartikeya Kumar Singh as Chief Digital and Transformation Officer & Senior Management Personnel, Effective June 08, 2026",
+      "body": "Lemon Tree Hotels Limited announced that Mr. Kartikeya Kumar Singh was appointed as Chief Digital and Transformation Officer & Senior Management Personnel of the Company, effective June 08, 2026. Mr. Kartikeya Kumar Singh holds a PG Diploma in IT & Management Systems from Symbiosis Centre for Management & Human Resource Development, Pune and a Bachelor’s degree in Architecture from Bengal Engineering & Science University, Kolkata. He has a total experience of 23 years in digital transformation, analytics, technology strategy, and consumer goods operations. He commenced his professional journey with Videocon International Limited in 2003. Subsequently, he worked with Godrej Sara Lee Ltd., Phillips Electronics India Ltd., Pernod Ricard India Pvt. Ltd., Jubilant Life Sciences Limited and Adid",
+      "keyDevTypeId": "16",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
+    {
+      "id": "7509c2b1-579b-42d6-b9b3-d038edda1470",
+      "type": "narrative-update",
+      "date": "2026-06-04T10:05:03.000Z",
+      "title": "LEMONTREE: New India And Nepal Signings Will Drive Room-Led Upside",
+      "body": "Analysts have adjusted their price target for Lemon Tree Hotels to about ₹157 from roughly ₹184, reflecting updated assumptions that include slightly lower revenue growth expectations, a modestly higher profit margin, and a recalibrated forward P/E multiple. What's in the News A board meeting is scheduled for May 28, 2026, to consider and approve audited standalone and consolidated financial results for the quarter and year ended March 31, 2026.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/consumer-services/nse-lemontree/lemon-tree-hotels-shares/bd7ybrd0-renovations-and-franchise-expansion-will-unlock-indias-hospitality-potential-joss/updates/16-analysts-have-adjusted-their-price-target-for-lemon-tree-hot",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "2aa558a1-ea63-41f8-b7ec-aafcec9973f0",
       "type": "article",
       "date": "2026-05-31T04:08:28.000Z",
@@ -898,26 +1222,6 @@
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/consumer-services/nse-lemontree/lemon-tree-hotels-shares/bd7ybrd0-renovations-and-franchise-expansion-will-unlock-indias-hospitality-potential-joss/updates/13-analysts-have-nudged-their-fair-value-estimate-for-lemon-tre",
       "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "31879b26-98b3-421c-a49f-c9a82da091ee",
-      "type": "narrative-update",
-      "date": "2025-12-15T12:08:04.000Z",
-      "title": "LEMONTREE: Nationwide Room Expansion Will Drive Future Upside Potential",
-      "body": "Analysts have modestly raised their price target on Lemon Tree Hotels to ₹182.53 per share from ₹182.53. This reflects slightly higher discount rate assumptions while maintaining broadly unchanged views on revenue growth, profit margins, and future valuation multiples.",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/consumer-services/nse-lemontree/lemon-tree-hotels-shares/bd7ybrd0-renovations-and-franchise-expansion-will-unlock-indias-hospitality-potential-joss/updates/12-analysts-have-modestly-raised-their-price-target-on-lemon-tr",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "b723e765-2a2a-4ed7-9125-c0b6e4352132",
-      "type": "article",
-      "date": "2025-12-03T00:13:08.000Z",
-      "title": "Is Lemon Tree Hotels (NSE:LEMONTREE) Using Too Much Debt?",
-      "body": "Warren Buffett famously said, 'Volatility is far from synonymous with risk.' So it might be obvious that you need to...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/consumer-services/nse-lemontree/lemon-tree-hotels-shares/news/is-lemon-tree-hotels-nselemontree-using-too-much-debt-2",
-      "raw_subtype": "article"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/LEMONTREE.json"

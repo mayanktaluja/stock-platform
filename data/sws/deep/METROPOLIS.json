@@ -3,7 +3,7 @@
   "name": "Metropolis Healthcare Limited",
   "sector": "Healthcare",
   "sws_url": "https://simplywall.st/stocks/in/healthcare/nse-metropolis/metropolis-healthcare-shares",
-  "parsed_at": "2026-05-31T20:57:10.361Z",
+  "parsed_at": "2026-06-10T23:59:34.340Z",
   "company_id": "07C7F0E2-FB79-4A0E-B075-F3EF682C6D4E",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 3
     },
     "snowflake_total": 17,
-    "current_price_inr": 555.35,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_LONG_NO_GROWTH"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_VOLATILE_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 524.45,
     "market_cap_inr": 111440900000,
-    "market_cap_usd": 120714180851.549,
-    "market_cap_band": "medium5",
-    "shares_outstanding": 207327768,
+    "market_cap_usd": 120753634221.641,
+    "market_cap_band": "midsmall4",
+    "shares_outstanding": 207331968,
     "fifty_two_week": {
       "low": 411.25,
       "high": 600
     },
-    "fair_value_inr": 678.22345,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 346.667009,
+      "min": 346.659986,
       "max": 2144.52632,
       "count": 9
     },
-    "upside_pct": 22.12540740073826,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystHighTarget",
+      "owner_classification": null,
+      "narrative_id": "68c464a2-1b7d-4e99-b8ee-736147cc8ac8",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 58.3,
       "ps": 6.75,
@@ -157,8 +443,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 59.71694269463179,
-      "net_income_margin_1y": 0.1041750126,
-      "future_revenue_growth_3y": 2.366911977,
+      "net_income_margin_1y": 0.1021808233,
+      "future_revenue_growth_3y": 2.289381694,
       "sector_pe": 59.71694269463179
     },
     "industry_benchmarks_meta": {
@@ -193,18 +479,18 @@
         "url": "https://groww.in/stocks/metropolis-healthcare-ltd"
       },
       "sws_statement": {
-        "company_pe": 60.6,
-        "industry_pe": 40.5,
+        "company_pe": 57.2,
+        "industry_pe": 39.4,
         "industry_name": "Indian Healthcare",
-        "description": "METROPOLIS is expensive based on its Price-To-Earnings Ratio (60.6x) compared to the Indian Healthcare industry average (40.5x).",
+        "description": "METROPOLIS is expensive based on its Price-To-Earnings Ratio (57.2x) compared to the Indian Healthcare industry average (39.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 37.439100813,
+        "industry_pe": 39.275601591,
         "industry_code": "6030000",
         "type": "median_profitable",
-        "count": 80,
+        "count": 79,
         "source": {
           "type": "country",
           "country": "IN",
@@ -213,25 +499,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 35.1,
-        "sample_count": 75,
+        "industry_pe": 33.650000000000006,
+        "sample_count": 74,
         "industry_code": "6030000",
         "industry_name": "Healthcare"
       },
       "sws_primary_industry": {
-        "industry_pe": 22.65435289,
+        "industry_pe": 22.129830496,
         "industry_name": "Healthcare",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 68.43104501278408
+        "company_pe": 57.2238387735018
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 555.35,
-        "fetched_at": "2026-05-31T20:57:10.361Z",
+        "value": 524.45,
+        "fetched_at": "2026-06-10T23:59:34.340Z",
         "url": "https://simplywall.st/stocks/in/healthcare/nse-metropolis/metropolis-healthcare-shares"
       },
       "market_cap_inr": {
@@ -278,14 +564,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.1041750126,
-        "fetched_at": "2026-05-31T20:57:10.361Z",
+        "value": 0.1021808233,
+        "fetched_at": "2026-06-10T23:59:34.340Z",
         "url": "https://simplywall.st/stocks/in/healthcare/nse-metropolis/metropolis-healthcare-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 2.366911977,
-        "fetched_at": "2026-05-31T20:57:10.361Z",
+        "value": 2.289381694,
+        "fetched_at": "2026-06-10T23:59:34.340Z",
         "url": "https://simplywall.st/stocks/in/healthcare/nse-metropolis/metropolis-healthcare-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -394,13 +680,13 @@
         "url": "https://groww.in/stocks/metropolis-healthcare-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 16.06413264141195,
+    "earnings_growth_yoy_pct": 24.944289812646755,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 17.67221342983954,
-    "latest_revenue": 15664558000,
-    "latest_net_income": 1682562000,
+    "revenue_growth_pct": 17.232931235165978,
+    "latest_revenue": 16458458999.999998,
+    "latest_net_income": 1900174000,
     "latest_eps": 9.22,
-    "most_recent_reported_date": "2026-05-04",
+    "most_recent_reported_date": "2026-06-03",
     "pb": 7.36,
     "ps": 6.75,
     "book_value": 72.9823002,
@@ -417,118 +703,118 @@
     "quick_ratio": 1.2667504939823964,
     "cash_ratio": 0.18657565415244598,
     "returns_pct": {
-      "1D": 3.581087382262435,
-      "7D": 7.014163214182478,
-      "1M": 15.987886382623225,
-      "3M": 16.682424624435345,
-      "6M": 15.038839979285349,
-      "1Y": 33.417417417417425,
+      "1D": -2.0726356082531807,
+      "7D": -2.1822251235661536,
+      "1M": -6.3314877656724295,
+      "3M": 15.017270683699769,
+      "6M": 9.602925809822372,
+      "1Y": 23.429042127559445,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 7,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
   "ownership": {
     "top_holders": [
       {
-        "pct": 30.27326,
+        "pct": 30.27264,
         "shares": 62764864,
         "is_insider": null
       },
       {
-        "pct": 18.24151,
+        "pct": 18.24114,
         "shares": 37819720,
         "is_insider": null
       },
       {
-        "pct": 9.69384,
+        "pct": 9.69364,
         "shares": 20098024,
         "is_insider": null
       },
       {
-        "pct": 3.81843,
+        "pct": 3.81836,
         "shares": 7916676,
         "is_insider": null
       },
       {
-        "pct": 3.22597,
+        "pct": 3.2259,
         "shares": 6688332,
         "is_insider": null
       },
       {
-        "pct": 3.19235,
+        "pct": 3.19229,
         "shares": 6618636,
         "is_insider": null
       },
       {
-        "pct": 3.15184,
+        "pct": 3.15177,
         "shares": 6534632,
         "is_insider": null
       },
       {
-        "pct": 3.09641,
+        "pct": 3.09635,
         "shares": 6419728,
         "is_insider": null
       },
       {
-        "pct": 2.34351,
+        "pct": 2.34347,
         "shares": 4858756,
         "is_insider": null
       },
       {
-        "pct": 2.2852,
+        "pct": 2.28515,
         "shares": 4737856,
         "is_insider": null
       },
       {
-        "pct": 2.11583,
+        "pct": 2.11579,
         "shares": 4386704,
         "is_insider": null
       },
       {
-        "pct": 1.93726,
+        "pct": 1.93722,
         "shares": 4016476,
         "is_insider": null
       },
       {
-        "pct": 1.71362,
+        "pct": 1.71359,
         "shares": 3552815,
         "is_insider": null
       },
       {
-        "pct": 1.435,
+        "pct": 1.43497,
         "shares": 2975160,
         "is_insider": null
       },
       {
-        "pct": 1.42586,
+        "pct": 1.42583,
         "shares": 2956204,
         "is_insider": null
       },
       {
-        "pct": 1.37832,
+        "pct": 1.3783,
         "shares": 2857648,
         "is_insider": null
       },
       {
-        "pct": 1.17467,
-        "shares": 2435416,
+        "pct": 1.17944,
+        "shares": 2445360,
         "is_insider": null
       },
       {
-        "pct": 1.07699,
+        "pct": 1.07696,
         "shares": 2232892,
         "is_insider": null
       },
       {
-        "pct": 1.00116,
+        "pct": 1.00114,
         "shares": 2075680,
         "is_insider": null
       },
       {
-        "pct": 0.92765,
+        "pct": 0.92764,
         "shares": 1923286,
         "is_insider": null
       }
@@ -631,44 +917,44 @@
     "payment_count": 6
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-04",
+    "most_recent_reported_date": "2026-06-03",
     "latest_year": 2026,
-    "latest_revenue": 15664558000,
-    "latest_net_income": 1682562000,
+    "latest_revenue": 16458458999.999998,
+    "latest_net_income": 1900174000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 17.67221342983954,
-    "earnings_growth_pct": 16.06413264141195,
-    "net_margin_pct": 10.741203167047548,
+    "revenue_growth_pct": 17.232931235165978,
+    "earnings_growth_pct": 24.944289812646755,
+    "net_margin_pct": 11.545272859384953,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 15664558000,
-        "netIncome": 1682562000,
+        "revenue": 16458458999.999998,
+        "netIncome": 1900174000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 13312028000,
-        "netIncome": 1449683000,
+        "revenue": 14039109000,
+        "netIncome": 1520817000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 12077088000,
-        "netIncome": 1278162000,
+        "revenue": 12439728000,
+        "netIncome": 1369675000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 11482102000,
-        "netIncome": 1428826000,
+        "revenue": 11454427000,
+        "netIncome": 1382812000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 12283360000,
-        "netIncome": 2141821000,
+        "revenue": 11814305000,
+        "netIncome": 1726894000,
         "eps": null
       }
     ]
@@ -874,6 +1160,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "10666514-7a61-4748-9cd5-320b950f77a1",
+      "type": "narrative-update",
+      "date": "2026-06-03T12:08:01.000Z",
+      "title": "METROPOLIS: Genomics Expansion And Acquisitions Will Drive Future Upside",
+      "body": "Analysts have revised their price target for Metropolis Healthcare to ₹715 from ₹678, reflecting updated assumptions for revenue growth, profit margins and a higher future P/E multiple. What's in the News Management is focusing on genomics, next-generation sequencing, specialty diagnostics and selected acquisitions as key areas for the next phase of business expansion, according to comments from executive chairperson Ameera Shah and managing director Surendran Chemmenkotil.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/healthcare/nse-metropolis/metropolis-healthcare-shares/icfbjai9-indias-rising-healthcare-and-digital-adoption-will-expand-diagnostic-reach/updates/9-analysts-have-revised-their-price-target-for-metropolis-heal",
+      "raw_subtype": "narrative-update"
+    },
     {
       "id": "36b74893-c31f-4148-a86f-602fd6f4a630",
       "type": "brief",
@@ -1082,16 +1378,6 @@
       "body": "Analysts have modestly revised their price target for Metropolis Healthcare upward to ₹2,600.00, citing slightly improved expectations for long term revenue growth and profit margins, despite largely unchanged valuation assumptions. What's in the News Board meeting scheduled for November 4, 2025, to review and approve unaudited standalone and consolidated financial results for the quarter and half year ended September 30, 2025 (company filing) Consideration of declaration of an interim dividend on equity shares for the financial year 2025-26 has been included on the November 4, 2025, board meeting agenda (company filing) Valuation Changes Fair Value: unchanged at ₹2,600.00 per share, indicating no revision to the core valuation anchor.",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/healthcare/nse-metropolis/metropolis-healthcare-shares/icfbjai9-indias-rising-healthcare-and-digital-adoption-will-expand-diagnostic-reach/updates/3-analysts-have-modestly-revised-their-price-target-for-metrop",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "44e44f67-2b4b-4c70-b754-0a63728b53f2",
-      "type": "narrative-update",
-      "date": "2025-12-13T20:05:28.000Z",
-      "title": "METROPOLIS: New Tech Subsidiary Will Support Stronger Profit Margins Ahead",
-      "body": "Analysts have raised their fair value estimate for Metropolis Healthcare to ₹2,600 from ₹2,350, citing slightly stronger expectations for revenue growth, profit margins, and future valuation multiples. What's in the News Board meeting scheduled on November 4, 2025, to consider and approve unaudited standalone and consolidated financial results for the quarter and half year ended September 30, 2025, and to consider declaration of an interim dividend for FY 2025-26 (Key Developments) Incorporation of Metropolis Quality Solutions Private Limited as a wholly owned subsidiary in the healthcare technology space, effective September 15, 2025, to support technology led expansion (Key Developments) Initial capital subscription of 10,000 equity shares with a face value of INR 10 each in the newly in",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/healthcare/nse-metropolis/metropolis-healthcare-shares/icfbjai9-indias-rising-healthcare-and-digital-adoption-will-expand-diagnostic-reach/updates/2-analysts-have-raised-their-fair-value-estimate-for-metropoli",
       "raw_subtype": "narrative-update"
     }
   ],

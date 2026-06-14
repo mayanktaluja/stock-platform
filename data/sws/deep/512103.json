@@ -3,7 +3,7 @@
   "name": "Nidhi Granites Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/bse-512103/nidhi-granites-shares",
-  "parsed_at": "2026-05-31T20:40:21.525Z",
+  "parsed_at": "2026-06-10T23:39:23.875Z",
   "company_id": "E327423D-D36D-453A-9509-B47E4FAE509E",
   "classification_status": "Active",
   "groww_source": {
@@ -18,16 +18,16 @@
     "snowflake": {
       "valuation": 0,
       "future": 0,
-      "past": 6,
+      "past": 5,
       "financial_health": 5,
       "dividends": 0,
       "future_growth": 0,
-      "past_performance": 6,
+      "past_performance": 5,
       "value": 0,
       "health": 5,
       "dividend": 0
     },
-    "snowflake_total": 11,
+    "snowflake_total": 10,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 10,
@@ -77,22 +77,308 @@
         }
       ]
     },
-    "current_price_inr": 355,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 419.95,
     "market_cap_inr": 2838400000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 151.05,
       "high": 480.75
     },
-    "fair_value_inr": 21.185456,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -94.03226591549296,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "194a549a-a992-43d1-bca1-f22143cb8027",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 58.36,
       "ps": 4.81,
@@ -109,10 +395,11 @@
       "pe_source_url": "https://groww.in/stocks/nidhi-granites-ltd"
     },
     "rewards": [
-      "Earnings grew by 68.2% over the past year"
+      "Earnings grew by 300.2% over the past year"
     ],
     "risks": [
-      "Does not have a meaningful market cap (₹3B)"
+      "Does not have a meaningful market cap (₹3B)",
+      "High level of [[non-cash earnings]]"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -125,8 +412,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 50.30824795612129,
-      "net_income_margin_1y": 0.07066619667,
-      "future_revenue_growth_3y": 0.2051669559,
+      "net_income_margin_1y": 0.07068772409,
+      "future_revenue_growth_3y": 0.1918086332,
       "sector_pe": 50.30824795612129
     },
     "industry_benchmarks_meta": {
@@ -161,18 +448,18 @@
         "url": "https://groww.in/stocks/nidhi-granites-ltd"
       },
       "sws_statement": {
-        "company_pe": 58.4,
-        "industry_pe": 23.7,
+        "company_pe": 43.8,
+        "industry_pe": 22.2,
         "industry_name": "Indian Forestry",
-        "description": "512103 is expensive based on its Price-To-Earnings Ratio (58.4x) compared to the Indian Forestry industry average (23.7x).",
+        "description": "512103 is expensive based on its Price-To-Earnings Ratio (43.8x) compared to the Indian Forestry industry average (22.2x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 21.939974729,
+        "industry_pe": 22.240372999,
         "industry_code": "2060000",
         "type": "median_profitable",
-        "count": 40,
+        "count": 41,
         "source": {
           "type": "country",
           "country": "IN",
@@ -181,8 +468,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.4,
-        "sample_count": 39,
+        "industry_pe": 20.549999999999997,
+        "sample_count": 40,
         "industry_code": "2060000",
         "industry_name": "Materials"
       },
@@ -194,8 +481,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 355,
-        "fetched_at": "2026-05-31T20:40:21.525Z",
+        "value": 419.95,
+        "fetched_at": "2026-06-10T23:39:23.875Z",
         "url": "https://simplywall.st/stocks/in/materials/bse-512103/nidhi-granites-shares"
       },
       "market_cap_inr": {
@@ -242,14 +529,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.07066619667,
-        "fetched_at": "2026-05-31T20:40:21.525Z",
+        "value": 0.07068772409,
+        "fetched_at": "2026-06-10T23:39:23.875Z",
         "url": "https://simplywall.st/stocks/in/materials/bse-512103/nidhi-granites-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.2051669559,
-        "fetched_at": "2026-05-31T20:40:21.525Z",
+        "value": 0.1918086332,
+        "fetched_at": "2026-06-10T23:39:23.875Z",
         "url": "https://simplywall.st/stocks/in/materials/bse-512103/nidhi-granites-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -381,16 +668,16 @@
     "quick_ratio": 1.4638971315529181,
     "cash_ratio": 0.31454005934718104,
     "returns_pct": {
-      "1D": 0.05636978579481078,
-      "7D": 3.5136317247412197,
-      "1M": 6.446776611694154,
-      "3M": 11.320163060520546,
-      "6M": -14.022765802857831,
-      "1Y": 111.68753726893263,
+      "1D": -0.36773428232503236,
+      "7D": 8.809431273481021,
+      "1M": 28.425076452599384,
+      "3M": 46.32404181184668,
+      "6M": 3.435960591133002,
+      "1Y": 142.46535796766744,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 1,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -612,6 +899,26 @@
     "BSE"
   ],
   "news": [
+    {
+      "id": "0cc6a8dd-882e-42d7-814c-6de8f5622693",
+      "type": "brief",
+      "date": "2026-06-05T11:34:31.000Z",
+      "title": "Investor sentiment improves as stock rises 18%",
+      "body": "After last week's 18% share price gain to ₹418, the stock trades at a trailing P/E ratio of 43.6x. Average trailing P/E is 22x in the Forestry industry in India. Total returns to shareholders of 1,122% over the past three years.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "f3fd3c44-7ff3-421c-8d66-877e32108c86",
+      "type": "brief",
+      "date": "2026-05-31T23:01:03.000Z",
+      "title": "Full year 2026 earnings released: EPS: ₹9.60 (vs ₹2.40 in FY 2025)",
+      "body": "Full year 2026 results: EPS: ₹9.60 (up from ₹2.40 in FY 2025). Revenue: ₹654.9m (up 39% from FY 2025). Net income: ₹76.8m (up 300% from FY 2025). Profit margin: 12% (up from 4.1% in FY 2025). The increase in margin was driven by higher revenue. Over the last 3 years on average, earnings per share has increased by 66% per year but the company’s share price has increased by 113% per year, which means it is tracking significantly ahead of earnings growth.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "7ed53b37-240b-4a9e-8881-649e7a7e08d4",
       "type": "event",

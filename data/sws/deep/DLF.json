@@ -3,7 +3,7 @@
   "name": "DLF Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-dlf/dlf-shares",
-  "parsed_at": "2026-05-31T22:37:07.835Z",
+  "parsed_at": "2026-06-11T01:31:04.147Z",
   "company_id": "CEC7E36B-D39B-4DF4-8A2F-ECC33927A852",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 4
     },
     "snowflake_total": 17,
-    "current_price_inr": 590.6,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 563.2,
     "market_cap_inr": 1471449000000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "mega8",
     "shares_outstanding": 2475311706,
     "fifty_two_week": {
       "low": 489.4,
       "high": 886.8
     },
-    "fair_value_inr": 822.47619,
+    "fair_value_inr": 821.90909,
     "fair_value_range_inr": {
-      "min": 433.514409,
+      "min": 447.060013,
       "max": 892.9,
       "count": 33
     },
-    "upside_pct": 39.26112258719945,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "b0bcb3c8-f219-4600-bdb3-f70707f3138c",
+      "narrative_type": null,
+      "published_at": "2026-06-01T23:08:25.265Z"
+    },
+    "upside_pct": 45.93556285511362,
     "multiples": {
       "pe": 33.34,
       "ps": 17.94,
@@ -61,9 +347,9 @@
     },
     "rewards": [
       "Earnings have grown 27.5% per year over the past 5 years",
-      "Analysts in good agreement that stock price will rise by 39.2%",
-      "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Earnings are forecast to grow 16.78% per year"
+      "Analysts in good agreement that stock price will rise by 42%",
+      "Trading below our calculated fair Price-To-Earnings ratio",
+      "Earnings are forecast to grow 16.76% per year"
     ],
     "risks": [
       "Unstable dividend track record"
@@ -223,8 +509,8 @@
     "dividend_yield_pct": 1.35,
     "industry_benchmarks": {
       "pe": 31.86659331376836,
-      "net_income_margin_1y": 0.177719107,
-      "future_revenue_growth_3y": 0.2915412391,
+      "net_income_margin_1y": 0.1791986372,
+      "future_revenue_growth_3y": 0.2879177477,
       "sector_pe": 31.86659331376836
     },
     "industry_benchmarks_meta": {
@@ -259,15 +545,15 @@
         "url": "https://groww.in/stocks/dlf-ltd"
       },
       "sws_statement": {
-        "company_pe": 33.1,
-        "industry_pe": 24.9,
+        "company_pe": 32.2,
+        "industry_pe": 25.4,
         "industry_name": "Indian Real Estate",
-        "description": "DLF is expensive based on its Price-To-Earnings Ratio (33.1x) compared to the Indian Real Estate industry average (24.9x).",
+        "description": "DLF is expensive based on its Price-To-Earnings Ratio (32.2x) compared to the Indian Real Estate industry average (25.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 24.853140749,
+        "industry_pe": 25.378248006,
         "industry_code": "7310000",
         "type": "median_profitable",
         "count": 149,
@@ -279,25 +565,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 23.2,
-        "sample_count": 144,
+        "industry_pe": 22.95,
+        "sample_count": 142,
         "industry_code": "7310000",
         "industry_name": "Diversified Financials"
       },
       "sws_primary_industry": {
-        "industry_pe": 13.254496843,
+        "industry_pe": 13.224967906,
         "industry_name": "Diversified Financials",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 33.11495042819865
+        "company_pe": 31.578632037185027
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 590.6,
-        "fetched_at": "2026-05-31T22:37:07.835Z",
+        "value": 563.2,
+        "fetched_at": "2026-06-11T01:31:04.147Z",
         "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-dlf/dlf-shares"
       },
       "market_cap_inr": {
@@ -305,6 +591,24 @@
         "value": 1471449000000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/dlf-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 821.90909,
+        "fetched_at": "2026-06-11T01:31:04.147Z",
+        "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-dlf/dlf-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "b0bcb3c8-f219-4600-bdb3-f70707f3138c",
+        "narrative_type": null,
+        "published_at": "2026-06-01T23:08:25.265Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 45.93556285511362,
+        "fetched_at": "2026-06-11T01:31:04.147Z",
+        "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-dlf/dlf-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -344,14 +648,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.177719107,
-        "fetched_at": "2026-05-31T22:37:07.835Z",
+        "value": 0.1791986372,
+        "fetched_at": "2026-06-11T01:31:04.147Z",
         "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-dlf/dlf-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.2915412391,
-        "fetched_at": "2026-05-31T22:37:07.835Z",
+        "value": 0.2879177477,
+        "fetched_at": "2026-06-11T01:31:04.147Z",
         "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-dlf/dlf-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -466,7 +770,7 @@
     "latest_revenue": 81940200000,
     "latest_net_income": 44146800000,
     "latest_eps": 17.83,
-    "most_recent_reported_date": "2026-05-16",
+    "most_recent_reported_date": "2026-06-01",
     "pb": 3.24,
     "ps": 17.94,
     "book_value": 183.7076609,
@@ -483,16 +787,16 @@
     "quick_ratio": 0.574382865662617,
     "cash_ratio": 0.30258204858483984,
     "returns_pct": {
-      "1D": -0.5556490991749377,
-      "7D": 0.6647349582410051,
-      "1M": -0.647657498528055,
-      "3M": -2.1942535397863705,
-      "6M": -18.38032061912659,
-      "1Y": -27.149377081534475,
+      "1D": -2.07771885595061,
+      "7D": -3.1553606740606845,
+      "1M": -4.582803896653952,
+      "3M": 0.9138147285432758,
+      "6M": -19.473834715470396,
+      "1Y": -35.15629497438258,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 6,
+    "recent_news_count": 4,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -529,13 +833,13 @@
         "is_insider": null
       },
       {
-        "pct": 1.13547,
-        "shares": 28106523,
+        "pct": 1.11984,
+        "shares": 27719461,
         "is_insider": null
       },
       {
-        "pct": 1.11984,
-        "shares": 27719461,
+        "pct": 1.06382,
+        "shares": 26332868,
         "is_insider": null
       },
       {
@@ -762,7 +1066,7 @@
     "payment_count": 11
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-16",
+    "most_recent_reported_date": "2026-06-01",
     "latest_year": 2026,
     "latest_revenue": 81940200000,
     "latest_net_income": 44146800000,
@@ -1030,6 +1334,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "a9b0620f-4212-47dc-a173-b19d58867dfd",
+      "type": "narrative-update",
+      "date": "2026-06-01T23:08:25.000Z",
+      "title": "DLF: Upcoming Dividend Decision Will Support Bullish Undervaluation Thesis",
+      "body": "Analysts have nudged their fair value estimate for DLF slightly lower, from about ₹822.48 to ₹821.91. This reflects updated assumptions on discount rate, revenue growth, profit margin and future P/E that are broadly consistent with prior expectations.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/real-estate-management-and-development/nse-dlf/dlf-shares/1ee0zobo-urbanization-and-premium-housing-will-unlock-future-value-7ywr/updates/19-analysts-have-nudged-their-fair-value-estimate-for-dlf-sligh",
+      "raw_subtype": "narrative-update"
+    },
     {
       "id": "224b6d80-72a7-45a6-9ba2-aed6e73b6607",
       "type": "article",

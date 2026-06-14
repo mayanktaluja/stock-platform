@@ -3,7 +3,7 @@
   "name": "Sun Pharmaceutical Industries Limited",
   "sector": "Pharmaceuticals & Biotech",
   "sws_url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-sunpharma/sun-pharmaceutical-industries-shares",
-  "parsed_at": "2026-05-31T22:36:51.056Z",
+  "parsed_at": "2026-06-11T01:39:51.214Z",
   "company_id": "0A51E306-D43A-4B8F-9718-E0C213731AAC",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 4
     },
     "snowflake_total": 14,
-    "current_price_inr": 1799.2,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 1786.4,
     "market_cap_inr": 4426773000000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "mega8",
     "shares_outstanding": 2399334970,
     "fifty_two_week": {
       "low": 1548,
       "high": 1916.6
     },
-    "fair_value_inr": 1992.46875,
+    "fair_value_inr": 2039.91176,
     "fair_value_range_inr": {
       "min": 1045.926341,
-      "max": 1992.46875,
+      "max": 2039.91176,
       "count": 28
     },
-    "upside_pct": 10.741926967541126,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "8c21d5fa-49f4-4131-81bc-93c7695b0b09",
+      "narrative_type": null,
+      "published_at": "2026-06-02T05:07:30.451Z"
+    },
+    "upside_pct": 14.191209135691887,
     "multiples": {
       "pe": 38.46,
       "ps": 7.6,
@@ -69,7 +355,7 @@
     ],
     "dividend": {
       "yield_pct": 0.87,
-      "payout_pct": 35.170325168319245,
+      "payout_pct": 33.441898214369715,
       "annualized_dividend": 16,
       "listing_currency": "INR",
       "recent_payments": [
@@ -235,8 +521,8 @@
     "dividend_yield_pct": 0.87,
     "industry_benchmarks": {
       "pe": 34.294011798524444,
-      "net_income_margin_1y": 0.1517834297,
-      "future_revenue_growth_3y": 2.756126798,
+      "net_income_margin_1y": 0.1516710327,
+      "future_revenue_growth_3y": 2.535577209,
       "sector_pe": 34.294011798524444
     },
     "industry_benchmarks_meta": {
@@ -271,15 +557,15 @@
         "url": "https://groww.in/stocks/sun-pharmaceutical-industries-ltd"
       },
       "sws_statement": {
-        "company_pe": 37.6,
-        "industry_pe": 29,
+        "company_pe": 37.2,
+        "industry_pe": 28.8,
         "industry_name": "Indian Pharmaceuticals",
-        "description": "SUNPHARMA is expensive based on its Price-To-Earnings Ratio (37.6x) compared to the Indian Pharmaceuticals industry average (29x).",
+        "description": "SUNPHARMA is expensive based on its Price-To-Earnings Ratio (37.2x) compared to the Indian Pharmaceuticals industry average (28.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 29.045511308,
+        "industry_pe": 28.787047453,
         "industry_code": "6120000",
         "type": "median_profitable",
         "count": 152,
@@ -291,25 +577,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 28.1,
-        "sample_count": 151,
+        "industry_pe": 28.15,
+        "sample_count": 152,
         "industry_code": "6120000",
         "industry_name": "Pharmaceuticals & Biotech"
       },
       "sws_primary_industry": {
-        "industry_pe": 23.933255082,
+        "industry_pe": 23.572522071,
         "industry_name": "Pharmaceuticals & Biotech",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 39.54903065177499
+        "company_pe": 37.33787935634379
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1799.2,
-        "fetched_at": "2026-05-31T22:36:51.056Z",
+        "value": 1786.4,
+        "fetched_at": "2026-06-11T01:39:51.214Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-sunpharma/sun-pharmaceutical-industries-shares"
       },
       "market_cap_inr": {
@@ -317,6 +603,24 @@
         "value": 4426773000000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/sun-pharmaceutical-industries-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 2039.91176,
+        "fetched_at": "2026-06-11T01:39:51.214Z",
+        "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-sunpharma/sun-pharmaceutical-industries-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "8c21d5fa-49f4-4131-81bc-93c7695b0b09",
+        "narrative_type": null,
+        "published_at": "2026-06-02T05:07:30.451Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 14.191209135691887,
+        "fetched_at": "2026-06-11T01:39:51.214Z",
+        "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-sunpharma/sun-pharmaceutical-industries-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -356,14 +660,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.1517834297,
-        "fetched_at": "2026-05-31T22:36:51.056Z",
+        "value": 0.1516710327,
+        "fetched_at": "2026-06-11T01:39:51.214Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-sunpharma/sun-pharmaceutical-industries-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 2.756126798,
-        "fetched_at": "2026-05-31T22:36:51.056Z",
+        "value": 2.535577209,
+        "fetched_at": "2026-06-11T01:39:51.214Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-sunpharma/sun-pharmaceutical-industries-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -472,13 +776,13 @@
         "url": "https://groww.in/stocks/sun-pharmaceutical-industries-ltd"
       }
     },
-    "earnings_growth_yoy_pct": -0.12599459787867917,
+    "earnings_growth_yoy_pct": 10.67648150558472,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 8.04635892582587,
-    "latest_revenue": 568090900000,
-    "latest_net_income": 109152700000,
+    "revenue_growth_pct": 8.711795301679581,
+    "latest_revenue": 584620400000,
+    "latest_net_income": 114794200000,
     "latest_eps": 47.97,
-    "most_recent_reported_date": "2026-05-09",
+    "most_recent_reported_date": "2026-06-01",
     "pb": 5.3,
     "ps": 7.6,
     "book_value": 348.3052368,
@@ -495,16 +799,16 @@
     "quick_ratio": 2.3148823006236396,
     "cash_ratio": 0.5129104183353933,
     "returns_pct": {
-      "1D": -2.445372227945557,
-      "7D": -2.4612382088257547,
-      "1M": 1.1525271265531005,
-      "3M": 3.5808865860679355,
-      "6M": -1.7689451845381015,
-      "1Y": 7.44058282574944,
+      "1D": 0.41596402473300115,
+      "7D": -0.1174168297455918,
+      "1M": -4.608319538634055,
+      "3M": -2.1311565222155187,
+      "6M": -0.39587398940618396,
+      "1Y": 5.666627232935063,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 5,
+    "recent_news_count": 4,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -546,8 +850,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.60545,
-        "shares": 38520054,
+        "pct": 1.57632,
+        "shares": 37821218,
         "is_insider": null
       },
       {
@@ -581,13 +885,13 @@
         "is_insider": null
       },
       {
-        "pct": 0.75769,
-        "shares": 18179448,
+        "pct": 0.72774,
+        "shares": 17460992,
         "is_insider": null
       },
       {
         "pct": 0.52208,
-        "shares": 12526495,
+        "shares": 12526471,
         "is_insider": null
       },
       {
@@ -623,7 +927,7 @@
   },
   "dividend": {
     "yield_pct": 0.87,
-    "payout_pct": 35.170325168319245,
+    "payout_pct": 33.441898214369715,
     "annualized_dividend": 16,
     "listing_currency": "INR",
     "recent_payments": [
@@ -787,44 +1091,44 @@
     "payment_count": 17
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-09",
+    "most_recent_reported_date": "2026-06-01",
     "latest_year": 2026,
-    "latest_revenue": 568090900000,
-    "latest_net_income": 109152700000,
+    "latest_revenue": 584620400000,
+    "latest_net_income": 114794200000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 8.04635892582587,
-    "earnings_growth_pct": -0.12599459787867917,
-    "net_margin_pct": 19.213949739381498,
+    "revenue_growth_pct": 8.711795301679581,
+    "earnings_growth_pct": 10.67648150558472,
+    "net_margin_pct": 19.635681546521468,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 568090900000,
-        "netIncome": 109152700000,
+        "revenue": 584620400000,
+        "netIncome": 114794200000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 525784400000,
-        "netIncome": 109290400000,
+        "revenue": 537770900000,
+        "netIncome": 103720500000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 484968500000,
-        "netIncome": 95763800000,
+        "revenue": 492087600000,
+        "netIncome": 103894600000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 438856800000,
-        "netIncome": 84735800000,
+        "revenue": 450647600000,
+        "netIncome": 84352400000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 386544900000,
-        "netIncome": 32727300000,
+        "revenue": 396975100000,
+        "netIncome": 38894400000,
         "eps": null
       }
     ]
@@ -1030,6 +1334,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "5bd290e1-21c3-4634-89af-912ddd6ada60",
+      "type": "narrative-update",
+      "date": "2026-06-02T05:07:30.000Z",
+      "title": "SUNPHARMA: Obesity And Diabetes Franchise Will Support Bullish Long Term Outlook",
+      "body": "Analysts have nudged their price target for Sun Pharmaceutical Industries higher from ₹1,992.47 to ₹2,039.91, citing slightly adjusted expectations for revenue growth, profit margins and future P/E assumptions. What's in the News Sun Pharma plans to share updated results from the locally advanced cutaneous squamous cell carcinoma expansion cohort of the pivotal CK-301-101 trial of UNLOXCYT (cosibelimab ipdl) at the 2026 ASCO Annual Meeting in Chicago, highlighting efficacy, durability of responses and a detailed safety profile.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/pharmaceuticals-biotech/nse-sunpharma/sun-pharmaceutical-industries-shares/t97jyf60-specialty-therapies-and-emerging-markets-will-unlock-future-potential-xaaw/updates/23-analysts-have-nudged-their-price-target-for-sun-pharmaceutic",
+      "raw_subtype": "narrative-update"
+    },
     {
       "id": "3122c96f-235c-4fe2-8104-4f8bd26a7f77",
       "type": "event",
@@ -1298,16 +1612,6 @@
       "body": "Analysts have reiterated their price target on Sun Pharmaceutical Industries at ₹1,950.68 per share, citing broadly unchanged assumptions around discount rates, long term revenue growth, profit margins, and future valuation multiples. What's in the News The U.S. FDA has approved an updated label for Sun Pharma's immunotherapy UNLOXCYT for advanced cutaneous squamous cell carcinoma, incorporating long term pivotal trial data that showed durable responses and no treatment related deaths, with commercial launch targeted for early 2026 (Key Developments).",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/pharmaceuticals-biotech/nse-sunpharma/sun-pharmaceutical-industries-shares/t97jyf60-specialty-therapies-and-emerging-markets-will-unlock-future-potential-xaaw/updates/13-analysts-have-reiterated-their-price-target-on-sun-pharmaceu",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "1a57c2e1-0edf-4cb9-9d5e-10689bf4c41c",
-      "type": "narrative-update",
-      "date": "2025-12-11T19:04:43.000Z",
-      "title": "SUNPHARMA: New Therapies And ESG Initiatives Will Shape Balanced Long Term Outlook",
-      "body": "Analysts have nudged their price target for Sun Pharmaceutical Industries slightly higher to ₹1,950.68, reflecting modestly stronger long term revenue growth expectations, while largely unchanged assumptions for margins, discount rate, and future valuation multiples. What's in the News FDA approves an updated label for Sun Pharma's immunotherapy UNLOXCYT for advanced cutaneous squamous cell carcinoma, incorporating long term pivotal trial data showing durable responses and supporting a planned US commercial launch in early 2026 (FDA filing) UNLOXCYT trial results highlight rapid and sustained responses with a favorable safety profile, reinforcing Sun Pharma's strategy to expand its differentiated cutaneous oncology portfolio and pursue guideline inclusion in future NCCN updates (Company an",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/pharmaceuticals-biotech/nse-sunpharma/sun-pharmaceutical-industries-shares/t97jyf60-specialty-therapies-and-emerging-markets-will-unlock-future-potential-xaaw/updates/12-analysts-have-nudged-their-price-target-for-sun-pharmaceutic",
       "raw_subtype": "narrative-update"
     }
   ],

@@ -3,7 +3,7 @@
   "name": "Pidilite Industries Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-pidilitind/pidilite-industries-shares",
-  "parsed_at": "2026-05-31T21:31:06.489Z",
+  "parsed_at": "2026-06-11T00:33:15.995Z",
   "company_id": "C297E8FD-42CC-4B46-9E9D-6808255BDAF1",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 4
     },
     "snowflake_total": 19,
-    "current_price_inr": 1482.8,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_50_TO_75_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 1506.5,
     "market_cap_inr": 1506867300000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "mega8",
     "shares_outstanding": 1017775348,
     "fifty_two_week": {
       "low": 1259,
       "high": 1574.95
     },
-    "fair_value_inr": 1310.2,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 367.195452,
+      "min": 371.555777,
       "max": 1620.05,
       "count": 35
     },
-    "upside_pct": -11.640140275155106,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Abhishekgarg",
+      "owner_classification": null,
+      "narrative_id": "5b36df9b-afdf-4478-a357-17ed790a7bfa",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 60.98,
       "ps": 10.32,
@@ -60,7 +346,7 @@
       "pe_source_url": "https://groww.in/stocks/pidilite-industries-ltd"
     },
     "rewards": [
-      "Earnings are forecast to grow 11.6% per year",
+      "Earnings are forecast to grow 11.55% per year",
       "Earnings grew by 17.9% over the past year"
     ],
     "risks": [
@@ -221,8 +507,8 @@
     "dividend_yield_pct": 1.45,
     "industry_benchmarks": {
       "pe": 40.473660493160494,
-      "net_income_margin_1y": 0.09487982097,
-      "future_revenue_growth_3y": 34.387188816,
+      "net_income_margin_1y": 0.09486136614,
+      "future_revenue_growth_3y": 32.656569349,
       "sector_pe": 40.473660493160494
     },
     "industry_benchmarks_meta": {
@@ -258,17 +544,17 @@
       },
       "sws_statement": {
         "company_pe": 61.6,
-        "industry_pe": 22.2,
+        "industry_pe": 20.7,
         "industry_name": "Indian Chemicals",
-        "description": "PIDILITIND is expensive based on its Price-To-Earnings Ratio (61.6x) compared to the Indian Chemicals industry average (22.2x).",
+        "description": "PIDILITIND is expensive based on its Price-To-Earnings Ratio (61.6x) compared to the Indian Chemicals industry average (20.7x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 22.185241114,
+        "industry_pe": 20.665261726,
         "industry_code": "2020000",
         "type": "median_profitable",
-        "count": 304,
+        "count": 302,
         "source": {
           "type": "country",
           "country": "IN",
@@ -277,25 +563,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.5,
-        "sample_count": 293,
+        "industry_pe": 19.6,
+        "sample_count": 294,
         "industry_code": "2020000",
         "industry_name": "Materials"
       },
       "sws_primary_industry": {
-        "industry_pe": 19.26596559,
+        "industry_pe": 18.498719492,
         "industry_name": "Materials",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 65.8448460078098
+        "company_pe": 66.89726228133631
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1482.8,
-        "fetched_at": "2026-05-31T21:31:06.489Z",
+        "value": 1506.5,
+        "fetched_at": "2026-06-11T00:33:15.995Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-pidilitind/pidilite-industries-shares"
       },
       "market_cap_inr": {
@@ -342,14 +628,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.09487982097,
-        "fetched_at": "2026-05-31T21:31:06.489Z",
+        "value": 0.09486136614,
+        "fetched_at": "2026-06-11T00:33:15.995Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-pidilitind/pidilite-industries-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 34.387188816,
-        "fetched_at": "2026-05-31T21:31:06.489Z",
+        "value": 32.656569349,
+        "fetched_at": "2026-06-11T00:33:15.995Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-pidilitind/pidilite-industries-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -481,16 +767,16 @@
     "quick_ratio": 1.8950010738082816,
     "cash_ratio": 0.08336657025634732,
     "returns_pct": {
-      "1D": 0.14182481258863436,
-      "7D": 0.29761904761903835,
-      "1M": 6.753059755219579,
-      "3M": -0.6166219839142122,
-      "6M": 0.8844740781058649,
-      "1Y": -3.7205376274267876,
+      "1D": 1.6668916183020681,
+      "7D": 2.5387966240130653,
+      "1M": 4.8218758697467266,
+      "3M": 8.584402479457971,
+      "6M": 2.0111050920910105,
+      "1Y": -1.5423828507940598,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -547,13 +833,13 @@
         "is_insider": null
       },
       {
-        "pct": 1.4738,
-        "shares": 15000000,
+        "pct": 1.53105,
+        "shares": 15582613,
         "is_insider": null
       },
       {
-        "pct": 1.43272,
-        "shares": 14581835,
+        "pct": 1.4738,
+        "shares": 15000000,
         "is_insider": null
       },
       {
@@ -1004,6 +1290,16 @@
   ],
   "news": [
     {
+      "id": "e02cda33-0a80-4c90-92ea-550dff7fc6d9",
+      "type": "narrative-update",
+      "date": "2026-05-30T22:06:15.000Z",
+      "title": "PIDILITIND: Fair Outlook Will Depend On Upcoming Dividend Decision",
+      "body": "Analysts have raised their fair value estimate for Pidilite Industries from ₹1,549.84 to ₹1,620.05, citing updated assumptions for revenue growth, profit margins, a slightly adjusted discount rate, and a lower future P/E multiple of 66.15x compared with 71.54x previously. What's in the News A board meeting is scheduled on May 7, 2026 to consider audited financial results for the year ended March 31, 2026 and to consider a dividend recommendation on equity shares (company filing).",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/materials/nse-pidilitind/pidilite-industries-shares/s72wnd7p-rural-markets-and-premium-products-will-redefine-industry-landscape-6tgl/updates/18-analysts-have-raised-their-fair-value-estimate-for-pidilite",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "0ec73b67-e4c9-406c-bf37-eb9b38c3a57d",
       "type": "article",
       "date": "2026-05-10T02:19:01.000Z",
@@ -1152,16 +1448,6 @@
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/stocks/in/materials/nse-pidilitind/pidilite-industries-shares/news/theres-reason-for-concern-over-pidilite-industries-limiteds",
       "raw_subtype": "article"
-    },
-    {
-      "id": "19938703-1853-402d-a152-8d32e71105d1",
-      "type": "narrative-update",
-      "date": "2025-12-09T09:06:25.000Z",
-      "title": "PIDILITIND: Upcoming Stock Split Will Support Strong Bullish Trend",
-      "body": "Analysts have marginally trimmed their price target on Pidilite Industries to ₹1,713.50 from ₹1,715.75, reflecting slightly softer long term margin and valuation assumptions while keeping their overall growth outlook largely intact. What's in the News Board meeting scheduled on October 30, 2025, to consider and approve unaudited financial results for Q2 FY2025, covering the quarter ended September 30, 2025 (company filing) Planned 2:1 stock split or significant stock dividend effective September 23, 2025, aimed at improving share liquidity and retail participation (company filing) Valuation Changes The consensus analyst price target has edged down slightly to ₹1,713.50 from ₹1,715.75, indicating a marginally lower fair value estimate.",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/materials/nse-pidilitind/pidilite-industries-shares/s72wnd7p-rural-markets-and-premium-products-will-redefine-industry-landscape-6tgl/updates/13-analysts-have-marginally-trimmed-their-price-target-on-pidil",
-      "raw_subtype": "narrative-update"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/PIDILITIND.json"

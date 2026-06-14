@@ -3,7 +3,7 @@
   "name": "NLC India Limited",
   "sector": "Utilities",
   "sws_url": "https://simplywall.st/stocks/in/utilities/nse-nlcindia/nlc-india-shares",
-  "parsed_at": "2026-05-31T21:15:05.951Z",
+  "parsed_at": "2026-06-11T00:17:45.891Z",
   "company_id": "77CBE07A-5B00-47FF-B1D2-E0E67EA63ED0",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 3
     },
     "snowflake_total": 13,
-    "current_price_inr": 347.55,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 309.6,
     "market_cap_inr": 484560200000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 220.71,
       "high": 387.8
     },
-    "fair_value_inr": 390.280737,
+    "fair_value_inr": 390.062995,
     "fair_value_range_inr": {
-      "min": 54.290551,
-      "max": 390.280737,
+      "min": 54.832954,
+      "max": 390.062995,
       "count": 8
     },
-    "upside_pct": 12.294845921450143,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "9a690629-f2c6-423b-8c6b-189d2645f393",
+      "narrative_type": null,
+      "published_at": "2024-06-19T04:06:28.300Z"
+    },
+    "upside_pct": 25.98933947028423,
     "multiples": {
       "pe": 12.86,
       "ps": 2.77,
@@ -62,13 +348,13 @@
     "rewards": [
       "Trading below our calculated fair Price-To-Earnings ratio",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (13.7x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (12.9x) is below the Indian market (22.9x)",
       "Earnings grew by 34.4% over the past year",
       "Revenue is forecast to grow 14.1% per year",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
     "risks": [
-      "Dividend of 1.11% is not well covered by free cash flows",
+      "Dividend of 1.17% is not well covered by free cash flows",
       "Interest payments are not well covered by earnings"
     ],
     "dividend": {
@@ -240,7 +526,7 @@
     "industry_benchmarks": {
       "pe": 27.571490272138643,
       "net_income_margin_1y": 0.1512235163,
-      "future_revenue_growth_3y": 0.9455874733,
+      "future_revenue_growth_3y": 0.9866969915,
       "sector_pe": 27.571490272138643
     },
     "industry_benchmarks_meta": {
@@ -275,15 +561,15 @@
         "url": "https://groww.in/stocks/nlc-india-ltd"
       },
       "sws_statement": {
-        "company_pe": 13.7,
-        "industry_pe": 43.2,
+        "company_pe": 12.9,
+        "industry_pe": 47.9,
         "industry_name": "Indian Renewable Energy",
-        "description": "NLCINDIA is good value based on its Price-To-Earnings Ratio (13.7x) compared to the Indian Renewable Energy industry average (43.2x).",
+        "description": "NLCINDIA is good value based on its Price-To-Earnings Ratio (12.9x) compared to the Indian Renewable Energy industry average (47.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 43.204392735,
+        "industry_pe": 47.89880143,
         "industry_code": "9551702",
         "type": "median_profitable",
         "count": 24,
@@ -295,8 +581,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 34.95,
-        "sample_count": 20,
+        "industry_pe": 27.4,
+        "sample_count": 19,
         "industry_code": "9551702",
         "industry_name": "Utilities"
       },
@@ -308,8 +594,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 347.55,
-        "fetched_at": "2026-05-31T21:15:05.951Z",
+        "value": 309.6,
+        "fetched_at": "2026-06-11T00:17:45.891Z",
         "url": "https://simplywall.st/stocks/in/utilities/nse-nlcindia/nlc-india-shares"
       },
       "market_cap_inr": {
@@ -317,6 +603,24 @@
         "value": 484560200000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/nlc-india-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 390.062995,
+        "fetched_at": "2026-06-11T00:17:45.891Z",
+        "url": "https://simplywall.st/stocks/in/utilities/nse-nlcindia/nlc-india-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "9a690629-f2c6-423b-8c6b-189d2645f393",
+        "narrative_type": null,
+        "published_at": "2024-06-19T04:06:28.300Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 25.98933947028423,
+        "fetched_at": "2026-06-11T00:17:45.891Z",
+        "url": "https://simplywall.st/stocks/in/utilities/nse-nlcindia/nlc-india-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -357,13 +661,13 @@
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.1512235163,
-        "fetched_at": "2026-05-31T21:15:05.951Z",
+        "fetched_at": "2026-06-11T00:17:45.891Z",
         "url": "https://simplywall.st/stocks/in/utilities/nse-nlcindia/nlc-india-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.9455874733,
-        "fetched_at": "2026-05-31T21:15:05.951Z",
+        "value": 0.9866969915,
+        "fetched_at": "2026-06-11T00:17:45.891Z",
         "url": "https://simplywall.st/stocks/in/utilities/nse-nlcindia/nlc-india-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -495,16 +799,16 @@
     "quick_ratio": 0.5834059167474552,
     "cash_ratio": 0.0797363517935046,
     "returns_pct": {
-      "1D": -0.6716204629894158,
-      "7D": 0.8414333381691671,
-      "1M": 9.223758642363302,
-      "3M": 33.64737550471063,
-      "6M": 42.90707236842106,
-      "1Y": 45.07847720821506,
+      "1D": -5.537757437070931,
+      "7D": -10.520231213872826,
+      "1M": -6.096451319381246,
+      "3M": 16.720075400565513,
+      "6M": 26.937269372693734,
+      "1Y": 28.400796284007967,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 4,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -551,8 +855,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.46355,
-        "shares": 6427763,
+        "pct": 0.44671,
+        "shares": 6194294,
         "is_insider": null
       },
       {
@@ -576,18 +880,18 @@
         "is_insider": null
       },
       {
-        "pct": 0.15413,
-        "shares": 2137199,
+        "pct": 0.15419,
+        "shares": 2137999,
         "is_insider": null
       },
       {
-        "pct": 0.1012,
-        "shares": 1403232,
+        "pct": 0.13101,
+        "shares": 1816649,
         "is_insider": null
       },
       {
-        "pct": 0.08764,
-        "shares": 1215261,
+        "pct": 0.08226,
+        "shares": 1140679,
         "is_insider": null
       },
       {
@@ -601,8 +905,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.06804,
-        "shares": 943408,
+        "pct": 0.06786,
+        "shares": 940980,
         "is_insider": null
       },
       {
@@ -1102,16 +1406,6 @@
       "keyDevTypeId": null,
       "source_url": null,
       "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "34b9c6cb-2d56-4230-ab21-073df892a1e6",
-      "type": "article",
-      "date": "2025-12-06T03:15:56.000Z",
-      "title": "We Think NLC India (NSE:NLCINDIA) Is Taking Some Risk With Its Debt",
-      "body": "Legendary fund manager Li Lu (who Charlie Munger backed) once said, 'The biggest investment risk is not the volatility...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/utilities/nse-nlcindia/nlc-india-shares/news/we-think-nlc-india-nsenlcindia-is-taking-some-risk-with-its-1",
-      "raw_subtype": "article"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/NLCINDIA.json"

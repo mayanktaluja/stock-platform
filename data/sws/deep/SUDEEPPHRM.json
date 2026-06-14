@@ -3,7 +3,7 @@
   "name": "Sudeep Pharma Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-sudeepphrm/sudeep-pharma-shares",
-  "parsed_at": "2026-05-31T22:33:21.072Z",
+  "parsed_at": "2026-06-11T01:35:58.271Z",
   "company_id": "12FA77B9-6A2D-431D-B43F-9214D990D3BD",
   "classification_status": "Active",
   "groww_source": {
@@ -20,21 +20,20 @@
       "future": 2,
       "past": 2,
       "financial_health": 5,
-      "dividends": 0,
+      "dividends": 1,
       "future_growth": 2,
       "past_performance": 2,
       "value": 0,
       "health": 5,
-      "dividend": 0
+      "dividend": 1
     },
-    "snowflake_total": 9,
+    "snowflake_total": 10,
     "snowflake_data_quality": {
       "insufficient": true,
-      "insufficient_count": 2,
+      "insufficient_count": 1,
       "checked_count": 30,
       "affected_pillars": [
-        "Health",
-        "Dividends"
+        "Health"
       ],
       "by_pillar": {
         "Value": {
@@ -55,7 +54,7 @@
         },
         "Dividends": {
           "checked": 6,
-          "insufficient": 1
+          "insufficient": 0
         }
       },
       "samples": [
@@ -63,17 +62,290 @@
           "pillar": "Health",
           "title": "Reducing Debt",
           "reason_code": "OUTCOME_NULL"
-        },
-        {
-          "pillar": "Dividends",
-          "title": "Earnings Coverage",
-          "reason_code": "OUTCOME_NULL"
         }
       ]
     },
-    "current_price_inr": 742.15,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOO_EARLY"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOO_EARLY"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 731.4,
     "market_cap_inr": 76161300000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -86,7 +358,15 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": -10.59758808866132,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "ed12db63-f6db-4c12-a37f-80faf544f2ee",
+      "narrative_type": null,
+      "published_at": "2026-02-21T19:22:32.055Z"
+    },
+    "upside_pct": -9.283565764287664,
     "multiples": {
       "pe": 43.7,
       "ps": 11.87,
@@ -120,8 +400,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 34.294011798524444,
-      "net_income_margin_1y": 0.09915925459,
-      "future_revenue_growth_3y": 0.4901950831,
+      "net_income_margin_1y": 0.1007363079,
+      "future_revenue_growth_3y": 0.4928230277,
       "sector_pe": 34.294011798524444
     },
     "industry_benchmarks_meta": {
@@ -156,18 +436,18 @@
         "url": "https://groww.in/stocks/sudeep-pharma-ltd"
       },
       "sws_statement": {
-        "company_pe": 48.5,
-        "industry_pe": 22.2,
+        "company_pe": 47.8,
+        "industry_pe": 20.8,
         "industry_name": "Indian Chemicals",
-        "description": "SUDEEPPHRM is expensive based on its Price-To-Earnings Ratio (48.5x) compared to the Indian Chemicals industry average (22.2x).",
+        "description": "SUDEEPPHRM is expensive based on its Price-To-Earnings Ratio (47.8x) compared to the Indian Chemicals industry average (20.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 22.185241114,
+        "industry_pe": 20.782619721,
         "industry_code": "2020000",
         "type": "median_profitable",
-        "count": 304,
+        "count": 302,
         "source": {
           "type": "country",
           "country": "IN",
@@ -176,8 +456,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.5,
-        "sample_count": 293,
+        "industry_pe": 19.6,
+        "sample_count": 294,
         "industry_code": "2020000",
         "industry_name": "Materials"
       },
@@ -189,8 +469,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 742.15,
-        "fetched_at": "2026-05-31T22:33:21.072Z",
+        "value": 731.4,
+        "fetched_at": "2026-06-11T01:35:58.271Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-sudeepphrm/sudeep-pharma-shares"
       },
       "market_cap_inr": {
@@ -198,6 +478,24 @@
         "value": 76161300000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/sudeep-pharma-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 663.5,
+        "fetched_at": "2026-06-11T01:35:58.271Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-sudeepphrm/sudeep-pharma-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "ed12db63-f6db-4c12-a37f-80faf544f2ee",
+        "narrative_type": null,
+        "published_at": "2026-02-21T19:22:32.055Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": -9.283565764287664,
+        "fetched_at": "2026-06-11T01:35:58.271Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-sudeepphrm/sudeep-pharma-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -237,14 +535,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.09915925459,
-        "fetched_at": "2026-05-31T22:33:21.072Z",
+        "value": 0.1007363079,
+        "fetched_at": "2026-06-11T01:35:58.271Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-sudeepphrm/sudeep-pharma-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.4901950831,
-        "fetched_at": "2026-05-31T22:33:21.072Z",
+        "value": 0.4928230277,
+        "fetched_at": "2026-06-11T01:35:58.271Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-sudeepphrm/sudeep-pharma-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -376,16 +674,16 @@
     "quick_ratio": 2.0198059021588435,
     "cash_ratio": 0.5676866706278471,
     "returns_pct": {
-      "1D": 9.997035719579062,
-      "7D": 10.217568872057615,
-      "1M": 7.123267898383376,
-      "3M": 16.151498552312376,
-      "6M": -4.133565846412194,
-      "1Y": -4.133565846412194,
+      "1D": -1.3754045307443425,
+      "7D": -4.342139680878897,
+      "1M": 12.557710064635277,
+      "3M": 20.27627035027133,
+      "6M": 4.672629695885506,
+      "1Y": -5.522185622941291,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -731,16 +1029,6 @@
       "keyDevTypeId": null,
       "source_url": null,
       "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "1d925783-9799-4a87-ab1f-71e96e9278a4",
-      "type": "event",
-      "date": "2025-12-15T06:51:00.000Z",
-      "title": "Sudeep Pharma Limited to Report Q2, 2026 Results on Dec 19, 2025",
-      "body": "Sudeep Pharma Limited announced that they will report Q2, 2026 results on Dec 19, 2025",
-      "keyDevTypeId": "55",
-      "source_url": null,
-      "raw_subtype": "EventActivity"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/SUDEEPPHRM.json"

@@ -3,7 +3,7 @@
   "name": "Jindal Saw Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-jindalsaw/jindal-saw-shares",
-  "parsed_at": "2026-05-31T20:17:42.222Z",
+  "parsed_at": "2026-06-10T23:21:10.568Z",
   "company_id": "0DFC86DA-2FC4-4B2E-A2F2-9242CF1C00F0",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 5
     },
     "snowflake_total": 19,
-    "current_price_inr": 247.09,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_STABLE_IN_PAST_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 225.16,
     "market_cap_inr": 157255100000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "medium5",
     "shares_outstanding": 637223854,
     "fifty_two_week": {
       "low": 153,
       "high": 260.4
     },
-    "fair_value_inr": 298,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 44.187139,
-      "max": 312.22,
+      "min": 43.951263,
+      "max": 314,
       "count": 35
     },
-    "upside_pct": 20.60382856449067,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystLowTarget",
+      "owner_classification": null,
+      "narrative_id": "d163b860-7930-4ea3-a825-5c4d61dbf0c5",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 16.99,
       "ps": 0.88,
@@ -60,10 +346,10 @@
       "pe_source_url": "https://groww.in/stocks/jindal-saw-ltd"
     },
     "rewards": [
-      "Price-To-Earnings ratio (16.2x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (14.7x) is below the Indian market (23.2x)",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading below our calculated fair Price-To-Earnings ratio",
-      "Pays a reliable dividend of 0.81%",
+      "Pays a reliable dividend of 0.89%",
       "Earnings are forecast to grow 25.53% per year",
       "Trading at good value vs. industry average Price-To-Earnings ratio"
     ],
@@ -73,7 +359,7 @@
     ],
     "dividend": {
       "yield_pct": 0.81,
-      "payout_pct": 11.326446725211705,
+      "payout_pct": 13.093385693956854,
       "annualized_dividend": 2,
       "listing_currency": "INR",
       "recent_payments": [
@@ -213,8 +499,8 @@
     "dividend_yield_pct": 0.81,
     "industry_benchmarks": {
       "pe": 41.92916323228247,
-      "net_income_margin_1y": 0.09487982097,
-      "future_revenue_growth_3y": 34.387188816,
+      "net_income_margin_1y": 0.09486136614,
+      "future_revenue_growth_3y": 32.656569349,
       "sector_pe": 41.92916323228247
     },
     "industry_benchmarks_meta": {
@@ -249,18 +535,18 @@
         "url": "https://groww.in/stocks/jindal-saw-ltd"
       },
       "sws_statement": {
-        "company_pe": 16.2,
-        "industry_pe": 21.9,
+        "company_pe": 14.7,
+        "industry_pe": 20.8,
         "industry_name": "Indian Metals and Mining",
-        "description": "JINDALSAW is good value based on its Price-To-Earnings Ratio (16.2x) compared to the Indian Metals and Mining industry average (21.9x).",
+        "description": "JINDALSAW is good value based on its Price-To-Earnings Ratio (14.7x) compared to the Indian Metals and Mining industry average (20.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 21.899662552,
+        "industry_pe": 20.840689637,
         "industry_code": "2050000",
         "type": "median_profitable",
-        "count": 192,
+        "count": 194,
         "source": {
           "type": "country",
           "country": "IN",
@@ -269,25 +555,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.05,
-        "sample_count": 196,
+        "industry_pe": 19.2,
+        "sample_count": 197,
         "industry_code": "2050000",
         "industry_name": "Materials"
       },
       "sws_primary_industry": {
-        "industry_pe": 19.26596559,
+        "industry_pe": 18.498719492,
         "industry_name": "Materials",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 13.9932586066628
+        "company_pe": 14.740533614256627
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 247.09,
-        "fetched_at": "2026-05-31T20:17:42.222Z",
+        "value": 225.16,
+        "fetched_at": "2026-06-10T23:21:10.568Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-jindalsaw/jindal-saw-shares"
       },
       "market_cap_inr": {
@@ -334,14 +620,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.09487982097,
-        "fetched_at": "2026-05-31T20:17:42.222Z",
+        "value": 0.09486136614,
+        "fetched_at": "2026-06-10T23:21:10.568Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-jindalsaw/jindal-saw-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 34.387188816,
-        "fetched_at": "2026-05-31T20:17:42.222Z",
+        "value": 32.656569349,
+        "fetched_at": "2026-06-10T23:21:10.568Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-jindalsaw/jindal-saw-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -450,13 +736,13 @@
         "url": "https://groww.in/stocks/jindal-saw-ltd"
       }
     },
-    "earnings_growth_yoy_pct": -35.27277103377055,
+    "earnings_growth_yoy_pct": -43.454013672088315,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": -12.101506221059795,
-    "latest_revenue": 183082848000,
-    "latest_net_income": 11251964000,
+    "revenue_growth_pct": -10.409923358862622,
+    "latest_revenue": 178951652000,
+    "latest_net_income": 9733523000,
     "latest_eps": 14.47,
-    "most_recent_reported_date": "2026-04-04",
+    "most_recent_reported_date": "2026-05-21",
     "pb": 1.25,
     "ps": 0.88,
     "book_value": 196.6236407,
@@ -473,16 +759,16 @@
     "quick_ratio": 0.760427171411579,
     "cash_ratio": 0.0877582551133866,
     "returns_pct": {
-      "1D": 0.4145161945787825,
-      "7D": 12.313636363636366,
-      "1M": 7.523933855526541,
-      "3M": 33.29557102012192,
-      "6M": 51.80315783006696,
-      "1Y": 15.408687529191972,
+      "1D": -6.109002960677206,
+      "7D": -10.248335791445772,
+      "1M": -5.426747311827963,
+      "3M": 13.25955734406438,
+      "6M": 39.67741935483872,
+      "1Y": -9.206016371627893,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 8,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -544,8 +830,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.26285,
-        "shares": 8047153,
+        "pct": 1.26302,
+        "shares": 8048237,
         "is_insider": null
       },
       {
@@ -554,8 +840,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.98263,
-        "shares": 6261567,
+        "pct": 0.98756,
+        "shares": 6292986,
         "is_insider": null
       },
       {
@@ -601,7 +887,7 @@
   },
   "dividend": {
     "yield_pct": 0.81,
-    "payout_pct": 11.326446725211705,
+    "payout_pct": 13.093385693956854,
     "annualized_dividend": 2,
     "listing_currency": "INR",
     "recent_payments": [
@@ -739,44 +1025,44 @@
     "payment_count": 10
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-04-04",
+    "most_recent_reported_date": "2026-05-21",
     "latest_year": 2026,
-    "latest_revenue": 183082848000,
-    "latest_net_income": 11251964000,
+    "latest_revenue": 178951652000,
+    "latest_net_income": 9733523000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": -12.101506221059795,
-    "earnings_growth_pct": -35.27277103377055,
-    "net_margin_pct": 6.145831858591144,
+    "revenue_growth_pct": -10.409923358862622,
+    "earnings_growth_pct": -43.454013672088315,
+    "net_margin_pct": 5.439191475024774,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 183082848000,
-        "netIncome": 11251964000,
+        "revenue": 178951652000,
+        "netIncome": 9733523000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 208288948000,
-        "netIncome": 17383664000,
+        "revenue": 199744948000,
+        "netIncome": 17213464000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 209576901000,
-        "netIncome": 16770326000,
+        "revenue": 214865501000,
+        "netIncome": 18534926000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 178680689000,
-        "netIncome": 6439469000,
+        "revenue": 187995518000,
+        "netIncome": 8906960000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 132984211000.00002,
-        "netIncome": 4117491000,
+        "revenue": 138921000000,
+        "netIncome": 2645000000,
         "eps": null
       }
     ]
@@ -982,6 +1268,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "5b9aa688-ea22-4aa2-86b1-1b8a3910b96d",
+      "type": "narrative-update",
+      "date": "2026-06-06T04:13:57.000Z",
+      "title": "JINDALSAW: Upcoming Results Meeting Will Highlight Strength Of Undervalued Bullish Case",
+      "body": "Analysts have raised the indicative fair value for Jindal Saw from ₹262.50 to ₹314.00, pointing to updated assumptions for revenue growth, profit margins, discount rate and future P/E as the main drivers of this change. What's in the News A board meeting is scheduled for Apr 27, 2026, to review and approve audited standalone and consolidated financial results for the quarter and year ended Mar 31, 2026.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/materials/nse-jindalsaw/jindal-saw-shares/d7buq1rf-upcoming-financial-results-will-shed-light-on-middle-east-opportunities/updates/22-analysts-have-raised-the-indicative-fair-value-for-jindal-sa",
+      "raw_subtype": "narrative-update"
+    },
     {
       "id": "187893dc-24ff-498c-a730-b748e9625d39",
       "type": "narrative-update",
@@ -1270,16 +1566,6 @@
       "body": "Analysts have trimmed their fair value estimate for Jindal Saw from ₹272 to ₹250. This reflects updated assumptions around a higher discount rate, an adjusted margin outlook and a slightly different forward P/E framework.",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/materials/nse-jindalsaw/jindal-saw-shares/33d9kdgl-delayed-payments-will-constrain-orders-but-infrastructure-investment-offers-hope-akzh/updates/2-analysts-have-trimmed-their-fair-value-estimate-for-jindal-s",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "c4d0a66b-6a38-4ee5-90bb-cbaf25089548",
-      "type": "narrative-update",
-      "date": "2025-12-22T23:07:24.000Z",
-      "title": "JINDALSAW: Upcoming Board Meeting Will Support Continued Undervalued Bullish Outlook",
-      "body": "Analysts have nudged their price target on Jindal Saw to ₹261.0, a marginal upward revision from ₹261. This reflects slightly lower perceived risk and stable expectations for long term growth, margins, and valuation multiples.",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/materials/nse-jindalsaw/jindal-saw-shares/d7buq1rf-upcoming-financial-results-will-shed-light-on-middle-east-opportunities/updates/17-analysts-have-nudged-their-price-target-on-jindal-saw-to-indian-rupee26",
       "raw_subtype": "narrative-update"
     }
   ],

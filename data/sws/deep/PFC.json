@@ -3,7 +3,7 @@
   "name": "Power Finance Corporation Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-pfc/power-finance-shares",
-  "parsed_at": "2026-05-31T21:30:09.214Z",
+  "parsed_at": "2026-06-11T00:32:20.122Z",
   "company_id": "D9481E0A-009B-4143-82B1-4586E196CF5B",
   "classification_status": "Active",
   "groww_source": {
@@ -18,16 +18,16 @@
     "snowflake": {
       "valuation": 5,
       "future": 0,
-      "past": 3,
+      "past": 4,
       "financial_health": 3,
       "dividends": 4,
       "future_growth": 0,
-      "past_performance": 3,
+      "past_performance": 4,
       "value": 5,
       "health": 3,
       "dividend": 4
     },
-    "snowflake_total": 15,
+    "snowflake_total": 16,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 1,
@@ -65,9 +65,287 @@
         }
       ]
     },
-    "current_price_inr": 428.6,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DECLINE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DECLINE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DECLINE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DECLINE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DECLINE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DECLINE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 431.3,
     "market_cap_inr": 1430759100000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "mega8",
     "shares_outstanding": 3300101760,
     "fifty_two_week": {
@@ -77,10 +355,18 @@
     "fair_value_inr": 491.15385,
     "fair_value_range_inr": {
       "min": 491.15385,
-      "max": 693.844008,
+      "max": 720.87955,
       "count": 82
     },
-    "upside_pct": 14.594925338310768,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "39ff6c89-0fbb-4691-8a1e-ea49e4306cf3",
+      "narrative_type": null,
+      "published_at": "2026-04-25T19:08:29.398Z"
+    },
+    "upside_pct": 13.877544632506368,
     "multiples": {
       "pe": 4.26,
       "ps": 1.25,
@@ -100,12 +386,12 @@
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading below our calculated fair Price-To-Earnings ratio",
-      "Earnings have grown 16.3% per year over the past 5 years",
-      "Trading at 38.2% below our estimate of its fair value"
+      "Earnings grew by 12.7% over the past year",
+      "Trading at 39.6% below our estimate of its fair value"
     ],
     "risks": [
-      "Dividend of 4.33% is not well covered by free cash flows",
-      "Earnings are forecast to decline by an average of 4.6% per year for the next 3 years",
+      "Dividend of 4.26% is not well covered by free cash flows",
+      "Earnings are forecast to decline by an average of 3.7% per year for the next 3 years",
       "Debt is not well covered by [[operating cash flow]]"
     ],
     "dividend": {
@@ -276,8 +562,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 18.85756396507594,
-      "net_income_margin_1y": 0.2564706218,
-      "future_revenue_growth_3y": 0.3320316411,
+      "net_income_margin_1y": 0.257896607,
+      "future_revenue_growth_3y": 0.3297814148,
       "sector_pe": 18.85756396507594
     },
     "industry_benchmarks_meta": {
@@ -312,18 +598,18 @@
         "url": "https://groww.in/stocks/power-finance-corporation-ltd"
       },
       "sws_statement": {
-        "company_pe": 5.5,
-        "industry_pe": 24.4,
+        "company_pe": 5.6,
+        "industry_pe": 26.4,
         "industry_name": "Indian Diversified Financial",
-        "description": "PFC is good value based on its Price-To-Earnings Ratio (5.5x) compared to the Indian Diversified Financial industry average (24.4x).",
+        "description": "PFC is good value based on its Price-To-Earnings Ratio (5.6x) compared to the Indian Diversified Financial industry average (26.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 25.581812879,
+        "industry_pe": 26.387641502,
         "industry_code": "7110000",
         "type": "median_profitable",
-        "count": 131,
+        "count": 126,
         "source": {
           "type": "country",
           "country": "IN",
@@ -332,25 +618,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.4,
-        "sample_count": 124,
+        "industry_pe": 20.95,
+        "sample_count": 118,
         "industry_code": "7110000",
         "industry_name": "Diversified Financials"
       },
       "sws_primary_industry": {
-        "industry_pe": 15.729172633,
+        "industry_pe": 15.226484123,
         "industry_name": "Diversified Financials",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 5.608692433292807
+        "company_pe": 5.644024840128763
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 428.6,
-        "fetched_at": "2026-05-31T21:30:09.214Z",
+        "value": 431.3,
+        "fetched_at": "2026-06-11T00:32:20.122Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-pfc/power-finance-shares"
       },
       "market_cap_inr": {
@@ -358,6 +644,24 @@
         "value": 1430759100000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/power-finance-corporation-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 491.15385,
+        "fetched_at": "2026-06-11T00:32:20.122Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-pfc/power-finance-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "39ff6c89-0fbb-4691-8a1e-ea49e4306cf3",
+        "narrative_type": null,
+        "published_at": "2026-04-25T19:08:29.398Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 13.877544632506368,
+        "fetched_at": "2026-06-11T00:32:20.122Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-pfc/power-finance-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -397,14 +701,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.2564706218,
-        "fetched_at": "2026-05-31T21:30:09.214Z",
+        "value": 0.257896607,
+        "fetched_at": "2026-06-11T00:32:20.122Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-pfc/power-finance-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.3320316411,
-        "fetched_at": "2026-05-31T21:30:09.214Z",
+        "value": 0.3297814148,
+        "fetched_at": "2026-06-11T00:32:20.122Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-pfc/power-finance-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -536,16 +840,16 @@
     "quick_ratio": 1.1496047104604792,
     "cash_ratio": 0.08127704673289296,
     "returns_pct": {
-      "1D": -1.1303344867358656,
-      "7D": -0.4529090697944463,
-      "1M": -7.778375470683158,
-      "3M": 3.57660705654906,
-      "6M": 18.169285911221404,
-      "1Y": 4.702577256626358,
+      "1D": -0.9871441689623534,
+      "7D": 3.5285645703312505,
+      "1M": -3.8350055741360065,
+      "3M": 3.7028131762442977,
+      "6M": 25.305055200464853,
+      "1Y": 0.618219993001291,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -567,8 +871,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.78854,
-        "shares": 59023557,
+        "pct": 1.73644,
+        "shares": 57304175,
         "is_insider": null
       },
       {
@@ -632,8 +936,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.40776,
-        "shares": 13456506,
+        "pct": 0.41874,
+        "shares": 13818922,
         "is_insider": null
       },
       {
@@ -1295,16 +1599,6 @@
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/stocks/in/diversified-financials/nse-pfc/power-finance-shares/news/heres-why-we-think-power-finance-nsepfc-is-well-worth-watchi-3",
       "raw_subtype": "article"
-    },
-    {
-      "id": "3ce40392-eaa0-4ac4-9367-0055079dc416",
-      "type": "narrative-update",
-      "date": "2025-12-11T04:17:38.000Z",
-      "title": "PFC: Future Dividends And Stable Margins Will Support Upside Potential",
-      "body": "Analysts have modestly raised their price target on Power Finance to approximately $492 per share, reflecting a slightly higher assumed future earnings multiple while leaving core value drivers like revenue growth and profit margins effectively unchanged. What's in the News The board of directors declared a second interim dividend of INR 3.65 per equity share on a face value of INR 10 for fiscal year 2025 to 2026, with November 26, 2025 set as the record date for shareholder eligibility and dividend payment or dispatch due on or before December 6, 2025 (company filing).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/diversified-financials/nse-pfc/power-finance-shares/resolving-npas-and-renewable-energy-focus-may-shape-future-amid-revenue-decline-risks/updates/12-analysts-have-modestly-raised-their-price-target-on-power-fi",
-      "raw_subtype": "narrative-update"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/PFC.json"

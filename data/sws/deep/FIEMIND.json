@@ -3,7 +3,7 @@
   "name": "Fiem Industries Limited",
   "sector": "Automobiles",
   "sws_url": "https://simplywall.st/stocks/in/automobiles/nse-fiemind/fiem-industries-shares",
-  "parsed_at": "2026-05-31T22:51:07.898Z",
+  "parsed_at": "2026-06-11T01:46:36.579Z",
   "company_id": "627F2AA4-2806-49EA-9464-41148BE8A948",
   "classification_status": "Active",
   "groww_source": {
@@ -18,32 +18,318 @@
     "snowflake": {
       "valuation": 4,
       "future": 4,
-      "past": 6,
+      "past": 5,
       "financial_health": 6,
       "dividends": 4,
       "future_growth": 4,
-      "past_performance": 6,
+      "past_performance": 5,
       "value": 4,
       "health": 6,
       "dividend": 4
     },
-    "snowflake_total": 24,
-    "current_price_inr": 2243,
+    "snowflake_total": 23,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_NOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DIVIDENDS_NOT_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 2238,
     "market_cap_inr": 60944500000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midsmall4",
     "shares_outstanding": 26319660,
     "fifty_two_week": {
       "low": 1580,
       "high": 2555.3
     },
-    "fair_value_inr": 2709,
+    "fair_value_inr": 2769,
     "fair_value_range_inr": {
-      "min": 1329.606551,
-      "max": 2709,
+      "min": 1323.836357,
+      "max": 2769,
       "count": 21
     },
-    "upside_pct": 20.7757467677218,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "953e8165-8c0b-45d6-99c2-d1b23d6dd79b",
+      "narrative_type": null,
+      "published_at": "2026-06-04T16:04:54.831Z"
+    },
+    "upside_pct": 23.726541554959784,
     "multiples": {
       "pe": 25.04,
       "ps": 2.27,
@@ -60,20 +346,21 @@
       "pe_source_url": "https://groww.in/stocks/fiem-industries-ltd"
     },
     "rewards": [
+      "Analysts in good agreement that stock price will rise by 23.7%",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Earnings grew by 26.6% over the past year",
-      "Analysts in good agreement that stock price will rise by 23.9%",
-      "Price-To-Earnings ratio (24.3x) is below the Auto Components industry average (27x)",
-      "Earnings are forecast to grow 16.6% per year",
-      "Trading below our calculated fair Price-To-Earnings ratio"
+      "Earnings grew by 24.7% over the past year",
+      "Earnings are forecast to grow 16.56% per year",
+      "Trading below our calculated fair Price-To-Earnings ratio",
+      "Price-To-Earnings ratio (23x) is below the Indian market (23.2x)"
     ],
     "risks": [
-      "Unstable dividend track record"
+      "Dividend of 1.79% is not well covered by free cash flows",
+      "High level of [[non-cash earnings]]"
     ],
     "dividend": {
       "yield_pct": 1.3,
-      "payout_pct": 32.43976831724334,
+      "payout_pct": 30.893505237408853,
       "annualized_dividend": 30,
       "listing_currency": "INR",
       "recent_payments": [
@@ -239,8 +526,8 @@
     "dividend_yield_pct": 1.3,
     "industry_benchmarks": {
       "pe": 35.35685650485562,
-      "net_income_margin_1y": 0.06373692101,
-      "future_revenue_growth_3y": 0.4240176673,
+      "net_income_margin_1y": 0.06320108827,
+      "future_revenue_growth_3y": 0.4149538086,
       "sector_pe": 35.35685650485562
     },
     "industry_benchmarks_meta": {
@@ -275,15 +562,15 @@
         "url": "https://groww.in/stocks/fiem-industries-ltd"
       },
       "sws_statement": {
-        "company_pe": 24.3,
-        "industry_pe": 27,
+        "company_pe": 23,
+        "industry_pe": 26.6,
         "industry_name": "Indian Auto Components",
-        "description": "FIEMIND is good value based on its Price-To-Earnings Ratio (24.3x) compared to the Indian Auto Components industry average (27x).",
+        "description": "FIEMIND is good value based on its Price-To-Earnings Ratio (23x) compared to the Indian Auto Components industry average (26.6x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 27.035828631,
+        "industry_pe": 26.637397669,
         "industry_code": "4011000",
         "type": "median_profitable",
         "count": 129,
@@ -295,25 +582,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24.55,
+        "industry_pe": 24.95,
         "sample_count": 124,
         "industry_code": "4011000",
         "industry_name": "Automobiles"
       },
       "sws_primary_industry": {
-        "industry_pe": 19.117936258,
+        "industry_pe": 19.1352443,
         "industry_name": "Automobiles",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 24.25413344519227
+        "company_pe": 23.046554907107005
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 2243,
-        "fetched_at": "2026-05-31T22:51:07.898Z",
+        "value": 2238,
+        "fetched_at": "2026-06-11T01:46:36.579Z",
         "url": "https://simplywall.st/stocks/in/automobiles/nse-fiemind/fiem-industries-shares"
       },
       "market_cap_inr": {
@@ -321,6 +608,24 @@
         "value": 60944500000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/fiem-industries-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 2769,
+        "fetched_at": "2026-06-11T01:46:36.579Z",
+        "url": "https://simplywall.st/stocks/in/automobiles/nse-fiemind/fiem-industries-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "953e8165-8c0b-45d6-99c2-d1b23d6dd79b",
+        "narrative_type": null,
+        "published_at": "2026-06-04T16:04:54.831Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 23.726541554959784,
+        "fetched_at": "2026-06-11T01:46:36.579Z",
+        "url": "https://simplywall.st/stocks/in/automobiles/nse-fiemind/fiem-industries-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -360,14 +665,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.06373692101,
-        "fetched_at": "2026-05-31T22:51:07.898Z",
+        "value": 0.06320108827,
+        "fetched_at": "2026-06-11T01:46:36.579Z",
         "url": "https://simplywall.st/stocks/in/automobiles/nse-fiemind/fiem-industries-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.4240176673,
-        "fetched_at": "2026-05-31T22:51:07.898Z",
+        "value": 0.4149538086,
+        "fetched_at": "2026-06-11T01:46:36.579Z",
         "url": "https://simplywall.st/stocks/in/automobiles/nse-fiemind/fiem-industries-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -476,13 +781,13 @@
         "url": "https://groww.in/stocks/fiem-industries-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 18.77905404943789,
+    "earnings_growth_yoy_pct": 19.684530532656765,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 11.486196204830838,
-    "latest_revenue": 26819475000,
-    "latest_net_income": 2434018000,
+    "revenue_growth_pct": 14.294699081192984,
+    "latest_revenue": 28363976000,
+    "latest_net_income": 2555844000,
     "latest_eps": 92.48,
-    "most_recent_reported_date": "2026-05-11",
+    "most_recent_reported_date": "2026-06-04",
     "pb": 5.64,
     "ps": 2.27,
     "book_value": 410.4675972,
@@ -499,16 +804,16 @@
     "quick_ratio": 1.75276239601507,
     "cash_ratio": 0.6844420845027687,
     "returns_pct": {
-      "1D": -3.1185210780925976,
-      "7D": 0.9269258459323212,
-      "1M": 2.2706547510487045,
-      "3M": 3.0553641167011256,
-      "6M": -0.9844170750011115,
-      "1Y": 28.641890341821526,
+      "1D": -2.6024893376273033,
+      "7D": -4.644226672347678,
+      "1M": 0.7518120019808139,
+      "3M": 6.490293110011425,
+      "6M": -2.5897714907508163,
+      "1Y": 17.857707093580487,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 6,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -560,8 +865,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.25656,
-        "shares": 67526,
+        "pct": 0.26405,
+        "shares": 69498,
         "is_insider": null
       },
       {
@@ -585,11 +890,6 @@
         "is_insider": null
       },
       {
-        "pct": 0.10453,
-        "shares": 27511,
-        "is_insider": null
-      },
-      {
         "pct": 0.10037,
         "shares": 26416,
         "is_insider": null
@@ -597,6 +897,11 @@
       {
         "pct": 0.10031,
         "shares": 26400,
+        "is_insider": null
+      },
+      {
+        "pct": 0.09832,
+        "shares": 25877,
         "is_insider": null
       },
       {
@@ -627,7 +932,7 @@
   },
   "dividend": {
     "yield_pct": 1.3,
-    "payout_pct": 32.43976831724334,
+    "payout_pct": 30.893505237408853,
     "annualized_dividend": 30,
     "listing_currency": "INR",
     "recent_payments": [
@@ -791,44 +1096,44 @@
     "payment_count": 12
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-11",
+    "most_recent_reported_date": "2026-06-04",
     "latest_year": 2026,
-    "latest_revenue": 26819475000,
-    "latest_net_income": 2434018000,
+    "latest_revenue": 28363976000,
+    "latest_net_income": 2555844000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 11.486196204830838,
-    "earnings_growth_pct": 18.77905404943789,
-    "net_margin_pct": 9.075561695372485,
+    "revenue_growth_pct": 14.294699081192984,
+    "earnings_growth_pct": 19.684530532656765,
+    "net_margin_pct": 9.010880562019937,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 26819475000,
-        "netIncome": 2434018000,
+        "revenue": 28363976000,
+        "netIncome": 2555844000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 24056319000,
-        "netIncome": 2049197999.9999998,
+        "revenue": 24816528000,
+        "netIncome": 2135484000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 20155974000,
-        "netIncome": 1657051000,
+        "revenue": 21185094000,
+        "netIncome": 1790970000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 18355330000,
-        "netIncome": 1398318000,
+        "revenue": 18642595000,
+        "netIncome": 1462185000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 15604704000,
-        "netIncome": 941609000,
+        "revenue": 17301980000,
+        "netIncome": 1123740000,
         "eps": null
       }
     ]
@@ -1059,6 +1364,56 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "811d4029-7d13-4563-ad91-1a8f4d2266c1",
+      "type": "article",
+      "date": "2026-06-07T03:18:49.000Z",
+      "title": "Fiem Industries' (NSE:FIEMIND) Promising Earnings May Rest On Soft Foundations",
+      "body": "Fiem Industries Limited's ( NSE:FIEMIND ) robust earnings report didn't manage to move the market for its stock. Our...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/automobiles/nse-fiemind/fiem-industries-shares/news/fiem-industries-nsefiemind-promising-earnings-may-rest-on-so",
+      "raw_subtype": "article"
+    },
+    {
+      "id": "46bf9312-0125-4578-a7bd-1844306ddcd1",
+      "type": "narrative-update",
+      "date": "2026-06-04T16:04:54.000Z",
+      "title": "FIEMIND: New EMI EMC Lab Will Support Future Upside Potential",
+      "body": "Analysts have nudged their fair value estimate for Fiem Industries up from ₹2,709 to ₹2,769, citing updated assumptions around discount rates, revenue growth, profit margins and future P/E as key drivers behind the revised price target. What's in the News Board meeting on May 30, 2026 to consider and approve standalone and consolidated audited financial results for the quarter and year ended March 31, 2026, and to consider a final dividend for FY 2025-26.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/automobiles/nse-fiemind/fiem-industries-shares/e2euvei1-led-lighting-shifts-will-ensure-a-resilient-auto-future-drmq/updates/23-analysts-have-nudged-their-fair-value-estimate-for-fiem-indu",
+      "raw_subtype": "narrative-update"
+    },
+    {
+      "id": "9f8d8049-63df-4583-9eae-ebcfcd5bd32f",
+      "type": "event",
+      "date": "2026-06-04T14:07:00.000Z",
+      "title": "Fiem Industries Limited, Annual General Meeting, Jul 31, 2026",
+      "body": "Fiem Industries Limited, Annual General Meeting, Jul 31, 2026, at 10:30 Indian Standard Time.",
+      "keyDevTypeId": "62",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
+    {
+      "id": "5bc8af82-b16a-46fc-9319-daf52727a617",
+      "type": "brief",
+      "date": "2026-06-04T11:46:53.000Z",
+      "title": "Dividend increased to ₹40.00",
+      "body": "Dividend of ₹40.00 is 33% higher than last year. Ex-date: 24th July 2026 Payment date: 14th August 2026 Dividend yield will be 1.7%, which is higher than the industry average of 0.6%. Sustainability & Growth Dividend is covered by earnings (39% earnings payout ratio) but not covered by cash flows (223% cash payout ratio). The dividend has increased by an average of 24% per year over the past 10 years. However, payments have been volatile during that time. EPS is expected to grow by 58% over the next 3 years, which should provide support to the dividend and adequate earnings cover.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "277e10d3-f7f0-483b-8615-8b6c3e63581c",
+      "type": "brief",
+      "date": "2026-06-01T08:05:42.000Z",
+      "title": "Full year 2026 earnings released: EPS: ₹97.11 (vs ₹77.86 in FY 2025)",
+      "body": "Full year 2026 results: EPS: ₹97.11 (up from ₹77.86 in FY 2025). Revenue: ₹28.4b (up 18% from FY 2025). Net income: ₹2.56b (up 25% from FY 2025). Profit margin: 9.0% (up from 8.5% in FY 2025). The increase in margin was driven by higher revenue. Revenue is forecast to grow 15% p.a. on average during the next 2 years, compared to a 11% growth forecast for the Auto Components industry in India. Over the last 3 years on average, earnings per share has increased by 20% per year but the company’s share price has increased by 35% per year, which means it is tracking significantly ahead of earnings growth.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "93cc870b-192e-4b95-a845-7c341e52b395",
       "type": "event",

@@ -3,24 +3,24 @@
   "name": "Moxsh Overseas Educon Limited",
   "sector": "Consumer Services",
   "sws_url": "https://simplywall.st/stocks/in/consumer-services/nse-moxsh/moxsh-overseas-educon-shares",
-  "parsed_at": "2026-05-31T21:03:11.125Z",
+  "parsed_at": "2026-06-11T00:05:20.532Z",
   "company_id": "667E3E0E-8AB9-408D-8413-347D1CDC36AD",
   "classification_status": "Active",
   "groww_source": null,
   "overview": {
     "snowflake": {
-      "valuation": 1,
+      "valuation": 3,
       "future": 0,
-      "past": 0,
-      "financial_health": 2,
+      "past": 2,
+      "financial_health": 5,
       "dividends": 0,
       "future_growth": 0,
-      "past_performance": 0,
-      "value": 1,
-      "health": 2,
+      "past_performance": 2,
+      "value": 3,
+      "health": 5,
       "dividend": 0
     },
-    "snowflake_total": 3,
+    "snowflake_total": 10,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 10,
@@ -70,40 +70,330 @@
         }
       ]
     },
-    "current_price_inr": 114.3,
-    "market_cap_inr": 1024493731.4023565,
-    "market_cap_usd": 120714180851.549,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_BECOME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 119.85,
+    "market_cap_inr": 1074239490.013757,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
-    "fifty_two_week": null,
-    "fair_value_inr": 24.436347,
+    "fifty_two_week": {
+      "low": 27,
+      "high": 140
+    },
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -78.6208687664042,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "a1033c52-3368-4827-b117-79d66d3eaec4",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
-      "pe": null,
+      "pe": 46.6,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
     },
     "multiples_meta": {
-      "pe_source": null,
-      "pe_source_label": null,
+      "pe_source": "sws_statement",
+      "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": null,
+      "pe_as_of": "2026-06-11T00:05:20.532Z",
       "pe_basis": "trailing_ttm",
-      "pe_source_url": null
+      "pe_source_url": "https://simplywall.st/stocks/in/consumer-services/nse-moxsh/moxsh-overseas-educon-shares"
     },
     "rewards": [
-      "Trading at good value vs. peer average Price-To-Sales ratio"
+      "Trading at good value vs. peer average Price-To-Earnings ratio",
+      "Trading at 36.9% below our estimate of its fair value",
+      "Became profitable this year"
     ],
     "risks": [
-      "Has less than 1 year of [[cash runway]]",
-      "Earnings have declined by 55.1% per year over past 5 years",
-      "Makes less than USD$1m in revenue (₹64M)",
+      "High level of [[non-cash earnings]]",
+      "Does not have meaningful revenue (₹129M)",
       "Does not have a meaningful market cap (₹1B)",
       "Shares are highly illiquid"
     ],
@@ -117,9 +407,9 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 22.053869194,
+      "pe": 23.770277636,
       "net_income_margin_1y": 0.1220838756,
-      "future_revenue_growth_3y": 0.4634859097
+      "future_revenue_growth_3y": 0.4821783461
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -133,10 +423,10 @@
     "pe_benchmark_source": {
       "provider": "sws_industry_api",
       "label": "SWS industry API",
-      "company_pe": null,
-      "company_pe_source": null,
-      "company_pe_source_label": null,
-      "industry_pe": 22.053869194,
+      "company_pe": 46.6,
+      "company_pe_source": "sws_statement",
+      "company_pe_source_label": "SWS visible statement",
+      "industry_pe": 23.770277636,
       "industry_name": "Consumer Services",
       "industry_code": "9551701",
       "sample_count": 27,
@@ -145,15 +435,15 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": null,
-        "industry_pe": 3.6,
+        "company_pe": 46.6,
+        "industry_pe": 23.8,
         "industry_name": "Indian Consumer Services",
-        "description": "MOXSH is expensive based on its Price-To-Sales Ratio (15.9x) compared to the Indian Consumer Services industry average (3.6x).",
-        "title": "Price-To-Sales vs Industry",
+        "description": "MOXSH is expensive based on its Price-To-Earnings Ratio (46.6x) compared to the Indian Consumer Services industry average (23.8x).",
+        "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 22.053869194,
+        "industry_pe": 23.770277636,
         "industry_code": "9551701",
         "type": "median_profitable",
         "count": 27,
@@ -165,7 +455,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.35,
+        "industry_pe": 21.75,
         "sample_count": 24,
         "industry_code": "9551701",
         "industry_name": "Consumer Services"
@@ -178,26 +468,41 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 114.3,
-        "fetched_at": "2026-05-31T21:03:11.125Z",
+        "value": 119.85,
+        "fetched_at": "2026-06-11T00:05:20.532Z",
+        "url": "https://simplywall.st/stocks/in/consumer-services/nse-moxsh/moxsh-overseas-educon-shares"
+      },
+      "multiples.pe": {
+        "provider": "sws_statement",
+        "value": 46.6,
+        "fetched_at": "2026-06-11T00:05:20.532Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/nse-moxsh/moxsh-overseas-educon-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 22.053869194,
+        "value": 23.770277636,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.1220838756,
-        "fetched_at": "2026-05-31T21:03:11.125Z",
+        "fetched_at": "2026-06-11T00:05:20.532Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/nse-moxsh/moxsh-overseas-educon-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.4634859097,
-        "fetched_at": "2026-05-31T21:03:11.125Z",
+        "value": 0.4821783461,
+        "fetched_at": "2026-06-11T00:05:20.532Z",
+        "url": "https://simplywall.st/stocks/in/consumer-services/nse-moxsh/moxsh-overseas-educon-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 27,
+          "high": 140
+        },
+        "fetched_at": "2026-06-11T00:05:20.532Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/nse-moxsh/moxsh-overseas-educon-shares"
       }
     },
@@ -224,16 +529,16 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -4.789670970428988,
-      "7D": -9.537000395726155,
-      "1M": -14.605902129249158,
-      "3M": 2.28187919463087,
-      "6M": 49.803407601572744,
-      "1Y": 323.3333333333333,
+      "1D": 4.626800523788736,
+      "7D": 4.855643044619421,
+      "1M": -10.459469555472545,
+      "3M": 4.217391304347822,
+      "6M": 51.13493064312736,
+      "1Y": 343.88888888888886,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 0,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -282,6 +587,27 @@
   "indices": [
     "NSEI"
   ],
-  "news": [],
+  "news": [
+    {
+      "id": "e91806cc-2e86-4e24-a924-c254900616de",
+      "type": "brief",
+      "date": "2026-06-04T11:33:52.000Z",
+      "title": "Full year 2026 earnings released: EPS: ₹2.66 (vs ₹0.94 loss in FY 2025)",
+      "body": "Full year 2026 results: EPS: ₹2.66 (up from ₹0.94 loss in FY 2025). Revenue: ₹130.9m (up 36% from FY 2025). Net income: ₹23.0m (up ₹28.1m from FY 2025). Profit margin: 18% (up from net loss in FY 2025). The move to profitability was driven by higher revenue. Over the last 3 years on average, earnings per share has fallen by 54% per year but the company’s share price has increased by 55% per year, which means it is well ahead of earnings.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "7ab27e24-34ef-4b5a-ab52-f24cc6fa13aa",
+      "type": "brief",
+      "date": "2026-06-02T12:20:40.000Z",
+      "title": "New minor risk - Financial data availability",
+      "body": "The company's latest financial reports are more than 6 months old. Last reported fiscal period ended September 2025. This is considered a minor risk. If the company has not reported its earnings on time, it may have been delayed due to audit problems or it may be finding it difficult to reconcile its accounts. Currently, the following risks have been identified for the company: Major Risks Shares are highly illiquid. Earnings have declined by 55% per year over the past 5 years. Revenue is less than US$1m (₹64m revenue, or US$677k). Minor Risks Less than 1 year of cash runway based on current free cash flow (-₹14m). Latest financial reports are more than 6 months old (reported September 2025 fiscal period end). Market cap is less than US$100m (₹981.5m market cap, or US$10.3m).",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    }
+  ],
   "_api_raw_path": "data/sws/deep-api/MOXSH.json"
 }

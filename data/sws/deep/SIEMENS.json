@@ -3,7 +3,7 @@
   "name": "Siemens Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-siemens/siemens-shares",
-  "parsed_at": "2026-05-31T22:19:35.129Z",
+  "parsed_at": "2026-06-11T01:22:38.460Z",
   "company_id": "79F77619-1426-46B1-B14D-23E078A95631",
   "classification_status": "Active",
   "groww_source": {
@@ -65,22 +65,308 @@
         }
       ]
     },
-    "current_price_inr": 3844,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_NOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_STABLE_IN_PAST_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 3582.7,
     "market_cap_inr": 1381943400000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 2826,
       "high": 3930
     },
-    "fair_value_inr": 3693.6,
+    "fair_value_inr": 3779.76923,
     "fair_value_range_inr": {
-      "min": 722.761066,
+      "min": 994.132313,
       "max": 819533.66,
-      "count": 32
+      "count": 31
     },
-    "upside_pct": -3.9125910509885555,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "6a0aee50-15b6-4b2f-9986-2f9fdaf748c1",
+      "narrative_type": null,
+      "published_at": "2024-06-19T03:53:59.628Z"
+    },
+    "upside_pct": 5.500578613894551,
     "multiples": {
       "pe": 50.18,
       "ps": 5.56,
@@ -97,7 +383,7 @@
       "pe_source_url": "https://groww.in/stocks/siemens-ltd"
     },
     "rewards": [
-      "Earnings are forecast to grow 19.04% per year"
+      "Earnings are forecast to grow 17.07% per year"
     ],
     "risks": [
       "High level of [[non-cash earnings]]"
@@ -257,8 +543,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 50.60717150952937,
-      "net_income_margin_1y": 0.08123838342,
-      "future_revenue_growth_3y": 0.2375755294,
+      "net_income_margin_1y": 0.0813664085,
+      "future_revenue_growth_3y": 0.2301136526,
       "sector_pe": 50.60717150952937
     },
     "industry_benchmarks_meta": {
@@ -293,15 +579,15 @@
         "url": "https://groww.in/stocks/siemens-ltd"
       },
       "sws_statement": {
-        "company_pe": 91.5,
-        "industry_pe": 12.3,
+        "company_pe": 85.3,
+        "industry_pe": 11.9,
         "industry_name": "Asian Industrials",
-        "description": "SIEMENS is expensive based on its Price-To-Earnings Ratio (91.5x) compared to the Asian Industrials industry average (12.3x).",
+        "description": "SIEMENS is expensive based on its Price-To-Earnings Ratio (85.3x) compared to the Asian Industrials industry average (11.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 25.712739511,
+        "industry_pe": 24.856505284,
         "industry_code": "3060000",
         "type": "median_profitable",
         "count": 10,
@@ -313,7 +599,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 25.700000000000003,
+        "industry_pe": 24.799999999999997,
         "sample_count": 10,
         "industry_code": "3060000",
         "industry_name": "Capital Goods"
@@ -326,8 +612,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 3844,
-        "fetched_at": "2026-05-31T22:19:35.129Z",
+        "value": 3582.7,
+        "fetched_at": "2026-06-11T01:22:38.460Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-siemens/siemens-shares"
       },
       "market_cap_inr": {
@@ -335,6 +621,24 @@
         "value": 1381943400000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/siemens-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 3779.76923,
+        "fetched_at": "2026-06-11T01:22:38.460Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-siemens/siemens-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "6a0aee50-15b6-4b2f-9986-2f9fdaf748c1",
+        "narrative_type": null,
+        "published_at": "2024-06-19T03:53:59.628Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 5.500578613894551,
+        "fetched_at": "2026-06-11T01:22:38.460Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-siemens/siemens-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -374,14 +678,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.08123838342,
-        "fetched_at": "2026-05-31T22:19:35.129Z",
+        "value": 0.0813664085,
+        "fetched_at": "2026-06-11T01:22:38.460Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-siemens/siemens-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.2375755294,
-        "fetched_at": "2026-05-31T22:19:35.129Z",
+        "value": 0.2301136526,
+        "fetched_at": "2026-06-11T01:22:38.460Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-siemens/siemens-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -513,16 +817,16 @@
     "quick_ratio": 2.2474646689348337,
     "cash_ratio": 0.9179207013870714,
     "returns_pct": {
-      "1D": -0.8946296439528661,
-      "7D": 0.8473909279324234,
-      "1M": 1.779284049989404,
-      "3M": 12.443690399578777,
-      "6M": 16.59084015771914,
-      "1Y": 16.767922235722963,
+      "1D": -1.0249185037847495,
+      "7D": -3.4208540004313157,
+      "1M": -0.6351231417794567,
+      "3M": 7.760098655517791,
+      "6M": 13.931819627297587,
+      "1Y": 6.949461177945603,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 5,
+    "recent_news_count": 7,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -549,13 +853,13 @@
         "is_insider": null
       },
       {
-        "pct": 0.92805,
-        "shares": 3304973,
+        "pct": 0.92749,
+        "shares": 3302987,
         "is_insider": null
       },
       {
-        "pct": 0.92749,
-        "shares": 3302987,
+        "pct": 0.89413,
+        "shares": 3184183,
         "is_insider": null
       },
       {
@@ -589,8 +893,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.38653,
-        "shares": 1376511,
+        "pct": 0.3865,
+        "shares": 1376404,
         "is_insider": null
       },
       {
@@ -599,8 +903,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.26963,
-        "shares": 960220,
+        "pct": 0.26894,
+        "shares": 957739,
         "is_insider": null
       },
       {
@@ -614,18 +918,18 @@
         "is_insider": null
       },
       {
+        "pct": 0.2246,
+        "shares": 799844,
+        "is_insider": null
+      },
+      {
         "pct": 0.21337,
         "shares": 759857,
         "is_insider": null
       },
       {
-        "pct": 0.20195,
-        "shares": 719189,
-        "is_insider": null
-      },
-      {
-        "pct": 0.17793,
-        "shares": 633635,
+        "pct": 0.16956,
+        "shares": 603838,
         "is_insider": null
       }
     ],
@@ -1018,6 +1322,26 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "b614938f-a9af-4080-bd07-8e79f0903097",
+      "type": "article",
+      "date": "2026-06-03T00:09:42.000Z",
+      "title": "Siemens' (NSE:SIEMENS) Weak Earnings May Only Reveal A Part Of The Whole Picture",
+      "body": "The market rallied behind Siemens Limited's ( NSE:SIEMENS ) stock, leading do a rise in the share price after its...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/capital-goods/nse-siemens/siemens-shares/news/siemens-nsesiemens-weak-earnings-may-only-reveal-a-part-of-t",
+      "raw_subtype": "article"
+    },
+    {
+      "id": "40bc10fd-8aa8-4f76-abfc-64e055b20c41",
+      "type": "brief",
+      "date": "2026-06-01T12:21:45.000Z",
+      "title": "Insufficient new directors",
+      "body": "There is 1 new director who has joined the board in the last 3 years. The company's board is composed of: 1 new director. 5 experienced directors. 1 highly experienced director. CFO & Executive Director Wolfgang Wrumnig was the last director to join the board, commencing their role in 2024. The company’s insufficient board refreshment is considered a risk according to the Simply Wall St Risk Model.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "8a7dafec-4e16-4015-84fd-308a7f0b51ad",
       "type": "brief",

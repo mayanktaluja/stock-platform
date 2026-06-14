@@ -3,7 +3,7 @@
   "name": "Procter & Gamble Hygiene and Health Care Limited",
   "sector": "Household",
   "sws_url": "https://simplywall.st/stocks/in/household/nse-pghh/procter-gamble-hygiene-and-health-care-shares",
-  "parsed_at": "2026-05-31T21:30:31.474Z",
+  "parsed_at": "2026-06-11T00:32:41.348Z",
   "company_id": "773F6D34-D10A-42EC-9F09-60D494B39867",
   "classification_status": "Active",
   "groww_source": {
@@ -16,34 +16,320 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 2,
+      "valuation": 3,
       "future": 2,
       "past": 5,
       "financial_health": 6,
-      "dividends": 4,
+      "dividends": 5,
       "future_growth": 2,
       "past_performance": 5,
-      "value": 2,
+      "value": 3,
       "health": 6,
-      "dividend": 4
+      "dividend": 5
     },
-    "snowflake_total": 19,
-    "current_price_inr": 9651,
+    "snowflake_total": 21,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_OUTSTANDING"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_NOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 9030.5,
     "market_cap_inr": 327944300000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 8979,
       "high": 14540
     },
-    "fair_value_inr": 13367.724923,
+    "fair_value_inr": 13391.043625,
     "fair_value_range_inr": {
-      "min": 4684.761308,
-      "max": 13367.724923,
+      "min": 4734.64779,
+      "max": 13391.043625,
       "count": 4
     },
-    "upside_pct": 38.511293368562846,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "97868ba0-852b-46ba-8a89-b0bcd4bf71a4",
+      "narrative_type": null,
+      "published_at": "2024-06-19T03:52:49.348Z"
+    },
+    "upside_pct": 48.286845966447046,
     "multiples": {
       "pe": 38.16,
       "ps": 7.58,
@@ -61,13 +347,14 @@
     },
     "rewards": [
       "Earnings have grown 7.8% per year over the past 5 years",
+      "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Earnings are forecast to grow 7.87% per year",
       "Trading below our calculated fair Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (36.6x) is below the Personal Products industry average (40.1x)",
-      "Trading at good value vs. industry average Price-To-Earnings ratio"
+      "Trading at good value vs. industry average Price-To-Earnings ratio",
+      "Price-To-Earnings ratio (34.2x) is below the Personal Products industry average (39.3x)"
     ],
     "risks": [
-      "Dividend of 2.43% is not well covered by earnings"
+      "Unstable dividend track record"
     ],
     "dividend": {
       "yield_pct": 1.73,
@@ -79,19 +366,6 @@
           "exDate": "2026-02-05T00:00:00.000Z",
           "payDate": "2026-02-27T00:00:00.000Z",
           "recordDate": "2026-02-05T00:00:00.000Z",
-          "divAmount": 25,
-          "divAmountListingCurrency": 25,
-          "currencyIsoCode": "INR",
-          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-          "divFreqTypeName": "Bonus Payment",
-          "annualizedDividend": 235,
-          "annualizedDividendListingCurrency": 235,
-          "annualizedYield": 2.2560941371
-        },
-        {
-          "exDate": "2026-02-05T00:00:00.000Z",
-          "payDate": "2026-02-27T00:00:00.000Z",
-          "recordDate": "2026-02-05T00:00:00.000Z",
           "divAmount": 170,
           "divAmountListingCurrency": 170,
           "currencyIsoCode": "INR",
@@ -99,7 +373,20 @@
           "divFreqTypeName": "Interim Payment",
           "annualizedDividend": 235,
           "annualizedDividendListingCurrency": 235,
-          "annualizedYield": 2.2560941371
+          "annualizedYield": 2.2538672291
+        },
+        {
+          "exDate": "2026-02-05T00:00:00.000Z",
+          "payDate": "2026-02-27T00:00:00.000Z",
+          "recordDate": "2026-02-05T00:00:00.000Z",
+          "divAmount": 25,
+          "divAmountListingCurrency": 25,
+          "currencyIsoCode": "INR",
+          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+          "divFreqTypeName": "Bonus Payment",
+          "annualizedDividend": 235,
+          "annualizedDividendListingCurrency": 235,
+          "annualizedYield": 2.2538672291
         },
         {
           "exDate": "2025-08-28T00:00:00.000Z",
@@ -144,11 +431,11 @@
           "exDate": "2024-02-09T00:00:00.000Z",
           "payDate": "2024-02-29T00:00:00.000Z",
           "recordDate": "2024-02-09T00:00:00.000Z",
-          "divAmount": 60,
-          "divAmountListingCurrency": 60,
+          "divAmount": 100,
+          "divAmountListingCurrency": 100,
           "currencyIsoCode": "INR",
-          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-          "divFreqTypeName": "Bonus Payment",
+          "dividendTypeName": "No special code applies",
+          "divFreqTypeName": "Interim Payment",
           "annualizedDividend": 205,
           "annualizedDividendListingCurrency": 205,
           "annualizedYield": 1.2500618917
@@ -157,11 +444,11 @@
           "exDate": "2024-02-09T00:00:00.000Z",
           "payDate": "2024-02-29T00:00:00.000Z",
           "recordDate": "2024-02-09T00:00:00.000Z",
-          "divAmount": 100,
-          "divAmountListingCurrency": 100,
+          "divAmount": 60,
+          "divAmountListingCurrency": 60,
           "currencyIsoCode": "INR",
-          "dividendTypeName": "No special code applies",
-          "divFreqTypeName": "Interim Payment",
+          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+          "divFreqTypeName": "Bonus Payment",
           "annualizedDividend": 205,
           "annualizedDividendListingCurrency": 205,
           "annualizedYield": 1.2500618917
@@ -238,7 +525,7 @@
     "industry_benchmarks": {
       "pe": 49.972079859212336,
       "net_income_margin_1y": 0.1701929734,
-      "future_revenue_growth_3y": 0.276221244,
+      "future_revenue_growth_3y": 0.2776314532,
       "sector_pe": 49.972079859212336
     },
     "industry_benchmarks_meta": {
@@ -273,15 +560,15 @@
         "url": "https://groww.in/stocks/procter-gamble-hygiene-health-care-ltd"
       },
       "sws_statement": {
-        "company_pe": 36.6,
-        "industry_pe": 40.1,
+        "company_pe": 34.2,
+        "industry_pe": 39.3,
         "industry_name": "Indian Personal Products",
-        "description": "PGHH is good value based on its Price-To-Earnings Ratio (36.6x) compared to the Indian Personal Products industry average (40.1x).",
+        "description": "PGHH is good value based on its Price-To-Earnings Ratio (34.2x) compared to the Indian Personal Products industry average (39.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 40.050618651,
+        "industry_pe": 39.287535026,
         "industry_code": "5220000",
         "type": "median_profitable",
         "count": 25,
@@ -293,7 +580,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 38.35,
+        "industry_pe": 37.25,
         "sample_count": 22,
         "industry_code": "5220000",
         "industry_name": "Household"
@@ -306,8 +593,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 9651,
-        "fetched_at": "2026-05-31T21:30:31.474Z",
+        "value": 9030.5,
+        "fetched_at": "2026-06-11T00:32:41.348Z",
         "url": "https://simplywall.st/stocks/in/household/nse-pghh/procter-gamble-hygiene-and-health-care-shares"
       },
       "market_cap_inr": {
@@ -315,6 +602,24 @@
         "value": 327944300000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/procter-gamble-hygiene-health-care-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 13391.043625,
+        "fetched_at": "2026-06-11T00:32:41.348Z",
+        "url": "https://simplywall.st/stocks/in/household/nse-pghh/procter-gamble-hygiene-and-health-care-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "97868ba0-852b-46ba-8a89-b0bcd4bf71a4",
+        "narrative_type": null,
+        "published_at": "2024-06-19T03:52:49.348Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 48.286845966447046,
+        "fetched_at": "2026-06-11T00:32:41.348Z",
+        "url": "https://simplywall.st/stocks/in/household/nse-pghh/procter-gamble-hygiene-and-health-care-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -355,13 +660,13 @@
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.1701929734,
-        "fetched_at": "2026-05-31T21:30:31.474Z",
+        "fetched_at": "2026-06-11T00:32:41.348Z",
         "url": "https://simplywall.st/stocks/in/household/nse-pghh/procter-gamble-hygiene-and-health-care-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.276221244,
-        "fetched_at": "2026-05-31T21:30:31.474Z",
+        "value": 0.2776314532,
+        "fetched_at": "2026-06-11T00:32:41.348Z",
         "url": "https://simplywall.st/stocks/in/household/nse-pghh/procter-gamble-hygiene-and-health-care-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -493,12 +798,12 @@
     "quick_ratio": 1.171345470610975,
     "cash_ratio": 0.7300038657658818,
     "returns_pct": {
-      "1D": -4.58724666337123,
-      "7D": 0.6885758998435054,
-      "1M": -6.93794898992334,
-      "3M": -14.976654039291692,
-      "6M": -24.3414863593603,
-      "1Y": -28.335932278903986,
+      "1D": -0.022142264046498755,
+      "7D": -2.8874072480911925,
+      "1M": -8.83807793256612,
+      "3M": -16.54652989557342,
+      "6M": -29.305620792234226,
+      "1Y": -32.68356317554976,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -534,8 +839,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.42944,
-        "shares": 139400,
+        "pct": 0.4294,
+        "shares": 139386,
         "is_insider": null
       },
       {
@@ -594,8 +899,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.01733,
-        "shares": 5626,
+        "pct": 0.01741,
+        "shares": 5650,
         "is_insider": null
       },
       {
@@ -629,19 +934,6 @@
         "exDate": "2026-02-05T00:00:00.000Z",
         "payDate": "2026-02-27T00:00:00.000Z",
         "recordDate": "2026-02-05T00:00:00.000Z",
-        "divAmount": 25,
-        "divAmountListingCurrency": 25,
-        "currencyIsoCode": "INR",
-        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-        "divFreqTypeName": "Bonus Payment",
-        "annualizedDividend": 235,
-        "annualizedDividendListingCurrency": 235,
-        "annualizedYield": 2.2560941371
-      },
-      {
-        "exDate": "2026-02-05T00:00:00.000Z",
-        "payDate": "2026-02-27T00:00:00.000Z",
-        "recordDate": "2026-02-05T00:00:00.000Z",
         "divAmount": 170,
         "divAmountListingCurrency": 170,
         "currencyIsoCode": "INR",
@@ -649,7 +941,20 @@
         "divFreqTypeName": "Interim Payment",
         "annualizedDividend": 235,
         "annualizedDividendListingCurrency": 235,
-        "annualizedYield": 2.2560941371
+        "annualizedYield": 2.2538672291
+      },
+      {
+        "exDate": "2026-02-05T00:00:00.000Z",
+        "payDate": "2026-02-27T00:00:00.000Z",
+        "recordDate": "2026-02-05T00:00:00.000Z",
+        "divAmount": 25,
+        "divAmountListingCurrency": 25,
+        "currencyIsoCode": "INR",
+        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+        "divFreqTypeName": "Bonus Payment",
+        "annualizedDividend": 235,
+        "annualizedDividendListingCurrency": 235,
+        "annualizedYield": 2.2538672291
       },
       {
         "exDate": "2025-08-28T00:00:00.000Z",
@@ -694,11 +999,11 @@
         "exDate": "2024-02-09T00:00:00.000Z",
         "payDate": "2024-02-29T00:00:00.000Z",
         "recordDate": "2024-02-09T00:00:00.000Z",
-        "divAmount": 60,
-        "divAmountListingCurrency": 60,
+        "divAmount": 100,
+        "divAmountListingCurrency": 100,
         "currencyIsoCode": "INR",
-        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-        "divFreqTypeName": "Bonus Payment",
+        "dividendTypeName": "No special code applies",
+        "divFreqTypeName": "Interim Payment",
         "annualizedDividend": 205,
         "annualizedDividendListingCurrency": 205,
         "annualizedYield": 1.2500618917
@@ -707,11 +1012,11 @@
         "exDate": "2024-02-09T00:00:00.000Z",
         "payDate": "2024-02-29T00:00:00.000Z",
         "recordDate": "2024-02-09T00:00:00.000Z",
-        "divAmount": 100,
-        "divAmountListingCurrency": 100,
+        "divAmount": 60,
+        "divAmountListingCurrency": 60,
         "currencyIsoCode": "INR",
-        "dividendTypeName": "No special code applies",
-        "divFreqTypeName": "Interim Payment",
+        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+        "divFreqTypeName": "Bonus Payment",
         "annualizedDividend": 205,
         "annualizedDividendListingCurrency": 205,
         "annualizedYield": 1.2500618917

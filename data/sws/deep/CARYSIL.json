@@ -3,7 +3,7 @@
   "name": "Carysil Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-carysil/carysil-shares",
-  "parsed_at": "2026-05-31T22:16:08.660Z",
+  "parsed_at": "2026-06-11T01:09:48.289Z",
   "company_id": "9C87B814-AF1C-4BFB-8A99-AE2B339507F7",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 3
     },
     "snowflake_total": 18,
-    "current_price_inr": 1077.55,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_STABLE_IN_PAST_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 1191.9,
     "market_cap_inr": 31150300000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 732.1,
       "high": 1143.85
     },
-    "fair_value_inr": 1269.557449,
+    "fair_value_inr": 1269.914001,
     "fair_value_range_inr": {
-      "min": 178.121396,
-      "max": 1269.557449,
+      "min": 181.275389,
+      "max": 1269.914001,
       "count": 8
     },
-    "upside_pct": 17.81888998190339,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "57fbe4d0-3296-4c10-923a-dffbd2f64ca4",
+      "narrative_type": null,
+      "published_at": "2024-06-19T03:51:12.843Z"
+    },
+    "upside_pct": 6.545347847973823,
     "multiples": {
       "pe": 31.47,
       "ps": 3.37,
@@ -181,8 +467,8 @@
     "dividend_yield_pct": 0.27,
     "industry_benchmarks": {
       "pe": 50.30824795612129,
-      "net_income_margin_1y": 0.09027086979,
-      "future_revenue_growth_3y": 0.4918096257,
+      "net_income_margin_1y": 0.09031717049,
+      "future_revenue_growth_3y": 0.4889812705,
       "sector_pe": 50.30824795612129
     },
     "industry_benchmarks_meta": {
@@ -217,18 +503,18 @@
         "url": "https://groww.in/stocks/acrysil-ltd"
       },
       "sws_statement": {
-        "company_pe": 31.2,
-        "industry_pe": 27.1,
+        "company_pe": 34.5,
+        "industry_pe": 30.4,
         "industry_name": "Indian Building",
-        "description": "CARYSIL is expensive based on its Price-To-Earnings Ratio (31.2x) compared to the Indian Building industry average (27.1x).",
+        "description": "CARYSIL is expensive based on its Price-To-Earnings Ratio (34.5x) compared to the Indian Building industry average (30.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 27.141472172,
+        "industry_pe": 30.395757786,
         "industry_code": "3030000",
         "type": "median_profitable",
-        "count": 55,
+        "count": 58,
         "source": {
           "type": "country",
           "country": "IN",
@@ -237,7 +523,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24.5,
+        "industry_pe": 28.1,
         "sample_count": 55,
         "industry_code": "3030000",
         "industry_name": "Capital Goods"
@@ -250,8 +536,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1077.55,
-        "fetched_at": "2026-05-31T22:16:08.660Z",
+        "value": 1191.9,
+        "fetched_at": "2026-06-11T01:09:48.289Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-carysil/carysil-shares"
       },
       "market_cap_inr": {
@@ -259,6 +545,24 @@
         "value": 31150300000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/acrysil-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 1269.914001,
+        "fetched_at": "2026-06-11T01:09:48.289Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-carysil/carysil-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "57fbe4d0-3296-4c10-923a-dffbd2f64ca4",
+        "narrative_type": null,
+        "published_at": "2024-06-19T03:51:12.843Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 6.545347847973823,
+        "fetched_at": "2026-06-11T01:09:48.289Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-carysil/carysil-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -298,14 +602,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.09027086979,
-        "fetched_at": "2026-05-31T22:16:08.660Z",
+        "value": 0.09031717049,
+        "fetched_at": "2026-06-11T01:09:48.289Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-carysil/carysil-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.4918096257,
-        "fetched_at": "2026-05-31T22:16:08.660Z",
+        "value": 0.4889812705,
+        "fetched_at": "2026-06-11T01:09:48.289Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-carysil/carysil-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -437,16 +741,16 @@
     "quick_ratio": 0.7249778809997789,
     "cash_ratio": 0.16196637911966377,
     "returns_pct": {
-      "1D": -1.6430103600931039,
-      "7D": -0.13438368860056027,
-      "1M": 20.430287789885437,
-      "3M": 20.302556659595837,
-      "6M": 6.387915288542226,
-      "1Y": 20.538061412830682,
+      "1D": 6.078675685297275,
+      "7D": 4.736379613356774,
+      "1M": 29.476943131823386,
+      "3M": 46.19158591929353,
+      "6M": 28.47903417052927,
+      "1Y": 32.565899232565904,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 4,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -503,11 +807,6 @@
         "is_insider": null
       },
       {
-        "pct": 0.30236,
-        "shares": 86000,
-        "is_insider": null
-      },
-      {
         "pct": 0.24431,
         "shares": 69488,
         "is_insider": null
@@ -538,8 +837,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.02056,
-        "shares": 5847,
+        "pct": 0.01827,
+        "shares": 5197,
         "is_insider": null
       },
       {
@@ -991,16 +1290,6 @@
       "body": "When close to half the companies in India have price-to-earnings ratios (or \"P/E's\") below 24x, you may consider...",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/stocks/in/capital-goods/nse-carysil/carysil-shares/news/earnings-not-telling-the-story-for-carysil-limited-nsecarysi",
-      "raw_subtype": "article"
-    },
-    {
-      "id": "8a6ed085-bf7f-45d2-bc4a-4add1790516b",
-      "type": "article",
-      "date": "2025-12-09T00:14:48.000Z",
-      "title": "These 4 Measures Indicate That Carysil (NSE:CARYSIL) Is Using Debt Reasonably Well",
-      "body": "Some say volatility, rather than debt, is the best way to think about risk as an investor, but Warren Buffett famously...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/capital-goods/nse-carysil/carysil-shares/news/these-4-measures-indicate-that-carysil-nsecarysil-is-using-d",
       "raw_subtype": "article"
     }
   ],

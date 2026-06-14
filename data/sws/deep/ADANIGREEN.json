@@ -3,7 +3,7 @@
   "name": "Adani Green Energy Limited",
   "sector": "Utilities",
   "sws_url": "https://simplywall.st/stocks/in/utilities/nse-adanigreen/adani-green-energy-shares",
-  "parsed_at": "2026-05-31T20:56:15.319Z",
+  "parsed_at": "2026-06-10T23:54:13.530Z",
   "company_id": "25B6CA02-6589-4BB8-8E36-C9AFB59F28B7",
   "classification_status": "Active",
   "groww_source": {
@@ -76,22 +76,308 @@
         }
       ]
     },
-    "current_price_inr": 1475.4,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 1483,
     "market_cap_inr": 2454210100000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "mega8",
     "shares_outstanding": 1647176155,
     "fifty_two_week": {
       "low": 765,
       "high": 1518
     },
-    "fair_value_inr": 1570,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": 482.408904,
       "max": 1570,
       "count": 54
     },
-    "upside_pct": 6.4118205232479255,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystHighTarget",
+      "owner_classification": null,
+      "narrative_id": "b2cb3808-2134-4695-a6e1-1b0a51c315fe",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 123.54,
       "ps": 19.91,
@@ -108,8 +394,8 @@
       "pe_source_url": "https://groww.in/stocks/adani-green-energy-ltd"
     },
     "rewards": [
-      "Earnings are forecast to grow 40.01% per year",
-      "Earnings grew by 24.5% over the past year"
+      "Earnings are forecast to grow 42.65% per year",
+      "Earnings grew by 19% over the past year"
     ],
     "risks": [
       "Interest payments are not well covered by earnings"
@@ -125,8 +411,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 27.571490272138643,
-      "net_income_margin_1y": 0.1209423191,
-      "future_revenue_growth_3y": 5.427136977,
+      "net_income_margin_1y": 0.1212166852,
+      "future_revenue_growth_3y": 4.632223946,
       "sector_pe": 27.571490272138643
     },
     "industry_benchmarks_meta": {
@@ -161,15 +447,15 @@
         "url": "https://groww.in/stocks/adani-green-energy-ltd"
       },
       "sws_statement": {
-        "company_pe": 147.1,
-        "industry_pe": 43.2,
+        "company_pe": null,
+        "industry_pe": 2.9,
         "industry_name": "Indian Renewable Energy",
-        "description": "ADANIGREEN is expensive based on its Price-To-Earnings Ratio (147.1x) compared to the Indian Renewable Energy industry average (43.2x).",
-        "title": "Price-To-Earnings vs Industry",
+        "description": "ADANIGREEN is expensive based on its Price-To-Sales Ratio (19.5x) compared to the Indian Renewable Energy industry average (2.9x).",
+        "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 43.204392735,
+        "industry_pe": 47.89880143,
         "industry_code": "9551702",
         "type": "median_profitable",
         "count": 24,
@@ -181,25 +467,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 34.95,
-        "sample_count": 20,
+        "industry_pe": 27.4,
+        "sample_count": 19,
         "industry_code": "9551702",
         "industry_name": "Utilities"
       },
       "sws_primary_industry": {
-        "industry_pe": 15.980260868,
+        "industry_pe": 15.472304367,
         "industry_name": "Utilities",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 147.10918275345037
+        "company_pe": 154.70311829417355
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1475.4,
-        "fetched_at": "2026-05-31T20:56:15.319Z",
+        "value": 1483,
+        "fetched_at": "2026-06-10T23:54:13.530Z",
         "url": "https://simplywall.st/stocks/in/utilities/nse-adanigreen/adani-green-energy-shares"
       },
       "market_cap_inr": {
@@ -246,14 +532,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.1209423191,
-        "fetched_at": "2026-05-31T20:56:15.319Z",
+        "value": 0.1212166852,
+        "fetched_at": "2026-06-10T23:54:13.530Z",
         "url": "https://simplywall.st/stocks/in/utilities/nse-adanigreen/adani-green-energy-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 5.427136977,
-        "fetched_at": "2026-05-31T20:56:15.319Z",
+        "value": 4.632223946,
+        "fetched_at": "2026-06-10T23:54:13.530Z",
         "url": "https://simplywall.st/stocks/in/utilities/nse-adanigreen/adani-green-energy-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -362,13 +648,13 @@
         "url": "https://groww.in/stocks/adani-green-energy-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 24.49133383571967,
+    "earnings_growth_yoy_pct": -0.9410288582183186,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 13.893049070566471,
-    "latest_revenue": 129280000000,
-    "latest_net_income": 16520000000,
+    "revenue_growth_pct": 5.146880310755038,
+    "latest_revenue": 129930000000,
+    "latest_net_income": 15790000000,
     "latest_eps": 12.06,
-    "most_recent_reported_date": "2026-05-07",
+    "most_recent_reported_date": "2026-06-01",
     "pb": 12.29,
     "ps": 19.91,
     "book_value": 121.2085064,
@@ -385,16 +671,16 @@
     "quick_ratio": 0.5620347394540943,
     "cash_ratio": 0.13727047146401986,
     "returns_pct": {
-      "1D": -0.9732196791730988,
-      "7D": 8.302136093371516,
-      "1M": 18.525064267352196,
-      "3M": 55.7396949385127,
-      "6M": 40.755580995993135,
-      "1Y": 46.209493608165694,
+      "1D": -3.3561420658194856,
+      "7D": 3.887915936952715,
+      "1M": 6.867478561648769,
+      "3M": 71.13842247994924,
+      "6M": 42.56873678138819,
+      "1Y": 39.839698255539844,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -520,44 +806,44 @@
     "payment_count": 0
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-07",
+    "most_recent_reported_date": "2026-06-01",
     "latest_year": 2026,
-    "latest_revenue": 129280000000,
-    "latest_net_income": 16520000000,
+    "latest_revenue": 129930000000,
+    "latest_net_income": 15790000000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 13.893049070566471,
-    "earnings_growth_pct": 24.49133383571967,
-    "net_margin_pct": 12.778465346534654,
+    "revenue_growth_pct": 5.146880310755038,
+    "earnings_growth_pct": -0.9410288582183186,
+    "net_margin_pct": 12.152697606403448,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 129280000000,
-        "netIncome": 16520000000,
+        "revenue": 129930000000,
+        "netIncome": 15790000000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 113510000000,
-        "netIncome": 13270000000,
+        "revenue": 123570000000,
+        "netIncome": 15940000000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 92440000000,
-        "netIncome": 9830000000,
+        "revenue": 99160000000,
+        "netIncome": 11070000000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 77910000000,
-        "netIncome": 8570000000,
+        "revenue": 83480000000,
+        "netIncome": 9650000000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 51430000000,
-        "netIncome": 3790000000,
+        "revenue": 58010000000,
+        "netIncome": 3740000000,
         "eps": null
       }
     ]
@@ -768,6 +1054,36 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "ccfa33b8-5f07-46ad-b55a-b05c10aa1abd",
+      "type": "narrative-update",
+      "date": "2026-06-01T21:05:26.000Z",
+      "title": "ADANIGREEN: Joint Venture And Governance Moves Will Support Future Earnings Visibility",
+      "body": "Analysts have kept the price target for Adani Green Energy unchanged at ₹1,570, citing relatively steady assumptions around revenue growth, profit margins, and future P/E expectations as the main factors behind this stance. What's in the News Adani Green Energy has scheduled a board meeting on April 24, 2026, to consider fourth quarter FY 2025-26 results, board level appointments and reappointments, changes in senior management, and matters related to joint statutory auditors.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/utilities/nse-adanigreen/adani-green-energy-shares/2m309oi4-secular-trends-and-5gw-additions-will-power-sustainable-energy-cdgq/updates/4-analysts-have-kept-the-price-target-for-adani-green-energy-u",
+      "raw_subtype": "narrative-update"
+    },
+    {
+      "id": "c36ae35f-4bbe-42b7-b749-43752b6b4754",
+      "type": "event",
+      "date": "2026-06-01T08:11:00.000Z",
+      "title": "Adani Green Energy Limited to Report Q2, 2027 Results on Oct 21, 2026",
+      "body": "Adani Green Energy Limited announced that they will report Q2, 2027 results on Oct 21, 2026",
+      "keyDevTypeId": "55",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
+    {
+      "id": "09ac5fed-bf35-42d1-af39-dd78b7ee2306",
+      "type": "brief",
+      "date": "2026-05-31T22:51:15.000Z",
+      "title": "Full year 2026 earnings: EPS and revenues miss analyst expectations",
+      "body": "Full year 2026 results: EPS: ₹9.65 (up from ₹8.38 in FY 2025). Revenue: ₹129.9b (up 14% from FY 2025). Net income: ₹15.8b (up 19% from FY 2025). Profit margin: 12% (in line with FY 2025). Revenue missed analyst estimates by 2.4%. Earnings per share (EPS) also missed analyst estimates by 15%. Revenue is forecast to grow 25% p.a. on average during the next 3 years, compared to a 16% growth forecast for the Renewable Energy industry in India. Over the last 3 years on average, earnings per share has increased by 17% per year whereas the company’s share price has increased by 14% per year.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "7efcac93-84a9-459b-83f5-f07652f09fbc",
       "type": "narrative-update",
@@ -1036,26 +1352,6 @@
       "body": "Analysts have modestly raised their price target on Adani Green Energy to ₹825.89, reflecting slightly higher expectations for revenue growth and profit margin despite a marginal uptick in the assumed discount rate and a small compression in future P E multiples. What's in the News TotalEnergies is reportedly exploring the sale of up to a 6 percent stake in Adani Green Energy, potentially raising about INR 102,000 million, as part of broader efforts to reduce its debt burden (M&A Rumors and Discussions).",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/utilities/nse-adanigreen/adani-green-energy-shares/91o4y76q-rising-borrowing-costs-and-grid-delays-will-erode-margins-1fuv/updates/3-analysts-have-modestly-raised-their-price-target-on-adani-gr",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "78c12600-1542-44e9-97c7-9cf5d86bc62d",
-      "type": "article",
-      "date": "2025-12-18T01:31:46.000Z",
-      "title": "These 4 Measures Indicate That Adani Green Energy (NSE:ADANIGREEN) Is Using Debt Extensively",
-      "body": "Legendary fund manager Li Lu (who Charlie Munger backed) once said, 'The biggest investment risk is not the volatility...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/utilities/nse-adanigreen/adani-green-energy-shares/news/these-4-measures-indicate-that-adani-green-energy-nseadanigr",
-      "raw_subtype": "article"
-    },
-    {
-      "id": "d70a7866-562f-465b-93b5-e309563a6e29",
-      "type": "narrative-update",
-      "date": "2025-12-12T15:03:57.000Z",
-      "title": "ADANIGREEN: Future Multiple Expansion Will Likely Outpace Slowing Profit Margins",
-      "body": "Analysts have raised their price target for Adani Green Energy from ₹792.00 to approximately ₹825.89, citing expectations of stronger revenue growth despite lower projected profit margins and a higher future price to earnings multiple. What's in the News TotalEnergies is reportedly preparing to sell up to a 6 percent stake in Adani Green Energy, potentially raising about INR 102,000 million from the divestment at current market value (M&A rumors and discussions).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/utilities/nse-adanigreen/adani-green-energy-shares/91o4y76q-rising-borrowing-costs-and-grid-delays-will-erode-margins-1fuv/updates/2-analysts-have-raised-their-price-target-for-adani-green-ener",
       "raw_subtype": "narrative-update"
     }
   ],

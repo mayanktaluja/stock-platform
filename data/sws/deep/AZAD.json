@@ -3,7 +3,7 @@
   "name": "Azad Engineering Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-azad/azad-engineering-shares",
-  "parsed_at": "2026-05-31T21:23:48.908Z",
+  "parsed_at": "2026-06-11T00:19:42.566Z",
   "company_id": "49A6A39A-0531-4E77-9F6D-089CCABBA7A0",
   "classification_status": "Active",
   "groww_source": {
@@ -76,22 +76,308 @@
         }
       ]
     },
-    "current_price_inr": 2016.7,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 2159.5,
     "market_cap_inr": 132957700000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "medium5",
     "shares_outstanding": 64581743,
     "fifty_two_week": {
       "low": 1360,
       "high": 2350
     },
-    "fair_value_inr": 2460,
+    "fair_value_inr": 2070.71429,
     "fair_value_range_inr": {
       "min": 153.927181,
       "max": 2460,
-      "count": 16
+      "count": 17
     },
-    "upside_pct": 21.981454851985916,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "dd23cb4c-087b-4fc5-a8e4-b015a4e41398",
+      "narrative_type": null,
+      "published_at": "2026-06-09T23:10:11.920Z"
+    },
+    "upside_pct": -4.111401250289424,
     "multiples": {
       "pe": 99.55,
       "ps": 22.03,
@@ -125,8 +411,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 48.00927223189911,
-      "net_income_margin_1y": 0.0775877089,
-      "future_revenue_growth_3y": 0.6569887,
+      "net_income_margin_1y": 0.07792327667,
+      "future_revenue_growth_3y": 0.6221294666,
       "sector_pe": 48.00927223189911
     },
     "industry_benchmarks_meta": {
@@ -161,18 +447,18 @@
         "url": "https://groww.in/stocks/azad-engineering-ltd"
       },
       "sws_statement": {
-        "company_pe": 98,
-        "industry_pe": 26.4,
+        "company_pe": 108.4,
+        "industry_pe": 25.8,
         "industry_name": "Indian Machinery",
-        "description": "AZAD is expensive based on its Price-To-Earnings Ratio (98x) compared to the Indian Machinery industry average (26.4x).",
+        "description": "AZAD is expensive based on its Price-To-Earnings Ratio (108.4x) compared to the Indian Machinery industry average (25.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 25.908333666,
+        "industry_pe": 25.769114311,
         "industry_code": "3070000",
         "type": "median_profitable",
-        "count": 217,
+        "count": 220,
         "source": {
           "type": "country",
           "country": "IN",
@@ -181,25 +467,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 25.799999999999997,
-        "sample_count": 218,
+        "industry_pe": 25.6,
+        "sample_count": 219,
         "industry_code": "3070000",
         "industry_name": "Capital Goods"
       },
       "sws_primary_industry": {
-        "industry_pe": 21.475319439,
+        "industry_pe": 21.150765987,
         "industry_name": "Capital Goods",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 98.01696388998849
+        "company_pe": 104.95742228414247
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 2016.7,
-        "fetched_at": "2026-05-31T21:23:48.908Z",
+        "value": 2159.5,
+        "fetched_at": "2026-06-11T00:19:42.566Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-azad/azad-engineering-shares"
       },
       "market_cap_inr": {
@@ -207,6 +493,24 @@
         "value": 132957700000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/azad-engineering-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 2070.71429,
+        "fetched_at": "2026-06-11T00:19:42.566Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-azad/azad-engineering-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "dd23cb4c-087b-4fc5-a8e4-b015a4e41398",
+        "narrative_type": null,
+        "published_at": "2026-06-09T23:10:11.920Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": -4.111401250289424,
+        "fetched_at": "2026-06-11T00:19:42.566Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-azad/azad-engineering-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -246,14 +550,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.0775877089,
-        "fetched_at": "2026-05-31T21:23:48.908Z",
+        "value": 0.07792327667,
+        "fetched_at": "2026-06-11T00:19:42.566Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-azad/azad-engineering-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.6569887,
-        "fetched_at": "2026-05-31T21:23:48.908Z",
+        "value": 0.6221294666,
+        "fetched_at": "2026-06-11T00:19:42.566Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-azad/azad-engineering-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -364,11 +668,11 @@
     },
     "earnings_growth_yoy_pct": 32.99403475058051,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 30.762221366551284,
-    "latest_revenue": 6486290000,
+    "revenue_growth_pct": 21.55847245265978,
+    "latest_revenue": 6029750000,
     "latest_net_income": 1328770000,
     "latest_eps": 20.68,
-    "most_recent_reported_date": "2026-05-20",
+    "most_recent_reported_date": "2026-06-09",
     "pb": 8.7,
     "ps": 22.03,
     "book_value": 236.7381674,
@@ -385,12 +689,12 @@
     "quick_ratio": 2.1812204711401852,
     "cash_ratio": 0.6098721379720488,
     "returns_pct": {
-      "1D": -1.9639298040931341,
-      "7D": -1.1227691704255671,
-      "1M": -6.647224922464479,
-      "3M": 17.715386411393883,
-      "6M": 19.99880994882781,
-      "1Y": 13.719409044772748,
+      "1D": -3.161434977578476,
+      "7D": 3.2808838299296905,
+      "1M": -0.9449107839089909,
+      "3M": 36.254653290428415,
+      "6M": 34.305616020896814,
+      "1Y": 30.294437070109804,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -466,8 +770,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.81768,
-        "shares": 528072,
+        "pct": 0.8168,
+        "shares": 527504,
         "is_insider": null
       },
       {
@@ -520,19 +824,19 @@
     "payment_count": 0
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-20",
+    "most_recent_reported_date": "2026-06-09",
     "latest_year": 2026,
-    "latest_revenue": 6486290000,
+    "latest_revenue": 6029750000,
     "latest_net_income": 1328770000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 30.762221366551284,
+    "revenue_growth_pct": 21.55847245265978,
     "earnings_growth_pct": 32.99403475058051,
-    "net_margin_pct": 20.48582471644037,
+    "net_margin_pct": 22.03690036900369,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 6486290000,
+        "revenue": 6029750000,
         "netIncome": 1328770000,
         "eps": null
       },
@@ -743,6 +1047,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "16a4e681-5c10-41ba-8f14-cd7d620286e4",
+      "type": "narrative-update",
+      "date": "2026-06-09T23:10:11.000Z",
+      "title": "AZAD: Long Term Supply Agreements And New Facility Will Support Balanced Outlook",
+      "body": "Analysts have maintained their fair value estimate for Azad Engineering at ₹2,070.71 per share, with a slightly lower discount rate and a modestly adjusted future P/E assumption shaping the latest price target narrative. What's in the News Board meeting scheduled on May 12, 2026, to consider reappointment of Mr. Rakesh Chopdar as Whole-Time Director, Executive Chairman and CEO, and reappointment of Mrs.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-azad/azad-engineering-shares/lkr1cg7d-8-manufacturing-facilities-will-unlock-demand-in-energy-aerospace-and-defense-wz8d/updates/4-analysts-have-maintained-their-fair-value-estimate-for-azad",
+      "raw_subtype": "narrative-update"
+    },
     {
       "id": "604b9ba8-4586-4531-9a31-5811c250a9c7",
       "type": "narrative-update",

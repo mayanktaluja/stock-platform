@@ -3,7 +3,7 @@
   "name": "Lumax Industries Limited",
   "sector": "Automobiles",
   "sws_url": "https://simplywall.st/stocks/in/automobiles/nse-lumaxind/lumax-industries-shares",
-  "parsed_at": "2026-05-31T20:42:53.914Z",
+  "parsed_at": "2026-06-10T23:47:32.848Z",
   "company_id": "6E41C1E4-130D-42F2-879E-6E76FFDEDB9A",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 4
     },
     "snowflake_total": 17,
-    "current_price_inr": 5614.5,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_50_TO_75_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 5169.5,
     "market_cap_inr": 55866300000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 2715.5,
       "high": 6934.5
     },
-    "fair_value_inr": 6885.085305,
+    "fair_value_inr": 6789.889276,
     "fair_value_range_inr": {
-      "min": 716.678885,
-      "max": 716.678885,
+      "min": 725.398659,
+      "max": 725.398659,
       "count": 1
     },
-    "upside_pct": 22.630426663104455,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "83c0b3c2-cb8c-41f6-923c-1dffcde0d484",
+      "narrative_type": null,
+      "published_at": "2024-07-25T13:36:01.539Z"
+    },
+    "upside_pct": 31.34518378953477,
     "multiples": {
       "pe": 34.41,
       "ps": 1.43,
@@ -62,7 +348,7 @@
     "rewards": [
       "Earnings grew by 23.3% over the past year",
       "Trading below our calculated fair Price-To-Earnings ratio",
-      "Earnings are forecast to grow 28.51% per year"
+      "Earnings are forecast to grow 25.6% per year"
     ],
     "risks": [
       "Has a high level of debt",
@@ -85,7 +371,7 @@
           "divFreqTypeName": "Annual",
           "annualizedDividend": 35,
           "annualizedDividendListingCurrency": 35,
-          "annualizedYield": 0.7670027539
+          "annualizedYield": 0.7675811328
         },
         {
           "exDate": "2024-09-09T00:00:00.000Z",
@@ -223,8 +509,8 @@
     "dividend_yield_pct": 0.59,
     "industry_benchmarks": {
       "pe": 35.35685650485562,
-      "net_income_margin_1y": 0.06791655765,
-      "future_revenue_growth_3y": 2.175173168,
+      "net_income_margin_1y": 0.06741188528,
+      "future_revenue_growth_3y": 1.578279624,
       "sector_pe": 35.35685650485562
     },
     "industry_benchmarks_meta": {
@@ -259,15 +545,15 @@
         "url": "https://groww.in/stocks/lumax-industries-ltd"
       },
       "sws_statement": {
-        "company_pe": 30.4,
-        "industry_pe": 27,
+        "company_pe": 28.7,
+        "industry_pe": 26.3,
         "industry_name": "Indian Auto Components",
-        "description": "LUMAXIND is expensive based on its Price-To-Earnings Ratio (30.4x) compared to the Indian Auto Components industry average (27x).",
+        "description": "LUMAXIND is expensive based on its Price-To-Earnings Ratio (28.7x) compared to the Indian Auto Components industry average (26.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 27.035828631,
+        "industry_pe": 26.250505976,
         "industry_code": "4011000",
         "type": "median_profitable",
         "count": 129,
@@ -279,7 +565,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24.55,
+        "industry_pe": 24.95,
         "sample_count": 124,
         "industry_code": "4011000",
         "industry_name": "Automobiles"
@@ -292,8 +578,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 5614.5,
-        "fetched_at": "2026-05-31T20:42:53.914Z",
+        "value": 5169.5,
+        "fetched_at": "2026-06-10T23:47:32.848Z",
         "url": "https://simplywall.st/stocks/in/automobiles/nse-lumaxind/lumax-industries-shares"
       },
       "market_cap_inr": {
@@ -301,6 +587,24 @@
         "value": 55866300000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/lumax-industries-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 6789.889276,
+        "fetched_at": "2026-06-10T23:47:32.848Z",
+        "url": "https://simplywall.st/stocks/in/automobiles/nse-lumaxind/lumax-industries-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "83c0b3c2-cb8c-41f6-923c-1dffcde0d484",
+        "narrative_type": null,
+        "published_at": "2024-07-25T13:36:01.539Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 31.34518378953477,
+        "fetched_at": "2026-06-10T23:47:32.848Z",
+        "url": "https://simplywall.st/stocks/in/automobiles/nse-lumaxind/lumax-industries-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -340,14 +644,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.06791655765,
-        "fetched_at": "2026-05-31T20:42:53.914Z",
+        "value": 0.06741188528,
+        "fetched_at": "2026-06-10T23:47:32.848Z",
         "url": "https://simplywall.st/stocks/in/automobiles/nse-lumaxind/lumax-industries-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 2.175173168,
-        "fetched_at": "2026-05-31T20:42:53.914Z",
+        "value": 1.578279624,
+        "fetched_at": "2026-06-10T23:47:32.848Z",
         "url": "https://simplywall.st/stocks/in/automobiles/nse-lumaxind/lumax-industries-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -479,16 +783,16 @@
     "quick_ratio": 0.4092051121345069,
     "cash_ratio": 0.00521568520587514,
     "returns_pct": {
-      "1D": -6.088483733377938,
-      "7D": -0.5226789510985117,
-      "1M": 10.51730246840676,
-      "3M": -7.135414082270625,
-      "6M": 0.0695112822157993,
-      "1Y": 91.3142740314172,
+      "1D": -2.3055844278559956,
+      "7D": -4.744794545789571,
+      "1M": -8.171240785149658,
+      "3M": 4.413249848515451,
+      "6M": -5.940684133915575,
+      "1Y": 60.71817192600653,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 5,
+    "recent_news_count": 6,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -540,8 +844,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.37184,
-        "shares": 34759,
+        "pct": 0.37557,
+        "shares": 35107,
         "is_insider": null
       },
       {
@@ -617,7 +921,7 @@
         "divFreqTypeName": "Annual",
         "annualizedDividend": 35,
         "annualizedDividendListingCurrency": 35,
-        "annualizedYield": 0.7670027539
+        "annualizedYield": 0.7675811328
       },
       {
         "exDate": "2024-09-09T00:00:00.000Z",
@@ -955,6 +1259,16 @@
   ],
   "news": [
     {
+      "id": "42dbf0d6-1ec3-4b06-abe2-2879328e8c45",
+      "type": "article",
+      "date": "2026-06-04T00:00:19.000Z",
+      "title": "What Does Lumax Industries Limited's (NSE:LUMAXIND) Share Price Indicate?",
+      "body": "Lumax Industries Limited ( NSE:LUMAXIND ), might not be a large cap stock, but it saw a double-digit share price rise...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/automobiles/nse-lumaxind/lumax-industries-shares/news/what-does-lumax-industries-limiteds-nselumaxind-share-price",
+      "raw_subtype": "article"
+    },
+    {
       "id": "1d57a47d-221e-41b4-bd58-8242bc4b6501",
       "type": "brief",
       "date": "2026-05-30T19:48:08.000Z",
@@ -1092,16 +1406,6 @@
       "body": "Warren Buffett famously said, 'Volatility is far from synonymous with risk.' So it might be obvious that you need to...",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/stocks/in/automobiles/nse-lumaxind/lumax-industries-shares/news/is-lumax-industries-nselumaxind-using-too-much-debt-1",
-      "raw_subtype": "article"
-    },
-    {
-      "id": "c5cc73fa-874a-4960-bdc5-1d05d7775f00",
-      "type": "article",
-      "date": "2025-12-10T00:07:04.000Z",
-      "title": "Earnings Tell The Story For Lumax Industries Limited (NSE:LUMAXIND) As Its Stock Soars 25%",
-      "body": "Lumax Industries Limited ( NSE:LUMAXIND ) shares have continued their recent momentum with a 25% gain in the last month...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/automobiles/nse-lumaxind/lumax-industries-shares/news/earnings-tell-the-story-for-lumax-industries-limited-nseluma",
       "raw_subtype": "article"
     }
   ],

@@ -3,7 +3,7 @@
   "name": "Coromandel International Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-coromandel/coromandel-international-shares",
-  "parsed_at": "2026-05-31T22:23:56.591Z",
+  "parsed_at": "2026-06-11T01:19:26.649Z",
   "company_id": "1055754C-AF30-4B2B-AAE5-EABAAA9E2923",
   "classification_status": "Active",
   "groww_source": {
@@ -28,9 +28,287 @@
       "dividend": 3
     },
     "snowflake_total": 16,
-    "current_price_inr": 1753.6,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DIVIDENDS_NOT_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 1880.7,
     "market_cap_inr": 540393100000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "large7",
     "shares_outstanding": 295014639,
     "fifty_two_week": {
@@ -40,10 +318,18 @@
     "fair_value_inr": 2353,
     "fair_value_range_inr": {
       "min": 2074.26,
-      "max": 2455.542359,
+      "max": 2491.638926,
       "count": 11
     },
-    "upside_pct": 34.181113138686136,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "ae810810-c807-4067-a2fc-35fbfe986e83",
+      "narrative_type": null,
+      "published_at": "2026-06-06T10:05:46.704Z"
+    },
+    "upside_pct": 25.11298984420694,
     "multiples": {
       "pe": 28.47,
       "ps": 1.72,
@@ -62,12 +348,12 @@
     "rewards": [
       "Trading below our calculated fair Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Analysts in good agreement that stock price will rise by 34.2%",
-      "Trading at 28.6% below our estimate of its fair value",
+      "Analysts in good agreement that stock price will rise by 30.2%",
+      "Trading at 27.6% below our estimate of its fair value",
       "Earnings are forecast to grow 18.36% per year"
     ],
     "risks": [
-      "Dividend of 0.63% is not well covered by free cash flows",
+      "Dividend of 0.61% is not well covered by free cash flows",
       "High level of [[non-cash earnings]]"
     ],
     "dividend": {
@@ -238,8 +524,8 @@
     "dividend_yield_pct": 0.6,
     "industry_benchmarks": {
       "pe": 24.544146068782208,
-      "net_income_margin_1y": 0.09487982097,
-      "future_revenue_growth_3y": 34.387188816,
+      "net_income_margin_1y": 0.09486136614,
+      "future_revenue_growth_3y": 32.656569349,
       "sector_pe": 24.544146068782208
     },
     "industry_benchmarks_meta": {
@@ -274,18 +560,18 @@
         "url": "https://groww.in/stocks/coromandel-international-ltd"
       },
       "sws_statement": {
-        "company_pe": 26.4,
-        "industry_pe": 22.2,
+        "company_pe": 27.3,
+        "industry_pe": 20.7,
         "industry_name": "Indian Chemicals",
-        "description": "COROMANDEL is expensive based on its Price-To-Earnings Ratio (26.4x) compared to the Indian Chemicals industry average (22.2x).",
+        "description": "COROMANDEL is expensive based on its Price-To-Earnings Ratio (27.3x) compared to the Indian Chemicals industry average (20.7x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 22.185241114,
+        "industry_pe": 20.665261726,
         "industry_code": "2020000",
         "type": "median_profitable",
-        "count": 304,
+        "count": 302,
         "source": {
           "type": "country",
           "country": "IN",
@@ -294,25 +580,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.5,
-        "sample_count": 293,
+        "industry_pe": 19.6,
+        "sample_count": 294,
         "industry_code": "2020000",
         "industry_name": "Materials"
       },
       "sws_primary_industry": {
-        "industry_pe": 19.26596559,
+        "industry_pe": 18.498719492,
         "industry_name": "Materials",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 26.446728060240776
+        "company_pe": 28.363572914515757
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1753.6,
-        "fetched_at": "2026-05-31T22:23:56.591Z",
+        "value": 1880.7,
+        "fetched_at": "2026-06-11T01:19:26.649Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-coromandel/coromandel-international-shares"
       },
       "market_cap_inr": {
@@ -320,6 +606,24 @@
         "value": 540393100000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/coromandel-international-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 2353,
+        "fetched_at": "2026-06-11T01:19:26.649Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-coromandel/coromandel-international-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "ae810810-c807-4067-a2fc-35fbfe986e83",
+        "narrative_type": null,
+        "published_at": "2026-06-06T10:05:46.704Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 25.11298984420694,
+        "fetched_at": "2026-06-11T01:19:26.649Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-coromandel/coromandel-international-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -359,14 +663,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.09487982097,
-        "fetched_at": "2026-05-31T22:23:56.591Z",
+        "value": 0.09486136614,
+        "fetched_at": "2026-06-11T01:19:26.649Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-coromandel/coromandel-international-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 34.387188816,
-        "fetched_at": "2026-05-31T22:23:56.591Z",
+        "value": 32.656569349,
+        "fetched_at": "2026-06-11T01:19:26.649Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-coromandel/coromandel-international-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -475,13 +779,13 @@
         "url": "https://groww.in/stocks/coromandel-international-ltd"
       }
     },
-    "earnings_growth_yoy_pct": -5.3381144566069505,
+    "earnings_growth_yoy_pct": -13.463835434638355,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 30.700545230190773,
+    "revenue_growth_pct": 19.246508636217467,
     "latest_revenue": 314795400000,
     "latest_net_income": 19561500000,
     "latest_eps": 64.34,
-    "most_recent_reported_date": "2026-05-12",
+    "most_recent_reported_date": "2026-06-05",
     "pb": 4.3,
     "ps": 1.72,
     "book_value": 425.6701113,
@@ -498,16 +802,16 @@
     "quick_ratio": 0.8258574643230822,
     "cash_ratio": 0.047184784218547694,
     "returns_pct": {
-      "1D": -4.263798656985322,
-      "7D": -3.6165768934813776,
-      "1M": -12.664973355246783,
-      "3M": -21.009009009009013,
-      "6M": -26.38428277570211,
-      "1Y": -23.202242270298683,
+      "1D": 4.072823861435457,
+      "7D": 7.739459211732363,
+      "1M": 0.7769799592755332,
+      "3M": -6.362957430918594,
+      "6M": -19.165305596148883,
+      "1Y": -21.018814043339486,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 9,
+    "recent_news_count": 1,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -534,8 +838,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.59471,
-        "shares": 4704640,
+        "pct": 1.59058,
+        "shares": 4692449,
         "is_insider": null
       },
       {
@@ -579,8 +883,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.64137,
-        "shares": 1892138,
+        "pct": 0.64135,
+        "shares": 1892091,
         "is_insider": null
       },
       {
@@ -790,14 +1094,14 @@
     "payment_count": 17
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-12",
+    "most_recent_reported_date": "2026-06-05",
     "latest_year": 2026,
     "latest_revenue": 314795400000,
     "latest_net_income": 19561500000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 30.700545230190773,
-    "earnings_growth_pct": -5.3381144566069505,
+    "revenue_growth_pct": 19.246508636217467,
+    "earnings_growth_pct": -13.463835434638355,
     "net_margin_pct": 6.214036164442048,
     "yearly_history": [
       {
@@ -808,26 +1112,26 @@
       },
       {
         "year": 2025,
-        "revenue": 240852400000,
-        "netIncome": 20664600000,
+        "revenue": 263987099999.99997,
+        "netIncome": 22605000000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 220583900000,
-        "netIncome": 16421900000.000002,
+        "revenue": 210938300000,
+        "netIncome": 14591300000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 296279000000,
-        "netIncome": 20129300000,
+        "revenue": 295921900000,
+        "netIncome": 20078800000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 191108500000,
-        "netIncome": 15284600000,
+        "revenue": 211760800000,
+        "netIncome": 16897599999.999998,
         "eps": null
       }
     ]
@@ -1058,6 +1362,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "71fdd384-0897-47a6-bff1-6a4f9a00cd50",
+      "type": "narrative-update",
+      "date": "2026-06-06T10:05:46.000Z",
+      "title": "COROMANDEL: Upcoming Board Actions Will Support Re Rated Upside Potential",
+      "body": "Analysts have maintained their price target for Coromandel International at ₹2,353, with only minor tweaks to discount rate, revenue growth, profit margin and future P/E inputs, reflecting updated assumptions rather than a change in overall view. What's in the News A board meeting is scheduled for March 30, 2026 to consider the redesignation of Mr. Narayanan Vellayan from Whole Time Director, Strategic Sourcing to Executive Director, Nutrient Business, and to note related senior management changes, effective April 20, 2026.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/materials/nse-coromandel/coromandel-international-shares/4f8362e9-robust-domestic-agriculture-and-green-diversification-will-drive-new-markets-y039/updates/13-analysts-have-maintained-their-price-target-for-coromandel-i",
+      "raw_subtype": "narrative-update"
+    },
     {
       "id": "7b96c3b4-f657-4717-ac65-527c7a563d21",
       "type": "article",
