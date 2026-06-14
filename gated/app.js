@@ -159,6 +159,7 @@ function wireMenu(trigger, dropdown, wrapper) {
 
 const SCROLL_RAIL_EDGE_TOLERANCE = 3;
 const MAIN_TABS_VISIBILITY_BUFFER_PX = 12;
+const MAIN_TABS_SNAP_PAGE_RATIO = 0.7;
 
 function getRailShell(el) {
   return el?.closest?.("[data-scroll-shell], .scroll-rail-shell") || null;
@@ -166,6 +167,90 @@ function getRailShell(el) {
 
 function isMainTabsRail(shell, rail) {
   return Boolean(shell?.classList?.contains("main-tabs-rail") && rail?.id === "mainTabs");
+}
+
+function mainTabsMaxScrollLeft(rail) {
+  return Math.max(0, (rail?.scrollWidth || 0) - (rail?.clientWidth || 0));
+}
+
+function getMainTabsItemLeft(rail, item) {
+  const railRect = rail.getBoundingClientRect();
+  const itemRect = item.getBoundingClientRect();
+  return itemRect.left - railRect.left + (rail.scrollLeft || 0);
+}
+
+function getMainTabsSnapTargets(rail) {
+  const maxScrollLeft = mainTabsMaxScrollLeft(rail);
+  const rawTargets = [0, maxScrollLeft];
+  rail?.querySelectorAll?.(".tab")?.forEach((tab) => {
+    rawTargets.push(Math.min(maxScrollLeft, Math.max(0, getMainTabsItemLeft(rail, tab))));
+  });
+  return rawTargets
+    .filter((target) => Number.isFinite(target))
+    .sort((a, b) => a - b)
+    .reduce((targets, target) => {
+      const previous = targets[targets.length - 1];
+      if (previous === undefined || Math.abs(previous - target) > SCROLL_RAIL_EDGE_TOLERANCE) {
+        targets.push(target);
+      }
+      return targets;
+    }, []);
+}
+
+function setMainTabsScrollLeft(rail, target) {
+  const next = Math.min(mainTabsMaxScrollLeft(rail), Math.max(0, target || 0));
+  if (typeof rail.scrollTo === "function") {
+    rail.scrollTo({ left: next, behavior: "auto" });
+  } else {
+    rail.scrollLeft = next;
+  }
+}
+
+function getMainTabsArrowTarget(rail, dir) {
+  const targets = getMainTabsSnapTargets(rail);
+  const current = rail.scrollLeft || 0;
+  const pageDistance = Math.max(80, (rail.clientWidth || 0) * MAIN_TABS_SNAP_PAGE_RATIO);
+  if (dir > 0) {
+    const pageTarget = current + pageDistance;
+    const forward = targets.filter((target) => target > current + SCROLL_RAIL_EDGE_TOLERANCE);
+    if (!forward.length) return mainTabsMaxScrollLeft(rail);
+    let next = forward[0];
+    for (const target of forward) {
+      if (target <= pageTarget + SCROLL_RAIL_EDGE_TOLERANCE) next = target;
+      else break;
+    }
+    return next;
+  }
+  const pageTarget = current - pageDistance;
+  const backward = targets.filter((target) => target < current - SCROLL_RAIL_EDGE_TOLERANCE);
+  if (!backward.length) return 0;
+  return backward.find((target) => target >= pageTarget - SCROLL_RAIL_EDGE_TOLERANCE) ?? backward[0];
+}
+
+function getMainTabsEdgeClipState(rail) {
+  const railRect = rail.getBoundingClientRect();
+  let left = false;
+  let right = false;
+  let leftWidth = 0;
+  let rightWidth = 0;
+  rail.querySelectorAll(".tab").forEach((tab) => {
+    const tabRect = tab.getBoundingClientRect();
+    if (tabRect.left < railRect.left - 1 && tabRect.right > railRect.left + 1) {
+      left = true;
+      leftWidth = Math.max(leftWidth, tabRect.right - railRect.left);
+    }
+    if (tabRect.left < railRect.right - 1 && tabRect.right > railRect.right + 1) {
+      right = true;
+      rightWidth = Math.max(rightWidth, railRect.right - tabRect.left);
+    }
+  });
+  const maxMaskWidth = Math.max(44, railRect.width * 0.48);
+  return {
+    left,
+    right,
+    leftWidth: Math.min(maxMaskWidth, Math.ceil(leftWidth + 12)),
+    rightWidth: Math.min(maxMaskWidth, Math.ceil(rightWidth + 12)),
+  };
 }
 
 function refreshScrollRail(shellOrRail) {
@@ -186,6 +271,20 @@ function refreshScrollRail(shellOrRail) {
   rail.setAttribute("data-scroll-overflow", String(overflow && !atEnd));
 
   const stableControls = isMainTabsRail(shell, rail);
+  if (stableControls) {
+    const clipped = getMainTabsEdgeClipState(rail);
+    shell.setAttribute("data-scroll-left-clipped", String(clipped.left));
+    shell.setAttribute("data-scroll-right-clipped", String(clipped.right));
+    if (clipped.left) shell.style.setProperty("--main-tabs-left-mask-width", `${clipped.leftWidth}px`);
+    else shell.style.removeProperty("--main-tabs-left-mask-width");
+    if (clipped.right) shell.style.setProperty("--main-tabs-right-mask-width", `${clipped.rightWidth}px`);
+    else shell.style.removeProperty("--main-tabs-right-mask-width");
+  } else {
+    shell.removeAttribute("data-scroll-left-clipped");
+    shell.removeAttribute("data-scroll-right-clipped");
+    shell.style.removeProperty("--main-tabs-left-mask-width");
+    shell.style.removeProperty("--main-tabs-right-mask-width");
+  }
   shell.querySelectorAll("[data-scroll-dir]").forEach((btn) => {
     if (stableControls) {
       btn.hidden = false;
@@ -210,10 +309,15 @@ function initScrollRail(shell) {
   shell.querySelectorAll("[data-scroll-dir]").forEach((btn) => {
     btn.addEventListener("click", () => {
       const dir = btn.getAttribute("data-scroll-dir") === "left" ? -1 : 1;
-      const amount = Math.max(80, rail.clientWidth * 0.7) * dir;
-      const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
-      rail.scrollBy({ left: amount, behavior: reduceMotion ? "auto" : "smooth" });
-      scheduleRefresh();
+      if (isMainTabsRail(shell, rail)) {
+        setMainTabsScrollLeft(rail, getMainTabsArrowTarget(rail, dir));
+        refreshScrollRail(shell);
+      } else {
+        const amount = Math.max(80, rail.clientWidth * 0.7) * dir;
+        const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+        rail.scrollBy({ left: amount, behavior: reduceMotion ? "auto" : "smooth" });
+        scheduleRefresh();
+      }
     });
   });
 
@@ -254,18 +358,18 @@ function keepRailItemVisible(item) {
   const rail = item.closest?.("[data-scroll-rail]");
   if (!rail) return;
   if (rail.id === "mainTabs") {
-    const itemLeft = item.offsetLeft;
-    const itemRight = itemLeft + item.offsetWidth;
+    const itemLeft = getMainTabsItemLeft(rail, item);
+    const itemRight = itemLeft + item.getBoundingClientRect().width;
     const visibleLeft = rail.scrollLeft;
     const visibleRight = visibleLeft + rail.clientWidth;
     if (item.offsetWidth + MAIN_TABS_VISIBILITY_BUFFER_PX * 2 >= rail.clientWidth) {
-      rail.scrollLeft = Math.max(0, itemLeft - MAIN_TABS_VISIBILITY_BUFFER_PX);
+      setMainTabsScrollLeft(rail, itemLeft);
     } else if (itemLeft < visibleLeft + MAIN_TABS_VISIBILITY_BUFFER_PX) {
-      rail.scrollLeft = Math.max(0, itemLeft - MAIN_TABS_VISIBILITY_BUFFER_PX);
+      setMainTabsScrollLeft(rail, itemLeft);
     } else if (itemRight > visibleRight - MAIN_TABS_VISIBILITY_BUFFER_PX) {
-      rail.scrollLeft = itemRight - rail.clientWidth + MAIN_TABS_VISIBILITY_BUFFER_PX;
+      setMainTabsScrollLeft(rail, itemLeft);
     }
-    requestAnimationFrame(() => refreshScrollRail(rail));
+    refreshScrollRail(rail);
     return;
   }
   const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;

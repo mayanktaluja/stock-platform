@@ -3048,25 +3048,6 @@
       .market-countdown { display: none; }
     }
 
-    /* Scroll-shadow indicator on the horizontal desktop tab bar.
-       Communicates "there's more to the right" when tabs overflow. */
-    #mainTabs {
-      position: relative;
-    }
-    #mainTabs::after {
-      content: "";
-      position: absolute;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      width: 24px;
-      pointer-events: none;
-      background: linear-gradient(90deg, transparent, var(--bg-primary));
-      opacity: 0;
-      transition: opacity var(--dur-quick) var(--ease-standard);
-    }
-    #mainTabs[data-scroll-overflow="true"]::after { opacity: 0.7; }
-
     .scroll-rail-shell {
       display: flex;
       align-items: center;
@@ -3116,9 +3097,40 @@
       display: none !important;
     }
     .main-tabs-rail {
+      --main-tabs-mask-offset: 38px;
+      --main-tabs-mask-width: 64px;
+      position: relative;
       width: 100%;
     }
+    .main-tabs-rail::before,
+    .main-tabs-rail::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      z-index: 1;
+      width: var(--main-tabs-mask-width);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity var(--dur-quick) var(--ease-standard);
+    }
+    .main-tabs-rail::before {
+      left: var(--main-tabs-mask-offset);
+      width: var(--main-tabs-left-mask-width, var(--main-tabs-mask-width));
+      background: linear-gradient(90deg, var(--bg-primary) 0%, var(--bg-primary) 70%, rgba(10,10,13,0));
+    }
+    .main-tabs-rail::after {
+      right: var(--main-tabs-mask-offset);
+      width: var(--main-tabs-right-mask-width, var(--main-tabs-mask-width));
+      background: linear-gradient(90deg, rgba(10,10,13,0), var(--bg-primary) 30%, var(--bg-primary) 100%);
+    }
+    .main-tabs-rail[data-scroll-left-clipped="true"]::before,
+    .main-tabs-rail[data-scroll-right-clipped="true"]::after {
+      opacity: 1;
+    }
     .main-tabs-rail > .scroll-rail-btn {
+      position: relative;
+      z-index: 2;
       visibility: visible;
     }
     .main-tabs-rail > .scroll-rail-btn[data-scroll-control-visible="false"] {
@@ -3131,6 +3143,8 @@
     .main-tabs-rail .tabs {
       flex: 1 1 auto;
       min-width: 0;
+      overflow-y: hidden;
+      scrollbar-width: none;
     }
     .market-ticker-shell {
       border-bottom: 1px solid var(--border);
@@ -3205,6 +3219,10 @@
         width: 44px;
         height: 44px;
         flex-basis: 44px;
+      }
+      .main-tabs-rail {
+        --main-tabs-mask-offset: 50px;
+        --main-tabs-mask-width: 44px;
       }
     }
 
