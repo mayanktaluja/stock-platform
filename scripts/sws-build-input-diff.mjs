@@ -3,13 +3,14 @@
 import { existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { buildInputSignatures, diffInputSignatures } from "../services/swsInputSnapshot.js";
+import { buildConfirmedInputDiff, buildInputSignatures } from "../services/swsInputSnapshot.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
 const alertsDir = path.join(ROOT, "data", "sws", "alerts");
 const signaturesPath = path.join(alertsDir, "input-signatures-latest.json");
 const changesPath = path.join(alertsDir, "fundamental-changes-latest.json");
+const confirmationStatePath = path.join(alertsDir, "input-alert-confirmation-state.json");
 
 function parseArgs(argv) {
   const out = { runId: null };
@@ -40,6 +41,7 @@ function writeJsonAtomic(filePath, value) {
 const args = parseArgs(process.argv);
 const generatedAt = new Date().toISOString();
 const previous = readJson(signaturesPath);
+const previousState = readJson(confirmationStatePath);
 const current = buildInputSignatures({
   scoredUniversePath: path.join(ROOT, "data", "sws", "sws-scored-universe.json"),
   deepDir: path.join(ROOT, "data", "sws", "deep"),
@@ -47,11 +49,17 @@ const current = buildInputSignatures({
   generatedAt,
   runId: args.runId,
 });
-const diff = diffInputSignatures(previous, current, generatedAt);
+const { diff, state } = buildConfirmedInputDiff({
+  previousSnapshot: previous,
+  currentSnapshot: current,
+  previousState,
+  generatedAt,
+});
 
 writeJsonAtomic(changesPath, diff);
+writeJsonAtomic(confirmationStatePath, state);
 writeJsonAtomic(signaturesPath, current);
 
 console.log(
-  `input diff built: signatures=${current.signature_count} changes=${diff.change_count} run_id=${current.run_id} previous=${diff.previous_run_id || "none"}`,
+  `input diff built: signatures=${current.signature_count} confirmed_changes=${diff.change_count} pending=${diff.pending_count || 0} raw_changes=${diff.raw_change_count || 0} run_id=${current.run_id} previous=${diff.previous_run_id || "none"}`,
 );

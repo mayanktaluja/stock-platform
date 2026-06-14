@@ -90,9 +90,15 @@ async function stopServer() {
 
 try {
   writeJson(CHANGES, {
-    schema_version: 1,
+    schema_version: 2,
+    confirmation_policy: "two_consecutive_full_runs",
+    artifact_email_eligible: true,
     run_id: "run-api-test",
     generated_at: "2026-06-08T00:00:00.000Z",
+    raw_change_count: 5,
+    pending_count: 0,
+    suppressed_unconfirmed_count: 0,
+    state_seeded: false,
     changes: [
       {
         ticker: "TCS",
@@ -206,6 +212,12 @@ try {
   assert.equal(probe.json.artifact_present, true);
   assert.equal(probe.json.run_id, "run-api-test");
   assert.equal(probe.json.generated_at, "2026-06-08T00:00:00.000Z");
+  assert.equal(probe.json.schema_version, 2);
+  assert.equal(probe.json.confirmation_policy, "two_consecutive_full_runs");
+  assert.equal(probe.json.artifact_email_eligible, true);
+  assert.equal(probe.json.raw_change_count, 5);
+  assert.equal(probe.json.pending_count, 0);
+  assert.equal(probe.json.suppressed_unconfirmed_count, 0);
   assert.equal(probe.json.market_change_count, 5);
   const ledgerAfterProbe = fs.existsSync(LEDGER) ? fs.readFileSync(LEDGER, "utf-8") : null;
   assert.equal(ledgerAfterProbe, ledgerBeforeProbe, "probe mode must not create or write ledger events");
@@ -225,7 +237,11 @@ try {
     no_holdings: 1,
     no_alerts: 0,
     skipped: 1,
+    transition_suppressed: 0,
   });
+  assert.equal(cron.json.artifact_email_eligible, true);
+  assert.equal(cron.json.schema_version, 2);
+  assert.equal(cron.json.confirmation_policy, "two_consecutive_full_runs");
   const cronByEmail = new Map(cron.json.results.map((r) => [r.email, r]));
   assert.ok(cronByEmail.has("mtaluja11@gmail.com"), "admin/local user receives alert");
   assert.ok(cronByEmail.has("portfolio-reader@example.com"), "portfolio user with no prefs is enabled by default");
@@ -283,6 +299,24 @@ try {
   assert.equal(cronGet.status, 200);
   assert.equal(cronGet.json.dry_run, true);
   assert.equal(cronGet.json.recipient_count, 0);
+
+  const confirmedFixture = JSON.parse(fs.readFileSync(CHANGES, "utf-8"));
+  const legacyFixture = {
+    schema_version: 1,
+    run_id: "legacy-run",
+    generated_at: "2026-06-08T00:00:00.000Z",
+    changes: confirmedFixture.changes,
+  };
+  writeJson(CHANGES, legacyFixture);
+  const legacyCron = await request(port, "POST", "/api/cron/sws-input-alerts/send", {
+    headers: { authorization: "Bearer test-cron-secret" },
+  });
+  assert.equal(legacyCron.status, 200);
+  assert.equal(legacyCron.json.reason, "artifact-not-email-eligible");
+  assert.equal(legacyCron.json.recipient_count, 0);
+  assert.equal(legacyCron.json.artifact_email_eligible, false);
+  assert.equal(legacyCron.json.schema_version, 1);
+  writeJson(CHANGES, confirmedFixture);
 
   const missingRunIdFixture = JSON.parse(fs.readFileSync(CHANGES, "utf-8"));
   missingRunIdFixture.run_id = null;

@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from "node:fs";
 import { createHash } from "node:crypto";
-import { canonicalSwsTicker, stableHash } from "./swsInputSnapshot.js";
+import { canonicalSwsTicker, isSwsInputArtifactEmailEligible, stableHash } from "./swsInputSnapshot.js";
 
 export const DEFAULT_SWS_INPUT_ALERT_PREFS = Object.freeze({
   inApp: true,
@@ -106,14 +106,24 @@ export function digestPortfolioChanges(alerts) {
 
 export function loadMarketWideSwsInputChanges(filePath) {
   if (!filePath || !existsSync(filePath)) {
-    return { run_id: null, alerts: [], suppressed_count: 0, artifact_missing: true };
+    return { run_id: null, alerts: [], suppressed_count: 0, artifact_missing: true, artifact_email_eligible: false };
   }
   const json = JSON.parse(readFileSync(filePath, "utf-8"));
+  const rawAlerts = Array.isArray(json.changes) ? json.changes : [];
+  const artifactEmailEligible = isSwsInputArtifactEmailEligible(json);
   return {
+    schema_version: json.schema_version || null,
+    confirmation_policy: json.confirmation_policy || null,
+    artifact_email_eligible: artifactEmailEligible,
     run_id: json.run_id || null,
     generated_at: json.generated_at || null,
-    alerts: Array.isArray(json.changes) ? json.changes : [],
-    suppressed_count: 0,
+    alerts: artifactEmailEligible ? rawAlerts : [],
+    raw_alert_count: rawAlerts.length,
+    raw_change_count: json.raw_change_count ?? rawAlerts.length,
+    pending_count: json.pending_count || 0,
+    suppressed_unconfirmed_count: json.suppressed_unconfirmed_count || 0,
+    state_seeded: json.state_seeded === true,
+    suppressed_count: artifactEmailEligible ? 0 : rawAlerts.length,
     artifact_missing: false,
   };
 }
@@ -158,6 +168,35 @@ export async function buildPortfolioSwsInputAlerts(sub, marketChanges, stores = 
     suppressed_count: Math.max(0, heldAlerts.length - alerts.length),
     digest: digestPortfolioChanges(alerts),
   };
+}
+
+export function buildSwsInputAlertTransitionKeys(alerts) {
+  const keys = [];
+  for (const alert of Array.isArray(alerts) ? alerts : []) {
+    const ticker = canonicalSwsTicker(alert?.ticker);
+    for (const change of alert?.changes || []) {
+      keys.push(stableHash({
+        ticker,
+        field: String(change?.field || ""),
+        previous: change?.previous ?? null,
+        current: change?.current ?? null,
+      }));
+    }
+  }
+  return [...new Set(keys)].sort();
+}
+
+export function filterAlertsByTransitionKeys(alerts, blockedKeys = new Set()) {
+  const out = [];
+  for (const alert of Array.isArray(alerts) ? alerts : []) {
+    const changes = [];
+    for (const change of alert?.changes || []) {
+      const [key] = buildSwsInputAlertTransitionKeys([{ ...alert, changes: [change] }]);
+      if (!blockedKeys.has(key)) changes.push(change);
+    }
+    if (changes.length) out.push(normalizeSwsInputAlert({ ...alert, changes }));
+  }
+  return out.filter(Boolean);
 }
 
 export function formatChangeValue(value) {
