@@ -1,9 +1,9 @@
 {
   "schema_version": "earnings-health-v1",
-  "generated_at": "2026-06-13T04:00:49.316Z",
+  "generated_at": "2026-06-14T01:58:46.804Z",
   "resolved": {
-    "count": 445,
-    "delta_vs_prior": 0,
+    "count": 446,
+    "delta_vs_prior": 1,
     "prior_count": 445
   },
   "llm_providers": {
@@ -18,12 +18,12 @@
   "llm_stats": {
     "total": 6,
     "classified": 6,
-    "cache_hits": 1,
+    "cache_hits": 3,
     "llm_calls": 1,
-    "heuristic": 4,
+    "heuristic": 2,
     "heuristic_cache_invalidations": 0,
     "cross_floor_invalidations": 0,
-    "below_v3_floor": 4,
+    "below_v3_floor": 2,
     "composite_floor": 47,
     "llm_available": true,
     "skip_llm": false
@@ -31,9 +31,9 @@
   "cap_lift_gate": {
     "state": false,
     "enough_data_to_lift_cap": false,
-    "days_in_current_state": 36,
+    "days_in_current_state": 37,
     "current_resolved": 0,
-    "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (445 across all versions)",
+    "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (446 across all versions)",
     "detail": {
       "resolved_required": 30,
       "bucket_60_64_hit_rate_required": 55,
@@ -45,7 +45,7 @@
     }
   },
   "archive_schema": {
-    "earnings-history-v5": 23
+    "earnings-history-v5": 24
   },
   "predictor_versions": {
     "earnings-predict-v3-2026-05": 6
@@ -63,14 +63,14 @@
   "insufficient_data": {
     "count_total": 49,
     "count_7d": 0,
-    "count_30d": 33,
-    "count_prior_30d": 16,
-    "trend_pct_30d_vs_prior": 106.3
+    "count_30d": 30,
+    "count_prior_30d": 19,
+    "trend_pct_30d_vs_prior": 57.9
   },
   "macro_regime": {
     "present": true,
-    "generated_at": "2026-06-12T14:31:07.944Z",
-    "age_hours": 13,
+    "generated_at": "2026-06-13T08:44:08.288Z",
+    "age_hours": 17,
     "classifier_provider": "groq",
     "regime": "CALM",
     "stale": false,
@@ -81,29 +81,29 @@
     "runtime_24h": null,
     "alert": null
   },
-  "history_files": 23,
+  "history_files": 24,
   "hit_rate_summary": {
     "schema_version": "hit-rate-summary-v1",
-    "generated_at": "2026-06-13T04:00:49.571Z",
-    "resolved_count": 348,
-    "unresolved_count": 1323,
+    "generated_at": "2026-06-14T01:58:46.967Z",
+    "resolved_count": 349,
+    "unresolved_count": 1322,
     "strict": {
-      "hit_rate_pct": 35.1,
-      "ci_low_pct": 29.9,
-      "ci_high_pct": 40.2,
-      "sample_size": 348
+      "hit_rate_pct": 35,
+      "ci_low_pct": 30.1,
+      "ci_high_pct": 40.1,
+      "sample_size": 349
     },
     "lenient": {
-      "hit_rate_pct": 81.8,
-      "ci_low_pct": 77.8,
-      "ci_high_pct": 85.9,
-      "sample_size": 347
+      "hit_rate_pct": 81.6,
+      "ci_low_pct": 77.6,
+      "ci_high_pct": 85.3,
+      "sample_size": 348
     },
     "catastrophic": {
-      "rate_pct": 18.2,
+      "rate_pct": 18.4,
       "ci_low_pct": 14.1,
-      "ci_high_pct": 22.2,
-      "sample_size": 347
+      "ci_high_pct": 22.7,
+      "sample_size": 348
     },
     "rolling_30": {
       "window": 30,
@@ -114,7 +114,7 @@
     "catastrophic_alert_threshold_pct": 12
   },
   "alerts": [
-    "INSUFFICIENT_DATA predictions trending UP: 33 in last 30d vs 16 prior 30d (+106.3%) — predictor coverage may be degrading",
+    "INSUFFICIENT_DATA predictions trending UP: 30 in last 30d vs 19 prior 30d (+57.9%) — predictor coverage may be degrading",
     "Catastrophic rate alert: rolling-30 23.3% (7/30) exceeds 12% threshold — Risk Lab promotion gate cannot clear"
   ],
   "healthy": false
