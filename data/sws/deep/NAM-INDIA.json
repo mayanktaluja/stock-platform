@@ -3,7 +3,7 @@
   "name": "Nippon Life India Asset Management Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-nam-india/nippon-life-india-asset-management-shares",
-  "parsed_at": "2026-05-31T21:07:06.747Z",
+  "parsed_at": "2026-06-11T00:10:59.878Z",
   "company_id": "1E2E6333-C68C-42EC-A7F5-2C093035AEC6",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 3
     },
     "snowflake_total": 17,
-    "current_price_inr": 1100.2,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_5_YEARS_AGO"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_VOLATILE_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DIVIDENDS_NOT_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 1061.5,
     "market_cap_inr": 694477900000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "large7",
-    "shares_outstanding": 638289477,
+    "shares_outstanding": 638482946,
     "fifty_two_week": {
       "low": 714.05,
       "high": 1125
     },
     "fair_value_inr": 1086.47826,
     "fair_value_range_inr": {
-      "min": 387.959706,
+      "min": 393.573712,
       "max": 3266.9,
       "count": 21
     },
-    "upside_pct": -1.2472041447009592,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "a321cf90-cc0f-4bb2-95e5-872d46fdcbff",
+      "narrative_type": null,
+      "published_at": "2026-06-09T03:10:36.376Z"
+    },
+    "upside_pct": 2.3531097503532825,
     "multiples": {
       "pe": 45.42,
       "ps": 23.7,
@@ -64,11 +350,11 @@
       "Earnings are forecast to grow 15.57% per year"
     ],
     "risks": [
-      "Dividend of 1.95% is not well covered by free cash flows"
+      "Dividend of 1.98% is not well covered by free cash flows"
     ],
     "dividend": {
       "yield_pct": 1.98,
-      "payout_pct": 79.29683965397743,
+      "payout_pct": 79.32087495586447,
       "annualized_dividend": 19,
       "listing_currency": "INR",
       "recent_payments": [
@@ -234,8 +520,8 @@
     "dividend_yield_pct": 1.98,
     "industry_benchmarks": {
       "pe": 18.85756396507594,
-      "net_income_margin_1y": 0.2564706218,
-      "future_revenue_growth_3y": 0.3320316411,
+      "net_income_margin_1y": 0.257896607,
+      "future_revenue_growth_3y": 0.3297814148,
       "sector_pe": 18.85756396507594
     },
     "industry_benchmarks_meta": {
@@ -270,18 +556,18 @@
         "url": "https://groww.in/stocks/reliance-nippon-life-asset-management-ltd"
       },
       "sws_statement": {
-        "company_pe": 45.9,
-        "industry_pe": 26.7,
+        "company_pe": 45.3,
+        "industry_pe": 25.9,
         "industry_name": "Indian Capital Markets",
-        "description": "NAM-INDIA is expensive based on its Price-To-Earnings Ratio (45.9x) compared to the Indian Capital Markets industry average (26.7x).",
+        "description": "NAM-INDIA is expensive based on its Price-To-Earnings Ratio (45.3x) compared to the Indian Capital Markets industry average (25.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 26.705392444,
+        "industry_pe": 25.93266606,
         "industry_code": "7130000",
         "type": "median_profitable",
-        "count": 218,
+        "count": 215,
         "source": {
           "type": "country",
           "country": "IN",
@@ -290,25 +576,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.6,
-        "sample_count": 204,
+        "industry_pe": 21.1,
+        "sample_count": 201,
         "industry_code": "7130000",
         "industry_name": "Diversified Financials"
       },
       "sws_primary_industry": {
-        "industry_pe": 15.729172633,
+        "industry_pe": 15.226484123,
         "industry_name": "Diversified Financials",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 45.91704367752946
+        "company_pe": 44.315320402973754
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1100.2,
-        "fetched_at": "2026-05-31T21:07:06.747Z",
+        "value": 1061.5,
+        "fetched_at": "2026-06-11T00:10:59.878Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-nam-india/nippon-life-india-asset-management-shares"
       },
       "market_cap_inr": {
@@ -316,6 +602,24 @@
         "value": 694477900000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/reliance-nippon-life-asset-management-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 1086.47826,
+        "fetched_at": "2026-06-11T00:10:59.878Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-nam-india/nippon-life-india-asset-management-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "a321cf90-cc0f-4bb2-95e5-872d46fdcbff",
+        "narrative_type": null,
+        "published_at": "2026-06-09T03:10:36.376Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 2.3531097503532825,
+        "fetched_at": "2026-06-11T00:10:59.878Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-nam-india/nippon-life-india-asset-management-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -355,14 +659,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.2564706218,
-        "fetched_at": "2026-05-31T21:07:06.747Z",
+        "value": 0.257896607,
+        "fetched_at": "2026-06-11T00:10:59.878Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-nam-india/nippon-life-india-asset-management-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.3320316411,
-        "fetched_at": "2026-05-31T21:07:06.747Z",
+        "value": 0.3297814148,
+        "fetched_at": "2026-06-11T00:10:59.878Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-nam-india/nippon-life-india-asset-management-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -477,7 +781,7 @@
     "latest_revenue": 29330700000,
     "latest_net_income": 15293800000,
     "latest_eps": 23.95,
-    "most_recent_reported_date": "2026-05-25",
+    "most_recent_reported_date": "2026-06-08",
     "pb": 14.9,
     "ps": 23.7,
     "book_value": 72.9777197,
@@ -494,118 +798,118 @@
     "quick_ratio": 1.7035188216039279,
     "cash_ratio": 1.2361702127659575,
     "returns_pct": {
-      "1D": 1.0377445128110894,
-      "7D": 1.8326545723805956,
-      "1M": 6.92973078044513,
-      "3M": 18.148625429553263,
-      "6M": 25.650982183645503,
-      "1Y": 48.49507355918479,
+      "1D": -2.1478613569321494,
+      "7D": -1.512339951753568,
+      "1M": -0.38475975975975124,
+      "3M": 25.42092514916996,
+      "6M": 21.941412981045378,
+      "1Y": 40.7918296969295,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 4,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
   "ownership": {
     "top_holders": [
       {
-        "pct": 71.91535,
+        "pct": 71.89356,
         "shares": 459028095,
         "is_insider": null
       },
       {
-        "pct": 2.82494,
+        "pct": 2.82408,
         "shares": 18031267,
         "is_insider": null
       },
       {
-        "pct": 1.62736,
+        "pct": 1.62686,
         "shares": 10387242,
         "is_insider": null
       },
       {
-        "pct": 1.49187,
+        "pct": 1.49142,
         "shares": 9522452,
         "is_insider": null
       },
       {
-        "pct": 1.36499,
+        "pct": 1.36457,
         "shares": 8712560,
         "is_insider": null
       },
       {
-        "pct": 1.14391,
+        "pct": 1.14356,
         "shares": 7301427,
         "is_insider": null
       },
       {
-        "pct": 1.13614,
+        "pct": 1.13579,
         "shares": 7251842,
         "is_insider": null
       },
       {
-        "pct": 1.03011,
+        "pct": 1.0298,
         "shares": 6575114,
         "is_insider": null
       },
       {
-        "pct": 0.89609,
+        "pct": 0.89582,
         "shares": 5719644,
         "is_insider": null
       },
       {
-        "pct": 0.8878,
+        "pct": 0.88753,
         "shares": 5666717,
         "is_insider": null
       },
       {
-        "pct": 0.63149,
+        "pct": 0.63129,
         "shares": 4030704,
         "is_insider": null
       },
       {
-        "pct": 0.60392,
+        "pct": 0.60374,
         "shares": 3854751,
         "is_insider": null
       },
       {
-        "pct": 0.58094,
+        "pct": 0.58076,
         "shares": 3708082,
         "is_insider": null
       },
       {
-        "pct": 0.56672,
-        "shares": 3617300,
+        "pct": 0.56888,
+        "shares": 3632230,
         "is_insider": null
       },
       {
-        "pct": 0.55156,
+        "pct": 0.55139,
         "shares": 3520559,
         "is_insider": null
       },
       {
-        "pct": 0.43068,
+        "pct": 0.43055,
         "shares": 2748980,
         "is_insider": null
       },
       {
-        "pct": 0.40501,
+        "pct": 0.40489,
         "shares": 2585124,
         "is_insider": null
       },
       {
-        "pct": 0.27886,
+        "pct": 0.27877,
         "shares": 1779904,
         "is_insider": null
       },
       {
-        "pct": 0.27028,
+        "pct": 0.2702,
         "shares": 1725154,
         "is_insider": null
       },
       {
-        "pct": 0.25942,
+        "pct": 0.25934,
         "shares": 1655825,
         "is_insider": null
       }
@@ -622,7 +926,7 @@
   },
   "dividend": {
     "yield_pct": 1.98,
-    "payout_pct": 79.29683965397743,
+    "payout_pct": 79.32087495586447,
     "annualized_dividend": 19,
     "listing_currency": "INR",
     "recent_payments": [
@@ -786,7 +1090,7 @@
     "payment_count": 17
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-25",
+    "most_recent_reported_date": "2026-06-08",
     "latest_year": 2026,
     "latest_revenue": 29330700000,
     "latest_net_income": 15293800000,
@@ -1055,6 +1359,16 @@
   ],
   "news": [
     {
+      "id": "417c1376-83f6-4893-a03b-ebbe1c577739",
+      "type": "narrative-update",
+      "date": "2026-06-09T03:10:36.000Z",
+      "title": "NAM-INDIA: Dividend Payouts And CEO Tenure Will Support Steady Outlook",
+      "body": "Analysts have kept their fair value estimate for Nippon Life India Asset Management steady at ₹1,086.48, with small adjustments to the discount rate and future P/E assumptions contributing to this unchanged price target. What's in the News Nippon Life India Asset Management has recommended a final dividend of ₹12.50 per equity share of ₹10 each for the financial year ended March 31, 2026, subject to shareholder approval at the 31st Annual General Meeting scheduled for July 8, 2026.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/diversified-financials/nse-nam-india/nippon-life-india-asset-management-shares/65mgq97o-upcoming-board-review-and-dividend-plan-will-shape-future-prospects/updates/23-analysts-have-kept-their-fair-value-estimate-for-nippon-life",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "e55c0aa3-748a-49be-947a-13b278ed8e7d",
       "type": "narrative-update",
       "date": "2026-05-25T16:06:57.000Z",
@@ -1252,16 +1566,6 @@
       "body": "Analysts have raised their price target on Nippon Life India Asset Management from ₹586.00 to approximately ₹759.00, reflecting expectations for stronger profit margins and a higher justified future earnings multiple, despite only modest tweaks to growth and discount-rate assumptions. What's in the News Board approves an interim dividend of INR 9 per equity share of Rs. 10 each, signaling confidence in cash flows and capital position (Board of Directors meeting, October 30, 2025).",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/diversified-financials/nse-nam-india/nippon-life-india-asset-management-shares/8atabpar-the-passive-investment-shift-will-squeeze-margins-amid-rising-costs/updates/2-analysts-have-raised-their-price-target-on-nippon-life-india",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "5e38c8ea-309b-41d7-bd09-336cb8b56038",
-      "type": "narrative-update",
-      "date": "2025-12-12T06:07:09.000Z",
-      "title": "NAM-INDIA: Interim Dividend Will Support Attractive Long-Term Return Potential",
-      "body": "Analysts have marginally raised their price target for Nippon Life India Asset Management to ₹948.48. This reflects slightly higher long term discount rate assumptions while maintaining a robust outlook on revenue growth, profit margins, and future valuation multiples.",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/diversified-financials/nse-nam-india/nippon-life-india-asset-management-shares/65mgq97o-upcoming-board-review-and-dividend-plan-will-shape-future-prospects/updates/16-analysts-have-marginally-raised-their-price-target-for-nippo",
       "raw_subtype": "narrative-update"
     }
   ],

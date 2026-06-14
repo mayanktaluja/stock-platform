@@ -3,7 +3,7 @@
   "name": "Indian Bank",
   "sector": "Banks",
   "sws_url": "https://simplywall.st/stocks/in/banks/nse-indianb/indian-bank-shares",
-  "parsed_at": "2026-05-31T20:06:55.842Z",
+  "parsed_at": "2026-06-10T23:09:45.543Z",
   "company_id": "64FB6793-1658-44FE-A160-9B5B21624883",
   "classification_status": "Active",
   "groww_source": {
@@ -16,18 +16,18 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 3,
+      "valuation": 4,
       "future": 2,
       "past": 2,
       "financial_health": 4,
       "dividends": 5,
       "future_growth": 2,
       "past_performance": 2,
-      "value": 3,
+      "value": 4,
       "health": 4,
       "dividend": 5
     },
-    "snowflake_total": 16,
+    "snowflake_total": 17,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 1,
@@ -65,9 +65,287 @@
         }
       ]
     },
-    "current_price_inr": 833,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "BankHealth",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_SUBSTANTIAL_DISCOUNT"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAppropriateBadLoanAllowance",
+          "title": "Allowance for Bad Loans",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAppropriateNonPerformingLoans",
+          "title": "Level of Bad Loans",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasPrimarilyLowRiskFunding",
+          "title": "Low Risk Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAppropriateLoanLevel",
+          "title": "Loan Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasPrimarilyDepositFunding",
+          "title": "Low Risk Deposits",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAnAppropriateLevelOfAssets",
+          "title": "Asset Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_MODERATE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredIn3Years",
+          "title": "Future Dividend Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        }
+      ]
+    },
+    "current_price_inr": 833.45,
     "market_cap_inr": 1122357700000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "mega8",
     "shares_outstanding": 1346963981,
     "fifty_two_week": {
@@ -80,7 +358,15 @@
       "max": 7583098.08,
       "count": 16
     },
-    "upside_pct": 20.232708283313325,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "980d7f5f-4dc0-4529-ba80-b991ac4318c8",
+      "narrative_type": null,
+      "published_at": "2026-06-06T03:09:05.012Z"
+    },
+    "upside_pct": 20.16779170916071,
     "multiples": {
       "pe": 9.59,
       "ps": 1.43,
@@ -98,11 +384,11 @@
     },
     "rewards": [
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (9.6x) is below the Indian market (23.4x)",
       "Earnings are forecast to grow 9.09% per year",
-      "Analysts in good agreement that stock price will rise by 20.2%",
       "Trading below our calculated fair Price-To-Earnings ratio",
-      "Earnings have grown 25.7% per year over the past 5 years"
+      "Earnings have grown 25.7% per year over the past 5 years",
+      "Analysts in good agreement that stock price will rise by 20.2%",
+      "Trading at 0.7% below our estimate of its fair value"
     ],
     "risks": [
       "Unstable dividend track record"
@@ -200,9 +486,9 @@
           "currencyIsoCode": "INR",
           "dividendTypeName": "No special code applies",
           "divFreqTypeName": "Annual",
-          "annualizedDividend": 4.2,
-          "annualizedDividendListingCurrency": 4.2,
-          "annualizedYield": 3.6554744815
+          "annualizedDividend": null,
+          "annualizedDividendListingCurrency": null,
+          "annualizedYield": null
         }
       ],
       "payment_count": 7
@@ -210,8 +496,8 @@
     "dividend_yield_pct": 2.19,
     "industry_benchmarks": {
       "pe": 12.587464209030458,
-      "net_income_margin_1y": 0.3177821454,
-      "future_revenue_growth_3y": 0.2745257838,
+      "net_income_margin_1y": 0.3178841988,
+      "future_revenue_growth_3y": 0.2771620146,
       "sector_pe": 12.587464209030458
     },
     "industry_benchmarks_meta": {
@@ -247,14 +533,14 @@
       },
       "sws_statement": {
         "company_pe": 9.6,
-        "industry_pe": 11.4,
+        "industry_pe": 11.9,
         "industry_name": "Indian Banks",
-        "description": "INDIANB is good value based on its Price-To-Earnings Ratio (9.6x) compared to the Indian Banks industry average (11.4x).",
+        "description": "INDIANB is good value based on its Price-To-Earnings Ratio (9.6x) compared to the Indian Banks industry average (11.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 11.441700538,
+        "industry_pe": 11.880641305,
         "industry_code": "7011000",
         "type": "median_profitable",
         "count": 39,
@@ -266,25 +552,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 11.4,
+        "industry_pe": 11.75,
         "sample_count": 40,
         "industry_code": "7011000",
         "industry_name": "Banks"
       },
       "sws_primary_industry": {
-        "industry_pe": 11.055229769,
+        "industry_pe": 11.140031027,
         "industry_name": "Banks",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 9.586416218451712
+        "company_pe": 9.591594954704176
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 833,
-        "fetched_at": "2026-05-31T20:06:55.842Z",
+        "value": 833.45,
+        "fetched_at": "2026-06-10T23:09:45.543Z",
         "url": "https://simplywall.st/stocks/in/banks/nse-indianb/indian-bank-shares"
       },
       "market_cap_inr": {
@@ -292,6 +578,24 @@
         "value": 1122357700000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/indian-bank"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 1001.53846,
+        "fetched_at": "2026-06-10T23:09:45.543Z",
+        "url": "https://simplywall.st/stocks/in/banks/nse-indianb/indian-bank-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "980d7f5f-4dc0-4529-ba80-b991ac4318c8",
+        "narrative_type": null,
+        "published_at": "2026-06-06T03:09:05.012Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 20.16779170916071,
+        "fetched_at": "2026-06-10T23:09:45.543Z",
+        "url": "https://simplywall.st/stocks/in/banks/nse-indianb/indian-bank-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -331,14 +635,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.3177821454,
-        "fetched_at": "2026-05-31T20:06:55.842Z",
+        "value": 0.3178841988,
+        "fetched_at": "2026-06-10T23:09:45.543Z",
         "url": "https://simplywall.st/stocks/in/banks/nse-indianb/indian-bank-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.2745257838,
-        "fetched_at": "2026-05-31T20:06:55.842Z",
+        "value": 0.2771620146,
+        "fetched_at": "2026-06-10T23:09:45.543Z",
         "url": "https://simplywall.st/stocks/in/banks/nse-indianb/indian-bank-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -449,11 +753,11 @@
     },
     "earnings_growth_yoy_pct": 6.718432013304837,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 6.190605560358861,
-    "latest_revenue": 342794000000,
+    "revenue_growth_pct": 6.108575908870262,
+    "latest_revenue": 342529200000,
     "latest_net_income": 117042800000,
     "latest_eps": 86.91,
-    "most_recent_reported_date": "2026-05-18",
+    "most_recent_reported_date": "2026-06-05",
     "pb": 1.54,
     "ps": 1.43,
     "book_value": 541.7765806,
@@ -470,24 +774,24 @@
     "quick_ratio": 0,
     "cash_ratio": 0,
     "returns_pct": {
-      "1D": -0.04199916001680239,
-      "7D": 0.8535625643198685,
-      "1M": -4.8598024099137636,
-      "3M": -15.901060070671377,
-      "6M": -4.280379201378914,
-      "1Y": 28.897485493230175,
+      "1D": -4.7431281787530715,
+      "7D": -1.7042104021700593,
+      "1M": -0.7384029059727186,
+      "3M": -8.371811785400173,
+      "6M": 5.586875277126753,
+      "1Y": 32.55666003976144,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
   "ownership": {
     "top_holders": [
       {
-        "pct": 73.83669,
-        "shares": 994553621,
+        "pct": 73.8367,
+        "shares": 994553789,
         "is_insider": null
       },
       {
@@ -536,6 +840,11 @@
         "is_insider": null
       },
       {
+        "pct": 0.71619,
+        "shares": 9646856,
+        "is_insider": null
+      },
+      {
         "pct": 0.6632,
         "shares": 8933063,
         "is_insider": null
@@ -551,13 +860,13 @@
         "is_insider": null
       },
       {
-        "pct": 0.52327,
-        "shares": 7048196,
+        "pct": 0.48465,
+        "shares": 6528003,
         "is_insider": null
       },
       {
-        "pct": 0.48465,
-        "shares": 6528003,
+        "pct": 0.40448,
+        "shares": 5448196,
         "is_insider": null
       },
       {
@@ -571,18 +880,13 @@
         "is_insider": null
       },
       {
-        "pct": 0.28351,
-        "shares": 3818799,
+        "pct": 0.2836,
+        "shares": 3819991,
         "is_insider": null
       },
       {
         "pct": 0.246,
         "shares": 3313477,
-        "is_insider": null
-      },
-      {
-        "pct": 0.23337,
-        "shares": 3143454,
         "is_insider": null
       }
     ],
@@ -689,27 +993,27 @@
         "currencyIsoCode": "INR",
         "dividendTypeName": "No special code applies",
         "divFreqTypeName": "Annual",
-        "annualizedDividend": 4.2,
-        "annualizedDividendListingCurrency": 4.2,
-        "annualizedYield": 3.6554744815
+        "annualizedDividend": null,
+        "annualizedDividendListingCurrency": null,
+        "annualizedYield": null
       }
     ],
     "payment_count": 7
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-18",
+    "most_recent_reported_date": "2026-06-05",
     "latest_year": 2026,
-    "latest_revenue": 342794000000,
+    "latest_revenue": 342529200000,
     "latest_net_income": 117042800000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 6.190605560358861,
+    "revenue_growth_pct": 6.108575908870262,
     "earnings_growth_pct": 6.718432013304837,
-    "net_margin_pct": 34.143771477913845,
+    "net_margin_pct": 34.17016709816272,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 342794000000,
+        "revenue": 342529200000,
         "netIncome": 117042800000,
         "eps": null
       },
@@ -966,6 +1270,26 @@
   ],
   "news": [
     {
+      "id": "2e5a0112-5bb7-48fb-9ee5-b1585420469b",
+      "type": "narrative-update",
+      "date": "2026-06-06T03:09:05.000Z",
+      "title": "INDIANB: Upcoming Dividend And Capital Raising Plans Will Support Bullish Outlook",
+      "body": "Analysts have held their fair value estimate for Indian Bank steady at about ₹1,001, citing only small tweaks in assumptions around the discount rate, revenue growth and future P/E as the reason for keeping the overall price target unchanged. What's in the News Board meeting scheduled for April 29, 2026, to consider and approve audited standalone and consolidated financial results for Q4 and the full year ended March 31, 2026.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/banks/nse-indianb/indian-bank-shares/z48x3l97-analysts-raise-indian-bank-price-target-amid-improved-outlook-and-planned-stake-sale/updates/24-analysts-have-held-their-fair-value-estimate-for-indian-bank",
+      "raw_subtype": "narrative-update"
+    },
+    {
+      "id": "9edfd770-6d8c-4e36-b36e-e1a5ffe314d7",
+      "type": "brief",
+      "date": "2026-06-03T11:36:08.000Z",
+      "title": "Upcoming dividend of ₹18.25 per share",
+      "body": "Eligible shareholders must have bought the stock before 10 June 2026. Payment date: 09 July 2026. Payout ratio is a comfortable 21% but the company is not cash flow positive. Trailing yield: 2.2%. Within top quartile of Indian dividend payers (1.5%). Higher than average of industry peers (1.5%).",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
       "id": "8ccdf0dc-f386-44f4-b865-c59f6c6e019b",
       "type": "narrative-update",
       "date": "2026-05-19T08:06:44.000Z",
@@ -1153,16 +1477,6 @@
       "body": "Analysts have increased their fair value estimate for Indian Bank to ₹876.08 from ₹855.69, reflecting updated assumptions around discount rate, revenue growth, profit margin and future P/E. What's in the News Indian Bank has scheduled a Special or Extraordinary Shareholders Meeting on Jan 09, 2026, at 11:00 Indian Standard Time to consider the election of one Shareholder Director and the approval of the appointment of Ms. Mini T M as Executive Director of the bank (company event filing).",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/banks/nse-indianb/indian-bank-shares/z48x3l97-analysts-raise-indian-bank-price-target-amid-improved-outlook-and-planned-stake-sale/updates/15-analysts-have-increased-their-fair-value-estimate-for-indian",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "c8d17b50-4ebc-4d2e-95df-37f405741eb8",
-      "type": "narrative-update",
-      "date": "2025-12-15T14:07:01.000Z",
-      "title": "INDIANB: Merger Review And Governance Events Will Shape Balanced Outlook Ahead",
-      "body": "Analysts have nudged their price target for Indian Bank slightly higher to ₹855.69 from ₹844.92, reflecting modestly improved fair value estimates driven by steady revenue growth assumptions, resilient profit margins, and a marginally lower discount rate despite a slightly richer projected future P E multiple. What's in the News The Finance Ministry is evaluating a potential merger between Indian Bank and Indian Overseas Bank, which could reshape ownership and scale for both lenders (Key Developments, Mint via Finance Ministry sources).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/banks/nse-indianb/indian-bank-shares/z48x3l97-analysts-raise-indian-bank-price-target-amid-improved-outlook-and-planned-stake-sale/updates/14-analysts-have-nudged-their-price-target-for-indian-bank-slig",
       "raw_subtype": "narrative-update"
     }
   ],

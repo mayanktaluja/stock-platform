@@ -3,7 +3,7 @@
   "name": "Tata Consultancy Services Limited",
   "sector": "Software",
   "sws_url": "https://simplywall.st/stocks/in/software/nse-tcs/tata-consultancy-services-shares",
-  "parsed_at": "2026-05-31T22:44:54.905Z",
+  "parsed_at": "2026-06-11T01:48:58.069Z",
   "company_id": "792760B1-C368-4050-A8D7-BBAD450E2522",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 6
     },
     "snowflake_total": 21,
-    "current_price_inr": 2258.9,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_OUTSTANDING"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_5_YEARS_AGO"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_STABLE_IN_PAST_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 2153.9,
     "market_cap_inr": 8252857600000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "mega8",
     "shares_outstanding": 3618087518,
     "fifty_two_week": {
       "low": 2206.4,
       "high": 3540
     },
-    "fair_value_inr": 2948.18605,
+    "fair_value_inr": 2939.5814,
     "fair_value_range_inr": {
-      "min": 1566.130639,
-      "max": 2948.18605,
+      "min": 1522.748984,
+      "max": 2939.5814,
       "count": 156
     },
-    "upside_pct": 30.51423480455087,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "7d545ba5-7db3-4c43-9d33-94df2465ac88",
+      "narrative_type": null,
+      "published_at": "2026-06-05T06:06:01.612Z"
+    },
+    "upside_pct": 36.47715307117322,
     "multiples": {
       "pe": 16.81,
       "ps": 3.74,
@@ -61,13 +347,13 @@
     },
     "rewards": [
       "Earnings have grown 7.7% per year over the past 5 years",
-      "Analysts in good agreement that stock price will rise by 30.1%",
+      "Analysts in good agreement that stock price will rise by 36.5%",
       "Earnings are forecast to grow 7.47% per year",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading below our calculated fair Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (16.6x) is below the Indian market (23.4x)",
-      "Pays a high and reliable dividend of 4.87%"
+      "Price-To-Earnings ratio (15.8x) is below the Indian market (23.2x)",
+      "Pays a high and reliable dividend of 5.11%"
     ],
     "risks": [],
     "dividend": {
@@ -210,11 +496,11 @@
           "exDate": "2024-01-19T00:00:00.000Z",
           "payDate": "2024-02-05T00:00:00.000Z",
           "recordDate": "2024-01-19T00:00:00.000Z",
-          "divAmount": 9,
-          "divAmountListingCurrency": 9,
+          "divAmount": 18,
+          "divAmountListingCurrency": 18,
           "currencyIsoCode": "INR",
-          "dividendTypeName": "No special code applies",
-          "divFreqTypeName": "Interim Payment",
+          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+          "divFreqTypeName": "Bonus Payment",
           "annualizedDividend": 69,
           "annualizedDividendListingCurrency": 69,
           "annualizedYield": 1.7377851785
@@ -223,11 +509,11 @@
           "exDate": "2024-01-19T00:00:00.000Z",
           "payDate": "2024-02-05T00:00:00.000Z",
           "recordDate": "2024-01-19T00:00:00.000Z",
-          "divAmount": 18,
-          "divAmountListingCurrency": 18,
+          "divAmount": 9,
+          "divAmountListingCurrency": 9,
           "currencyIsoCode": "INR",
-          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-          "divFreqTypeName": "Bonus Payment",
+          "dividendTypeName": "No special code applies",
+          "divFreqTypeName": "Interim Payment",
           "annualizedDividend": 69,
           "annualizedDividendListingCurrency": 69,
           "annualizedYield": 1.7377851785
@@ -238,8 +524,8 @@
     "dividend_yield_pct": 4.83,
     "industry_benchmarks": {
       "pe": 20.79918137809377,
-      "net_income_margin_1y": 0.09947274985,
-      "future_revenue_growth_3y": 1.4123928,
+      "net_income_margin_1y": 0.0994330966,
+      "future_revenue_growth_3y": 1.401190197,
       "sector_pe": 20.79918137809377
     },
     "industry_benchmarks_meta": {
@@ -274,18 +560,18 @@
         "url": "https://groww.in/stocks/tata-consultancy-services-ltd"
       },
       "sws_statement": {
-        "company_pe": 16.6,
-        "industry_pe": 23.6,
+        "company_pe": 15.8,
+        "industry_pe": 23,
         "industry_name": "Indian IT",
-        "description": "TCS is good value based on its Price-To-Earnings Ratio (16.6x) compared to the Indian IT industry average (23.6x).",
+        "description": "TCS is good value based on its Price-To-Earnings Ratio (15.8x) compared to the Indian IT industry average (23x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 23.644221907,
+        "industry_pe": 22.999020231,
         "industry_code": "8030000",
         "type": "median_profitable",
-        "count": 126,
+        "count": 127,
         "source": {
           "type": "country",
           "country": "IN",
@@ -294,25 +580,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.4,
-        "sample_count": 123,
+        "industry_pe": 22.5,
+        "sample_count": 126,
         "industry_code": "8030000",
         "industry_name": "Software"
       },
       "sws_primary_industry": {
-        "industry_pe": 20.803345639,
+        "industry_pe": 20.24766845,
         "industry_name": "Software",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 16.60820543468848
+        "company_pe": 15.836209520463726
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 2258.9,
-        "fetched_at": "2026-05-31T22:44:54.905Z",
+        "value": 2153.9,
+        "fetched_at": "2026-06-11T01:48:58.069Z",
         "url": "https://simplywall.st/stocks/in/software/nse-tcs/tata-consultancy-services-shares"
       },
       "market_cap_inr": {
@@ -320,6 +606,24 @@
         "value": 8252857600000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/tata-consultancy-services-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 2939.5814,
+        "fetched_at": "2026-06-11T01:48:58.069Z",
+        "url": "https://simplywall.st/stocks/in/software/nse-tcs/tata-consultancy-services-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "7d545ba5-7db3-4c43-9d33-94df2465ac88",
+        "narrative_type": null,
+        "published_at": "2026-06-05T06:06:01.612Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 36.47715307117322,
+        "fetched_at": "2026-06-11T01:48:58.069Z",
+        "url": "https://simplywall.st/stocks/in/software/nse-tcs/tata-consultancy-services-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -359,14 +663,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.09947274985,
-        "fetched_at": "2026-05-31T22:44:54.905Z",
+        "value": 0.0994330966,
+        "fetched_at": "2026-06-11T01:48:58.069Z",
         "url": "https://simplywall.st/stocks/in/software/nse-tcs/tata-consultancy-services-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 1.4123928,
-        "fetched_at": "2026-05-31T22:44:54.905Z",
+        "value": 1.401190197,
+        "fetched_at": "2026-06-11T01:48:58.069Z",
         "url": "https://simplywall.st/stocks/in/software/nse-tcs/tata-consultancy-services-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -475,13 +779,13 @@
         "url": "https://groww.in/stocks/tata-consultancy-services-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 1.3531604638230388,
+    "earnings_growth_yoy_pct": -0.12785907089075152,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 4.5812379564788275,
+    "revenue_growth_pct": 4.244811593297625,
     "latest_revenue": 2670210000000,
     "latest_net_income": 492100000000,
     "latest_eps": 135.7,
-    "most_recent_reported_date": "2026-05-05",
+    "most_recent_reported_date": "2026-06-04",
     "pb": 9.74,
     "ps": 3.74,
     "book_value": 234.0734112,
@@ -498,16 +802,16 @@
     "quick_ratio": 2.0058406113537117,
     "cash_ratio": 0.08708151382823871,
     "returns_pct": {
-      "1D": -1.107608790823909,
-      "7D": -2.5201743408276913,
-      "1M": -8.720248919060886,
-      "3M": -14.35125502388716,
-      "6M": -28.003187250996014,
-      "1Y": -34.52084178792973,
+      "1D": 0.1348210134821056,
+      "7D": -3.916670384083496,
+      "1M": -9.987880814074972,
+      "3M": -11.812151981657387,
+      "6M": -33.11908088806086,
+      "1Y": -37.961922866442,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 5,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -534,8 +838,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.03976,
-        "shares": 37619287,
+        "pct": 1.00078,
+        "shares": 36209223,
         "is_insider": null
       },
       {
@@ -574,18 +878,18 @@
         "is_insider": null
       },
       {
-        "pct": 0.30825,
-        "shares": 11152690,
+        "pct": 0.30844,
+        "shares": 11159701,
         "is_insider": null
       },
       {
-        "pct": 0.27467,
-        "shares": 9937901,
+        "pct": 0.29061,
+        "shares": 10514550,
         "is_insider": null
       },
       {
-        "pct": 0.24866,
-        "shares": 8996599,
+        "pct": 0.25644,
+        "shares": 9278340,
         "is_insider": null
       },
       {
@@ -594,18 +898,18 @@
         "is_insider": null
       },
       {
+        "pct": 0.23555,
+        "shares": 8522263,
+        "is_insider": null
+      },
+      {
         "pct": 0.22359,
         "shares": 8089773,
         "is_insider": null
       },
       {
-        "pct": 0.21791,
-        "shares": 7884169,
-        "is_insider": null
-      },
-      {
-        "pct": 0.21302,
-        "shares": 7707108,
+        "pct": 0.21964,
+        "shares": 7946906,
         "is_insider": null
       },
       {
@@ -764,19 +1068,6 @@
         "exDate": "2024-01-19T00:00:00.000Z",
         "payDate": "2024-02-05T00:00:00.000Z",
         "recordDate": "2024-01-19T00:00:00.000Z",
-        "divAmount": 9,
-        "divAmountListingCurrency": 9,
-        "currencyIsoCode": "INR",
-        "dividendTypeName": "No special code applies",
-        "divFreqTypeName": "Interim Payment",
-        "annualizedDividend": 69,
-        "annualizedDividendListingCurrency": 69,
-        "annualizedYield": 1.7377851785
-      },
-      {
-        "exDate": "2024-01-19T00:00:00.000Z",
-        "payDate": "2024-02-05T00:00:00.000Z",
-        "recordDate": "2024-01-19T00:00:00.000Z",
         "divAmount": 18,
         "divAmountListingCurrency": 18,
         "currencyIsoCode": "INR",
@@ -785,19 +1076,32 @@
         "annualizedDividend": 69,
         "annualizedDividendListingCurrency": 69,
         "annualizedYield": 1.7377851785
+      },
+      {
+        "exDate": "2024-01-19T00:00:00.000Z",
+        "payDate": "2024-02-05T00:00:00.000Z",
+        "recordDate": "2024-01-19T00:00:00.000Z",
+        "divAmount": 9,
+        "divAmountListingCurrency": 9,
+        "currencyIsoCode": "INR",
+        "dividendTypeName": "No special code applies",
+        "divFreqTypeName": "Interim Payment",
+        "annualizedDividend": 69,
+        "annualizedDividendListingCurrency": 69,
+        "annualizedYield": 1.7377851785
       }
     ],
     "payment_count": 46
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-05",
+    "most_recent_reported_date": "2026-06-04",
     "latest_year": 2026,
     "latest_revenue": 2670210000000,
     "latest_net_income": 492100000000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 4.5812379564788275,
-    "earnings_growth_pct": 1.3531604638230388,
+    "revenue_growth_pct": 4.244811593297625,
+    "earnings_growth_pct": -0.12785907089075152,
     "net_margin_pct": 18.42926211796076,
     "yearly_history": [
       {
@@ -808,26 +1112,26 @@
       },
       {
         "year": 2025,
-        "revenue": 2553240000000,
-        "netIncome": 485530000000,
+        "revenue": 2561480000000,
+        "netIncome": 492730000000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 2408930000000,
-        "netIncome": 459080000000,
+        "revenue": 2441250000000,
+        "netIncome": 468740000000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 2254580000000,
-        "netIncome": 421470000000,
+        "revenue": 2320810000000,
+        "netIncome": 437430000000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 1917540000000,
-        "netIncome": 383270000000,
+        "revenue": 1991010000000,
+        "netIncome": 387970000000,
         "eps": null
       }
     ]
@@ -1033,6 +1337,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "8b42fa98-4848-445f-af22-3b564087c451",
+      "type": "narrative-update",
+      "date": "2026-06-05T06:06:01.000Z",
+      "title": "TCS: Expanding AI Partnerships Will Drive Future Upside Potential",
+      "body": "Analysts have trimmed their fair value estimate for Tata Consultancy Services slightly, with the price target moving from about ₹2,948 to around ₹2,940, reflecting updated assumptions on the discount rate, revenue growth, profit margins and future P/E expectations. What's in the News QAD | Redzone, Amazon Web Services and Tata Consultancy Services (TCS) announced an expanded collaboration to offer a combined manufacturing platform that uses agentic AI, modern ERP and cloud infrastructure to help mid market manufacturers modernize operations, with TCS acting as the architect for phased ERP transformation and integration.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/software/nse-tcs/tata-consultancy-services-shares/akgh4xqr-tcs-expansion-of-ai-data-centers-will-drive-long-term-market-leadership/updates/26-analysts-have-trimmed-their-fair-value-estimate-for-tata-con",
+      "raw_subtype": "narrative-update"
+    },
     {
       "id": "cc96bfb0-17d8-46fb-a31f-373ca5fdbf11",
       "type": "brief",
@@ -1270,26 +1584,6 @@
       "title": "Tata Consultancy Services Limited to Report Q3, 2026 Results on Jan 12, 2026",
       "body": "Tata Consultancy Services Limited announced that they will report Q3, 2026 results at 12:08 PM, Indian Standard Time on Jan 12, 2026",
       "keyDevTypeId": "55",
-      "source_url": null,
-      "raw_subtype": "EventActivity"
-    },
-    {
-      "id": "a3694892-ff58-4dfa-8f87-38fab965caf7",
-      "type": "narrative-update",
-      "date": "2025-12-14T01:06:28.000Z",
-      "title": "TCS: Future AI Data Centers And Cloud Deal Will Shape Measured Upside Potential",
-      "body": "Analysts have nudged their price target on Tata Consultancy Services slightly higher to ₹3,476 from ₹3,467, citing marginally stronger long term revenue growth, stable profit margins, and a modest uplift in expected future valuation multiples. What's in the News Board to meet on December 10, 2025, to approve a Securities Purchase Agreement and Plan of Merger for the acquisition of Coastal Cloud Holdings, LLC and its subsidiaries, marking a sizable inorganic growth move in cloud consulting (Board Meeting) New wholly owned subsidiary HyperVault AI Data Center Limited incorporated to build multiple AI and sovereign data centers in India, fully funded by TCS with INR 75 million in initial capital and 100 percent ownership (Business Expansions) Earlier board approval on October 9, 2025, for set",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/software/nse-tcs/tata-consultancy-services-shares/akgh4xqr-tcs-expansion-of-ai-data-centers-will-drive-long-term-market-leadership/updates/16-analysts-have-nudged-their-price-target-on-tata-consultancy",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "551be434-9258-4625-bdb1-2ff341d6f91d",
-      "type": "event",
-      "date": "2025-12-10T00:00:00.000Z",
-      "title": "Tata Consultancy Services Limited (NSEI:TCS) signed a definitive agreement to acquire Coastal Cloud LLC from Sverica Capital Partners V managed by Sverica Capital Management LP and Salesforce Ventures, LLC for $700 million.",
-      "body": "Tata Consultancy Services Limited (NSEI:TCS) signed a definitive agreement to acquire Coastal Cloud LLC from Sverica Capital Partners V managed by Sverica Capital Management LP and Salesforce Ventures, LLC for $700 million on December 10, 2025. A cash consideration of $700 million will be paid by Tata Consultancy Services Limited.\r\n\r\nThe transaction is subject to approval by regulatory board. The expected completion of the transaction is January 31, 2026. Choate, Hall & Stewart LLP acted as a legal advisor to Coastal Cloud. Guggenheim Securities, LLC acted as a financial advisor to Sverica Capital Management.",
-      "keyDevTypeId": "80",
       "source_url": null,
       "raw_subtype": "EventActivity"
     }

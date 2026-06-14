@@ -3,7 +3,7 @@
   "name": "Procter & Gamble Health Limited",
   "sector": "Pharmaceuticals & Biotech",
   "sws_url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-pghl/procter-gamble-health-shares",
-  "parsed_at": "2026-05-31T21:30:35.138Z",
+  "parsed_at": "2026-06-11T00:32:45.496Z",
   "company_id": "C3C35F71-B42C-4167-9B81-9E98C07B7BD9",
   "classification_status": "Active",
   "groww_source": {
@@ -17,81 +17,319 @@
   "overview": {
     "snowflake": {
       "valuation": 0,
-      "future": 0,
+      "future": 3,
       "past": 6,
       "financial_health": 6,
       "dividends": 5,
-      "future_growth": 0,
+      "future_growth": 3,
       "past_performance": 6,
       "value": 0,
       "health": 6,
       "dividend": 5
     },
-    "snowflake_total": 17,
-    "snowflake_data_quality": {
-      "insufficient": true,
-      "insufficient_count": 7,
+    "snowflake_total": 20,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
       "checked_count": 30,
-      "affected_pillars": [
-        "Value",
-        "Future"
-      ],
-      "by_pillar": {
-        "Value": {
-          "checked": 6,
-          "insufficient": 1
-        },
-        "Future": {
-          "checked": 6,
-          "insufficient": 6
-        },
-        "Past": {
-          "checked": 6,
-          "insufficient": 0
-        },
-        "Health": {
-          "checked": 6,
-          "insufficient": 0
-        },
-        "Dividends": {
-          "checked": 6,
-          "insufficient": 0
-        }
-      },
-      "samples": [
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
         {
           "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
           "title": "PEG Ratio",
-          "reason_code": "OUTCOME_NULL"
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
         },
         {
           "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
           "title": "Future ROE",
-          "reason_code": "OUTCOME_NULL"
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
         },
         {
           "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
           "title": "High Growth Earnings",
-          "reason_code": "OUTCOME_NULL"
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_OUTSTANDING"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_NOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
         }
       ]
     },
-    "current_price_inr": 6056,
+    "current_price_inr": 6235,
     "market_cap_inr": 103701300000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 4707,
       "high": 6739
     },
-    "fair_value_inr": 5403.098352,
+    "fair_value_inr": 7509.286565,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -10.781070805812417,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "cfa94f75-76f7-4884-8b25-ab552350c150",
+      "narrative_type": null,
+      "published_at": "2024-07-25T13:14:18.738Z"
+    },
+    "upside_pct": 20.437635364875707,
     "multiples": {
       "pe": 35.33,
       "ps": 7.37,
@@ -108,7 +346,9 @@
       "pe_source_url": "https://groww.in/stocks/merck-ltd"
     },
     "rewards": [
-      "Earnings grew by 30.1% over the past year"
+      "Earnings are forecast to grow 14.98% per year",
+      "Earnings grew by 30.1% over the past year",
+      "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
     "risks": [
       "Unstable dividend track record"
@@ -123,11 +363,11 @@
           "exDate": "2026-02-12T00:00:00.000Z",
           "payDate": "2026-03-04T00:00:00.000Z",
           "recordDate": "2026-02-12T00:00:00.000Z",
-          "divAmount": 50,
-          "divAmountListingCurrency": 50,
+          "divAmount": 110,
+          "divAmountListingCurrency": 110,
           "currencyIsoCode": "INR",
-          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-          "divFreqTypeName": "Bonus Payment",
+          "dividendTypeName": "No special code applies",
+          "divFreqTypeName": "Interim Payment",
           "annualizedDividend": 125,
           "annualizedDividendListingCurrency": 125,
           "annualizedYield": 2.2185052102
@@ -136,11 +376,11 @@
           "exDate": "2026-02-12T00:00:00.000Z",
           "payDate": "2026-03-04T00:00:00.000Z",
           "recordDate": "2026-02-12T00:00:00.000Z",
-          "divAmount": 110,
-          "divAmountListingCurrency": 110,
+          "divAmount": 50,
+          "divAmountListingCurrency": 50,
           "currencyIsoCode": "INR",
-          "dividendTypeName": "No special code applies",
-          "divFreqTypeName": "Interim Payment",
+          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+          "divFreqTypeName": "Bonus Payment",
           "annualizedDividend": 125,
           "annualizedDividendListingCurrency": 125,
           "annualizedYield": 2.2185052102
@@ -282,7 +522,7 @@
     "industry_benchmarks": {
       "pe": 45.475913369314384,
       "net_income_margin_1y": 0.1541587677,
-      "future_revenue_growth_3y": 0.423879921,
+      "future_revenue_growth_3y": 0.4212605545,
       "sector_pe": 45.475913369314384
     },
     "industry_benchmarks_meta": {
@@ -317,15 +557,15 @@
         "url": "https://groww.in/stocks/merck-ltd"
       },
       "sws_statement": {
-        "company_pe": 30.7,
-        "industry_pe": 29,
+        "company_pe": 31.6,
+        "industry_pe": 28.8,
         "industry_name": "Indian Pharmaceuticals",
-        "description": "PGHL is expensive based on its Price-To-Earnings Ratio (30.7x) compared to the Indian Pharmaceuticals industry average (29x).",
+        "description": "PGHL is expensive based on its Price-To-Earnings Ratio (31.6x) compared to the Indian Pharmaceuticals industry average (28.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 29.045511308,
+        "industry_pe": 28.787047453,
         "industry_code": "6120000",
         "type": "median_profitable",
         "count": 152,
@@ -337,8 +577,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 28.1,
-        "sample_count": 151,
+        "industry_pe": 28.15,
+        "sample_count": 152,
         "industry_code": "6120000",
         "industry_name": "Pharmaceuticals & Biotech"
       },
@@ -350,8 +590,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 6056,
-        "fetched_at": "2026-05-31T21:30:35.138Z",
+        "value": 6235,
+        "fetched_at": "2026-06-11T00:32:45.496Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-pghl/procter-gamble-health-shares"
       },
       "market_cap_inr": {
@@ -359,6 +599,24 @@
         "value": 103701300000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/merck-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 7509.286565,
+        "fetched_at": "2026-06-11T00:32:45.496Z",
+        "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-pghl/procter-gamble-health-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "cfa94f75-76f7-4884-8b25-ab552350c150",
+        "narrative_type": null,
+        "published_at": "2024-07-25T13:14:18.738Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 20.437635364875707,
+        "fetched_at": "2026-06-11T00:32:45.496Z",
+        "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-pghl/procter-gamble-health-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -399,13 +657,13 @@
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.1541587677,
-        "fetched_at": "2026-05-31T21:30:35.138Z",
+        "fetched_at": "2026-06-11T00:32:45.496Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-pghl/procter-gamble-health-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.423879921,
-        "fetched_at": "2026-05-31T21:30:35.138Z",
+        "value": 0.4212605545,
+        "fetched_at": "2026-06-11T00:32:45.496Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-pghl/procter-gamble-health-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -537,12 +795,12 @@
     "quick_ratio": 1.6459812497548347,
     "cash_ratio": 0.7268269721099909,
     "returns_pct": {
-      "1D": -3.0652260904361746,
-      "7D": 9.058166756708086,
-      "1M": 17.935735150925026,
-      "3M": 23.57922660952964,
-      "6M": 5.827872433377021,
-      "1Y": 5.193677262463088,
+      "1D": 0.3621730382293763,
+      "7D": 2.070884832610297,
+      "1M": 18.5361216730038,
+      "3M": 27.52336735319984,
+      "6M": 11.788435679067682,
+      "1Y": 6.3176741410179895,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -583,8 +841,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.99366,
-        "shares": 164942,
+        "pct": 0.99706,
+        "shares": 165506,
         "is_insider": null
       },
       {
@@ -598,8 +856,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.70482,
-        "shares": 116995,
+        "pct": 0.70371,
+        "shares": 116811,
         "is_insider": null
       },
       {
@@ -673,11 +931,11 @@
         "exDate": "2026-02-12T00:00:00.000Z",
         "payDate": "2026-03-04T00:00:00.000Z",
         "recordDate": "2026-02-12T00:00:00.000Z",
-        "divAmount": 50,
-        "divAmountListingCurrency": 50,
+        "divAmount": 110,
+        "divAmountListingCurrency": 110,
         "currencyIsoCode": "INR",
-        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-        "divFreqTypeName": "Bonus Payment",
+        "dividendTypeName": "No special code applies",
+        "divFreqTypeName": "Interim Payment",
         "annualizedDividend": 125,
         "annualizedDividendListingCurrency": 125,
         "annualizedYield": 2.2185052102
@@ -686,11 +944,11 @@
         "exDate": "2026-02-12T00:00:00.000Z",
         "payDate": "2026-03-04T00:00:00.000Z",
         "recordDate": "2026-02-12T00:00:00.000Z",
-        "divAmount": 110,
-        "divAmountListingCurrency": 110,
+        "divAmount": 50,
+        "divAmountListingCurrency": 50,
         "currencyIsoCode": "INR",
-        "dividendTypeName": "No special code applies",
-        "divFreqTypeName": "Interim Payment",
+        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+        "divFreqTypeName": "Bonus Payment",
         "annualizedDividend": 125,
         "annualizedDividendListingCurrency": 125,
         "annualizedYield": 2.2185052102

@@ -3,7 +3,7 @@
   "name": "HBL Engineering Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-hblengine/hbl-engineering-shares",
-  "parsed_at": "2026-05-31T23:15:59.255Z",
+  "parsed_at": "2026-06-11T02:10:42.798Z",
   "company_id": "C5A9C651-CE24-4337-BE28-A8762D1E11D2",
   "classification_status": "Active",
   "groww_source": {
@@ -76,22 +76,308 @@
         }
       ]
     },
-    "current_price_inr": 822.6,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 753.95,
     "market_cap_inr": 226606900000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 551.6,
       "high": 1122
     },
-    "fair_value_inr": 657.205627,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": 591.11,
       "max": 1139.19,
       "count": 10
     },
-    "upside_pct": -20.10629382445903,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "25004c83-6eac-4a0c-bcb7-e1126489a21a",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 27.83,
       "ps": 6.86,
@@ -110,7 +396,7 @@
     "rewards": [
       "Earnings grew by 194.3% over the past year",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (28x) is below the Electrical industry average (28.2x)",
+      "Price-To-Earnings ratio (26.6x) is below the Electrical industry average (28.6x)",
       "Trading at good value vs. industry average Price-To-Earnings ratio"
     ],
     "risks": [
@@ -285,7 +571,7 @@
     "industry_benchmarks": {
       "pe": 35.35685650485562,
       "net_income_margin_1y": 0.1057680891,
-      "future_revenue_growth_3y": 0.8153234448,
+      "future_revenue_growth_3y": 0.8362054337,
       "sector_pe": 35.35685650485562
     },
     "industry_benchmarks_meta": {
@@ -320,18 +606,18 @@
         "url": "https://groww.in/stocks/hbl-power-systems-ltd"
       },
       "sws_statement": {
-        "company_pe": 28,
-        "industry_pe": 28.2,
+        "company_pe": 26.6,
+        "industry_pe": 28.6,
         "industry_name": "Indian Electrical",
-        "description": "HBLENGINE is good value based on its Price-To-Earnings Ratio (28x) compared to the Indian Electrical industry average (28.2x).",
+        "description": "HBLENGINE is good value based on its Price-To-Earnings Ratio (26.6x) compared to the Indian Electrical industry average (28.6x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 29.47654624,
+        "industry_pe": 28.631556336,
         "industry_code": "3050000",
         "type": "median_profitable",
-        "count": 123,
+        "count": 124,
         "source": {
           "type": "country",
           "country": "IN",
@@ -340,8 +626,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 28.2,
-        "sample_count": 127,
+        "industry_pe": 29.3,
+        "sample_count": 129,
         "industry_code": "3050000",
         "industry_name": "Capital Goods"
       },
@@ -353,8 +639,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 822.6,
-        "fetched_at": "2026-05-31T23:15:59.255Z",
+        "value": 753.95,
+        "fetched_at": "2026-06-11T02:10:42.798Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-hblengine/hbl-engineering-shares"
       },
       "market_cap_inr": {
@@ -402,13 +688,13 @@
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.1057680891,
-        "fetched_at": "2026-05-31T23:15:59.255Z",
+        "fetched_at": "2026-06-11T02:10:42.798Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-hblengine/hbl-engineering-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.8153234448,
-        "fetched_at": "2026-05-31T23:15:59.255Z",
+        "value": 0.8362054337,
+        "fetched_at": "2026-06-11T02:10:42.798Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-hblengine/hbl-engineering-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -540,12 +826,12 @@
     "quick_ratio": 2.581765557163531,
     "cash_ratio": 0.9740390385090536,
     "returns_pct": {
-      "1D": 0.623853211009177,
-      "7D": 6.189892209384889,
-      "1M": 1.4428412874583854,
-      "3M": 20.131434830230013,
-      "6M": -7.124308456588012,
-      "1Y": 36.38398408356131,
+      "1D": -3.5129255183004777,
+      "7D": -4.108108108108103,
+      "1M": -9.129805953959263,
+      "3M": 9.299797042621064,
+      "6M": -7.120418848167534,
+      "1Y": 23.375879561446574,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -651,8 +937,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.06828,
-        "shares": 189261,
+        "pct": 0.06835,
+        "shares": 189452,
         "is_insider": null
       }
     ],
@@ -1162,26 +1448,6 @@
       "keyDevTypeId": null,
       "source_url": null,
       "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "cad338b8-ef28-4bab-8eb6-e29ab30ac413",
-      "type": "article",
-      "date": "2025-12-11T00:00:48.000Z",
-      "title": "HBL Engineering Limited (NSE:HBLENGINE) Stocks Pounded By 27% But Not Lagging Market On Growth Or Pricing",
-      "body": "HBL Engineering Limited ( NSE:HBLENGINE ) shareholders won't be pleased to see that the share price has had a very...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/capital-goods/nse-hblengine/hbl-engineering-shares/news/hbl-engineering-limited-nsehblengine-stocks-pounded-by-27-bu",
-      "raw_subtype": "article"
-    },
-    {
-      "id": "01b98906-82aa-45ef-95c9-6b861d427daa",
-      "type": "article",
-      "date": "2025-12-04T00:44:19.000Z",
-      "title": "Does HBL Engineering (NSE:HBLENGINE) Have A Healthy Balance Sheet?",
-      "body": "Legendary fund manager Li Lu (who Charlie Munger backed) once said, 'The biggest investment risk is not the volatility...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/capital-goods/nse-hblengine/hbl-engineering-shares/news/does-hbl-engineering-nsehblengine-have-a-healthy-balance-she",
-      "raw_subtype": "article"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/HBLENGINE.json"

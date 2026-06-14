@@ -3,7 +3,7 @@
   "name": "IB Infotech Enterprises Limited",
   "sector": "Software",
   "sws_url": "https://simplywall.st/stocks/in/software/bse-519463/ib-infotech-enterprises-shares",
-  "parsed_at": "2026-05-31T21:00:45.278Z",
+  "parsed_at": "2026-06-11T00:03:56.361Z",
   "company_id": "420A32F7-570E-45AC-8F3F-15C8E1298CB3",
   "classification_status": "Active",
   "groww_source": {
@@ -76,22 +76,308 @@
         }
       ]
     },
-    "current_price_inr": 65.5,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_OUTSTANDING"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_5_YEARS_AGO"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_STABLE_BUT_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 55.76,
     "market_cap_inr": 855500000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 15.03,
       "high": 82.03
     },
-    "fair_value_inr": 1.138907,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 1.138907,
-      "max": 1.138907,
+      "min": 1.091877,
+      "max": 1.091877,
       "count": 1
     },
-    "upside_pct": -98.2612106870229,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "24f9eb65-c62d-4b7f-978a-b8ad7d31451e",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 49.48,
       "ps": 12,
@@ -112,7 +398,7 @@
     ],
     "risks": [
       "High level of [[non-cash earnings]]",
-      "Does not have a meaningful market cap (₹839M)",
+      "Does not have a meaningful market cap (₹714M)",
       "Makes less than USD$1m in revenue (₹71M)"
     ],
     "dividend": {
@@ -132,7 +418,7 @@
           "divFreqTypeName": "Annual",
           "annualizedDividend": 0.1,
           "annualizedDividendListingCurrency": 0.1,
-          "annualizedYield": 0.3354234569
+          "annualizedYield": 0.3289270028
         },
         {
           "exDate": "2024-09-17T00:00:00.000Z",
@@ -179,8 +465,8 @@
     "dividend_yield_pct": 0.15,
     "industry_benchmarks": {
       "pe": 80.0113529025094,
-      "net_income_margin_1y": 0.1202305246,
-      "future_revenue_growth_3y": 0.2209798542,
+      "net_income_margin_1y": 0.1114700445,
+      "future_revenue_growth_3y": 0.2213130668,
       "sector_pe": 80.0113529025094
     },
     "industry_benchmarks_meta": {
@@ -215,18 +501,18 @@
         "url": "https://groww.in/stocks/ib-infotech-enterprises-ltd"
       },
       "sws_statement": {
-        "company_pe": 48.6,
-        "industry_pe": 23.6,
+        "company_pe": 41.4,
+        "industry_pe": 23,
         "industry_name": "Indian IT",
-        "description": "519463 is expensive based on its Price-To-Earnings Ratio (48.6x) compared to the Indian IT industry average (23.6x).",
+        "description": "519463 is expensive based on its Price-To-Earnings Ratio (41.4x) compared to the Indian IT industry average (23x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 23.644221907,
+        "industry_pe": 22.997035397,
         "industry_code": "8030000",
         "type": "median_profitable",
-        "count": 126,
+        "count": 127,
         "source": {
           "type": "country",
           "country": "IN",
@@ -235,8 +521,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.4,
-        "sample_count": 123,
+        "industry_pe": 22.5,
+        "sample_count": 126,
         "industry_code": "8030000",
         "industry_name": "Software"
       },
@@ -248,8 +534,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 65.5,
-        "fetched_at": "2026-05-31T21:00:45.278Z",
+        "value": 55.76,
+        "fetched_at": "2026-06-11T00:03:56.361Z",
         "url": "https://simplywall.st/stocks/in/software/bse-519463/ib-infotech-enterprises-shares"
       },
       "market_cap_inr": {
@@ -296,14 +582,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.1202305246,
-        "fetched_at": "2026-05-31T21:00:45.278Z",
+        "value": 0.1114700445,
+        "fetched_at": "2026-06-11T00:03:56.361Z",
         "url": "https://simplywall.st/stocks/in/software/bse-519463/ib-infotech-enterprises-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.2209798542,
-        "fetched_at": "2026-05-31T21:00:45.278Z",
+        "value": 0.2213130668,
+        "fetched_at": "2026-06-11T00:03:56.361Z",
         "url": "https://simplywall.st/stocks/in/software/bse-519463/ib-infotech-enterprises-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -435,16 +721,16 @@
     "quick_ratio": 4.314285714285714,
     "cash_ratio": 0.1619047619047619,
     "returns_pct": {
-      "1D": -1.9461077844311336,
-      "7D": 5.9013742926434904,
-      "1M": 37.85120488266863,
-      "3M": 1.8900210002333413,
-      "6M": 215.05531505531508,
-      "1Y": 309.1193004372267,
+      "1D": -1.986289330286522,
+      "7D": -9.568602011028217,
+      "1M": 18.198198198198202,
+      "3M": -27.781375469498766,
+      "6M": 179.3587174348697,
+      "1Y": 206.12132857535,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 4,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -508,7 +794,7 @@
         "divFreqTypeName": "Annual",
         "annualizedDividend": 0.1,
         "annualizedDividendListingCurrency": 0.1,
-        "annualizedYield": 0.3354234569
+        "annualizedYield": 0.3289270028
       },
       {
         "exDate": "2024-09-17T00:00:00.000Z",

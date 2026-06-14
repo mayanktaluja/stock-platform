@@ -3,7 +3,7 @@
   "name": "Welspun Corp Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-welcorp/welspun-shares",
-  "parsed_at": "2026-05-31T23:15:44.672Z",
+  "parsed_at": "2026-06-11T02:23:36.261Z",
   "company_id": "25788607-6F87-40A2-B4E9-32535E848B15",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 4
     },
     "snowflake_total": 15,
-    "current_price_inr": 1376.9,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 1370.4,
     "market_cap_inr": 361815200000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 710,
       "high": 1380
     },
-    "fair_value_inr": 1536.387712,
+    "fair_value_inr": 1536.386389,
     "fair_value_range_inr": {
-      "min": 453.541171,
-      "max": 1536.387712,
-      "count": 12
+      "min": 452.151579,
+      "max": 1536.386389,
+      "count": 11
     },
-    "upside_pct": 11.583100588278006,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "5afcd010-55ba-4295-b41c-68970dd37117",
+      "narrative_type": null,
+      "published_at": "2024-06-19T03:50:45.824Z"
+    },
+    "upside_pct": 12.112258391710442,
     "multiples": {
       "pe": 22.33,
       "ps": 2.16,
@@ -62,7 +348,7 @@
     "rewards": [
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading below our calculated fair Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (22.5x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (22.4x) is below the Indian market (23.2x)",
       "Earnings are forecast to grow 15.15% per year"
     ],
     "risks": [
@@ -224,7 +510,7 @@
     "industry_benchmarks": {
       "pe": 41.92916323228247,
       "net_income_margin_1y": 0.07144101492,
-      "future_revenue_growth_3y": 0.451968346,
+      "future_revenue_growth_3y": 0.4882829576,
       "sector_pe": 41.92916323228247
     },
     "industry_benchmarks_meta": {
@@ -259,18 +545,18 @@
         "url": "https://groww.in/stocks/welspun-corp-ltd"
       },
       "sws_statement": {
-        "company_pe": 22.5,
-        "industry_pe": 21.9,
+        "company_pe": 22.4,
+        "industry_pe": 20.8,
         "industry_name": "Indian Metals and Mining",
-        "description": "WELCORP is expensive based on its Price-To-Earnings Ratio (22.5x) compared to the Indian Metals and Mining industry average (21.9x).",
+        "description": "WELCORP is expensive based on its Price-To-Earnings Ratio (22.4x) compared to the Indian Metals and Mining industry average (20.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 21.899662552,
+        "industry_pe": 20.840689637,
         "industry_code": "2050000",
         "type": "median_profitable",
-        "count": 192,
+        "count": 194,
         "source": {
           "type": "country",
           "country": "IN",
@@ -279,8 +565,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.05,
-        "sample_count": 196,
+        "industry_pe": 19.2,
+        "sample_count": 197,
         "industry_code": "2050000",
         "industry_name": "Materials"
       },
@@ -292,8 +578,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1376.9,
-        "fetched_at": "2026-05-31T23:15:44.672Z",
+        "value": 1370.4,
+        "fetched_at": "2026-06-11T02:23:36.261Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-welcorp/welspun-shares"
       },
       "market_cap_inr": {
@@ -301,6 +587,24 @@
         "value": 361815200000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/welspun-corp-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 1536.386389,
+        "fetched_at": "2026-06-11T02:23:36.261Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-welcorp/welspun-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "5afcd010-55ba-4295-b41c-68970dd37117",
+        "narrative_type": null,
+        "published_at": "2024-06-19T03:50:45.824Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 12.112258391710442,
+        "fetched_at": "2026-06-11T02:23:36.261Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-welcorp/welspun-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -341,13 +645,13 @@
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.07144101492,
-        "fetched_at": "2026-05-31T23:15:44.672Z",
+        "fetched_at": "2026-06-11T02:23:36.261Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-welcorp/welspun-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.451968346,
-        "fetched_at": "2026-05-31T23:15:44.672Z",
+        "value": 0.4882829576,
+        "fetched_at": "2026-06-11T02:23:36.261Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-welcorp/welspun-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -479,12 +783,12 @@
     "quick_ratio": 0.7721002034776839,
     "cash_ratio": 0.3559278594363225,
     "returns_pct": {
-      "1D": 0.29135406803117486,
-      "7D": 7.780821917808227,
-      "1M": 8.648307425234762,
-      "3M": 66.84641017873373,
-      "6M": 60.77767398411959,
-      "1Y": 47.427592483537666,
+      "1D": -2.918673845281937,
+      "7D": -3.0560271646858954,
+      "1M": 3.0918528548860404,
+      "3M": 62.321587207580706,
+      "6M": 72.74675406529688,
+      "1Y": 43.52744030163387,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -545,8 +849,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.12612,
-        "shares": 2970590,
+        "pct": 1.1148,
+        "shares": 2940744,
         "is_insider": null
       },
       {
@@ -555,13 +859,13 @@
         "is_insider": null
       },
       {
-        "pct": 0.82897,
-        "shares": 2186751,
+        "pct": 0.79467,
+        "shares": 2096256,
         "is_insider": null
       },
       {
-        "pct": 0.63597,
-        "shares": 1677641,
+        "pct": 0.63633,
+        "shares": 1678589,
         "is_insider": null
       },
       {
@@ -590,8 +894,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.21367,
-        "shares": 563643,
+        "pct": 0.2164,
+        "shares": 570835,
         "is_insider": null
       }
     ],

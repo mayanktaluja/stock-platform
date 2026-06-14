@@ -3,7 +3,7 @@
   "name": "Greenpanel Industries Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-greenpanel/greenpanel-industries-shares",
-  "parsed_at": "2026-05-31T23:11:02.017Z",
+  "parsed_at": "2026-06-11T02:05:30.087Z",
   "company_id": "879945E6-3350-4B2E-A182-FEB10193E1F3",
   "classification_status": "Active",
   "groww_source": {
@@ -71,9 +71,287 @@
         }
       ]
     },
-    "current_price_inr": 185.57,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_EXPECTED_TO_BECOME_PROFITABLE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_EXPECTED_TO_BECOME_PROFITABLE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_EXPECTED_TO_BECOME_PROFITABLE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASING_LOSSES"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_LONG_FALLEN"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_VOLATILE_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_LOSS_MAKING"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 189.93,
     "market_cap_inr": 24513200000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "micro2",
     "shares_outstanding": 122627395,
     "fifty_two_week": {
@@ -86,7 +364,15 @@
       "max": 377,
       "count": 13
     },
-    "upside_pct": 30.981570296923,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "c20795a7-c007-4fc1-9a5e-e5dca8618922",
+      "narrative_type": null,
+      "published_at": "2026-05-27T16:07:32.297Z"
+    },
+    "upside_pct": 27.974780182172378,
     "multiples": {
       "pe": null,
       "ps": 1.59,
@@ -105,7 +391,7 @@
     "rewards": [
       "Earnings are forecast to grow 73.53% per year",
       "Trading below our calculated fair Price-To-Sales ratio",
-      "Trading at 35.1% below our estimate of its fair value",
+      "Trading at 32.2% below our estimate of its fair value",
       "Trading at good value vs. peer average Price-To-Sales ratio"
     ],
     "risks": [],
@@ -173,8 +459,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 46.1375953312554,
-      "net_income_margin_1y": 0.09487982097,
-      "future_revenue_growth_3y": 34.387188816,
+      "net_income_margin_1y": 0.09486136614,
+      "future_revenue_growth_3y": 32.656569349,
       "sector_pe": 46.1375953312554
     },
     "industry_benchmarks_meta": {
@@ -210,17 +496,17 @@
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 0.5,
+        "industry_pe": 0.6,
         "industry_name": "Indian Forestry",
-        "description": "GREENPANEL is expensive based on its Price-To-Sales Ratio (1.5x) compared to the Indian Forestry industry average (0.5x).",
+        "description": "GREENPANEL is expensive based on its Price-To-Sales Ratio (1.6x) compared to the Indian Forestry industry average (0.6x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 21.939974729,
+        "industry_pe": 21.497125029,
         "industry_code": "2060000",
         "type": "median_profitable",
-        "count": 40,
+        "count": 41,
         "source": {
           "type": "country",
           "country": "IN",
@@ -229,13 +515,13 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.4,
-        "sample_count": 39,
+        "industry_pe": 20.549999999999997,
+        "sample_count": 40,
         "industry_code": "2060000",
         "industry_name": "Materials"
       },
       "sws_primary_industry": {
-        "industry_pe": 19.26596559,
+        "industry_pe": 18.498719492,
         "industry_name": "Materials",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
@@ -246,8 +532,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 185.57,
-        "fetched_at": "2026-05-31T23:11:02.017Z",
+        "value": 189.93,
+        "fetched_at": "2026-06-11T02:05:30.087Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-greenpanel/greenpanel-industries-shares"
       },
       "market_cap_inr": {
@@ -255,6 +541,24 @@
         "value": 24513200000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/greenpanel-industries-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 243.0625,
+        "fetched_at": "2026-06-11T02:05:30.087Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-greenpanel/greenpanel-industries-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "c20795a7-c007-4fc1-9a5e-e5dca8618922",
+        "narrative_type": null,
+        "published_at": "2026-05-27T16:07:32.297Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 27.974780182172378,
+        "fetched_at": "2026-06-11T02:05:30.087Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-greenpanel/greenpanel-industries-shares"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
@@ -288,14 +592,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.09487982097,
-        "fetched_at": "2026-05-31T23:11:02.017Z",
+        "value": 0.09486136614,
+        "fetched_at": "2026-06-11T02:05:30.087Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-greenpanel/greenpanel-industries-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 34.387188816,
-        "fetched_at": "2026-05-31T23:11:02.017Z",
+        "value": 32.656569349,
+        "fetched_at": "2026-06-11T02:05:30.087Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-greenpanel/greenpanel-industries-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -421,16 +725,16 @@
     "quick_ratio": 1.303862574377248,
     "cash_ratio": 0.6620499546172722,
     "returns_pct": {
-      "1D": -7.284536597551843,
-      "7D": -4.650087349707127,
-      "1M": -16.455069331892673,
-      "3M": -9.799251446070091,
-      "6M": -25.533707865168537,
-      "1Y": -28.37900424546508,
+      "1D": -3.4172387490465286,
+      "7D": 1.523412443874275,
+      "1M": -13.624994315339478,
+      "3M": -7.4820984948122105,
+      "6M": -20.214240705734092,
+      "1Y": -32.44531388938288,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 6,
+    "recent_news_count": 5,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -497,8 +801,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.64387,
-        "shares": 789560,
+        "pct": 0.63668,
+        "shares": 780738,
         "is_insider": null
       },
       {
@@ -951,16 +1255,6 @@
       "keyDevTypeId": "16",
       "source_url": null,
       "raw_subtype": "EventActivity"
-    },
-    {
-      "id": "defe633d-d6dd-461a-ad0b-e6a1fd841d70",
-      "type": "narrative-update",
-      "date": "2025-12-14T22:07:14.000Z",
-      "title": "GREENPANEL: Profit Margins And Risk Profile Will Shape A Balanced Outlook",
-      "body": "Analysts have raised their price target on Greenpanel Industries from ₹230 to ₹260 per share, citing expectations of stronger profit margins and slightly lower perceived risk, even as they assume more moderate revenue growth. What's in the News Board meeting scheduled for November 10, 2025, at 13:00 IST to review and approve unaudited financial results for the quarter and half year ended September 30, 2025 (company filing) Management to present segment wise revenue, results, assets and liabilities for the quarter and half year ended September 30, 2025 (company filing) Board to review the statement of assets and liabilities as on September 30, 2025, along with the cash flow statement for the six months ended the same date (company filing) Valuation Changes Fair Value: Raised from ₹230.0 to ",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/materials/nse-greenpanel/greenpanel-industries-shares/h7evhtez-low-carbon-shifts-and-escalating-costs-will-crush-value-fn7r/updates/2-analysts-have-raised-their-price-target-on-greenpanel-indust",
-      "raw_subtype": "narrative-update"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/GREENPANEL.json"

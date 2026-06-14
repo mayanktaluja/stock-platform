@@ -3,7 +3,7 @@
   "name": "Bandhan Bank Limited",
   "sector": "Banks",
   "sws_url": "https://simplywall.st/stocks/in/banks/nse-bandhanbnk/bandhan-bank-shares",
-  "parsed_at": "2026-05-31T21:29:06.617Z",
+  "parsed_at": "2026-06-11T00:23:54.168Z",
   "company_id": "78799EF7-7BD1-40FD-A754-E4977B794603",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 3
     },
     "snowflake_total": 14,
-    "current_price_inr": 208.3,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "BankHealth",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAppropriateBadLoanAllowance",
+          "title": "Allowance for Bad Loans",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_LOW_ALLOWANCE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAppropriateNonPerformingLoans",
+          "title": "Level of Bad Loans",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasPrimarilyLowRiskFunding",
+          "title": "Low Risk Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAppropriateLoanLevel",
+          "title": "Loan Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasPrimarilyDepositFunding",
+          "title": "Low Risk Deposits",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAnAppropriateLevelOfAssets",
+          "title": "Asset Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_VOLATILE_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredIn3Years",
+          "title": "Future Dividend Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        }
+      ]
+    },
+    "current_price_inr": 199.76,
     "market_cap_inr": 331378300000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midlarge6",
     "shares_outstanding": 1611017956,
     "fifty_two_week": {
       "low": 134.25,
       "high": 212.66
     },
-    "fair_value_inr": 231,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 119.168699,
+      "min": 120.89338,
       "max": 231,
       "count": 48
     },
-    "upside_pct": 10.89774363898223,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystHighTarget",
+      "owner_classification": null,
+      "narrative_id": "e6c9adab-da60-441a-a883-f93117a7534f",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 27.07,
       "ps": 1.36,
@@ -60,7 +346,7 @@
       "pe_source_url": "https://groww.in/stocks/bandhan-bank-ltd"
     },
     "rewards": [
-      "Earnings are forecast to grow 25.99% per year"
+      "Earnings are forecast to grow 26.15% per year"
     ],
     "risks": [
       "Profit margins (13%) are lower than last year (28%)",
@@ -68,7 +354,7 @@
     ],
     "dividend": {
       "yield_pct": 0.73,
-      "payout_pct": 23.989460182109394,
+      "payout_pct": 19.749923187426358,
       "annualized_dividend": 1.5,
       "listing_currency": "INR",
       "recent_payments": [
@@ -156,8 +442,8 @@
     "dividend_yield_pct": 0.73,
     "industry_benchmarks": {
       "pe": 13.356880346706902,
-      "net_income_margin_1y": 0.3177821454,
-      "future_revenue_growth_3y": 0.2745257838,
+      "net_income_margin_1y": 0.3178841988,
+      "future_revenue_growth_3y": 0.2771620146,
       "sector_pe": 13.356880346706902
     },
     "industry_benchmarks_meta": {
@@ -192,15 +478,15 @@
         "url": "https://groww.in/stocks/bandhan-bank-ltd"
       },
       "sws_statement": {
-        "company_pe": 27.4,
-        "industry_pe": 11.4,
+        "company_pe": 27.2,
+        "industry_pe": 11.6,
         "industry_name": "Indian Banks",
-        "description": "BANDHANBNK is expensive based on its Price-To-Earnings Ratio (27.4x) compared to the Indian Banks industry average (11.4x).",
+        "description": "BANDHANBNK is expensive based on its Price-To-Earnings Ratio (27.2x) compared to the Indian Banks industry average (11.6x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 11.441700538,
+        "industry_pe": 11.624761504,
         "industry_code": "7011000",
         "type": "median_profitable",
         "count": 39,
@@ -212,25 +498,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 11.4,
+        "industry_pe": 11.75,
         "sample_count": 40,
         "industry_code": "7011000",
         "industry_name": "Banks"
       },
       "sws_primary_industry": {
-        "industry_pe": 11.055229769,
+        "industry_pe": 11.140031027,
         "industry_name": "Banks",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 33.313363706222574
+        "company_pe": 26.301631039468592
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 208.3,
-        "fetched_at": "2026-05-31T21:29:06.617Z",
+        "value": 199.76,
+        "fetched_at": "2026-06-11T00:23:54.168Z",
         "url": "https://simplywall.st/stocks/in/banks/nse-bandhanbnk/bandhan-bank-shares"
       },
       "market_cap_inr": {
@@ -277,14 +563,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.3177821454,
-        "fetched_at": "2026-05-31T21:29:06.617Z",
+        "value": 0.3178841988,
+        "fetched_at": "2026-06-11T00:23:54.168Z",
         "url": "https://simplywall.st/stocks/in/banks/nse-bandhanbnk/bandhan-bank-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.2745257838,
-        "fetched_at": "2026-05-31T21:29:06.617Z",
+        "value": 0.2771620146,
+        "fetched_at": "2026-06-11T00:23:54.168Z",
         "url": "https://simplywall.st/stocks/in/banks/nse-bandhanbnk/bandhan-bank-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -393,13 +679,13 @@
         "url": "https://groww.in/stocks/bandhan-bank-ltd"
       }
     },
-    "earnings_growth_yoy_pct": -63.3070975419586,
+    "earnings_growth_yoy_pct": -40.424360343305594,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": -19.90147415617366,
-    "latest_revenue": 78607016000,
-    "latest_net_income": 10073286000,
+    "revenue_growth_pct": -5.847433804906516,
+    "latest_revenue": 94326031000,
+    "latest_net_income": 12235627000,
     "latest_eps": 7.6,
-    "most_recent_reported_date": "2026-05-03",
+    "most_recent_reported_date": "2026-06-01",
     "pb": 1.31,
     "ps": 1.36,
     "book_value": 156.7762526,
@@ -416,16 +702,16 @@
     "quick_ratio": 0,
     "cash_ratio": 0,
     "returns_pct": {
-      "1D": 1.2000194335130927,
-      "7D": 7.034581984481783,
-      "1M": 5.0428643469490675,
-      "3M": 14.463127816243556,
-      "6M": 38.53418462357009,
-      "1Y": 20.57887120115775,
+      "1D": -3.469604716342905,
+      "7D": -3.785762450630967,
+      "1M": -0.7305073796153649,
+      "3M": 12.218414695803608,
+      "6M": 33.55619442401551,
+      "1Y": 9.47553022414643,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -527,8 +813,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.9996,
-        "shares": 16103787,
+        "pct": 1.00322,
+        "shares": 16161981,
         "is_insider": null
       }
     ],
@@ -544,7 +830,7 @@
   },
   "dividend": {
     "yield_pct": 0.73,
-    "payout_pct": 23.989460182109394,
+    "payout_pct": 19.749923187426358,
     "annualized_dividend": 1.5,
     "listing_currency": "INR",
     "recent_payments": [
@@ -630,44 +916,44 @@
     "payment_count": 6
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-03",
+    "most_recent_reported_date": "2026-06-01",
     "latest_year": 2026,
-    "latest_revenue": 78607016000,
-    "latest_net_income": 10073286000,
+    "latest_revenue": 94326031000,
+    "latest_net_income": 12235627000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": -19.90147415617366,
-    "earnings_growth_pct": -63.3070975419586,
-    "net_margin_pct": 12.814741625607567,
+    "revenue_growth_pct": -5.847433804906516,
+    "earnings_growth_pct": -40.424360343305594,
+    "net_margin_pct": 12.97163346139307,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 78607016000,
-        "netIncome": 10073286000,
+        "revenue": 94326031000,
+        "netIncome": 12235627000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 98137906000,
-        "netIncome": 27452955000,
+        "revenue": 100184238000,
+        "netIncome": 20537970000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 80803405000,
-        "netIncome": 22295627000,
+        "revenue": 95296023000,
+        "netIncome": 25719696000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 75297974000,
-        "netIncome": 21946380000,
+        "revenue": 76016775000,
+        "netIncome": 20291872000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 36521844000,
-        "netIncome": 1257940000,
+        "revenue": 45836530000,
+        "netIncome": 6392169000,
         "eps": null
       }
     ]
@@ -862,6 +1148,16 @@
   ],
   "news": [
     {
+      "id": "f0039246-af49-4da6-b10b-0206360ea872",
+      "type": "narrative-update",
+      "date": "2026-06-01T23:09:57.000Z",
+      "title": "BANDHANBNK: Stable Profitability And Governance Updates Will Support Future Re Rating",
+      "body": "Narrative Update on Bandhan Bank Analysts have kept the price target for Bandhan Bank steady at ₹231, citing only minor tweaks to assumptions such as a small adjustment to the discount rate and slightly different views on future revenue growth, profit margin and forward P/E, which together support an unchanged fair value view. Analyst Commentary Recent Street research on another financial stock, Bandwidth, offers a useful reference point for how bullish analysts think about valuation support, execution and growth optionality, even though it relates to a different sector than Bandhan Bank.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/banks/nse-bandhanbnk/bandhan-bank-shares/uwl3iibm-indias-digital-adoption-and-financial-inclusion-will-expand-market-opportunities/updates/6-narrative-update-on-bandhan-bank-analysts-have-kept-the-pric",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "3d3ce38e-30bb-4561-8015-e41fcd272a98",
       "type": "brief",
       "date": "2026-05-05T11:45:40.000Z",
@@ -1020,26 +1316,6 @@
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/banks/nse-bandhanbnk/bandhan-bank-shares/uwl3iibm-indias-digital-adoption-and-financial-inclusion-will-expand-market-opportunities/updates/3-analysts-have-trimmed-their-price-target-for-bandhan-bank-sl",
       "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "47d73de9-dfb0-4903-ba52-3a512eecb128",
-      "type": "narrative-update",
-      "date": "2025-12-15T07:07:13.000Z",
-      "title": "BANDHANBNK: Future Asset Sale Plans Will Drive Confidence In Recovery",
-      "body": "Narrative Update on Bandhan Bank Analysts have trimmed their price target on Bandhan Bank slightly to around ₹220 from approximately ₹225, reflecting a modestly higher perceived risk. This comes even as they factor in stronger revenue growth, improved profit margin expectations, and a lower future earnings multiple.",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/banks/nse-bandhanbnk/bandhan-bank-shares/uwl3iibm-indias-digital-adoption-and-financial-inclusion-will-expand-market-opportunities/updates/2-narrative-update-on-bandhan-bank-analysts-have-trimmed-their",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "ec4b765c-02d2-4271-87f8-24b279789dee",
-      "type": "brief",
-      "date": "2025-12-08T18:07:42.000Z",
-      "title": "High number of new directors",
-      "body": "There are 5 new directors who have joined the board in the last 3 years. Independent Director Gauri Sarma was the last director to join the board, commencing their role in 2025. The company’s lack of board continuity is considered a risk according to the Simply Wall St Risk Model.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/BANDHANBNK.json"

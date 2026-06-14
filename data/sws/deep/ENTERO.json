@@ -3,7 +3,7 @@
   "name": "Entero Healthcare Solutions Limited",
   "sector": "Healthcare",
   "sws_url": "https://simplywall.st/stocks/in/healthcare/nse-entero/entero-healthcare-solutions-shares",
-  "parsed_at": "2026-05-31T22:44:57.483Z",
+  "parsed_at": "2026-06-11T01:41:02.917Z",
   "company_id": "2E8A3F95-4166-4BE9-BBBD-8096951AA560",
   "classification_status": "Active",
   "groww_source": {
@@ -16,18 +16,18 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 4,
+      "valuation": 5,
       "future": 4,
       "past": 3,
       "financial_health": 4,
       "dividends": 0,
       "future_growth": 4,
       "past_performance": 3,
-      "value": 4,
+      "value": 5,
       "health": 4,
       "dividend": 0
     },
-    "snowflake_total": 15,
+    "snowflake_total": 16,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 3,
@@ -75,9 +75,287 @@
         }
       ]
     },
-    "current_price_inr": 1195.8,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 1135.4,
     "market_cap_inr": 51680000000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "small3",
     "shares_outstanding": 43510937,
     "fifty_two_week": {
@@ -90,7 +368,15 @@
       "max": 1657.042921,
       "count": 5
     },
-    "upside_pct": 17.954507442716178,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "5155e398-76ac-4d2b-b9f6-329e83634cc0",
+      "narrative_type": null,
+      "published_at": "2026-04-20T08:09:20.609Z"
+    },
+    "upside_pct": 24.229346485819967,
     "multiples": {
       "pe": 35.44,
       "ps": 0.78,
@@ -110,8 +396,9 @@
       "Trading below our calculated fair Price-To-Earnings ratio",
       "Earnings grew by 21.3% over the past year",
       "Earnings are forecast to grow 31.95% per year",
-      "Trading at 27.8% below our estimate of its fair value",
-      "Analysts in good agreement that stock price will rise by 26.8%"
+      "Trading at 30.8% below our estimate of its fair value",
+      "Analysts in good agreement that stock price will rise by 32.2%",
+      "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
     "risks": [],
     "dividend": {
@@ -125,8 +412,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 59.71694269463179,
-      "net_income_margin_1y": 0.1041750126,
-      "future_revenue_growth_3y": 2.366911977,
+      "net_income_margin_1y": 0.1021808233,
+      "future_revenue_growth_3y": 2.289381694,
       "sector_pe": 59.71694269463179
     },
     "industry_benchmarks_meta": {
@@ -161,18 +448,18 @@
         "url": "https://groww.in/stocks/entero-healthcare-solutions-ltd"
       },
       "sws_statement": {
-        "company_pe": 45.2,
-        "industry_pe": 37.4,
+        "company_pe": 43.4,
+        "industry_pe": 39.3,
         "industry_name": "Indian Healthcare",
-        "description": "ENTERO is expensive based on its Price-To-Earnings Ratio (45.2x) compared to the Indian Healthcare industry average (37.4x).",
+        "description": "ENTERO is expensive based on its Price-To-Earnings Ratio (43.4x) compared to the Indian Healthcare industry average (39.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 37.439100813,
+        "industry_pe": 39.275601591,
         "industry_code": "6030000",
         "type": "median_profitable",
-        "count": 80,
+        "count": 79,
         "source": {
           "type": "country",
           "country": "IN",
@@ -181,25 +468,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 35.1,
-        "sample_count": 75,
+        "industry_pe": 33.650000000000006,
+        "sample_count": 74,
         "industry_code": "6030000",
         "industry_name": "Healthcare"
       },
       "sws_primary_industry": {
-        "industry_pe": 22.65435289,
+        "industry_pe": 22.129830496,
         "industry_name": "Healthcare",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 46.15895889336409
+        "company_pe": 43.827464398332154
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1195.8,
-        "fetched_at": "2026-05-31T22:44:57.483Z",
+        "value": 1135.4,
+        "fetched_at": "2026-06-11T01:41:02.917Z",
         "url": "https://simplywall.st/stocks/in/healthcare/nse-entero/entero-healthcare-solutions-shares"
       },
       "market_cap_inr": {
@@ -207,6 +494,24 @@
         "value": 51680000000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/entero-healthcare-solutions-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 1410.5,
+        "fetched_at": "2026-06-11T01:41:02.917Z",
+        "url": "https://simplywall.st/stocks/in/healthcare/nse-entero/entero-healthcare-solutions-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "5155e398-76ac-4d2b-b9f6-329e83634cc0",
+        "narrative_type": null,
+        "published_at": "2026-04-20T08:09:20.609Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 24.229346485819967,
+        "fetched_at": "2026-06-11T01:41:02.917Z",
+        "url": "https://simplywall.st/stocks/in/healthcare/nse-entero/entero-healthcare-solutions-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -246,14 +551,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.1041750126,
-        "fetched_at": "2026-05-31T22:44:57.483Z",
+        "value": 0.1021808233,
+        "fetched_at": "2026-06-11T01:41:02.917Z",
         "url": "https://simplywall.st/stocks/in/healthcare/nse-entero/entero-healthcare-solutions-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 2.366911977,
-        "fetched_at": "2026-05-31T22:44:57.483Z",
+        "value": 2.289381694,
+        "fetched_at": "2026-06-11T01:41:02.917Z",
         "url": "https://simplywall.st/stocks/in/healthcare/nse-entero/entero-healthcare-solutions-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -385,16 +690,16 @@
     "quick_ratio": 1.0498812650780756,
     "cash_ratio": 0.10191046694004044,
     "returns_pct": {
-      "1D": 0.8773409819470106,
-      "7D": -11.709982279976384,
-      "1M": 0.3693134127916622,
-      "3M": 15.87209302325581,
-      "6M": 12.524701232709129,
-      "1Y": -2.487156486993395,
+      "1D": -1.0372178157412937,
+      "7D": 0.7095973035302465,
+      "1M": -7.930587090496266,
+      "3M": 11.510508740915345,
+      "6M": 13.950220794861512,
+      "1Y": -5.893079154579355,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 4,
+    "recent_news_count": 5,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -481,8 +786,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.17,
-        "shares": 73970,
+        "pct": 0.16394,
+        "shares": 71332,
         "is_insider": null
       },
       {
@@ -743,6 +1048,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "c5f40ee2-bfa0-4b80-b1a0-deff70057846",
+      "type": "brief",
+      "date": "2026-06-01T11:35:28.000Z",
+      "title": "Consensus EPS estimates fall by 14%",
+      "body": "The consensus outlook for fiscal year 2027 has been updated. 2027 EPS estimate fell from ₹44.13 to ₹37.76 per share. Revenue forecast steady at ₹81.4b. Net income forecast to grow 43% next year vs 33% growth forecast for Healthcare industry in India. Consensus price target up from ₹1,413 to ₹1,517. Share price fell 15% to ₹1,141 over the past week.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "f1910ab1-712c-4e06-bed6-57589c4da702",
       "type": "article",

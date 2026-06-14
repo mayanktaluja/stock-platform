@@ -3,7 +3,7 @@
   "name": "Thermax Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-thermax/thermax-shares",
-  "parsed_at": "2026-05-31T22:49:08.346Z",
+  "parsed_at": "2026-06-11T01:53:54.266Z",
   "company_id": "27FF3145-F952-4990-87BA-D655A3EBFA5A",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 3
     },
     "snowflake_total": 14,
-    "current_price_inr": 4982.7,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_STABLE_IN_PAST_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 4698.8,
     "market_cap_inr": 546766600000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "large7",
     "shares_outstanding": 112639946,
     "fifty_two_week": {
       "low": 2742.7,
       "high": 4880
     },
-    "fair_value_inr": 5600,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 942.167645,
+      "min": 967.323826,
       "max": 5600,
       "count": 14
     },
-    "upside_pct": 12.388865474541918,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystHighTarget",
+      "owner_classification": null,
+      "narrative_id": "833b28a9-0032-4be9-bb79-8afc3e7e82fb",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 75.91,
       "ps": 5.11,
@@ -208,8 +494,8 @@
     "dividend_yield_pct": 0.41,
     "industry_benchmarks": {
       "pe": 50.60717150952937,
-      "net_income_margin_1y": 0.0775877089,
-      "future_revenue_growth_3y": 0.6569887,
+      "net_income_margin_1y": 0.07792327667,
+      "future_revenue_growth_3y": 0.6221294666,
       "sector_pe": 50.60717150952937
     },
     "industry_benchmarks_meta": {
@@ -244,18 +530,18 @@
         "url": "https://groww.in/stocks/thermax-ltd"
       },
       "sws_statement": {
-        "company_pe": 77.9,
-        "industry_pe": 25.9,
+        "company_pe": 74.1,
+        "industry_pe": 25.8,
         "industry_name": "Indian Machinery",
-        "description": "THERMAX is expensive based on its Price-To-Earnings Ratio (77.9x) compared to the Indian Machinery industry average (25.9x).",
+        "description": "THERMAX is expensive based on its Price-To-Earnings Ratio (74.1x) compared to the Indian Machinery industry average (25.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 25.908333666,
+        "industry_pe": 25.769114311,
         "industry_code": "3070000",
         "type": "median_profitable",
-        "count": 217,
+        "count": 220,
         "source": {
           "type": "country",
           "country": "IN",
@@ -264,25 +550,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 25.799999999999997,
-        "sample_count": 218,
+        "industry_pe": 25.6,
+        "sample_count": 219,
         "industry_code": "3070000",
         "industry_name": "Capital Goods"
       },
       "sws_primary_industry": {
-        "industry_pe": 21.475319439,
+        "industry_pe": 21.150765987,
         "industry_name": "Capital Goods",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 77.89744051827897
+        "company_pe": 73.45906707353227
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 4982.7,
-        "fetched_at": "2026-05-31T22:49:08.346Z",
+        "value": 4698.8,
+        "fetched_at": "2026-06-11T01:53:54.266Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-thermax/thermax-shares"
       },
       "market_cap_inr": {
@@ -329,14 +615,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.0775877089,
-        "fetched_at": "2026-05-31T22:49:08.346Z",
+        "value": 0.07792327667,
+        "fetched_at": "2026-06-11T01:53:54.266Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-thermax/thermax-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.6569887,
-        "fetched_at": "2026-05-31T22:49:08.346Z",
+        "value": 0.6221294666,
+        "fetched_at": "2026-06-11T01:53:54.266Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-thermax/thermax-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -445,13 +731,13 @@
         "url": "https://groww.in/stocks/thermax-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 13.559348747773733,
+    "earnings_growth_yoy_pct": 7.370648545541249,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 5.515036063257254,
-    "latest_revenue": 109616300000,
+    "revenue_growth_pct": 3.2806153097312656,
+    "latest_revenue": 106941500000,
     "latest_net_income": 7205000000,
     "latest_eps": 60.45,
-    "most_recent_reported_date": "2026-05-12",
+    "most_recent_reported_date": "2026-06-02",
     "pb": 9.85,
     "ps": 5.11,
     "book_value": 465.8814733,
@@ -468,16 +754,16 @@
     "quick_ratio": 1.0651059384642876,
     "cash_ratio": 0.2045681023166952,
     "returns_pct": {
-      "1D": 8.541367141550111,
-      "7D": 11.855160957212755,
-      "1M": 24.879699248120296,
-      "3M": 59.814612868047966,
-      "6M": 70.63456730933872,
-      "1Y": 44.48052889494593,
+      "1D": -0.867106900989461,
+      "7D": -1.7912007524297173,
+      "1M": 3.3816637697740384,
+      "3M": 48.44722459166587,
+      "6M": 63.698439241917505,
+      "1Y": 32.3381963611784,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 7,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -529,8 +815,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.72955,
-        "shares": 821768,
+        "pct": 0.72727,
+        "shares": 819199,
         "is_insider": null
       },
       {
@@ -554,8 +840,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.28961,
-        "shares": 326214,
+        "pct": 0.28942,
+        "shares": 326001,
         "is_insider": null
       },
       {
@@ -734,44 +1020,44 @@
     "payment_count": 10
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-12",
+    "most_recent_reported_date": "2026-06-02",
     "latest_year": 2026,
-    "latest_revenue": 109616300000,
+    "latest_revenue": 106941500000,
     "latest_net_income": 7205000000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 5.515036063257254,
-    "earnings_growth_pct": 13.559348747773733,
-    "net_margin_pct": 6.5729275664294455,
+    "revenue_growth_pct": 3.2806153097312656,
+    "earnings_growth_pct": 7.370648545541249,
+    "net_margin_pct": 6.737328352416975,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 109616300000,
+        "revenue": 106941500000,
         "netIncome": 7205000000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 103886900000,
-        "netIncome": 6344700000,
+        "revenue": 103544600000,
+        "netIncome": 6710400000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 93234600000,
-        "netIncome": 6452800000,
+        "revenue": 95749100000,
+        "netIncome": 7022100000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 80898100000,
-        "netIncome": 4502900000,
+        "revenue": 83682900000,
+        "netIncome": 4512900000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 61283300000,
-        "netIncome": 3123100000,
+        "revenue": 67304500000,
+        "netIncome": 3288600000,
         "eps": null
       }
     ]
@@ -1002,6 +1288,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "6cfbab05-0ee8-4c65-94b2-33631cb35c8b",
+      "type": "narrative-update",
+      "date": "2026-06-03T11:03:58.000Z",
+      "title": "THERMAX: Rich P E Will Persist Despite One Off Dividend Windfall",
+      "body": "Analysts have revised Thermax's price target from ₹2,700 to ₹2,893, reflecting updated assumptions on revenue growth, profit margins, discount rate, and a slightly lower future P/E multiple. What's in the News The board has recommended a final dividend of ₹14 per share and a special dividend of ₹6 per share to mark Thermax's 60th anniversary, for a total proposed payout of ₹20 per equity share of face value ₹2 each for FY 2025-26, subject to shareholder approval at the 45th AGM.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-thermax/thermax-shares/asm9c57j-legacy-businesses-will-shrink-amid-decarbonization-and-supply-hurdles-4x2i/updates/4-analysts-have-revised-thermaxs-price-target-from-indian-rupee2700-to",
+      "raw_subtype": "narrative-update"
+    },
     {
       "id": "a8484439-07ea-4cf0-a011-65863a12d138",
       "type": "article",
@@ -1240,26 +1536,6 @@
       "body": "When close to half the companies in India have price-to-earnings ratios (or \"P/E's\") below 25x, you may consider...",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/stocks/in/capital-goods/nse-thermax/thermax-shares/news/why-were-not-concerned-about-thermax-limiteds-nsethermax-sha",
-      "raw_subtype": "article"
-    },
-    {
-      "id": "00345877-0ffb-4071-b1ef-5b5ea3d478ed",
-      "type": "narrative-update",
-      "date": "2025-12-14T14:05:09.000Z",
-      "title": "THERMAX: Board Actions Will Likely Pressure Margins And Limit Upside Potential",
-      "body": "Analysts have trimmed their price target on Thermax by roughly 4 percent to about ₹2,455, citing slightly higher discount rates, mildly softer revenue growth expectations, a modestly lower profit margin outlook and a marginally richer future price to earnings multiple. What's in the News Thermax has scheduled a board meeting on November 11, 2025 to consider and approve unaudited financial results for the quarter and half year ended September 30, 2025, including segment wise financials (company filing).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-thermax/thermax-shares/asm9c57j-legacy-businesses-will-shrink-amid-decarbonization-and-supply-hurdles-4x2i/updates/2-analysts-have-trimmed-their-price-target-on-thermax-by-rough",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "1f0162ad-a900-4417-a25f-d4f45e9d4cb3",
-      "type": "article",
-      "date": "2025-12-10T01:26:04.000Z",
-      "title": "Thermax (NSE:THERMAX) Has A Pretty Healthy Balance Sheet",
-      "body": "Warren Buffett famously said, 'Volatility is far from synonymous with risk.' So it might be obvious that you need to...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/capital-goods/nse-thermax/thermax-shares/news/thermax-nsethermax-has-a-pretty-healthy-balance-sheet-1",
       "raw_subtype": "article"
     }
   ],

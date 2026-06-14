@@ -3,7 +3,7 @@
   "name": "Pearl Global Industries Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/nse-pgil/pearl-global-industries-shares",
-  "parsed_at": "2026-05-31T21:30:38.887Z",
+  "parsed_at": "2026-06-11T00:32:50.173Z",
   "company_id": "0D2DE4CF-7F37-47C8-A8FE-DBFAFF4D0B40",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 4
     },
     "snowflake_total": 20,
-    "current_price_inr": 1653.5,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 1641.7,
     "market_cap_inr": 74822900000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midsmall4",
     "shares_outstanding": 46184117,
     "fifty_two_week": {
       "low": 1178.1,
       "high": 1993.3
     },
-    "fair_value_inr": 2373.5,
+    "fair_value_inr": 2308,
     "fair_value_range_inr": {
-      "min": 792.623158,
-      "max": 2373.5,
+      "min": 808.771927,
+      "max": 2308,
       "count": 15
     },
-    "upside_pct": 43.54399758088902,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "bbb6fa40-8ee8-456b-b97d-2a99d7072983",
+      "narrative_type": null,
+      "published_at": "2026-06-05T16:06:17.598Z"
+    },
+    "upside_pct": 40.585977949686296,
     "multiples": {
       "pe": 27.71,
       "ps": 1.49,
@@ -61,8 +347,8 @@
     },
     "rewards": [
       "Trading below our calculated fair Price-To-Earnings ratio",
-      "Earnings are forecast to grow 19.4% per year",
-      "Analysts in good agreement that stock price will rise by 39.6%",
+      "Earnings are forecast to grow 19.37% per year",
+      "Analysts in good agreement that stock price will rise by 37%",
       "Earnings have grown 33% per year over the past 5 years",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
@@ -71,7 +357,7 @@
     ],
     "dividend": {
       "yield_pct": 0.52,
-      "payout_pct": 22.860151059863476,
+      "payout_pct": 21.623817898404415,
       "annualized_dividend": 13,
       "listing_currency": "INR",
       "recent_payments": [
@@ -237,8 +523,8 @@
     "dividend_yield_pct": 0.52,
     "industry_benchmarks": {
       "pe": 32.766250888378465,
-      "net_income_margin_1y": 0.0693600828,
-      "future_revenue_growth_3y": 0.2193400642,
+      "net_income_margin_1y": 0.06833056564,
+      "future_revenue_growth_3y": 0.2166318346,
       "sector_pe": 32.766250888378465
     },
     "industry_benchmarks_meta": {
@@ -273,18 +559,18 @@
         "url": "https://groww.in/stocks/pearl-global-industries-ltd"
       },
       "sws_statement": {
-        "company_pe": 27.5,
-        "industry_pe": 18,
+        "company_pe": 27.3,
+        "industry_pe": 19.3,
         "industry_name": "Indian Luxury",
-        "description": "PGIL is expensive based on its Price-To-Earnings Ratio (27.5x) compared to the Indian Luxury industry average (18x).",
+        "description": "PGIL is expensive based on its Price-To-Earnings Ratio (27.3x) compared to the Indian Luxury industry average (19.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 18.199713239,
+        "industry_pe": 19.295215828,
         "industry_code": "4130000",
         "type": "median_profitable",
-        "count": 294,
+        "count": 296,
         "source": {
           "type": "country",
           "country": "IN",
@@ -293,25 +579,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.1,
-        "sample_count": 290,
+        "industry_pe": 17.95,
+        "sample_count": 294,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
       },
       "sws_primary_industry": {
-        "industry_pe": 16.559656543,
+        "industry_pe": 16.573642049,
         "industry_name": "Consumer Durables",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 29.076353674987892
+        "company_pe": 27.307555264469638
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1653.5,
-        "fetched_at": "2026-05-31T21:30:38.887Z",
+        "value": 1641.7,
+        "fetched_at": "2026-06-11T00:32:50.173Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-pgil/pearl-global-industries-shares"
       },
       "market_cap_inr": {
@@ -319,6 +605,24 @@
         "value": 74822900000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/pearl-global-industries-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 2308,
+        "fetched_at": "2026-06-11T00:32:50.173Z",
+        "url": "https://simplywall.st/stocks/in/consumer-durables/nse-pgil/pearl-global-industries-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "bbb6fa40-8ee8-456b-b97d-2a99d7072983",
+        "narrative_type": null,
+        "published_at": "2026-06-05T16:06:17.598Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 40.585977949686296,
+        "fetched_at": "2026-06-11T00:32:50.173Z",
+        "url": "https://simplywall.st/stocks/in/consumer-durables/nse-pgil/pearl-global-industries-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -358,14 +662,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.0693600828,
-        "fetched_at": "2026-05-31T21:30:38.887Z",
+        "value": 0.06833056564,
+        "fetched_at": "2026-06-11T00:32:50.173Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-pgil/pearl-global-industries-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.2193400642,
-        "fetched_at": "2026-05-31T21:30:38.887Z",
+        "value": 0.2166318346,
+        "fetched_at": "2026-06-11T00:32:50.173Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-pgil/pearl-global-industries-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -474,13 +778,13 @@
         "url": "https://groww.in/stocks/pearl-global-industries-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 5.760802990516313,
+    "earnings_growth_yoy_pct": 10.705005599965869,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 9.625982840554862,
-    "latest_revenue": 49400624000,
-    "latest_net_income": 2626376000,
+    "revenue_growth_pct": 7.33097174901733,
+    "latest_revenue": 50245978000,
+    "latest_net_income": 2776538000,
     "latest_eps": 58.47,
-    "most_recent_reported_date": "2026-03-25",
+    "most_recent_reported_date": "2026-06-05",
     "pb": 5.13,
     "ps": 1.49,
     "book_value": 316.0896261,
@@ -497,16 +801,16 @@
     "quick_ratio": 0.965264820891148,
     "cash_ratio": 0.5342812412876108,
     "returns_pct": {
-      "1D": 1.9231954632312178,
-      "7D": 2.0490032709992003,
-      "1M": 7.860404435746901,
-      "3M": 7.453860150766835,
-      "6M": -2.0844436548824565,
-      "1Y": 21.742011485790012,
+      "1D": -2.598635419756746,
+      "7D": 0.3913654986852621,
+      "1M": 6.493253762324866,
+      "3M": 8.341582524912566,
+      "6M": 3.245078925853729,
+      "1Y": 20.73986908876958,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -588,6 +892,11 @@
         "is_insider": null
       },
       {
+        "pct": 0.26309,
+        "shares": 121504,
+        "is_insider": null
+      },
+      {
         "pct": 0.23627,
         "shares": 109120,
         "is_insider": null
@@ -600,11 +909,6 @@
       {
         "pct": 0.20058,
         "shares": 92636,
-        "is_insider": null
-      },
-      {
-        "pct": 0.19968,
-        "shares": 92222,
         "is_insider": null
       },
       {
@@ -625,7 +929,7 @@
   },
   "dividend": {
     "yield_pct": 0.52,
-    "payout_pct": 22.860151059863476,
+    "payout_pct": 21.623817898404415,
     "annualized_dividend": 13,
     "listing_currency": "INR",
     "recent_payments": [
@@ -789,44 +1093,44 @@
     "payment_count": 12
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-03-25",
+    "most_recent_reported_date": "2026-06-05",
     "latest_year": 2026,
-    "latest_revenue": 49400624000,
-    "latest_net_income": 2626376000,
+    "latest_revenue": 50245978000,
+    "latest_net_income": 2776538000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 9.625982840554862,
-    "earnings_growth_pct": 5.760802990516313,
-    "net_margin_pct": 5.316483451707007,
+    "revenue_growth_pct": 7.33097174901733,
+    "earnings_growth_pct": 10.705005599965869,
+    "net_margin_pct": 5.525891047438662,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 49400624000,
-        "netIncome": 2626376000,
+        "revenue": 50245978000,
+        "netIncome": 2776538000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 45062879000,
-        "netIncome": 2483317000,
+        "revenue": 46814053000,
+        "netIncome": 2508051000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 34361511000,
-        "netIncome": 1748338000,
+        "revenue": 35947388000,
+        "netIncome": 1921254000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 31584092000,
-        "netIncome": 1492544000,
+        "revenue": 32015567000,
+        "netIncome": 1608384000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 27135290000,
-        "netIncome": 681464000,
+        "revenue": 31283749000,
+        "netIncome": 1044522999.9999999,
         "eps": null
       }
     ]
@@ -1058,6 +1362,26 @@
   ],
   "news": [
     {
+      "id": "f1af0a40-bbf0-49d2-b883-3c7d69c14c27",
+      "type": "event",
+      "date": "2026-06-06T13:47:00.000Z",
+      "title": "Pearl Global Industries Limited Announces Resignation of Shailesh Kumar from Whole-Time Director, Effective June 06, 2026",
+      "body": "Pearl Global Industries Limited announced that Mr. Shailesh Kumar (DIN: 08897225) had tendered his resignation from the position of Whole-Time Director of the Company with effect from the closure of business hours of June 06, 2026. Mr. Shailesh Kumar resigned to pursue other growth opportunity outside the Company. Consequent to above, Mr. Shailesh Kumar also resigned from all other designations/positions in Pearl Global Industries Limited or any unit thereof with effect from the close of business hours of June 06, 2026.",
+      "keyDevTypeId": "16",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
+    {
+      "id": "e3291643-bc22-4b35-a3df-a47f4659836b",
+      "type": "narrative-update",
+      "date": "2026-06-05T16:06:17.000Z",
+      "title": "PGIL: Upcoming Board Decisions And Dividend Will Support Long Term Earnings Outlook",
+      "body": "Analysts have trimmed their price target on Pearl Global Industries from ₹2,373.50 to ₹2,308.00, citing updated assumptions for growth, margins and the future P/E multiple. What's in the News Board meeting scheduled on May 14, 2026 at 17:00 IST to consider and approve audited standalone and consolidated financial results for the quarter and year ended March 31, 2026.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/consumer-durables/nse-pgil/pearl-global-industries-shares/rd20czhx-global-diversification-will-support-long-term-supply-chain-resilience-qvg7/updates/15-analysts-have-trimmed-their-price-target-on-pearl-global-ind",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "cf50fc1f-533c-4e30-b5e7-82839232ceac",
       "type": "brief",
       "date": "2026-05-16T20:01:33.000Z",
@@ -1195,16 +1519,6 @@
       "body": "The excitement of investing in a company that can reverse its fortunes is a big draw for some speculators, so even...",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/stocks/in/consumer-durables/nse-pgil/pearl-global-industries-shares/news/if-eps-growth-is-important-to-you-pearl-global-industries-ns-1",
-      "raw_subtype": "article"
-    },
-    {
-      "id": "a215b293-1792-48bb-b1cf-b01b7c4109b5",
-      "type": "article",
-      "date": "2025-12-09T01:17:00.000Z",
-      "title": "These 4 Measures Indicate That Pearl Global Industries (NSE:PGIL) Is Using Debt Reasonably Well",
-      "body": "The external fund manager backed by Berkshire Hathaway's Charlie Munger, Li Lu, makes no bones about it when he says...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/consumer-durables/nse-pgil/pearl-global-industries-shares/news/these-4-measures-indicate-that-pearl-global-industries-nsepg",
       "raw_subtype": "article"
     }
   ],

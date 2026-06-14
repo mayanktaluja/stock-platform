@@ -3,7 +3,7 @@
   "name": "Intellect Design Arena Limited",
   "sector": "Software",
   "sws_url": "https://simplywall.st/stocks/in/software/nse-intellect/intellect-design-arena-shares",
-  "parsed_at": "2026-05-31T20:11:20.787Z",
+  "parsed_at": "2026-06-10T23:14:51.800Z",
   "company_id": "7BC259E8-5765-43E4-8E98-7012C68216D2",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 3
     },
     "snowflake_total": 18,
-    "current_price_inr": 716.85,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_STABLE_BUT_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 746.45,
     "market_cap_inr": 99400600000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midsmall4",
     "shares_outstanding": 139894519,
     "fifty_two_week": {
       "low": 595.2,
       "high": 1255
     },
-    "fair_value_inr": 1250,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 425.150932,
+      "min": 418.788119,
       "max": 1250,
-      "count": 16
+      "count": 17
     },
-    "upside_pct": 74.37399734951524,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystHighTarget",
+      "owner_classification": null,
+      "narrative_id": "dc4e7e96-5c18-4545-ab02-d4070b0de1be",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 28.95,
       "ps": 3.27,
@@ -63,7 +349,7 @@
       "Earnings are forecast to grow 22.95% per year",
       "Earnings have grown 3.2% per year over the past 5 years",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Analysts in good agreement that stock price will rise by 48.8%"
+      "Analysts in good agreement that stock price will rise by 42.9%"
     ],
     "risks": [],
     "dividend": {
@@ -76,11 +362,11 @@
           "exDate": "2025-07-18T00:00:00.000Z",
           "payDate": "2025-08-24T00:00:00.000Z",
           "recordDate": "2025-07-18T00:00:00.000Z",
-          "divAmount": 3,
-          "divAmountListingCurrency": 3,
+          "divAmount": 4,
+          "divAmountListingCurrency": 4,
           "currencyIsoCode": "INR",
-          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-          "divFreqTypeName": "Bonus Payment",
+          "dividendTypeName": "No special code applies",
+          "divFreqTypeName": "Annual",
           "annualizedDividend": 4,
           "annualizedDividendListingCurrency": 4,
           "annualizedYield": 0.4354523858
@@ -89,11 +375,11 @@
           "exDate": "2025-07-18T00:00:00.000Z",
           "payDate": "2025-08-24T00:00:00.000Z",
           "recordDate": "2025-07-18T00:00:00.000Z",
-          "divAmount": 4,
-          "divAmountListingCurrency": 4,
+          "divAmount": 3,
+          "divAmountListingCurrency": 3,
           "currencyIsoCode": "INR",
-          "dividendTypeName": "No special code applies",
-          "divFreqTypeName": "Annual",
+          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+          "divFreqTypeName": "Bonus Payment",
           "annualizedDividend": 4,
           "annualizedDividendListingCurrency": 4,
           "annualizedYield": 0.4354523858
@@ -143,8 +429,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 18.761595487228476,
-      "net_income_margin_1y": 0.09947274985,
-      "future_revenue_growth_3y": 1.4123928,
+      "net_income_margin_1y": 0.0994330966,
+      "future_revenue_growth_3y": 1.401190197,
       "sector_pe": 18.761595487228476
     },
     "industry_benchmarks_meta": {
@@ -179,15 +465,15 @@
         "url": "https://groww.in/stocks/intellect-design-arena-ltd"
       },
       "sws_statement": {
-        "company_pe": 29,
-        "industry_pe": 24.1,
+        "company_pe": 30.2,
+        "industry_pe": 28.6,
         "industry_name": "Indian Software",
-        "description": "INTELLECT is expensive based on its Price-To-Earnings Ratio (29x) compared to the Indian Software industry average (24.1x).",
+        "description": "INTELLECT is expensive based on its Price-To-Earnings Ratio (30.2x) compared to the Indian Software industry average (28.6x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 24.120954879,
+        "industry_pe": 28.630562307,
         "industry_code": "8040000",
         "type": "median_profitable",
         "count": 58,
@@ -199,25 +485,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24.2,
-        "sample_count": 57,
+        "industry_pe": 25.05,
+        "sample_count": 56,
         "industry_code": "8040000",
         "industry_name": "Software"
       },
       "sws_primary_industry": {
-        "industry_pe": 20.803345639,
+        "industry_pe": 20.24766845,
         "industry_name": "Software",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 29.031211825491486
+        "company_pe": 30.22996173137772
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 716.85,
-        "fetched_at": "2026-05-31T20:11:20.787Z",
+        "value": 746.45,
+        "fetched_at": "2026-06-10T23:14:51.800Z",
         "url": "https://simplywall.st/stocks/in/software/nse-intellect/intellect-design-arena-shares"
       },
       "market_cap_inr": {
@@ -264,14 +550,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.09947274985,
-        "fetched_at": "2026-05-31T20:11:20.787Z",
+        "value": 0.0994330966,
+        "fetched_at": "2026-06-10T23:14:51.800Z",
         "url": "https://simplywall.st/stocks/in/software/nse-intellect/intellect-design-arena-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 1.4123928,
-        "fetched_at": "2026-05-31T20:11:20.787Z",
+        "value": 1.401190197,
+        "fetched_at": "2026-06-10T23:14:51.800Z",
         "url": "https://simplywall.st/stocks/in/software/nse-intellect/intellect-design-arena-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -403,16 +689,16 @@
     "quick_ratio": 2.10743271557954,
     "cash_ratio": 0.41993004301755765,
     "returns_pct": {
-      "1D": 0.9505703422053232,
-      "7D": 2.707930367504832,
-      "1M": -3.0956404190604903,
-      "3M": 2.759461009174312,
-      "6M": -35.56404494382022,
-      "1Y": -39.90191146881287,
+      "1D": -0.7248304295783923,
+      "7D": 0.20135579569098594,
+      "1M": -1.828105477740511,
+      "3M": 11.894768400539652,
+      "6M": -27.52912621359223,
+      "1Y": -36.477746574759585,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 6,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -469,13 +755,13 @@
         "is_insider": null
       },
       {
-        "pct": 1.27805,
-        "shares": 1787915,
+        "pct": 1.28081,
+        "shares": 1791788,
         "is_insider": null
       },
       {
-        "pct": 0.92378,
-        "shares": 1292315,
+        "pct": 0.9223,
+        "shares": 1290244,
         "is_insider": null
       },
       {
@@ -539,11 +825,11 @@
         "exDate": "2025-07-18T00:00:00.000Z",
         "payDate": "2025-08-24T00:00:00.000Z",
         "recordDate": "2025-07-18T00:00:00.000Z",
-        "divAmount": 3,
-        "divAmountListingCurrency": 3,
+        "divAmount": 4,
+        "divAmountListingCurrency": 4,
         "currencyIsoCode": "INR",
-        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-        "divFreqTypeName": "Bonus Payment",
+        "dividendTypeName": "No special code applies",
+        "divFreqTypeName": "Annual",
         "annualizedDividend": 4,
         "annualizedDividendListingCurrency": 4,
         "annualizedYield": 0.4354523858
@@ -552,11 +838,11 @@
         "exDate": "2025-07-18T00:00:00.000Z",
         "payDate": "2025-08-24T00:00:00.000Z",
         "recordDate": "2025-07-18T00:00:00.000Z",
-        "divAmount": 4,
-        "divAmountListingCurrency": 4,
+        "divAmount": 3,
+        "divAmountListingCurrency": 3,
         "currencyIsoCode": "INR",
-        "dividendTypeName": "No special code applies",
-        "divFreqTypeName": "Annual",
+        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+        "divFreqTypeName": "Bonus Payment",
         "annualizedDividend": 4,
         "annualizedDividendListingCurrency": 4,
         "annualizedYield": 0.4354523858
@@ -873,6 +1159,26 @@
   ],
   "news": [
     {
+      "id": "adcb3d60-4937-4c1d-be80-e4311baa2254",
+      "type": "narrative-update",
+      "date": "2026-06-08T15:08:37.000Z",
+      "title": "INTELLECT: AI-Led Platforms And New Partnerships Will Drive Future Upside",
+      "body": "Analysts have lifted their price target on Intellect Design Arena from ₹737 to ₹855, citing updated assumptions around revenue growth, profit margins and the stock's future P/E profile. What's in the News New joint venture approved with Fintel PLC in the UK to build and commercialise an AI-led financial advisory platform.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/software/nse-intellect/intellect-design-arena-shares/4lmp51tw-rising-compliance-costs-and-cyber-threats-will-erode-margins/updates/7-analysts-have-lifted-their-price-target-on-intellect-design",
+      "raw_subtype": "narrative-update"
+    },
+    {
+      "id": "dec03930-0385-41b0-b4a9-62bda9595afa",
+      "type": "event",
+      "date": "2026-06-08T10:27:00.000Z",
+      "title": "Intellect Design Arena Ltd. Appoints Deepak Dastrala as Chief Executive Officer and Business Head of Purple Fabric",
+      "body": "Intellect Design Arena Ltd. announced a major strategic milestone with the carve-out of its Purple Fabric (purplefabric.ai) business into an independent Line of Business (LoB). To spearhead this high-growth entity, Intellect has appointed Deepak Dastrala as Chief Executive Officer (CEO) and Business Head of Purple Fabric. In this role, Deepak will report directly to Arun Jain, Chairman and Managing Director of Intellect Design Arena, who will continue to mentor Deepak and his leadership circle. Consequent to this appointment, Deepak also becomes a member of the Intellect Management Council and a Senior Management Personnel (SMP) of the company. Deepak Dastrala steps into the CEO role to mark his next leadership role at Intellect. As a young and dynamic leader, Deepak’s contribution to Inte",
+      "keyDevTypeId": "16",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
+    {
       "id": "2276478b-8dc7-4159-a80c-85939c9a375e",
       "type": "narrative-update",
       "date": "2026-05-25T08:08:30.000Z",
@@ -1130,16 +1436,6 @@
       "body": "Analysts have made a marginal upward revision to their price target on Intellect Design Arena to ₹1,222.5. This reflects slightly higher discount rate and valuation assumptions, while leaving core growth and profitability forecasts essentially unchanged. What's in the News Launched PF Credit tailored for the Philippines market, a suite of AI driven digital lending experts built on the Purple Fabric platform to speed up, de-risk and automate end-to-end credit operations for local banks (Key Developments) PF Credit for the Philippines embeds compliance with BSP, AMLC and Data Privacy Act norms, and aims to cut onboarding times by up to 10X, reduce NPA risk by up to 30 percent and improve loan recovery rates by up to 20 percent (Key Developments) NCBA rolled out Connect Plus, an upgraded tran",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/software/nse-intellect/intellect-design-arena-shares/4dx111wi-digital-banking-and-ai-trends-will-expand-markets-c7p0/updates/13-analysts-have-made-a-marginal-upward-revision-to-their-price",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "73d58a12-02e4-4b23-80c5-1d0c95e0a0f6",
-      "type": "narrative-update",
-      "date": "2025-12-04T04:17:55.000Z",
-      "title": "INTELLECT: AI Lending And Transaction Banking Wins Will Drive Stronger 2025 Outlook",
-      "body": "Analysts have nudged their fair value estimate for Intellect Design Arena slightly higher to ₹1,222.50, citing modestly increased discount rate and earnings multiple assumptions while keeping growth and margin expectations broadly unchanged. What's in the News Launched PF Credit, a Philippines-specific suite of AI-powered digital lending experts on the Purple Fabric platform, aimed at speeding up, automating, and ensuring regulatory-compliant credit workflows for local banks (company announcement).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/software/nse-intellect/intellect-design-arena-shares/4dx111wi-digital-banking-and-ai-trends-will-expand-markets-c7p0/updates/12-analysts-have-nudged-their-fair-value-estimate-for-intellect",
       "raw_subtype": "narrative-update"
     }
   ],

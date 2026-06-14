@@ -3,7 +3,7 @@
   "name": "KFin Technologies Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-kfintech/kfin-technologies-shares",
-  "parsed_at": "2026-05-31T20:27:29.821Z",
+  "parsed_at": "2026-06-10T23:33:18.184Z",
   "company_id": "CD0259A7-0650-4767-9798-5917F57DE454",
   "classification_status": "Active",
   "groww_source": {
@@ -16,34 +16,320 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 1,
+      "valuation": 2,
       "future": 4,
       "past": 3,
       "financial_health": 6,
       "dividends": 3,
       "future_growth": 4,
       "past_performance": 3,
-      "value": 1,
+      "value": 2,
       "health": 6,
       "dividend": 3
     },
-    "snowflake_total": 17,
-    "current_price_inr": 857.75,
+    "snowflake_total": 18,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_NOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_STABLE_BUT_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_50_TO_75"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 819.2,
     "market_cap_inr": 146282600000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "medium5",
     "shares_outstanding": 172547084,
     "fifty_two_week": {
       "low": 784.95,
       "high": 1388.5
     },
-    "fair_value_inr": 1405.33802,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 357.213752,
+      "min": 353.705165,
       "max": 1405.33802,
       "count": 29
     },
-    "upside_pct": 63.84004896531622,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystHighTarget",
+      "owner_classification": null,
+      "narrative_id": "02838c2c-f5f6-4c27-bd00-11f124540199",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 42.56,
       "ps": 11.25,
@@ -60,9 +346,10 @@
       "pe_source_url": "https://groww.in/stocks/kfin-technologies-ltd"
     },
     "rewards": [
-      "Analysts in good agreement that stock price will rise by 30.2%",
+      "Analysts in good agreement that stock price will rise by 33.1%",
       "Earnings have grown 31.9% per year over the past 5 years",
-      "Earnings are forecast to grow 16.76% per year"
+      "Earnings are forecast to grow 16.76% per year",
+      "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
     "risks": [],
     "dividend": {
@@ -103,8 +390,8 @@
     "dividend_yield_pct": 1.42,
     "industry_benchmarks": {
       "pe": 63.77667649542354,
-      "net_income_margin_1y": 0.2564706218,
-      "future_revenue_growth_3y": 0.3320316411,
+      "net_income_margin_1y": 0.257896607,
+      "future_revenue_growth_3y": 0.3297814148,
       "sector_pe": 63.77667649542354
     },
     "industry_benchmarks_meta": {
@@ -139,18 +426,18 @@
         "url": "https://groww.in/stocks/kfin-technologies-ltd"
       },
       "sws_statement": {
-        "company_pe": 43.1,
-        "industry_pe": 27.5,
+        "company_pe": 41.1,
+        "industry_pe": 26.9,
         "industry_name": "Indian Capital Markets",
-        "description": "KFINTECH is expensive based on its Price-To-Earnings Ratio (43.1x) compared to the Indian Capital Markets industry average (27.5x).",
+        "description": "KFINTECH is expensive based on its Price-To-Earnings Ratio (41.1x) compared to the Indian Capital Markets industry average (26.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 26.705392444,
+        "industry_pe": 25.93266606,
         "industry_code": "7130000",
         "type": "median_profitable",
-        "count": 218,
+        "count": 215,
         "source": {
           "type": "country",
           "country": "IN",
@@ -159,25 +446,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.6,
-        "sample_count": 204,
+        "industry_pe": 21.1,
+        "sample_count": 201,
         "industry_code": "7130000",
         "industry_name": "Diversified Financials"
       },
       "sws_primary_industry": {
-        "industry_pe": 15.729172633,
+        "industry_pe": 15.226484123,
         "industry_name": "Diversified Financials",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 43.05996337078717
+        "company_pe": 41.12471232101294
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 857.75,
-        "fetched_at": "2026-05-31T20:27:29.821Z",
+        "value": 819.2,
+        "fetched_at": "2026-06-10T23:33:18.184Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-kfintech/kfin-technologies-shares"
       },
       "market_cap_inr": {
@@ -224,14 +511,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.2564706218,
-        "fetched_at": "2026-05-31T20:27:29.821Z",
+        "value": 0.257896607,
+        "fetched_at": "2026-06-10T23:33:18.184Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-kfintech/kfin-technologies-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.3320316411,
-        "fetched_at": "2026-05-31T20:27:29.821Z",
+        "value": 0.3297814148,
+        "fetched_at": "2026-06-10T23:33:18.184Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-kfintech/kfin-technologies-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -363,16 +650,16 @@
     "quick_ratio": 3.281595475079884,
     "cash_ratio": 0.77959378558049,
     "returns_pct": {
-      "1D": 1.1318752579142868,
-      "7D": 4.910714285714283,
-      "1M": -12.232681878645243,
-      "3M": -10.342845197031467,
-      "6M": -18.796743349427242,
-      "1Y": -23.71487015297048,
+      "1D": -2.9326381894662004,
+      "7D": -2.167552397444316,
+      "1M": -8.037718904355625,
+      "3M": -9.739973556632876,
+      "6M": -22.10706475230579,
+      "1Y": -35.276921861420554,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 1,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -459,8 +746,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.03397,
-        "shares": 1784080,
+        "pct": 1.03815,
+        "shares": 1791296,
         "is_insider": null
       },
       {
@@ -794,6 +1081,16 @@
   ],
   "news": [
     {
+      "id": "ea752d6f-3df6-4af7-a93d-390c196feeac",
+      "type": "narrative-update",
+      "date": "2026-06-02T14:03:43.000Z",
+      "title": "KFINTECH: Expanding Mandates And Upcoming Board Review Will Support Bullish Outlook",
+      "body": "Analysts have revised their fair value estimate for KFin Technologies from ₹1,010 to ₹965, citing updated assumptions for revenue growth, profit margins and future P/E expectations as the main factors behind the new price target. What's in the News Svatantra Microfin Limited confirmed that KFin Technologies continues as Registrar and Transfer Agent for Non Convertible Debentures issued by Chaitanya India Fin Credit Private Limited, with tripartite agreements in place with Central Depository Services (India) Limited and National Securities Depository Limited.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/diversified-financials/nse-kfintech/kfin-technologies-shares/wnh0f1n6-regulatory-pressures-in-india-and-tech-bypass-will-erode-margins/updates/9-analysts-have-revised-their-fair-value-estimate-for-kfin-tec",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "5522f8a3-e26f-47ff-a28e-b3ff8caf9a46",
       "type": "narrative-update",
       "date": "2026-05-09T22:06:06.000Z",
@@ -942,16 +1239,6 @@
       "keyDevTypeId": "55",
       "source_url": null,
       "raw_subtype": "EventActivity"
-    },
-    {
-      "id": "c866bb80-a8fc-402d-b1e5-d6f3b8abce75",
-      "type": "narrative-update",
-      "date": "2025-12-12T17:06:48.000Z",
-      "title": "KFINTECH: Future Mandates And Margins Will Support A Balanced Outlook",
-      "body": "Analysts have nudged their fair value estimate for KFin Technologies higher from ₹1,085 to ₹1,130, citing expectations of faster revenue growth, modestly higher profit margins, and a slightly lower required return that together support a richer fundamental outlook despite a somewhat reduced future P E multiple. What's in the News DCM Shriram approved shifting its Registrar and Share Transfer Agent mandate to KFin Technologies, with the effective date to be notified after depository and connectivity formalities are completed (client announcement).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/diversified-financials/nse-kfintech/kfin-technologies-shares/wnh0f1n6-regulatory-pressures-in-india-and-tech-bypass-will-erode-margins/updates/2-analysts-have-nudged-their-fair-value-estimate-for-kfin-tech",
-      "raw_subtype": "narrative-update"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/KFINTECH.json"

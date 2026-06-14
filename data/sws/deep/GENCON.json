@@ -3,7 +3,7 @@
   "name": "Generic Engineering Construction and Projects Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-gencon/generic-engineering-construction-and-projects-shares",
-  "parsed_at": "2026-05-31T22:58:43.278Z",
+  "parsed_at": "2026-06-11T01:55:17.997Z",
   "company_id": "72A9DABB-B7AF-44DF-BD58-621D462C0A04",
   "classification_status": "Active",
   "groww_source": {
@@ -16,18 +16,18 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 1,
+      "valuation": 0,
       "future": 0,
       "past": 4,
       "financial_health": 5,
       "dividends": 0,
       "future_growth": 0,
       "past_performance": 4,
-      "value": 1,
+      "value": 0,
       "health": 5,
       "dividend": 0
     },
-    "snowflake_total": 10,
+    "snowflake_total": 9,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 11,
@@ -77,22 +77,308 @@
         }
       ]
     },
-    "current_price_inr": 39.68,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ONE_TIME"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 39.33,
     "market_cap_inr": 2252700000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 35.96,
       "high": 59.96
     },
-    "fair_value_inr": 0.505146,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -98.7269506048387,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "4a6ce07e-4e3a-4c00-aa9f-1076261fd9e5",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 17.57,
       "ps": 0.76,
@@ -109,9 +395,8 @@
       "pe_source_url": "https://groww.in/stocks/generic-engineering-construction-projects-ltd"
     },
     "rewards": [
-      "Price-To-Earnings ratio (17.8x) is below the Indian market (23.4x)",
-      "Earnings grew by 37.9% over the past year",
-      "Trading at good value vs. peer average Price-To-Earnings ratio"
+      "Price-To-Earnings ratio (17.3x) is below the Indian market (22.9x)",
+      "Earnings grew by 37.9% over the past year"
     ],
     "risks": [
       "Large [[one-off items]] impacting financial results",
@@ -181,8 +466,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 23.79352383470575,
-      "net_income_margin_1y": 0.06405545837,
-      "future_revenue_growth_3y": 0.4628660854,
+      "net_income_margin_1y": 0.06358528991,
+      "future_revenue_growth_3y": 0.4761643462,
       "sector_pe": 23.79352383470575
     },
     "industry_benchmarks_meta": {
@@ -217,18 +502,18 @@
         "url": "https://groww.in/stocks/generic-engineering-construction-projects-ltd"
       },
       "sws_statement": {
-        "company_pe": 17.8,
-        "industry_pe": 15.1,
+        "company_pe": 17.3,
+        "industry_pe": 14.4,
         "industry_name": "Indian Construction",
-        "description": "GENCON is expensive based on its Price-To-Earnings Ratio (17.8x) compared to the Indian Construction industry average (15.1x).",
+        "description": "GENCON is expensive based on its Price-To-Earnings Ratio (17.3x) compared to the Indian Construction industry average (14.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 15.073268522,
+        "industry_pe": 14.393596444,
         "industry_code": "3040000",
         "type": "median_profitable",
-        "count": 188,
+        "count": 189,
         "source": {
           "type": "country",
           "country": "IN",
@@ -237,8 +522,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.1,
-        "sample_count": 184,
+        "industry_pe": 13.8,
+        "sample_count": 187,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -250,8 +535,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 39.68,
-        "fetched_at": "2026-05-31T22:58:43.278Z",
+        "value": 39.33,
+        "fetched_at": "2026-06-11T01:55:17.997Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-gencon/generic-engineering-construction-and-projects-shares"
       },
       "market_cap_inr": {
@@ -298,14 +583,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.06405545837,
-        "fetched_at": "2026-05-31T22:58:43.278Z",
+        "value": 0.06358528991,
+        "fetched_at": "2026-06-11T01:55:17.997Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-gencon/generic-engineering-construction-and-projects-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.4628660854,
-        "fetched_at": "2026-05-31T22:58:43.278Z",
+        "value": 0.4761643462,
+        "fetched_at": "2026-06-11T01:55:17.997Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-gencon/generic-engineering-construction-and-projects-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -437,12 +722,12 @@
     "quick_ratio": 1.475810446364687,
     "cash_ratio": 0.09004348065386097,
     "returns_pct": {
-      "1D": -0.775193798449618,
-      "7D": 2.136422136422132,
-      "1M": -2.4582104228121926,
-      "3M": -12.963369159903495,
-      "6M": -11.606148362664293,
-      "1Y": 8.385686970773014,
+      "1D": 1.3659793814433019,
+      "7D": -0.1523229246001581,
+      "1M": -2.1641791044776233,
+      "3M": -9.33609958506225,
+      "6M": -16.069142125480155,
+      "1Y": -16.496815286624212,
       "5Y": null
     },
     "next_earnings_date": null,

@@ -3,7 +3,7 @@
   "name": "VRL Logistics Limited",
   "sector": "Transportation",
   "sws_url": "https://simplywall.st/stocks/in/transportation/nse-vrllog/vrl-logistics-shares",
-  "parsed_at": "2026-05-29T18:37:05.567Z",
+  "parsed_at": "2026-06-11T02:19:39.551Z",
   "company_id": "BC7AAA52-5A1F-42A2-B309-49C52028C5DD",
   "classification_status": "Active",
   "groww_source": {
@@ -18,32 +18,318 @@
     "snowflake": {
       "valuation": 5,
       "future": 1,
-      "past": 5,
+      "past": 6,
       "financial_health": 3,
       "dividends": 5,
       "future_growth": 1,
-      "past_performance": 5,
+      "past_performance": 6,
       "value": 5,
       "health": 3,
       "dividend": 5
     },
-    "snowflake_total": 19,
-    "current_price_inr": 233.7,
+    "snowflake_total": 20,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_50_TO_75"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 234.44,
     "market_cap_inr": 41136400000,
-    "market_cap_usd": 120702718105.29,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "small3",
     "shares_outstanding": 174936990,
     "fifty_two_week": {
       "low": 225,
       "high": 324.5
     },
-    "fair_value_inr": 337.85714,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 302.691098,
+      "min": 303.339876,
       "max": 6479.2,
       "count": 7
     },
-    "upside_pct": 44.56873769790331,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystLowTarget",
+      "owner_classification": null,
+      "narrative_id": "dfc786ba-979e-4c56-8381-2d5e719c5cb3",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 17.37,
       "ps": 1.28,
@@ -63,16 +349,16 @@
       "Trading below our calculated fair Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Earnings grew by 29.5% over the past year",
-      "Earnings are forecast to grow 8.06% per year",
-      "Analysts in good agreement that stock price will rise by 39.7%",
-      "Trading at 22.5% below our estimate of its fair value"
+      "Earnings are forecast to grow 8.02% per year",
+      "Analysts in good agreement that stock price will rise by 38.4%",
+      "Trading at 22.7% below our estimate of its fair value"
     ],
     "risks": [
       "Unstable dividend track record"
     ],
     "dividend": {
       "yield_pct": 0,
-      "payout_pct": 79.68440442694704,
+      "payout_pct": 73.86606004306887,
       "annualized_dividend": 10,
       "listing_currency": "INR",
       "recent_payments": [
@@ -87,7 +373,7 @@
           "divFreqTypeName": "Interim Payment",
           "annualizedDividend": 10,
           "annualizedDividendListingCurrency": 10,
-          "annualizedYield": 3.7143773779
+          "annualizedYield": 3.7327328039
         },
         {
           "exDate": "2025-07-30T00:00:00.000Z",
@@ -100,7 +386,7 @@
           "divFreqTypeName": "Final Payment",
           "annualizedDividend": 10,
           "annualizedDividendListingCurrency": 10,
-          "annualizedYield": 3.7143773779
+          "annualizedYield": 3.7327328039
         },
         {
           "exDate": "2024-11-29T00:00:00.000Z",
@@ -225,8 +511,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 42.40629053664889,
-      "net_income_margin_1y": 0.08538544639,
-      "future_revenue_growth_3y": 0.2451742365,
+      "net_income_margin_1y": 0.08504600388,
+      "future_revenue_growth_3y": 0.2369784758,
       "sector_pe": 42.40629053664889
     },
     "industry_benchmarks_meta": {
@@ -261,18 +547,18 @@
         "url": "https://groww.in/stocks/vrl-logistics-ltd"
       },
       "sws_statement": {
-        "company_pe": 17.4,
-        "industry_pe": 15.4,
+        "company_pe": 17.3,
+        "industry_pe": 13.7,
         "industry_name": "Indian Transportation",
-        "description": "VRLLOG is expensive based on its Price-To-Earnings Ratio (17.4x) compared to the Indian Transportation industry average (15.4x).",
+        "description": "VRLLOG is expensive based on its Price-To-Earnings Ratio (17.3x) compared to the Indian Transportation industry average (13.7x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 15.025070087,
+        "industry_pe": 13.713023738,
         "industry_code": "3240000",
         "type": "median_profitable",
-        "count": 29,
+        "count": 30,
         "source": {
           "type": "country",
           "country": "IN",
@@ -281,25 +567,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 14.4,
+        "industry_pe": 13.1,
         "sample_count": 29,
         "industry_code": "3240000",
         "industry_name": "Transportation"
       },
       "sws_primary_industry": {
-        "industry_pe": 14.360793461,
+        "industry_pe": 13.861367421,
         "industry_name": "Transportation",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 18.622245314577523
+        "company_pe": 17.317159116497066
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 233.7,
-        "fetched_at": "2026-05-29T18:37:05.567Z",
+        "value": 234.44,
+        "fetched_at": "2026-06-11T02:19:39.551Z",
         "url": "https://simplywall.st/stocks/in/transportation/nse-vrllog/vrl-logistics-shares"
       },
       "market_cap_inr": {
@@ -346,14 +632,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.08538544639,
-        "fetched_at": "2026-05-29T18:37:05.567Z",
+        "value": 0.08504600388,
+        "fetched_at": "2026-06-11T02:19:39.551Z",
         "url": "https://simplywall.st/stocks/in/transportation/nse-vrllog/vrl-logistics-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.2451742365,
-        "fetched_at": "2026-05-29T18:37:05.567Z",
+        "value": 0.2369784758,
+        "fetched_at": "2026-06-11T02:19:39.551Z",
         "url": "https://simplywall.st/stocks/in/transportation/nse-vrllog/vrl-logistics-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -462,13 +748,13 @@
         "url": "https://groww.in/stocks/vrl-logistics-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 159.96743558165971,
+    "earnings_growth_yoy_pct": 7.876884702508412,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 4.708557127207498,
-    "latest_revenue": 31789875000,
-    "latest_net_income": 2195373000,
+    "revenue_growth_pct": 2.0696054954604257,
+    "latest_revenue": 32447800000,
+    "latest_net_income": 2368300000,
     "latest_eps": 13.54,
-    "most_recent_reported_date": "2025-09-03",
+    "most_recent_reported_date": "2026-05-23",
     "pb": 3.6,
     "ps": 1.28,
     "book_value": 65.3056275,
@@ -485,16 +771,16 @@
     "quick_ratio": 0.38691051410900656,
     "cash_ratio": 0.03773676072671047,
     "returns_pct": {
-      "1D": -0.5108556832694836,
-      "7D": -2.197112366603892,
-      "1M": -8.492893222130858,
-      "3M": -15.78378378378379,
-      "6M": -13.859196461481762,
-      "1Y": -18.17943107221007,
+      "1D": -2.810712212917669,
+      "7D": -0.3866581686849359,
+      "1M": -11.831515607371186,
+      "3M": -9.28999806538982,
+      "6M": -12.928505106778088,
+      "1Y": -18.75942129429091,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 4,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -551,8 +837,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.66285,
-        "shares": 1159574,
+        "pct": 0.66383,
+        "shares": 1161292,
         "is_insider": null
       },
       {
@@ -566,13 +852,13 @@
         "is_insider": null
       },
       {
-        "pct": 0.0884,
-        "shares": 154652,
+        "pct": 0.08812,
+        "shares": 154151,
         "is_insider": null
       },
       {
-        "pct": 0.08052,
-        "shares": 140860,
+        "pct": 0.07955,
+        "shares": 139166,
         "is_insider": null
       },
       {
@@ -613,7 +899,7 @@
   },
   "dividend": {
     "yield_pct": 0,
-    "payout_pct": 79.68440442694704,
+    "payout_pct": 73.86606004306887,
     "annualized_dividend": 10,
     "listing_currency": "INR",
     "recent_payments": [
@@ -628,7 +914,7 @@
         "divFreqTypeName": "Interim Payment",
         "annualizedDividend": 10,
         "annualizedDividendListingCurrency": 10,
-        "annualizedYield": 3.7143773779
+        "annualizedYield": 3.7327328039
       },
       {
         "exDate": "2025-07-30T00:00:00.000Z",
@@ -641,7 +927,7 @@
         "divFreqTypeName": "Final Payment",
         "annualizedDividend": 10,
         "annualizedDividendListingCurrency": 10,
-        "annualizedYield": 3.7143773779
+        "annualizedYield": 3.7327328039
       },
       {
         "exDate": "2024-11-29T00:00:00.000Z",
@@ -764,16 +1050,22 @@
     "payment_count": 11
   },
   "fiscal": {
-    "most_recent_reported_date": "2025-09-03",
-    "latest_year": 2025,
-    "latest_revenue": 31789875000,
-    "latest_net_income": 2195373000,
+    "most_recent_reported_date": "2026-05-23",
+    "latest_year": 2026,
+    "latest_revenue": 32447800000,
+    "latest_net_income": 2368300000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 4.708557127207498,
-    "earnings_growth_pct": 159.96743558165971,
-    "net_margin_pct": 6.905887487761434,
+    "revenue_growth_pct": 2.0696054954604257,
+    "earnings_growth_pct": 7.876884702508412,
+    "net_margin_pct": 7.298799918638552,
     "yearly_history": [
+      {
+        "year": 2026,
+        "revenue": 32447800000,
+        "netIncome": 2368300000,
+        "eps": null
+      },
       {
         "year": 2025,
         "revenue": 31789875000,
@@ -782,26 +1074,20 @@
       },
       {
         "year": 2024,
-        "revenue": 30360341000,
-        "netIncome": 844480000,
+        "revenue": 29493799000,
+        "netIncome": 685542000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 27790595000,
-        "netIncome": 1526367000,
+        "revenue": 27204057000,
+        "netIncome": 1636138000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 27912639000,
-        "netIncome": 1974996000,
-        "eps": null
-      },
-      {
-        "year": 2021,
-        "revenue": 22137156000,
-        "netIncome": 1203383000,
+        "revenue": 26964500000,
+        "netIncome": 2155196000,
         "eps": null
       }
     ]
@@ -995,6 +1281,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "af73e518-8bdc-4ce2-b019-46f1a2ac5f19",
+      "type": "narrative",
+      "date": "2026-06-08T16:05:21.000Z",
+      "title": "Branch Expansion And Owned Fleet Investments Will Support Long Term Earnings Resilience",
+      "body": "Catalysts About VRL Logistics VRL Logistics operates an asset heavy road transportation network using a large owned fleet and nationwide branch infrastructure. What are the underlying business or industry changes driving this perspective?",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/transportation/nse-vrllog/vrl-logistics-shares/4aqenxqw-branch-expansion-and-owned-fleet-investments-will-support-long-term-earnings-resilience",
+      "raw_subtype": "narrative"
+    },
     {
       "id": "179016e2-1e47-4158-b674-9d3731add4d3",
       "type": "narrative",

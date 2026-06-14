@@ -3,7 +3,7 @@
   "name": "Repco Home Finance Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-repcohome/repco-home-finance-shares",
-  "parsed_at": "2026-05-31T21:52:27.030Z",
+  "parsed_at": "2026-06-11T00:52:23.289Z",
   "company_id": "878641AF-9D00-4C25-B67A-5E2D2C3F06DD",
   "classification_status": "Active",
   "groww_source": {
@@ -65,22 +65,308 @@
         }
       ]
     },
-    "current_price_inr": 384,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 374.1,
     "market_cap_inr": 24270700000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "micro2",
     "shares_outstanding": 62561362,
     "fifty_two_week": {
       "low": 333.6,
       "high": 464.45
     },
-    "fair_value_inr": 605,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 362.900716,
-      "max": 362.900716,
+      "min": 370.408465,
+      "max": 370.408465,
       "count": 2
     },
-    "upside_pct": 57.552083333333336,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystHighTarget",
+      "owner_classification": null,
+      "narrative_id": "c0510a98-c88d-496a-b28a-14d70b198e11",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 5.11,
       "ps": 1.36,
@@ -101,12 +387,12 @@
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading below our calculated fair Price-To-Earnings ratio",
       "Earnings have grown 16.3% per year over the past 5 years",
-      "Price-To-Earnings ratio (5.1x) is below the Indian market (23.4x)",
-      "Analysts in good agreement that stock price will rise by 27.8%"
+      "Price-To-Earnings ratio (4.9x) is below the Indian market (22.9x)",
+      "Analysts in good agreement that stock price will rise by 31.2%"
     ],
     "risks": [
       "Debt is not well covered by [[operating cash flow]]",
-      "Dividend of 1.95% is not well covered by free cash flows"
+      "Dividend of 2.01% is not well covered by free cash flows"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -276,8 +562,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 18.85756396507594,
-      "net_income_margin_1y": 0.2564706218,
-      "future_revenue_growth_3y": 0.3320316411,
+      "net_income_margin_1y": 0.257896607,
+      "future_revenue_growth_3y": 0.3297814148,
       "sector_pe": 18.85756396507594
     },
     "industry_benchmarks_meta": {
@@ -312,18 +598,18 @@
         "url": "https://groww.in/stocks/repco-home-finance-ltd"
       },
       "sws_statement": {
-        "company_pe": 5.1,
+        "company_pe": 4.9,
         "industry_pe": 20.1,
         "industry_name": "Indian Consumer Finance",
-        "description": "REPCOHOME is good value based on its Price-To-Earnings Ratio (5.1x) compared to the Indian Consumer Finance industry average (20.1x).",
+        "description": "REPCOHOME is good value based on its Price-To-Earnings Ratio (4.9x) compared to the Indian Consumer Finance industry average (20.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 20.116846802,
+        "industry_pe": 20.092697454,
         "industry_code": "7120000",
         "type": "median_profitable",
-        "count": 79,
+        "count": 80,
         "source": {
           "type": "country",
           "country": "IN",
@@ -332,25 +618,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.8,
-        "sample_count": 80,
+        "industry_pe": 19.6,
+        "sample_count": 81,
         "industry_code": "7120000",
         "industry_name": "Diversified Financials"
       },
       "sws_primary_industry": {
-        "industry_pe": 15.729172633,
+        "industry_pe": 15.226484123,
         "industry_name": "Diversified Financials",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 5.212428780837076
+        "company_pe": 5.078045851331121
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 384,
-        "fetched_at": "2026-05-31T21:52:27.030Z",
+        "value": 374.1,
+        "fetched_at": "2026-06-11T00:52:23.289Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-repcohome/repco-home-finance-shares"
       },
       "market_cap_inr": {
@@ -397,14 +683,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.2564706218,
-        "fetched_at": "2026-05-31T21:52:27.030Z",
+        "value": 0.257896607,
+        "fetched_at": "2026-06-11T00:52:23.289Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-repcohome/repco-home-finance-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.3320316411,
-        "fetched_at": "2026-05-31T21:52:27.030Z",
+        "value": 0.3297814148,
+        "fetched_at": "2026-06-11T00:52:23.289Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-repcohome/repco-home-finance-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -536,12 +822,12 @@
     "quick_ratio": 1.5664088510987042,
     "cash_ratio": 1.4969523126568662,
     "returns_pct": {
-      "1D": -0.8392511297611362,
-      "7D": -1.1710204606871732,
-      "1M": -6.35288379465919,
-      "3M": 0.8270972823946376,
-      "6M": -8.045977011494259,
-      "1Y": -4.820919568719789,
+      "1D": 0.02673796791444458,
+      "7D": 1.3546464372798699,
+      "1M": -6.754735792622125,
+      "3M": 1.3683782685273027,
+      "6M": -6.812803586997126,
+      "1Y": -12.939259948801482,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -557,13 +843,13 @@
         "is_insider": null
       },
       {
-        "pct": 7.36718,
-        "shares": 4609011,
+        "pct": 9.07793,
+        "shares": 5679274,
         "is_insider": null
       },
       {
-        "pct": 7.03541,
-        "shares": 4401448,
+        "pct": 7.36718,
+        "shares": 4609011,
         "is_insider": null
       },
       {
@@ -617,8 +903,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.30517,
-        "shares": 190917,
+        "pct": 0.30462,
+        "shares": 190575,
         "is_insider": null
       },
       {
@@ -647,8 +933,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.01007,
-        "shares": 6303,
+        "pct": 0.00737,
+        "shares": 4611,
         "is_insider": null
       }
     ],

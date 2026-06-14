@@ -3,7 +3,7 @@
   "name": "Raw Edge Industrial Solutions Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/bse-541634/raw-edge-industrial-solutions-shares",
-  "parsed_at": "2026-05-31T20:00:37.822Z",
+  "parsed_at": "2026-06-11T02:29:16.882Z",
   "company_id": "ECB638F7-94F7-4DDA-917E-6A882560BEBD",
   "classification_status": "Active",
   "groww_source": {
@@ -77,22 +77,308 @@
         }
       ]
     },
-    "current_price_inr": 20,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_REDUCING_LOSSES"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 20.79,
     "market_cap_inr": 205600000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 13.8,
       "high": 36
     },
-    "fair_value_inr": 4.06965,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -79.65174999999999,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "084faacf-d52b-42e7-880a-be0951d3f277",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": null,
       "ps": 0.57,
@@ -117,7 +403,7 @@
       "Interest payments are not well covered by earnings",
       "Highly volatile share price over past 3 months",
       "Does not have meaningful revenue (₹358M)",
-      "Does not have a meaningful market cap (₹201M)"
+      "Does not have a meaningful market cap (₹220M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -130,8 +416,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 18.470231068619313,
-      "net_income_margin_1y": 0.06992827437,
-      "future_revenue_growth_3y": 0.1136712015,
+      "net_income_margin_1y": 0.06934635327,
+      "future_revenue_growth_3y": 0.1062835889,
       "sector_pe": 18.470231068619313
     },
     "industry_benchmarks_meta": {
@@ -174,7 +460,7 @@
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 28.763403424,
+        "industry_pe": 28.917195291,
         "industry_code": "2030000",
         "type": "median_profitable",
         "count": 47,
@@ -186,8 +472,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 28.1,
-        "sample_count": 47,
+        "industry_pe": 28.65,
+        "sample_count": 46,
         "industry_code": "2030000",
         "industry_name": "Materials"
       },
@@ -199,8 +485,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 20,
-        "fetched_at": "2026-05-31T20:00:37.822Z",
+        "value": 20.79,
+        "fetched_at": "2026-06-11T02:29:16.882Z",
         "url": "https://simplywall.st/stocks/in/materials/bse-541634/raw-edge-industrial-solutions-shares"
       },
       "market_cap_inr": {
@@ -241,14 +527,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.06992827437,
-        "fetched_at": "2026-05-31T20:00:37.822Z",
+        "value": 0.06934635327,
+        "fetched_at": "2026-06-11T02:29:16.882Z",
         "url": "https://simplywall.st/stocks/in/materials/bse-541634/raw-edge-industrial-solutions-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.1136712015,
-        "fetched_at": "2026-05-31T20:00:37.822Z",
+        "value": 0.1062835889,
+        "fetched_at": "2026-06-11T02:29:16.882Z",
         "url": "https://simplywall.st/stocks/in/materials/bse-541634/raw-edge-industrial-solutions-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -374,16 +660,16 @@
     "quick_ratio": 0.5845170454545453,
     "cash_ratio": 0,
     "returns_pct": {
-      "1D": -2.1526418786692822,
-      "7D": -0.1497753369945139,
-      "1M": -2.486591906387136,
-      "3M": 19.688809096349484,
-      "6M": -6.890130353817507,
-      "1Y": -18.066366243342895,
+      "1D": -5.02512562814071,
+      "7D": -7.476635514018691,
+      "1M": -16.371681415929203,
+      "3M": 41.8144611186903,
+      "6M": -1.000000000000004,
+      "1Y": -20.92050209205021,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 1,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -694,16 +980,6 @@
       "date": "2026-01-06T12:01:08.000Z",
       "title": "Now 24% undervalued after recent price drop",
       "body": "Over the last 90 days, the stock has fallen 25% to ₹21.17. The fair value is estimated to be ₹27.91, however this is not to be taken as a buy recommendation but rather should be used as a guide only. Revenue has declined by 9.6% over the last 3 years. Meanwhile, the company became loss making.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "fd5cee64-12ea-424a-9361-efcc6dd57218",
-      "type": "brief",
-      "date": "2025-12-10T18:04:53.000Z",
-      "title": "Now 21% undervalued after recent price drop",
-      "body": "Over the last 90 days, the stock has fallen 20% to ₹22.00. The fair value is estimated to be ₹27.82, however this is not to be taken as a buy recommendation but rather should be used as a guide only. Revenue has declined by 9.6% over the last 3 years. Meanwhile, the company became loss making.",
       "keyDevTypeId": null,
       "source_url": null,
       "raw_subtype": "BriefActivity"

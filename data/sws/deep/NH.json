@@ -3,7 +3,7 @@
   "name": "Narayana Hrudayalaya Limited",
   "sector": "Healthcare",
   "sws_url": "https://simplywall.st/stocks/in/healthcare/nse-nh/narayana-hrudayalaya-shares",
-  "parsed_at": "2026-05-31T21:13:24.624Z",
+  "parsed_at": "2026-06-11T00:15:53.519Z",
   "company_id": "2EF84D1C-CC50-4F2B-AB1D-F6F913CCF6DB",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 2
     },
     "snowflake_total": 14,
-    "current_price_inr": 1894,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_VOLATILE_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 1906.8,
     "market_cap_inr": 392250100000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midlarge6",
     "shares_outstanding": 203099835,
     "fifty_two_week": {
       "low": 1589,
       "high": 2370.2
     },
-    "fair_value_inr": 2500,
+    "fair_value_inr": 2122.28571,
     "fair_value_range_inr": {
       "min": 1620,
       "max": 2500,
-      "count": 52
+      "count": 53
     },
-    "upside_pct": 31.995776135163673,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "871aaec8-7aa0-4100-bb62-1ce26e285be4",
+      "narrative_type": null,
+      "published_at": "2026-06-02T23:05:32.737Z"
+    },
+    "upside_pct": 11.300907803650102,
     "multiples": {
       "pe": 48.67,
       "ps": 4.97,
@@ -62,7 +348,7 @@
     "rewards": [
       "Trading below our calculated fair Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Earnings are forecast to grow 22.17% per year",
+      "Earnings are forecast to grow 23.13% per year",
       "Earnings have grown 25.1% per year over the past 5 years"
     ],
     "risks": [
@@ -70,7 +356,7 @@
     ],
     "dividend": {
       "yield_pct": 0.23,
-      "payout_pct": 11.742499383291834,
+      "payout_pct": 11.282223801629224,
       "annualized_dividend": 4.5,
       "listing_currency": "INR",
       "recent_payments": [
@@ -158,8 +444,8 @@
     "dividend_yield_pct": 0.23,
     "industry_benchmarks": {
       "pe": 59.71694269463179,
-      "net_income_margin_1y": 0.1041750126,
-      "future_revenue_growth_3y": 2.366911977,
+      "net_income_margin_1y": 0.1021808233,
+      "future_revenue_growth_3y": 2.289381694,
       "sector_pe": 59.71694269463179
     },
     "industry_benchmarks_meta": {
@@ -194,18 +480,18 @@
         "url": "https://groww.in/stocks/narayana-hrudayalaya-ltd"
       },
       "sws_statement": {
-        "company_pe": 47.5,
-        "industry_pe": 37.4,
+        "company_pe": 48.5,
+        "industry_pe": 39.3,
         "industry_name": "Indian Healthcare",
-        "description": "NH is expensive based on its Price-To-Earnings Ratio (47.5x) compared to the Indian Healthcare industry average (37.4x).",
+        "description": "NH is expensive based on its Price-To-Earnings Ratio (48.5x) compared to the Indian Healthcare industry average (39.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 37.439100813,
+        "industry_pe": 39.275601591,
         "industry_code": "6030000",
         "type": "median_profitable",
-        "count": 80,
+        "count": 79,
         "source": {
           "type": "country",
           "country": "IN",
@@ -214,25 +500,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 35.1,
-        "sample_count": 75,
+        "industry_pe": 33.650000000000006,
+        "sample_count": 74,
         "industry_code": "6030000",
         "industry_name": "Healthcare"
       },
       "sws_primary_industry": {
-        "industry_pe": 22.65435289,
+        "industry_pe": 22.129830496,
         "industry_name": "Healthcare",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 49.42287518212163
+        "company_pe": 47.80654298877023
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1894,
-        "fetched_at": "2026-05-31T21:13:24.624Z",
+        "value": 1906.8,
+        "fetched_at": "2026-06-11T00:15:53.519Z",
         "url": "https://simplywall.st/stocks/in/healthcare/nse-nh/narayana-hrudayalaya-shares"
       },
       "market_cap_inr": {
@@ -240,6 +526,24 @@
         "value": 392250100000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/narayana-hrudayalaya-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 2122.28571,
+        "fetched_at": "2026-06-11T00:15:53.519Z",
+        "url": "https://simplywall.st/stocks/in/healthcare/nse-nh/narayana-hrudayalaya-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "871aaec8-7aa0-4100-bb62-1ce26e285be4",
+        "narrative_type": null,
+        "published_at": "2026-06-02T23:05:32.737Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 11.300907803650102,
+        "fetched_at": "2026-06-11T00:15:53.519Z",
+        "url": "https://simplywall.st/stocks/in/healthcare/nse-nh/narayana-hrudayalaya-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -279,14 +583,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.1041750126,
-        "fetched_at": "2026-05-31T21:13:24.624Z",
+        "value": 0.1021808233,
+        "fetched_at": "2026-06-11T00:15:53.519Z",
         "url": "https://simplywall.st/stocks/in/healthcare/nse-nh/narayana-hrudayalaya-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 2.366911977,
-        "fetched_at": "2026-05-31T21:13:24.624Z",
+        "value": 2.289381694,
+        "fetched_at": "2026-06-11T00:15:53.519Z",
         "url": "https://simplywall.st/stocks/in/healthcare/nse-nh/narayana-hrudayalaya-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -395,13 +699,13 @@
         "url": "https://groww.in/stocks/narayana-hrudayalaya-ltd"
       }
     },
-    "earnings_growth_yoy_pct": -1.39571770447068,
+    "earnings_growth_yoy_pct": 3.2194971534584083,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 23.61290226094328,
-    "latest_revenue": 67776670000,
-    "latest_net_income": 7783260000,
+    "revenue_growth_pct": 38.917385162753064,
+    "latest_revenue": 78960350000,
+    "latest_net_income": 8100790000,
     "latest_eps": 39.44,
-    "most_recent_reported_date": "2026-05-01",
+    "most_recent_reported_date": "2026-06-02",
     "pb": 8.65,
     "ps": 4.97,
     "book_value": 222.0220666,
@@ -418,12 +722,12 @@
     "quick_ratio": 2.067374469831714,
     "cash_ratio": 1.1652428512792448,
     "returns_pct": {
-      "1D": -1.3644412040412481,
-      "7D": 2.0694115111015354,
-      "1M": 6.98147311342069,
-      "3M": 3.446392484570425,
-      "6M": -2.647134412747366,
-      "1Y": 8.470305251703802,
+      "1D": -1.421702941632632,
+      "7D": -3.726143592850649,
+      "1M": 1.0814249363867612,
+      "3M": 11.802990325417763,
+      "6M": 1.9570099454603738,
+      "1Y": 3.8958208467280557,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -514,8 +818,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.71891,
-        "shares": 1460100,
+        "pct": 0.67441,
+        "shares": 1369716,
         "is_insider": null
       },
       {
@@ -529,8 +833,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.45607,
-        "shares": 926269,
+        "pct": 0.45604,
+        "shares": 926217,
         "is_insider": null
       }
     ],
@@ -546,7 +850,7 @@
   },
   "dividend": {
     "yield_pct": 0.23,
-    "payout_pct": 11.742499383291834,
+    "payout_pct": 11.282223801629224,
     "annualized_dividend": 4.5,
     "listing_currency": "INR",
     "recent_payments": [
@@ -632,44 +936,44 @@
     "payment_count": 6
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-01",
+    "most_recent_reported_date": "2026-06-02",
     "latest_year": 2026,
-    "latest_revenue": 67776670000,
-    "latest_net_income": 7783260000,
+    "latest_revenue": 78960350000,
+    "latest_net_income": 8100790000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 23.61290226094328,
-    "earnings_growth_pct": -1.39571770447068,
-    "net_margin_pct": 11.483686053032702,
+    "revenue_growth_pct": 38.917385162753064,
+    "earnings_growth_pct": 3.2194971534584083,
+    "net_margin_pct": 10.25931369351833,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 67776670000,
-        "netIncome": 7783260000,
+        "revenue": 78960350000,
+        "netIncome": 8100790000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 54829770000,
-        "netIncome": 7893430000,
+        "revenue": 56839790000,
+        "netIncome": 7848120000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 48903100000,
-        "netIncome": 7856270000,
+        "revenue": 51257730000,
+        "netIncome": 8066840000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 45296550000,
-        "netIncome": 6062480000,
+        "revenue": 47296560000,
+        "netIncome": 6796490000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 37013170000,
-        "netIncome": 3419310000,
+        "revenue": 38746330000,
+        "netIncome": 3763030000,
         "eps": null
       }
     ]
@@ -876,6 +1180,16 @@
   ],
   "news": [
     {
+      "id": "2c3ae68a-c8dc-4ac0-aaf3-5fd659c34d5e",
+      "type": "narrative-update",
+      "date": "2026-06-02T23:05:32.000Z",
+      "title": "NH: Future Returns Will Reflect Balanced Capital Plans And Northern Expansion",
+      "body": "Analysts have raised their price target for Narayana Hrudayalaya from ₹2,054.82 to ₹2,122.29, citing updated assumptions that combine a slightly higher discount rate and future P/E with moderated revenue growth and profit margin forecasts. What's in the News A board meeting is scheduled for May 22, 2026, at 15:30 IST to review and approve the audited standalone and consolidated financial results for the quarter and year ended March 31, 2026.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/healthcare/nse-nh/narayana-hrudayalaya-shares/3nuiagmv-integrated-care-and-oncology-expansion-will-shape-indias-future-yx5u/updates/13-analysts-have-raised-their-price-target-for-narayana-hrudaya",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "71696e20-4166-4700-b1c9-fe34f5f5ffcc",
       "type": "event",
       "date": "2026-05-24T00:00:00.000Z",
@@ -1064,26 +1378,6 @@
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/healthcare/nse-nh/narayana-hrudayalaya-shares/3nuiagmv-integrated-care-and-oncology-expansion-will-shape-indias-future-yx5u/updates/8-analysts-have-modestly-revised-their-price-target-for-naraya",
       "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "3683411f-fb74-4792-9ddf-0351ad59a4e6",
-      "type": "narrative-update",
-      "date": "2025-12-10T20:05:26.000Z",
-      "title": "NH: Future Performance Will Reflect Index Inclusion And Stable Margins With Balanced Outlook",
-      "body": "Analysts have modestly raised their price target on Narayana Hrudayalaya to ₹2,042.64, citing sustained expectations for strong revenue growth, stable profit margins and a premium future valuation multiple. What's in the News A board meeting is scheduled on November 14, 2025 to review and approve the unaudited standalone and consolidated financial results for the quarter and half year ended September 30, 2025, and to consider other business matters (Company filing) Narayana Hrudayalaya has been added to the FTSE All World Index (USD), increasing its visibility among global institutional investors (Index announcement) Valuation Changes Fair Value: Unchanged at ₹2,042.64, indicating no revision to the intrinsic valuation estimate.",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/healthcare/nse-nh/narayana-hrudayalaya-shares/3nuiagmv-integrated-care-and-oncology-expansion-will-shape-indias-future-yx5u/updates/7-analysts-have-modestly-raised-their-price-target-on-narayana",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "986ee0f8-d0dc-40d5-971f-f8183b2ea5eb",
-      "type": "article",
-      "date": "2025-12-06T02:08:24.000Z",
-      "title": "Does Narayana Hrudayalaya (NSE:NH) Deserve A Spot On Your Watchlist?",
-      "body": "Investors are often guided by the idea of discovering 'the next big thing', even if that means buying 'story stocks...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/healthcare/nse-nh/narayana-hrudayalaya-shares/news/does-narayana-hrudayalaya-nsenh-deserve-a-spot-on-your-watch-1",
-      "raw_subtype": "article"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/NH.json"

@@ -3,7 +3,7 @@
   "name": "United Foodbrands Limited",
   "sector": "Consumer Services",
   "sws_url": "https://simplywall.st/stocks/in/consumer-services/nse-ufbl/united-foodbrands-shares",
-  "parsed_at": "2026-05-31T22:56:29.682Z",
+  "parsed_at": "2026-06-11T02:00:56.230Z",
   "company_id": "350AFB10-E53E-499A-B790-3A313805BA53",
   "classification_status": "Active",
   "groww_source": {
@@ -16,18 +16,18 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 3,
+      "valuation": 2,
       "future": 0,
       "past": 0,
       "financial_health": 4,
       "dividends": 0,
       "future_growth": 0,
       "past_performance": 0,
-      "value": 3,
+      "value": 2,
       "health": 4,
       "dividend": 0
     },
-    "snowflake_total": 7,
+    "snowflake_total": 6,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 4,
@@ -76,22 +76,308 @@
         }
       ]
     },
-    "current_price_inr": 493.2,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 28,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASING_LOSSES"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "IsInterestCoveredByProfit",
+          "result": "uncaptured",
+          "available": false,
+          "insufficient": false,
+          "outcome_name": null
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "IsDebtCoveredByCashflow",
+          "result": "uncaptured",
+          "available": false,
+          "insufficient": false,
+          "outcome_name": null
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 560.4,
     "market_cap_inr": 18839600000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "micro2",
     "shares_outstanding": 39086387,
     "fifty_two_week": {
       "low": 172.34,
       "high": 511
     },
-    "fair_value_inr": 235,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": 392.96,
-      "max": 443.760478,
+      "max": 459.590853,
       "count": 7
     },
-    "upside_pct": -52.35198702351986,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystHighTarget",
+      "owner_classification": null,
+      "narrative_id": "cca80697-0cc1-494c-9624-8a184deed7ef",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": null,
       "ps": 1.41,
@@ -109,8 +395,7 @@
     },
     "rewards": [
       "Trading below our calculated fair Price-To-Sales ratio",
-      "Trading at good value vs. industry average Price-To-Sales ratio",
-      "Trading at good value vs. peer average Price-To-Sales ratio"
+      "Trading at good value vs. industry average Price-To-Sales ratio"
     ],
     "risks": [
       "Currently unprofitable and not forecast to become profitable over the next 3 years",
@@ -127,8 +412,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 54.391168045635034,
-      "net_income_margin_1y": 0.08680669159,
-      "future_revenue_growth_3y": 0.3940313611,
+      "net_income_margin_1y": 0.08657243816,
+      "future_revenue_growth_3y": 0.39295204,
       "sector_pe": 54.391168045635034
     },
     "industry_benchmarks_meta": {
@@ -164,17 +449,17 @@
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 3,
+        "industry_pe": 2.8,
         "industry_name": "Indian Hospitality",
-        "description": "UFBL is good value based on its Price-To-Sales Ratio (1.4x) compared to the Indian Hospitality industry average (3x).",
+        "description": "UFBL is good value based on its Price-To-Sales Ratio (1.6x) compared to the Indian Hospitality industry average (2.8x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 27.078875295,
+        "industry_pe": 28.141130414,
         "industry_code": "4210000",
         "type": "median_profitable",
-        "count": 80,
+        "count": 81,
         "source": {
           "type": "country",
           "country": "IN",
@@ -183,13 +468,13 @@
         }
       },
       "internal_median": {
-        "industry_pe": 25.25,
+        "industry_pe": 26.450000000000003,
         "sample_count": 80,
         "industry_code": "4210000",
         "industry_name": "Consumer Services"
       },
       "sws_primary_industry": {
-        "industry_pe": 17.518712405,
+        "industry_pe": 17.366873383,
         "industry_name": "Consumer Services",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
@@ -200,8 +485,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 493.2,
-        "fetched_at": "2026-05-31T22:56:29.682Z",
+        "value": 560.4,
+        "fetched_at": "2026-06-11T02:00:56.230Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/nse-ufbl/united-foodbrands-shares"
       },
       "market_cap_inr": {
@@ -242,14 +527,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.08680669159,
-        "fetched_at": "2026-05-31T22:56:29.682Z",
+        "value": 0.08657243816,
+        "fetched_at": "2026-06-11T02:00:56.230Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/nse-ufbl/united-foodbrands-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.3940313611,
-        "fetched_at": "2026-05-31T22:56:29.682Z",
+        "value": 0.39295204,
+        "fetched_at": "2026-06-11T02:00:56.230Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/nse-ufbl/united-foodbrands-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -375,16 +660,16 @@
     "quick_ratio": 0.2919993205367759,
     "cash_ratio": 0.07830813657210803,
     "returns_pct": {
-      "1D": 2.1118012422360226,
-      "7D": 3.7769594950026275,
-      "1M": 45.07162396682058,
-      "3M": 107.89950680773931,
-      "6M": 166.42178046672427,
-      "1Y": 59.84443364122508,
+      "1D": 1.9001727429766215,
+      "7D": 18.016215647046423,
+      "1M": 50.82761404925312,
+      "3M": 170.15040493636712,
+      "6M": 207.43910467412775,
+      "1Y": 68.89692585895116,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 5,
+    "recent_news_count": 4,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -758,6 +1043,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "0b17e5b7-706a-4f08-9f9c-d276298105e9",
+      "type": "brief",
+      "date": "2026-06-10T16:46:31.000Z",
+      "title": "Now 22% overvalued after recent price rise",
+      "body": "Over the last 90 days, the stock has risen 170% to ₹560. The fair value is estimated to be ₹460, however this is not to be taken as a sell recommendation but rather should be used as a guide only. Revenue has been flat over the last 3 years. Meanwhile, the company became loss making. Revenue is forecast to grow by 22% in 2 years. Earnings are forecast to grow by 52% in the next 2 years.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "b0594142-5662-4416-986e-8653545a4cf7",
       "type": "article",

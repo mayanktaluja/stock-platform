@@ -3,7 +3,7 @@
   "name": "Piramal Finance Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-piramalfin/piramal-finance-shares",
-  "parsed_at": "2026-05-31T21:31:40.637Z",
+  "parsed_at": "2026-06-11T00:33:49.655Z",
   "company_id": "D686F460-C625-465D-A502-879571216C66",
   "classification_status": "Active",
   "groww_source": {
@@ -65,9 +65,287 @@
         }
       ]
     },
-    "current_price_inr": 1926.8,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_BECOME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOO_EARLY"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOO_EARLY"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 1983.5,
     "market_cap_inr": 450113900000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -80,7 +358,15 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": 2.0474361635872977,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "0b041602-451e-4ddb-99bc-2b493bd8242d",
+      "narrative_type": null,
+      "published_at": "2025-11-15T20:36:38.161Z"
+    },
+    "upside_pct": -0.8696748172422485,
     "multiples": {
       "pe": 29.23,
       "ps": 3.54,
@@ -104,7 +390,7 @@
     "risks": [
       "High level of [[non-cash earnings]]",
       "Debt is not well covered by [[operating cash flow]]",
-      "Dividend of 0.57% is not well covered by free cash flows"
+      "Dividend of 0.55% is not well covered by free cash flows"
     ],
     "dividend": {
       "yield_pct": 0.55,
@@ -118,7 +404,7 @@
     "industry_benchmarks": {
       "pe": 23.373691419264986,
       "net_income_margin_1y": 0.4629887388,
-      "future_revenue_growth_3y": 0.5092423002,
+      "future_revenue_growth_3y": 0.5075143927,
       "sector_pe": 23.373691419264986
     },
     "industry_benchmarks_meta": {
@@ -153,18 +439,18 @@
         "url": "https://groww.in/stocks/dewan-housing-finance-corporation-ltd"
       },
       "sws_statement": {
-        "company_pe": 29,
-        "industry_pe": 24.4,
+        "company_pe": 30,
+        "industry_pe": 26.4,
         "industry_name": "Indian Diversified Financial",
-        "description": "PIRAMALFIN is expensive based on its Price-To-Earnings Ratio (29x) compared to the Indian Diversified Financial industry average (24.4x).",
+        "description": "PIRAMALFIN is expensive based on its Price-To-Earnings Ratio (30x) compared to the Indian Diversified Financial industry average (26.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 25.581812879,
+        "industry_pe": 26.387641502,
         "industry_code": "7110000",
         "type": "median_profitable",
-        "count": 131,
+        "count": 126,
         "source": {
           "type": "country",
           "country": "IN",
@@ -173,8 +459,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.4,
-        "sample_count": 124,
+        "industry_pe": 20.95,
+        "sample_count": 118,
         "industry_code": "7110000",
         "industry_name": "Diversified Financials"
       },
@@ -186,8 +472,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1926.8,
-        "fetched_at": "2026-05-31T21:31:40.637Z",
+        "value": 1983.5,
+        "fetched_at": "2026-06-11T00:33:49.655Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-piramalfin/piramal-finance-shares"
       },
       "market_cap_inr": {
@@ -195,6 +481,24 @@
         "value": 450113900000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/dewan-housing-finance-corporation-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 1966.25,
+        "fetched_at": "2026-06-11T00:33:49.655Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-piramalfin/piramal-finance-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "0b041602-451e-4ddb-99bc-2b493bd8242d",
+        "narrative_type": null,
+        "published_at": "2025-11-15T20:36:38.161Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": -0.8696748172422485,
+        "fetched_at": "2026-06-11T00:33:49.655Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-piramalfin/piramal-finance-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -235,13 +539,13 @@
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.4629887388,
-        "fetched_at": "2026-05-31T21:31:40.637Z",
+        "fetched_at": "2026-06-11T00:33:49.655Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-piramalfin/piramal-finance-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.5092423002,
-        "fetched_at": "2026-05-31T21:31:40.637Z",
+        "value": 0.5075143927,
+        "fetched_at": "2026-06-11T00:33:49.655Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-piramalfin/piramal-finance-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -373,16 +677,16 @@
     "quick_ratio": 5.00389236421408,
     "cash_ratio": 2.6678532419819283,
     "returns_pct": {
-      "1D": -2.975980663678943,
-      "7D": -1.6687930594539446,
-      "1M": -4.291674945360624,
-      "3M": 10.824801564477168,
-      "6M": 24.414024665848768,
-      "1Y": 45.638699924414205,
+      "1D": -0.5116115764658697,
+      "7D": 2.835960182496892,
+      "1M": 0.946613059188758,
+      "3M": 10.97745202260393,
+      "6M": 30.45908971323335,
+      "1Y": 49.9244142101285,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 4,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -474,8 +778,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.90697,
-        "shares": 2055907,
+        "pct": 0.9156,
+        "shares": 2075462,
         "is_insider": null
       },
       {
@@ -756,16 +1060,6 @@
       "title": "Sanlam Emerging Markets (Mauritius) Limited entered into a share purchase agreement to acquire an additional 14.72% stake in Shriram Life Insurance Company Limited from Piramal Finance Limited (NSEI:PIRAMALFIN) for INR 6 billion.",
       "body": "Sanlam Emerging Markets (Mauritius) Limited entered into a share purchase agreement to acquire an additional 14.72% stake in Shriram Life Insurance Company Limited from Piramal Finance Limited (NSEI:PIRAMALFIN) for INR 6 billion on December 19, 2025. A cash consideration of INR 6 billion will be paid by Sanlam Emerging Markets (Mauritius) Limited. As part of consideration, INR 6 billion is paid towards common equity of Shriram Life Insurance Company Limited. Upon completion, Sanlam Emerging Markets (Mauritius) Limited will own 37.72% stake in Shriram Life Insurance Company Limited.\n\nFor the period ending March 31, 2025, Shriram Life Insurance Company Limited reported total revenue of INR 126.8 million.\n\nThe transaction is subject to approval by regulatory board / committee. The expected co",
       "keyDevTypeId": "80",
-      "source_url": null,
-      "raw_subtype": "EventActivity"
-    },
-    {
-      "id": "9632ed69-2834-438c-8e2f-87e0a18efa55",
-      "type": "event",
-      "date": "2025-12-09T05:04:00.000Z",
-      "title": "Piramal Fin Reportedly Eyes Keertana for Foray into Gold Loan Segment",
-      "body": "Piramal Finance Limited (NSEI:PIRAMALFIN) a non-deposit taking non-bank lender, is exploring an acquisition opportunity in the gold loan market as part of its proposed foray into the segment. The company has approached Keertana Finserv (Keertana Finserv Limited), primarily a gold loan lender, with a buyout proposal, two people aware of the development said. We continuously evaluate opportunities that align with our strategy, but we do not comment on specific discussions,\" a Piramal spokesperson said, responding to ET's queries about the Hyderabad-based company.",
-      "keyDevTypeId": "65",
       "source_url": null,
       "raw_subtype": "EventActivity"
     }

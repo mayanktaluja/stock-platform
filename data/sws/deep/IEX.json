@@ -3,7 +3,7 @@
   "name": "Indian Energy Exchange Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-iex/indian-energy-exchange-shares",
-  "parsed_at": "2026-05-31T20:02:43.396Z",
+  "parsed_at": "2026-06-10T23:05:58.799Z",
   "company_id": "F1CD234F-18DC-48F7-A0BA-BD7801AAF9B4",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 4
     },
     "snowflake_total": 19,
-    "current_price_inr": 128.31,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DECLINE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DECLINE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_5_YEARS_AGO"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_VOLATILE_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_50_TO_75"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 118.75,
     "market_cap_inr": 112843700000,
-    "market_cap_usd": 120714180851.549,
-    "market_cap_band": "medium5",
+    "market_cap_usd": 120753634221.641,
+    "market_cap_band": "midsmall4",
     "shares_outstanding": 889249750,
     "fifty_two_week": {
       "low": 114.6,
       "high": 215.4
     },
-    "fair_value_inr": 236.35178,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 78.971726,
+      "min": 77.963735,
       "max": 236.35178,
-      "count": 71
+      "count": 72
     },
-    "upside_pct": 84.20370976541189,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystHighTarget",
+      "owner_classification": null,
+      "narrative_id": "bc2a04c2-8858-4829-8a06-cf39d970fa98",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 22.88,
       "ps": 18.34,
@@ -62,7 +348,7 @@
     "rewards": [
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (23.1x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (21.7x) is below the Indian market (22.9x)",
       "Earnings grew by 14.9% over the past year"
     ],
     "risks": [
@@ -236,8 +522,8 @@
     "dividend_yield_pct": 2.76,
     "industry_benchmarks": {
       "pe": 63.77667649542354,
-      "net_income_margin_1y": 0.2564706218,
-      "future_revenue_growth_3y": 0.3320316411,
+      "net_income_margin_1y": 0.257896607,
+      "future_revenue_growth_3y": 0.3297814148,
       "sector_pe": 63.77667649542354
     },
     "industry_benchmarks_meta": {
@@ -272,18 +558,18 @@
         "url": "https://groww.in/stocks/indian-energy-exchange-ltd"
       },
       "sws_statement": {
-        "company_pe": 23.1,
-        "industry_pe": 27.5,
+        "company_pe": 21.7,
+        "industry_pe": 25.9,
         "industry_name": "Indian Capital Markets",
-        "description": "IEX is good value based on its Price-To-Earnings Ratio (23.1x) compared to the Indian Capital Markets industry average (27.5x).",
+        "description": "IEX is good value based on its Price-To-Earnings Ratio (21.7x) compared to the Indian Capital Markets industry average (25.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 26.705392444,
+        "industry_pe": 25.93266606,
         "industry_code": "7130000",
         "type": "median_profitable",
-        "count": 218,
+        "count": 215,
         "source": {
           "type": "country",
           "country": "IN",
@@ -292,25 +578,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.6,
-        "sample_count": 204,
+        "industry_pe": 21.1,
+        "sample_count": 201,
         "industry_code": "7130000",
         "industry_name": "Diversified Financials"
       },
       "sws_primary_industry": {
-        "industry_pe": 15.729172633,
+        "industry_pe": 15.226484123,
         "industry_name": "Diversified Financials",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 23.147642142902356
+        "company_pe": 21.42297953760155
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 128.31,
-        "fetched_at": "2026-05-31T20:02:43.396Z",
+        "value": 118.75,
+        "fetched_at": "2026-06-10T23:05:58.799Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-iex/indian-energy-exchange-shares"
       },
       "market_cap_inr": {
@@ -357,14 +643,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.2564706218,
-        "fetched_at": "2026-05-31T20:02:43.396Z",
+        "value": 0.257896607,
+        "fetched_at": "2026-06-10T23:05:58.799Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-iex/indian-energy-exchange-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.3320316411,
-        "fetched_at": "2026-05-31T20:02:43.396Z",
+        "value": 0.3297814148,
+        "fetched_at": "2026-06-10T23:05:58.799Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-iex/indian-energy-exchange-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -496,12 +782,12 @@
     "quick_ratio": 1.995257871638538,
     "cash_ratio": 0.10326647226885807,
     "returns_pct": {
-      "1D": 1.3587171182557856,
-      "7D": 0.9758400881404024,
-      "1M": 1.7929393097977036,
-      "3M": 2.1251193887297055,
-      "6M": -7.882834374326937,
-      "1Y": -36.04645367093654,
+      "1D": -1.0911211061136117,
+      "7D": -3.674561972744972,
+      "1M": -9.150026776834219,
+      "3M": -3.2665363310524644,
+      "6M": -17.074022346368707,
+      "1Y": -43.45507356792533,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -552,8 +838,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.10272,
-        "shares": 9805954,
+        "pct": 1.11871,
+        "shares": 9948145,
         "is_insider": null
       },
       {
@@ -607,8 +893,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.24249,
-        "shares": 2156319,
+        "pct": 0.24264,
+        "shares": 2157666,
         "is_insider": null
       }
     ],
@@ -1057,6 +1343,16 @@
   ],
   "news": [
     {
+      "id": "6b612793-cbf9-4f64-b187-18e48a325164",
+      "type": "narrative-update",
+      "date": "2026-06-03T16:06:28.000Z",
+      "title": "IEX: Higher Future P E Assumptions Will Support Potential Repricing",
+      "body": "Analysts have trimmed the fair value estimate for Indian Energy Exchange by ₹3 to ₹141, citing updated assumptions that include a lower assessed profit margin, a softer revenue growth outlook, a slightly adjusted discount rate, and a higher projected future P/E multiple. Analyst Commentary Recent adjustments to the fair value estimate for Indian Energy Exchange reflect a mix of optimism about the company’s long term role in India’s power markets and caution around execution and profitability.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/diversified-financials/nse-iex/indian-energy-exchange-shares/22kwj4uq-demand-and-sector-reforms-will-fuel-next-phase-of-market-activity/updates/20-analysts-have-trimmed-the-fair-value-estimate-for-indian-ene",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "d8c0540b-0d8f-46b4-9b53-e76a2e7f4278",
       "type": "narrative-update",
       "date": "2026-05-03T08:03:30.000Z",
@@ -1244,16 +1540,6 @@
       "body": "Analysts have made a marginal downward revision to their price target on Indian Energy Exchange to Rs 149.50, trimming it by less than Rs 1 as they fine tune discount rate and earnings assumptions while maintaining confidence in the company’s long term profitability and valuation framework. Analyst Commentary Recent commentary from bullish analysts underscores that the marginal cut to the price target is primarily a reflection of housekeeping around the discount rate and earnings trajectory, rather than a shift in the structural view on Indian Energy Exchange.",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/diversified-financials/nse-iex/indian-energy-exchange-shares/22kwj4uq-demand-and-sector-reforms-will-fuel-next-phase-of-market-activity/updates/16-analysts-have-made-a-marginal-downward-revision-to-their-pri",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "2d04e41f-9d11-4e7e-b364-66dbff67bcba",
-      "type": "narrative-update",
-      "date": "2025-12-11T14:07:29.000Z",
-      "title": "IEX: Power Market Modernization Will Drive Volumes Amid Regulatory And Rate Risks",
-      "body": "Analysts have slightly trimmed their price target on Indian Energy Exchange, citing a modest uptick in the assumed discount rate and valuation multiple, even as fair value remains steady around ₹149.50 and long term profitability expectations are largely unchanged. Analyst Commentary Recent research updates indicate that, while headline target prices for comparable industrial and infrastructure names have seen modest reductions, sentiment around Indian Energy Exchange remains broadly constructive, with the stock still viewed as a structural beneficiary of power market modernization in India.",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/diversified-financials/nse-iex/indian-energy-exchange-shares/22kwj4uq-demand-and-sector-reforms-will-fuel-next-phase-of-market-activity/updates/15-analysts-have-slightly-trimmed-their-price-target-on-indian",
       "raw_subtype": "narrative-update"
     }
   ],

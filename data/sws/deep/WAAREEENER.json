@@ -3,7 +3,7 @@
   "name": "Waaree Energies Limited",
   "sector": "Semiconductors",
   "sws_url": "https://simplywall.st/stocks/in/semiconductors/nse-waareeener/waaree-energies-shares",
-  "parsed_at": "2026-05-31T23:12:55.375Z",
+  "parsed_at": "2026-06-11T02:20:11.649Z",
   "company_id": "996C23CC-90B1-4493-ADBC-4D4F9E8CDBDB",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 1
     },
     "snowflake_total": 15,
-    "current_price_inr": 3140.8,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOO_EARLY"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOO_EARLY"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 3017.2,
     "market_cap_inr": 900852100000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "large7",
     "shares_outstanding": 287651335,
     "fifty_two_week": {
       "low": 2403,
       "high": 3865
     },
-    "fair_value_inr": 4416,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": 1056.01,
       "max": 22000,
-      "count": 35
+      "count": 34
     },
-    "upside_pct": 40.60112073357106,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystHighTarget",
+      "owner_classification": null,
+      "narrative_id": "3439b03d-9838-403a-9d28-c2d96a53a1d8",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 23.19,
       "ps": 3.39,
@@ -62,7 +348,7 @@
     "rewards": [
       "Earnings have grown 42.4% per year over the past 5 years",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Earnings are forecast to grow 15.4% per year"
+      "Earnings are forecast to grow 15.5% per year"
     ],
     "risks": [
       "High level of [[non-cash earnings]]"
@@ -92,8 +378,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 50.60717150952937,
-      "net_income_margin_1y": 0.1575616372,
-      "future_revenue_growth_3y": 1.396654807,
+      "net_income_margin_1y": 0.1575669712,
+      "future_revenue_growth_3y": 1.499777546,
       "sector_pe": 50.60717150952937
     },
     "industry_benchmarks_meta": {
@@ -128,15 +414,15 @@
         "url": "https://groww.in/stocks/waaree-energies-ltd"
       },
       "sws_statement": {
-        "company_pe": 24.3,
-        "industry_pe": 51.5,
+        "company_pe": 23.4,
+        "industry_pe": 49,
         "industry_name": "Asian Semiconductor",
-        "description": "WAAREEENER is good value based on its Price-To-Earnings Ratio (24.3x) compared to the Asian Semiconductor industry average (51.5x).",
+        "description": "WAAREEENER is good value based on its Price-To-Earnings Ratio (23.4x) compared to the Asian Semiconductor industry average (49x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 15.689626205,
+        "industry_pe": 16.624544029,
         "industry_code": "8210000",
         "type": "median_profitable",
         "count": 17,
@@ -148,25 +434,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.3,
+        "industry_pe": 14.4,
         "sample_count": 15,
         "industry_code": "8210000",
         "industry_name": "Semiconductors"
       },
       "sws_primary_industry": {
-        "industry_pe": 53.611566799,
+        "industry_pe": 51.424873667,
         "industry_name": "Semiconductors",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 24.3433652080942
+        "company_pe": 23.38538000059278
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 3140.8,
-        "fetched_at": "2026-05-31T23:12:55.375Z",
+        "value": 3017.2,
+        "fetched_at": "2026-06-11T02:20:11.649Z",
         "url": "https://simplywall.st/stocks/in/semiconductors/nse-waareeener/waaree-energies-shares"
       },
       "market_cap_inr": {
@@ -213,14 +499,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.1575616372,
-        "fetched_at": "2026-05-31T23:12:55.375Z",
+        "value": 0.1575669712,
+        "fetched_at": "2026-06-11T02:20:11.649Z",
         "url": "https://simplywall.st/stocks/in/semiconductors/nse-waareeener/waaree-energies-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 1.396654807,
-        "fetched_at": "2026-05-31T23:12:55.375Z",
+        "value": 1.499777546,
+        "fetched_at": "2026-06-11T02:20:11.649Z",
         "url": "https://simplywall.st/stocks/in/semiconductors/nse-waareeener/waaree-energies-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -352,16 +638,16 @@
     "quick_ratio": 0.9223824925045445,
     "cash_ratio": 0.5294718949927996,
     "returns_pct": {
-      "1D": 0.37390943082676403,
-      "7D": 4.780650542118438,
-      "1M": -10.33714921921836,
-      "3M": 15.926623112981211,
-      "6M": -0.9992119779353764,
-      "1Y": 7.543228899161108,
+      "1D": -0.7761115495922245,
+      "7D": -2.1818771275733564,
+      "1M": -5.971079531288966,
+      "3M": 10.14090676790537,
+      "6M": 1.2483221476510007,
+      "1Y": 4.618585298196942,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -388,13 +674,13 @@
         "is_insider": null
       },
       {
-        "pct": 1.90969,
-        "shares": 5493253,
+        "pct": 2.02402,
+        "shares": 5822111,
         "is_insider": null
       },
       {
-        "pct": 1.76561,
-        "shares": 5078800,
+        "pct": 1.90969,
+        "shares": 5493253,
         "is_insider": null
       },
       {
@@ -428,6 +714,11 @@
         "is_insider": null
       },
       {
+        "pct": 0.34856,
+        "shares": 1002644,
+        "is_insider": null
+      },
+      {
         "pct": 0.32505,
         "shares": 935008,
         "is_insider": null
@@ -438,18 +729,18 @@
         "is_insider": null
       },
       {
-        "pct": 0.29935,
-        "shares": 861092,
-        "is_insider": null
-      },
-      {
         "pct": 0.24158,
         "shares": 694897,
         "is_insider": null
       },
       {
-        "pct": 0.13369,
-        "shares": 384572,
+        "pct": 0.13437,
+        "shares": 386524,
+        "is_insider": null
+      },
+      {
+        "pct": 0.12063,
+        "shares": 346984,
         "is_insider": null
       },
       {
@@ -460,11 +751,6 @@
       {
         "pct": 0.09213,
         "shares": 265016,
-        "is_insider": null
-      },
-      {
-        "pct": 0.0775,
-        "shares": 222939,
         "is_insider": null
       }
     ],
@@ -913,16 +1199,6 @@
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/stocks/in/semiconductors/nse-waareeener/waaree-energies-shares/news/is-waaree-energies-nsewaareeener-using-too-much-debt",
       "raw_subtype": "article"
-    },
-    {
-      "id": "0250ca53-1b10-4759-b971-e70c2e315261",
-      "type": "brief",
-      "date": "2025-12-06T21:03:08.000Z",
-      "title": "Price target increased by 7.3% to ₹3,387",
-      "body": "Up from ₹3,156, the current price target is an average from 9 analysts. New target price is 18% above last closing price of ₹2,871. Stock is down 1.1% over the past year. The company is forecast to post earnings per share of ₹132 for next year compared to ₹68.24 last year.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/WAAREEENER.json"

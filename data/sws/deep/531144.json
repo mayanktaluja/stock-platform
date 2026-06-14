@@ -3,7 +3,7 @@
   "name": "El Forge Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/bse-531144/el-forge-shares",
-  "parsed_at": "2026-05-31T21:49:39.003Z",
+  "parsed_at": "2026-06-11T01:00:11.468Z",
   "company_id": "CD9C2EA7-2F8B-49CF-BF1A-3939CD628380",
   "classification_status": "Active",
   "groww_source": {
@@ -16,18 +16,18 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 3,
+      "valuation": 2,
       "future": 0,
       "past": 3,
       "financial_health": 6,
       "dividends": 0,
       "future_growth": 0,
       "past_performance": 3,
-      "value": 3,
+      "value": 2,
       "health": 6,
       "dividend": 0
     },
-    "snowflake_total": 12,
+    "snowflake_total": 11,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 10,
@@ -77,22 +77,308 @@
         }
       ]
     },
-    "current_price_inr": 17.4,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_SUBSTANTIAL_DISCOUNT"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_EQUITY_NOW_POSITIVE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 17.12,
     "market_cap_inr": 358100000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 12.1,
       "high": 26.49
     },
-    "fair_value_inr": 21.273218,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 22.259873563218402,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "060c31cb-a96e-47fe-bbc9-6a823fbf4ccf",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 14.68,
       "ps": 0.45,
@@ -110,12 +396,11 @@
     },
     "rewards": [
       "Earnings have grown 40.4% per year over the past 5 years",
-      "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Trading at 18.2% below our estimate of its fair value"
+      "Trading at 19.2% below our estimate of its fair value"
     ],
     "risks": [
-      "Does not have a meaningful market cap (₹354M)"
+      "Does not have a meaningful market cap (₹348M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -129,7 +414,7 @@
     "industry_benchmarks": {
       "pe": 48.84856892138643,
       "net_income_margin_1y": 0.07144101492,
-      "future_revenue_growth_3y": 0.451968346,
+      "future_revenue_growth_3y": 0.4882829576,
       "sector_pe": 48.84856892138643
     },
     "industry_benchmarks_meta": {
@@ -164,18 +449,18 @@
         "url": "https://groww.in/stocks/el-forge-ltd"
       },
       "sws_statement": {
-        "company_pe": 14.5,
-        "industry_pe": 22.3,
+        "company_pe": 14.3,
+        "industry_pe": 20.8,
         "industry_name": "Indian Metals and Mining",
-        "description": "531144 is good value based on its Price-To-Earnings Ratio (14.5x) compared to the Indian Metals and Mining industry average (22.3x).",
+        "description": "531144 is good value based on its Price-To-Earnings Ratio (14.3x) compared to the Indian Metals and Mining industry average (20.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 21.899662552,
+        "industry_pe": 20.840689637,
         "industry_code": "2050000",
         "type": "median_profitable",
-        "count": 192,
+        "count": 194,
         "source": {
           "type": "country",
           "country": "IN",
@@ -184,8 +469,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.05,
-        "sample_count": 196,
+        "industry_pe": 19.2,
+        "sample_count": 197,
         "industry_code": "2050000",
         "industry_name": "Materials"
       },
@@ -197,8 +482,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 17.4,
-        "fetched_at": "2026-05-31T21:49:39.003Z",
+        "value": 17.12,
+        "fetched_at": "2026-06-11T01:00:11.468Z",
         "url": "https://simplywall.st/stocks/in/materials/bse-531144/el-forge-shares"
       },
       "market_cap_inr": {
@@ -246,13 +531,13 @@
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.07144101492,
-        "fetched_at": "2026-05-31T21:49:39.003Z",
+        "fetched_at": "2026-06-11T01:00:11.468Z",
         "url": "https://simplywall.st/stocks/in/materials/bse-531144/el-forge-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.451968346,
-        "fetched_at": "2026-05-31T21:49:39.003Z",
+        "value": 0.4882829576,
+        "fetched_at": "2026-06-11T01:00:11.468Z",
         "url": "https://simplywall.st/stocks/in/materials/bse-531144/el-forge-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -384,16 +669,16 @@
     "quick_ratio": 1.6204954954954953,
     "cash_ratio": 0.5968468468468467,
     "returns_pct": {
-      "1D": -1.248581157775269,
-      "7D": -5.588714053174179,
-      "1M": 13.651208360548647,
-      "3M": 16.856950973807912,
-      "6M": 15.155526141628057,
-      "1Y": -20.402561756633126,
+      "1D": -0.23310023310022812,
+      "7D": -3.9281705948372574,
+      "1M": 8.354430379746837,
+      "3M": 18.888888888888893,
+      "6M": 22.460658082975684,
+      "1Y": -24.448367166813764,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 4,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -697,6 +982,26 @@
     "BSE"
   ],
   "news": [
+    {
+      "id": "95d434ef-fa43-4aec-b957-dda0fce662a0",
+      "type": "event",
+      "date": "2026-06-04T14:07:00.000Z",
+      "title": "El Forge Limited, Annual General Meeting, Jul 20, 2026",
+      "body": "El Forge Limited, Annual General Meeting, Jul 20, 2026, at 11:30 Indian Standard Time. Location: 1a, sriperumbur high road, via singaperumal koil, appur village - 603204, kancheepuram, India",
+      "keyDevTypeId": "62",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
+    {
+      "id": "44dadcc1-799b-4708-aa49-73a6e8cd6502",
+      "type": "event",
+      "date": "2026-06-04T07:04:00.000Z",
+      "title": "El Forge Limited Announces Resignation of K. R. Srihari as Chief Executive Officer, Effective June 17, 2026",
+      "body": "El Forge Limited announced that Mr. K. R. Srihari resigned as Chief Executive Officer of the company with effect from close of business hours on June 17, 2026. K. R. Srihari is an MBA from National Australian University. Soon after completing his PG he has been working in EL Forge from 2007. He has gained experience in the operations of the company and was presently the Chief Executive Officer. K.R.Srihari is an MBA from National Australian University. Soon after completing his PG he has been working in EL Forge from 2007. He has gained experience in the operations of the company and presently the Chief Executive Officer . He is now inducted to the Board as Executive Director (Operations). He is Son of Mr. K.V.Ramachandran, Vice Chairman & Managing Director.",
+      "keyDevTypeId": "101",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
     {
       "id": "1c50dff2-fdfd-4d45-82f1-f5b888c2b96e",
       "type": "brief",

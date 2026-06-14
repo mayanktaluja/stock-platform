@@ -3,7 +3,7 @@
   "name": "Royal Cushion Vinyl Products Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-526193/royal-cushion-vinyl-products-shares",
-  "parsed_at": "2026-05-31T21:20:58.972Z",
+  "parsed_at": "2026-06-11T00:29:22.454Z",
   "company_id": "FFB1424E-3646-4F81-8815-2E2CA8565B87",
   "classification_status": "Active",
   "groww_source": {
@@ -16,18 +16,18 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 3,
+      "valuation": 4,
       "future": 0,
       "past": 0,
       "financial_health": 0,
       "dividends": 0,
       "future_growth": 0,
       "past_performance": 0,
-      "value": 3,
+      "value": 4,
       "health": 0,
       "dividend": 0
     },
-    "snowflake_total": 3,
+    "snowflake_total": 4,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 11,
@@ -78,22 +78,308 @@
         }
       ]
     },
-    "current_price_inr": 16.09,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_ASSETS"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_REDUCING_LOSSES"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_EQUITY"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_EQUITY"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_EQUITY"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_EQUITY"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_EQUITY"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 13.98,
     "market_cap_inr": 605900000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 14.21,
       "high": 30.3
     },
-    "fair_value_inr": 68.563245,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 326.12333747669356,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "c79686c5-4afe-4419-a23a-fcc193d114f7",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": null,
       "ps": 1.02,
@@ -110,13 +396,14 @@
       "pe_source_url": null
     },
     "rewards": [
-      "Trading at 76.5% below our estimate of its fair value",
+      "Trading at good value vs. peer average Price-To-Sales ratio",
+      "Trading at 78.4% below our estimate of its fair value",
       "Trading at good value vs. industry average Price-To-Sales ratio"
     ],
     "risks": [
       "Debt is not well covered by [[operating cash flow]]",
       "Negative shareholders equity",
-      "Does not have a meaningful market cap (₹589M)"
+      "Does not have a meaningful market cap (₹512M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -129,8 +416,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 43.71458189540049,
-      "net_income_margin_1y": 0.09027086979,
-      "future_revenue_growth_3y": 0.4918096257,
+      "net_income_margin_1y": 0.09031717049,
+      "future_revenue_growth_3y": 0.4889812705,
       "sector_pe": 43.71458189540049
     },
     "industry_benchmarks_meta": {
@@ -166,17 +453,17 @@
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 1.1,
+        "industry_pe": 1.2,
         "industry_name": "Indian Building",
-        "description": "526193 is good value based on its Price-To-Sales Ratio (0.9x) compared to the Indian Building industry average (1.1x).",
+        "description": "526193 is good value based on its Price-To-Sales Ratio (0.8x) compared to the Indian Building industry average (1.2x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 27.141472172,
+        "industry_pe": 30.395757786,
         "industry_code": "3030000",
         "type": "median_profitable",
-        "count": 55,
+        "count": 58,
         "source": {
           "type": "country",
           "country": "IN",
@@ -185,7 +472,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24.5,
+        "industry_pe": 28.1,
         "sample_count": 55,
         "industry_code": "3030000",
         "industry_name": "Capital Goods"
@@ -198,8 +485,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 16.09,
-        "fetched_at": "2026-05-31T21:20:58.972Z",
+        "value": 13.98,
+        "fetched_at": "2026-06-11T00:29:22.454Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-526193/royal-cushion-vinyl-products-shares"
       },
       "market_cap_inr": {
@@ -240,14 +527,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.09027086979,
-        "fetched_at": "2026-05-31T21:20:58.972Z",
+        "value": 0.09031717049,
+        "fetched_at": "2026-06-11T00:29:22.454Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-526193/royal-cushion-vinyl-products-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.4918096257,
-        "fetched_at": "2026-05-31T21:20:58.972Z",
+        "value": 0.4889812705,
+        "fetched_at": "2026-06-11T00:29:22.454Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-526193/royal-cushion-vinyl-products-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -373,12 +660,12 @@
     "quick_ratio": 0.36186310438586117,
     "cash_ratio": 0.009220948102612602,
     "returns_pct": {
-      "1D": -2.838164251207723,
-      "7D": 1.899936668777712,
-      "1M": -5.241460541813902,
-      "3M": -16.502335236118316,
-      "6M": -21.35874877810362,
-      "1Y": -43.50421348314607,
+      "1D": -4.703476482617583,
+      "7D": -9.043591411841241,
+      "1M": -16.237267825044942,
+      "3M": -24.717285945072696,
+      "6M": -34.97674418604651,
+      "1Y": -50.70521861777151,
       "5Y": null
     },
     "next_earnings_date": null,

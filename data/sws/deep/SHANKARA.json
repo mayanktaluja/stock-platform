@@ -3,7 +3,7 @@
   "name": "Shankara Building Products Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-shankara/shankara-building-products-shares",
-  "parsed_at": "2026-05-31T22:14:41.936Z",
+  "parsed_at": "2026-06-11T01:15:39.162Z",
   "company_id": "0076614A-335E-49D1-8ECF-F392EBEEC611",
   "classification_status": "Active",
   "groww_source": {
@@ -18,14 +18,14 @@
     "snowflake": {
       "valuation": 0,
       "future": 0,
-      "past": 1,
+      "past": 2,
       "financial_health": 2,
-      "dividends": 3,
+      "dividends": 2,
       "future_growth": 0,
-      "past_performance": 1,
+      "past_performance": 2,
       "value": 0,
       "health": 2,
-      "dividend": 3
+      "dividend": 2
     },
     "snowflake_total": 6,
     "snowflake_data_quality": {
@@ -76,22 +76,308 @@
         }
       ]
     },
-    "current_price_inr": 121.02,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_BECOME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_VOLATILE_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DIVIDENDS_NOT_COVERED"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 112.76,
     "market_cap_inr": 2998400000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 98.25,
       "high": 311.45
     },
-    "fair_value_inr": 32.678242,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 32.678242,
+      "min": 33.500715,
       "max": 140.19,
       "count": 2
     },
-    "upside_pct": -72.99765162783011,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "41920691-acf6-4292-9954-c012bbcd24fc",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 78.26,
       "ps": 0.22,
@@ -107,12 +393,13 @@
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://groww.in/stocks/shankara-building-products-ltd"
     },
-    "rewards": [],
+    "rewards": [
+      "Became profitable this year"
+    ],
     "risks": [
-      "Dividend of 2.48% is not well covered by free cash flows",
+      "Dividend of 2.66% is not well covered by earnings or free cash flows",
       "Interest payments are not well covered by earnings",
       "High level of [[non-cash earnings]]",
-      "Profit margins (0.3%) are lower than last year (1.4%)",
       "Does not have a meaningful market cap (₹3B)"
     ],
     "dividend": {
@@ -132,7 +419,7 @@
           "divFreqTypeName": null,
           "annualizedDividend": 3,
           "annualizedDividendListingCurrency": 3,
-          "annualizedYield": 1.7494035123
+          "annualizedYield": 1.7465426276
         },
         {
           "exDate": "2025-06-17T00:00:00.000Z",
@@ -145,7 +432,7 @@
           "divFreqTypeName": "Annual",
           "annualizedDividend": 3,
           "annualizedDividendListingCurrency": 3,
-          "annualizedYield": 1.7494035123
+          "annualizedYield": 1.7465426276
         },
         {
           "exDate": "2024-06-13T00:00:00.000Z",
@@ -244,8 +531,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 75.0238404110117,
-      "net_income_margin_1y": 0.09027086979,
-      "future_revenue_growth_3y": 0.4918096257,
+      "net_income_margin_1y": 0.09031717049,
+      "future_revenue_growth_3y": 0.4889812705,
       "sector_pe": 75.0238404110117
     },
     "industry_benchmarks_meta": {
@@ -280,18 +567,18 @@
         "url": "https://groww.in/stocks/shankara-building-products-ltd"
       },
       "sws_statement": {
-        "company_pe": 76.4,
-        "industry_pe": 27.1,
+        "company_pe": 71.2,
+        "industry_pe": 30.4,
         "industry_name": "Indian Building",
-        "description": "SHANKARA is expensive based on its Price-To-Earnings Ratio (76.4x) compared to the Indian Building industry average (27.1x).",
+        "description": "SHANKARA is expensive based on its Price-To-Earnings Ratio (71.2x) compared to the Indian Building industry average (30.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 27.141472172,
+        "industry_pe": 30.395757786,
         "industry_code": "3030000",
         "type": "median_profitable",
-        "count": 55,
+        "count": 58,
         "source": {
           "type": "country",
           "country": "IN",
@@ -300,7 +587,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24.5,
+        "industry_pe": 28.1,
         "sample_count": 55,
         "industry_code": "3030000",
         "industry_name": "Capital Goods"
@@ -313,8 +600,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 121.02,
-        "fetched_at": "2026-05-31T22:14:41.936Z",
+        "value": 112.76,
+        "fetched_at": "2026-06-11T01:15:39.162Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-shankara/shankara-building-products-shares"
       },
       "market_cap_inr": {
@@ -361,14 +648,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.09027086979,
-        "fetched_at": "2026-05-31T22:14:41.936Z",
+        "value": 0.09031717049,
+        "fetched_at": "2026-06-11T01:15:39.162Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-shankara/shankara-building-products-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.4918096257,
-        "fetched_at": "2026-05-31T22:14:41.936Z",
+        "value": 0.4889812705,
+        "fetched_at": "2026-06-11T01:15:39.162Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-shankara/shankara-building-products-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -500,16 +787,16 @@
     "quick_ratio": 0.6170394108823128,
     "cash_ratio": 0.025978453566071185,
     "returns_pct": {
-      "1D": -1.9922254616132233,
-      "7D": -4.316888045540803,
-      "1M": -1.5537297649068662,
-      "3M": 11.848428835489827,
-      "6M": 3.144975709537201,
-      "1Y": -86.20776112599009,
+      "1D": 1.9990954319312602,
+      "7D": -2.0925588260831787,
+      "1M": 2.4532073414501205,
+      "3M": 6.117071334462638,
+      "6M": -0.7394366197183003,
+      "1Y": -88.9152125829442,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 1,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -643,7 +930,7 @@
         "divFreqTypeName": null,
         "annualizedDividend": 3,
         "annualizedDividendListingCurrency": 3,
-        "annualizedYield": 1.7494035123
+        "annualizedYield": 1.7465426276
       },
       {
         "exDate": "2025-06-17T00:00:00.000Z",
@@ -656,7 +943,7 @@
         "divFreqTypeName": "Annual",
         "annualizedDividend": 3,
         "annualizedDividendListingCurrency": 3,
-        "annualizedYield": 1.7494035123
+        "annualizedYield": 1.7465426276
       },
       {
         "exDate": "2024-06-13T00:00:00.000Z",

@@ -3,7 +3,7 @@
   "name": "Trishakti Industries Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-531279/trishakti-industries-shares",
-  "parsed_at": "2026-05-31T21:55:43.055Z",
+  "parsed_at": "2026-06-11T01:06:24.276Z",
   "company_id": "D367791D-5D74-46CB-8F2A-04DAFBEC6E98",
   "classification_status": "Active",
   "groww_source": {
@@ -16,16 +16,16 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 3,
+      "valuation": 2,
       "future": 0,
       "past": 4,
       "financial_health": 1,
-      "dividends": 0,
+      "dividends": 1,
       "future_growth": 0,
       "past_performance": 4,
-      "value": 3,
+      "value": 2,
       "health": 1,
-      "dividend": 0
+      "dividend": 1
     },
     "snowflake_total": 8,
     "snowflake_data_quality": {
@@ -76,22 +76,308 @@
         }
       ]
     },
-    "current_price_inr": 166.65,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_VOLATILE_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 156,
     "market_cap_inr": 2499500000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 114.9,
       "high": 191
     },
-    "fair_value_inr": 5887.637627,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 3432.9358697869784,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "bb1ed403-478c-4685-83ae-a2dabe30f571",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 32.62,
       "ps": 8.98,
@@ -108,8 +394,7 @@
       "pe_source_url": "https://groww.in/stocks/trishakti-electronics-industries-ltd"
     },
     "rewards": [
-      "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Trading at 97.2% below our estimate of its fair value",
+      "Trading at 97.3% below our estimate of its fair value",
       "Earnings grew by 110% over the past year"
     ],
     "risks": [
@@ -182,8 +467,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 30.704842601991107,
-      "net_income_margin_1y": 0.0528311647,
-      "future_revenue_growth_3y": 0.1545987815,
+      "net_income_margin_1y": 0.05869823067,
+      "future_revenue_growth_3y": 0.1609746598,
       "sector_pe": 30.704842601991107
     },
     "industry_benchmarks_meta": {
@@ -218,18 +503,18 @@
         "url": "https://groww.in/stocks/trishakti-electronics-industries-ltd"
       },
       "sws_statement": {
-        "company_pe": 36.8,
-        "industry_pe": 23.4,
+        "company_pe": 34.4,
+        "industry_pe": 24.2,
         "industry_name": "Indian Trade Distributors",
-        "description": "531279 is expensive based on its Price-To-Earnings Ratio (36.8x) compared to the Indian Trade Distributors industry average (23.4x).",
+        "description": "531279 is expensive based on its Price-To-Earnings Ratio (34.4x) compared to the Indian Trade Distributors industry average (24.2x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 23.432792853,
+        "industry_pe": 24.16407612,
         "industry_code": "3080000",
         "type": "median_profitable",
-        "count": 124,
+        "count": 123,
         "source": {
           "type": "country",
           "country": "IN",
@@ -238,8 +523,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.5,
-        "sample_count": 119,
+        "industry_pe": 19.85,
+        "sample_count": 122,
         "industry_code": "3080000",
         "industry_name": "Capital Goods"
       },
@@ -251,8 +536,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 166.65,
-        "fetched_at": "2026-05-31T21:55:43.055Z",
+        "value": 156,
+        "fetched_at": "2026-06-11T01:06:24.276Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-531279/trishakti-industries-shares"
       },
       "market_cap_inr": {
@@ -299,14 +584,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.0528311647,
-        "fetched_at": "2026-05-31T21:55:43.055Z",
+        "value": 0.05869823067,
+        "fetched_at": "2026-06-11T01:06:24.276Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-531279/trishakti-industries-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.1545987815,
-        "fetched_at": "2026-05-31T21:55:43.055Z",
+        "value": 0.1609746598,
+        "fetched_at": "2026-06-11T01:06:24.276Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-531279/trishakti-industries-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -438,12 +723,12 @@
     "quick_ratio": 0.36656624793952136,
     "cash_ratio": 0.03239924970158586,
     "returns_pct": {
-      "1D": 9.854976928147671,
-      "7D": 14.378860672614973,
-      "1M": 2.7752081406105455,
-      "3M": 21.06792589901925,
-      "6M": 16.82439537329127,
-      "1Y": -6.690929451287787,
+      "1D": 0.1926782273603156,
+      "7D": -4.703726328649963,
+      "1M": 1.33160116921079,
+      "3M": 19.586048294365668,
+      "6M": 11.587982832618017,
+      "1Y": -3.13567215150575,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -481,6 +766,11 @@
       {
         "pct": 1.27021,
         "shares": 209300,
+        "is_insider": null
+      },
+      {
+        "pct": 1.21377,
+        "shares": 200000,
         "is_insider": null
       },
       {
@@ -745,6 +1035,16 @@
     "BSE"
   ],
   "news": [
+    {
+      "id": "7184f1f4-f483-4db8-b3df-1c4bfb03c9fd",
+      "type": "brief",
+      "date": "2026-06-01T08:18:28.000Z",
+      "title": "Investor sentiment improves as stock rises 16%",
+      "body": "After last week's 16% share price gain to ₹167, the stock trades at a trailing P/E ratio of 36.8x. Average trailing P/E is 24x in the Trade Distributors industry in India. Total returns to shareholders of 1,791% over the past three years.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "95d07d32-1df3-4b97-ac99-34d979000271",
       "type": "brief",

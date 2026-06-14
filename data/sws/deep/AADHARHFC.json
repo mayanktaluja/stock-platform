@@ -3,7 +3,7 @@
   "name": "Aadhar Housing Finance Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-aadharhfc/aadhar-housing-finance-shares",
-  "parsed_at": "2026-05-31T20:52:46.424Z",
+  "parsed_at": "2026-06-10T23:49:32.345Z",
   "company_id": "CD241C91-5826-41C9-9B0E-C9EFC10414BC",
   "classification_status": "Active",
   "groww_source": {
@@ -76,9 +76,287 @@
         }
       ]
     },
-    "current_price_inr": 477.2,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 469.85,
     "market_cap_inr": 208552900000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "medium5",
     "shares_outstanding": 435703710,
     "fifty_two_week": {
@@ -87,11 +365,19 @@
     },
     "fair_value_inr": 616.41667,
     "fair_value_range_inr": {
-      "min": 373.726747,
+      "min": 385.504456,
       "max": 616.41667,
       "count": 12
     },
-    "upside_pct": 29.173652556580045,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "cd377a12-b040-438f-838d-950ce5546477",
+      "narrative_type": null,
+      "published_at": "2024-07-17T04:35:32.911Z"
+    },
+    "upside_pct": 31.194353517079904,
     "multiples": {
       "pe": 19.03,
       "ps": 5.66,
@@ -110,10 +396,10 @@
     "rewards": [
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Earnings are forecast to grow 17% per year",
-      "Analysts in good agreement that stock price will rise by 29.2%",
+      "Analysts in good agreement that stock price will rise by 31.2%",
       "Trading below our calculated fair Price-To-Earnings ratio",
       "Earnings grew by 20.2% over the past year",
-      "Price-To-Earnings ratio (19x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (18.7x) is below the Indian market (23.2x)"
     ],
     "risks": [
       "Debt is not well covered by [[operating cash flow]]"
@@ -129,8 +415,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 18.85756396507594,
-      "net_income_margin_1y": 0.2564706218,
-      "future_revenue_growth_3y": 0.3320316411,
+      "net_income_margin_1y": 0.257896607,
+      "future_revenue_growth_3y": 0.3297814148,
       "sector_pe": 18.85756396507594
     },
     "industry_benchmarks_meta": {
@@ -165,18 +451,18 @@
         "url": "https://groww.in/stocks/aadhar-housing-finance-ltd"
       },
       "sws_statement": {
-        "company_pe": 19,
-        "industry_pe": 24.4,
+        "company_pe": 18.7,
+        "industry_pe": 25.8,
         "industry_name": "Indian Diversified Financial",
-        "description": "AADHARHFC is good value based on its Price-To-Earnings Ratio (19x) compared to the Indian Diversified Financial industry average (24.4x).",
+        "description": "AADHARHFC is good value based on its Price-To-Earnings Ratio (18.7x) compared to the Indian Diversified Financial industry average (25.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 25.581812879,
+        "industry_pe": 25.750965002,
         "industry_code": "7110000",
         "type": "median_profitable",
-        "count": 131,
+        "count": 126,
         "source": {
           "type": "country",
           "country": "IN",
@@ -185,25 +471,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.4,
-        "sample_count": 124,
+        "industry_pe": 20.95,
+        "sample_count": 118,
         "industry_code": "7110000",
         "industry_name": "Diversified Financials"
       },
       "sws_primary_industry": {
-        "industry_pe": 15.729172633,
+        "industry_pe": 15.226484123,
         "industry_name": "Diversified Financials",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 21.04580389420303
+        "company_pe": 20.721649119218974
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 477.2,
-        "fetched_at": "2026-05-31T20:52:46.424Z",
+        "value": 469.85,
+        "fetched_at": "2026-06-10T23:49:32.345Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-aadharhfc/aadhar-housing-finance-shares"
       },
       "market_cap_inr": {
@@ -211,6 +497,24 @@
         "value": 208552900000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/aadhar-housing-finance-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 616.41667,
+        "fetched_at": "2026-06-10T23:49:32.345Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-aadharhfc/aadhar-housing-finance-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "cd377a12-b040-438f-838d-950ce5546477",
+        "narrative_type": null,
+        "published_at": "2024-07-17T04:35:32.911Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 31.194353517079904,
+        "fetched_at": "2026-06-10T23:49:32.345Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-aadharhfc/aadhar-housing-finance-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -250,14 +554,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.2564706218,
-        "fetched_at": "2026-05-31T20:52:46.424Z",
+        "value": 0.257896607,
+        "fetched_at": "2026-06-10T23:49:32.345Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-aadharhfc/aadhar-housing-finance-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.3320316411,
-        "fetched_at": "2026-05-31T20:52:46.424Z",
+        "value": 0.3297814148,
+        "fetched_at": "2026-06-10T23:49:32.345Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-aadharhfc/aadhar-housing-finance-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -389,16 +693,16 @@
     "quick_ratio": 1.633525794489039,
     "cash_ratio": 1.1403839834765057,
     "returns_pct": {
-      "1D": -0.125575554625371,
-      "7D": 0.3680723525081502,
-      "1M": -2.3631713554987237,
-      "3M": 3.976468024839307,
-      "6M": -0.8209498077522579,
-      "1Y": 7.976015386355923,
+      "1D": 0.4274874425563749,
+      "7D": 1.6001729916747829,
+      "1M": -5.822810182401274,
+      "3M": -1.2816472318520782,
+      "6M": -3.896502352219259,
+      "1Y": 3.8227820130372363,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 1,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -485,8 +789,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.16343,
-        "shares": 712055,
+        "pct": 0.15732,
+        "shares": 685435,
         "is_insider": null
       },
       {
@@ -747,6 +1051,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "c3acc70c-477a-4b85-ad38-caf7a7de89c8",
+      "type": "brief",
+      "date": "2026-06-09T11:28:51.000Z",
+      "title": "Now 21% overvalued",
+      "body": "Over the last 90 days, the stock has fallen 3.0% to ₹468. The fair value is estimated to be ₹386, however this is not to be taken as a sell recommendation but rather should be used as a guide only. Revenue has grown by 20% over the last 3 years. Earnings per share has grown by 18%. For the next 3 years, revenue is forecast to grow by 16% per annum. Earnings are also forecast to grow by 17% per annum over the same time period.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "f9088ba2-09f3-478e-a994-a8194f5d7fa4",
       "type": "event",

@@ -3,7 +3,7 @@
   "name": "Esconet Technologies Limited",
   "sector": "Tech",
   "sws_url": "https://simplywall.st/stocks/in/tech/nse-esconet/esconet-technologies-shares",
-  "parsed_at": "2026-05-31T22:46:37.031Z",
+  "parsed_at": "2026-06-11T01:43:31.479Z",
   "company_id": "0D3A4871-47F6-486B-9016-92CDF391E6A2",
   "classification_status": "Active",
   "groww_source": null,
@@ -11,16 +11,16 @@
     "snowflake": {
       "valuation": 0,
       "future": 0,
-      "past": 2,
+      "past": 1,
       "financial_health": 5,
       "dividends": 0,
       "future_growth": 0,
-      "past_performance": 2,
+      "past_performance": 1,
       "value": 0,
       "health": 5,
       "dividend": 0
     },
-    "snowflake_total": 7,
+    "snowflake_total": 6,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 12,
@@ -70,21 +70,310 @@
         }
       ]
     },
-    "current_price_inr": 128,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 111.3,
     "market_cap_inr": null,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
-    "fifty_two_week": null,
+    "fifty_two_week": {
+      "low": 91.25,
+      "high": 269.85
+    },
     "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": 196.96,
       "max": 3859.41,
       "count": 2
     },
+    "fair_value_source_detail": {
+      "method": "missing_consensus_narrative",
+      "owner_name": null,
+      "owner_classification": null,
+      "narrative_id": null,
+      "narrative_type": null,
+      "published_at": null
+    },
     "upside_pct": null,
     "multiples": {
-      "pe": 25.2,
+      "pe": 24.6,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -93,14 +382,15 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": "2026-05-31T22:46:37.031Z",
+      "pe_as_of": "2026-06-11T01:43:31.479Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://simplywall.st/stocks/in/tech/nse-esconet/esconet-technologies-shares"
     },
     "rewards": [
-      "Earnings grew by 31.2% over the past year"
+      "Price-To-Earnings ratio (24.6x) is below the Tech industry average (24.8x)"
     ],
     "risks": [
+      "Profit margins (1.7%) are lower than last year (3.5%)",
       "High level of [[non-cash earnings]]",
       "Highly volatile share price over past 3 months",
       "Does not have a meaningful market cap (₹2B)"
@@ -115,9 +405,9 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 23.425071136,
+      "pe": 24.840739175,
       "net_income_margin_1y": 0.07376492844,
-      "future_revenue_growth_3y": 0.9385953035
+      "future_revenue_growth_3y": 0.9819034396
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -131,10 +421,10 @@
     "pe_benchmark_source": {
       "provider": "sws_industry_api",
       "label": "SWS industry API",
-      "company_pe": 25.2,
+      "company_pe": 24.6,
       "company_pe_source": "sws_statement",
       "company_pe_source_label": "SWS visible statement",
-      "industry_pe": 23.425071136,
+      "industry_pe": 24.840739175,
       "industry_name": "Tech",
       "industry_code": "8120000",
       "sample_count": 9,
@@ -143,15 +433,15 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 25.2,
-        "industry_pe": 23.3,
+        "company_pe": 24.6,
+        "industry_pe": 22.6,
         "industry_name": "Asian Tech",
-        "description": "ESCONET is expensive based on its Price-To-Earnings Ratio (25.2x) compared to the Asian Tech industry average (23.3x).",
+        "description": "ESCONET is expensive based on its Price-To-Earnings Ratio (24.6x) compared to the Asian Tech industry average (22.6x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 23.425071136,
+        "industry_pe": 24.840739175,
         "industry_code": "8120000",
         "type": "median_profitable",
         "count": 9,
@@ -163,7 +453,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 22.2,
+        "industry_pe": 21.950000000000003,
         "sample_count": 8,
         "industry_code": "8120000",
         "industry_name": "Tech"
@@ -176,32 +466,41 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 128,
-        "fetched_at": "2026-05-31T22:46:37.031Z",
+        "value": 111.3,
+        "fetched_at": "2026-06-11T01:43:31.479Z",
         "url": "https://simplywall.st/stocks/in/tech/nse-esconet/esconet-technologies-shares"
       },
       "multiples.pe": {
         "provider": "sws_statement",
-        "value": 25.2,
-        "fetched_at": "2026-05-31T22:46:37.031Z",
+        "value": 24.6,
+        "fetched_at": "2026-06-11T01:43:31.479Z",
         "url": "https://simplywall.st/stocks/in/tech/nse-esconet/esconet-technologies-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 23.425071136,
+        "value": 24.840739175,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.07376492844,
-        "fetched_at": "2026-05-31T22:46:37.031Z",
+        "fetched_at": "2026-06-11T01:43:31.479Z",
         "url": "https://simplywall.st/stocks/in/tech/nse-esconet/esconet-technologies-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.9385953035,
-        "fetched_at": "2026-05-31T22:46:37.031Z",
+        "value": 0.9819034396,
+        "fetched_at": "2026-06-11T01:43:31.479Z",
+        "url": "https://simplywall.st/stocks/in/tech/nse-esconet/esconet-technologies-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 91.25,
+          "high": 269.85
+        },
+        "fetched_at": "2026-06-11T01:43:31.479Z",
         "url": "https://simplywall.st/stocks/in/tech/nse-esconet/esconet-technologies-shares"
       }
     },
@@ -228,16 +527,16 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -3.50546551074256,
-      "7D": -0.6982156710628438,
-      "1M": -7.747747747747748,
-      "3M": 8.889834113143346,
-      "6M": -24.882629107981224,
-      "1Y": -36.35007458975634,
+      "1D": -3.7197231833910016,
+      "7D": -10.278113663845225,
+      "1M": -22.30366492146597,
+      "3M": -8.620689655172415,
+      "6M": -24.516785350966426,
+      "1Y": -49.819657348963034,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -271,6 +570,26 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "10fcaf2d-6f94-42c1-9434-123f1290af03",
+      "type": "brief",
+      "date": "2026-06-03T11:41:49.000Z",
+      "title": "Full year 2026 earnings released: EPS: ₹4.66 (vs ₹6.11 in FY 2025)",
+      "body": "Full year 2026 results: EPS: ₹4.66 (down from ₹6.11 in FY 2025). Revenue: ₹3.58b (up 55% from FY 2025). Net income: ₹61.6m (down 23% from FY 2025). Profit margin: 1.7% (down from 3.5% in FY 2025). The decrease in margin was driven by higher expenses.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "26357a8f-2a0f-48cb-a3f9-880f5d249e06",
+      "type": "brief",
+      "date": "2026-06-02T12:33:20.000Z",
+      "title": "New minor risk - Financial data availability",
+      "body": "The company's latest financial reports are more than 6 months old. Last reported fiscal period ended September 2025. This is considered a minor risk. If the company has not reported its earnings on time, it may have been delayed due to audit problems or it may be finding it difficult to reconcile its accounts. Currently, the following risks have been identified for the company: Major Risk High level of non-cash earnings (63% accrual ratio). Minor Risks Latest financial reports are more than 6 months old (reported September 2025 fiscal period end). Share price has been volatile over the past 3 months (9.1% average weekly change). Market cap is less than US$100m (₹1.62b market cap, or US$17.0m).",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "bfaf1512-3b4b-4a69-bcc8-ba4e42988396",
       "type": "event",

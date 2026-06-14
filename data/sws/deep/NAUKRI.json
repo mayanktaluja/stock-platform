@@ -3,7 +3,7 @@
   "name": "Info Edge (India) Limited",
   "sector": "Media",
   "sws_url": "https://simplywall.st/stocks/in/media/nse-naukri/info-edge-india-shares",
-  "parsed_at": "2026-05-31T21:07:46.091Z",
+  "parsed_at": "2026-06-11T00:11:39.496Z",
   "company_id": "E0005B56-EB6A-4144-BFAA-BCA90E0F9BA3",
   "classification_status": "Active",
   "groww_source": {
@@ -28,9 +28,287 @@
       "dividend": 4
     },
     "snowflake_total": 13,
-    "current_price_inr": 995,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_50_TO_75_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 971.25,
     "market_cap_inr": 652181400000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "large7",
     "shares_outstanding": 647671315,
     "fifty_two_week": {
@@ -39,11 +317,19 @@
     },
     "fair_value_inr": 1315.71429,
     "fair_value_range_inr": {
-      "min": 290.318857,
+      "min": 294.871133,
       "max": 1315.71429,
       "count": 15
     },
-    "upside_pct": 32.23259195979898,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "326edce7-1c29-455e-9dc2-fa54c1d3471d",
+      "narrative_type": null,
+      "published_at": "2026-06-10T02:05:03.528Z"
+    },
+    "upside_pct": 35.46607876447875,
     "multiples": {
       "pe": 36.99,
       "ps": 19.85,
@@ -60,6 +346,7 @@
       "pe_source_url": "https://groww.in/stocks/info-edge-india-ltd"
     },
     "rewards": [
+      "Price-To-Earnings ratio (43.9x) is below the Interactive Media and Services industry average (44.6x)",
       "Earnings grew by 50.7% over the past year"
     ],
     "risks": [
@@ -233,8 +520,8 @@
     "dividend_yield_pct": 0.84,
     "industry_benchmarks": {
       "pe": 117.2719632175943,
-      "net_income_margin_1y": 0.1066140819,
-      "future_revenue_growth_3y": 0.5690837194,
+      "net_income_margin_1y": 0.1052710613,
+      "future_revenue_growth_3y": 0.5707613972,
       "sector_pe": 117.2719632175943
     },
     "industry_benchmarks_meta": {
@@ -269,18 +556,18 @@
         "url": "https://groww.in/stocks/info-edge-india-ltd"
       },
       "sws_statement": {
-        "company_pe": 44.4,
-        "industry_pe": 21.2,
+        "company_pe": 43.9,
+        "industry_pe": 20.9,
         "industry_name": "Asian Interactive Media and Services",
-        "description": "NAUKRI is expensive based on its Price-To-Earnings Ratio (44.4x) compared to the Asian Interactive Media and Services industry average (21.2x).",
+        "description": "NAUKRI is expensive based on its Price-To-Earnings Ratio (43.9x) compared to the Asian Interactive Media and Services industry average (20.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 38.103066087,
+        "industry_pe": 44.636979499,
         "industry_code": "4300002",
         "type": "median_profitable",
-        "count": 6,
+        "count": 7,
         "source": {
           "type": "country",
           "country": "IN",
@@ -289,25 +576,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 31.8,
+        "industry_pe": 23.9,
         "sample_count": 5,
         "industry_code": "4300002",
         "industry_name": "Media"
       },
       "sws_primary_industry": {
-        "industry_pe": 16.475096844,
+        "industry_pe": 16.321854198,
         "industry_name": "Media",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 44.449354084386
+        "company_pe": 43.388377039658195
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 995,
-        "fetched_at": "2026-05-31T21:07:46.091Z",
+        "value": 971.25,
+        "fetched_at": "2026-06-11T00:11:39.496Z",
         "url": "https://simplywall.st/stocks/in/media/nse-naukri/info-edge-india-shares"
       },
       "market_cap_inr": {
@@ -315,6 +602,24 @@
         "value": 652181400000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/info-edge-india-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 1315.71429,
+        "fetched_at": "2026-06-11T00:11:39.496Z",
+        "url": "https://simplywall.st/stocks/in/media/nse-naukri/info-edge-india-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "326edce7-1c29-455e-9dc2-fa54c1d3471d",
+        "narrative_type": null,
+        "published_at": "2026-06-10T02:05:03.528Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 35.46607876447875,
+        "fetched_at": "2026-06-11T00:11:39.496Z",
+        "url": "https://simplywall.st/stocks/in/media/nse-naukri/info-edge-india-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -354,14 +659,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.1066140819,
-        "fetched_at": "2026-05-31T21:07:46.091Z",
+        "value": 0.1052710613,
+        "fetched_at": "2026-06-11T00:11:39.496Z",
         "url": "https://simplywall.st/stocks/in/media/nse-naukri/info-edge-india-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.5690837194,
-        "fetched_at": "2026-05-31T21:07:46.091Z",
+        "value": 0.5707613972,
+        "fetched_at": "2026-06-11T00:11:39.496Z",
         "url": "https://simplywall.st/stocks/in/media/nse-naukri/info-edge-india-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -476,7 +781,7 @@
     "latest_revenue": 32847320000,
     "latest_net_income": 14498140000,
     "latest_eps": 27.19,
-    "most_recent_reported_date": "2026-05-26",
+    "most_recent_reported_date": "2026-06-09",
     "pb": 1.72,
     "ps": 19.85,
     "book_value": 584.7018759,
@@ -493,12 +798,12 @@
     "quick_ratio": 2.46800900046415,
     "cash_ratio": 0.1896504752487236,
     "returns_pct": {
-      "1D": -1.0590165564560212,
-      "7D": 3.5433685415474225,
-      "1M": 0.33782080371098905,
-      "3M": -3.3605283605283516,
-      "6M": -25.199218162682307,
-      "1Y": -30.458484763768517,
+      "1D": -1.1550987176877696,
+      "7D": -3.4590726107052294,
+      "1M": 1.0455680399500578,
+      "3M": 1.6589909985346474,
+      "6M": -29.502068665166586,
+      "1Y": -35.5036855036855,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -534,13 +839,13 @@
         "is_insider": null
       },
       {
-        "pct": 3.11302,
-        "shares": 20162109,
+        "pct": 2.82836,
+        "shares": 18318465,
         "is_insider": null
       },
       {
-        "pct": 2.82836,
-        "shares": 18318465,
+        "pct": 2.77702,
+        "shares": 17985967,
         "is_insider": null
       },
       {
@@ -785,7 +1090,7 @@
     "payment_count": 22
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-26",
+    "most_recent_reported_date": "2026-06-09",
     "latest_year": 2026,
     "latest_revenue": 32847320000,
     "latest_net_income": 14498140000,
@@ -1252,26 +1557,6 @@
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/media/nse-naukri/info-edge-india-shares/sk6cj6hz-expanding-into-indias-secondary-markets-and-ai-will-fuel-success-cdh3/updates/14-narrative-update-info-edge-india-analyst-price-target-ana",
       "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "2739918c-3ded-4d72-adc4-162a78db6be6",
-      "type": "narrative-update",
-      "date": "2025-12-13T15:05:24.000Z",
-      "title": "NAUKRI: Upcoming Subsidiary Investments And Interim Dividend Will Support Bullish Outlook",
-      "body": "Narrative Update on Info Edge (India) Analysts have marginally raised their fair value estimate for Info Edge (India) to approximately ₹1,554 from about ₹1,552, reflecting slightly lower discount rate assumptions, modestly softer long term revenue growth, and a small improvement in expected profit margins and future valuation multiples. What's in the News The board has approved a potential investment in Startup Internet Services Ltd and an agreement to transfer its entire stake in Shopkirana E Trading Private Limited to Hiveloop E Commerce Private Limited.",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/media/nse-naukri/info-edge-india-shares/sk6cj6hz-expanding-into-indias-secondary-markets-and-ai-will-fuel-success-cdh3/updates/13-narrative-update-on-info-edge-india-analysts-have-marginal",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "bdeac9ac-7c44-45dc-b154-c20eb5f48539",
-      "type": "article",
-      "date": "2025-12-13T02:59:43.000Z",
-      "title": "Subdued Growth No Barrier To Info Edge (India) Limited's (NSE:NAUKRI) Price",
-      "body": "When close to half the companies in India have price-to-earnings ratios (or \"P/E's\") below 25x, you may consider Info...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/media/nse-naukri/info-edge-india-shares/news/subdued-growth-no-barrier-to-info-edge-india-limiteds-nsenau",
-      "raw_subtype": "article"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/NAUKRI.json"

@@ -3,7 +3,7 @@
   "name": "Aegis Logistics Limited",
   "sector": "Energy",
   "sws_url": "https://simplywall.st/stocks/in/energy/nse-aegislog/aegis-logistics-shares",
-  "parsed_at": "2026-05-31T20:58:58.527Z",
+  "parsed_at": "2026-06-10T23:56:40.627Z",
   "company_id": "C98E6731-B17D-42C7-B2B8-E9EC7229A1E9",
   "classification_status": "Active",
   "groww_source": {
@@ -28,9 +28,287 @@
       "dividend": 4
     },
     "snowflake_total": 17,
-    "current_price_inr": 748.45,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 801,
     "market_cap_inr": 250473600000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midlarge6",
     "shares_outstanding": 351000000,
     "fifty_two_week": {
@@ -39,11 +317,19 @@
     },
     "fair_value_inr": 841.16667,
     "fair_value_range_inr": {
-      "min": 399.295252,
+      "min": 166.548964,
       "max": 841.16667,
       "count": 13
     },
-    "upside_pct": 12.38782416995122,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "55a88e81-1e18-49fc-8a2d-575d0008dfd8",
+      "narrative_type": null,
+      "published_at": "2026-06-07T12:05:19.859Z"
+    },
+    "upside_pct": 5.014565543071155,
     "multiples": {
       "pe": 25.83,
       "ps": 3.37,
@@ -69,7 +355,7 @@
     ],
     "dividend": {
       "yield_pct": 1.12,
-      "payout_pct": 36.49322464555891,
+      "payout_pct": 31.264265434504257,
       "annualized_dividend": 8,
       "listing_currency": "INR",
       "recent_payments": [
@@ -235,8 +521,8 @@
     "dividend_yield_pct": 1.12,
     "industry_benchmarks": {
       "pe": 60.17841194839087,
-      "net_income_margin_1y": 0.1242489666,
-      "future_revenue_growth_3y": 2.150633131,
+      "net_income_margin_1y": 0.1227139714,
+      "future_revenue_growth_3y": 1.998825811,
       "sector_pe": 60.17841194839087
     },
     "industry_benchmarks_meta": {
@@ -271,15 +557,15 @@
         "url": "https://groww.in/stocks/aegis-logistics-ltd"
       },
       "sws_statement": {
-        "company_pe": 29.2,
-        "industry_pe": 19.2,
+        "company_pe": 30.6,
+        "industry_pe": 18.4,
         "industry_name": "Indian Oil and Gas",
-        "description": "AEGISLOG is expensive based on its Price-To-Earnings Ratio (29.2x) compared to the Indian Oil and Gas industry average (19.2x).",
+        "description": "AEGISLOG is expensive based on its Price-To-Earnings Ratio (30.6x) compared to the Indian Oil and Gas industry average (18.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 19.197746836,
+        "industry_pe": 18.359426364,
         "industry_code": "1030000",
         "type": "median_profitable",
         "count": 34,
@@ -291,25 +577,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 14.9,
-        "sample_count": 31,
+        "industry_pe": 15.55,
+        "sample_count": 32,
         "industry_code": "1030000",
         "industry_name": "Energy"
       },
       "sws_primary_industry": {
-        "industry_pe": 14.859404592,
+        "industry_pe": 14.327869158,
         "industry_name": "Energy",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 34.141692482460705
+        "company_pe": 31.303345766297387
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 748.45,
-        "fetched_at": "2026-05-31T20:58:58.527Z",
+        "value": 801,
+        "fetched_at": "2026-06-10T23:56:40.627Z",
         "url": "https://simplywall.st/stocks/in/energy/nse-aegislog/aegis-logistics-shares"
       },
       "market_cap_inr": {
@@ -317,6 +603,24 @@
         "value": 250473600000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/aegis-logistics-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 841.16667,
+        "fetched_at": "2026-06-10T23:56:40.627Z",
+        "url": "https://simplywall.st/stocks/in/energy/nse-aegislog/aegis-logistics-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "55a88e81-1e18-49fc-8a2d-575d0008dfd8",
+        "narrative_type": null,
+        "published_at": "2026-06-07T12:05:19.859Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 5.014565543071155,
+        "fetched_at": "2026-06-10T23:56:40.627Z",
+        "url": "https://simplywall.st/stocks/in/energy/nse-aegislog/aegis-logistics-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -356,14 +660,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.1242489666,
-        "fetched_at": "2026-05-31T20:58:58.527Z",
+        "value": 0.1227139714,
+        "fetched_at": "2026-06-10T23:56:40.627Z",
         "url": "https://simplywall.st/stocks/in/energy/nse-aegislog/aegis-logistics-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 2.150633131,
-        "fetched_at": "2026-05-31T20:58:58.527Z",
+        "value": 1.998825811,
+        "fetched_at": "2026-06-10T23:56:40.627Z",
         "url": "https://simplywall.st/stocks/in/energy/nse-aegislog/aegis-logistics-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -472,13 +776,13 @@
         "url": "https://groww.in/stocks/aegis-logistics-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 15.990885436491025,
+    "earnings_growth_yoy_pct": 35.42510576246152,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 10.054566429330386,
-    "latest_revenue": 74438624000,
-    "latest_net_income": 7694579000,
+    "revenue_growth_pct": 21.089459736945628,
+    "latest_revenue": 83332100000,
+    "latest_net_income": 8981500000,
     "latest_eps": 27.63,
-    "most_recent_reported_date": "2026-05-01",
+    "most_recent_reported_date": "2026-06-06",
     "pb": 4.22,
     "ps": 3.37,
     "book_value": 169.2692308,
@@ -495,16 +799,16 @@
     "quick_ratio": 2.9275901291535247,
     "cash_ratio": 1.9273239163930593,
     "returns_pct": {
-      "1D": 4.824929971988802,
-      "7D": 3.3128580302298296,
-      "1M": 5.46005354375088,
-      "3M": 8.715229864187668,
-      "6M": -1.9904406468932014,
-      "1Y": -5.247499683504232,
+      "1D": 2.3445984795246946,
+      "7D": 5.325443786982249,
+      "1M": 16.62783925451369,
+      "3M": 25.69635151039623,
+      "6M": 6.7004129479152725,
+      "1Y": 0,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 6,
+    "recent_news_count": 7,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -571,13 +875,13 @@
         "is_insider": null
       },
       {
-        "pct": 0.79611,
-        "shares": 2794339,
+        "pct": 0.79702,
+        "shares": 2797555,
         "is_insider": null
       },
       {
-        "pct": 0.60025,
-        "shares": 2106891,
+        "pct": 0.60158,
+        "shares": 2111547,
         "is_insider": null
       },
       {
@@ -606,8 +910,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.12836,
-        "shares": 450546,
+        "pct": 0.11035,
+        "shares": 387340,
         "is_insider": null
       }
     ],
@@ -623,7 +927,7 @@
   },
   "dividend": {
     "yield_pct": 1.12,
-    "payout_pct": 36.49322464555891,
+    "payout_pct": 31.264265434504257,
     "annualized_dividend": 8,
     "listing_currency": "INR",
     "recent_payments": [
@@ -787,44 +1091,44 @@
     "payment_count": 22
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-01",
+    "most_recent_reported_date": "2026-06-06",
     "latest_year": 2026,
-    "latest_revenue": 74438624000,
-    "latest_net_income": 7694579000,
+    "latest_revenue": 83332100000,
+    "latest_net_income": 8981500000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 10.054566429330386,
-    "earnings_growth_pct": 15.990885436491025,
-    "net_margin_pct": 10.336809826038698,
+    "revenue_growth_pct": 21.089459736945628,
+    "earnings_growth_pct": 35.42510576246152,
+    "net_margin_pct": 10.777959513800804,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 74438624000,
-        "netIncome": 7694579000,
+        "revenue": 83332100000,
+        "netIncome": 8981500000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 67637924000,
-        "netIncome": 6633779000,
+        "revenue": 68818624000,
+        "netIncome": 6632079000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 70459212000,
-        "netIncome": 5691992000,
+        "revenue": 65467312000,
+        "netIncome": 5848792000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 86272131000,
-        "netIncome": 4629540000,
+        "revenue": 84922631000,
+        "netIncome": 4753940000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 46309801000,
-        "netIncome": 3575229000,
+        "revenue": 61884001000,
+        "netIncome": 3942929000,
         "eps": null
       }
     ]
@@ -1056,6 +1360,26 @@
   ],
   "news": [
     {
+      "id": "8c84aced-4931-44c2-9354-ed951a5ce077",
+      "type": "brief",
+      "date": "2026-06-10T12:31:34.000Z",
+      "title": "Consensus revenue estimates increase by 14%",
+      "body": "The consensus outlook for revenues in fiscal year 2027 has improved. 2027 revenue forecast increased from ₹92.0b to ₹104.6b. EPS estimate increased from ₹24.28 to ₹30.41 per share. Net income forecast to grow 19% next year vs 7.7% growth forecast for Oil and Gas industry in India. Consensus price target up from ₹841 to ₹955. Share price rose 5.3% to ₹801 over the past week.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "945657a0-c079-4b93-936f-a950dc7c5c32",
+      "type": "narrative-update",
+      "date": "2026-06-07T12:05:19.000Z",
+      "title": "AEGISLOG: Dividend Decision And Consent Outcome Will Shape Balanced Medium Term Outlook",
+      "body": "Analysts have kept Aegis Logistics' fair value around ₹841, with only small tweaks to assumptions such as discount rate, revenue growth, profit margin and future P/E guiding a modest reset in their overall price target narrative. What's in the News Board meeting scheduled for May 29, 2026, to review audited standalone and consolidated financial results for the quarter and year ended March 31, 2026, and to consider a final dividend on equity shares, as well as the reappointment of M/s.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/energy/nse-aegislog/aegis-logistics-shares/kq4f0vve-aegislog-future-equity-stake-sale-will-support-long-term-growth-prospects/updates/22-analysts-have-kept-aegis-logistics-fair-value-around-indian-rupee841",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "3a63791d-7906-4b4e-bbd6-6b354dcc73d1",
       "type": "brief",
       "date": "2026-05-30T20:13:10.000Z",
@@ -1244,16 +1568,6 @@
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/stocks/in/energy/nse-aegislog/aegis-logistics-shares/news/there-are-reasons-to-feel-uneasy-about-aegis-logistics-nseae",
       "raw_subtype": "article"
-    },
-    {
-      "id": "38a82dd2-d884-4262-8d57-af5d026d031a",
-      "type": "narrative-update",
-      "date": "2025-12-14T02:04:42.000Z",
-      "title": "AEGISLOG: Unchanged Fair Value And Stake Sale Plans Will Support Bullish Outlook",
-      "body": "Narrative Update: Aegis Logistics Analyst Price Target Analysts have maintained their fair value estimate for Aegis Logistics at ₹866.50, reflecting unchanged assumptions on revenue growth, profit margins, and future valuation multiples despite recent market volatility. What's in the News The board has scheduled a meeting for October 29, 2025, to consider the sale of a 51 percent equity stake, comprising 621,146 shares of INR 10 each in Aegis Gas (LPG) Private Limited, to Aegis Vopak Terminal Limited (company filing).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/energy/nse-aegislog/aegis-logistics-shares/kq4f0vve-aegislog-future-equity-stake-sale-will-support-long-term-growth-prospects/updates/16-narrative-update-aegis-logistics-analyst-price-target-analy",
-      "raw_subtype": "narrative-update"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/AEGISLOG.json"

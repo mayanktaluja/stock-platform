@@ -3,7 +3,7 @@
   "name": "Vedant Fashions Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/nse-manyavar/vedant-fashions-shares",
-  "parsed_at": "2026-05-31T20:49:47.867Z",
+  "parsed_at": "2026-06-10T23:54:00.236Z",
   "company_id": "1BCA66A2-5B94-4F9C-8FA7-E4265436F4E0",
   "classification_status": "Active",
   "groww_source": {
@@ -28,9 +28,287 @@
       "dividend": 4
     },
     "snowflake_total": 17,
-    "current_price_inr": 408.35,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_5_YEARS_AGO"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_STABLE_BUT_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_50_TO_75"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 397.05,
     "market_cap_inr": 101029900000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midsmall4",
     "shares_outstanding": 242977245,
     "fifty_two_week": {
@@ -39,11 +317,19 @@
     },
     "fair_value_inr": 507.5,
     "fair_value_range_inr": {
-      "min": 282.279696,
+      "min": 284.868531,
       "max": 507.5,
       "count": 21
     },
-    "upside_pct": 24.280641606465036,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "6f35f48e-60fd-4687-962b-80f95aac4366",
+      "narrative_type": null,
+      "published_at": "2026-06-08T01:09:34.099Z"
+    },
+    "upside_pct": 27.817655207152747,
     "multiples": {
       "pe": 26.9,
       "ps": 7.04,
@@ -60,9 +346,9 @@
       "pe_source_url": "https://groww.in/stocks/vedant-fashions-ltd"
     },
     "rewards": [
+      "Analysts in good agreement that stock price will rise by 25.6%",
       "Earnings are forecast to grow 10.42% per year",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Analysts in good agreement that stock price will rise by 24.3%",
       "Trading below our calculated fair Price-To-Earnings ratio"
     ],
     "risks": [],
@@ -130,8 +416,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 43.91348923076923,
-      "net_income_margin_1y": 0.0693600828,
-      "future_revenue_growth_3y": 0.2193400642,
+      "net_income_margin_1y": 0.06833056564,
+      "future_revenue_growth_3y": 0.2166318346,
       "sector_pe": 43.91348923076923
     },
     "industry_benchmarks_meta": {
@@ -166,18 +452,18 @@
         "url": "https://groww.in/stocks/vedant-fashions-ltd"
       },
       "sws_statement": {
-        "company_pe": 26.4,
-        "industry_pe": 18,
+        "company_pe": 26.1,
+        "industry_pe": 18.9,
         "industry_name": "Indian Luxury",
-        "description": "MANYAVAR is expensive based on its Price-To-Earnings Ratio (26.4x) compared to the Indian Luxury industry average (18x).",
+        "description": "MANYAVAR is expensive based on its Price-To-Earnings Ratio (26.1x) compared to the Indian Luxury industry average (18.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 18.199713239,
+        "industry_pe": 18.902190904,
         "industry_code": "4130000",
         "type": "median_profitable",
-        "count": 294,
+        "count": 296,
         "source": {
           "type": "country",
           "country": "IN",
@@ -186,25 +472,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.1,
-        "sample_count": 290,
+        "industry_pe": 17.95,
+        "sample_count": 294,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
       },
       "sws_primary_industry": {
-        "industry_pe": 16.559656543,
+        "industry_pe": 16.573642049,
         "industry_name": "Consumer Durables",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 26.420345471956608
+        "company_pe": 25.689232691662472
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 408.35,
-        "fetched_at": "2026-05-31T20:49:47.867Z",
+        "value": 397.05,
+        "fetched_at": "2026-06-10T23:54:00.236Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-manyavar/vedant-fashions-shares"
       },
       "market_cap_inr": {
@@ -212,6 +498,24 @@
         "value": 101029900000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/vedant-fashions-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 507.5,
+        "fetched_at": "2026-06-10T23:54:00.236Z",
+        "url": "https://simplywall.st/stocks/in/consumer-durables/nse-manyavar/vedant-fashions-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "6f35f48e-60fd-4687-962b-80f95aac4366",
+        "narrative_type": null,
+        "published_at": "2026-06-08T01:09:34.099Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 27.817655207152747,
+        "fetched_at": "2026-06-10T23:54:00.236Z",
+        "url": "https://simplywall.st/stocks/in/consumer-durables/nse-manyavar/vedant-fashions-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -251,14 +555,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.0693600828,
-        "fetched_at": "2026-05-31T20:49:47.867Z",
+        "value": 0.06833056564,
+        "fetched_at": "2026-06-10T23:54:00.236Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-manyavar/vedant-fashions-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.2193400642,
-        "fetched_at": "2026-05-31T20:49:47.867Z",
+        "value": 0.2166318346,
+        "fetched_at": "2026-06-10T23:54:00.236Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-manyavar/vedant-fashions-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -373,7 +677,7 @@
     "latest_revenue": 14354790000,
     "latest_net_income": 3755430000,
     "latest_eps": 15.46,
-    "most_recent_reported_date": "2026-05-24",
+    "most_recent_reported_date": "2026-06-07",
     "pb": 5.14,
     "ps": 7.04,
     "book_value": 80.8445122,
@@ -390,16 +694,16 @@
     "quick_ratio": 3.2916325181758097,
     "cash_ratio": 0.02931923331130205,
     "returns_pct": {
-      "1D": -1.8625330449411197,
-      "7D": -1.6971593644679719,
-      "1M": -6.896944824441404,
-      "3M": 4.7185536607257434,
-      "6M": -32.85373674257995,
-      "1Y": -48.599660142236765,
+      "1D": -1.7202970297029674,
+      "7D": -0.3638644918444137,
+      "1M": -15.268886043533932,
+      "3M": 12.494687632809187,
+      "6M": -33.419971493250614,
+      "1Y": -50.41833166833166,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -461,8 +765,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.69638,
-        "shares": 1692040,
+        "pct": 0.6962,
+        "shares": 1691597,
         "is_insider": null
       },
       {
@@ -476,8 +780,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.42296,
-        "shares": 1027697,
+        "pct": 0.42632,
+        "shares": 1035856,
         "is_insider": null
       },
       {
@@ -578,7 +882,7 @@
     "payment_count": 4
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-24",
+    "most_recent_reported_date": "2026-06-07",
     "latest_year": 2026,
     "latest_revenue": 14354790000,
     "latest_net_income": 3755430000,
@@ -822,6 +1126,16 @@
   ],
   "news": [
     {
+      "id": "51d409ae-6ad6-4ba8-a64a-b1f82da11415",
+      "type": "narrative-update",
+      "date": "2026-06-08T01:09:34.000Z",
+      "title": "MANYAVAR: Upcoming Dividend And Stable Assumptions Will Support Long Term Upside",
+      "body": "Analysts have kept the fair value estimate for Vedant Fashions steady at ₹507.5 per share, with only marginal tweaks to assumptions such as the discount rate and future P/E feeding into the unchanged price target. What's in the News A board meeting is scheduled for May 8, 2026 to consider and approve the audited financial results and financial statements for the quarter and year ended March 31, 2026, along with the auditor's reports, and to consider a final dividend recommendation on equity shares.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/consumer-durables/nse-manyavar/vedant-fashions-shares/tuv4goea-manyavar-improved-profitability-and-higher-revenue-outlook-will-drive-future-gains/updates/24-analysts-have-kept-the-fair-value-estimate-for-vedant-fashio",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "ddd60556-3eea-41b2-803d-a18e0ad639d1",
       "type": "narrative-update",
       "date": "2026-05-24T14:03:13.000Z",
@@ -1000,26 +1314,6 @@
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/consumer-durables/nse-manyavar/vedant-fashions-shares/tuv4goea-manyavar-improved-profitability-and-higher-revenue-outlook-will-drive-future-gains/updates/14-analysts-have-kept-their-price-target-for-vedant-fashions-br",
       "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "dbecdcb5-b781-4a85-bfa8-bd3fbec3ced3",
-      "type": "narrative-update",
-      "date": "2025-12-15T06:05:03.000Z",
-      "title": "MANYAVAR: Upcoming Board Meeting Will Support Long Term Profitability Outlook",
-      "body": "Analysts have modestly raised their price target on Vedant Fashions to ₹763.70, reflecting slightly higher long term assumed profitability and valuation multiples, while growth expectations are largely unchanged. What's in the News Board meeting scheduled on October 30, 2025, at 12:30 IST to review and approve unaudited financial results for the quarter and half year ended September 30, 2025, along with the auditor's limited review reports (company filing).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/consumer-durables/nse-manyavar/vedant-fashions-shares/tuv4goea-manyavar-improved-profitability-and-higher-revenue-outlook-will-drive-future-gains/updates/13-analysts-have-modestly-raised-their-price-target-on-vedant-f",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "c26c3720-019b-49c2-991d-f0a4a57714c4",
-      "type": "article",
-      "date": "2025-12-12T02:50:40.000Z",
-      "title": "We Think Vedant Fashions (NSE:MANYAVAR) Might Have The DNA Of A Multi-Bagger",
-      "body": "Did you know there are some financial metrics that can provide clues of a potential multi-bagger? In a perfect world...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/consumer-durables/nse-manyavar/vedant-fashions-shares/news/we-think-vedant-fashions-nsemanyavar-might-have-the-dna-of-a",
-      "raw_subtype": "article"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/MANYAVAR.json"

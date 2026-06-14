@@ -3,7 +3,7 @@
   "name": "Nalin Lease Finance Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/bse-531212/nalin-lease-finance-shares",
-  "parsed_at": "2026-05-31T21:51:09.029Z",
+  "parsed_at": "2026-06-11T01:01:51.373Z",
   "company_id": "C4BFD194-2194-4415-9052-4347C4975512",
   "classification_status": "Active",
   "groww_source": {
@@ -77,22 +77,308 @@
         }
       ]
     },
-    "current_price_inr": 40.65,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 40.3,
     "market_cap_inr": 289200000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 35.31,
       "high": 63.95
     },
-    "fair_value_inr": 19.932351,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -50.96592619926199,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "3060c297-0585-4bfd-9735-72d514cfd6e6",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 9.09,
       "ps": 4,
@@ -111,13 +397,12 @@
     "rewards": [
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (8.4x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (8.3x) is below the Indian market (23.2x)"
     ],
     "risks": [
       "Makes less than USD$1m in revenue (₹72M)",
       "High level of [[non-cash earnings]]",
-      "Highly volatile share price over past 3 months",
-      "Does not have a meaningful market cap (₹267M)"
+      "Does not have a meaningful market cap (₹264M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -144,8 +429,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 23.373691419264986,
-      "net_income_margin_1y": 0.318282225,
-      "future_revenue_growth_3y": 1.129623645,
+      "net_income_margin_1y": 0.3172599264,
+      "future_revenue_growth_3y": 1.140962972,
       "sector_pe": 23.373691419264986
     },
     "industry_benchmarks_meta": {
@@ -180,18 +465,18 @@
         "url": "https://groww.in/stocks/nalin-lease-finance-ltd"
       },
       "sws_statement": {
-        "company_pe": 8.4,
-        "industry_pe": 20,
+        "company_pe": 8.3,
+        "industry_pe": 20.3,
         "industry_name": "Indian Consumer Finance",
-        "description": "531212 is good value based on its Price-To-Earnings Ratio (8.4x) compared to the Indian Consumer Finance industry average (20x).",
+        "description": "531212 is good value based on its Price-To-Earnings Ratio (8.3x) compared to the Indian Consumer Finance industry average (20.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 20.116846802,
+        "industry_pe": 20.292129088,
         "industry_code": "7120000",
         "type": "median_profitable",
-        "count": 79,
+        "count": 80,
         "source": {
           "type": "country",
           "country": "IN",
@@ -200,8 +485,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.8,
-        "sample_count": 80,
+        "industry_pe": 19.6,
+        "sample_count": 81,
         "industry_code": "7120000",
         "industry_name": "Diversified Financials"
       },
@@ -213,8 +498,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 40.65,
-        "fetched_at": "2026-05-31T21:51:09.029Z",
+        "value": 40.3,
+        "fetched_at": "2026-06-11T01:01:51.373Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-531212/nalin-lease-finance-shares"
       },
       "market_cap_inr": {
@@ -261,14 +546,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.318282225,
-        "fetched_at": "2026-05-31T21:51:09.029Z",
+        "value": 0.3172599264,
+        "fetched_at": "2026-06-11T01:01:51.373Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-531212/nalin-lease-finance-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 1.129623645,
-        "fetched_at": "2026-05-31T21:51:09.029Z",
+        "value": 1.140962972,
+        "fetched_at": "2026-06-11T01:01:51.373Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-531212/nalin-lease-finance-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -400,12 +685,12 @@
     "quick_ratio": 2.153846153846154,
     "cash_ratio": 0.798076923076923,
     "returns_pct": {
-      "1D": -7.802222726241788,
-      "7D": -5.9898242368177685,
-      "1M": -12.824361998713282,
-      "3M": -18.520745640408904,
-      "6M": -12.824361998713282,
-      "1Y": -28.85894294714736,
+      "1D": -0.024807740014897335,
+      "7D": -3.4267912772585665,
+      "1M": -7.568807339449552,
+      "3M": -12.391304347826093,
+      "6M": -11.350637923449195,
+      "1Y": -31.856611430503897,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -416,8 +701,8 @@
   "ownership": {
     "top_holders": [
       {
-        "pct": 43.5695,
-        "shares": 2857366,
+        "pct": 42.35886,
+        "shares": 2777970,
         "is_insider": null
       },
       {
@@ -431,8 +716,8 @@
         "is_insider": null
       },
       {
-        "pct": 3.15748,
-        "shares": 207073,
+        "pct": 4.11811,
+        "shares": 270073,
         "is_insider": null
       },
       {

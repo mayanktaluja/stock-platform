@@ -3,7 +3,7 @@
   "name": "Ajax Engineering Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-ajaxengg/ajax-engineering-shares",
-  "parsed_at": "2026-05-31T21:03:49.014Z",
+  "parsed_at": "2026-06-10T23:59:34.734Z",
   "company_id": "B288D369-5F1B-4C3C-A067-20B8B03D8531",
   "classification_status": "Active",
   "groww_source": {
@@ -70,9 +70,287 @@
         }
       ]
     },
-    "current_price_inr": 590,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_NOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 563.5,
     "market_cap_inr": 66533300000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midsmall4",
     "shares_outstanding": 114406800,
     "fifty_two_week": {
@@ -81,11 +359,19 @@
     },
     "fair_value_inr": 719,
     "fair_value_range_inr": {
-      "min": 311.567094,
+      "min": 316.842349,
       "max": 197109.53,
       "count": 11
     },
-    "upside_pct": 21.864406779661017,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "7d3d60ac-78e3-4be3-9e19-cc7d63196abe",
+      "narrative_type": null,
+      "published_at": "2026-05-14T12:04:28.036Z"
+    },
+    "upside_pct": 27.595385980479147,
     "multiples": {
       "pe": 29.55,
       "ps": 3.17,
@@ -103,7 +389,7 @@
     },
     "rewards": [
       "Trading below our calculated fair Price-To-Earnings ratio",
-      "Analysts in good agreement that stock price will rise by 26.3%",
+      "Analysts in good agreement that stock price will rise by 28%",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Earnings are forecast to grow 19.18% per year"
     ],
@@ -119,8 +405,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 46.832351756150835,
-      "net_income_margin_1y": 0.0775877089,
-      "future_revenue_growth_3y": 0.6569887,
+      "net_income_margin_1y": 0.07792327667,
+      "future_revenue_growth_3y": 0.6221294666,
       "sector_pe": 46.832351756150835
     },
     "industry_benchmarks_meta": {
@@ -155,18 +441,18 @@
         "url": "https://groww.in/stocks/ajax-engineering-ltd"
       },
       "sws_statement": {
-        "company_pe": 30,
-        "industry_pe": 26.4,
+        "company_pe": 29.6,
+        "industry_pe": 25.8,
         "industry_name": "Indian Machinery",
-        "description": "AJAXENGG is expensive based on its Price-To-Earnings Ratio (30x) compared to the Indian Machinery industry average (26.4x).",
+        "description": "AJAXENGG is expensive based on its Price-To-Earnings Ratio (29.6x) compared to the Indian Machinery industry average (25.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 25.908333666,
+        "industry_pe": 25.769114311,
         "industry_code": "3070000",
         "type": "median_profitable",
-        "count": 217,
+        "count": 220,
         "source": {
           "type": "country",
           "country": "IN",
@@ -175,25 +461,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 25.799999999999997,
-        "sample_count": 218,
+        "industry_pe": 25.6,
+        "sample_count": 219,
         "industry_code": "3070000",
         "industry_name": "Capital Goods"
       },
       "sws_primary_industry": {
-        "industry_pe": 21.475319439,
+        "industry_pe": 21.150765987,
         "industry_name": "Capital Goods",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 30.52503595170262
+        "company_pe": 29.153996201329537
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 590,
-        "fetched_at": "2026-05-31T21:03:49.014Z",
+        "value": 563.5,
+        "fetched_at": "2026-06-10T23:59:34.734Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-ajaxengg/ajax-engineering-shares"
       },
       "market_cap_inr": {
@@ -201,6 +487,24 @@
         "value": 66533300000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/ajax-engineering-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 719,
+        "fetched_at": "2026-06-10T23:59:34.734Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-ajaxengg/ajax-engineering-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "7d3d60ac-78e3-4be3-9e19-cc7d63196abe",
+        "narrative_type": null,
+        "published_at": "2026-05-14T12:04:28.036Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 27.595385980479147,
+        "fetched_at": "2026-06-10T23:59:34.734Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-ajaxengg/ajax-engineering-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -240,14 +544,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.0775877089,
-        "fetched_at": "2026-05-31T21:03:49.014Z",
+        "value": 0.07792327667,
+        "fetched_at": "2026-06-10T23:59:34.734Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-ajaxengg/ajax-engineering-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.6569887,
-        "fetched_at": "2026-05-31T21:03:49.014Z",
+        "value": 0.6221294666,
+        "fetched_at": "2026-06-10T23:59:34.734Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-ajaxengg/ajax-engineering-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -379,16 +683,16 @@
     "quick_ratio": 3.7092708484936687,
     "cash_ratio": 0.4916023868432542,
     "returns_pct": {
-      "1D": 1.2701682114658388,
-      "7D": 3.5178524431967633,
-      "1M": 10.652663165791438,
-      "3M": 21.649484536082475,
-      "6M": -4.96134020618556,
-      "1Y": -8.626297041969961,
+      "1D": -3.162055335968376,
+      "7D": -5.532271584241409,
+      "1M": 5.405910961466512,
+      "3M": 19.753479970247582,
+      "6M": -6.410895200132871,
+      "1Y": -8.9366515837104,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 4,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },

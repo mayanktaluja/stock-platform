@@ -3,24 +3,24 @@
   "name": "Kalyani Cast-Tech Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-544023/kalyani-cast-tech-shares",
-  "parsed_at": "2026-05-31T20:24:30.840Z",
+  "parsed_at": "2026-06-10T23:23:49.132Z",
   "company_id": "DD072340-B6F8-4559-B023-B5AA736DC7B9",
   "classification_status": "Active",
   "groww_source": null,
   "overview": {
     "snowflake": {
-      "valuation": 1,
+      "valuation": 2,
       "future": 0,
       "past": 3,
       "financial_health": 6,
       "dividends": 0,
       "future_growth": 0,
       "past_performance": 3,
-      "value": 1,
+      "value": 2,
       "health": 6,
       "dividend": 0
     },
-    "snowflake_total": 10,
+    "snowflake_total": 11,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 10,
@@ -70,21 +70,310 @@
         }
       ]
     },
-    "current_price_inr": 617.3,
-    "market_cap_inr": 4432522362.827229,
-    "market_cap_usd": 120714180851.549,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 547.35,
+    "market_cap_inr": 3930246420.368514,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
-    "fifty_two_week": null,
-    "fair_value_inr": 222.444255,
+    "fifty_two_week": {
+      "low": 439,
+      "high": 715.45
+    },
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -63.96496760084237,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "3780bdef-09f6-4143-9410-8f44ea399978",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
-      "pe": 26,
+      "pe": 23,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -93,13 +382,15 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": "2026-05-31T20:24:30.840Z",
+      "pe_as_of": "2026-06-10T23:23:49.132Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://simplywall.st/stocks/in/capital-goods/bse-544023/kalyani-cast-tech-shares"
     },
     "rewards": [
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Earnings grew by 19.8% over the past year"
+      "Earnings grew by 19.8% over the past year",
+      "Trading at good value vs. industry average Price-To-Earnings ratio",
+      "Price-To-Earnings ratio (23x) is below the Indian market (23.2x)"
     ],
     "risks": [
       "High level of [[non-cash earnings]]",
@@ -115,9 +406,9 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 25.908333666,
+      "pe": 25.989998333,
       "net_income_margin_1y": 0.1031278814,
-      "future_revenue_growth_3y": 0.5858087225
+      "future_revenue_growth_3y": 0.5969668729
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -131,30 +422,30 @@
     "pe_benchmark_source": {
       "provider": "sws_industry_api",
       "label": "SWS industry API",
-      "company_pe": 26,
+      "company_pe": 23,
       "company_pe_source": "sws_statement",
       "company_pe_source_label": "SWS visible statement",
-      "industry_pe": 25.908333666,
+      "industry_pe": 25.989998333,
       "industry_name": "Capital Goods",
       "industry_code": "3070000",
-      "sample_count": 217,
+      "sample_count": 220,
       "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 26,
-        "industry_pe": 25.9,
+        "company_pe": 23,
+        "industry_pe": 26,
         "industry_name": "Indian Machinery",
-        "description": "544023 is expensive based on its Price-To-Earnings Ratio (26x) compared to the Indian Machinery industry average (25.9x).",
+        "description": "544023 is good value based on its Price-To-Earnings Ratio (23x) compared to the Indian Machinery industry average (26x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 25.908333666,
+        "industry_pe": 25.989998333,
         "industry_code": "3070000",
         "type": "median_profitable",
-        "count": 217,
+        "count": 220,
         "source": {
           "type": "country",
           "country": "IN",
@@ -163,8 +454,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 25.799999999999997,
-        "sample_count": 218,
+        "industry_pe": 25.6,
+        "sample_count": 219,
         "industry_code": "3070000",
         "industry_name": "Capital Goods"
       },
@@ -176,32 +467,41 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 617.3,
-        "fetched_at": "2026-05-31T20:24:30.840Z",
+        "value": 547.35,
+        "fetched_at": "2026-06-10T23:23:49.132Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-544023/kalyani-cast-tech-shares"
       },
       "multiples.pe": {
         "provider": "sws_statement",
-        "value": 26,
-        "fetched_at": "2026-05-31T20:24:30.840Z",
+        "value": 23,
+        "fetched_at": "2026-06-10T23:23:49.132Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-544023/kalyani-cast-tech-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 25.908333666,
+        "value": 25.989998333,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.1031278814,
-        "fetched_at": "2026-05-31T20:24:30.840Z",
+        "fetched_at": "2026-06-10T23:23:49.132Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-544023/kalyani-cast-tech-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.5858087225,
-        "fetched_at": "2026-05-31T20:24:30.840Z",
+        "value": 0.5969668729,
+        "fetched_at": "2026-06-10T23:23:49.132Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/bse-544023/kalyani-cast-tech-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 439,
+          "high": 715.45
+        },
+        "fetched_at": "2026-06-10T23:23:49.132Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-544023/kalyani-cast-tech-shares"
       }
     },
@@ -228,12 +528,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -4.2945736434108595,
-      "7D": -2.503356234699522,
-      "1M": -11.81428571428572,
-      "3M": 32.652841946921654,
-      "6M": 22.601787487586883,
-      "1Y": 33.297343986180074,
+      "1D": -3.9989476453564774,
+      "7D": -3.1153199398176867,
+      "1M": -18.305970149253728,
+      "3M": 5.259615384615389,
+      "6M": 9.284216831386642,
+      "1Y": 8.493557978196238,
       "5Y": null
     },
     "next_earnings_date": null,

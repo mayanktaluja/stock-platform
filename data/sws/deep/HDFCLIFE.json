@@ -3,7 +3,7 @@
   "name": "HDFC Life Insurance Company Limited",
   "sector": "Insurance",
   "sws_url": "https://simplywall.st/stocks/in/insurance/nse-hdfclife/hdfc-life-insurance-shares",
-  "parsed_at": "2026-05-31T23:16:40.447Z",
+  "parsed_at": "2026-06-11T02:11:24.797Z",
   "company_id": "4E05314C-8A22-435A-B280-AC8F6F6BD57A",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 3
     },
     "snowflake_total": 13,
-    "current_price_inr": 594.8,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_VOLATILE_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 549.55,
     "market_cap_inr": 1316242300000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "mega8",
     "shares_outstanding": 2157819536,
     "fifty_two_week": {
       "low": 555.1,
       "high": 820.75
     },
-    "fair_value_inr": 784.38235,
+    "fair_value_inr": 779.68571,
     "fair_value_range_inr": {
       "min": 99.568537,
-      "max": 784.38235,
+      "max": 779.68571,
       "count": 32
     },
-    "upside_pct": 31.873293544048426,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "95597a39-4630-46b4-a9df-f57ed2e6d600",
+      "narrative_type": null,
+      "published_at": "2026-06-02T20:07:43.629Z"
+    },
+    "upside_pct": 41.8771194613775,
     "multiples": {
       "pe": 68.84,
       "ps": 1.67,
@@ -61,7 +347,7 @@
     },
     "rewards": [
       "Earnings are forecast to grow 11% per year",
-      "Analysts in good agreement that stock price will rise by 31.1%",
+      "Analysts in good agreement that stock price will rise by 39.1%",
       "Earnings have grown 9.8% per year over the past 5 years"
     ],
     "risks": [
@@ -170,8 +456,8 @@
     "dividend_yield_pct": 0.34,
     "industry_benchmarks": {
       "pe": 11.475532211238647,
-      "net_income_margin_1y": 0.1053584011,
-      "future_revenue_growth_3y": 0.2421742058,
+      "net_income_margin_1y": 0.1055126138,
+      "future_revenue_growth_3y": 0.2573088629,
       "sector_pe": 11.475532211238647
     },
     "industry_benchmarks_meta": {
@@ -206,15 +492,15 @@
         "url": "https://groww.in/stocks/hdfc-standard-life-insurance-co-ltd"
       },
       "sws_statement": {
-        "company_pe": 67.1,
-        "industry_pe": 11.4,
+        "company_pe": 63.3,
+        "industry_pe": 11.2,
         "industry_name": "Asian Insurance",
-        "description": "HDFCLIFE is expensive based on its Price-To-Earnings Ratio (67.1x) compared to the Asian Insurance industry average (11.4x).",
+        "description": "HDFCLIFE is expensive based on its Price-To-Earnings Ratio (63.3x) compared to the Asian Insurance industry average (11.2x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 51.832121788,
+        "industry_pe": 51.552177431,
         "industry_code": "7210000",
         "type": "median_profitable",
         "count": 15,
@@ -226,25 +512,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 51.8,
-        "sample_count": 15,
+        "industry_pe": 46.95,
+        "sample_count": 14,
         "industry_code": "7210000",
         "industry_name": "Insurance"
       },
       "sws_primary_industry": {
-        "industry_pe": 11.645006567,
+        "industry_pe": 11.682206384,
         "industry_name": "Insurance",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 67.11591470113788
+        "company_pe": 62.01000491595548
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 594.8,
-        "fetched_at": "2026-05-31T23:16:40.447Z",
+        "value": 549.55,
+        "fetched_at": "2026-06-11T02:11:24.797Z",
         "url": "https://simplywall.st/stocks/in/insurance/nse-hdfclife/hdfc-life-insurance-shares"
       },
       "market_cap_inr": {
@@ -252,6 +538,24 @@
         "value": 1316242300000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/hdfc-standard-life-insurance-co-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 779.68571,
+        "fetched_at": "2026-06-11T02:11:24.797Z",
+        "url": "https://simplywall.st/stocks/in/insurance/nse-hdfclife/hdfc-life-insurance-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "95597a39-4630-46b4-a9df-f57ed2e6d600",
+        "narrative_type": null,
+        "published_at": "2026-06-02T20:07:43.629Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 41.8771194613775,
+        "fetched_at": "2026-06-11T02:11:24.797Z",
+        "url": "https://simplywall.st/stocks/in/insurance/nse-hdfclife/hdfc-life-insurance-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -291,14 +595,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.1053584011,
-        "fetched_at": "2026-05-31T23:16:40.447Z",
+        "value": 0.1055126138,
+        "fetched_at": "2026-06-11T02:11:24.797Z",
         "url": "https://simplywall.st/stocks/in/insurance/nse-hdfclife/hdfc-life-insurance-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.2421742058,
-        "fetched_at": "2026-05-31T23:16:40.447Z",
+        "value": 0.2573088629,
+        "fetched_at": "2026-06-11T02:11:24.797Z",
         "url": "https://simplywall.st/stocks/in/insurance/nse-hdfclife/hdfc-life-insurance-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -407,13 +711,13 @@
         "url": "https://groww.in/stocks/hdfc-standard-life-insurance-co-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 5.605195436321667,
+    "earnings_growth_yoy_pct": 1.7391720710990992,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 2.747122713595016,
+    "revenue_growth_pct": 0.16315174054770637,
     "latest_revenue": 998551200000,
     "latest_net_income": 19123200000,
     "latest_eps": 8.86,
-    "most_recent_reported_date": "2026-05-09",
+    "most_recent_reported_date": "2026-06-02",
     "pb": 7.42,
     "ps": 1.67,
     "book_value": 82.2524258,
@@ -430,12 +734,12 @@
     "quick_ratio": 1.0286953638229417,
     "cash_ratio": 0.17836958567472375,
     "returns_pct": {
-      "1D": -2.4278215223097224,
-      "7D": -3.535517353227387,
-      "1M": 0.06729475100941744,
-      "3M": -16.846078568432826,
-      "6M": -22.17715556718566,
-      "1Y": -22.42076431459503,
+      "1D": -1.9711023902961236,
+      "7D": -4.326253481894154,
+      "1M": -11.747229805684935,
+      "3M": -14.890816168499315,
+      "6M": -29.31832797427653,
+      "1Y": -28.088196807118564,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -466,8 +770,8 @@
         "is_insider": null
       },
       {
-        "pct": 2.09886,
-        "shares": 45289556,
+        "pct": 2.10367,
+        "shares": 45393371,
         "is_insider": null
       },
       {
@@ -511,13 +815,13 @@
         "is_insider": null
       },
       {
-        "pct": 0.95,
-        "shares": 20499257,
+        "pct": 0.94966,
+        "shares": 20491963,
         "is_insider": null
       },
       {
-        "pct": 0.94227,
-        "shares": 20332564,
+        "pct": 0.86668,
+        "shares": 18701452,
         "is_insider": null
       },
       {
@@ -657,14 +961,14 @@
     "payment_count": 7
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-09",
+    "most_recent_reported_date": "2026-06-02",
     "latest_year": 2026,
     "latest_revenue": 998551200000,
     "latest_net_income": 19123200000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 2.747122713595016,
-    "earnings_growth_pct": 5.605195436321667,
+    "revenue_growth_pct": 0.16315174054770637,
+    "earnings_growth_pct": 1.7391720710990992,
     "net_margin_pct": 1.915094589040602,
     "yearly_history": [
       {
@@ -675,26 +979,26 @@
       },
       {
         "year": 2025,
-        "revenue": 971853200000,
-        "netIncome": 18108200000,
+        "revenue": 996924700000,
+        "netIncome": 18796300000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 1019599800000,
-        "netIncome": 15740800000,
+        "revenue": 1054457000000,
+        "netIncome": 16363900000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 707709134000,
-        "netIncome": 13682771000,
+        "revenue": 883060634000,
+        "netIncome": 14183271000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 676262382000,
-        "netIncome": 13269331000,
+        "revenue": 584760282000,
+        "netIncome": 13898731000,
         "eps": null
       }
     ]
@@ -925,6 +1229,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "815fde8c-8692-46a4-a2f6-51d7e1280a38",
+      "type": "narrative-update",
+      "date": "2026-06-02T20:07:43.000Z",
+      "title": "HDFCLIFE: Upcoming Board Decisions On Capital And ESOPs Will Drive Repricing",
+      "body": "Analysts have inched their price target for HDFC Life Insurance slightly lower to ₹779.69 from ₹784.38, reflecting updated assumptions around revenue growth, profit margins and future P/E levels, while keeping the discount rate unchanged. What's in the News A board meeting is scheduled for April 21, 2026, to consider and approve the grant of stock options under the Employee Stock Option Scheme, along with other matters.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/insurance/nse-hdfclife/hdfc-life-insurance-shares/78afvgzt-digital-adoption-and-branch-expansion-will-unlock-tier-2-markets-1pkz/updates/19-analysts-have-inched-their-price-target-for-hdfc-life-insura",
+      "raw_subtype": "narrative-update"
+    },
     {
       "id": "6af76f0b-97b4-487d-b98a-ff20795fe908",
       "type": "narrative-update",

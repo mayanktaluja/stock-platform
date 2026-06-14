@@ -3,7 +3,7 @@
   "name": "Paul Merchants Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-pml/paul-merchants-shares",
-  "parsed_at": "2026-05-31T21:32:15.962Z",
+  "parsed_at": "2026-06-11T00:34:28.322Z",
   "company_id": "DE470375-C03D-4E53-98F4-F9C269DD26B5",
   "classification_status": "Active",
   "groww_source": {
@@ -19,22 +19,23 @@
       "valuation": 2,
       "future": 0,
       "past": 2,
-      "financial_health": 6,
+      "financial_health": 5,
       "dividends": 0,
       "future_growth": 0,
       "past_performance": 2,
       "value": 2,
-      "health": 6,
+      "health": 5,
       "dividend": 0
     },
-    "snowflake_total": 10,
+    "snowflake_total": 9,
     "snowflake_data_quality": {
       "insufficient": true,
-      "insufficient_count": 9,
+      "insufficient_count": 10,
       "checked_count": 30,
       "affected_pillars": [
         "Value",
         "Future",
+        "Health",
         "Dividends"
       ],
       "by_pillar": {
@@ -52,7 +53,7 @@
         },
         "Health": {
           "checked": 6,
-          "insufficient": 0
+          "insufficient": 1
         },
         "Dividends": {
           "checked": 6,
@@ -77,22 +78,308 @@
         }
       ]
     },
-    "current_price_inr": 539.85,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_BECOME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 506.95,
     "market_cap_inr": 1815700000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 530,
       "high": 624
     },
-    "fair_value_inr": 158.513807,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -70.63743502824859,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "465e498b-07b1-4a6d-adc5-e21655bf3f74",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 0.64,
       "ps": 0.07,
@@ -110,13 +397,12 @@
     },
     "rewards": [
       "Became profitable this year",
-      "Price-To-Earnings ratio (18.4x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (17.5x) is below the Indian market (22.9x)",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
     "risks": [
       "Earnings have declined by 23.8% per year over past 5 years",
-      "Shares are highly illiquid",
       "Does not have a meaningful market cap (₹2B)"
     ],
     "dividend": {
@@ -130,8 +416,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 18.85756396507594,
-      "net_income_margin_1y": 0.318282225,
-      "future_revenue_growth_3y": 1.129623645,
+      "net_income_margin_1y": 0.3172599264,
+      "future_revenue_growth_3y": 1.14035062,
       "sector_pe": 18.85756396507594
     },
     "industry_benchmarks_meta": {
@@ -166,18 +452,18 @@
         "url": "https://groww.in/stocks/paul-merchants-ltd"
       },
       "sws_statement": {
-        "company_pe": 18.4,
+        "company_pe": 17.5,
         "industry_pe": 20.1,
         "industry_name": "Indian Consumer Finance",
-        "description": "PML is good value based on its Price-To-Earnings Ratio (18.4x) compared to the Indian Consumer Finance industry average (20.1x).",
+        "description": "PML is good value based on its Price-To-Earnings Ratio (17.5x) compared to the Indian Consumer Finance industry average (20.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 20.116846802,
+        "industry_pe": 20.092697454,
         "industry_code": "7120000",
         "type": "median_profitable",
-        "count": 79,
+        "count": 80,
         "source": {
           "type": "country",
           "country": "IN",
@@ -186,8 +472,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.8,
-        "sample_count": 80,
+        "industry_pe": 19.6,
+        "sample_count": 81,
         "industry_code": "7120000",
         "industry_name": "Diversified Financials"
       },
@@ -199,8 +485,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 539.85,
-        "fetched_at": "2026-05-31T21:32:15.962Z",
+        "value": 506.95,
+        "fetched_at": "2026-06-11T00:34:28.322Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-pml/paul-merchants-shares"
       },
       "market_cap_inr": {
@@ -247,14 +533,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.318282225,
-        "fetched_at": "2026-05-31T21:32:15.962Z",
+        "value": 0.3172599264,
+        "fetched_at": "2026-06-11T00:34:28.322Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-pml/paul-merchants-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 1.129623645,
-        "fetched_at": "2026-05-31T21:32:15.962Z",
+        "value": 1.14035062,
+        "fetched_at": "2026-06-11T00:34:28.322Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-pml/paul-merchants-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -386,12 +672,12 @@
     "quick_ratio": 12.763552833078101,
     "cash_ratio": 1.5888208269525268,
     "returns_pct": {
-      "1D": -4.137441179081942,
-      "7D": -2.510158013544014,
-      "1M": -5.74421649934526,
-      "3M": -11.06260296540362,
-      "6M": -11.06260296540362,
-      "1Y": -11.06260296540362,
+      "1D": 0.24718212378880758,
+      "7D": -0.899227836966088,
+      "1M": -10.732523331572457,
+      "3M": -16.482701812191106,
+      "6M": -16.482701812191106,
+      "1Y": -16.482701812191106,
       "5Y": null
     },
     "next_earnings_date": null,

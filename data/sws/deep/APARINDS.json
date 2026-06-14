@@ -3,7 +3,7 @@
   "name": "APAR Industries Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-aparinds/apar-industries-shares",
-  "parsed_at": "2026-05-31T21:10:25.007Z",
+  "parsed_at": "2026-06-11T00:08:16.290Z",
   "company_id": "E3763130-4555-4708-BFA8-FBFF1F60D7BF",
   "classification_status": "Active",
   "groww_source": {
@@ -20,30 +20,316 @@
       "future": 4,
       "past": 3,
       "financial_health": 6,
-      "dividends": 4,
+      "dividends": 3,
       "future_growth": 4,
       "past_performance": 3,
       "value": 0,
       "health": 6,
-      "dividend": 4
+      "dividend": 3
     },
-    "snowflake_total": 17,
-    "current_price_inr": 13118,
+    "snowflake_total": 16,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DIVIDENDS_NOT_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 14085,
     "market_cap_inr": 540265800000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "large7",
     "shares_outstanding": 40168315,
     "fifty_two_week": {
       "low": 6801,
       "high": 13580
     },
-    "fair_value_inr": 9568,
+    "fair_value_inr": 13254.28571,
     "fair_value_range_inr": {
-      "min": 7586.279462,
-      "max": 10773.42857,
+      "min": 7489.949029,
+      "max": 13254.28571,
       "count": 24
     },
-    "upside_pct": -27.062052142094835,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "5d299816-8043-464d-8eb3-e0ad585df67c",
+      "narrative_type": null,
+      "published_at": "2026-06-02T11:06:01.016Z"
+    },
+    "upside_pct": -5.897865033723819,
     "multiples": {
       "pe": 55.5,
       "ps": 2.52,
@@ -61,14 +347,14 @@
     },
     "rewards": [
       "Earnings grew by 18.9% over the past year",
-      "Earnings are forecast to grow 17.17% per year"
+      "Earnings are forecast to grow 18.15% per year"
     ],
     "risks": [
-      "Unstable dividend track record"
+      "Dividend of 0.43% is not well covered by free cash flows"
     ],
     "dividend": {
       "yield_pct": 0.38,
-      "payout_pct": 21.043709385818037,
+      "payout_pct": 20.969609542137103,
       "annualized_dividend": 51,
       "listing_currency": "INR",
       "recent_payments": [
@@ -83,7 +369,7 @@
           "divFreqTypeName": "Annual",
           "annualizedDividend": 51,
           "annualizedDividendListingCurrency": 51,
-          "annualizedYield": 0.5547193994
+          "annualizedYield": 0.555487643
         },
         {
           "exDate": "2024-08-20T00:00:00.000Z",
@@ -195,8 +481,8 @@
     "dividend_yield_pct": 0.38,
     "industry_benchmarks": {
       "pe": 50.60717150952937,
-      "net_income_margin_1y": 0.0775877089,
-      "future_revenue_growth_3y": 0.6569887,
+      "net_income_margin_1y": 0.07792327667,
+      "future_revenue_growth_3y": 0.6221294666,
       "sector_pe": 50.60717150952937
     },
     "industry_benchmarks_meta": {
@@ -231,15 +517,15 @@
         "url": "https://groww.in/stocks/apar-industries-ltd"
       },
       "sws_statement": {
-        "company_pe": 53.9,
-        "industry_pe": 12.3,
+        "company_pe": 57.9,
+        "industry_pe": 11.9,
         "industry_name": "Asian Industrials",
-        "description": "APARINDS is expensive based on its Price-To-Earnings Ratio (53.9x) compared to the Asian Industrials industry average (12.3x).",
+        "description": "APARINDS is expensive based on its Price-To-Earnings Ratio (57.9x) compared to the Asian Industrials industry average (11.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 25.712739511,
+        "industry_pe": 24.856505284,
         "industry_code": "3060000",
         "type": "median_profitable",
         "count": 10,
@@ -251,25 +537,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 25.700000000000003,
+        "industry_pe": 24.799999999999997,
         "sample_count": 10,
         "industry_code": "3060000",
         "industry_name": "Capital Goods"
       },
       "sws_primary_industry": {
-        "industry_pe": 21.475319439,
+        "industry_pe": 21.150765987,
         "industry_name": "Capital Goods",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 54.127721514345296
+        "company_pe": 57.913127529608055
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 13118,
-        "fetched_at": "2026-05-31T21:10:25.007Z",
+        "value": 14085,
+        "fetched_at": "2026-06-11T00:08:16.290Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-aparinds/apar-industries-shares"
       },
       "market_cap_inr": {
@@ -277,6 +563,24 @@
         "value": 540265800000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/apar-industries-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 13254.28571,
+        "fetched_at": "2026-06-11T00:08:16.290Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-aparinds/apar-industries-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "5d299816-8043-464d-8eb3-e0ad585df67c",
+        "narrative_type": null,
+        "published_at": "2026-06-02T11:06:01.016Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": -5.897865033723819,
+        "fetched_at": "2026-06-11T00:08:16.290Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-aparinds/apar-industries-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -316,14 +620,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.0775877089,
-        "fetched_at": "2026-05-31T21:10:25.007Z",
+        "value": 0.07792327667,
+        "fetched_at": "2026-06-11T00:08:16.290Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-aparinds/apar-industries-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.6569887,
-        "fetched_at": "2026-05-31T21:10:25.007Z",
+        "value": 0.6221294666,
+        "fetched_at": "2026-06-11T00:08:16.290Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-aparinds/apar-industries-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -432,13 +736,13 @@
         "url": "https://groww.in/stocks/apar-industries-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 10.414327356040241,
+    "earnings_growth_yoy_pct": 10.804496013247586,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 9.322714023232706,
-    "latest_revenue": 215090800000,
-    "latest_net_income": 9734900000,
+    "revenue_growth_pct": 16.732224133856167,
+    "latest_revenue": 229668900000,
+    "latest_net_income": 9769300000,
     "latest_eps": 242.36,
-    "most_recent_reported_date": "2026-05-16",
+    "most_recent_reported_date": "2026-06-01",
     "pb": 11.13,
     "ps": 2.52,
     "book_value": 1208.0437815,
@@ -455,12 +759,12 @@
     "quick_ratio": 0.9392793921493113,
     "cash_ratio": 0.06059003300733698,
     "returns_pct": {
-      "1D": -2.2940563086548487,
-      "7D": 2.628696604600219,
-      "1M": 5.8970736629667,
-      "3M": 17.32927865480077,
-      "6M": 43.217424531906765,
-      "1Y": 62.744246634824144,
+      "1D": 3.4976853552795943,
+      "7D": 4.040478652681342,
+      "1M": 9.670637701471618,
+      "3M": 48.95304568527919,
+      "6M": 56.09242533385051,
+      "1Y": 73.2152739346984,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -541,8 +845,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.91825,
-        "shares": 368845,
+        "pct": 0.88166,
+        "shares": 354149,
         "is_insider": null
       },
       {
@@ -551,8 +855,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.66386,
-        "shares": 266661,
+        "pct": 0.66389,
+        "shares": 266673,
         "is_insider": null
       },
       {
@@ -583,7 +887,7 @@
   },
   "dividend": {
     "yield_pct": 0.38,
-    "payout_pct": 21.043709385818037,
+    "payout_pct": 20.969609542137103,
     "annualized_dividend": 51,
     "listing_currency": "INR",
     "recent_payments": [
@@ -598,7 +902,7 @@
         "divFreqTypeName": "Annual",
         "annualizedDividend": 51,
         "annualizedDividendListingCurrency": 51,
-        "annualizedYield": 0.5547193994
+        "annualizedYield": 0.555487643
       },
       {
         "exDate": "2024-08-20T00:00:00.000Z",
@@ -708,20 +1012,20 @@
     "payment_count": 9
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-16",
+    "most_recent_reported_date": "2026-06-01",
     "latest_year": 2026,
-    "latest_revenue": 215090800000,
-    "latest_net_income": 9734900000,
+    "latest_revenue": 229668900000,
+    "latest_net_income": 9769300000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 9.322714023232706,
-    "earnings_growth_pct": 10.414327356040241,
-    "net_margin_pct": 4.525949041056149,
+    "revenue_growth_pct": 16.732224133856167,
+    "earnings_growth_pct": 10.804496013247586,
+    "net_margin_pct": 4.253645138719261,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 215090800000,
-        "netIncome": 9734900000,
+        "revenue": 229668900000,
+        "netIncome": 9769300000,
         "eps": null
       },
       {
@@ -977,6 +1281,16 @@
   ],
   "news": [
     {
+      "id": "0ef59cda-57a2-47de-ba3f-9d8c8494fb6c",
+      "type": "narrative-update",
+      "date": "2026-06-02T11:06:01.000Z",
+      "title": "APARINDS: Future Board Decisions On Dividend And Capital Allocation Will Test P E",
+      "body": "Analysts now place APAR Industries' fair value at ₹13,254, up from ₹10,773. They cite updated assumptions that include slightly higher profit margin expectations and a higher future P/E multiple, partially offset by a modest tweak to revenue growth and discount rate inputs.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-aparinds/apar-industries-shares/4ia485nl-aparinds-upcoming-results-and-renewables-investment-will-drive-global-expansion/updates/16-analysts-now-place-apar-industries-fair-value-at-indian-rupee13254-u",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "b0279d14-a20e-43ed-950f-8adc368f9da0",
       "type": "article",
       "date": "2026-05-31T02:59:55.000Z",
@@ -1184,26 +1498,6 @@
       "body": "Analysts have trimmed their price target for APAR Industries from ₹12,100 to ₹11,148 as they factor in slightly lower long term profit margins and valuation multiples, partly offset by expectations of marginally stronger revenue growth and a lower discount rate. What's in the News Board meeting scheduled on October 29, 2025, to consider and approve unaudited standalone and consolidated financial results for Q2 and H1 FY 2025–26 (company filing) Valuation Changes The fair value estimate has fallen moderately from ₹12,100 to ₹11,148.",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-aparinds/apar-industries-shares/6u7hirtz-accelerated-renewable-and-5g-investments-will-unlock-global-demand-1sz1/updates/2-analysts-have-trimmed-their-price-target-for-apar-industries",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "1f9a16fb-cfb8-442a-bd03-d7c3b2653998",
-      "type": "article",
-      "date": "2025-12-16T00:43:37.000Z",
-      "title": "These 4 Measures Indicate That APAR Industries (NSE:APARINDS) Is Using Debt Reasonably Well",
-      "body": "David Iben put it well when he said, 'Volatility is not a risk we care about. What we care about is avoiding the...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/capital-goods/nse-aparinds/apar-industries-shares/news/these-4-measures-indicate-that-apar-industries-nseaparinds-i-2",
-      "raw_subtype": "article"
-    },
-    {
-      "id": "81ba5adb-7013-4350-8f7f-d69066b0b346",
-      "type": "narrative-update",
-      "date": "2025-12-12T03:10:28.000Z",
-      "title": "APARINDS: Future Profitability Is Expected To Weaken Despite Higher Market Multiple",
-      "body": "Analysts have nudged their target price for APAR Industries higher from ₹6,672 to approximately ₹6,893. This reflects modestly lower discount rates and a slightly richer future P/E multiple that more than offset trimmed revenue growth and profit margin assumptions.",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-aparinds/apar-industries-shares/133mrlqe-legacy-cable-business-will-falter-amid-industry-shifts-ljc4/updates/2-analysts-have-nudged-their-target-price-for-apar-industries",
       "raw_subtype": "narrative-update"
     }
   ],

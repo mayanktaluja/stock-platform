@@ -3,7 +3,7 @@
   "name": "Caspian Corporate Services Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/bse-534732/caspian-services-shares",
-  "parsed_at": "2026-05-31T22:27:04.326Z",
+  "parsed_at": "2026-06-11T01:39:37.593Z",
   "company_id": "24A76D3E-1268-46C0-BF61-23F8AFA8B3BE",
   "classification_status": "Active",
   "groww_source": {
@@ -16,18 +16,18 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 1,
+      "valuation": 0,
       "future": 0,
       "past": 2,
       "financial_health": 2,
       "dividends": 2,
       "future_growth": 0,
       "past_performance": 2,
-      "value": 1,
+      "value": 0,
       "health": 2,
       "dividend": 2
     },
-    "snowflake_total": 7,
+    "snowflake_total": 6,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 9,
@@ -76,24 +76,310 @@
         }
       ]
     },
-    "current_price_inr": 37.35,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_STABLE_BUT_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_LOSS_MAKING"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 38.31,
     "market_cap_inr": 489600000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 28.82,
       "high": 120
     },
-    "fair_value_inr": 0.318757,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -99.14656760374834,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "65390b00-3e5f-4256-8c43-7c0e001d6d8f",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
-      "pe": 70.1,
+      "pe": 71.1,
       "ps": 0.53,
       "pb": 1.2,
       "ev_ebitda": 13.77,
@@ -103,17 +389,15 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": "2026-05-31T22:27:04.326Z",
+      "pe_as_of": "2026-06-11T01:39:37.593Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://simplywall.st/stocks/in/diversified-financials/bse-534732/caspian-services-shares"
     },
-    "rewards": [
-      "Trading at good value vs. peer average Price-To-Earnings ratio"
-    ],
+    "rewards": [],
     "risks": [
       "Interest payments are not well covered by earnings",
-      "Does not have a meaningful market cap (₹473M)",
-      "Dividend of 1.34% is not well covered by earnings",
+      "Does not have a meaningful market cap (₹480M)",
+      "Dividend of 1.32% is not well covered by earnings",
       "Profit margins (0.7%) are lower than last year (2.7%)"
     ],
     "dividend": {
@@ -133,7 +417,7 @@
           "divFreqTypeName": "Annual",
           "annualizedDividend": 0.5,
           "annualizedDividendListingCurrency": 0.5,
-          "annualizedYield": 0.9895334162
+          "annualizedYield": 0.9875495829
         },
         {
           "exDate": "2024-10-23T00:00:00.000Z",
@@ -167,8 +451,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 53.98741913742747,
-      "net_income_margin_1y": 0.3861928045,
-      "future_revenue_growth_3y": 0.6191489568,
+      "net_income_margin_1y": 0.3863034101,
+      "future_revenue_growth_3y": 0.6215285206,
       "sector_pe": 53.98741913742747
     },
     "industry_benchmarks_meta": {
@@ -183,7 +467,7 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 70.1,
+      "company_pe": 71.1,
       "company_pe_source": "sws_statement",
       "company_pe_source_label": "SWS visible statement",
       "industry_pe": 53.98741913742747,
@@ -203,18 +487,18 @@
         "url": "https://groww.in/stocks/intellivate-capital-advisors-ltd"
       },
       "sws_statement": {
-        "company_pe": 70.1,
-        "industry_pe": 26.7,
+        "company_pe": 71.1,
+        "industry_pe": 25.9,
         "industry_name": "Indian Capital Markets",
-        "description": "534732 is expensive based on its Price-To-Earnings Ratio (70.1x) compared to the Indian Capital Markets industry average (26.7x).",
+        "description": "534732 is expensive based on its Price-To-Earnings Ratio (71.1x) compared to the Indian Capital Markets industry average (25.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 26.705392444,
+        "industry_pe": 25.93266606,
         "industry_code": "7130000",
         "type": "median_profitable",
-        "count": 218,
+        "count": 215,
         "source": {
           "type": "country",
           "country": "IN",
@@ -223,8 +507,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.6,
-        "sample_count": 204,
+        "industry_pe": 21.1,
+        "sample_count": 201,
         "industry_code": "7130000",
         "industry_name": "Diversified Financials"
       },
@@ -236,8 +520,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 37.35,
-        "fetched_at": "2026-05-31T22:27:04.326Z",
+        "value": 38.31,
+        "fetched_at": "2026-06-11T01:39:37.593Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-534732/caspian-services-shares"
       },
       "market_cap_inr": {
@@ -248,8 +532,8 @@
       },
       "multiples.pe": {
         "provider": "sws_statement",
-        "value": 70.1,
-        "fetched_at": "2026-05-31T22:27:04.326Z",
+        "value": 71.1,
+        "fetched_at": "2026-06-11T01:39:37.593Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-534732/caspian-services-shares"
       },
       "multiples.pb": {
@@ -284,14 +568,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.3861928045,
-        "fetched_at": "2026-05-31T22:27:04.326Z",
+        "value": 0.3863034101,
+        "fetched_at": "2026-06-11T01:39:37.593Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-534732/caspian-services-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.6191489568,
-        "fetched_at": "2026-05-31T22:27:04.326Z",
+        "value": 0.6215285206,
+        "fetched_at": "2026-06-11T01:39:37.593Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-534732/caspian-services-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -417,12 +701,12 @@
     "quick_ratio": 1.487309644670051,
     "cash_ratio": 0.08992023205221175,
     "returns_pct": {
-      "1D": -3.413498836307215,
-      "7D": -0.5591054313099064,
-      "1M": -7.823297137216192,
-      "3M": 1.4118924789573801,
-      "6M": -46.94602272727273,
-      "1Y": -53.71747211895911,
+      "1D": 1.1351636747624068,
+      "7D": 0.052232958997135356,
+      "1M": -0.4159085001299625,
+      "3M": 14.838129496402885,
+      "6M": -43.744493392070474,
+      "1Y": -50.439844760672706,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -505,7 +789,7 @@
         "divFreqTypeName": "Annual",
         "annualizedDividend": 0.5,
         "annualizedDividendListingCurrency": 0.5,
-        "annualizedYield": 0.9895334162
+        "annualizedYield": 0.9875495829
       },
       {
         "exDate": "2024-10-23T00:00:00.000Z",

@@ -3,7 +3,7 @@
   "name": "Route Mobile Limited",
   "sector": "Software",
   "sws_url": "https://simplywall.st/stocks/in/software/nse-route/route-mobile-shares",
-  "parsed_at": "2026-05-31T21:55:27.946Z",
+  "parsed_at": "2026-06-11T00:55:18.383Z",
   "company_id": "23D8FF5F-64A8-47E9-8C47-CCF85C48EC69",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 4
     },
     "snowflake_total": 16,
-    "current_price_inr": 507.55,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ONE_TIME"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_NOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_VOLATILE_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 518.35,
     "market_cap_inr": 32421400000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "small3",
     "shares_outstanding": 63003082,
     "fifty_two_week": {
       "low": 410.7,
       "high": 1158
     },
-    "fair_value_inr": 705,
+    "fair_value_inr": 718.75,
     "fair_value_range_inr": {
-      "min": 249.785722,
+      "min": 247.493355,
       "max": 1000,
-      "count": 25
+      "count": 26
     },
-    "upside_pct": 38.90257117525366,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "6fdccbd6-07a5-470e-a71d-adfcd00db334",
+      "narrative_type": null,
+      "published_at": "2026-06-02T15:06:21.815Z"
+    },
+    "upside_pct": 38.66113629786823,
     "multiples": {
       "pe": 12.62,
       "ps": 0.74,
@@ -61,7 +347,7 @@
     },
     "rewards": [
       "Trading below our calculated fair Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (13.4x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (14.1x) is below the Indian market (22.9x)",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Earnings are forecast to grow 16.93% per year"
@@ -72,7 +358,7 @@
     ],
     "dividend": {
       "yield_pct": 2.14,
-      "payout_pct": 37.20388136139145,
+      "payout_pct": 28.994808049535603,
       "annualized_dividend": 11,
       "listing_currency": "INR",
       "recent_payments": [
@@ -238,8 +524,8 @@
     "dividend_yield_pct": 2.14,
     "industry_benchmarks": {
       "pe": 18.761595487228476,
-      "net_income_margin_1y": 0.09947274985,
-      "future_revenue_growth_3y": 1.4123928,
+      "net_income_margin_1y": 0.0994330966,
+      "future_revenue_growth_3y": 1.401190197,
       "sector_pe": 18.761595487228476
     },
     "industry_benchmarks_meta": {
@@ -274,15 +560,15 @@
         "url": "https://groww.in/stocks/route-mobile-ltd"
       },
       "sws_statement": {
-        "company_pe": 13.4,
-        "industry_pe": 24.1,
+        "company_pe": 14.1,
+        "industry_pe": 28,
         "industry_name": "Indian Software",
-        "description": "ROUTE is good value based on its Price-To-Earnings Ratio (13.4x) compared to the Indian Software industry average (24.1x).",
+        "description": "ROUTE is good value based on its Price-To-Earnings Ratio (14.1x) compared to the Indian Software industry average (28x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 24.120954879,
+        "industry_pe": 27.955181856,
         "industry_code": "8040000",
         "type": "median_profitable",
         "count": 58,
@@ -294,25 +580,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24.2,
-        "sample_count": 57,
+        "industry_pe": 25.05,
+        "sample_count": 56,
         "industry_code": "8040000",
         "industry_name": "Software"
       },
       "sws_primary_industry": {
-        "industry_pe": 20.803345639,
+        "industry_pe": 20.24766845,
         "industry_name": "Software",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 17.166209077249302
+        "company_pe": 13.663144320433437
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 507.55,
-        "fetched_at": "2026-05-31T21:55:27.946Z",
+        "value": 518.35,
+        "fetched_at": "2026-06-11T00:55:18.383Z",
         "url": "https://simplywall.st/stocks/in/software/nse-route/route-mobile-shares"
       },
       "market_cap_inr": {
@@ -320,6 +606,24 @@
         "value": 32421400000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/route-mobile-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 718.75,
+        "fetched_at": "2026-06-11T00:55:18.383Z",
+        "url": "https://simplywall.st/stocks/in/software/nse-route/route-mobile-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "6fdccbd6-07a5-470e-a71d-adfcd00db334",
+        "narrative_type": null,
+        "published_at": "2026-06-02T15:06:21.815Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 38.66113629786823,
+        "fetched_at": "2026-06-11T00:55:18.383Z",
+        "url": "https://simplywall.st/stocks/in/software/nse-route/route-mobile-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -359,14 +663,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.09947274985,
-        "fetched_at": "2026-05-31T21:55:27.946Z",
+        "value": 0.0994330966,
+        "fetched_at": "2026-06-11T00:55:18.383Z",
         "url": "https://simplywall.st/stocks/in/software/nse-route/route-mobile-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 1.4123928,
-        "fetched_at": "2026-05-31T21:55:27.946Z",
+        "value": 1.401190197,
+        "fetched_at": "2026-06-11T00:55:18.383Z",
         "url": "https://simplywall.st/stocks/in/software/nse-route/route-mobile-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -475,13 +779,13 @@
         "url": "https://groww.in/stocks/route-mobile-ltd"
       }
     },
-    "earnings_growth_yoy_pct": -41.57754429982751,
+    "earnings_growth_yoy_pct": -18.57327791783062,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": -2.694935331168235,
-    "latest_revenue": 44523100000,
-    "latest_net_income": 1862800000,
+    "revenue_growth_pct": -2.538563750406254,
+    "latest_revenue": 44082100000,
+    "latest_net_income": 2390200000,
     "latest_eps": 40.78,
-    "most_recent_reported_date": "2026-04-21",
+    "most_recent_reported_date": "2026-06-02",
     "pb": 1.17,
     "ps": 0.74,
     "book_value": 439.5964442,
@@ -498,16 +802,16 @@
     "quick_ratio": 3.852389091404111,
     "cash_ratio": 2.1004492308623117,
     "returns_pct": {
-      "1D": -1.3987372510927611,
-      "7D": -0.7431309279358583,
-      "1M": -4.226813850363248,
-      "3M": -0.0787479082586824,
-      "6M": -23.882723455308934,
-      "1Y": -47.003236921791796,
+      "1D": -2.7577150361129226,
+      "7D": -1.762531981427074,
+      "1M": -3.2116515731490867,
+      "3M": 8.908498791889912,
+      "6M": -23.275606867969213,
+      "1Y": -49.52775073028237,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 1,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -564,11 +868,6 @@
         "is_insider": null
       },
       {
-        "pct": 0.10235,
-        "shares": 64483,
-        "is_insider": null
-      },
-      {
         "pct": 0.07362,
         "shares": 46386,
         "is_insider": null
@@ -612,6 +911,11 @@
         "pct": 0.00007,
         "shares": 44,
         "is_insider": null
+      },
+      {
+        "pct": 0.00006,
+        "shares": 39,
+        "is_insider": null
       }
     ],
     "insider_ownership_pct": null,
@@ -626,7 +930,7 @@
   },
   "dividend": {
     "yield_pct": 2.14,
-    "payout_pct": 37.20388136139145,
+    "payout_pct": 28.994808049535603,
     "annualized_dividend": 11,
     "listing_currency": "INR",
     "recent_payments": [
@@ -790,44 +1094,44 @@
     "payment_count": 16
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-04-21",
+    "most_recent_reported_date": "2026-06-02",
     "latest_year": 2026,
-    "latest_revenue": 44523100000,
-    "latest_net_income": 1862800000,
+    "latest_revenue": 44082100000,
+    "latest_net_income": 2390200000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": -2.694935331168235,
-    "earnings_growth_pct": -41.57754429982751,
-    "net_margin_pct": 4.183895550848885,
+    "revenue_growth_pct": -2.538563750406254,
+    "earnings_growth_pct": -18.57327791783062,
+    "net_margin_pct": 5.422155478073867,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 44523100000,
-        "netIncome": 1862800000,
+        "revenue": 44082100000,
+        "netIncome": 2390200000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 45756200000,
-        "netIncome": 3188500000,
+        "revenue": 45230300000,
+        "netIncome": 2935400000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 40232900000,
-        "netIncome": 3750800000,
+        "revenue": 41593700000,
+        "netIncome": 3611600000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 35692300000,
-        "netIncome": 3270600000,
+        "revenue": 38075600000,
+        "netIncome": 3500900000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 20020300000,
-        "netIncome": 1661700000,
+        "revenue": 23535200000,
+        "netIncome": 2017700000,
         "eps": null
       }
     ]
@@ -1034,6 +1338,16 @@
   ],
   "news": [
     {
+      "id": "dda15f18-9f0b-425b-a331-d2cc009d4198",
+      "type": "narrative-update",
+      "date": "2026-06-02T15:06:21.000Z",
+      "title": "ROUTE: Earnings Guidance And Higher P/E Assumptions Will Support Future Upside Potential",
+      "body": "Analysts have nudged their fair value estimate for Route Mobile from ₹705 to ₹718.75, citing updated assumptions on the discount rate, revenue growth, profit margin and forward P/E, which collectively shape a slightly higher price target. What's in the News Route Mobile issued earnings guidance for Fiscal Year 2026-27, indicating an expectation of mid to high single digit revenue growth.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/software/nse-route/route-mobile-shares/x8xo06cc-digital-transformation-and-global-integration-will-unlock-new-horizons-gg2y/updates/22-analysts-have-nudged-their-fair-value-estimate-for-route-mob",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "ca433f1d-ebaf-471f-9bb0-c59d295b391d",
       "type": "article",
       "date": "2026-05-15T06:02:45.000Z",
@@ -1231,16 +1545,6 @@
       "body": "Analysts have modestly revised their price target on Route Mobile, keeping fair value broadly unchanged at ₹870. This reflects a slightly higher discount rate, stable growth and margin expectations, and a largely steady future earnings multiple.",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/software/nse-route/route-mobile-shares/x8xo06cc-digital-transformation-and-global-integration-will-unlock-new-horizons-gg2y/updates/13-analysts-have-modestly-revised-their-price-target-on-route-m",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "ee6d9941-0cae-4c62-9122-09bd9dceac07",
-      "type": "narrative-update",
-      "date": "2025-12-04T11:04:59.000Z",
-      "title": "ROUTE: Middle East Messaging Partnership Will Drive Earnings Upside Next Year",
-      "body": "Analysts have nudged their price target on Route Mobile modestly higher to ₹870.0. This reflects slightly improved profit margin expectations and a marginally higher future P/E assumption that together offset a small downward revision in projected revenue growth. What's in the News Route Mobile has scheduled a board meeting on November 3, 2025, to consider and approve unaudited standalone and consolidated financial results for the quarter and half year ended September 30, 2025, and address other business matters (Board Meeting).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/software/nse-route/route-mobile-shares/x8xo06cc-digital-transformation-and-global-integration-will-unlock-new-horizons-gg2y/updates/12-analysts-have-nudged-their-price-target-on-route-mobile-mode",
       "raw_subtype": "narrative-update"
     }
   ],

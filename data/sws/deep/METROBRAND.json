@@ -3,7 +3,7 @@
   "name": "Metro Brands Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/nse-metrobrand/metro-brands-shares",
-  "parsed_at": "2026-05-31T20:57:01.183Z",
+  "parsed_at": "2026-06-10T23:59:26.185Z",
   "company_id": "59A72CEE-4CAE-41C0-869C-5D729D90FF1E",
   "classification_status": "Active",
   "groww_source": {
@@ -28,9 +28,287 @@
       "dividend": 3
     },
     "snowflake_total": 18,
-    "current_price_inr": 1024.3,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_NOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_STABLE_BUT_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 988.8,
     "market_cap_inr": 287116300000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midlarge6",
     "shares_outstanding": 272546738,
     "fifty_two_week": {
@@ -39,11 +317,19 @@
     },
     "fair_value_inr": 1198.2381,
     "fair_value_range_inr": {
-      "min": 439.552401,
+      "min": 426.325926,
       "max": 1198.2381,
       "count": 9
     },
-    "upside_pct": 16.98116762667188,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "d6d42533-ede0-41e4-87ae-0817ade06317",
+      "narrative_type": null,
+      "published_at": "2026-05-17T15:09:46.807Z"
+    },
+    "upside_pct": 21.181037621359234,
     "multiples": {
       "pe": 69.03,
       "ps": 10.02,
@@ -60,9 +346,9 @@
       "pe_source_url": "https://groww.in/stocks/metro-brands-ltd"
     },
     "rewards": [
-      "Analysts in good agreement that stock price will rise by 21.6%",
+      "Analysts in good agreement that stock price will rise by 24.5%",
       "Earnings have grown 13.6% per year over the past 5 years",
-      "Earnings are forecast to grow 15.9% per year"
+      "Earnings are forecast to grow 15.89% per year"
     ],
     "risks": [],
     "dividend": {
@@ -207,8 +493,8 @@
     "dividend_yield_pct": 0.57,
     "industry_benchmarks": {
       "pe": 46.42089607733779,
-      "net_income_margin_1y": 0.04545091336,
-      "future_revenue_growth_3y": 0.4129153131,
+      "net_income_margin_1y": 0.04543187233,
+      "future_revenue_growth_3y": 0.4102879728,
       "sector_pe": 46.42089607733779
     },
     "industry_benchmarks_meta": {
@@ -243,18 +529,18 @@
         "url": "https://groww.in/stocks/metro-brands-ltd"
       },
       "sws_statement": {
-        "company_pe": 67.9,
-        "industry_pe": 20.8,
+        "company_pe": 66.3,
+        "industry_pe": 19.4,
         "industry_name": "Indian Specialty Retail",
-        "description": "METROBRAND is expensive based on its Price-To-Earnings Ratio (67.9x) compared to the Indian Specialty Retail industry average (20.8x).",
+        "description": "METROBRAND is expensive based on its Price-To-Earnings Ratio (66.3x) compared to the Indian Specialty Retail industry average (19.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 21.18993456,
+        "industry_pe": 19.414215928,
         "industry_code": "4440000",
         "type": "median_profitable",
-        "count": 64,
+        "count": 62,
         "source": {
           "type": "country",
           "country": "IN",
@@ -263,25 +549,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.95,
-        "sample_count": 56,
+        "industry_pe": 17.3,
+        "sample_count": 55,
         "industry_code": "4440000",
         "industry_name": "Retail"
       },
       "sws_primary_industry": {
-        "industry_pe": 15.530073024,
+        "industry_pe": 15.429198664,
         "industry_name": "Retail",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 71.70882426174514
+        "company_pe": 69.22355308992833
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1024.3,
-        "fetched_at": "2026-05-31T20:57:01.183Z",
+        "value": 988.8,
+        "fetched_at": "2026-06-10T23:59:26.185Z",
         "url": "https://simplywall.st/stocks/in/retail/nse-metrobrand/metro-brands-shares"
       },
       "market_cap_inr": {
@@ -289,6 +575,24 @@
         "value": 287116300000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/metro-brands-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 1198.2381,
+        "fetched_at": "2026-06-10T23:59:26.185Z",
+        "url": "https://simplywall.st/stocks/in/retail/nse-metrobrand/metro-brands-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "d6d42533-ede0-41e4-87ae-0817ade06317",
+        "narrative_type": null,
+        "published_at": "2026-05-17T15:09:46.807Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 21.181037621359234,
+        "fetched_at": "2026-06-10T23:59:26.185Z",
+        "url": "https://simplywall.st/stocks/in/retail/nse-metrobrand/metro-brands-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -328,14 +632,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.04545091336,
-        "fetched_at": "2026-05-31T20:57:01.183Z",
+        "value": 0.04543187233,
+        "fetched_at": "2026-06-10T23:59:26.185Z",
         "url": "https://simplywall.st/stocks/in/retail/nse-metrobrand/metro-brands-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.4129153131,
-        "fetched_at": "2026-05-31T20:57:01.183Z",
+        "value": 0.4102879728,
+        "fetched_at": "2026-06-10T23:59:26.185Z",
         "url": "https://simplywall.st/stocks/in/retail/nse-metrobrand/metro-brands-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -467,16 +771,16 @@
     "quick_ratio": 1.5376303317535545,
     "cash_ratio": 0.06605055292259084,
     "returns_pct": {
-      "1D": -2.6700874192322437,
-      "7D": -4.136640149742634,
-      "1M": -1.4954079915372367,
-      "3M": -3.0569752034828657,
-      "6M": -12.497864343071926,
-      "1Y": -15.333112911224998,
+      "1D": -1.0705352676338213,
+      "7D": -4.4360684256306255,
+      "1M": -4.389866563527373,
+      "3M": 3.996634413125789,
+      "6M": -15.139031925849647,
+      "1Y": -19.902794653705957,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 4,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -1084,26 +1388,6 @@
       "body": "Analysts have modestly trimmed their price target on Metro Brands to ₹1,285 from ₹1,289, reflecting a slightly higher perceived risk via a raised discount rate, even as long term revenue growth and profitability assumptions remain broadly intact. What's in the News Metro Brands launched MetroActiv, a new multi brand athletic footwear and sportswear retail concept, expanding its presence in the sports performance segment with leading global brands and an omni channel model including metroactiv.com (company announcement).",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/retail/nse-metrobrand/metro-brands-shares/n0ztydha-analysts-lift-metro-brands-price-target-as-profit-margins-improve-and-dividends-announced/updates/16-analysts-have-modestly-trimmed-their-price-target-on-metro-b",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "6f728320-265c-4499-9fa4-33ba84e126f2",
-      "type": "article",
-      "date": "2025-12-09T06:53:38.000Z",
-      "title": "Metro Brands (NSE:METROBRAND) Is Looking To Continue Growing Its Returns On Capital",
-      "body": "There are a few key trends to look for if we want to identify the next multi-bagger. Amongst other things, we'll want...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/retail/nse-metrobrand/metro-brands-shares/news/metro-brands-nsemetrobrand-is-looking-to-continue-growing-it",
-      "raw_subtype": "article"
-    },
-    {
-      "id": "d0d9bbad-c905-4cae-9bee-1b3db5c6717d",
-      "type": "narrative-update",
-      "date": "2025-12-03T22:04:24.000Z",
-      "title": "METROBRAND: New Athletic Format And Special Dividend Will Drive Future Upside",
-      "body": "Analysts have nudged their price target on Metro Brands slightly higher to Rs 1,288.95 from Rs 1,286.10, reflecting modestly stronger confidence in the companys long term earnings multiple despite a marginal trim to forecast profit margins and a slightly higher assumed discount rate. What's in the News Launch of MetroActiv, a new multi brand athletic retail format and e commerce platform, expanding Metro Brands deeper into sports performance and active lifestyle categories (company announcement) MetroActiv stores to open first in Indore, Dehradun, and Jodhpur, featuring 3,000 to 6,000 sq.",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/retail/nse-metrobrand/metro-brands-shares/n0ztydha-analysts-lift-metro-brands-price-target-as-profit-margins-improve-and-dividends-announced/updates/15-analysts-have-nudged-their-price-target-on-metro-brands-slig",
       "raw_subtype": "narrative-update"
     }
   ],

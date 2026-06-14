@@ -3,7 +3,7 @@
   "name": "Ruparel Food Products Limited",
   "sector": "Consumer Retailing",
   "sws_url": "https://simplywall.st/stocks/in/consumer-retailing/bse-511740/ruparel-food-products-shares",
-  "parsed_at": "2026-05-31T20:38:59.705Z",
+  "parsed_at": "2026-06-10T23:37:55.569Z",
   "company_id": "F76E7C22-E248-4585-B103-27C644F838D9",
   "classification_status": "Active",
   "groww_source": {
@@ -19,18 +19,18 @@
       "valuation": 0,
       "future": 0,
       "past": 0,
-      "financial_health": 5,
+      "financial_health": 4,
       "dividends": 0,
       "future_growth": 0,
       "past_performance": 0,
       "value": 0,
-      "health": 5,
+      "health": 4,
       "dividend": 0
     },
-    "snowflake_total": 5,
+    "snowflake_total": 4,
     "snowflake_data_quality": {
       "insufficient": true,
-      "insufficient_count": 10,
+      "insufficient_count": 12,
       "checked_count": 30,
       "affected_pillars": [
         "Value",
@@ -40,7 +40,7 @@
       "by_pillar": {
         "Value": {
           "checked": 6,
-          "insufficient": 1
+          "insufficient": 3
         },
         "Future": {
           "checked": 6,
@@ -66,33 +66,319 @@
           "reason_code": "OUTCOME_NULL"
         },
         {
-          "pillar": "Future",
-          "title": "Future ROE",
+          "pillar": "Value",
+          "title": "Below Future Cash Flow Value",
           "reason_code": "OUTCOME_NULL"
         },
         {
-          "pillar": "Future",
-          "title": "High Growth Earnings",
+          "pillar": "Value",
+          "title": "Significantly Below Future Cash Flow Value",
           "reason_code": "OUTCOME_NULL"
         }
       ]
     },
-    "current_price_inr": 147,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 28,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASING_LOSSES"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "IsInterestCoveredByProfit",
+          "result": "uncaptured",
+          "available": false,
+          "insufficient": false,
+          "outcome_name": null
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_5_YEARS_AGO"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "IsDebtCoveredByCashflow",
+          "result": "uncaptured",
+          "available": false,
+          "insufficient": false,
+          "outcome_name": null
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_COMMITMENTS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 158,
     "market_cap_inr": 440000000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 96.05,
       "high": 226.8
     },
-    "fair_value_inr": 26.641848,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -81.87629387755102,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "9e7d8396-ec3d-4d5e-8fbe-7e6ac33a5e6e",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": null,
       "ps": 7.16,
@@ -110,10 +396,11 @@
     },
     "rewards": [],
     "risks": [
-      "Earnings have declined by 17.6% per year over past 5 years",
-      "Makes less than USD$1m in revenue (₹61M)",
-      "Does not have a meaningful market cap (₹453M)",
-      "Highly volatile share price over past 3 months"
+      "Makes less than USD$1m in revenue (₹34M)",
+      "Does not have a meaningful market cap (₹487M)",
+      "Highly volatile share price over past 3 months",
+      "Has less than 1 year of [[cash runway]]",
+      "Earnings have declined by 36.3% per year over past 5 years"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -126,8 +413,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 47.946214725606616,
-      "net_income_margin_1y": 0.03100139412,
-      "future_revenue_growth_3y": 0.3502252866,
+      "net_income_margin_1y": 0.03115987637,
+      "future_revenue_growth_3y": 0.3324544528,
       "sector_pe": 47.946214725606616
     },
     "industry_benchmarks_meta": {
@@ -165,15 +452,15 @@
         "company_pe": null,
         "industry_pe": 0.8,
         "industry_name": "Indian Consumer Retailing",
-        "description": "511740 is expensive based on its Price-To-Sales Ratio (7.4x) compared to the Indian Consumer Retailing industry average (0.8x).",
+        "description": "511740 is expensive based on its Price-To-Sales Ratio (14.2x) compared to the Indian Consumer Retailing industry average (0.8x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 18.66844887,
+        "industry_pe": 19.922509604,
         "industry_code": "5020000",
         "type": "median_profitable",
-        "count": 41,
+        "count": 44,
         "source": {
           "type": "country",
           "country": "IN",
@@ -182,8 +469,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.5,
-        "sample_count": 35,
+        "industry_pe": 15.350000000000001,
+        "sample_count": 38,
         "industry_code": "5020000",
         "industry_name": "Consumer Retailing"
       },
@@ -195,8 +482,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 147,
-        "fetched_at": "2026-05-31T20:38:59.705Z",
+        "value": 158,
+        "fetched_at": "2026-06-10T23:37:55.569Z",
         "url": "https://simplywall.st/stocks/in/consumer-retailing/bse-511740/ruparel-food-products-shares"
       },
       "market_cap_inr": {
@@ -237,14 +524,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.03100139412,
-        "fetched_at": "2026-05-31T20:38:59.705Z",
+        "value": 0.03115987637,
+        "fetched_at": "2026-06-10T23:37:55.569Z",
         "url": "https://simplywall.st/stocks/in/consumer-retailing/bse-511740/ruparel-food-products-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.3502252866,
-        "fetched_at": "2026-05-31T20:38:59.705Z",
+        "value": 0.3324544528,
+        "fetched_at": "2026-06-10T23:37:55.569Z",
         "url": "https://simplywall.st/stocks/in/consumer-retailing/bse-511740/ruparel-food-products-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -370,16 +657,16 @@
     "quick_ratio": 4.347222222222222,
     "cash_ratio": 0.7222222222222223,
     "returns_pct": {
-      "1D": 2.9772329246935203,
-      "7D": 11.363636363636363,
-      "1M": 13.338473400154212,
-      "3M": 8.088235294117647,
-      "6M": 0.37555479685900406,
-      "1Y": -23.036649214659686,
+      "1D": -0.9093759799310057,
+      "7D": 14.700544464609798,
+      "1M": 17.91044776119403,
+      "3M": 17.9544606196342,
+      "6M": 25.99681020733652,
+      "1Y": -26.851851851851855,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -605,6 +892,16 @@
     "BSE"
   ],
   "news": [
+    {
+      "id": "3cd618e3-9685-4317-a5e9-1bb36911b0f9",
+      "type": "brief",
+      "date": "2026-06-01T08:23:34.000Z",
+      "title": "New major risk - Financial position",
+      "body": "The company has less than a year of cash runway based on its current free cash flow trend. Free cash flow: -₹5.7m This is considered a major risk. With less than a year's worth of cash, the company will need to raise capital or take on debt unless its cash flows improve. This would dilute existing shareholders or increase balance sheet risk. Currently, the following risks have been identified for the company: Major Risks Less than 1 year of cash runway based on free cash flow trend (-₹5.7m free cash flow). Earnings have declined by 36% per year over the past 5 years. Revenue is less than US$1m (₹34m revenue, or US$361k). Market cap is less than US$10m (₹453.1m market cap, or US$4.77m). Minor Risk Share price has been volatile over the past 3 months (10% average weekly change).",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "517ca87a-0cdb-4c44-9a31-cf095d75d54b",
       "type": "event",

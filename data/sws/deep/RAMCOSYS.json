@@ -3,7 +3,7 @@
   "name": "Ramco Systems Limited",
   "sector": "Software",
   "sws_url": "https://simplywall.st/stocks/in/software/nse-ramcosys/ramco-systems-shares",
-  "parsed_at": "2026-05-31T21:47:18.492Z",
+  "parsed_at": "2026-06-11T00:48:33.592Z",
   "company_id": "36E43930-0C72-4D3B-AFFD-97796A31F2FA",
   "classification_status": "Active",
   "groww_source": {
@@ -16,18 +16,18 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 2,
+      "valuation": 1,
       "future": 4,
       "past": 2,
       "financial_health": 6,
       "dividends": 0,
       "future_growth": 4,
       "past_performance": 2,
-      "value": 2,
+      "value": 1,
       "health": 6,
       "dividend": 0
     },
-    "snowflake_total": 14,
+    "snowflake_total": 13,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 3,
@@ -75,9 +75,287 @@
         }
       ]
     },
-    "current_price_inr": 455.05,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_BECOME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ONE_TIME"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_5_YEARS_AGO"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 542.8,
     "market_cap_inr": 17392000000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -86,11 +364,19 @@
     },
     "fair_value_inr": 600,
     "fair_value_range_inr": {
-      "min": 532.699965,
-      "max": 532.699965,
+      "min": 525.217911,
+      "max": 525.217911,
       "count": 2
     },
-    "upside_pct": 31.853642456872866,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "677dbee8-aa25-46f2-a4fd-f801e4bec369",
+      "narrative_type": null,
+      "published_at": "2024-07-25T13:11:35.740Z"
+    },
+    "upside_pct": 10.53795136330141,
     "multiples": {
       "pe": 41.35,
       "ps": 2.47,
@@ -108,12 +394,12 @@
     },
     "rewards": [
       "Became profitable this year",
-      "Trading at 14.6% below our estimate of its fair value",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Earnings are forecast to grow 33.26% per year"
     ],
     "risks": [
-      "Large [[one-off items]] impacting financial results"
+      "Large [[one-off items]] impacting financial results",
+      "Highly volatile share price over past 3 months"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -127,7 +413,7 @@
     "industry_benchmarks": {
       "pe": 18.761595487228476,
       "net_income_margin_1y": 0.1172391132,
-      "future_revenue_growth_3y": 0.5128865648,
+      "future_revenue_growth_3y": 0.5137531062,
       "sector_pe": 18.761595487228476
     },
     "industry_benchmarks_meta": {
@@ -162,15 +448,15 @@
         "url": "https://groww.in/stocks/ramco-systems-ltd"
       },
       "sws_statement": {
-        "company_pe": 40.8,
-        "industry_pe": 24.1,
+        "company_pe": 48.7,
+        "industry_pe": 28.6,
         "industry_name": "Indian Software",
-        "description": "RAMCOSYS is expensive based on its Price-To-Earnings Ratio (40.8x) compared to the Indian Software industry average (24.1x).",
+        "description": "RAMCOSYS is expensive based on its Price-To-Earnings Ratio (48.7x) compared to the Indian Software industry average (28.6x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 24.120954879,
+        "industry_pe": 28.630562307,
         "industry_code": "8040000",
         "type": "median_profitable",
         "count": 58,
@@ -182,8 +468,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24.2,
-        "sample_count": 57,
+        "industry_pe": 25.05,
+        "sample_count": 56,
         "industry_code": "8040000",
         "industry_name": "Software"
       },
@@ -195,8 +481,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 455.05,
-        "fetched_at": "2026-05-31T21:47:18.492Z",
+        "value": 542.8,
+        "fetched_at": "2026-06-11T00:48:33.592Z",
         "url": "https://simplywall.st/stocks/in/software/nse-ramcosys/ramco-systems-shares"
       },
       "market_cap_inr": {
@@ -204,6 +490,24 @@
         "value": 17392000000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/ramco-systems-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 600,
+        "fetched_at": "2026-06-11T00:48:33.592Z",
+        "url": "https://simplywall.st/stocks/in/software/nse-ramcosys/ramco-systems-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "677dbee8-aa25-46f2-a4fd-f801e4bec369",
+        "narrative_type": null,
+        "published_at": "2024-07-25T13:11:35.740Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 10.53795136330141,
+        "fetched_at": "2026-06-11T00:48:33.592Z",
+        "url": "https://simplywall.st/stocks/in/software/nse-ramcosys/ramco-systems-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -244,13 +548,13 @@
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.1172391132,
-        "fetched_at": "2026-05-31T21:47:18.492Z",
+        "fetched_at": "2026-06-11T00:48:33.592Z",
         "url": "https://simplywall.st/stocks/in/software/nse-ramcosys/ramco-systems-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.5128865648,
-        "fetched_at": "2026-05-31T21:47:18.492Z",
+        "value": 0.5137531062,
+        "fetched_at": "2026-06-11T00:48:33.592Z",
         "url": "https://simplywall.st/stocks/in/software/nse-ramcosys/ramco-systems-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -382,12 +686,12 @@
     "quick_ratio": 1.025074925074925,
     "cash_ratio": 0.4181485181485181,
     "returns_pct": {
-      "1D": -1.3441734417344149,
-      "7D": -3.160246861034256,
-      "1M": 9.677030609785499,
-      "3M": 2.074921489457156,
-      "6M": -20.50834133985501,
-      "1Y": 2.6969081471451113,
+      "1D": 0.4162427157524744,
+      "7D": 21.147193393594453,
+      "1M": 35.22670652715495,
+      "3M": 29.840928118646083,
+      "6M": -17.601518026565472,
+      "1Y": 19.309814265303874,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -478,8 +782,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.23952,
-        "shares": 89961,
+        "pct": 0.24556,
+        "shares": 92230,
         "is_insider": null
       },
       {
@@ -698,6 +1002,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "03fc9fc2-cbc4-4cd8-b03d-6022ebb76896",
+      "type": "brief",
+      "date": "2026-06-06T20:17:49.000Z",
+      "title": "Investor sentiment improves as stock rises 24%",
+      "body": "After last week's 24% share price gain to ₹562, the stock trades at a forward P/E ratio of 37x. Average forward P/E is 25x in the Software industry in India. Total returns to shareholders of 138% over the past three years.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "fc8d5128-2f13-40b8-8576-5bdbbb3650c8",
       "type": "article",

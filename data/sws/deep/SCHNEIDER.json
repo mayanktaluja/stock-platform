@@ -3,7 +3,7 @@
   "name": "Schneider Electric Infrastructure Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-schneider/schneider-electric-infrastructure-shares",
-  "parsed_at": "2026-05-31T22:08:54.474Z",
+  "parsed_at": "2026-06-11T01:10:33.730Z",
   "company_id": "FD5545DC-3A48-4CB7-93B8-80F40DABBB5D",
   "classification_status": "Active",
   "groww_source": {
@@ -75,22 +75,308 @@
         }
       ]
     },
-    "current_price_inr": 1308.8,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 1082.9,
     "market_cap_inr": 329623300000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midlarge6",
     "shares_outstanding": 239104035,
     "fifty_two_week": {
       "low": 571.85,
       "high": 1417.8
     },
-    "fair_value_inr": 950,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 175.953107,
+      "min": 211.055016,
       "max": 1219.28,
       "count": 11
     },
-    "upside_pct": -27.414425427872857,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystHighTarget",
+      "owner_classification": null,
+      "narrative_id": "f5702ff0-0ea3-4a13-b070-5619a92a8e24",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 134.37,
       "ps": 11.41,
@@ -107,7 +393,7 @@
       "pe_source_url": "https://groww.in/stocks/schneider-electric-infrastructure-ltd"
     },
     "rewards": [
-      "Earnings are forecast to grow 38.3% per year"
+      "Earnings are forecast to grow 36.99% per year"
     ],
     "risks": [],
     "dividend": {
@@ -121,8 +407,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 62.3919347209494,
-      "net_income_margin_1y": 0.0775877089,
-      "future_revenue_growth_3y": 0.6569887,
+      "net_income_margin_1y": 0.07792327667,
+      "future_revenue_growth_3y": 0.6221294666,
       "sector_pe": 62.3919347209494
     },
     "industry_benchmarks_meta": {
@@ -157,18 +443,18 @@
         "url": "https://groww.in/stocks/schneider-electric-infrastructure-ltd"
       },
       "sws_statement": {
-        "company_pe": 147.2,
-        "industry_pe": 28.2,
+        "company_pe": 121.8,
+        "industry_pe": 28.7,
         "industry_name": "Indian Electrical",
-        "description": "SCHNEIDER is expensive based on its Price-To-Earnings Ratio (147.2x) compared to the Indian Electrical industry average (28.2x).",
+        "description": "SCHNEIDER is expensive based on its Price-To-Earnings Ratio (121.8x) compared to the Indian Electrical industry average (28.7x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 29.47654624,
+        "industry_pe": 28.698415755,
         "industry_code": "3050000",
         "type": "median_profitable",
-        "count": 123,
+        "count": 124,
         "source": {
           "type": "country",
           "country": "IN",
@@ -177,25 +463,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 28.2,
-        "sample_count": 127,
+        "industry_pe": 29.3,
+        "sample_count": 129,
         "industry_code": "3050000",
         "industry_name": "Capital Goods"
       },
       "sws_primary_industry": {
-        "industry_pe": 21.475319439,
+        "industry_pe": 21.150765987,
         "industry_name": "Capital Goods",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 120.96612331194434
+        "company_pe": 121.81302197097291
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1308.8,
-        "fetched_at": "2026-05-31T22:08:54.474Z",
+        "value": 1082.9,
+        "fetched_at": "2026-06-11T01:10:33.730Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-schneider/schneider-electric-infrastructure-shares"
       },
       "market_cap_inr": {
@@ -242,14 +528,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.0775877089,
-        "fetched_at": "2026-05-31T22:08:54.474Z",
+        "value": 0.07792327667,
+        "fetched_at": "2026-06-11T01:10:33.730Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-schneider/schneider-electric-infrastructure-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.6569887,
-        "fetched_at": "2026-05-31T22:08:54.474Z",
+        "value": 0.6221294666,
+        "fetched_at": "2026-06-11T01:10:33.730Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-schneider/schneider-electric-infrastructure-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -358,13 +644,13 @@
         "url": "https://groww.in/stocks/schneider-electric-infrastructure-ltd"
       }
     },
-    "earnings_growth_yoy_pct": -3.430512523797081,
+    "earnings_growth_yoy_pct": -18.4500287742183,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 3.001846998721892,
-    "latest_revenue": 27158600000,
-    "latest_net_income": 2587000000,
+    "revenue_growth_pct": 8.448918185808669,
+    "latest_revenue": 28906300000,
+    "latest_net_income": 2125600000,
     "latest_eps": 10.26,
-    "most_recent_reported_date": "2026-01-06",
+    "most_recent_reported_date": "2026-06-05",
     "pb": 50.08,
     "ps": 11.41,
     "book_value": 27.5294856,
@@ -381,16 +667,16 @@
     "quick_ratio": 1.23997467799664,
     "cash_ratio": 0.3373913466923133,
     "returns_pct": {
-      "1D": -4.994192799070845,
-      "7D": 0.09177118384827514,
-      "1M": 9.867785939139557,
-      "3M": 44.3874455292625,
-      "6M": 82.70398548195713,
-      "1Y": 72.02944269190327,
+      "1D": -1.3572599744944311,
+      "7D": -3.5106477768867386,
+      "1M": -17.769002961500494,
+      "3M": 19.33439858945397,
+      "6M": 50.94786729857822,
+      "1Y": 41.057704832616906,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 4,
+    "recent_news_count": 6,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -457,13 +743,13 @@
         "is_insider": null
       },
       {
-        "pct": 0.18777,
-        "shares": 448957,
+        "pct": 0.21528,
+        "shares": 514746,
         "is_insider": null
       },
       {
-        "pct": 0.13052,
-        "shares": 312084,
+        "pct": 0.18777,
+        "shares": 448957,
         "is_insider": null
       },
       {
@@ -482,8 +768,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.04108,
-        "shares": 98231,
+        "pct": 0.04112,
+        "shares": 98330,
         "is_insider": null
       },
       {
@@ -492,8 +778,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.02302,
-        "shares": 55040,
+        "pct": 0.02297,
+        "shares": 54923,
         "is_insider": null
       }
     ],
@@ -516,44 +802,44 @@
     "payment_count": 0
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-01-06",
+    "most_recent_reported_date": "2026-06-05",
     "latest_year": 2026,
-    "latest_revenue": 27158600000,
-    "latest_net_income": 2587000000,
+    "latest_revenue": 28906300000,
+    "latest_net_income": 2125600000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 3.001846998721892,
-    "earnings_growth_pct": -3.430512523797081,
-    "net_margin_pct": 9.525527825440191,
+    "revenue_growth_pct": 8.448918185808669,
+    "earnings_growth_pct": -18.4500287742183,
+    "net_margin_pct": 7.353414307607683,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 27158600000,
-        "netIncome": 2587000000,
+        "revenue": 28906300000,
+        "netIncome": 2125600000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 26367100000,
-        "netIncome": 2678900000,
+        "revenue": 26654300000,
+        "netIncome": 2606500000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 22066800000,
-        "netIncome": 1720300000,
+        "revenue": 23043400000,
+        "netIncome": 1855900000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 17771900000,
-        "netIncome": 1236300000,
+        "revenue": 19009560000,
+        "netIncome": 1320230000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 15303390000,
-        "netIncome": 276220000,
+        "revenue": 16136400000,
+        "netIncome": 702290000,
         "eps": null
       }
     ]
@@ -703,6 +989,26 @@
   ],
   "news": [
     {
+      "id": "8587333d-b26b-47ce-bd7d-ce2c4265fbcc",
+      "type": "narrative",
+      "date": "2026-06-05T17:04:22.000Z",
+      "title": "Data Center And Grid Modernization Tailwinds Will Drive Stronger Future Position",
+      "body": "Catalysts About Schneider Electric Infrastructure Schneider Electric Infrastructure focuses on electrification, automation and digital solutions for power distribution and grid management across utilities, infrastructure, industry and data centers. What are the underlying business or industry changes driving this perspective?",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-schneider/schneider-electric-infrastructure-shares/vaa0bm83-data-center-and-grid-modernization-tailwinds-will-drive-stronger-future-position",
+      "raw_subtype": "narrative"
+    },
+    {
+      "id": "c502d8af-8d36-4b96-b02a-f7306e30bbba",
+      "type": "brief",
+      "date": "2026-06-05T11:35:55.000Z",
+      "title": "Price target increased by 21% to ₹1,145",
+      "body": "Up from ₹950, the current price target is an average from 2 analysts. New target price is approximately in line with last closing price of ₹1,172. Stock is up 48% over the past year. The company is forecast to post earnings per share of ₹17.10 for next year compared to ₹8.89 last year.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
       "id": "76b79227-eef9-4351-bb35-fed1859ccaf3",
       "type": "brief",
       "date": "2026-05-29T11:23:17.000Z",
@@ -800,16 +1106,6 @@
       "body": "If you're looking for a multi-bagger, there's a few things to keep an eye out for. Firstly, we'll want to see a proven...",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/stocks/in/capital-goods/nse-schneider/schneider-electric-infrastructure-shares/news/the-trend-of-high-returns-at-schneider-electric-infrastructu",
-      "raw_subtype": "article"
-    },
-    {
-      "id": "cd197d02-3cc8-4302-823c-f593ae5c3b1e",
-      "type": "article",
-      "date": "2025-12-14T02:07:45.000Z",
-      "title": "Should You Be Adding Schneider Electric Infrastructure (NSE:SCHNEIDER) To Your Watchlist Today?",
-      "body": "For beginners, it can seem like a good idea (and an exciting prospect) to buy a company that tells a good story to...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/capital-goods/nse-schneider/schneider-electric-infrastructure-shares/news/should-you-be-adding-schneider-electric-infrastructure-nsesc",
       "raw_subtype": "article"
     }
   ],

@@ -3,7 +3,7 @@
   "name": "Alkem Laboratories Limited",
   "sector": "Pharmaceuticals & Biotech",
   "sws_url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-alkem/alkem-laboratories-shares",
-  "parsed_at": "2026-05-31T21:05:19.252Z",
+  "parsed_at": "2026-06-11T00:03:36.363Z",
   "company_id": "35F23BF5-06C2-4F81-8523-D3FA23F88220",
   "classification_status": "Active",
   "groww_source": {
@@ -28,9 +28,287 @@
       "dividend": 4
     },
     "snowflake_total": 16,
-    "current_price_inr": 5498,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 5299.5,
     "market_cap_inr": 651898300000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "large7",
     "shares_outstanding": 119565000,
     "fifty_two_week": {
@@ -43,7 +321,15 @@
       "max": 5930.33333,
       "count": 5
     },
-    "upside_pct": 7.863465441978909,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "3342701a-3e72-4e83-b96c-68c220945a25",
+      "narrative_type": null,
+      "published_at": "2026-04-20T15:10:20.648Z"
+    },
+    "upside_pct": 11.90363864515521,
     "multiples": {
       "pe": 26.91,
       "ps": 4.57,
@@ -65,7 +351,7 @@
       "Trading below our calculated fair Price-To-Earnings ratio",
       "Earnings have grown 11.7% per year over the past 5 years",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (28.6x) is below the Pharmaceuticals industry average (29x)"
+      "Price-To-Earnings ratio (27.8x) is below the Pharmaceuticals industry average (28.8x)"
     ],
     "risks": [
       "Unstable dividend track record"
@@ -238,8 +524,8 @@
     "dividend_yield_pct": 0.83,
     "industry_benchmarks": {
       "pe": 34.294011798524444,
-      "net_income_margin_1y": 0.1517834297,
-      "future_revenue_growth_3y": 2.756126798,
+      "net_income_margin_1y": 0.1516710327,
+      "future_revenue_growth_3y": 2.535577209,
       "sector_pe": 34.294011798524444
     },
     "industry_benchmarks_meta": {
@@ -274,15 +560,15 @@
         "url": "https://groww.in/stocks/alkem-laboratories-ltd"
       },
       "sws_statement": {
-        "company_pe": 28.6,
-        "industry_pe": 29,
+        "company_pe": 27.8,
+        "industry_pe": 28.8,
         "industry_name": "Indian Pharmaceuticals",
-        "description": "ALKEM is good value based on its Price-To-Earnings Ratio (28.6x) compared to the Indian Pharmaceuticals industry average (29x).",
+        "description": "ALKEM is good value based on its Price-To-Earnings Ratio (27.8x) compared to the Indian Pharmaceuticals industry average (28.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 29.045511308,
+        "industry_pe": 28.787047453,
         "industry_code": "6120000",
         "type": "median_profitable",
         "count": 152,
@@ -294,25 +580,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 28.1,
-        "sample_count": 151,
+        "industry_pe": 28.15,
+        "sample_count": 152,
         "industry_code": "6120000",
         "industry_name": "Pharmaceuticals & Biotech"
       },
       "sws_primary_industry": {
-        "industry_pe": 23.933255082,
+        "industry_pe": 23.572522071,
         "industry_name": "Pharmaceuticals & Biotech",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 27.723025050607287
+        "company_pe": 26.722111905364372
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 5498,
-        "fetched_at": "2026-05-31T21:05:19.252Z",
+        "value": 5299.5,
+        "fetched_at": "2026-06-11T00:03:36.363Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-alkem/alkem-laboratories-shares"
       },
       "market_cap_inr": {
@@ -320,6 +606,24 @@
         "value": 651898300000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/alkem-laboratories-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 5930.33333,
+        "fetched_at": "2026-06-11T00:03:36.363Z",
+        "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-alkem/alkem-laboratories-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "3342701a-3e72-4e83-b96c-68c220945a25",
+        "narrative_type": null,
+        "published_at": "2026-04-20T15:10:20.648Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 11.90363864515521,
+        "fetched_at": "2026-06-11T00:03:36.363Z",
+        "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-alkem/alkem-laboratories-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -359,14 +663,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.1517834297,
-        "fetched_at": "2026-05-31T21:05:19.252Z",
+        "value": 0.1516710327,
+        "fetched_at": "2026-06-11T00:03:36.363Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-alkem/alkem-laboratories-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 2.756126798,
-        "fetched_at": "2026-05-31T21:05:19.252Z",
+        "value": 2.535577209,
+        "fetched_at": "2026-06-11T00:03:36.363Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-alkem/alkem-laboratories-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -498,12 +802,12 @@
     "quick_ratio": 1.8693463113031745,
     "cash_ratio": 0.31727077230263984,
     "returns_pct": {
-      "1D": 0.8529762450701642,
-      "7D": 1.7300397816634288,
-      "1M": 2.881736526946108,
-      "3M": -2.5090876850784647,
-      "6M": -3.2893579595426563,
-      "1Y": 7.877955459629157,
+      "1D": -1.0456540005601718,
+      "7D": 0.4835039817974972,
+      "1M": -5.357621216180016,
+      "3M": -2.6542983100661277,
+      "6M": -5.887053809270112,
+      "1Y": 8.474055879643844,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -594,8 +898,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.35805,
-        "shares": 1623750,
+        "pct": 1.34419,
+        "shares": 1607185,
         "is_insider": null
       },
       {
@@ -1034,6 +1338,16 @@
   ],
   "news": [
     {
+      "id": "b39a6696-2736-41f1-b441-4a1a6a433eb0",
+      "type": "narrative-update",
+      "date": "2026-06-09T18:04:34.000Z",
+      "title": "ALKEM: Upcoming Results And Regulatory Compliance Will Support Rerating",
+      "body": "Analysts have trimmed their price target for Alkem Laboratories slightly to ₹6,890 from ₹6,913, reflecting updated assumptions for a lower revenue growth rate, a higher profit margin and a marginally reduced future P/E multiple. What's in the News The board has scheduled a meeting on May 28, 2026 to review standalone and consolidated audited results for the quarter and year ended March 31, 2026, and to consider a final dividend for the year.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/pharmaceuticals-biotech/nse-alkem/alkem-laboratories-shares/vh6ex6bi-rising-global-healthcare-demand-and-us-cdmo-will-boost-generic-markets/updates/7-analysts-have-trimmed-their-price-target-for-alkem-laborator",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "235eb9f9-49fe-41b3-bd0c-053fe6786011",
       "type": "article",
       "date": "2026-05-31T02:37:32.000Z",
@@ -1302,16 +1616,6 @@
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-alkem/alkem-laboratories-shares/news/does-alkem-laboratories-nsealkem-have-a-healthy-balance-shee-3",
       "raw_subtype": "article"
-    },
-    {
-      "id": "a5a61f6e-0123-44a8-b5cb-ce80d66e5380",
-      "type": "narrative-update",
-      "date": "2025-12-14T02:07:50.000Z",
-      "title": "ALKEM: Higher Profit Outlook Will Likely Fail To Offset Rising Risk",
-      "body": "Analysts have raised their fair value estimate for Alkem Laboratories from ₹4,030 to about ₹4,530 per share, reflecting expectations of slightly stronger long term profitability and a higher justified earnings multiple, despite a more moderate revenue growth outlook. What's in the News Received a demand order from the Uttarakhand GST authority for GST of about INR 2.7 million plus a similar penalty and interest for FY 2018 to 2023.",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/pharmaceuticals-biotech/nse-alkem/alkem-laboratories-shares/nu2601st-rising-cost-pressures-and-regulatory-risks-will-undercut-margins/updates/2-analysts-have-raised-their-fair-value-estimate-for-alkem-lab",
-      "raw_subtype": "narrative-update"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/ALKEM.json"

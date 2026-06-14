@@ -3,7 +3,7 @@
   "name": "Beekay Steel Industries Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-beekay/beekay-steel-industries-shares",
-  "parsed_at": "2026-05-31T21:33:26.845Z",
+  "parsed_at": "2026-06-11T00:25:54.014Z",
   "company_id": "1877344A-4075-4D87-8B1F-60095233A482",
   "classification_status": "Active",
   "groww_source": {
@@ -16,18 +16,18 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 2,
+      "valuation": 0,
       "future": 0,
       "past": 1,
       "financial_health": 4,
       "dividends": 2,
       "future_growth": 0,
       "past_performance": 1,
-      "value": 2,
+      "value": 0,
       "health": 4,
       "dividend": 2
     },
-    "snowflake_total": 9,
+    "snowflake_total": 7,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 7,
@@ -76,22 +76,308 @@
         }
       ]
     },
-    "current_price_inr": 406.7,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_GROWTH"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 415.3,
     "market_cap_inr": 8016000000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 370,
       "high": 471.85
     },
-    "fair_value_inr": 48.617127,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -88.04594861076961,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "5b9b206a-e58f-4dcf-b984-3785ff63ce11",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 21.94,
       "ps": 0.68,
@@ -108,14 +394,11 @@
       "pe_source_url": "https://groww.in/stocks/beekay-steel-industries-ltd"
     },
     "rewards": [
-      "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (21.9x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (22x) is below the Indian market (22.9x)"
     ],
     "risks": [
       "Earnings have declined by 12.3% per year over past 5 years",
       "Profit margins (3%) are lower than last year (8.3%)",
-      "Shares are highly illiquid",
       "Does not have a meaningful market cap (₹8B)"
     ],
     "dividend": {
@@ -130,7 +413,7 @@
     "industry_benchmarks": {
       "pe": 27.706219018768824,
       "net_income_margin_1y": 0.07144101492,
-      "future_revenue_growth_3y": 0.451968346,
+      "future_revenue_growth_3y": 0.4829948519,
       "sector_pe": 27.706219018768824
     },
     "industry_benchmarks_meta": {
@@ -165,18 +448,18 @@
         "url": "https://groww.in/stocks/beekay-steel-industries-ltd"
       },
       "sws_statement": {
-        "company_pe": 21.9,
-        "industry_pe": 22.3,
+        "company_pe": 22,
+        "industry_pe": 20.8,
         "industry_name": "Indian Metals and Mining",
-        "description": "BEEKAY is good value based on its Price-To-Earnings Ratio (21.9x) compared to the Indian Metals and Mining industry average (22.3x).",
+        "description": "BEEKAY is expensive based on its Price-To-Earnings Ratio (22x) compared to the Indian Metals and Mining industry average (20.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 21.899662552,
+        "industry_pe": 20.837327412,
         "industry_code": "2050000",
         "type": "median_profitable",
-        "count": 192,
+        "count": 193,
         "source": {
           "type": "country",
           "country": "IN",
@@ -185,8 +468,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.05,
-        "sample_count": 196,
+        "industry_pe": 19.2,
+        "sample_count": 197,
         "industry_code": "2050000",
         "industry_name": "Materials"
       },
@@ -198,8 +481,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 406.7,
-        "fetched_at": "2026-05-31T21:33:26.845Z",
+        "value": 415.3,
+        "fetched_at": "2026-06-11T00:25:54.014Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-beekay/beekay-steel-industries-shares"
       },
       "market_cap_inr": {
@@ -247,13 +530,13 @@
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.07144101492,
-        "fetched_at": "2026-05-31T21:33:26.845Z",
+        "fetched_at": "2026-06-11T00:25:54.014Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-beekay/beekay-steel-industries-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.451968346,
-        "fetched_at": "2026-05-31T21:33:26.845Z",
+        "value": 0.4829948519,
+        "fetched_at": "2026-06-11T00:25:54.014Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-beekay/beekay-steel-industries-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -385,16 +668,16 @@
     "quick_ratio": 0.8197081553541888,
     "cash_ratio": 0.003456704772721661,
     "returns_pct": {
-      "1D": -2.3646621053895145,
-      "7D": 6.81549573210768,
-      "1M": -6.795004010542003,
-      "3M": -4.148008484562815,
-      "6M": -4.148008484562815,
-      "1Y": -4.148008484562815,
+      "1D": 1.083120360228791,
+      "7D": 3.8120234970628672,
+      "1M": -2.3398001175778926,
+      "3M": -2.1211407023332547,
+      "6M": -2.1211407023332547,
+      "1Y": -2.1211407023332547,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 1,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },

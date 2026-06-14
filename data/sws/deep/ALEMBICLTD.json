@@ -3,7 +3,7 @@
   "name": "Alembic Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-alembicltd/alembic-shares",
-  "parsed_at": "2026-05-31T21:04:58.999Z",
+  "parsed_at": "2026-06-11T00:03:15.874Z",
   "company_id": "6F45E526-AAAA-4F8D-BE73-00835C7C1C2B",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 4
     },
     "snowflake_total": 21,
-    "current_price_inr": 87.64,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DIVIDENDS_NOT_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 86.16,
     "market_cap_inr": 22383700000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 70.46,
       "high": 125.54
     },
-    "fair_value_inr": 723.10231,
+    "fair_value_inr": 724.327458,
     "fair_value_range_inr": {
-      "min": 474.762107,
-      "max": 474.762107,
+      "min": 491.142678,
+      "max": 491.142678,
       "count": 2
     },
-    "upside_pct": 725.0825079872204,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "387fe8b1-f95a-4607-a8eb-bef0bf809698",
+      "narrative_type": null,
+      "published_at": "2024-07-25T13:28:01.433Z"
+    },
+    "upside_pct": 740.6771796657382,
     "multiples": {
       "pe": 7.05,
       "ps": 9.32,
@@ -65,10 +351,10 @@
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Earnings are forecast to grow 48.3% per year",
       "Trading below our calculated fair Price-To-Earnings ratio",
-      "Trading at 81.5% below our estimate of its fair value"
+      "Trading at 82.5% below our estimate of its fair value"
     ],
     "risks": [
-      "Dividend of 2.73% is not well covered by free cash flows"
+      "Dividend of 2.78% is not well covered by free cash flows"
     ],
     "dividend": {
       "yield_pct": 2.75,
@@ -213,7 +499,7 @@
     "industry_benchmarks": {
       "pe": 31.86659331376836,
       "net_income_margin_1y": 0.1326471542,
-      "future_revenue_growth_3y": 1.380478339,
+      "future_revenue_growth_3y": 1.38451023,
       "sector_pe": 31.86659331376836
     },
     "industry_benchmarks_meta": {
@@ -248,15 +534,15 @@
         "url": "https://groww.in/stocks/alembic-ltd"
       },
       "sws_statement": {
-        "company_pe": 7.1,
-        "industry_pe": 25.1,
+        "company_pe": 7,
+        "industry_pe": 25.7,
         "industry_name": "Indian Real Estate",
-        "description": "ALEMBICLTD is good value based on its Price-To-Earnings Ratio (7.1x) compared to the Indian Real Estate industry average (25.1x).",
+        "description": "ALEMBICLTD is good value based on its Price-To-Earnings Ratio (7x) compared to the Indian Real Estate industry average (25.7x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 24.853140749,
+        "industry_pe": 25.658287008,
         "industry_code": "7310000",
         "type": "median_profitable",
         "count": 149,
@@ -268,8 +554,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 23.2,
-        "sample_count": 144,
+        "industry_pe": 22.95,
+        "sample_count": 142,
         "industry_code": "7310000",
         "industry_name": "Diversified Financials"
       },
@@ -281,8 +567,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 87.64,
-        "fetched_at": "2026-05-31T21:04:58.999Z",
+        "value": 86.16,
+        "fetched_at": "2026-06-11T00:03:15.874Z",
         "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-alembicltd/alembic-shares"
       },
       "market_cap_inr": {
@@ -290,6 +576,24 @@
         "value": 22383700000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/alembic-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 724.327458,
+        "fetched_at": "2026-06-11T00:03:15.874Z",
+        "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-alembicltd/alembic-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "387fe8b1-f95a-4607-a8eb-bef0bf809698",
+        "narrative_type": null,
+        "published_at": "2024-07-25T13:28:01.433Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 740.6771796657382,
+        "fetched_at": "2026-06-11T00:03:15.874Z",
+        "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-alembicltd/alembic-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -330,13 +634,13 @@
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.1326471542,
-        "fetched_at": "2026-05-31T21:04:58.999Z",
+        "fetched_at": "2026-06-11T00:03:15.874Z",
         "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-alembicltd/alembic-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 1.380478339,
-        "fetched_at": "2026-05-31T21:04:58.999Z",
+        "value": 1.38451023,
+        "fetched_at": "2026-06-11T00:03:15.874Z",
         "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-alembicltd/alembic-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -468,12 +772,12 @@
     "quick_ratio": 1.4313919052319843,
     "cash_ratio": 0.03237907206317868,
     "returns_pct": {
-      "1D": 0.5853322621370425,
-      "7D": 0.3434852301351009,
-      "1M": -5.995924058779367,
-      "3M": -4.448320976886174,
-      "6M": -12.395041983206722,
-      "1Y": -22.71604938271605,
+      "1D": -0.6572120373573244,
+      "7D": 0.18604651162790303,
+      "1M": -6.974735478298431,
+      "3M": 3.8447631674099045,
+      "6M": -15.612144955925562,
+      "1Y": -26.616131504982544,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -960,6 +1264,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "a3fa6129-f2a0-47da-896d-1ad9b6fe6ee7",
+      "type": "event",
+      "date": "2026-06-10T08:15:00.000Z",
+      "title": "Alembic Limited, Annual General Meeting, Aug 11, 2026",
+      "body": "Alembic Limited, Annual General Meeting, Aug 11, 2026, at 17:00 Indian Standard Time.",
+      "keyDevTypeId": "62",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
     {
       "id": "98fc89d9-0ea4-4e9b-89af-003cc3ceeca1",
       "type": "brief",

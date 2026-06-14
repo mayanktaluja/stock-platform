@@ -3,7 +3,7 @@
   "name": "Matrimony.com Limited",
   "sector": "Media",
   "sws_url": "https://simplywall.st/stocks/in/media/nse-matrimony/matrimonycom-shares",
-  "parsed_at": "2026-05-31T20:51:18.196Z",
+  "parsed_at": "2026-06-10T23:55:35.490Z",
   "company_id": "5613B0E5-1FD1-4EBC-AB5D-0CCE2E009DB9",
   "classification_status": "Active",
   "groww_source": {
@@ -28,9 +28,287 @@
       "dividend": 3
     },
     "snowflake_total": 15,
-    "current_price_inr": 422.7,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_5_YEARS_AGO"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_STABLE_BUT_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 395.05,
     "market_cap_inr": 8745900000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "nano1",
     "shares_outstanding": 20673393,
     "fifty_two_week": {
@@ -39,11 +317,19 @@
     },
     "fair_value_inr": 570,
     "fair_value_range_inr": {
-      "min": 171.929928,
+      "min": 174.113837,
       "max": 570,
       "count": 3
     },
-    "upside_pct": 34.84740951029099,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "6c5b81d1-5604-4ec7-8959-272fa202a889",
+      "narrative_type": null,
+      "published_at": "2026-06-04T05:04:43.934Z"
+    },
+    "upside_pct": 44.285533476775086,
     "multiples": {
       "pe": 25.59,
       "ps": 1.9,
@@ -61,15 +347,15 @@
     },
     "rewards": [
       "Earnings are forecast to grow 24.7% per year",
-      "Price-To-Earnings ratio (25.6x) is below the Interactive Media and Services industry average (38.1x)",
+      "Price-To-Earnings ratio (23.9x) is below the Interactive Media and Services industry average (43.9x)",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
     "risks": [
-      "Does not have a meaningful market cap (₹9B)"
+      "Does not have a meaningful market cap (₹8B)"
     ],
     "dividend": {
       "yield_pct": 0,
-      "payout_pct": 31.66880055147059,
+      "payout_pct": 30.250794556628623,
       "annualized_dividend": 5,
       "listing_currency": "INR",
       "recent_payments": [
@@ -155,11 +441,11 @@
           "exDate": "2020-07-30T00:00:00.000Z",
           "payDate": "2020-09-05T00:00:00.000Z",
           "recordDate": "2020-07-31T00:00:00.000Z",
-          "divAmount": 2,
-          "divAmountListingCurrency": 2,
+          "divAmount": 1.5,
+          "divAmountListingCurrency": 1.5,
           "currencyIsoCode": "INR",
-          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-          "divFreqTypeName": "Bonus Payment",
+          "dividendTypeName": "No special code applies",
+          "divFreqTypeName": "Annual",
           "annualizedDividend": 1.5,
           "annualizedDividendListingCurrency": 1.5,
           "annualizedYield": 0.1986882452
@@ -168,11 +454,11 @@
           "exDate": "2020-07-30T00:00:00.000Z",
           "payDate": "2020-09-05T00:00:00.000Z",
           "recordDate": "2020-07-31T00:00:00.000Z",
-          "divAmount": 1.5,
-          "divAmountListingCurrency": 1.5,
+          "divAmount": 2,
+          "divAmountListingCurrency": 2,
           "currencyIsoCode": "INR",
-          "dividendTypeName": "No special code applies",
-          "divFreqTypeName": "Annual",
+          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+          "divFreqTypeName": "Bonus Payment",
           "annualizedDividend": 1.5,
           "annualizedDividendListingCurrency": 1.5,
           "annualizedYield": 0.1986882452
@@ -209,8 +495,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 53.98741913742747,
-      "net_income_margin_1y": 0.1066140819,
-      "future_revenue_growth_3y": 0.5690837194,
+      "net_income_margin_1y": 0.1052710613,
+      "future_revenue_growth_3y": 0.5707613972,
       "sector_pe": 53.98741913742747
     },
     "industry_benchmarks_meta": {
@@ -245,18 +531,18 @@
         "url": "https://groww.in/stocks/matrimonycom-ltd"
       },
       "sws_statement": {
-        "company_pe": 25.6,
-        "industry_pe": 21.2,
+        "company_pe": 23.9,
+        "industry_pe": 20.8,
         "industry_name": "Asian Interactive Media and Services",
-        "description": "MATRIMONY is expensive based on its Price-To-Earnings Ratio (25.6x) compared to the Asian Interactive Media and Services industry average (21.2x).",
+        "description": "MATRIMONY is expensive based on its Price-To-Earnings Ratio (23.9x) compared to the Asian Interactive Media and Services industry average (20.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 38.103066087,
+        "industry_pe": 44.636979499,
         "industry_code": "4300002",
         "type": "median_profitable",
-        "count": 6,
+        "count": 7,
         "source": {
           "type": "country",
           "country": "IN",
@@ -265,25 +551,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 31.8,
+        "industry_pe": 23.9,
         "sample_count": 5,
         "industry_code": "4300002",
         "industry_name": "Media"
       },
       "sws_primary_industry": {
-        "industry_pe": 16.475096844,
+        "industry_pe": 16.321854198,
         "industry_name": "Media",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 26.772803986213237
+        "company_pe": 23.901152779192277
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 422.7,
-        "fetched_at": "2026-05-31T20:51:18.196Z",
+        "value": 395.05,
+        "fetched_at": "2026-06-10T23:55:35.490Z",
         "url": "https://simplywall.st/stocks/in/media/nse-matrimony/matrimonycom-shares"
       },
       "market_cap_inr": {
@@ -291,6 +577,24 @@
         "value": 8745900000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/matrimonycom-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 570,
+        "fetched_at": "2026-06-10T23:55:35.490Z",
+        "url": "https://simplywall.st/stocks/in/media/nse-matrimony/matrimonycom-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "6c5b81d1-5604-4ec7-8959-272fa202a889",
+        "narrative_type": null,
+        "published_at": "2026-06-04T05:04:43.934Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 44.285533476775086,
+        "fetched_at": "2026-06-10T23:55:35.490Z",
+        "url": "https://simplywall.st/stocks/in/media/nse-matrimony/matrimonycom-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -330,14 +634,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.1066140819,
-        "fetched_at": "2026-05-31T20:51:18.196Z",
+        "value": 0.1052710613,
+        "fetched_at": "2026-06-10T23:55:35.490Z",
         "url": "https://simplywall.st/stocks/in/media/nse-matrimony/matrimonycom-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.5690837194,
-        "fetched_at": "2026-05-31T20:51:18.196Z",
+        "value": 0.5707613972,
+        "fetched_at": "2026-06-10T23:55:35.490Z",
         "url": "https://simplywall.st/stocks/in/media/nse-matrimony/matrimonycom-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -446,13 +750,13 @@
         "url": "https://groww.in/stocks/matrimonycom-ltd"
       }
     },
-    "earnings_growth_yoy_pct": -27.915194346289752,
+    "earnings_growth_yoy_pct": -13.951145807101486,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": -0.9564759564759564,
-    "latest_revenue": 4514800000,
-    "latest_net_income": 326400000,
+    "revenue_growth_pct": 2.0884193705890186,
+    "latest_revenue": 4599900000,
+    "latest_net_income": 341700000,
     "latest_eps": 16.53,
-    "most_recent_reported_date": "2026-05-09",
+    "most_recent_reported_date": "2026-06-03",
     "pb": 4.24,
     "ps": 1.9,
     "book_value": 99.870731,
@@ -469,16 +773,16 @@
     "quick_ratio": 1.3925963488843816,
     "cash_ratio": 0.042748478701825555,
     "returns_pct": {
-      "1D": -0.08273253752512061,
-      "7D": -0.011827321111770874,
-      "1M": -0.3888299752562823,
-      "3M": 4.641663572224285,
-      "6M": -13.58478994173566,
-      "1Y": -15.662410215482842,
+      "1D": -2.6610816804238047,
+      "7D": -3.705057891529552,
+      "1M": -10.327999092044035,
+      "3M": 2.971458360484826,
+      "6M": -27.646520146520142,
+      "1Y": -22.72104851330203,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 5,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -582,7 +886,7 @@
   },
   "dividend": {
     "yield_pct": 0,
-    "payout_pct": 31.66880055147059,
+    "payout_pct": 30.250794556628623,
     "annualized_dividend": 5,
     "listing_currency": "INR",
     "recent_payments": [
@@ -668,11 +972,11 @@
         "exDate": "2020-07-30T00:00:00.000Z",
         "payDate": "2020-09-05T00:00:00.000Z",
         "recordDate": "2020-07-31T00:00:00.000Z",
-        "divAmount": 2,
-        "divAmountListingCurrency": 2,
+        "divAmount": 1.5,
+        "divAmountListingCurrency": 1.5,
         "currencyIsoCode": "INR",
-        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-        "divFreqTypeName": "Bonus Payment",
+        "dividendTypeName": "No special code applies",
+        "divFreqTypeName": "Annual",
         "annualizedDividend": 1.5,
         "annualizedDividendListingCurrency": 1.5,
         "annualizedYield": 0.1986882452
@@ -681,11 +985,11 @@
         "exDate": "2020-07-30T00:00:00.000Z",
         "payDate": "2020-09-05T00:00:00.000Z",
         "recordDate": "2020-07-31T00:00:00.000Z",
-        "divAmount": 1.5,
-        "divAmountListingCurrency": 1.5,
+        "divAmount": 2,
+        "divAmountListingCurrency": 2,
         "currencyIsoCode": "INR",
-        "dividendTypeName": "No special code applies",
-        "divFreqTypeName": "Annual",
+        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+        "divFreqTypeName": "Bonus Payment",
         "annualizedDividend": 1.5,
         "annualizedDividendListingCurrency": 1.5,
         "annualizedYield": 0.1986882452
@@ -720,44 +1024,44 @@
     "payment_count": 10
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-09",
+    "most_recent_reported_date": "2026-06-03",
     "latest_year": 2026,
-    "latest_revenue": 4514800000,
-    "latest_net_income": 326400000,
+    "latest_revenue": 4599900000,
+    "latest_net_income": 341700000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": -0.9564759564759564,
-    "earnings_growth_pct": -27.915194346289752,
-    "net_margin_pct": 7.229556126517232,
+    "revenue_growth_pct": 2.0884193705890186,
+    "earnings_growth_pct": -13.951145807101486,
+    "net_margin_pct": 7.4284223570077605,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 4514800000,
-        "netIncome": 326400000,
+        "revenue": 4599900000,
+        "netIncome": 341700000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 4558400000,
-        "netIncome": 452800000,
+        "revenue": 4505800000,
+        "netIncome": 397100000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 4813600000,
-        "netIncome": 495500000,
+        "revenue": 4786700000,
+        "netIncome": 493500000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 4557700000,
-        "netIncome": 466700000,
+        "revenue": 4630242000,
+        "netIncome": 488868000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 4344956000,
-        "netIncome": 535914999.99999994,
+        "revenue": 4450650000,
+        "netIncome": 517256000,
         "eps": null
       }
     ]
@@ -989,6 +1293,16 @@
   ],
   "news": [
     {
+      "id": "9e844bfc-7bdc-41c8-994e-14a12d37da80",
+      "type": "narrative-update",
+      "date": "2026-06-04T05:04:43.000Z",
+      "title": "MATRIMONY: Upcoming Board Meeting And Dividend Decision Will Support Upside",
+      "body": "Analysts have kept the Matrimony.com fair value estimate steady at ₹570. Only marginal tweaks to the discount rate, revenue growth, profit margin, and a slightly lower future P/E assumption informed this unchanged price target.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/media/nse-matrimony/matrimonycom-shares/3t4iam6t-smartphone-adoption-in-rural-india-will-expand-digital-matchmaking-0d6m/updates/22-analysts-have-kept-the-matrimonycom-fair-value-estimate-ste",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "c8998855-f7de-4e2d-9c2a-89925b5cbd06",
       "type": "brief",
       "date": "2026-05-16T19:40:23.000Z",
@@ -1206,26 +1520,6 @@
       "body": "Analysts have modestly raised their price target on Matrimony.com to ₹570.0, citing steady forecasts for revenue growth, profitability, and valuation multiples that together support a slightly stronger long term earnings outlook. What's in the News Board meeting scheduled for November 13, 2025, to review unaudited standalone and consolidated financial results for the quarter and half year ended September 30, 2025 (company filing) Board meeting set for December 15, 2025, to consider a proposal for buyback of fully paid equity shares and related regulatory approvals (company filing) Special or extraordinary shareholders meeting to be conducted via postal ballot in India on January 18, 2026 (company filing) Valuation Changes Fair Value Estimate: Unchanged at ₹570.0 per share, reflecting a sta",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/media/nse-matrimony/matrimonycom-shares/3t4iam6t-smartphone-adoption-in-rural-india-will-expand-digital-matchmaking-0d6m/updates/12-analysts-have-modestly-raised-their-price-target-on-matrimon",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "96c571bc-3eea-4365-90b1-155cbd40393f",
-      "type": "article",
-      "date": "2025-12-11T00:08:35.000Z",
-      "title": "What You Can Learn From Matrimony.com Limited's (NSE:MATRIMONY) P/E",
-      "body": "With a price-to-earnings (or \"P/E\") ratio of 33.4x Matrimony.com Limited ( NSE:MATRIMONY ) may be sending bearish...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/media/nse-matrimony/matrimonycom-shares/news/what-you-can-learn-from-matrimonycom-limiteds-nsematrimony-p",
-      "raw_subtype": "article"
-    },
-    {
-      "id": "c57330cb-2feb-442e-b2e5-3c2564da9efe",
-      "type": "narrative-update",
-      "date": "2025-12-07T14:02:02.000Z",
-      "title": "MATRIMONY: Stable Margins And Earnings Will Support Higher Future Share Value",
-      "body": "Analysts have nudged their price target for Matrimony.com marginally higher to approximately ₹570.00. This reflects slightly improved assumptions around discount rates and long term earnings multiples, even as core growth and margin forecasts remain broadly unchanged.",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/media/nse-matrimony/matrimonycom-shares/3t4iam6t-smartphone-adoption-in-rural-india-will-expand-digital-matchmaking-0d6m/updates/11-analysts-have-nudged-their-price-target-for-matrimonycom-ma",
       "raw_subtype": "narrative-update"
     }
   ],

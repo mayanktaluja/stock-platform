@@ -3,7 +3,7 @@
   "name": "National Aluminium Company Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-nationalum/national-aluminium-shares",
-  "parsed_at": "2026-05-31T21:07:37.678Z",
+  "parsed_at": "2026-06-11T00:11:31.035Z",
   "company_id": "21FC9313-D1CF-4FB8-93C5-A73C7F6E482C",
   "classification_status": "Active",
   "groww_source": {
@@ -18,32 +18,318 @@
     "snowflake": {
       "valuation": 3,
       "future": 2,
-      "past": 5,
+      "past": 4,
       "financial_health": 6,
       "dividends": 5,
       "future_growth": 2,
-      "past_performance": 5,
+      "past_performance": 4,
       "value": 3,
       "health": 6,
       "dividend": 5
     },
-    "snowflake_total": 21,
-    "current_price_inr": 424.45,
+    "snowflake_total": 20,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_NOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 376.15,
     "market_cap_inr": 794435100000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "large7",
     "shares_outstanding": 1836640000,
     "fifty_two_week": {
       "low": 176.34,
       "high": 445.15
     },
-    "fair_value_inr": 383.58333,
+    "fair_value_inr": 404.63636,
     "fair_value_range_inr": {
-      "min": 80.780289,
+      "min": 83.369398,
       "max": 420,
-      "count": 68
+      "count": 69
     },
-    "upside_pct": -9.628147013782543,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "5fa0e38c-25d0-4436-bad4-b1f7a4d5914a",
+      "narrative_type": null,
+      "published_at": "2026-06-03T08:07:58.920Z"
+    },
+    "upside_pct": 7.573138375648025,
     "multiples": {
       "pe": 13.71,
       "ps": 4.46,
@@ -63,16 +349,16 @@
       "Earnings are forecast to grow 7.8% per year",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading below our calculated fair Price-To-Earnings ratio",
+      "Earnings have grown 27% per year over the past 5 years",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Earnings grew by 10% over the past year",
-      "Price-To-Earnings ratio (13.4x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (11.9x) is below the Indian market (23.2x)"
     ],
     "risks": [
       "Unstable dividend track record"
     ],
     "dividend": {
       "yield_pct": 2.43,
-      "payout_pct": 32.89433065225178,
+      "payout_pct": 34.850793771271746,
       "annualized_dividend": 11,
       "listing_currency": "INR",
       "recent_payments": [
@@ -238,8 +524,8 @@
     "dividend_yield_pct": 2.43,
     "industry_benchmarks": {
       "pe": 18.52876332882753,
-      "net_income_margin_1y": 0.09487982097,
-      "future_revenue_growth_3y": 34.387188816,
+      "net_income_margin_1y": 0.09486136614,
+      "future_revenue_growth_3y": 32.656569349,
       "sector_pe": 18.52876332882753
     },
     "industry_benchmarks_meta": {
@@ -274,18 +560,18 @@
         "url": "https://groww.in/stocks/national-aluminium-company-ltd"
       },
       "sws_statement": {
-        "company_pe": 13.4,
-        "industry_pe": 22.3,
+        "company_pe": 11.9,
+        "industry_pe": 20.8,
         "industry_name": "Indian Metals and Mining",
-        "description": "NATIONALUM is good value based on its Price-To-Earnings Ratio (13.4x) compared to the Indian Metals and Mining industry average (22.3x).",
+        "description": "NATIONALUM is good value based on its Price-To-Earnings Ratio (11.9x) compared to the Indian Metals and Mining industry average (20.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 21.899662552,
+        "industry_pe": 20.840689637,
         "industry_code": "2050000",
         "type": "median_profitable",
-        "count": 192,
+        "count": 194,
         "source": {
           "type": "country",
           "country": "IN",
@@ -294,25 +580,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.05,
-        "sample_count": 196,
+        "industry_pe": 19.2,
+        "sample_count": 197,
         "industry_code": "2050000",
         "industry_name": "Materials"
       },
       "sws_primary_industry": {
-        "industry_pe": 19.26596559,
+        "industry_pe": 18.498719492,
         "industry_name": "Materials",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 12.692726041225697
+        "company_pe": 11.917387342785332
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 424.45,
-        "fetched_at": "2026-05-31T21:07:37.678Z",
+        "value": 376.15,
+        "fetched_at": "2026-06-11T00:11:31.035Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-nationalum/national-aluminium-shares"
       },
       "market_cap_inr": {
@@ -320,6 +606,24 @@
         "value": 794435100000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/national-aluminium-company-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 404.63636,
+        "fetched_at": "2026-06-11T00:11:31.035Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-nationalum/national-aluminium-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "5fa0e38c-25d0-4436-bad4-b1f7a4d5914a",
+        "narrative_type": null,
+        "published_at": "2026-06-03T08:07:58.920Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 7.573138375648025,
+        "fetched_at": "2026-06-11T00:11:31.035Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-nationalum/national-aluminium-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -359,14 +663,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.09487982097,
-        "fetched_at": "2026-05-31T21:07:37.678Z",
+        "value": 0.09486136614,
+        "fetched_at": "2026-06-11T00:11:31.035Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-nationalum/national-aluminium-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 34.387188816,
-        "fetched_at": "2026-05-31T21:07:37.678Z",
+        "value": 32.656569349,
+        "fetched_at": "2026-06-11T00:11:31.035Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-nationalum/national-aluminium-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -475,13 +779,13 @@
         "url": "https://groww.in/stocks/national-aluminium-company-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 16.588267899786256,
+    "earnings_growth_yoy_pct": 1.1871181707104206,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 7.805926149194377,
-    "latest_revenue": 180980600000,
-    "latest_net_income": 61418000000,
+    "revenue_growth_pct": 4.343159246541557,
+    "latest_revenue": 185088800000,
+    "latest_net_income": 57970100000,
     "latest_eps": 31.56,
-    "most_recent_reported_date": "2026-04-27",
+    "most_recent_reported_date": "2026-06-02",
     "pb": 3.68,
     "ps": 4.46,
     "book_value": 117.6267668,
@@ -498,16 +802,16 @@
     "quick_ratio": 3.034960285091324,
     "cash_ratio": 2.6076737701714827,
     "returns_pct": {
-      "1D": -1.9859138667590397,
-      "7D": 3.7141111789859473,
-      "1M": -2.0424648049850043,
-      "3M": 19.69825155104342,
-      "6M": 63.262558658358316,
-      "1Y": 134.80112850583612,
+      "1D": -2.018754884084397,
+      "7D": -13.904783703364615,
+      "1M": -4.299707416359251,
+      "3M": -8.065501649761702,
+      "6M": 35.23278806399425,
+      "1Y": 97.96326509131099,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -529,6 +833,11 @@
         "is_insider": null
       },
       {
+        "pct": 1.82433,
+        "shares": 33506423,
+        "is_insider": null
+      },
+      {
         "pct": 1.59519,
         "shares": 29297863,
         "is_insider": null
@@ -536,11 +845,6 @@
       {
         "pct": 1.3882,
         "shares": 25496235,
-        "is_insider": null
-      },
-      {
-        "pct": 1.09584,
-        "shares": 20126611,
         "is_insider": null
       },
       {
@@ -554,8 +858,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.94642,
-        "shares": 17382258,
+        "pct": 0.94647,
+        "shares": 17383220,
         "is_insider": null
       },
       {
@@ -579,13 +883,13 @@
         "is_insider": null
       },
       {
-        "pct": 0.52854,
-        "shares": 9707288,
+        "pct": 0.55654,
+        "shares": 10221723,
         "is_insider": null
       },
       {
-        "pct": 0.51039,
-        "shares": 9374044,
+        "pct": 0.52854,
+        "shares": 9707288,
         "is_insider": null
       },
       {
@@ -594,23 +898,23 @@
         "is_insider": null
       },
       {
+        "pct": 0.48466,
+        "shares": 8901417,
+        "is_insider": null
+      },
+      {
         "pct": 0.4566,
         "shares": 8386161,
         "is_insider": null
       },
       {
+        "pct": 0.42502,
+        "shares": 7806048,
+        "is_insider": null
+      },
+      {
         "pct": 0.41846,
         "shares": 7685548,
-        "is_insider": null
-      },
-      {
-        "pct": 0.40878,
-        "shares": 7507825,
-        "is_insider": null
-      },
-      {
-        "pct": 0.36813,
-        "shares": 6761194,
         "is_insider": null
       }
     ],
@@ -626,7 +930,7 @@
   },
   "dividend": {
     "yield_pct": 2.43,
-    "payout_pct": 32.89433065225178,
+    "payout_pct": 34.850793771271746,
     "annualized_dividend": 11,
     "listing_currency": "INR",
     "recent_payments": [
@@ -790,44 +1094,44 @@
     "payment_count": 24
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-04-27",
+    "most_recent_reported_date": "2026-06-02",
     "latest_year": 2026,
-    "latest_revenue": 180980600000,
-    "latest_net_income": 61418000000,
+    "latest_revenue": 185088800000,
+    "latest_net_income": 57970100000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 7.805926149194377,
-    "earnings_growth_pct": 16.588267899786256,
-    "net_margin_pct": 33.936234049395345,
+    "revenue_growth_pct": 4.343159246541557,
+    "earnings_growth_pct": 1.1871181707104206,
+    "net_margin_pct": 31.320155514542208,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 180980600000,
-        "netIncome": 61418000000,
+        "revenue": 185088800000,
+        "netIncome": 57970100000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 167876300000,
-        "netIncome": 52679400000,
+        "revenue": 177384700000,
+        "netIncome": 57290000000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 131491500000,
-        "netIncome": 19884600000,
+        "revenue": 128265600000,
+        "netIncome": 22431200000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 142568500000,
-        "netIncome": 14346600000,
+        "revenue": 136380700000.00002,
+        "netIncome": 12105100000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 142145800000,
-        "netIncome": 29514100000,
+        "revenue": 154895800000,
+        "netIncome": 31618400000,
         "eps": null
       }
     ]
@@ -1058,6 +1362,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "fbe78553-e1f6-4f84-af90-5b3ee135cefd",
+      "type": "narrative-update",
+      "date": "2026-06-03T08:07:58.000Z",
+      "title": "NATIONALUM: Production Metrics And Dividend Outlook Will Support Balanced Near Term View",
+      "body": "Analysts have nudged their price target on National Aluminium higher to ₹404.64 from ₹383.58, citing updated assumptions around fair value, discount rate, revenue growth, profit margin and future P/E that together support a modestly richer valuation framework. What's in the News A board meeting is scheduled for March 6, 2026, to consider the fine levied by the exchanges, according to company disclosures.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/materials/nse-nationalum/national-aluminium-shares/m2z5zg58-analysts-raise-national-aluminium-price-target-as-dividend-and-profit-projections-improve/updates/25-analysts-have-nudged-their-price-target-on-national-aluminiu",
+      "raw_subtype": "narrative-update"
+    },
     {
       "id": "2ef7c674-f06b-48c0-b717-c0eed7d92859",
       "type": "article",
@@ -1316,16 +1630,6 @@
       "body": "Analysts have marginally raised their price target on National Aluminium to ₹269.82 from ₹269.82, reflecting minor model adjustments in discount rate, long term revenue growth and profitability assumptions, while broadly reaffirming their earlier valuation view. What's in the News The Board approved the award of an MDO contract for the development and operation of the Pottangi Bauxite Mines, including the Overland Conveyor Corridor and allied facilities, to Dilip Buildcon Limited at base mining charges of INR 423 per ton for 25 years (Key Developments).",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/materials/nse-nationalum/national-aluminium-shares/m2z5zg58-analysts-raise-national-aluminium-price-target-as-dividend-and-profit-projections-improve/updates/16-analysts-have-marginally-raised-their-price-target-on-nation",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "beaf0919-edc4-4546-8044-9fee401c4ef9",
-      "type": "narrative-update",
-      "date": "2025-12-09T19:01:51.000Z",
-      "title": "NATIONALUM: Record Output And Dividend Policy Will Support Balanced Returns Ahead",
-      "body": "Analysts have raised their price target on National Aluminium to ₹269.82 from ₹268.27, a modest upward revision reflecting slightly stronger expectations for revenue growth and profit margins, despite a marginally higher discount rate and essentially unchanged future valuation multiples. What's in the News Company reports record alumina hydrate production of 1,153,000 MT and aluminium cast metal output of 234,148 MT for the first half of FY 2025-26, marking its highest ever operational performance (company announcement of operating results) Board meeting scheduled for November 07, 2025 to review unaudited standalone and consolidated financial results for the quarter and half year ended September 30, 2025, and to consider an interim dividend for FY 2025-26 (board meeting notice) Board meeti",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/materials/nse-nationalum/national-aluminium-shares/m2z5zg58-analysts-raise-national-aluminium-price-target-as-dividend-and-profit-projections-improve/updates/15-analysts-have-raised-their-price-target-on-national-aluminiu",
       "raw_subtype": "narrative-update"
     }
   ],

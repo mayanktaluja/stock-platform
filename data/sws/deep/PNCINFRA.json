@@ -3,7 +3,7 @@
   "name": "PNC Infratech Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-pncinfra/pnc-infratech-shares",
-  "parsed_at": "2026-05-31T21:32:39.040Z",
+  "parsed_at": "2026-06-11T00:34:51.880Z",
   "company_id": "910511E9-2A34-42AA-9567-8E16788413D7",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 4
     },
     "snowflake_total": 15,
-    "current_price_inr": 204.8,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DECLINE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DECLINE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DECLINE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DECLINE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ONE_TIME"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_STABLE_IN_PAST_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 200.97,
     "market_cap_inr": 54399100000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "small3",
     "shares_outstanding": 256539165,
     "fifty_two_week": {
       "low": 158.17,
       "high": 331.8
     },
-    "fair_value_inr": 305.26667,
+    "fair_value_inr": 287.66667,
     "fair_value_range_inr": {
-      "min": 67.224475,
-      "max": 305.26667,
+      "min": 67.454535,
+      "max": 287.66667,
       "count": 17
     },
-    "upside_pct": 49.055991210937485,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "ee79fa5c-34a9-4d91-b7b8-6aac7adc22cc",
+      "narrative_type": null,
+      "published_at": "2026-06-05T10:06:59.563Z"
+    },
+    "upside_pct": 43.13911031497239,
     "multiples": {
       "pe": 15.81,
       "ps": 1.17,
@@ -60,7 +346,7 @@
       "pe_source_url": "https://groww.in/stocks/pnc-infratech-ltd"
     },
     "rewards": [
-      "Price-To-Earnings ratio (6.3x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (6.3x) is below the Indian market (22.9x)",
       "Trading below our calculated fair Price-To-Earnings ratio",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Earnings have grown 11.6% per year over the past 5 years",
@@ -73,7 +359,7 @@
     ],
     "dividend": {
       "yield_pct": 0.28,
-      "payout_pct": 1.9254873716568996,
+      "payout_pct": 1.8505453947389778,
       "annualized_dividend": 0.6,
       "listing_currency": "INR",
       "recent_payments": [
@@ -213,8 +499,8 @@
     "dividend_yield_pct": 0.28,
     "industry_benchmarks": {
       "pe": 32.57505213278029,
-      "net_income_margin_1y": 0.0775877089,
-      "future_revenue_growth_3y": 0.6569887,
+      "net_income_margin_1y": 0.07792327667,
+      "future_revenue_growth_3y": 0.6221294666,
       "sector_pe": 32.57505213278029
     },
     "industry_benchmarks_meta": {
@@ -250,17 +536,17 @@
       },
       "sws_statement": {
         "company_pe": 6.3,
-        "industry_pe": 15.1,
+        "industry_pe": 14.4,
         "industry_name": "Indian Construction",
-        "description": "PNCINFRA is good value based on its Price-To-Earnings Ratio (6.3x) compared to the Indian Construction industry average (15.1x).",
+        "description": "PNCINFRA is good value based on its Price-To-Earnings Ratio (6.3x) compared to the Indian Construction industry average (14.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 15.073268522,
+        "industry_pe": 14.393596444,
         "industry_code": "3040000",
         "type": "median_profitable",
-        "count": 188,
+        "count": 189,
         "source": {
           "type": "country",
           "country": "IN",
@@ -269,25 +555,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.1,
-        "sample_count": 184,
+        "industry_pe": 13.8,
+        "sample_count": 187,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
       "sws_primary_industry": {
-        "industry_pe": 21.475319439,
+        "industry_pe": 21.150765987,
         "industry_name": "Capital Goods",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 6.572330228588885
+        "company_pe": 6.198401799678207
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 204.8,
-        "fetched_at": "2026-05-31T21:32:39.040Z",
+        "value": 200.97,
+        "fetched_at": "2026-06-11T00:34:51.880Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-pncinfra/pnc-infratech-shares"
       },
       "market_cap_inr": {
@@ -295,6 +581,24 @@
         "value": 54399100000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/pnc-infratech-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 287.66667,
+        "fetched_at": "2026-06-11T00:34:51.880Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-pncinfra/pnc-infratech-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "ee79fa5c-34a9-4d91-b7b8-6aac7adc22cc",
+        "narrative_type": null,
+        "published_at": "2026-06-05T10:06:59.563Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 43.13911031497239,
+        "fetched_at": "2026-06-11T00:34:51.880Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-pncinfra/pnc-infratech-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -334,14 +638,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.0775877089,
-        "fetched_at": "2026-05-31T21:32:39.040Z",
+        "value": 0.07792327667,
+        "fetched_at": "2026-06-11T00:34:51.880Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-pncinfra/pnc-infratech-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.6569887,
-        "fetched_at": "2026-05-31T21:32:39.040Z",
+        "value": 0.6221294666,
+        "fetched_at": "2026-06-11T00:34:51.880Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-pncinfra/pnc-infratech-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -450,13 +754,13 @@
         "url": "https://groww.in/stocks/pnc-infratech-ltd"
       }
     },
-    "earnings_growth_yoy_pct": -1.97257758959286,
+    "earnings_growth_yoy_pct": 23.82497282404,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": -19.34361459533774,
-    "latest_revenue": 54766756000,
-    "latest_net_income": 7994002000,
+    "revenue_growth_pct": -10.88767049009094,
+    "latest_revenue": 53681016000,
+    "latest_net_income": 8317736999.999999,
     "latest_eps": 13.41,
-    "most_recent_reported_date": "2026-04-26",
+    "most_recent_reported_date": "2026-06-04",
     "pb": 0.94,
     "ps": 1.17,
     "book_value": 226.5232224,
@@ -473,12 +777,12 @@
     "quick_ratio": 2.2441392743534183,
     "cash_ratio": 0.3516435387948919,
     "returns_pct": {
-      "1D": -3.268467787644052,
-      "7D": -4.885751439717621,
-      "1M": -5.268513807299128,
-      "3M": -0.9623289327336819,
-      "6M": -17.21907841552142,
-      "1Y": -28.64111498257839,
+      "1D": -1.0195035460992874,
+      "7D": -5.234120809166782,
+      "1M": -9.436257942409084,
+      "3M": -0.44089963340930083,
+      "6M": -20.933983791014242,
+      "1Y": -36.522425773847125,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -564,8 +868,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.91044,
-        "shares": 2335634,
+        "pct": 0.91398,
+        "shares": 2344718,
         "is_insider": null
       },
       {
@@ -601,7 +905,7 @@
   },
   "dividend": {
     "yield_pct": 0.28,
-    "payout_pct": 1.9254873716568996,
+    "payout_pct": 1.8505453947389778,
     "annualized_dividend": 0.6,
     "listing_currency": "INR",
     "recent_payments": [
@@ -739,44 +1043,44 @@
     "payment_count": 10
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-04-26",
+    "most_recent_reported_date": "2026-06-04",
     "latest_year": 2026,
-    "latest_revenue": 54766756000,
-    "latest_net_income": 7994002000,
+    "latest_revenue": 53681016000,
+    "latest_net_income": 8317736999.999999,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": -19.34361459533774,
-    "earnings_growth_pct": -1.97257758959286,
-    "net_margin_pct": 14.596449714859869,
+    "revenue_growth_pct": -10.88767049009094,
+    "earnings_growth_pct": 23.82497282404,
+    "net_margin_pct": 15.494745852053171,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 54766756000,
-        "netIncome": 7994002000,
+        "revenue": 53681016000,
+        "netIncome": 8317736999.999999,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 67901327000.00001,
-        "netIncome": 8154863000,
+        "revenue": 60239718000,
+        "netIncome": 6717334000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 86639976000,
-        "netIncome": 9094207000,
+        "revenue": 87256811000,
+        "netIncome": 13039664000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 79560829000,
-        "netIncome": 6584506000,
+        "revenue": 79948990000,
+        "netIncome": 5984171000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 72080356000,
-        "netIncome": 5801758000,
+        "revenue": 77984129000,
+        "netIncome": 7032961000,
         "eps": null
       }
     ]
@@ -1008,6 +1312,16 @@
   ],
   "news": [
     {
+      "id": "77209b38-8958-4c08-b4b6-11bac2cf6dfc",
+      "type": "narrative-update",
+      "date": "2026-06-05T10:06:59.000Z",
+      "title": "PNCINFRA: New Highway Orders And Leadership Changes Will Support Future Upside",
+      "body": "The analyst price target for PNC Infratech has been revised from about ₹305.27 to about ₹287.67 as analysts factor in updated assumptions on the discount rate, revenue growth, profit margins and future P/E expectations. What's in the News PNC Infratech appointed Managing Director Chakresh Kumar Jain as Chief Financial Officer.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-pncinfra/pnc-infratech-shares/r655eftg-government-projects-will-fortify-infrastructure-and-energy-prospects-vudm/updates/21-the-analyst-price-target-for-pnc-infratech-has-been-revised",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "c40f42ea-2d99-4aa4-8627-b42ae5c31d9c",
       "type": "article",
       "date": "2026-05-27T00:28:55.000Z",
@@ -1185,16 +1499,6 @@
       "body": "Analysts have modestly raised their price target on PNC Infratech to ₹366.93 per share from ₹366.93 per share, reflecting slightly lower perceived risk and stable expectations for revenue growth, profitability, and valuation multiples. What's in the News Board meeting scheduled on November 12, 2025 to consider and approve unaudited standalone and consolidated financial results for the quarter and half year ended September 30, 2025 (regulatory filing).",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-pncinfra/pnc-infratech-shares/r655eftg-government-projects-will-fortify-infrastructure-and-energy-prospects-vudm/updates/12-analysts-have-modestly-raised-their-price-target-on-pnc-infr",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "50e6d5d0-d4b1-45cc-92e4-ff9887ac2d80",
-      "type": "narrative-update",
-      "date": "2025-12-11T12:08:01.000Z",
-      "title": "PNCINFRA: New Renewable Energy Arm Will Drive Future Upside Potential",
-      "body": "Analysts have slightly raised their price target on PNC Infratech to ₹366.93 per share, citing marginal tweaks to discount rate and valuation assumptions, while keeping growth and profitability expectations broadly unchanged. What's in the News Board meeting scheduled on November 12, 2025 to consider and approve unaudited standalone and consolidated financial results for the quarter and half year ended September 30, 2025 (company filing) Incorporation of a new wholly owned subsidiary, PNC Renewable Energy Private Limited, to undertake projects in the renewable energy sector, with no immediate financial impact as the entity is newly formed (company announcement) Valuation Changes Fair Value: Unchanged at approximately ₹366.93 per share, indicating no revision to the intrinsic value estimate",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-pncinfra/pnc-infratech-shares/r655eftg-government-projects-will-fortify-infrastructure-and-energy-prospects-vudm/updates/11-analysts-have-slightly-raised-their-price-target-on-pnc-infr",
       "raw_subtype": "narrative-update"
     }
   ],

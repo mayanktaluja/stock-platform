@@ -3,7 +3,7 @@
   "name": "Niva Bupa Health Insurance Company Limited",
   "sector": "Insurance",
   "sws_url": "https://simplywall.st/stocks/in/insurance/nse-nivabupa/niva-bupa-health-insurance-shares",
-  "parsed_at": "2026-05-31T21:14:57.322Z",
+  "parsed_at": "2026-06-11T00:17:36.108Z",
   "company_id": "749E92E5-E4A1-42E9-8D2E-3833F2A1B479",
   "classification_status": "Active",
   "groww_source": {
@@ -75,9 +75,287 @@
         }
       ]
     },
-    "current_price_inr": 83.5,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 84.19,
     "market_cap_inr": 154706000000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "medium5",
     "shares_outstanding": 1847757271,
     "fifty_two_week": {
@@ -86,11 +364,19 @@
     },
     "fair_value_inr": 91.1,
     "fair_value_range_inr": {
-      "min": 16.343568,
+      "min": 11.280496,
       "max": 91.1,
       "count": 9
     },
-    "upside_pct": 9.101796407185622,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "7ef26b25-08fc-465b-bf38-a05bf46f03ac",
+      "narrative_type": null,
+      "published_at": "2024-11-13T17:26:14.735Z"
+    },
+    "upside_pct": 8.207625608742127,
     "multiples": {
       "pe": 117.94,
       "ps": 2.54,
@@ -108,8 +394,8 @@
     },
     "rewards": [
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (42.1x) is below the Insurance industry average (51.8x)",
       "Earnings are forecast to grow 21.94% per year",
+      "Price-To-Earnings ratio (42x) is below the Insurance industry average (51.6x)",
       "Earnings grew by 80.5% over the past year"
     ],
     "risks": [],
@@ -124,8 +410,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 15.443356928845828,
-      "net_income_margin_1y": 0.1053584011,
-      "future_revenue_growth_3y": 0.2421742058,
+      "net_income_margin_1y": 0.1055126138,
+      "future_revenue_growth_3y": 0.2573088629,
       "sector_pe": 15.443356928845828
     },
     "industry_benchmarks_meta": {
@@ -160,15 +446,15 @@
         "url": "https://groww.in/stocks/niva-bupa-health-insurance-company-ltd"
       },
       "sws_statement": {
-        "company_pe": 42.1,
-        "industry_pe": 11.4,
+        "company_pe": 42,
+        "industry_pe": 11.2,
         "industry_name": "Asian Insurance",
-        "description": "NIVABUPA is expensive based on its Price-To-Earnings Ratio (42.1x) compared to the Asian Insurance industry average (11.4x).",
+        "description": "NIVABUPA is expensive based on its Price-To-Earnings Ratio (42x) compared to the Asian Insurance industry average (11.2x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 51.832121788,
+        "industry_pe": 51.552177431,
         "industry_code": "7210000",
         "type": "median_profitable",
         "count": 15,
@@ -180,25 +466,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 51.8,
-        "sample_count": 15,
+        "industry_pe": 46.95,
+        "sample_count": 14,
         "industry_code": "7210000",
         "industry_name": "Insurance"
       },
       "sws_primary_industry": {
-        "industry_pe": 11.645006567,
+        "industry_pe": 11.682206384,
         "industry_name": "Insurance",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 188.1706868574948
+        "company_pe": 189.7256302578741
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 83.5,
-        "fetched_at": "2026-05-31T21:14:57.322Z",
+        "value": 84.19,
+        "fetched_at": "2026-06-11T00:17:36.108Z",
         "url": "https://simplywall.st/stocks/in/insurance/nse-nivabupa/niva-bupa-health-insurance-shares"
       },
       "market_cap_inr": {
@@ -206,6 +492,24 @@
         "value": 154706000000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/niva-bupa-health-insurance-company-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 91.1,
+        "fetched_at": "2026-06-11T00:17:36.108Z",
+        "url": "https://simplywall.st/stocks/in/insurance/nse-nivabupa/niva-bupa-health-insurance-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "7ef26b25-08fc-465b-bf38-a05bf46f03ac",
+        "narrative_type": null,
+        "published_at": "2024-11-13T17:26:14.735Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 8.207625608742127,
+        "fetched_at": "2026-06-11T00:17:36.108Z",
+        "url": "https://simplywall.st/stocks/in/insurance/nse-nivabupa/niva-bupa-health-insurance-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -245,14 +549,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.1053584011,
-        "fetched_at": "2026-05-31T21:14:57.322Z",
+        "value": 0.1055126138,
+        "fetched_at": "2026-06-11T00:17:36.108Z",
         "url": "https://simplywall.st/stocks/in/insurance/nse-nivabupa/niva-bupa-health-insurance-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.2421742058,
-        "fetched_at": "2026-05-31T21:14:57.322Z",
+        "value": 0.2573088629,
+        "fetched_at": "2026-06-11T00:17:36.108Z",
         "url": "https://simplywall.st/stocks/in/insurance/nse-nivabupa/niva-bupa-health-insurance-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -384,12 +688,12 @@
     "quick_ratio": 0.26475918782608254,
     "cash_ratio": 0.020278785369008453,
     "returns_pct": {
-      "1D": -0.1315632101423268,
-      "7D": -2.8956855448307883,
-      "1M": 6.031746031746032,
-      "3M": 11.199893461179911,
-      "6M": 12.32176486413774,
-      "1Y": 0.46925761039586156,
+      "1D": 1.1048396781554002,
+      "7D": 0.19040818755206068,
+      "1M": -0.14233187047800325,
+      "3M": 20.168427062517836,
+      "6M": 11.687450252056252,
+      "1Y": 1.937280542438545,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -705,6 +1009,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "43b404ca-c9e4-446b-b2ad-7e603855ad13",
+      "type": "event",
+      "date": "2026-06-04T15:30:00.000Z",
+      "title": "Niva Bupa Health Insurance Co Ltd Announces Appointment of Rudrakshi Razdan as Head of Brand Marketing",
+      "body": "Niva Bupa Health Insurance Co Ltd. promoted Rudrakshi Razdan to Head of Brand Marketing, bringing over a decade of experience in brand strategy and consumer insights. She was earlier Assistant Vice President - Brand Marketing at Niva Bupa Health Insurance, and has been with the company for over 4 years. Razdan was previously with AkzoNobel for a short stint. She has overall 10+ years of experience across brand marketing, brand communications, campaign management, consumer insights and market research.",
+      "keyDevTypeId": "16",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
     {
       "id": "f4332735-4dbf-49ef-a2c3-b2ea1ad4f07f",
       "type": "event",

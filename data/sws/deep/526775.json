@@ -3,7 +3,7 @@
   "name": "Valiant Communications Limited",
   "sector": "Tech",
   "sws_url": "https://simplywall.st/stocks/in/tech/bse-526775/valiant-communications-shares",
-  "parsed_at": "2026-05-31T21:28:28.114Z",
+  "parsed_at": "2026-06-11T00:38:03.606Z",
   "company_id": "ACE4A0AE-5711-4ABF-B64F-12E551E4563D",
   "classification_status": "Active",
   "groww_source": {
@@ -16,18 +16,18 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 1,
+      "valuation": 2,
       "future": 0,
       "past": 6,
       "financial_health": 5,
       "dividends": 0,
       "future_growth": 0,
       "past_performance": 6,
-      "value": 1,
+      "value": 2,
       "health": 5,
       "dividend": 0
     },
-    "snowflake_total": 12,
+    "snowflake_total": 13,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 7,
@@ -76,22 +76,308 @@
         }
       ]
     },
-    "current_price_inr": 1242.1,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 1241.85,
     "market_cap_inr": 14273100000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 429,
       "high": 1249.95
     },
-    "fair_value_inr": 11.584728,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 11.584728,
-      "max": 11.584728,
+      "min": 2289.527626,
+      "max": 2289.527626,
       "count": 1
     },
-    "upside_pct": -99.06732726833589,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "4652ced8-9071-4f82-a829-1da5c1336af1",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 70.44,
       "ps": 18.6,
@@ -108,8 +394,8 @@
       "pe_source_url": "https://groww.in/stocks/valiant-communications-ltd"
     },
     "rewards": [
-      "Earnings grew by 157.1% over the past year",
-      "Trading at good value vs. peer average Price-To-Earnings ratio"
+      "Earnings grew by 151.6% over the past year",
+      "Trading at 45.8% below our estimate of its fair value"
     ],
     "risks": [],
     "dividend": {
@@ -137,8 +423,8 @@
     "dividend_yield_pct": 0.08,
     "industry_benchmarks": {
       "pe": 18.970770554560463,
-      "net_income_margin_1y": 0.10079533,
-      "future_revenue_growth_3y": 0.4012304192,
+      "net_income_margin_1y": 0.1174060665,
+      "future_revenue_growth_3y": 0.4609397939,
       "sector_pe": 18.970770554560463
     },
     "industry_benchmarks_meta": {
@@ -173,15 +459,15 @@
         "url": "https://groww.in/stocks/valiant-communications-ltd"
       },
       "sws_statement": {
-        "company_pe": 71.7,
-        "industry_pe": 50.9,
+        "company_pe": 60,
+        "industry_pe": 49.5,
         "industry_name": "Asian Communications",
-        "description": "526775 is expensive based on its Price-To-Earnings Ratio (71.7x) compared to the Asian Communications industry average (50.9x).",
+        "description": "526775 is expensive based on its Price-To-Earnings Ratio (60x) compared to the Asian Communications industry average (49.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 70.345074255,
+        "industry_pe": 66.295847635,
         "industry_code": "8110000",
         "type": "median_profitable",
         "count": 16,
@@ -193,8 +479,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 45.599999999999994,
-        "sample_count": 12,
+        "industry_pe": 37.8,
+        "sample_count": 11,
         "industry_code": "8110000",
         "industry_name": "Tech"
       },
@@ -206,8 +492,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1242.1,
-        "fetched_at": "2026-05-31T21:28:28.114Z",
+        "value": 1241.85,
+        "fetched_at": "2026-06-11T00:38:03.606Z",
         "url": "https://simplywall.st/stocks/in/tech/bse-526775/valiant-communications-shares"
       },
       "market_cap_inr": {
@@ -254,14 +540,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.10079533,
-        "fetched_at": "2026-05-31T21:28:28.114Z",
+        "value": 0.1174060665,
+        "fetched_at": "2026-06-11T00:38:03.606Z",
         "url": "https://simplywall.st/stocks/in/tech/bse-526775/valiant-communications-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.4012304192,
-        "fetched_at": "2026-05-31T21:28:28.114Z",
+        "value": 0.4609397939,
+        "fetched_at": "2026-06-11T00:38:03.606Z",
         "url": "https://simplywall.st/stocks/in/tech/bse-526775/valiant-communications-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -393,12 +679,12 @@
     "quick_ratio": 4.612396694214876,
     "cash_ratio": 2.2925619834710744,
     "returns_pct": {
-      "1D": 1.7489248412860874,
-      "7D": 4.321169109310025,
-      "1M": 38.218438769265,
-      "3M": 29.79779507811274,
-      "6M": 74.69760900140646,
-      "1Y": 167.52099993004734,
+      "1D": -0.16881707464127468,
+      "7D": 2.874539203910021,
+      "1M": 19.5178287859102,
+      "3M": 19.236677868458944,
+      "6M": 55.027776043942325,
+      "1Y": 176.72509882897586,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -749,6 +1035,16 @@
   ],
   "news": [
     {
+      "id": "286cb83f-5099-456c-a2c4-5eedf3632df7",
+      "type": "brief",
+      "date": "2026-05-31T22:56:00.000Z",
+      "title": "Full year 2026 earnings released: EPS: ₹21.13 (vs ₹8.40 in FY 2025)",
+      "body": "Full year 2026 results: EPS: ₹21.13 (up from ₹8.40 in FY 2025). Revenue: ₹898.5m (up 77% from FY 2025). Net income: ₹241.8m (up 152% from FY 2025). Profit margin: 27% (up from 19% in FY 2025). The increase in margin was driven by higher revenue. Over the last 3 years on average, earnings per share has increased by 64% per year but the company’s share price has increased by 115% per year, which means it is tracking significantly ahead of earnings growth.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
       "id": "693666e5-d815-41b7-93c4-e28ea0845408",
       "type": "event",
       "date": "2026-05-30T07:47:00.000Z",
@@ -834,16 +1130,6 @@
       "date": "2025-12-23T11:46:14.000Z",
       "title": "New minor risk - Share price stability",
       "body": "The company's share price has been volatile over the past 3 months. It is more volatile than 75% of Indian stocks, typically moving 6.9% a week. This is considered a minor risk. Share price volatility indicates the stock is highly sensitive to market conditions or economic conditions rather than being sensitive to its own business performance, which may also be inconsistent. It also increases the risk of potential losses in the short term as the stock tends to have larger drops in price more frequently than other stocks. Currently, the following risks have been identified for the company: Major Risk High level of non-cash earnings (41% accrual ratio). Minor Risk Share price has been volatile over the past 3 months (6.9% average weekly change).",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "03daa55c-aecd-49ff-9754-3e3645ceac3f",
-      "type": "brief",
-      "date": "2025-12-12T11:43:42.000Z",
-      "title": "Investor sentiment improves as stock rises 22%",
-      "body": "After last week's 22% share price gain to ₹801, the stock trades at a trailing P/E ratio of 67x. Average trailing P/E is 54x in the Communications industry in India. Total returns to shareholders of 633% over the past three years.",
       "keyDevTypeId": null,
       "source_url": null,
       "raw_subtype": "BriefActivity"

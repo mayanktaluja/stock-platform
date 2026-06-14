@@ -3,7 +3,7 @@
   "name": "Kaveri Seed Company Limited",
   "sector": "Food, Beverage & Tobacco",
   "sws_url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-kscl/kaveri-seed-shares",
-  "parsed_at": "2026-05-31T20:33:08.242Z",
+  "parsed_at": "2026-06-10T23:40:00.420Z",
   "company_id": "43371230-B765-4C7C-BE70-BCDB313654D6",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 2
     },
     "snowflake_total": 15,
-    "current_price_inr": 866.6,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_NOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DIVIDENDS_FALLEN"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 876.1,
     "market_cap_inr": 46485500000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "small3",
     "shares_outstanding": 51439071,
     "fifty_two_week": {
       "low": 705.1,
       "high": 1526.9
     },
-    "fair_value_inr": 1145,
+    "fair_value_inr": 1081,
     "fair_value_range_inr": {
       "min": 759.541681,
-      "max": 1122.5,
+      "max": 1081,
       "count": 9
     },
-    "upside_pct": 32.125548119086076,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "0778cf99-d7bf-4d83-9602-53ad316d7c2e",
+      "narrative_type": null,
+      "published_at": "2026-06-03T05:04:34.922Z"
+    },
+    "upside_pct": 23.3877411254423,
     "multiples": {
       "pe": 15.71,
       "ps": 3.32,
@@ -61,19 +347,19 @@
     },
     "rewards": [
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (15.1x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (15.2x) is below the Indian market (23.2x)",
       "Earnings are forecast to grow 17.24% per year",
-      "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Earnings have grown 5.9% per year over the past 5 years",
+      "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading below our calculated fair Price-To-Earnings ratio"
     ],
     "risks": [
-      "Dividend of 0.58% is not well covered by free cash flows",
+      "Dividend of 0.57% is not well covered by free cash flows",
       "High level of [[non-cash earnings]]"
     ],
     "dividend": {
       "yield_pct": 0,
-      "payout_pct": 8.553044632934073,
+      "payout_pct": 8.693687498204275,
       "annualized_dividend": 5,
       "listing_currency": "INR",
       "recent_payments": [
@@ -200,8 +486,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 47.946214725606616,
-      "net_income_margin_1y": 0.07756752961,
-      "future_revenue_growth_3y": 0.3380515371,
+      "net_income_margin_1y": 0.07621276631,
+      "future_revenue_growth_3y": 0.2403772098,
       "sector_pe": 47.946214725606616
     },
     "industry_benchmarks_meta": {
@@ -236,18 +522,18 @@
         "url": "https://groww.in/stocks/kaveri-seed-company-ltd"
       },
       "sws_statement": {
-        "company_pe": 15.1,
+        "company_pe": 15.2,
         "industry_pe": 18.7,
         "industry_name": "Indian Food",
-        "description": "KSCL is good value based on its Price-To-Earnings Ratio (15.1x) compared to the Indian Food industry average (18.7x).",
+        "description": "KSCL is good value based on its Price-To-Earnings Ratio (15.2x) compared to the Indian Food industry average (18.7x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 18.830078936,
+        "industry_pe": 18.650324238,
         "industry_code": "5120000",
         "type": "median_profitable",
-        "count": 217,
+        "count": 224,
         "source": {
           "type": "country",
           "country": "IN",
@@ -256,25 +542,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.9,
-        "sample_count": 218,
+        "industry_pe": 18,
+        "sample_count": 224,
         "industry_code": "5120000",
         "industry_name": "Food, Beverage & Tobacco"
       },
       "sws_primary_industry": {
-        "industry_pe": 15.44279968,
+        "industry_pe": 15.19977918,
         "industry_name": "Food, Beverage & Tobacco",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 14.824136957801336
+        "company_pe": 15.23307923435353
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 866.6,
-        "fetched_at": "2026-05-31T20:33:08.242Z",
+        "value": 876.1,
+        "fetched_at": "2026-06-10T23:40:00.420Z",
         "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-kscl/kaveri-seed-shares"
       },
       "market_cap_inr": {
@@ -282,6 +568,24 @@
         "value": 46485500000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/kaveri-seed-company-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 1081,
+        "fetched_at": "2026-06-10T23:40:00.420Z",
+        "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-kscl/kaveri-seed-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "0778cf99-d7bf-4d83-9602-53ad316d7c2e",
+        "narrative_type": null,
+        "published_at": "2026-06-03T05:04:34.922Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 23.3877411254423,
+        "fetched_at": "2026-06-10T23:40:00.420Z",
+        "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-kscl/kaveri-seed-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -321,14 +625,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.07756752961,
-        "fetched_at": "2026-05-31T20:33:08.242Z",
+        "value": 0.07621276631,
+        "fetched_at": "2026-06-10T23:40:00.420Z",
         "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-kscl/kaveri-seed-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.3380515371,
-        "fetched_at": "2026-05-31T20:33:08.242Z",
+        "value": 0.2403772098,
+        "fetched_at": "2026-06-10T23:40:00.420Z",
         "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-kscl/kaveri-seed-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -437,13 +741,13 @@
         "url": "https://groww.in/stocks/kaveri-seed-company-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 6.888534299421775,
+    "earnings_growth_yoy_pct": -6.941510343204915,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 14.35134838166979,
-    "latest_revenue": 13778999000,
-    "latest_net_income": 3007062000,
+    "revenue_growth_pct": 12.996118477295418,
+    "latest_revenue": 14240659000,
+    "latest_net_income": 2958415000,
     "latest_eps": 57.51,
-    "most_recent_reported_date": "2026-05-13",
+    "most_recent_reported_date": "2026-06-02",
     "pb": 2.65,
     "ps": 3.32,
     "book_value": 341.5259607,
@@ -460,16 +764,16 @@
     "quick_ratio": 0.8759283210947928,
     "cash_ratio": 0.04343291054739653,
     "returns_pct": {
-      "1D": -3.6790041124819406,
-      "7D": -5.635106440899439,
-      "1M": -6.389413988657842,
-      "3M": 12.224812224812222,
-      "6M": -12.834439750553212,
-      "1Y": -39.36892184985657,
+      "1D": 0.7996318241960589,
+      "7D": 2.09765761566251,
+      "1M": -10.806821074064645,
+      "3M": 9.498812648418948,
+      "6M": -9.484450873024068,
+      "1Y": -39.34925579785393,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 4,
+    "recent_news_count": 5,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -551,18 +855,18 @@
         "is_insider": null
       },
       {
-        "pct": 0.64726,
-        "shares": 332945,
-        "is_insider": null
-      },
-      {
         "pct": 0.46284,
         "shares": 238082,
         "is_insider": null
       },
       {
-        "pct": 0.25838,
-        "shares": 132906,
+        "pct": 0.43799,
+        "shares": 225300,
+        "is_insider": null
+      },
+      {
+        "pct": 0.25051,
+        "shares": 128858,
         "is_insider": null
       },
       {
@@ -571,8 +875,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.16924,
-        "shares": 87054,
+        "pct": 0.15016,
+        "shares": 77243,
         "is_insider": null
       }
     ],
@@ -588,7 +892,7 @@
   },
   "dividend": {
     "yield_pct": 0,
-    "payout_pct": 8.553044632934073,
+    "payout_pct": 8.693687498204275,
     "annualized_dividend": 5,
     "listing_currency": "INR",
     "recent_payments": [
@@ -713,44 +1017,44 @@
     "payment_count": 9
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-13",
+    "most_recent_reported_date": "2026-06-02",
     "latest_year": 2026,
-    "latest_revenue": 13778999000,
-    "latest_net_income": 3007062000,
+    "latest_revenue": 14240659000,
+    "latest_net_income": 2958415000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 14.35134838166979,
-    "earnings_growth_pct": 6.888534299421775,
-    "net_margin_pct": 21.823515626933425,
+    "revenue_growth_pct": 12.996118477295418,
+    "earnings_growth_pct": -6.941510343204915,
+    "net_margin_pct": 20.774424835255168,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 13778999000,
-        "netIncome": 3007062000,
+        "revenue": 14240659000,
+        "netIncome": 2958415000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 12049704000,
-        "netIncome": 2813269000,
+        "revenue": 12602786000,
+        "netIncome": 3179092000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 11484052000,
-        "netIncome": 2987414000,
+        "revenue": 12155265000,
+        "netIncome": 3147181000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 10703553000,
-        "netIncome": 2717255000,
+        "revenue": 11208697000,
+        "netIncome": 3014221000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 9699816000,
-        "netIncome": 2124518999.9999998,
+        "revenue": 10257920000,
+        "netIncome": 2525307000,
         "eps": null
       }
     ]
@@ -957,6 +1261,26 @@
   ],
   "news": [
     {
+      "id": "57fd522e-1a51-4fb2-953f-ee5b14474997",
+      "type": "narrative-update",
+      "date": "2026-06-03T05:04:34.000Z",
+      "title": "KSCL: Board Meeting Outcome Will Clarify Earnings Power And Support Upside",
+      "body": "Analysts have trimmed their price target on Kaveri Seed from ₹1,122.50 to ₹1,081.00. This reflects updated assumptions that now include slightly higher projected revenue growth, a modestly lower profit margin, a marginally higher discount rate and a reduced future P/E multiple.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/food-beverage-tobacco/nse-kscl/kaveri-seed-shares/6jb2oy23-entering-new-markets-and-commercializing-new-hybrids-will-drive-future-success-pzip/updates/11-analysts-have-trimmed-their-price-target-on-kaveri-seed-from",
+      "raw_subtype": "narrative-update"
+    },
+    {
+      "id": "5387d76a-f21d-4137-9ed4-d96b2f6e94bb",
+      "type": "article",
+      "date": "2026-06-03T01:19:50.000Z",
+      "title": "Kaveri Seed's (NSE:KSCL) Profits Appear To Have Quality Issues",
+      "body": "The stock price didn't jump after Kaveri Seed Company Limited ( NSE:KSCL ) posted decent earnings last week. Our...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-kscl/kaveri-seed-shares/news/kaveri-seeds-nsekscl-profits-appear-to-have-quality-issues",
+      "raw_subtype": "article"
+    },
+    {
       "id": "3be2e15c-26e5-484b-9c8d-46961a7ed846",
       "type": "article",
       "date": "2026-05-29T00:38:58.000Z",
@@ -1124,16 +1448,6 @@
       "body": "Narrative Update on Kaveri Seed Analysts have maintained their price target for Kaveri Seed at ₹1,144, reflecting unchanged assumptions on discount rate, revenue growth, profit margin, and future valuation multiples, as recent research indicates no material shift in the company’s fundamental outlook. What's in the News Board meeting scheduled for November 6, 2025, at 12:00 IST to review standalone and consolidated unaudited financial results for the quarter and half year ended September 30, 2025 (company filing) Board to consider declaration of an interim dividend on equity shares for financial year 2025-26 during the upcoming meeting (company filing) Agenda also includes discussion of other routine and strategic matters, alongside financial performance and capital allocation decisions (co",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/food-beverage-tobacco/nse-kscl/kaveri-seed-shares/6jb2oy23-entering-new-markets-and-commercializing-new-hybrids-will-drive-future-success-pzip/updates/7-narrative-update-on-kaveri-seed-analysts-have-maintained-the",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "253db850-cd74-4205-b367-d9b45bfdf34e",
-      "type": "narrative-update",
-      "date": "2025-12-14T04:09:29.000Z",
-      "title": "KSCL: Interim Dividend Plans Will Support Future Returns Despite Lower Multiple",
-      "body": "Analysts have reduced their 12 month price target for Kaveri Seed from ₹1,388 to ₹1,148, citing slightly slower expected revenue growth and a lower future P E multiple, partly offset by a modest improvement in projected profit margins and a broadly unchanged discount rate. What's in the News The board meeting is scheduled for November 6, 2025, at 12:00 IST to review standalone and consolidated unaudited financial results for the quarter and half year ended September 30, 2025 (company filing).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/food-beverage-tobacco/nse-kscl/kaveri-seed-shares/27p81yf7-rising-food-demand-and-climate-shifts-will-encourage-hybrid-adoption-8nf3/updates/2-analysts-have-reduced-their-12-month-price-target-for-kaveri",
       "raw_subtype": "narrative-update"
     }
   ],

@@ -3,7 +3,7 @@
   "name": "Jash Engineering Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-jash/jash-engineering-shares",
-  "parsed_at": "2026-05-31T20:16:12.802Z",
+  "parsed_at": "2026-06-10T23:19:46.383Z",
   "company_id": "EA270CF3-D34B-47C8-8CE7-0B0E75E33535",
   "classification_status": "Active",
   "groww_source": {
@@ -16,21 +16,299 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 0,
-      "future": 5,
+      "valuation": 1,
+      "future": 4,
       "past": 2,
       "financial_health": 6,
-      "dividends": 2,
-      "future_growth": 5,
+      "dividends": 3,
+      "future_growth": 4,
       "past_performance": 2,
-      "value": 0,
+      "value": 1,
       "health": 6,
-      "dividend": 2
+      "dividend": 3
     },
-    "snowflake_total": 15,
-    "current_price_inr": 402.9,
+    "snowflake_total": 16,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_VOLATILE_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_50_TO_75_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 447.25,
     "market_cap_inr": 26759400000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "micro2",
     "shares_outstanding": 63193720,
     "fifty_two_week": {
@@ -39,11 +317,19 @@
     },
     "fair_value_inr": 600,
     "fair_value_range_inr": {
-      "min": 250.38284,
-      "max": 250.38284,
+      "min": 215.032416,
+      "max": 215.032416,
       "count": 3
     },
-    "upside_pct": 48.920327624720784,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "b56031cb-d93f-400d-abe4-e4fcbcb84777",
+      "narrative_type": null,
+      "published_at": "2026-06-05T23:05:29.464Z"
+    },
+    "upside_pct": 34.153158188932366,
     "multiples": {
       "pe": 35.44,
       "ps": 3.63,
@@ -60,13 +346,16 @@
       "pe_source_url": "https://groww.in/stocks/jash-engineering-ltd"
     },
     "rewards": [
-      "Earnings are forecast to grow 30.2% per year"
+      "Trading at good value vs. peer average Price-To-Earnings ratio",
+      "Earnings are forecast to grow 28.04% per year"
     ],
-    "risks": [],
+    "risks": [
+      "Unstable dividend track record"
+    ],
     "dividend": {
       "yield_pct": 0.24,
-      "payout_pct": 27.266928552037584,
-      "annualized_dividend": 2.4,
+      "payout_pct": 14.9312362417746,
+      "annualized_dividend": 1.8,
       "listing_currency": "INR",
       "recent_payments": [
         {
@@ -78,9 +367,9 @@
           "currencyIsoCode": "INR",
           "dividendTypeName": "No special code applies",
           "divFreqTypeName": "Interim Payment",
-          "annualizedDividend": 2.4,
-          "annualizedDividendListingCurrency": 2.4,
-          "annualizedYield": 0.5601281555
+          "annualizedDividend": 1.8,
+          "annualizedDividendListingCurrency": 1.8,
+          "annualizedYield": 0.4514959124
         },
         {
           "exDate": "2025-09-08T00:00:00.000Z",
@@ -93,7 +382,7 @@
           "divFreqTypeName": "Final Payment",
           "annualizedDividend": 2.4,
           "annualizedDividendListingCurrency": 2.4,
-          "annualizedYield": 0.5601281555
+          "annualizedYield": 0.549714188
         },
         {
           "exDate": "2025-03-10T00:00:00.000Z",
@@ -106,7 +395,7 @@
           "divFreqTypeName": "Interim Payment",
           "annualizedDividend": 1.6,
           "annualizedDividendListingCurrency": 1.6,
-          "annualizedYield": 0.2684050779
+          "annualizedYield": 0.2799313122
         },
         {
           "exDate": "2024-09-19T00:00:00.000Z",
@@ -125,11 +414,11 @@
           "exDate": "2023-09-22T00:00:00.000Z",
           "payDate": "2023-10-29T00:00:00.000Z",
           "recordDate": "2023-09-22T00:00:00.000Z",
-          "divAmount": 0.4,
-          "divAmountListingCurrency": 0.4,
+          "divAmount": 0.8,
+          "divAmountListingCurrency": 0.8,
           "currencyIsoCode": "INR",
-          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-          "divFreqTypeName": "Bonus Payment",
+          "dividendTypeName": "No special code applies",
+          "divFreqTypeName": "Annual",
           "annualizedDividend": 0.8,
           "annualizedDividendListingCurrency": 0.8,
           "annualizedYield": 0.2300035787
@@ -138,11 +427,11 @@
           "exDate": "2023-09-22T00:00:00.000Z",
           "payDate": "2023-10-29T00:00:00.000Z",
           "recordDate": "2023-09-22T00:00:00.000Z",
-          "divAmount": 0.8,
-          "divAmountListingCurrency": 0.8,
+          "divAmount": 0.4,
+          "divAmountListingCurrency": 0.4,
           "currencyIsoCode": "INR",
-          "dividendTypeName": "No special code applies",
-          "divFreqTypeName": "Annual",
+          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+          "divFreqTypeName": "Bonus Payment",
           "annualizedDividend": 0.8,
           "annualizedDividendListingCurrency": 0.8,
           "annualizedYield": 0.2300035787
@@ -231,8 +520,8 @@
     "dividend_yield_pct": 0.24,
     "industry_benchmarks": {
       "pe": 41.92916323228247,
-      "net_income_margin_1y": 0.0775877089,
-      "future_revenue_growth_3y": 0.6569887,
+      "net_income_margin_1y": 0.07792327667,
+      "future_revenue_growth_3y": 0.6221294666,
       "sector_pe": 41.92916323228247
     },
     "industry_benchmarks_meta": {
@@ -267,18 +556,18 @@
         "url": "https://groww.in/stocks/jash-engineering-ltd"
       },
       "sws_statement": {
-        "company_pe": 33.4,
-        "industry_pe": 26.4,
+        "company_pe": 37.1,
+        "industry_pe": 26,
         "industry_name": "Indian Machinery",
-        "description": "JASH is expensive based on its Price-To-Earnings Ratio (33.4x) compared to the Indian Machinery industry average (26.4x).",
+        "description": "JASH is expensive based on its Price-To-Earnings Ratio (37.1x) compared to the Indian Machinery industry average (26x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 25.908333666,
+        "industry_pe": 25.989998333,
         "industry_code": "3070000",
         "type": "median_profitable",
-        "count": 217,
+        "count": 220,
         "source": {
           "type": "country",
           "country": "IN",
@@ -287,25 +576,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 25.799999999999997,
-        "sample_count": 218,
+        "industry_pe": 25.6,
+        "sample_count": 219,
         "industry_code": "3070000",
         "industry_name": "Capital Goods"
       },
       "sws_primary_industry": {
-        "industry_pe": 21.475319439,
+        "industry_pe": 21.150765987,
         "industry_name": "Capital Goods",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 45.77435630673309
+        "company_pe": 37.09997449518717
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 402.9,
-        "fetched_at": "2026-05-31T20:16:12.802Z",
+        "value": 447.25,
+        "fetched_at": "2026-06-10T23:19:46.383Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-jash/jash-engineering-shares"
       },
       "market_cap_inr": {
@@ -313,6 +602,24 @@
         "value": 26759400000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/jash-engineering-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 600,
+        "fetched_at": "2026-06-10T23:19:46.383Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-jash/jash-engineering-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "b56031cb-d93f-400d-abe4-e4fcbcb84777",
+        "narrative_type": null,
+        "published_at": "2026-06-05T23:05:29.464Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 34.153158188932366,
+        "fetched_at": "2026-06-10T23:19:46.383Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-jash/jash-engineering-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -352,14 +659,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.0775877089,
-        "fetched_at": "2026-05-31T20:16:12.802Z",
+        "value": 0.07792327667,
+        "fetched_at": "2026-06-10T23:19:46.383Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-jash/jash-engineering-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.6569887,
-        "fetched_at": "2026-05-31T20:16:12.802Z",
+        "value": 0.6221294666,
+        "fetched_at": "2026-06-10T23:19:46.383Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-jash/jash-engineering-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -468,13 +775,13 @@
         "url": "https://groww.in/stocks/jash-engineering-ltd"
       }
     },
-    "earnings_growth_yoy_pct": -32.26127409788949,
+    "earnings_growth_yoy_pct": -7.223338570019363,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": -0.2975478894534215,
-    "latest_revenue": 7460229000,
-    "latest_net_income": 556223000,
+    "revenue_growth_pct": -1.6123102286898232,
+    "latest_revenue": 7361852000,
+    "latest_net_income": 761817000,
     "latest_eps": 11.95,
-    "most_recent_reported_date": "2026-05-17",
+    "most_recent_reported_date": "2026-06-05",
     "pb": 5.15,
     "ps": 3.63,
     "book_value": 82.1472045,
@@ -491,16 +798,16 @@
     "quick_ratio": 1.399615944907959,
     "cash_ratio": 0.3098927294398093,
     "returns_pct": {
-      "1D": -4.808033077377441,
-      "7D": 0.9142141515341209,
-      "1M": -3.5778389374177446,
-      "3M": 0.7501875468867217,
-      "6M": -14.020486555697834,
-      "1Y": -27.320285018490132,
+      "1D": 0.08951549737047718,
+      "7D": 7.797059532417457,
+      "1M": 5.396488747496165,
+      "3M": 19.139584443260528,
+      "6M": 0.4491858506457047,
+      "1Y": -22.00034879665155,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 5,
+    "recent_news_count": 4,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -619,8 +926,8 @@
   },
   "dividend": {
     "yield_pct": 0.24,
-    "payout_pct": 27.266928552037584,
-    "annualized_dividend": 2.4,
+    "payout_pct": 14.9312362417746,
+    "annualized_dividend": 1.8,
     "listing_currency": "INR",
     "recent_payments": [
       {
@@ -632,9 +939,9 @@
         "currencyIsoCode": "INR",
         "dividendTypeName": "No special code applies",
         "divFreqTypeName": "Interim Payment",
-        "annualizedDividend": 2.4,
-        "annualizedDividendListingCurrency": 2.4,
-        "annualizedYield": 0.5601281555
+        "annualizedDividend": 1.8,
+        "annualizedDividendListingCurrency": 1.8,
+        "annualizedYield": 0.4514959124
       },
       {
         "exDate": "2025-09-08T00:00:00.000Z",
@@ -647,7 +954,7 @@
         "divFreqTypeName": "Final Payment",
         "annualizedDividend": 2.4,
         "annualizedDividendListingCurrency": 2.4,
-        "annualizedYield": 0.5601281555
+        "annualizedYield": 0.549714188
       },
       {
         "exDate": "2025-03-10T00:00:00.000Z",
@@ -660,7 +967,7 @@
         "divFreqTypeName": "Interim Payment",
         "annualizedDividend": 1.6,
         "annualizedDividendListingCurrency": 1.6,
-        "annualizedYield": 0.2684050779
+        "annualizedYield": 0.2799313122
       },
       {
         "exDate": "2024-09-19T00:00:00.000Z",
@@ -679,11 +986,11 @@
         "exDate": "2023-09-22T00:00:00.000Z",
         "payDate": "2023-10-29T00:00:00.000Z",
         "recordDate": "2023-09-22T00:00:00.000Z",
-        "divAmount": 0.4,
-        "divAmountListingCurrency": 0.4,
+        "divAmount": 0.8,
+        "divAmountListingCurrency": 0.8,
         "currencyIsoCode": "INR",
-        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-        "divFreqTypeName": "Bonus Payment",
+        "dividendTypeName": "No special code applies",
+        "divFreqTypeName": "Annual",
         "annualizedDividend": 0.8,
         "annualizedDividendListingCurrency": 0.8,
         "annualizedYield": 0.2300035787
@@ -692,11 +999,11 @@
         "exDate": "2023-09-22T00:00:00.000Z",
         "payDate": "2023-10-29T00:00:00.000Z",
         "recordDate": "2023-09-22T00:00:00.000Z",
-        "divAmount": 0.8,
-        "divAmountListingCurrency": 0.8,
+        "divAmount": 0.4,
+        "divAmountListingCurrency": 0.4,
         "currencyIsoCode": "INR",
-        "dividendTypeName": "No special code applies",
-        "divFreqTypeName": "Annual",
+        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+        "divFreqTypeName": "Bonus Payment",
         "annualizedDividend": 0.8,
         "annualizedDividendListingCurrency": 0.8,
         "annualizedYield": 0.2300035787
@@ -783,20 +1090,20 @@
     "payment_count": 12
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-17",
+    "most_recent_reported_date": "2026-06-05",
     "latest_year": 2026,
-    "latest_revenue": 7460229000,
-    "latest_net_income": 556223000,
+    "latest_revenue": 7361852000,
+    "latest_net_income": 761817000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": -0.2975478894534215,
-    "earnings_growth_pct": -32.26127409788949,
-    "net_margin_pct": 7.455843513650855,
+    "revenue_growth_pct": -1.6123102286898232,
+    "earnings_growth_pct": -7.223338570019363,
+    "net_margin_pct": 10.348170541869084,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 7460229000,
-        "netIncome": 556223000,
+        "revenue": 7361852000,
+        "netIncome": 761817000,
         "eps": null
       },
       {
@@ -1051,6 +1358,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "9f7eb1b0-d05c-438a-95ec-cd4e5a29548c",
+      "type": "narrative-update",
+      "date": "2026-06-05T23:05:29.000Z",
+      "title": "JASH: Dividend Track Record And Maintained Fair Value Will Support Re Rating",
+      "body": "Analysts have maintained the fair value estimate for Jash Engineering at ₹600, while making modest adjustments to assumptions around the discount rate, revenue growth, profit margin and future P/E to reflect an updated view of the company’s risk profile and earnings potential. What's in the News Board meeting scheduled for May 26, 2026 to consider and approve audited standalone and consolidated financial results for the quarter and year ended March 31, 2026, to recommend a final dividend for FY 2025-26, to appoint M/s.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-jash/jash-engineering-shares/a15k054j-chennai-facility-and-westech-integration-will-drive-future-expansion-nb0b/updates/10-analysts-have-maintained-the-fair-value-estimate-for-jash-en",
+      "raw_subtype": "narrative-update"
+    },
     {
       "id": "2083e793-27c6-48d9-9150-91d3aff18321",
       "type": "brief",

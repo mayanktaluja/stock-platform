@@ -3,7 +3,7 @@
   "name": "Health X Platform Limited",
   "sector": "Healthcare",
   "sws_url": "https://simplywall.st/stocks/in/healthcare/nse-healthx/health-x-platform-shares",
-  "parsed_at": "2026-05-31T23:16:51.824Z",
+  "parsed_at": "2026-06-11T02:11:40.420Z",
   "company_id": "E05902F5-2460-4381-8427-34CAAFBCAD58",
   "classification_status": "Active",
   "groww_source": {
@@ -16,18 +16,18 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 1,
+      "valuation": 2,
       "future": 0,
       "past": 2,
       "financial_health": 4,
       "dividends": 0,
       "future_growth": 0,
       "past_performance": 2,
-      "value": 1,
+      "value": 2,
       "health": 4,
       "dividend": 0
     },
-    "snowflake_total": 7,
+    "snowflake_total": 8,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 13,
@@ -78,9 +78,287 @@
         }
       ]
     },
-    "current_price_inr": 307.25,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_BECOME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ONE_TIME"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 286.5,
     "market_cap_inr": 9738800000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "nano1",
     "shares_outstanding": 31810500,
     "fifty_two_week": {
@@ -93,7 +371,15 @@
       "max": null,
       "count": 0
     },
-    "upside_pct": 43.56061838893409,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "13792317-92cc-421e-b3a8-6b2a53081077",
+      "narrative_type": null,
+      "published_at": "2025-05-01T06:14:49.694Z"
+    },
+    "upside_pct": 53.95811518324607,
     "multiples": {
       "pe": 33.46,
       "ps": 0.76,
@@ -111,10 +397,12 @@
     },
     "rewards": [
       "Became profitable this year",
-      "Trading at good value vs. peer average Price-To-Earnings ratio"
+      "Trading at good value vs. industry average Price-To-Sales ratio",
+      "Trading at good value vs. peer average Price-To-Sales ratio"
     ],
     "risks": [
-      "Large [[one-off items]] impacting financial results"
+      "Large [[one-off items]] impacting financial results",
+      "Does not have a meaningful market cap (₹9B)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -127,8 +415,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 18.85756396507594,
-      "net_income_margin_1y": 0.1041750126,
-      "future_revenue_growth_3y": 2.366911977,
+      "net_income_margin_1y": 0.1021808233,
+      "future_revenue_growth_3y": 2.289381694,
       "sector_pe": 18.85756396507594
     },
     "industry_benchmarks_meta": {
@@ -163,18 +451,18 @@
         "url": "https://groww.in/stocks/sastasundar-ventures-ltd"
       },
       "sws_statement": {
-        "company_pe": 37.6,
-        "industry_pe": 37.4,
+        "company_pe": null,
+        "industry_pe": 2.5,
         "industry_name": "Indian Healthcare",
-        "description": "HEALTHX is expensive based on its Price-To-Earnings Ratio (37.6x) compared to the Indian Healthcare industry average (37.4x).",
-        "title": "Price-To-Earnings vs Industry",
+        "description": "HEALTHX is good value based on its Price-To-Sales Ratio (0.7x) compared to the Indian Healthcare industry average (2.5x).",
+        "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 37.439100813,
+        "industry_pe": 39.275601591,
         "industry_code": "6030000",
         "type": "median_profitable",
-        "count": 80,
+        "count": 79,
         "source": {
           "type": "country",
           "country": "IN",
@@ -183,13 +471,13 @@
         }
       },
       "internal_median": {
-        "industry_pe": 35.1,
-        "sample_count": 75,
+        "industry_pe": 33.650000000000006,
+        "sample_count": 74,
         "industry_code": "6030000",
         "industry_name": "Healthcare"
       },
       "sws_primary_industry": {
-        "industry_pe": 22.65435289,
+        "industry_pe": 22.129830496,
         "industry_name": "Healthcare",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
@@ -200,8 +488,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 307.25,
-        "fetched_at": "2026-05-31T23:16:51.824Z",
+        "value": 286.5,
+        "fetched_at": "2026-06-11T02:11:40.420Z",
         "url": "https://simplywall.st/stocks/in/healthcare/nse-healthx/health-x-platform-shares"
       },
       "market_cap_inr": {
@@ -209,6 +497,24 @@
         "value": 9738800000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/sastasundar-ventures-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 441.09,
+        "fetched_at": "2026-06-11T02:11:40.420Z",
+        "url": "https://simplywall.st/stocks/in/healthcare/nse-healthx/health-x-platform-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "13792317-92cc-421e-b3a8-6b2a53081077",
+        "narrative_type": null,
+        "published_at": "2025-05-01T06:14:49.694Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 53.95811518324607,
+        "fetched_at": "2026-06-11T02:11:40.420Z",
+        "url": "https://simplywall.st/stocks/in/healthcare/nse-healthx/health-x-platform-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -248,14 +554,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.1041750126,
-        "fetched_at": "2026-05-31T23:16:51.824Z",
+        "value": 0.1021808233,
+        "fetched_at": "2026-06-11T02:11:40.420Z",
         "url": "https://simplywall.st/stocks/in/healthcare/nse-healthx/health-x-platform-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 2.366911977,
-        "fetched_at": "2026-05-31T23:16:51.824Z",
+        "value": 2.289381694,
+        "fetched_at": "2026-06-11T02:11:40.420Z",
         "url": "https://simplywall.st/stocks/in/healthcare/nse-healthx/health-x-platform-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -387,16 +693,16 @@
     "quick_ratio": 0.5858094262295082,
     "cash_ratio": 0.20500341530054644,
     "returns_pct": {
-      "1D": -1.3960205391527671,
-      "7D": 6.2964884967998564,
-      "1M": 8.72257607926397,
-      "3M": 8.473080317740513,
-      "6M": -6.426069742652664,
-      "1Y": 17.878380970650305,
+      "1D": -2.285129604365617,
+      "7D": -5.163853028798418,
+      "1M": -2.8813559322033897,
+      "3M": 1.5957446808510638,
+      "6M": -4.785643070787629,
+      "1Y": 0.455820476858349,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 1,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -418,8 +724,8 @@
         "is_insider": null
       },
       {
-        "pct": 4.15144,
-        "shares": 1320593,
+        "pct": 3.36553,
+        "shares": 1070593,
         "is_insider": null
       },
       {
@@ -736,6 +1042,16 @@
   ],
   "news": [
     {
+      "id": "168507a8-a6b6-4a3b-8c4b-f144e994082d",
+      "type": "brief",
+      "date": "2026-06-01T08:24:56.000Z",
+      "title": "Full year 2026 earnings released: EPS: ₹0.37 (vs ₹28.66 loss in FY 2025)",
+      "body": "Full year 2026 results: EPS: ₹0.37 (up from ₹28.66 loss in FY 2025). Revenue: ₹13.8b (up 20% from FY 2025). Net income: ₹11.8m (up ₹923.4m from FY 2025). Profit margin: 0.1% (up from net loss in FY 2025). Over the last 3 years on average, earnings per share has increased by 25% per year but the company’s share price has only increased by 2% per year, which means it is significantly lagging earnings growth.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
       "id": "c2f2ee05-aef1-4a9d-9c2d-de623e9a9d32",
       "type": "event",
       "date": "2026-05-22T12:28:00.000Z",
@@ -801,26 +1117,6 @@
       "date": "2026-01-03T19:40:39.000Z",
       "title": "Chairman recently bought ₹2.1m worth of stock",
       "body": "On the 29th of December, Banwari Mittal bought around 7k shares on-market at roughly ₹301 per share. This transaction amounted to less than 1% of their direct individual holding at the time of the trade. In the last 3 months, they made an even bigger purchase worth ₹9.7m. Banwari has been a buyer over the last 12 months, purchasing a net total of ₹29m worth in shares.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "16dc6b74-40f0-4bd7-b818-f371c69fc94c",
-      "type": "brief",
-      "date": "2025-12-10T11:43:19.000Z",
-      "title": "Chairman recently bought ₹3.2m worth of stock",
-      "body": "On the 5th of December, Banwari Mittal bought around 10k shares on-market at roughly ₹311 per share. This transaction amounted to less than 1% of their direct individual holding at the time of the trade. In the last 3 months, they made an even bigger purchase worth ₹9.7m. Banwari has been a buyer over the last 12 months, purchasing a net total of ₹24m worth in shares.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "a502000d-c9d5-43eb-87c8-4d0b9fe043f6",
-      "type": "brief",
-      "date": "2025-12-04T11:58:10.000Z",
-      "title": "Chairman recently bought ₹3.8m worth of stock",
-      "body": "On the 28th of November, Banwari Mittal bought around 12k shares on-market at roughly ₹328 per share. This transaction amounted to less than 1% of their direct individual holding at the time of the trade. In the last 3 months, they made an even bigger purchase worth ₹9.7m. Banwari has been a buyer over the last 12 months, purchasing a net total of ₹21m worth in shares.",
       "keyDevTypeId": null,
       "source_url": null,
       "raw_subtype": "BriefActivity"

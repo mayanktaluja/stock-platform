@@ -3,7 +3,7 @@
   "name": "Cistro Telelink Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/bse-531775/cistro-telelink-shares",
-  "parsed_at": "2026-05-31T22:08:47.658Z",
+  "parsed_at": "2026-06-11T01:21:04.412Z",
   "company_id": "728F7AFA-AFC4-4217-8C70-23DED9955AC5",
   "classification_status": "Active",
   "groww_source": {
@@ -77,22 +77,308 @@
         }
       ]
     },
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 28,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASING_LOSSES"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "IsInterestCoveredByProfit",
+          "result": "uncaptured",
+          "available": false,
+          "insufficient": false,
+          "outcome_name": null
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "IsDebtCoveredByCashflow",
+          "result": "uncaptured",
+          "available": false,
+          "insufficient": false,
+          "outcome_name": null
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
     "current_price_inr": 1.783333,
     "market_cap_inr": 33000000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 0.79,
       "high": 1.07
     },
-    "fair_value_inr": 0.474769,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -73.37743427615594,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "62d42300-65cb-4e51-933a-de81eff767ac",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": null,
       "ps": 50.51,
@@ -126,8 +412,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 80.0113529025094,
-      "net_income_margin_1y": 0.0679160138,
-      "future_revenue_growth_3y": 0.5897731076,
+      "net_income_margin_1y": 0.06778428543,
+      "future_revenue_growth_3y": 0.4911456494,
       "sector_pe": 80.0113529025094
     },
     "industry_benchmarks_meta": {
@@ -170,10 +456,10 @@
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 27.41492865,
+        "industry_pe": 27.463693408,
         "industry_code": "4410000",
         "type": "median_profitable",
-        "count": 73,
+        "count": 74,
         "source": {
           "type": "country",
           "country": "IN",
@@ -182,8 +468,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 23.7,
-        "sample_count": 63,
+        "industry_pe": 21.9,
+        "sample_count": 65,
         "industry_code": "4410000",
         "industry_name": "Retail"
       },
@@ -196,7 +482,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 1.783333,
-        "fetched_at": "2026-05-31T22:08:47.658Z",
+        "fetched_at": "2026-06-11T01:21:04.412Z",
         "url": "https://simplywall.st/stocks/in/retail/bse-531775/cistro-telelink-shares"
       },
       "market_cap_inr": {
@@ -237,14 +523,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.0679160138,
-        "fetched_at": "2026-05-31T22:08:47.658Z",
+        "value": 0.06778428543,
+        "fetched_at": "2026-06-11T01:21:04.412Z",
         "url": "https://simplywall.st/stocks/in/retail/bse-531775/cistro-telelink-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.5897731076,
-        "fetched_at": "2026-05-31T22:08:47.658Z",
+        "value": 0.4911456494,
+        "fetched_at": "2026-06-11T01:21:04.412Z",
         "url": "https://simplywall.st/stocks/in/retail/bse-531775/cistro-telelink-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -668,26 +954,6 @@
       "id": "711345b3-4abb-4c79-924d-ae140f8c3f26",
       "type": "brief",
       "date": "2026-01-27T12:06:25.000Z",
-      "title": "Less than half of directors are independent",
-      "body": "Following the recent departure of a director, there are only 2 independent directors on the board. The company's board is composed of: 2 independent directors. 3 non-independent directors. Additional Independent Women Non-Executive Director Savita Thakkar was the last independent director to join the board, commencing their role in 2024. The company's minority of independent directors is a risk according to the Simply Wall St Risk Model.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "0855355b-0664-4e6e-b7bd-5c276b8cf980",
-      "type": "brief",
-      "date": "2025-12-08T12:11:58.000Z",
-      "title": "Less than half of directors are independent",
-      "body": "Following the recent departure of a director, there are only 2 independent directors on the board. The company's board is composed of: 2 independent directors. 3 non-independent directors. Additional Independent Women Non-Executive Director Savita Thakkar was the last independent director to join the board, commencing their role in 2024. The company's minority of independent directors is a risk according to the Simply Wall St Risk Model.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "fa43acbf-d124-4dc4-92f6-e8c790f163a0",
-      "type": "brief",
-      "date": "2025-12-07T02:46:43.000Z",
       "title": "Less than half of directors are independent",
       "body": "Following the recent departure of a director, there are only 2 independent directors on the board. The company's board is composed of: 2 independent directors. 3 non-independent directors. Additional Independent Women Non-Executive Director Savita Thakkar was the last independent director to join the board, commencing their role in 2024. The company's minority of independent directors is a risk according to the Simply Wall St Risk Model.",
       "keyDevTypeId": null,

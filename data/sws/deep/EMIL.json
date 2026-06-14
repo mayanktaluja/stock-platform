@@ -3,7 +3,7 @@
   "name": "Electronics Mart India Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/nse-emil/electronics-mart-india-shares",
-  "parsed_at": "2026-05-31T22:43:41.946Z",
+  "parsed_at": "2026-06-11T01:39:34.662Z",
   "company_id": "36EBFE31-F5FE-4D64-9C77-A657955C5AB9",
   "classification_status": "Active",
   "groww_source": {
@@ -75,22 +75,308 @@
         }
       ]
     },
-    "current_price_inr": 114,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 104.96,
     "market_cap_inr": 44784800000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "small3",
     "shares_outstanding": 384748762,
     "fifty_two_week": {
       "low": 84.9,
       "high": 168.5
     },
-    "fair_value_inr": 147.28571,
+    "fair_value_inr": 147.71429,
     "fair_value_range_inr": {
-      "min": 63.793458,
-      "max": 147.28571,
+      "min": 55.808321,
+      "max": 147.71429,
       "count": 10
     },
-    "upside_pct": 29.19799122807017,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "438544d4-823f-4fc6-8fcb-b655666de9a7",
+      "narrative_type": null,
+      "published_at": "2026-06-03T12:06:28.050Z"
+    },
+    "upside_pct": 40.73388910060977,
     "multiples": {
       "pe": 41.87,
       "ps": 0.62,
@@ -108,9 +394,9 @@
     },
     "rewards": [
       "Trading below our calculated fair Price-To-Earnings ratio",
-      "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Earnings are forecast to grow 30.11% per year",
-      "Analysts in good agreement that stock price will rise by 29.6%"
+      "Trading at good value vs. peer average Price-To-Earnings ratio",
+      "Analysts in good agreement that stock price will rise by 40.7%"
     ],
     "risks": [
       "Interest payments are not well covered by earnings",
@@ -127,8 +413,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 75.0238404110117,
-      "net_income_margin_1y": 0.04545091336,
-      "future_revenue_growth_3y": 0.4129153131,
+      "net_income_margin_1y": 0.04543187233,
+      "future_revenue_growth_3y": 0.4102879728,
       "sector_pe": 75.0238404110117
     },
     "industry_benchmarks_meta": {
@@ -163,18 +449,18 @@
         "url": "https://groww.in/stocks/electronics-mart-india-ltd"
       },
       "sws_statement": {
-        "company_pe": 40.9,
-        "industry_pe": 20.8,
+        "company_pe": 37.7,
+        "industry_pe": 19.3,
         "industry_name": "Indian Specialty Retail",
-        "description": "EMIL is expensive based on its Price-To-Earnings Ratio (40.9x) compared to the Indian Specialty Retail industry average (20.8x).",
+        "description": "EMIL is expensive based on its Price-To-Earnings Ratio (37.7x) compared to the Indian Specialty Retail industry average (19.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 21.18993456,
+        "industry_pe": 19.335449999,
         "industry_code": "4440000",
         "type": "median_profitable",
-        "count": 64,
+        "count": 62,
         "source": {
           "type": "country",
           "country": "IN",
@@ -183,25 +469,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.95,
-        "sample_count": 56,
+        "industry_pe": 17.3,
+        "sample_count": 55,
         "industry_code": "4440000",
         "industry_name": "Retail"
       },
       "sws_primary_industry": {
-        "industry_pe": 15.530073024,
+        "industry_pe": 15.429198664,
         "industry_name": "Retail",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 46.845911916179816
+        "company_pe": 37.69272345901547
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 114,
-        "fetched_at": "2026-05-31T22:43:41.946Z",
+        "value": 104.96,
+        "fetched_at": "2026-06-11T01:39:34.662Z",
         "url": "https://simplywall.st/stocks/in/retail/nse-emil/electronics-mart-india-shares"
       },
       "market_cap_inr": {
@@ -209,6 +495,24 @@
         "value": 44784800000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/electronics-mart-india-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 147.71429,
+        "fetched_at": "2026-06-11T01:39:34.662Z",
+        "url": "https://simplywall.st/stocks/in/retail/nse-emil/electronics-mart-india-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "438544d4-823f-4fc6-8fcb-b655666de9a7",
+        "narrative_type": null,
+        "published_at": "2026-06-03T12:06:28.050Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 40.73388910060977,
+        "fetched_at": "2026-06-11T01:39:34.662Z",
+        "url": "https://simplywall.st/stocks/in/retail/nse-emil/electronics-mart-india-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -248,14 +552,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.04545091336,
-        "fetched_at": "2026-05-31T22:43:41.946Z",
+        "value": 0.04543187233,
+        "fetched_at": "2026-06-11T01:39:34.662Z",
         "url": "https://simplywall.st/stocks/in/retail/nse-emil/electronics-mart-india-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.4129153131,
-        "fetched_at": "2026-05-31T22:43:41.946Z",
+        "value": 0.4102879728,
+        "fetched_at": "2026-06-11T01:39:34.662Z",
         "url": "https://simplywall.st/stocks/in/retail/nse-emil/electronics-mart-india-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -364,13 +668,13 @@
         "url": "https://groww.in/stocks/electronics-mart-india-ltd"
       }
     },
-    "earnings_growth_yoy_pct": -41.49942517244827,
+    "earnings_growth_yoy_pct": 2.2748317502744615,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 2.9137267750838287,
-    "latest_revenue": 71677620000,
-    "latest_net_income": 936290000,
+    "revenue_growth_pct": 5.986225391709072,
+    "latest_revenue": 71832620000,
+    "latest_net_income": 1071380000.0000001,
     "latest_eps": 2.78,
-    "most_recent_reported_date": "2026-04-25",
+    "most_recent_reported_date": "2026-06-03",
     "pb": 2.75,
     "ps": 0.62,
     "book_value": 42.2649511,
@@ -387,12 +691,12 @@
     "quick_ratio": 0.4760354965393044,
     "cash_ratio": 0.05397166352057975,
     "returns_pct": {
-      "1D": -1.7326092578226058,
-      "7D": -5.511811023622052,
-      "1M": -10.349166404529724,
-      "3M": 13.455414012738848,
-      "6M": -6.633906633906629,
-      "1Y": -8.389585342333653,
+      "1D": -1.6030749039092602,
+      "7D": -5.747126436781615,
+      "1M": -10.298265105546543,
+      "3M": 10.892762810353922,
+      "6M": -4.512372634643384,
+      "1Y": -21.531100478468897,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -473,8 +777,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.07019,
-        "shares": 270052,
+        "pct": 0.08065,
+        "shares": 310309,
         "is_insider": null
       },
       {
@@ -522,44 +826,44 @@
     "payment_count": 0
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-04-25",
+    "most_recent_reported_date": "2026-06-03",
     "latest_year": 2026,
-    "latest_revenue": 71677620000,
-    "latest_net_income": 936290000,
+    "latest_revenue": 71832620000,
+    "latest_net_income": 1071380000.0000001,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 2.9137267750838287,
-    "earnings_growth_pct": -41.49942517244827,
-    "net_margin_pct": 1.306251518953894,
+    "revenue_growth_pct": 5.986225391709072,
+    "earnings_growth_pct": 2.2748317502744615,
+    "net_margin_pct": 1.491495089556806,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 71677620000,
-        "netIncome": 936290000,
+        "revenue": 71832620000,
+        "netIncome": 1071380000.0000001,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 69648260000,
-        "netIncome": 1600480000,
+        "revenue": 67775429999.99999,
+        "netIncome": 1047550000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 62854060000,
-        "netIncome": 1839470000,
+        "revenue": 65767280000,
+        "netIncome": 1961770000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 54457100000,
-        "netIncome": 1228000000,
+        "revenue": 57263300000,
+        "netIncome": 1424000000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 43493160000,
-        "netIncome": 1038910000.0000001,
+        "revenue": 48310850000,
+        "netIncome": 1241220000,
         "eps": null
       }
     ]
@@ -770,6 +1074,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "9db837e7-f41b-45d2-abec-ebe9d8fde03e",
+      "type": "narrative-update",
+      "date": "2026-06-03T12:06:28.000Z",
+      "title": "EMIL: Upcoming Board Review Will Support Stable Margins And Upside Potential",
+      "body": "Analysts have made a small upward tweak to the price target on Electronics Mart India to ₹147.71 from ₹147.29, reflecting updated assumptions on revenue growth, profit margins, and the stock's future P/E. What's in the News A board meeting is scheduled for May 22, 2026, at 12:30 Indian Standard Time to review and approve the audited standalone and consolidated financial results for the fourth quarter and the full financial year ended March 31, 2026.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/retail/nse-emil/electronics-mart-india-shares/a27m6urv-post-monsoon-recovery-and-expanding-stores-will-create-upside-tcbu/updates/13-analysts-have-made-a-small-upward-tweak-to-the-price-target",
+      "raw_subtype": "narrative-update"
+    },
     {
       "id": "3f1c94e8-1a1d-4cc7-aac4-44e9d92ff25e",
       "type": "article",

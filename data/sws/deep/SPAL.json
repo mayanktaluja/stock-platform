@@ -3,7 +3,7 @@
   "name": "S.P. Apparels Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/nse-spal/sp-apparels-shares",
-  "parsed_at": "2026-05-31T22:27:22.123Z",
+  "parsed_at": "2026-06-11T01:30:40.762Z",
   "company_id": "26ECE5EA-6F4A-4229-B653-1BCB21FA11CF",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 2
     },
     "snowflake_total": 16,
-    "current_price_inr": 782.05,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_SUBSTANTIAL_DISCOUNT"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_VOLATILE_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 798.45,
     "market_cap_inr": 18900700000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "micro2",
     "shares_outstanding": 25138883,
     "fifty_two_week": {
       "low": 600,
       "high": 905
     },
-    "fair_value_inr": 915.5,
+    "fair_value_inr": 903.5,
     "fair_value_range_inr": {
-      "min": 879.183174,
+      "min": 891.109295,
       "max": 903.5,
       "count": 3
     },
-    "upside_pct": 17.064126334633343,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "ce0d15d5-e925-471d-aa50-20664f093c86",
+      "narrative_type": null,
+      "published_at": "2026-04-06T05:03:30.795Z"
+    },
+    "upside_pct": 13.156741186047963,
     "multiples": {
       "pe": 18.73,
       "ps": 1.19,
@@ -60,7 +346,7 @@
       "pe_source_url": "https://groww.in/stocks/sp-apparels-ltd"
     },
     "rewards": [
-      "Trading at 11% below our estimate of its fair value",
+      "Trading at 10.4% below our estimate of its fair value",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading below our calculated fair Price-To-Earnings ratio",
       "Earnings have grown 9.9% per year over the past 5 years",
@@ -84,7 +370,7 @@
           "divFreqTypeName": "Annual",
           "annualizedDividend": 2,
           "annualizedDividendListingCurrency": 2,
-          "annualizedYield": 0.2739005017
+          "annualizedYield": 0.2728210423
         },
         {
           "exDate": "2023-09-15T00:00:00.000Z",
@@ -144,8 +430,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 34.610207441094815,
-      "net_income_margin_1y": 0.0693600828,
-      "future_revenue_growth_3y": 0.2193400642,
+      "net_income_margin_1y": 0.06833056564,
+      "future_revenue_growth_3y": 0.2166318346,
       "sector_pe": 34.610207441094815
     },
     "industry_benchmarks_meta": {
@@ -180,18 +466,18 @@
         "url": "https://groww.in/stocks/sp-apparels-ltd"
       },
       "sws_statement": {
-        "company_pe": 19.5,
-        "industry_pe": 18,
+        "company_pe": 19.9,
+        "industry_pe": 19.3,
         "industry_name": "Indian Luxury",
-        "description": "SPAL is expensive based on its Price-To-Earnings Ratio (19.5x) compared to the Indian Luxury industry average (18x).",
+        "description": "SPAL is expensive based on its Price-To-Earnings Ratio (19.9x) compared to the Indian Luxury industry average (19.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 18.199713239,
+        "industry_pe": 19.295215828,
         "industry_code": "4130000",
         "type": "median_profitable",
-        "count": 294,
+        "count": 296,
         "source": {
           "type": "country",
           "country": "IN",
@@ -200,25 +486,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.1,
-        "sample_count": 290,
+        "industry_pe": 17.95,
+        "sample_count": 294,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
       },
       "sws_primary_industry": {
-        "industry_pe": 16.559656543,
+        "industry_pe": 16.573642049,
         "industry_name": "Consumer Durables",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 17.43699529051513
+        "company_pe": 17.802658256776176
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 782.05,
-        "fetched_at": "2026-05-31T22:27:22.123Z",
+        "value": 798.45,
+        "fetched_at": "2026-06-11T01:30:40.762Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-spal/sp-apparels-shares"
       },
       "market_cap_inr": {
@@ -226,6 +512,24 @@
         "value": 18900700000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/sp-apparels-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 903.5,
+        "fetched_at": "2026-06-11T01:30:40.762Z",
+        "url": "https://simplywall.st/stocks/in/consumer-durables/nse-spal/sp-apparels-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "ce0d15d5-e925-471d-aa50-20664f093c86",
+        "narrative_type": null,
+        "published_at": "2026-04-06T05:03:30.795Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 13.156741186047963,
+        "fetched_at": "2026-06-11T01:30:40.762Z",
+        "url": "https://simplywall.st/stocks/in/consumer-durables/nse-spal/sp-apparels-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -265,14 +569,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.0693600828,
-        "fetched_at": "2026-05-31T22:27:22.123Z",
+        "value": 0.06833056564,
+        "fetched_at": "2026-06-11T01:30:40.762Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-spal/sp-apparels-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.2193400642,
-        "fetched_at": "2026-05-31T22:27:22.123Z",
+        "value": 0.2166318346,
+        "fetched_at": "2026-06-11T01:30:40.762Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-spal/sp-apparels-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -404,12 +708,12 @@
     "quick_ratio": 0.7588028169014084,
     "cash_ratio": 0.10690431247277478,
     "returns_pct": {
-      "1D": 4.224695142266933,
-      "7D": 0.7342049333419117,
-      "1M": -2.6695706285003165,
-      "3M": 10.544914834970657,
-      "6M": -0.10219071341892676,
-      "1Y": -7.815170625331534,
+      "1D": -3.212315897933208,
+      "7D": -5.385709207252036,
+      "1M": -3.951642006495839,
+      "3M": 13.909693986732291,
+      "6M": 9.865841073271419,
+      "1Y": -3.4930803166737143,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -465,8 +769,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.31254,
-        "shares": 78568,
+        "pct": 0.31673,
+        "shares": 79623,
         "is_insider": null
       },
       {
@@ -522,7 +826,7 @@
         "divFreqTypeName": "Annual",
         "annualizedDividend": 2,
         "annualizedDividendListingCurrency": 2,
-        "annualizedYield": 0.2739005017
+        "annualizedYield": 0.2728210423
       },
       {
         "exDate": "2023-09-15T00:00:00.000Z",
@@ -849,6 +1153,16 @@
   ],
   "news": [
     {
+      "id": "9aa10223-ce8e-4638-8a0d-086114c06549",
+      "type": "article",
+      "date": "2026-06-04T00:24:58.000Z",
+      "title": "Here's Why We Think S.P. Apparels (NSE:SPAL) Is Well Worth Watching",
+      "body": "It's common for many investors, especially those who are inexperienced, to buy shares in companies with a good story...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/consumer-durables/nse-spal/sp-apparels-shares/news/heres-why-we-think-sp-apparels-nsespal-is-well-worth-watchin",
+      "raw_subtype": "article"
+    },
+    {
       "id": "4b919d0b-ecd8-460f-ba5a-aba1d879836e",
       "type": "brief",
       "date": "2026-05-22T11:37:42.000Z",
@@ -967,16 +1281,6 @@
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/stocks/in/consumer-durables/nse-spal/sp-apparels-shares/news/we-ran-a-stock-scan-for-earnings-growth-and-sp-apparels-nses",
       "raw_subtype": "article"
-    },
-    {
-      "id": "2c297c2d-44d2-4a09-9d0e-8945ce20ce31",
-      "type": "brief",
-      "date": "2025-12-08T11:30:11.000Z",
-      "title": "Now 20% undervalued",
-      "body": "The stock has been flat over the last 90 days, currently trading at ₹719. The fair value is estimated to be ₹900, however this is not to be taken as a buy recommendation but rather should be used as a guide only. Revenue has grown by 14% over the last 3 years. Earnings per share has grown by 7.4%. Revenue is forecast to grow by 4.7% in a year. Earnings are forecast to grow by 8.8% in the next year.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/SPAL.json"

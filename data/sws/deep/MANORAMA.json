@@ -3,7 +3,7 @@
   "name": "Manorama Industries Limited",
   "sector": "Food, Beverage & Tobacco",
   "sws_url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-manorama/manorama-industries-shares",
-  "parsed_at": "2026-05-31T20:49:35.930Z",
+  "parsed_at": "2026-06-10T23:53:45.134Z",
   "company_id": "9F41D12E-A4C2-41CC-947D-7E3498E1B168",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 0
     },
     "snowflake_total": 18,
-    "current_price_inr": 1426.4,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 1540.7,
     "market_cap_inr": 86837100000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 1060.6,
       "high": 1760
     },
-    "fair_value_inr": 1834.730172,
+    "fair_value_inr": 1832.010715,
     "fair_value_range_inr": {
-      "min": 337.401627,
+      "min": 336.901527,
       "max": 5000,
       "count": 5
     },
-    "upside_pct": 28.62662450925406,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "76746112-378e-4b62-9812-82e39b936d7c",
+      "narrative_type": null,
+      "published_at": "2024-07-25T13:05:13.539Z"
+    },
+    "upside_pct": 18.90768579217238,
     "multiples": {
       "pe": 38.61,
       "ps": 6.35,
@@ -116,7 +402,7 @@
     "industry_benchmarks": {
       "pe": 47.946214725606616,
       "net_income_margin_1y": 0.06501183937,
-      "future_revenue_growth_3y": 0.3785430898,
+      "future_revenue_growth_3y": 0.3838575841,
       "sector_pe": 47.946214725606616
     },
     "industry_benchmarks_meta": {
@@ -151,18 +437,18 @@
         "url": "https://groww.in/stocks/manorama-industries-ltd"
       },
       "sws_statement": {
-        "company_pe": 39.5,
+        "company_pe": 42.8,
         "industry_pe": 18.7,
         "industry_name": "Indian Food",
-        "description": "MANORAMA is expensive based on its Price-To-Earnings Ratio (39.5x) compared to the Indian Food industry average (18.7x).",
+        "description": "MANORAMA is expensive based on its Price-To-Earnings Ratio (42.8x) compared to the Indian Food industry average (18.7x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 18.830078936,
+        "industry_pe": 18.650324238,
         "industry_code": "5120000",
         "type": "median_profitable",
-        "count": 217,
+        "count": 224,
         "source": {
           "type": "country",
           "country": "IN",
@@ -171,8 +457,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.9,
-        "sample_count": 218,
+        "industry_pe": 18,
+        "sample_count": 224,
         "industry_code": "5120000",
         "industry_name": "Food, Beverage & Tobacco"
       },
@@ -184,8 +470,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1426.4,
-        "fetched_at": "2026-05-31T20:49:35.930Z",
+        "value": 1540.7,
+        "fetched_at": "2026-06-10T23:53:45.134Z",
         "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-manorama/manorama-industries-shares"
       },
       "market_cap_inr": {
@@ -193,6 +479,24 @@
         "value": 86837100000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/manorama-industries-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 1832.010715,
+        "fetched_at": "2026-06-10T23:53:45.134Z",
+        "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-manorama/manorama-industries-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "76746112-378e-4b62-9812-82e39b936d7c",
+        "narrative_type": null,
+        "published_at": "2024-07-25T13:05:13.539Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 18.90768579217238,
+        "fetched_at": "2026-06-10T23:53:45.134Z",
+        "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-manorama/manorama-industries-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -233,13 +537,13 @@
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.06501183937,
-        "fetched_at": "2026-05-31T20:49:35.930Z",
+        "fetched_at": "2026-06-10T23:53:45.134Z",
         "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-manorama/manorama-industries-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.3785430898,
-        "fetched_at": "2026-05-31T20:49:35.930Z",
+        "value": 0.3838575841,
+        "fetched_at": "2026-06-10T23:53:45.134Z",
         "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-manorama/manorama-industries-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -371,16 +675,16 @@
     "quick_ratio": 0.4349681972825054,
     "cash_ratio": 0.19836020539695287,
     "returns_pct": {
-      "1D": -1.8374509668983428,
-      "7D": 2.8851702250432774,
-      "1M": -3.2161758718957705,
-      "3M": 0.007011147724892129,
-      "6M": 10.163731850478849,
-      "1Y": 3.9044289044289147,
+      "1D": 3.3471961363026623,
+      "7D": 4.8380511703865094,
+      "1M": -3.525360050093923,
+      "3M": 16.244152708616262,
+      "6M": 13.587437334119725,
+      "1Y": 11.677297767468842,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 1,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -447,8 +751,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.14139,
-        "shares": 84423,
+        "pct": 0.13349,
+        "shares": 79706,
         "is_insider": null
       },
       {
@@ -472,8 +776,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.0345,
-        "shares": 20598,
+        "pct": 0.03455,
+        "shares": 20631,
         "is_insider": null
       },
       {
@@ -829,16 +1133,6 @@
       "keyDevTypeId": null,
       "source_url": null,
       "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "8e7e6938-0e45-42d0-8abf-da347da936af",
-      "type": "article",
-      "date": "2025-12-05T00:25:51.000Z",
-      "title": "With EPS Growth And More, Manorama Industries (NSE:MANORAMA) Makes An Interesting Case",
-      "body": "The excitement of investing in a company that can reverse its fortunes is a big draw for some speculators, so even...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-manorama/manorama-industries-shares/news/with-eps-growth-and-more-manorama-industries-nsemanorama-mak",
-      "raw_subtype": "article"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/MANORAMA.json"

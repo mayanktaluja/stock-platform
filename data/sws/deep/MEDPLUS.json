@@ -3,7 +3,7 @@
   "name": "MedPlus Health Services Limited",
   "sector": "Consumer Retailing",
   "sws_url": "https://simplywall.st/stocks/in/consumer-retailing/nse-medplus/medplus-health-services-shares",
-  "parsed_at": "2026-05-31T20:56:15.715Z",
+  "parsed_at": "2026-06-10T23:58:44.470Z",
   "company_id": "AFD738B2-651B-4AEE-87F0-BD4D5A17EFAA",
   "classification_status": "Active",
   "groww_source": {
@@ -75,22 +75,308 @@
         }
       ]
     },
-    "current_price_inr": 895.2,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_NOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 859.45,
     "market_cap_inr": 105882200000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midsmall4",
     "shares_outstanding": 120054642,
     "fifty_two_week": {
       "low": 732,
       "high": 1045.3
     },
-    "fair_value_inr": 1059.71429,
+    "fair_value_inr": 1168.71429,
     "fair_value_range_inr": {
-      "min": 734.724478,
-      "max": 1059.71429,
+      "min": 748.437921,
+      "max": 1168.71429,
       "count": 9
     },
-    "upside_pct": 18.377378239499535,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "5bb989e2-0de2-4bb3-a89d-16d4b86fef49",
+      "narrative_type": null,
+      "published_at": "2026-06-04T12:04:02.930Z"
+    },
+    "upside_pct": 35.983976962010566,
     "multiples": {
       "pe": 48.22,
       "ps": 1.54,
@@ -107,10 +393,10 @@
       "pe_source_url": "https://groww.in/stocks/medplus-health-services-ltd"
     },
     "rewards": [
-      "Analysts in good agreement that stock price will rise by 29.9%",
+      "Analysts in good agreement that stock price will rise by 35.7%",
       "Earnings grew by 46.1% over the past year",
       "Earnings are forecast to grow 16.73% per year",
-      "Trading at good value vs. peer average Price-To-Earnings ratio"
+      "Trading below our calculated fair Price-To-Earnings ratio"
     ],
     "risks": [],
     "dividend": {
@@ -124,8 +410,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 75.0238404110117,
-      "net_income_margin_1y": 0.03009997456,
-      "future_revenue_growth_3y": 0.1832842824,
+      "net_income_margin_1y": 0.02984475051,
+      "future_revenue_growth_3y": 0.1811959319,
       "sector_pe": 75.0238404110117
     },
     "industry_benchmarks_meta": {
@@ -160,18 +446,18 @@
         "url": "https://groww.in/stocks/medplus-health-services-ltd"
       },
       "sws_statement": {
-        "company_pe": 48.9,
-        "industry_pe": 20.5,
+        "company_pe": 47.1,
+        "industry_pe": 20.3,
         "industry_name": "Indian Consumer Retailing",
-        "description": "MEDPLUS is expensive based on its Price-To-Earnings Ratio (48.9x) compared to the Indian Consumer Retailing industry average (20.5x).",
+        "description": "MEDPLUS is expensive based on its Price-To-Earnings Ratio (47.1x) compared to the Indian Consumer Retailing industry average (20.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 18.66844887,
+        "industry_pe": 20.344741441,
         "industry_code": "5020000",
         "type": "median_profitable",
-        "count": 41,
+        "count": 44,
         "source": {
           "type": "country",
           "country": "IN",
@@ -180,25 +466,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.5,
-        "sample_count": 35,
+        "industry_pe": 15.350000000000001,
+        "sample_count": 38,
         "industry_code": "5020000",
         "industry_name": "Consumer Retailing"
       },
       "sws_primary_industry": {
-        "industry_pe": 15.975002045,
+        "industry_pe": 15.804509041,
         "industry_name": "Consumer Retailing",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 60.270706392772425
+        "company_pe": 46.975384393691755
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 895.2,
-        "fetched_at": "2026-05-31T20:56:15.715Z",
+        "value": 859.45,
+        "fetched_at": "2026-06-10T23:58:44.470Z",
         "url": "https://simplywall.st/stocks/in/consumer-retailing/nse-medplus/medplus-health-services-shares"
       },
       "market_cap_inr": {
@@ -206,6 +492,24 @@
         "value": 105882200000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/medplus-health-services-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 1168.71429,
+        "fetched_at": "2026-06-10T23:58:44.470Z",
+        "url": "https://simplywall.st/stocks/in/consumer-retailing/nse-medplus/medplus-health-services-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "5bb989e2-0de2-4bb3-a89d-16d4b86fef49",
+        "narrative_type": null,
+        "published_at": "2026-06-04T12:04:02.930Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 35.983976962010566,
+        "fetched_at": "2026-06-10T23:58:44.470Z",
+        "url": "https://simplywall.st/stocks/in/consumer-retailing/nse-medplus/medplus-health-services-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -245,14 +549,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.03009997456,
-        "fetched_at": "2026-05-31T20:56:15.715Z",
+        "value": 0.02984475051,
+        "fetched_at": "2026-06-10T23:58:44.470Z",
         "url": "https://simplywall.st/stocks/in/consumer-retailing/nse-medplus/medplus-health-services-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.1832842824,
-        "fetched_at": "2026-05-31T20:56:15.715Z",
+        "value": 0.1811959319,
+        "fetched_at": "2026-06-10T23:58:44.470Z",
         "url": "https://simplywall.st/stocks/in/consumer-retailing/nse-medplus/medplus-health-services-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -361,13 +665,13 @@
         "url": "https://groww.in/stocks/medplus-health-services-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 77.9220131308495,
+    "earnings_growth_yoy_pct": 23.178945361350852,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 3.216542628965609,
-    "latest_revenue": 61898620000,
-    "latest_net_income": 1783170000,
+    "revenue_growth_pct": 11.35088310530994,
+    "latest_revenue": 68924660000,
+    "latest_net_income": 2196490000,
     "latest_eps": 18.29,
-    "most_recent_reported_date": "2025-09-04",
+    "most_recent_reported_date": "2026-06-04",
     "pb": 5.36,
     "ps": 1.54,
     "book_value": 164.5384881,
@@ -384,16 +688,16 @@
     "quick_ratio": 0.9966197101365174,
     "cash_ratio": 0.6704870228786143,
     "returns_pct": {
-      "1D": 1.5138629018540593,
-      "7D": -0.39499304589707424,
-      "1M": 1.6579604814898958,
-      "3M": 5.615856536101937,
-      "6M": 10.682492581602386,
-      "1Y": -5.499841655230646,
+      "1D": -0.18002322880371133,
+      "7D": -4.014965378601735,
+      "1M": -1.8612617756208913,
+      "3M": 1.818504916479093,
+      "6M": 6.823690261636951,
+      "1Y": -4.084593493666638,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 5,
+    "recent_news_count": 7,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -490,8 +794,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.03774,
-        "shares": 1245857,
+        "pct": 1.03669,
+        "shares": 1244589,
         "is_insider": null
       },
       {
@@ -519,16 +823,22 @@
     "payment_count": 0
   },
   "fiscal": {
-    "most_recent_reported_date": "2025-09-04",
-    "latest_year": 2025,
-    "latest_revenue": 61898620000,
-    "latest_net_income": 1783170000,
+    "most_recent_reported_date": "2026-06-04",
+    "latest_year": 2026,
+    "latest_revenue": 68924660000,
+    "latest_net_income": 2196490000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 3.216542628965609,
-    "earnings_growth_pct": 77.9220131308495,
-    "net_margin_pct": 2.880791203422629,
+    "revenue_growth_pct": 11.35088310530994,
+    "earnings_growth_pct": 23.178945361350852,
+    "net_margin_pct": 3.1867984550087005,
     "yearly_history": [
+      {
+        "year": 2026,
+        "revenue": 68924660000,
+        "netIncome": 2196490000,
+        "eps": null
+      },
       {
         "year": 2025,
         "revenue": 61898620000,
@@ -537,26 +847,20 @@
       },
       {
         "year": 2024,
-        "revenue": 59969670000,
-        "netIncome": 1002220000,
+        "revenue": 58293840000,
+        "netIncome": 760500000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 51361820000,
-        "netIncome": 583460000,
+        "revenue": 48482180000,
+        "netIncome": 503480000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 40136370000,
-        "netIncome": 386660000,
-        "eps": null
-      },
-      {
-        "year": 2021,
-        "revenue": 34866340000,
-        "netIncome": 1081630000,
+        "revenue": 38177520000,
+        "netIncome": 524130000,
         "eps": null
       }
     ]
@@ -762,6 +1066,26 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "3ea9f2cb-e492-4c8c-a5ab-6e87c1dc4057",
+      "type": "narrative-update",
+      "date": "2026-06-04T12:04:02.000Z",
+      "title": "MEDPLUS: CSR Subsidiary And AGM Timeline Will Support Bullish Repricing",
+      "body": "Analysts have raised the price target on MedPlus Health Services from ₹1,059.71 to ₹1,168.71, citing updated assumptions around revenue growth, profit margins, discount rate, and expected future P/E. What's in the News A board meeting is scheduled for May 20, 2026, at 14:00 IST to consider and approve audited standalone and consolidated financial results for the quarter and full year ended March 31, 2026.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/consumer-retailing/nse-medplus/medplus-health-services-shares/92b1xopi-diagnostics-expansion-and-private-labels-will-strengthen-market-position-7vjw/updates/12-analysts-have-raised-the-price-target-on-medplus-health-serv",
+      "raw_subtype": "narrative-update"
+    },
+    {
+      "id": "d4f68927-9d87-4785-9376-b9fc2f7d410c",
+      "type": "brief",
+      "date": "2026-05-31T22:47:36.000Z",
+      "title": "Now 22% overvalued after recent price rise",
+      "body": "Over the last 90 days, the stock has risen 6.6% to ₹895. The fair value is estimated to be ₹735, however this is not to be taken as a sell recommendation but rather should be used as a guide only. Revenue has grown by 12% over the last 3 years. Earnings per share has grown by 55%. For the next 3 years, revenue is forecast to grow by 13% per annum. Earnings are also forecast to grow by 17% per annum over the same time period.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "5c276a68-239f-4ba4-8ed5-2dd4c2acf329",
       "type": "article",

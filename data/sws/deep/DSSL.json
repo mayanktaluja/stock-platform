@@ -3,7 +3,7 @@
   "name": "Dynacons Systems & Solutions Limited",
   "sector": "Software",
   "sws_url": "https://simplywall.st/stocks/in/software/nse-dssl/dynacons-systems-solutions-shares",
-  "parsed_at": "2026-05-31T22:38:58.916Z",
+  "parsed_at": "2026-06-11T01:34:21.099Z",
   "company_id": "977D9845-4464-40A7-88E4-A62FB3A92607",
   "classification_status": "Active",
   "groww_source": {
@@ -18,16 +18,16 @@
     "snowflake": {
       "valuation": 1,
       "future": 0,
-      "past": 5,
+      "past": 4,
       "financial_health": 6,
       "dividends": 0,
       "future_growth": 0,
-      "past_performance": 5,
+      "past_performance": 4,
       "value": 1,
       "health": 6,
       "dividend": 0
     },
-    "snowflake_total": 12,
+    "snowflake_total": 11,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 7,
@@ -76,22 +76,308 @@
         }
       ]
     },
-    "current_price_inr": 1745.9,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 1374.7,
     "market_cap_inr": 22963700000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 781,
       "high": 1924.8
     },
-    "fair_value_inr": 450.212143,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 450.212143,
+      "min": 7.254998,
       "max": 1470.61,
       "count": 3
     },
-    "upside_pct": -74.21317698608168,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "45759163-4b69-4776-abf1-7754f80b9d8d",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 27.33,
       "ps": 1.7,
@@ -108,10 +394,12 @@
       "pe_source_url": "https://groww.in/stocks/dynacons-systems-solutions-ltd"
     },
     "rewards": [
-      "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Earnings grew by 23% over the past year"
+      "Trading at good value vs. industry average Price-To-Earnings ratio",
+      "Price-To-Earnings ratio (19.7x) is below the Indian market (22.9x)",
+      "Earnings grew by 17% over the past year"
     ],
     "risks": [
+      "High level of [[non-cash earnings]]",
       "Highly volatile share price over past 3 months"
     ],
     "dividend": {
@@ -217,8 +505,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 18.761595487228476,
-      "net_income_margin_1y": 0.1202305246,
-      "future_revenue_growth_3y": 0.2209798542,
+      "net_income_margin_1y": 0.1114700445,
+      "future_revenue_growth_3y": 0.2229716203,
       "sector_pe": 18.761595487228476
     },
     "industry_benchmarks_meta": {
@@ -253,18 +541,18 @@
         "url": "https://groww.in/stocks/dynacons-systems-solutions-ltd"
       },
       "sws_statement": {
-        "company_pe": 26.5,
-        "industry_pe": 23.6,
+        "company_pe": 19.7,
+        "industry_pe": 23,
         "industry_name": "Indian IT",
-        "description": "DSSL is expensive based on its Price-To-Earnings Ratio (26.5x) compared to the Indian IT industry average (23.6x).",
+        "description": "DSSL is good value based on its Price-To-Earnings Ratio (19.7x) compared to the Indian IT industry average (23x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 23.644221907,
+        "industry_pe": 22.964061807,
         "industry_code": "8030000",
         "type": "median_profitable",
-        "count": 126,
+        "count": 127,
         "source": {
           "type": "country",
           "country": "IN",
@@ -273,8 +561,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.4,
-        "sample_count": 123,
+        "industry_pe": 22.5,
+        "sample_count": 126,
         "industry_code": "8030000",
         "industry_name": "Software"
       },
@@ -286,8 +574,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1745.9,
-        "fetched_at": "2026-05-31T22:38:58.916Z",
+        "value": 1374.7,
+        "fetched_at": "2026-06-11T01:34:21.099Z",
         "url": "https://simplywall.st/stocks/in/software/nse-dssl/dynacons-systems-solutions-shares"
       },
       "market_cap_inr": {
@@ -334,14 +622,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.1202305246,
-        "fetched_at": "2026-05-31T22:38:58.916Z",
+        "value": 0.1114700445,
+        "fetched_at": "2026-06-11T01:34:21.099Z",
         "url": "https://simplywall.st/stocks/in/software/nse-dssl/dynacons-systems-solutions-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.2209798542,
-        "fetched_at": "2026-05-31T22:38:58.916Z",
+        "value": 0.2229716203,
+        "fetched_at": "2026-06-11T01:34:21.099Z",
         "url": "https://simplywall.st/stocks/in/software/nse-dssl/dynacons-systems-solutions-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -473,16 +761,16 @@
     "quick_ratio": 1.318343240948043,
     "cash_ratio": 0.1639388558635065,
     "returns_pct": {
-      "1D": -3.209890231733001,
-      "7D": 0.6630535055350553,
-      "1M": 65.93641591027894,
-      "3M": 87.62022459835583,
-      "6M": 90.72536596023598,
-      "1Y": 61.80722891566266,
+      "1D": 4.9950355151607795,
+      "7D": -3.7190082644628037,
+      "1M": -3.7190082644628037,
+      "3M": 51.465403261348605,
+      "6M": 40.44748671843074,
+      "1Y": 25.26881720430107,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 4,
+    "recent_news_count": 6,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -857,6 +1145,36 @@
   ],
   "news": [
     {
+      "id": "ab1e56a4-0938-4e1c-a706-0c60f83e1759",
+      "type": "article",
+      "date": "2026-06-07T03:05:09.000Z",
+      "title": "Dynacons Systems & Solutions' (NSE:DSSL) Earnings Are Weaker Than They Seem",
+      "body": "Investors were disappointed with Dynacons Systems & Solutions Limited's ( NSE:DSSL ) earnings, despite the strong...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/software/nse-dssl/dynacons-systems-solutions-shares/news/dynacons-systems-solutions-nsedssl-earnings-are-weaker-than",
+      "raw_subtype": "article"
+    },
+    {
+      "id": "d23a2083-0120-4acc-a1dc-5846dabf4813",
+      "type": "brief",
+      "date": "2026-06-06T19:52:48.000Z",
+      "title": "Investor sentiment deteriorates as stock falls 26%",
+      "body": "After last week's 26% share price decline to ₹1,289, the stock trades at a trailing P/E ratio of 19.3x. Average trailing P/E is 23x in the IT industry in India. Total returns to shareholders of 173% over the past three years.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "418a9643-286c-45e6-95a7-3f266dc375ab",
+      "type": "brief",
+      "date": "2026-06-02T12:31:59.000Z",
+      "title": "Full year 2026 earnings released: EPS: ₹66.64 (vs ₹56.93 in FY 2025)",
+      "body": "Full year 2026 results: EPS: ₹66.64 (up from ₹56.93 in FY 2025). Revenue: ₹14.3b (up 13% from FY 2025). Net income: ₹847.4m (up 17% from FY 2025). Profit margin: 5.9% (up from 5.7% in FY 2025). The increase in margin was driven by higher revenue. Over the last 3 years on average, earnings per share has increased by 26% per year but the company’s share price has increased by 45% per year, which means it is tracking significantly ahead of earnings growth.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
       "id": "100a5ed5-64e2-4a3f-9488-01ede0e224d2",
       "type": "event",
       "date": "2026-05-25T14:05:00.000Z",
@@ -935,36 +1253,6 @@
       "keyDevTypeId": "55",
       "source_url": null,
       "raw_subtype": "EventActivity"
-    },
-    {
-      "id": "3ba05e4b-789f-4993-8134-a3ddaa678fe2",
-      "type": "article",
-      "date": "2025-12-16T00:33:48.000Z",
-      "title": "Estimating The Fair Value Of Dynacons Systems & Solutions Limited (NSE:DSSL)",
-      "body": "Key Insights Dynacons Systems & Solutions' estimated fair value is ₹971 based on 2 Stage Free Cash Flow to Equity With...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/software/nse-dssl/dynacons-systems-solutions-shares/news/estimating-the-fair-value-of-dynacons-systems-solutions-limi",
-      "raw_subtype": "article"
-    },
-    {
-      "id": "71ddf46c-464b-498b-8be8-721419cfa20b",
-      "type": "brief",
-      "date": "2025-12-15T12:30:20.000Z",
-      "title": "Investor sentiment improves as stock rises 16%",
-      "body": "After last week's 16% share price gain to ₹993, the stock trades at a trailing P/E ratio of 16x. Average trailing P/E is 25x in the IT industry in India. Total returns to shareholders of 174% over the past three years.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "d41a6e72-fbff-4dd2-b76d-c5c0896c8428",
-      "type": "brief",
-      "date": "2025-12-12T11:52:29.000Z",
-      "title": "New minor risk - Share price stability",
-      "body": "The company's share price has been volatile over the past 3 months. It is more volatile than 75% of Indian stocks, typically moving 6.9% a week. This is considered a minor risk. Share price volatility indicates the stock is highly sensitive to market conditions or economic conditions rather than being sensitive to its own business performance, which may also be inconsistent. It also increases the risk of potential losses in the short term as the stock tends to have larger drops in price more frequently than other stocks. Currently, the following risks have been identified for the company: Major Risk High level of non-cash earnings (31% accrual ratio). Minor Risk Share price has been volatile over the past 3 months (6.9% average weekly change).",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/DSSL.json"

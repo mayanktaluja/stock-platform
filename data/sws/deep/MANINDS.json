@@ -3,7 +3,7 @@
   "name": "Man Industries (India) Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-maninds/man-industries-india-shares",
-  "parsed_at": "2026-05-31T20:49:18.403Z",
+  "parsed_at": "2026-06-10T23:52:03.581Z",
   "company_id": "94CE7940-A8F0-46D4-BECD-78B5774BE474",
   "classification_status": "Active",
   "groww_source": {
@@ -70,22 +70,308 @@
         }
       ]
     },
-    "current_price_inr": 500.5,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SAME_PE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 528.75,
     "market_cap_inr": 39695100000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 302.05,
       "high": 606.4
     },
-    "fair_value_inr": 689.51782,
+    "fair_value_inr": 690.718478,
     "fair_value_range_inr": {
-      "min": 689.51782,
-      "max": 789.406689,
+      "min": 690.718478,
+      "max": 802.47946,
       "count": 7
     },
-    "upside_pct": 37.765798201798205,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "cdc6840f-591c-40c9-98f9-99fabe397a12",
+      "narrative_type": null,
+      "published_at": "2024-07-25T13:16:08.436Z"
+    },
+    "upside_pct": 30.632336264775418,
     "multiples": {
       "pe": 23.28,
       "ps": 1.11,
@@ -104,7 +390,7 @@
     "rewards": [
       "Earnings are forecast to grow 48.65% per year",
       "Earnings have grown 14.9% per year over the past 5 years",
-      "Trading at 36.6% below our estimate of its fair value",
+      "Trading at 35% below our estimate of its fair value",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading below our calculated fair Price-To-Earnings ratio"
     ],
@@ -227,8 +513,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 27.706219018768824,
-      "net_income_margin_1y": 0.06405545837,
-      "future_revenue_growth_3y": 0.4628660854,
+      "net_income_margin_1y": 0.06358528991,
+      "future_revenue_growth_3y": 0.4761643462,
       "sector_pe": 27.706219018768824
     },
     "industry_benchmarks_meta": {
@@ -263,18 +549,18 @@
         "url": "https://groww.in/stocks/man-industries-india-ltd"
       },
       "sws_statement": {
-        "company_pe": 22,
-        "industry_pe": 15.1,
+        "company_pe": 22.8,
+        "industry_pe": 14.4,
         "industry_name": "Indian Construction",
-        "description": "MANINDS is expensive based on its Price-To-Earnings Ratio (22x) compared to the Indian Construction industry average (15.1x).",
+        "description": "MANINDS is expensive based on its Price-To-Earnings Ratio (22.8x) compared to the Indian Construction industry average (14.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 15.073268522,
+        "industry_pe": 14.393596444,
         "industry_code": "3040000",
         "type": "median_profitable",
-        "count": 188,
+        "count": 189,
         "source": {
           "type": "country",
           "country": "IN",
@@ -283,8 +569,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.1,
-        "sample_count": 184,
+        "industry_pe": 13.8,
+        "sample_count": 187,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -296,8 +582,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 500.5,
-        "fetched_at": "2026-05-31T20:49:18.403Z",
+        "value": 528.75,
+        "fetched_at": "2026-06-10T23:52:03.581Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-maninds/man-industries-india-shares"
       },
       "market_cap_inr": {
@@ -305,6 +591,24 @@
         "value": 39695100000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/man-industries-india-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 690.718478,
+        "fetched_at": "2026-06-10T23:52:03.581Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-maninds/man-industries-india-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "cdc6840f-591c-40c9-98f9-99fabe397a12",
+        "narrative_type": null,
+        "published_at": "2024-07-25T13:16:08.436Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 30.632336264775418,
+        "fetched_at": "2026-06-10T23:52:03.581Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-maninds/man-industries-india-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -344,14 +648,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.06405545837,
-        "fetched_at": "2026-05-31T20:49:18.403Z",
+        "value": 0.06358528991,
+        "fetched_at": "2026-06-10T23:52:03.581Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-maninds/man-industries-india-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.4628660854,
-        "fetched_at": "2026-05-31T20:49:18.403Z",
+        "value": 0.4761643462,
+        "fetched_at": "2026-06-10T23:52:03.581Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-maninds/man-industries-india-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -483,16 +787,16 @@
     "quick_ratio": 0.7692772661471649,
     "cash_ratio": 0.25302999969199497,
     "returns_pct": {
-      "1D": -5.315928868709804,
-      "7D": -12.377450980392164,
-      "1M": -4.137138479218545,
-      "3M": 8.345058989068084,
-      "6M": 7.311320754716986,
-      "1Y": 24.11655300681959,
+      "1D": 1.8589867077634321,
+      "7D": 6.5705935704928,
+      "1M": -1.416985177589265,
+      "3M": 28.649635036496353,
+      "6M": 19.248985115020304,
+      "1Y": 35.24747410154752,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 5,
+    "recent_news_count": 6,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -589,13 +893,13 @@
         "is_insider": null
       },
       {
-        "pct": 0.46824,
-        "shares": 351226,
+        "pct": 0.49958,
+        "shares": 374732,
         "is_insider": null
       },
       {
-        "pct": 0.14791,
-        "shares": 110943,
+        "pct": 0.15977,
+        "shares": 119840,
         "is_insider": null
       }
     ],
@@ -929,6 +1233,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "01c00c1f-f1c9-4466-a4a5-4a6f642d1429",
+      "type": "article",
+      "date": "2026-06-01T08:45:04.000Z",
+      "title": "Additional Considerations Required While Assessing Man Industries (India)'s (NSE:MANINDS) Strong Earnings",
+      "body": "Last week's profit announcement from Man Industries (India) Limited ( NSE:MANINDS ) was underwhelming for investors...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/capital-goods/nse-maninds/man-industries-india-shares/news/additional-considerations-required-while-assessing-man-indus",
+      "raw_subtype": "article"
+    },
     {
       "id": "5275ea39-0c65-472c-bcb0-35827f12cb2c",
       "type": "article",

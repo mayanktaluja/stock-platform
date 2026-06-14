@@ -3,7 +3,7 @@
   "name": "Tranway21 Technologies Limited",
   "sector": "Software",
   "sws_url": "https://simplywall.st/stocks/in/software/bse-542923/tranway21-technologies-shares",
-  "parsed_at": "2026-05-31T20:07:49.229Z",
+  "parsed_at": "2026-06-10T23:09:23.691Z",
   "company_id": "1A4A076D-39BD-44F8-A4DD-B1EC30747AB1",
   "classification_status": "Active",
   "groww_source": {
@@ -16,26 +16,25 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 4,
+      "valuation": 1,
       "future": 0,
-      "past": 0,
-      "financial_health": 5,
+      "past": 2,
+      "financial_health": 4,
       "dividends": 0,
       "future_growth": 0,
-      "past_performance": 0,
-      "value": 4,
-      "health": 5,
+      "past_performance": 2,
+      "value": 1,
+      "health": 4,
       "dividend": 0
     },
-    "snowflake_total": 9,
+    "snowflake_total": 7,
     "snowflake_data_quality": {
       "insufficient": true,
-      "insufficient_count": 11,
+      "insufficient_count": 10,
       "checked_count": 30,
       "affected_pillars": [
         "Value",
         "Future",
-        "Health",
         "Dividends"
       ],
       "by_pillar": {
@@ -53,7 +52,7 @@
         },
         "Health": {
           "checked": 6,
-          "insufficient": 1
+          "insufficient": 0
         },
         "Dividends": {
           "checked": 6,
@@ -78,46 +77,331 @@
         }
       ]
     },
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_BECOME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
     "current_price_inr": 4,
     "market_cap_inr": 42400000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 3.55,
       "high": 7.75
     },
-    "fair_value_inr": 13.107418,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 227.68544999999997,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "d4838c13-96f1-436e-a4a8-666dd1a208ee",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
-      "pe": null,
+      "pe": 46.4,
       "ps": 0.73,
       "pb": 0.25,
       "ev_ebitda": 43.88,
       "peg": 0
     },
     "multiples_meta": {
-      "pe_source": null,
-      "pe_source_label": null,
+      "pe_source": "sws_statement",
+      "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": null,
+      "pe_as_of": "2026-06-10T23:09:23.691Z",
       "pe_basis": "trailing_ttm",
-      "pe_source_url": null
+      "pe_source_url": "https://simplywall.st/stocks/in/software/bse-542923/tranway21-technologies-shares"
     },
     "rewards": [
-      "Trading at good value vs. peer average Price-To-Sales ratio",
-      "Trading at good value vs. industry average Price-To-Sales ratio",
-      "Trading at 69.5% below our estimate of its fair value"
+      "Became profitable this year",
+      "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
     "risks": [
       "Shares are highly illiquid",
-      "Makes less than USD$1m in revenue (₹54M)",
-      "Earnings have declined by 44.1% per year over past 5 years",
+      "Earnings have declined by 64.1% per year over past 5 years",
+      "Makes less than USD$1m in revenue (₹44M)",
       "Does not have a meaningful market cap (₹42M)"
     ],
     "dividend": {
@@ -131,8 +415,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 18.761595487228476,
-      "net_income_margin_1y": 0.1202305246,
-      "future_revenue_growth_3y": 0.2209798542,
+      "net_income_margin_1y": 0.1114700445,
+      "future_revenue_growth_3y": 0.2229716203,
       "sector_pe": 18.761595487228476
     },
     "industry_benchmarks_meta": {
@@ -147,9 +431,9 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": null,
-      "company_pe_source": null,
-      "company_pe_source_label": null,
+      "company_pe": 46.4,
+      "company_pe_source": "sws_statement",
+      "company_pe_source_label": "SWS visible statement",
       "industry_pe": 18.761595487228476,
       "industry_name": "IT - Software",
       "industry_id": 34,
@@ -167,18 +451,18 @@
         "url": "https://groww.in/stocks/tranway-technologies-ltd"
       },
       "sws_statement": {
-        "company_pe": null,
-        "industry_pe": 2.3,
+        "company_pe": 46.4,
+        "industry_pe": 23,
         "industry_name": "Indian IT",
-        "description": "542923 is good value based on its Price-To-Sales Ratio (0.8x) compared to the Indian IT industry average (2.3x).",
-        "title": "Price-To-Sales vs Industry",
+        "description": "542923 is expensive based on its Price-To-Earnings Ratio (46.4x) compared to the Indian IT industry average (23x).",
+        "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 23.644221907,
+        "industry_pe": 22.964061807,
         "industry_code": "8030000",
         "type": "median_profitable",
-        "count": 126,
+        "count": 127,
         "source": {
           "type": "country",
           "country": "IN",
@@ -187,8 +471,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.4,
-        "sample_count": 123,
+        "industry_pe": 22.5,
+        "sample_count": 126,
         "industry_code": "8030000",
         "industry_name": "Software"
       },
@@ -201,7 +485,7 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 4,
-        "fetched_at": "2026-05-31T20:07:49.229Z",
+        "fetched_at": "2026-06-10T23:09:23.691Z",
         "url": "https://simplywall.st/stocks/in/software/bse-542923/tranway21-technologies-shares"
       },
       "market_cap_inr": {
@@ -209,6 +493,12 @@
         "value": 42400000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/tranway-technologies-ltd"
+      },
+      "multiples.pe": {
+        "provider": "sws_statement",
+        "value": 46.4,
+        "fetched_at": "2026-06-10T23:09:23.691Z",
+        "url": "https://simplywall.st/stocks/in/software/bse-542923/tranway21-technologies-shares"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
@@ -242,14 +532,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.1202305246,
-        "fetched_at": "2026-05-31T20:07:49.229Z",
+        "value": 0.1114700445,
+        "fetched_at": "2026-06-10T23:09:23.691Z",
         "url": "https://simplywall.st/stocks/in/software/bse-542923/tranway21-technologies-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.2209798542,
-        "fetched_at": "2026-05-31T20:07:49.229Z",
+        "value": 0.2229716203,
+        "fetched_at": "2026-06-10T23:09:23.691Z",
         "url": "https://simplywall.st/stocks/in/software/bse-542923/tranway21-technologies-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -380,7 +670,7 @@
       "1M": 7.238605898123325,
       "3M": -11.308203991130817,
       "6M": -27.536231884057965,
-      "1Y": -29.701230228471005,
+      "1Y": -30.434782608695656,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -547,6 +837,16 @@
   ],
   "news": [
     {
+      "id": "38cfe5c6-7131-4a1e-872a-e70a1264ffea",
+      "type": "brief",
+      "date": "2026-06-01T02:17:35.000Z",
+      "title": "Full year 2026 earnings released: EPS: ₹0.09 (vs ₹0.17 loss in FY 2025)",
+      "body": "Full year 2026 results: EPS: ₹0.09 (up from ₹0.17 loss in FY 2025). Revenue: ₹53.1m (down 8.5% from FY 2025). Net income: ₹914.0k (up ₹2.68m from FY 2025). Profit margin: 1.7% (up from net loss in FY 2025). The move to profitability was driven by lower expenses. Over the last 3 years on average, earnings per share has fallen by 41% per year but the company’s share price has only fallen by 24% per year, which means it has not declined as severely as earnings.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
       "id": "d87dde30-cf67-4036-9900-fe0a87d184f2",
       "type": "event",
       "date": "2026-05-26T06:44:00.000Z",
@@ -590,16 +890,6 @@
       "id": "9700764d-0e9d-4af3-bb3a-ce63a10171af",
       "type": "brief",
       "date": "2026-02-10T11:48:30.000Z",
-      "title": "Insufficient new directors",
-      "body": "No new directors have joined the board in the last 3 years. The company's board is composed of: No new directors. 3 experienced directors. 2 highly experienced directors. Non-Executive Independent Director Nagaraj Ramasubbarao was the last director to join the board, commencing their role in 2022. The company’s insufficient board refreshment is considered a risk according to the Simply Wall St Risk Model.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "c9c595cc-7bc4-4935-9890-cf93a9aa8b7b",
-      "type": "brief",
-      "date": "2025-12-09T12:05:04.000Z",
       "title": "Insufficient new directors",
       "body": "No new directors have joined the board in the last 3 years. The company's board is composed of: No new directors. 3 experienced directors. 2 highly experienced directors. Non-Executive Independent Director Nagaraj Ramasubbarao was the last director to join the board, commencing their role in 2022. The company’s insufficient board refreshment is considered a risk according to the Simply Wall St Risk Model.",
       "keyDevTypeId": null,

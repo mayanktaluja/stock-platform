@@ -3,7 +3,7 @@
   "name": "Mahindra & Mahindra Limited",
   "sector": "Automobiles",
   "sws_url": "https://simplywall.st/stocks/in/automobiles/nse-m-m/mahindra-mahindra-shares",
-  "parsed_at": "2026-05-31T20:43:20.799Z",
+  "parsed_at": "2026-06-10T23:48:45.000Z",
   "company_id": "2724BCA0-F90E-4378-9F66-DEB5F5B97034",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 3
     },
     "snowflake_total": 16,
-    "current_price_inr": 3045.6,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DECLINE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DECLINE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DIVIDENDS_NOT_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 2952.5,
     "market_cap_inr": 3879312500000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "mega8",
     "shares_outstanding": 1117560000,
     "fifty_two_week": {
       "low": 2896,
       "high": 3839.9
     },
-    "fair_value_inr": 4138.82857,
+    "fair_value_inr": 4143.64706,
     "fair_value_range_inr": {
-      "min": 627.447908,
+      "min": 625.225625,
       "max": 4143.64706,
       "count": 62
     },
-    "upside_pct": 35.895343117940634,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "347422c0-6394-435c-8a18-f29ddcd681ce",
+      "narrative_type": null,
+      "published_at": "2026-06-04T18:09:31.050Z"
+    },
+    "upside_pct": 40.34367688399662,
     "multiples": {
       "pe": 20.83,
       "ps": 1.96,
@@ -62,13 +348,13 @@
     "rewards": [
       "Earnings are forecast to grow 7.27% per year",
       "Trading below our calculated fair Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (19.9x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (19.5x) is below the Indian market (22.9x)",
       "Earnings grew by 32.3% over the past year",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Analysts in good agreement that stock price will rise by 36.1%"
+      "Analysts in good agreement that stock price will rise by 38.6%"
     ],
     "risks": [
-      "Dividend of 1.08% is not well covered by free cash flows",
+      "Dividend of 1.1% is not well covered by free cash flows",
       "Debt is not well covered by [[operating cash flow]]"
     ],
     "dividend": {
@@ -213,8 +499,8 @@
     "dividend_yield_pct": 0.95,
     "industry_benchmarks": {
       "pe": 24.54353882911374,
-      "net_income_margin_1y": 0.06373692101,
-      "future_revenue_growth_3y": 0.4240176673,
+      "net_income_margin_1y": 0.06320108827,
+      "future_revenue_growth_3y": 0.4149538086,
       "sector_pe": 24.54353882911374
     },
     "industry_benchmarks_meta": {
@@ -249,15 +535,15 @@
         "url": "https://groww.in/stocks/mahindra-mahindra-ltd"
       },
       "sws_statement": {
-        "company_pe": 19.9,
-        "industry_pe": 16.5,
+        "company_pe": 19.5,
+        "industry_pe": 16,
         "industry_name": "Asian Auto",
-        "description": "M&M is expensive based on its Price-To-Earnings Ratio (19.9x) compared to the Asian Auto industry average (16.5x).",
+        "description": "M&M is expensive based on its Price-To-Earnings Ratio (19.5x) compared to the Asian Auto industry average (16x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 27.210445305,
+        "industry_pe": 27.654661504,
         "industry_code": "4020000",
         "type": "median_profitable",
         "count": 15,
@@ -269,25 +555,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 27.65,
+        "industry_pe": 28.25,
         "sample_count": 18,
         "industry_code": "4020000",
         "industry_name": "Automobiles"
       },
       "sws_primary_industry": {
-        "industry_pe": 19.117936258,
+        "industry_pe": 19.1352443,
         "industry_name": "Automobiles",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 19.905670474914977
+        "company_pe": 19.297180219722378
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 3045.6,
-        "fetched_at": "2026-05-31T20:43:20.799Z",
+        "value": 2952.5,
+        "fetched_at": "2026-06-10T23:48:45.000Z",
         "url": "https://simplywall.st/stocks/in/automobiles/nse-m-m/mahindra-mahindra-shares"
       },
       "market_cap_inr": {
@@ -295,6 +581,24 @@
         "value": 3879312500000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/mahindra-mahindra-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 4143.64706,
+        "fetched_at": "2026-06-10T23:48:45.000Z",
+        "url": "https://simplywall.st/stocks/in/automobiles/nse-m-m/mahindra-mahindra-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "347422c0-6394-435c-8a18-f29ddcd681ce",
+        "narrative_type": null,
+        "published_at": "2026-06-04T18:09:31.050Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 40.34367688399662,
+        "fetched_at": "2026-06-10T23:48:45.000Z",
+        "url": "https://simplywall.st/stocks/in/automobiles/nse-m-m/mahindra-mahindra-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -334,14 +638,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.06373692101,
-        "fetched_at": "2026-05-31T20:43:20.799Z",
+        "value": 0.06320108827,
+        "fetched_at": "2026-06-10T23:48:45.000Z",
         "url": "https://simplywall.st/stocks/in/automobiles/nse-m-m/mahindra-mahindra-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.4240176673,
-        "fetched_at": "2026-05-31T20:43:20.799Z",
+        "value": 0.4149538086,
+        "fetched_at": "2026-06-10T23:48:45.000Z",
         "url": "https://simplywall.st/stocks/in/automobiles/nse-m-m/mahindra-mahindra-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -450,13 +754,13 @@
         "url": "https://groww.in/stocks/mahindra-mahindra-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 32.25089140002011,
+    "earnings_growth_yoy_pct": 24.538321416423702,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 25.62274016176813,
+    "revenue_growth_pct": 19.09334477095208,
     "latest_revenue": 2020843400000,
     "latest_net_income": 170988500000,
     "latest_eps": 149.75,
-    "most_recent_reported_date": "2026-05-15",
+    "most_recent_reported_date": "2026-06-04",
     "pb": 4.16,
     "ps": 1.96,
     "book_value": 749.1529918,
@@ -473,16 +777,16 @@
     "quick_ratio": 1.0774940705552247,
     "cash_ratio": 0.2754433818989659,
     "returns_pct": {
-      "1D": -2.4346488980010252,
-      "7D": -1.1586018888131722,
-      "1M": -3.384830124036426,
-      "3M": -10.354977335609588,
-      "6M": -18.941793309025105,
-      "1Y": 0.6510459697941049,
+      "1D": -1.2574830273234978,
+      "7D": -1.9461326425558736,
+      "1M": -9.039095474290647,
+      "3M": -2.5963314858801736,
+      "6M": -19.76030003261224,
+      "1Y": -3.7489812550937245,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 5,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -504,8 +808,8 @@
         "is_insider": null
       },
       {
-        "pct": 3.91444,
-        "shares": 43746265,
+        "pct": 3.87092,
+        "shares": 43259906,
         "is_insider": null
       },
       {
@@ -739,14 +1043,14 @@
     "payment_count": 10
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-15",
+    "most_recent_reported_date": "2026-06-04",
     "latest_year": 2026,
     "latest_revenue": 2020843400000,
     "latest_net_income": 170988500000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 25.62274016176813,
-    "earnings_growth_pct": 32.25089140002011,
+    "revenue_growth_pct": 19.09334477095208,
+    "earnings_growth_pct": 24.538321416423702,
     "net_margin_pct": 8.461244448728685,
     "yearly_history": [
       {
@@ -757,26 +1061,26 @@
       },
       {
         "year": 2025,
-        "revenue": 1608660500000,
-        "netIncome": 129291000000,
+        "revenue": 1696856700000,
+        "netIncome": 137297900000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 1409329500000,
-        "netIncome": 112686400000,
+        "revenue": 1441382900000,
+        "netIncome": 110428600000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 1222771600000,
-        "netIncome": 102815000000,
+        "revenue": 1278102800000,
+        "netIncome": 115943700000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 909446000000,
-        "netIncome": 65773200000,
+        "revenue": 1002048300000,
+        "netIncome": 83489800000,
         "eps": null
       }
     ]
@@ -1008,6 +1312,26 @@
   ],
   "news": [
     {
+      "id": "e2beb580-a509-4827-93dc-1b60751e5be3",
+      "type": "narrative-update",
+      "date": "2026-06-04T18:09:31.000Z",
+      "title": "M&M: New Life Insurance Venture Will Drive Next Upside Phase",
+      "body": "Analysts have nudged their fair value estimate for Mahindra & Mahindra slightly higher from ₹4,138.83 to ₹4,143.65, reflecting updated assumptions around the discount rate, revenue growth, profit margin and future P/E. What's in the News Mahindra & Mahindra and Manulife have incorporated their life insurance joint venture, Mahindra Manulife Insurance Limited, following approval from the Ministry of Corporate Affairs.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/automobiles/nse-m-m/mahindra-mahindra-shares/qo2p8x3v-india-manufacturing-partnerships-and-ev-momentum-will-drive-future-upside/updates/27-analysts-have-nudged-their-fair-value-estimate-for-mahindra",
+      "raw_subtype": "narrative-update"
+    },
+    {
+      "id": "0cfc2157-0fcb-4e93-a399-c478af623dac",
+      "type": "article",
+      "date": "2026-06-01T01:23:54.000Z",
+      "title": "Here's Why We Think Mahindra & Mahindra (NSE:M&M) Might Deserve Your Attention Today",
+      "body": "For beginners, it can seem like a good idea (and an exciting prospect) to buy a company that tells a good story to...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/automobiles/nse-m-m/mahindra-mahindra-shares/news/heres-why-we-think-mahindra-mahindra-nsemm-might-deserve-you-1",
+      "raw_subtype": "article"
+    },
+    {
       "id": "c570c604-a4c2-4058-b6bd-24d7e84e984f",
       "type": "narrative-update",
       "date": "2026-05-16T05:05:36.000Z",
@@ -1215,16 +1539,6 @@
       "body": "Analysts have nudged their price target for Mahindra & Mahindra slightly higher to reflect modestly stronger long term revenue growth expectations, which are partially offset by a marginally higher discount rate and a stable profit margin outlook. What's in the News Mahindra & Mahindra unveiled the XUV 7XO as its next major premium SUV, building on the XUV700 platform with upgraded design, technology, comfort and performance to reinforce its leadership in the segment (product announcement).",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/automobiles/nse-m-m/mahindra-mahindra-shares/qo2p8x3v-india-manufacturing-partnerships-and-ev-momentum-will-drive-future-upside/updates/17-analysts-have-nudged-their-price-target-for-mahindra-and-mahin",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "630ffadc-d837-485c-9aa5-6923a28fc23b",
-      "type": "narrative-update",
-      "date": "2025-12-09T03:11:00.000Z",
-      "title": "M&M: Upcoming Insurance Venture Will Drive Long-Term Upside Potential",
-      "body": "Analysts have nudged their price target for Mahindra & Mahindra slightly higher to ₹4,132.31, citing a marginally improved long term earnings outlook reflected in small upward adjustments to the discount rate, revenue growth, profit margin, and future P E assumptions. What's in the News Mahindra & Mahindra and Manulife Financial Corporation agreed to form a 50:50 life insurance joint venture in India, targeting leadership in rural and semi urban markets and committing up to USD 400 million each over time (strategic alliance).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/automobiles/nse-m-m/mahindra-mahindra-shares/qo2p8x3v-india-manufacturing-partnerships-and-ev-momentum-will-drive-future-upside/updates/16-analysts-have-nudged-their-price-target-for-mahindra-and-mahin",
       "raw_subtype": "narrative-update"
     }
   ],

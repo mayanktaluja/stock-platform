@@ -3,7 +3,7 @@
   "name": "Eternal Limited",
   "sector": "Consumer Services",
   "sws_url": "https://simplywall.st/stocks/in/consumer-services/nse-eternal/eternal-shares",
-  "parsed_at": "2026-05-31T22:47:07.888Z",
+  "parsed_at": "2026-06-11T01:44:05.423Z",
   "company_id": "F0171FBA-4E75-4B25-81D0-160696CF0730",
   "classification_status": "Active",
   "groww_source": {
@@ -75,22 +75,308 @@
         }
       ]
     },
-    "current_price_inr": 250.58,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_NOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 239.8,
     "market_cap_inr": 2475797500000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "mega8",
     "shares_outstanding": 9190000000,
     "fifty_two_week": {
       "low": 212.6,
       "high": 368.45
     },
-    "fair_value_inr": 464.69351,
+    "fair_value_inr": 346.65625,
     "fair_value_range_inr": {
-      "min": 37.75716,
+      "min": 38.225994,
       "max": 464.69351,
       "count": 128
     },
-    "upside_pct": 85.44716657354937,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "b886d5b7-8bcd-490e-b594-2ed1552b89cc",
+      "narrative_type": null,
+      "published_at": "2026-06-01T11:04:00.089Z"
+    },
+    "upside_pct": 44.56057130942451,
     "multiples": {
       "pe": null,
       "ps": 4.55,
@@ -125,8 +411,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 117.2719632175943,
-      "net_income_margin_1y": 0.08680669159,
-      "future_revenue_growth_3y": 0.3940313611,
+      "net_income_margin_1y": 0.08657243816,
+      "future_revenue_growth_3y": 0.39295204,
       "sector_pe": 117.2719632175943
     },
     "industry_benchmarks_meta": {
@@ -162,17 +448,17 @@
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 3,
+        "industry_pe": 2.8,
         "industry_name": "Indian Hospitality",
-        "description": "ETERNAL is expensive based on its Price-To-Sales Ratio (4.2x) compared to the Indian Hospitality industry average (3x).",
+        "description": "ETERNAL is expensive based on its Price-To-Sales Ratio (4.2x) compared to the Indian Hospitality industry average (2.8x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 27.078875295,
+        "industry_pe": 28.141130414,
         "industry_code": "4210000",
         "type": "median_profitable",
-        "count": 80,
+        "count": 81,
         "source": {
           "type": "country",
           "country": "IN",
@@ -181,13 +467,13 @@
         }
       },
       "internal_median": {
-        "industry_pe": 25.25,
+        "industry_pe": 26.450000000000003,
         "sample_count": 80,
         "industry_code": "4210000",
         "industry_name": "Consumer Services"
       },
       "sws_primary_industry": {
-        "industry_pe": 17.518712405,
+        "industry_pe": 17.366873383,
         "industry_name": "Consumer Services",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
@@ -198,8 +484,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 250.58,
-        "fetched_at": "2026-05-31T22:47:07.888Z",
+        "value": 239.8,
+        "fetched_at": "2026-06-11T01:44:05.423Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/nse-eternal/eternal-shares"
       },
       "market_cap_inr": {
@@ -207,6 +493,24 @@
         "value": 2475797500000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/zomato-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 346.65625,
+        "fetched_at": "2026-06-11T01:44:05.423Z",
+        "url": "https://simplywall.st/stocks/in/consumer-services/nse-eternal/eternal-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "b886d5b7-8bcd-490e-b594-2ed1552b89cc",
+        "narrative_type": null,
+        "published_at": "2026-06-01T11:04:00.089Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 44.56057130942451,
+        "fetched_at": "2026-06-11T01:44:05.423Z",
+        "url": "https://simplywall.st/stocks/in/consumer-services/nse-eternal/eternal-shares"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
@@ -240,14 +544,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.08680669159,
-        "fetched_at": "2026-05-31T22:47:07.888Z",
+        "value": 0.08657243816,
+        "fetched_at": "2026-06-11T01:44:05.423Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/nse-eternal/eternal-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.3940313611,
-        "fetched_at": "2026-05-31T22:47:07.888Z",
+        "value": 0.39295204,
+        "fetched_at": "2026-06-11T01:44:05.423Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/nse-eternal/eternal-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -362,7 +666,7 @@
     "latest_revenue": 543640000000,
     "latest_net_income": 3660000000,
     "latest_eps": 0.38,
-    "most_recent_reported_date": "2026-05-17",
+    "most_recent_reported_date": "2026-05-31",
     "pb": 7.98,
     "ps": 4.55,
     "book_value": 32.1501634,
@@ -379,12 +683,12 @@
     "quick_ratio": 2.383462623413258,
     "cash_ratio": 0.2685119887165021,
     "returns_pct": {
-      "1D": -2.311800709523987,
-      "7D": 3.5668526555073465,
-      "1M": -1.3581073101602128,
-      "3M": 1.7377182298010558,
-      "6M": -16.501166277907366,
-      "1Y": 3.8888888888888986,
+      "1D": -2.3814370038672887,
+      "7D": -2.9149797570850158,
+      "1M": -2.4687843169154404,
+      "3M": 8.423384726680846,
+      "6M": -19.543700721355474,
+      "1Y": -6.718014548566531,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -435,8 +739,8 @@
         "is_insider": null
       },
       {
-        "pct": 2.08783,
-        "shares": 191871936,
+        "pct": 2.08746,
+        "shares": 191837521,
         "is_insider": null
       },
       {
@@ -480,8 +784,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.54662,
-        "shares": 142134461,
+        "pct": 1.5093,
+        "shares": 138704488,
         "is_insider": null
       },
       {
@@ -514,7 +818,7 @@
     "payment_count": 0
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-17",
+    "most_recent_reported_date": "2026-05-31",
     "latest_year": 2026,
     "latest_revenue": 543640000000,
     "latest_net_income": 3660000000,
@@ -738,6 +1042,16 @@
   ],
   "news": [
     {
+      "id": "eb6b8a92-ad6a-4fad-868f-24c8fea2d2ab",
+      "type": "narrative-update",
+      "date": "2026-06-01T11:04:00.000Z",
+      "title": "ETERNAL: Upcoming Asset Transfer Will Support Long Term Profitability Upside",
+      "body": "Analysts have trimmed Eternal's price target from ₹377.87 to ₹346.66 as updated assumptions include lower revenue growth, slightly softer profit margins, a reduced discount rate and a more moderate future P/E of 87.31 versus 111.12 earlier. What's in the News Eternal has scheduled a board meeting for Apr 28, 2026, at 14:00 Indian Standard Time.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/consumer-services/nse-eternal/eternal-shares/aopu5q32-social-impact-initiatives-and-ownership-changes-will-shape-urban-commerce-future/updates/17-analysts-have-trimmed-eternals-price-target-from-indian-rupee37787-to",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "4309c471-4ecb-4bbc-843c-f3a3efbcc021",
       "type": "narrative-update",
       "date": "2026-05-18T08:08:51.000Z",
@@ -925,16 +1239,6 @@
       "body": "Analysts have marginally reduced their price target for Eternal by approximately 2 dollars, reflecting a slightly higher perceived risk profile and tempered revenue growth expectations, partially offset by modestly improved profit margin and valuation assumptions. What's in the News The board has approved the incorporation of Eternal General Service Foundation as a wholly owned subsidiary in India, focused on charitable and social welfare activities spanning hunger relief, healthcare, education, environmental sustainability, disaster response, social empowerment, animal welfare, and other public welfare programs (company filing).",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/consumer-services/nse-eternal/eternal-shares/aopu5q32-social-impact-initiatives-and-ownership-changes-will-shape-urban-commerce-future/updates/15-analysts-have-marginally-reduced-their-price-target-for-eter",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "cc80b9e2-6d5a-4e48-a493-ef3d1045e275",
-      "type": "narrative-update",
-      "date": "2025-12-09T21:04:18.000Z",
-      "title": "ETERNAL: New Service Foundation Will Drive Long Term Social Impact Upside",
-      "body": "Analysts have nudged their price target on Eternal slightly higher to approximately $383 per share, citing marginally stronger long term revenue growth assumptions. These more than offset a modest uptick in the discount rate and a slightly softer profit margin outlook.",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/consumer-services/nse-eternal/eternal-shares/aopu5q32-social-impact-initiatives-and-ownership-changes-will-shape-urban-commerce-future/updates/14-analysts-have-nudged-their-price-target-on-eternal-slightly",
       "raw_subtype": "narrative-update"
     }
   ],

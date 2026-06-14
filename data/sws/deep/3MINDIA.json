@@ -3,7 +3,7 @@
   "name": "3M India Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-3mindia/3m-india-shares",
-  "parsed_at": "2026-05-31T20:00:12.986Z",
+  "parsed_at": "2026-06-10T23:03:47.837Z",
   "company_id": "D06EDBD9-1FB6-405D-BB43-3105ADC79579",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 3
     },
     "snowflake_total": 18,
-    "current_price_inr": 32810,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_5_YEARS_AGO"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_VOLATILE_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DIVIDENDS_NOT_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 31580,
     "market_cap_inr": 374622100000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 27830,
       "high": 38030
     },
-    "fair_value_inr": 36781.547873,
+    "fair_value_inr": 36673.451751,
     "fair_value_range_inr": {
-      "min": 7571.030883,
-      "max": 36781.547873,
+      "min": 7455.47346,
+      "max": 36673.451751,
       "count": 4
     },
-    "upside_pct": 12.10468720816825,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "a7659562-d92b-4696-a67c-e0cb12f10bb9",
+      "narrative_type": null,
+      "published_at": "2024-06-19T04:01:53.353Z"
+    },
+    "upside_pct": 16.128726253958202,
     "multiples": {
       "pe": 71.72,
       "ps": 7.36,
@@ -64,7 +350,7 @@
       "Earnings grew by 9.7% over the past year"
     ],
     "risks": [
-      "Dividend of 1.54% is not well covered by free cash flows"
+      "Dividend of 1.6% is not well covered by free cash flows"
     ],
     "dividend": {
       "yield_pct": 1.52,
@@ -72,6 +358,19 @@
       "annualized_dividend": 685,
       "listing_currency": "INR",
       "recent_payments": [
+        {
+          "exDate": "2025-07-25T00:00:00.000Z",
+          "payDate": "2025-09-25T00:00:00.000Z",
+          "recordDate": "2025-07-25T00:00:00.000Z",
+          "divAmount": 160,
+          "divAmountListingCurrency": 160,
+          "currencyIsoCode": "INR",
+          "dividendTypeName": "No special code applies",
+          "divFreqTypeName": "Annual",
+          "annualizedDividend": 685,
+          "annualizedDividendListingCurrency": 685,
+          "annualizedYield": 2.2445848845
+        },
         {
           "exDate": "2025-07-25T00:00:00.000Z",
           "payDate": "2025-09-25T00:00:00.000Z",
@@ -86,17 +385,17 @@
           "annualizedYield": 2.2445848845
         },
         {
-          "exDate": "2025-07-25T00:00:00.000Z",
-          "payDate": "2025-09-25T00:00:00.000Z",
-          "recordDate": "2025-07-25T00:00:00.000Z",
+          "exDate": "2024-07-05T00:00:00.000Z",
+          "payDate": "2024-09-06T00:00:00.000Z",
+          "recordDate": "2024-07-05T00:00:00.000Z",
           "divAmount": 160,
           "divAmountListingCurrency": 160,
           "currencyIsoCode": "INR",
           "dividendTypeName": "No special code applies",
           "divFreqTypeName": "Annual",
-          "annualizedDividend": 685,
-          "annualizedDividendListingCurrency": 685,
-          "annualizedYield": 2.2445848845
+          "annualizedDividend": 100,
+          "annualizedDividendListingCurrency": 100,
+          "annualizedYield": 0.3177817712
         },
         {
           "exDate": "2024-07-05T00:00:00.000Z",
@@ -107,19 +406,6 @@
           "currencyIsoCode": "INR",
           "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
           "divFreqTypeName": "Bonus Payment",
-          "annualizedDividend": 100,
-          "annualizedDividendListingCurrency": 100,
-          "annualizedYield": 0.3177817712
-        },
-        {
-          "exDate": "2024-07-05T00:00:00.000Z",
-          "payDate": "2024-09-06T00:00:00.000Z",
-          "recordDate": "2024-07-05T00:00:00.000Z",
-          "divAmount": 160,
-          "divAmountListingCurrency": 160,
-          "currencyIsoCode": "INR",
-          "dividendTypeName": "No special code applies",
-          "divFreqTypeName": "Annual",
           "annualizedDividend": 100,
           "annualizedDividendListingCurrency": 100,
           "annualizedYield": 0.3177817712
@@ -156,8 +442,8 @@
     "dividend_yield_pct": 1.52,
     "industry_benchmarks": {
       "pe": 30.704842601991107,
-      "net_income_margin_1y": 0.08123838342,
-      "future_revenue_growth_3y": 0.2375755294,
+      "net_income_margin_1y": 0.0813664085,
+      "future_revenue_growth_3y": 0.2301136526,
       "sector_pe": 30.704842601991107
     },
     "industry_benchmarks_meta": {
@@ -192,15 +478,15 @@
         "url": "https://groww.in/stocks/m-india-ltd"
       },
       "sws_statement": {
-        "company_pe": 70.7,
-        "industry_pe": 12.3,
+        "company_pe": 68.2,
+        "industry_pe": 11.9,
         "industry_name": "Asian Industrials",
-        "description": "3MINDIA is expensive based on its Price-To-Earnings Ratio (70.7x) compared to the Asian Industrials industry average (12.3x).",
+        "description": "3MINDIA is expensive based on its Price-To-Earnings Ratio (68.2x) compared to the Asian Industrials industry average (11.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 25.712739511,
+        "industry_pe": 24.856505284,
         "industry_code": "3060000",
         "type": "median_profitable",
         "count": 10,
@@ -212,7 +498,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 25.700000000000003,
+        "industry_pe": 24.799999999999997,
         "sample_count": 10,
         "industry_code": "3060000",
         "industry_name": "Capital Goods"
@@ -225,8 +511,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 32810,
-        "fetched_at": "2026-05-31T20:00:12.986Z",
+        "value": 31580,
+        "fetched_at": "2026-06-10T23:03:47.837Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-3mindia/3m-india-shares"
       },
       "market_cap_inr": {
@@ -234,6 +520,24 @@
         "value": 374622100000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/m-india-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 36673.451751,
+        "fetched_at": "2026-06-10T23:03:47.837Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-3mindia/3m-india-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "a7659562-d92b-4696-a67c-e0cb12f10bb9",
+        "narrative_type": null,
+        "published_at": "2024-06-19T04:01:53.353Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 16.128726253958202,
+        "fetched_at": "2026-06-10T23:03:47.837Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-3mindia/3m-india-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -273,14 +577,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.08123838342,
-        "fetched_at": "2026-05-31T20:00:12.986Z",
+        "value": 0.0813664085,
+        "fetched_at": "2026-06-10T23:03:47.837Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-3mindia/3m-india-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.2375755294,
-        "fetched_at": "2026-05-31T20:00:12.986Z",
+        "value": 0.2301136526,
+        "fetched_at": "2026-06-10T23:03:47.837Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-3mindia/3m-india-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -412,12 +716,12 @@
     "quick_ratio": 1.475858990755603,
     "cash_ratio": 0.70193900586251,
     "returns_pct": {
-      "1D": -1.2490594431903688,
-      "7D": -1.515833708539697,
-      "1M": -1.1002260738507912,
-      "3M": -12.518330889214772,
-      "6M": -5.8266360505166475,
-      "1Y": 11.99863457927974,
+      "1D": -0.6449583136699701,
+      "7D": -2.666050238865773,
+      "1M": -0.31565656565656564,
+      "3M": -7.9434484768984115,
+      "6M": -10.954462145777526,
+      "1Y": 7.323704333050128,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -463,8 +767,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.63566,
-        "shares": 71607,
+        "pct": 0.63262,
+        "shares": 71265,
         "is_insider": null
       },
       {
@@ -523,8 +827,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.08123,
-        "shares": 9151,
+        "pct": 0.10605,
+        "shares": 11947,
         "is_insider": null
       }
     ],
@@ -548,6 +852,19 @@
         "exDate": "2025-07-25T00:00:00.000Z",
         "payDate": "2025-09-25T00:00:00.000Z",
         "recordDate": "2025-07-25T00:00:00.000Z",
+        "divAmount": 160,
+        "divAmountListingCurrency": 160,
+        "currencyIsoCode": "INR",
+        "dividendTypeName": "No special code applies",
+        "divFreqTypeName": "Annual",
+        "annualizedDividend": 685,
+        "annualizedDividendListingCurrency": 685,
+        "annualizedYield": 2.2445848845
+      },
+      {
+        "exDate": "2025-07-25T00:00:00.000Z",
+        "payDate": "2025-09-25T00:00:00.000Z",
+        "recordDate": "2025-07-25T00:00:00.000Z",
         "divAmount": 375,
         "divAmountListingCurrency": 375,
         "currencyIsoCode": "INR",
@@ -558,17 +875,17 @@
         "annualizedYield": 2.2445848845
       },
       {
-        "exDate": "2025-07-25T00:00:00.000Z",
-        "payDate": "2025-09-25T00:00:00.000Z",
-        "recordDate": "2025-07-25T00:00:00.000Z",
+        "exDate": "2024-07-05T00:00:00.000Z",
+        "payDate": "2024-09-06T00:00:00.000Z",
+        "recordDate": "2024-07-05T00:00:00.000Z",
         "divAmount": 160,
         "divAmountListingCurrency": 160,
         "currencyIsoCode": "INR",
         "dividendTypeName": "No special code applies",
         "divFreqTypeName": "Annual",
-        "annualizedDividend": 685,
-        "annualizedDividendListingCurrency": 685,
-        "annualizedYield": 2.2445848845
+        "annualizedDividend": 100,
+        "annualizedDividendListingCurrency": 100,
+        "annualizedYield": 0.3177817712
       },
       {
         "exDate": "2024-07-05T00:00:00.000Z",
@@ -579,19 +896,6 @@
         "currencyIsoCode": "INR",
         "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
         "divFreqTypeName": "Bonus Payment",
-        "annualizedDividend": 100,
-        "annualizedDividendListingCurrency": 100,
-        "annualizedYield": 0.3177817712
-      },
-      {
-        "exDate": "2024-07-05T00:00:00.000Z",
-        "payDate": "2024-09-06T00:00:00.000Z",
-        "recordDate": "2024-07-05T00:00:00.000Z",
-        "divAmount": 160,
-        "divAmountListingCurrency": 160,
-        "currencyIsoCode": "INR",
-        "dividendTypeName": "No special code applies",
-        "divFreqTypeName": "Annual",
         "annualizedDividend": 100,
         "annualizedDividendListingCurrency": 100,
         "annualizedYield": 0.3177817712

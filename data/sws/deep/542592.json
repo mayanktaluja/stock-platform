@@ -3,7 +3,7 @@
   "name": "Humming Bird Education Limited",
   "sector": "Consumer Services",
   "sws_url": "https://simplywall.st/stocks/in/consumer-services/bse-542592/humming-bird-education-shares",
-  "parsed_at": "2026-05-31T20:03:16.333Z",
+  "parsed_at": "2026-06-10T23:06:13.597Z",
   "company_id": "D23BDEF3-E06B-4D3B-8CCB-32DD3572C7F2",
   "classification_status": "Active",
   "groww_source": null,
@@ -12,15 +12,15 @@
       "valuation": 3,
       "future": 0,
       "past": 3,
-      "financial_health": 6,
+      "financial_health": 5,
       "dividends": 0,
       "future_growth": 0,
       "past_performance": 3,
       "value": 3,
-      "health": 6,
+      "health": 5,
       "dividend": 0
     },
-    "snowflake_total": 12,
+    "snowflake_total": 11,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 9,
@@ -70,21 +70,310 @@
         }
       ]
     },
-    "current_price_inr": 24.25,
-    "market_cap_inr": 148652507.7630074,
-    "market_cap_usd": 120714180851.549,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_EARNS_NET_INTEREST"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 23.04,
+    "market_cap_inr": 141235207.37565735,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
-    "fifty_two_week": null,
-    "fair_value_inr": 137.995072,
+    "fifty_two_week": {
+      "low": 12.8,
+      "high": 102
+    },
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 469.051843298969,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "5cf1564d-4f06-4621-92bc-21124cb8dd32",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
-      "pe": 27.1,
+      "pe": 25.8,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -93,18 +382,18 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": "2026-05-31T20:03:16.333Z",
+      "pe_as_of": "2026-06-10T23:06:13.597Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://simplywall.st/stocks/in/consumer-services/bse-542592/humming-bird-education-shares"
     },
     "rewards": [
-      "Trading at 82.4% below our estimate of its fair value",
+      "Trading at 83.3% below our estimate of its fair value",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
     "risks": [
-      "Makes less than USD$1m in revenue (₹85M)",
+      "Makes less than USD$1m in revenue (₹79M)",
       "Highly volatile share price over past 3 months",
-      "Does not have a meaningful market cap (₹149M)"
+      "Does not have a meaningful market cap (₹141M)"
     ],
     "dividend": {
       "yield_pct": 0.5231848817,
@@ -143,9 +432,9 @@
     },
     "dividend_yield_pct": 0.5231848817,
     "industry_benchmarks": {
-      "pe": 22.053869194,
+      "pe": 23.770277636,
       "net_income_margin_1y": 0.1220838756,
-      "future_revenue_growth_3y": 0.4634859097
+      "future_revenue_growth_3y": 0.4821783461
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -159,10 +448,10 @@
     "pe_benchmark_source": {
       "provider": "sws_industry_api",
       "label": "SWS industry API",
-      "company_pe": 27.1,
+      "company_pe": 25.8,
       "company_pe_source": "sws_statement",
       "company_pe_source_label": "SWS visible statement",
-      "industry_pe": 22.053869194,
+      "industry_pe": 23.770277636,
       "industry_name": "Consumer Services",
       "industry_code": "9551701",
       "sample_count": 27,
@@ -171,15 +460,15 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 27.1,
-        "industry_pe": 23.2,
+        "company_pe": 25.8,
+        "industry_pe": 23.8,
         "industry_name": "Indian Consumer Services",
-        "description": "542592 is expensive based on its Price-To-Earnings Ratio (27.1x) compared to the Indian Consumer Services industry average (23.2x).",
+        "description": "542592 is expensive based on its Price-To-Earnings Ratio (25.8x) compared to the Indian Consumer Services industry average (23.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 22.053869194,
+        "industry_pe": 23.770277636,
         "industry_code": "9551701",
         "type": "median_profitable",
         "count": 27,
@@ -191,7 +480,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.35,
+        "industry_pe": 21.75,
         "sample_count": 24,
         "industry_code": "9551701",
         "industry_name": "Consumer Services"
@@ -204,32 +493,41 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 24.25,
-        "fetched_at": "2026-05-31T20:03:16.333Z",
+        "value": 23.04,
+        "fetched_at": "2026-06-10T23:06:13.597Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/bse-542592/humming-bird-education-shares"
       },
       "multiples.pe": {
         "provider": "sws_statement",
-        "value": 27.1,
-        "fetched_at": "2026-05-31T20:03:16.333Z",
+        "value": 25.8,
+        "fetched_at": "2026-06-10T23:06:13.597Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/bse-542592/humming-bird-education-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 22.053869194,
+        "value": 23.770277636,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.1220838756,
-        "fetched_at": "2026-05-31T20:03:16.333Z",
+        "fetched_at": "2026-06-10T23:06:13.597Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/bse-542592/humming-bird-education-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.4634859097,
-        "fetched_at": "2026-05-31T20:03:16.333Z",
+        "value": 0.4821783461,
+        "fetched_at": "2026-06-10T23:06:13.597Z",
+        "url": "https://simplywall.st/stocks/in/consumer-services/bse-542592/humming-bird-education-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 12.8,
+          "high": 102
+        },
+        "fetched_at": "2026-06-10T23:06:13.597Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/bse-542592/humming-bird-education-shares"
       }
     },
@@ -256,16 +554,16 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 4.9783549783549725,
-      "7D": 19.693978282329706,
-      "1M": 46.96969696969697,
-      "3M": 19.340551181102363,
-      "6M": 6.546572934973631,
-      "1Y": -73.30764997248211,
+      "1D": -4.989690721649488,
+      "7D": -0.2597402597402696,
+      "1M": 46.93877551020408,
+      "3M": 18.76288659793815,
+      "6M": 4.727272727272724,
+      "1Y": -75.10265830992003,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -433,16 +731,6 @@
       "date": "2026-01-30T11:34:12.000Z",
       "title": "Investor sentiment deteriorates as stock falls 16%",
       "body": "After last week's 16% share price decline to ₹17.73, the stock trades at a trailing P/E ratio of 28.1x. Average trailing P/E is 26x in the Consumer Services industry in India. Total loss to shareholders of 21% over the past three years.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "ebffecca-6fbb-42cc-a6e9-d5df25eb5ddb",
-      "type": "brief",
-      "date": "2025-12-03T11:46:38.000Z",
-      "title": "Investor sentiment deteriorates as stock falls 18%",
-      "body": "After last week's 18% share price decline to ₹20.56, the stock trades at a trailing P/E ratio of 32.6x. Average trailing P/E is 34x in the Consumer Services industry in India. Total loss to shareholders of 25% over the past three years.",
       "keyDevTypeId": null,
       "source_url": null,
       "raw_subtype": "BriefActivity"

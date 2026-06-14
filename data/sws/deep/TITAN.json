@@ -3,7 +3,7 @@
   "name": "Titan Company Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/nse-titan/titan-shares",
-  "parsed_at": "2026-05-31T22:50:52.725Z",
+  "parsed_at": "2026-06-11T01:55:44.099Z",
   "company_id": "51FCC4B8-C61F-41AA-9334-5734258B8A4A",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 4
     },
     "snowflake_total": 18,
-    "current_price_inr": 4074.9,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_HIGH_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 4042.1,
     "market_cap_inr": 3675656600000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 3303.1,
       "high": 4605
     },
-    "fair_value_inr": 5039.660539,
+    "fair_value_inr": 5014.600821,
     "fair_value_range_inr": {
-      "min": 595.844179,
-      "max": 5039.660539,
+      "min": 726.091419,
+      "max": 5014.600821,
       "count": 29
     },
-    "upside_pct": 23.67568624996933,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "c82de145-4ecc-4921-9584-43ea528c286c",
+      "narrative_type": null,
+      "published_at": "2024-06-19T03:48:18.304Z"
+    },
+    "upside_pct": 24.05929643007348,
     "multiples": {
       "pe": 72.46,
       "ps": 4.78,
@@ -60,8 +346,8 @@
       "pe_source_url": "https://groww.in/stocks/titan-company-ltd"
     },
     "rewards": [
-      "Analysts in good agreement that stock price will rise by 23.7%",
-      "Earnings are forecast to grow 18.42% per year",
+      "Earnings are forecast to grow 18.53% per year",
+      "Analysts in good agreement that stock price will rise by 24.1%",
       "Earnings grew by 52% over the past year"
     ],
     "risks": [
@@ -197,8 +483,8 @@
     "dividend_yield_pct": 0.36,
     "industry_benchmarks": {
       "pe": 46.96311998779303,
-      "net_income_margin_1y": 0.05921870449,
-      "future_revenue_growth_3y": 0.4160609582,
+      "net_income_margin_1y": 0.05901661834,
+      "future_revenue_growth_3y": 0.4189534718,
       "sector_pe": 46.96311998779303
     },
     "industry_benchmarks_meta": {
@@ -233,18 +519,18 @@
         "url": "https://groww.in/stocks/titan-company-ltd"
       },
       "sws_statement": {
-        "company_pe": 71.3,
-        "industry_pe": 18,
+        "company_pe": 70.7,
+        "industry_pe": 19.3,
         "industry_name": "Indian Luxury",
-        "description": "TITAN is expensive based on its Price-To-Earnings Ratio (71.3x) compared to the Indian Luxury industry average (18x).",
+        "description": "TITAN is expensive based on its Price-To-Earnings Ratio (70.7x) compared to the Indian Luxury industry average (19.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 18.199713239,
+        "industry_pe": 19.295215828,
         "industry_code": "4130000",
         "type": "median_profitable",
-        "count": 294,
+        "count": 296,
         "source": {
           "type": "country",
           "country": "IN",
@@ -253,8 +539,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.1,
-        "sample_count": 290,
+        "industry_pe": 17.95,
+        "sample_count": 294,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
       },
@@ -266,8 +552,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 4074.9,
-        "fetched_at": "2026-05-31T22:50:52.725Z",
+        "value": 4042.1,
+        "fetched_at": "2026-06-11T01:55:44.099Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-titan/titan-shares"
       },
       "market_cap_inr": {
@@ -275,6 +561,24 @@
         "value": 3675656600000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/titan-company-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 5014.600821,
+        "fetched_at": "2026-06-11T01:55:44.099Z",
+        "url": "https://simplywall.st/stocks/in/consumer-durables/nse-titan/titan-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "c82de145-4ecc-4921-9584-43ea528c286c",
+        "narrative_type": null,
+        "published_at": "2024-06-19T03:48:18.304Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 24.05929643007348,
+        "fetched_at": "2026-06-11T01:55:44.099Z",
+        "url": "https://simplywall.st/stocks/in/consumer-durables/nse-titan/titan-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -314,14 +618,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.05921870449,
-        "fetched_at": "2026-05-31T22:50:52.725Z",
+        "value": 0.05901661834,
+        "fetched_at": "2026-06-11T01:55:44.099Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-titan/titan-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.4160609582,
-        "fetched_at": "2026-05-31T22:50:52.725Z",
+        "value": 0.4189534718,
+        "fetched_at": "2026-06-11T01:55:44.099Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-titan/titan-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -453,16 +757,16 @@
     "quick_ratio": 0.2019953258110723,
     "cash_ratio": 0.04817430201291684,
     "returns_pct": {
-      "1D": -1.5225114188356303,
-      "7D": -0.12010392666307396,
-      "1M": -8.218838686427318,
-      "3M": -5.8370883882149025,
-      "6M": 4.278731734780057,
-      "1Y": 15.583605162388317,
+      "1D": -1.529878925186965,
+      "7D": -1.142144394443364,
+      "1M": -3.8876735780863716,
+      "3M": -2.1188492832235677,
+      "6M": 4.172465336838309,
+      "1Y": 14.132030720578271,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -504,8 +808,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.56852,
-        "shares": 13925093,
+        "pct": 1.56913,
+        "shares": 13930512,
         "is_insider": null
       },
       {
@@ -529,8 +833,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.85439,
-        "shares": 7585144,
+        "pct": 0.85451,
+        "shares": 7586249,
         "is_insider": null
       },
       {
@@ -932,6 +1236,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "40769b49-5a64-4a10-9dca-646b3548f5c7",
+      "type": "event",
+      "date": "2026-06-06T18:24:00.000Z",
+      "title": "Titan Company Limited Appoints Hardik Mehta to Head - Commercial (International Business Division, Jewellery)",
+      "body": "Titan Company Limited has appointed seasoned finance and business leader Hardik Mehta as head - commercial for the International Business Division of its jewellery business, where he will lead commercial strategy for the global expansion of Tanishq. Mehta joins Titan after a distinguished career spanning nearly two decades across finance, business transformation, governance, international operations and strategic leadership roles in India and overseas markets. In his new position, based in Bengaluru, he will oversee commercial operations for Tanishq's international business as the jewellery brand continues to strengthen its presence in global markets and take Indian craftsmanship to a wider international audience. The appointment marks the end of a five-year journey at Schneider Electric, ",
+      "keyDevTypeId": "16",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
     {
       "id": "7aa718bf-3b7d-45fe-b983-a6958d44fbb8",
       "type": "article",

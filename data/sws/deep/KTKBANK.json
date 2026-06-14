@@ -3,7 +3,7 @@
   "name": "The Karnataka Bank Limited",
   "sector": "Banks",
   "sws_url": "https://simplywall.st/stocks/in/banks/nse-ktkbank/karnataka-bank-shares",
-  "parsed_at": "2026-05-31T20:33:35.866Z",
+  "parsed_at": "2026-06-10T23:40:26.598Z",
   "company_id": "92380082-95AD-4468-9252-AB30986A4001",
   "classification_status": "Active",
   "groww_source": {
@@ -65,22 +65,308 @@
         }
       ]
     },
-    "current_price_inr": 269.35,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "BankHealth",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAppropriateBadLoanAllowance",
+          "title": "Allowance for Bad Loans",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAppropriateNonPerformingLoans",
+          "title": "Level of Bad Loans",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasPrimarilyLowRiskFunding",
+          "title": "Low Risk Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAppropriateLoanLevel",
+          "title": "Loan Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasPrimarilyDepositFunding",
+          "title": "Low Risk Deposits",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAnAppropriateLevelOfAssets",
+          "title": "Asset Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredIn3Years",
+          "title": "Future Dividend Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        }
+      ]
+    },
+    "current_price_inr": 265.15,
     "market_cap_inr": 102792100000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midsmall4",
-    "shares_outstanding": 378181562,
+    "shares_outstanding": 378190099,
     "fifty_two_week": {
       "low": 169.12,
       "high": 278
     },
-    "fair_value_inr": 214,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": 164.85,
       "max": 274.66667,
-      "count": 21
+      "count": 22
     },
-    "upside_pct": -20.54947094857992,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystLowTarget",
+      "owner_classification": null,
+      "narrative_id": "102bfe24-5457-4256-838c-d6af96bfb7ba",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 7.84,
       "ps": 1,
@@ -102,14 +388,14 @@
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Earnings are forecast to grow 10.43% per year",
-      "Price-To-Earnings ratio (7.8x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (7.8x) is below the Indian market (22.9x)"
     ],
     "risks": [
       "Unstable dividend track record"
     ],
     "dividend": {
       "yield_pct": 0,
-      "payout_pct": 14.426151516307458,
+      "payout_pct": 14.426477169559412,
       "annualized_dividend": 5,
       "listing_currency": "INR",
       "recent_payments": [
@@ -236,8 +522,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 12.587464209030458,
-      "net_income_margin_1y": 0.3177821454,
-      "future_revenue_growth_3y": 0.2745257838,
+      "net_income_margin_1y": 0.3178841988,
+      "future_revenue_growth_3y": 0.2771620146,
       "sector_pe": 12.587464209030458
     },
     "industry_benchmarks_meta": {
@@ -273,14 +559,14 @@
       },
       "sws_statement": {
         "company_pe": 7.8,
-        "industry_pe": 11.4,
+        "industry_pe": 11.6,
         "industry_name": "Indian Banks",
-        "description": "KTKBANK is good value based on its Price-To-Earnings Ratio (7.8x) compared to the Indian Banks industry average (11.4x).",
+        "description": "KTKBANK is good value based on its Price-To-Earnings Ratio (7.8x) compared to the Indian Banks industry average (11.6x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 11.441700538,
+        "industry_pe": 11.624761504,
         "industry_code": "7011000",
         "type": "median_profitable",
         "count": 39,
@@ -292,25 +578,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 11.4,
+        "industry_pe": 11.75,
         "sample_count": 40,
         "industry_code": "7011000",
         "industry_name": "Banks"
       },
       "sws_primary_industry": {
-        "industry_pe": 11.055229769,
+        "industry_pe": 11.140031027,
         "industry_name": "Banks",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 7.771367821834828
+        "company_pe": 7.650360843017356
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 269.35,
-        "fetched_at": "2026-05-31T20:33:35.866Z",
+        "value": 265.15,
+        "fetched_at": "2026-06-10T23:40:26.598Z",
         "url": "https://simplywall.st/stocks/in/banks/nse-ktkbank/karnataka-bank-shares"
       },
       "market_cap_inr": {
@@ -357,14 +643,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.3177821454,
-        "fetched_at": "2026-05-31T20:33:35.866Z",
+        "value": 0.3178841988,
+        "fetched_at": "2026-06-10T23:40:26.598Z",
         "url": "https://simplywall.st/stocks/in/banks/nse-ktkbank/karnataka-bank-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.2745257838,
-        "fetched_at": "2026-05-31T20:33:35.866Z",
+        "value": 0.2771620146,
+        "fetched_at": "2026-06-10T23:40:26.598Z",
         "url": "https://simplywall.st/stocks/in/banks/nse-ktkbank/karnataka-bank-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -496,12 +782,12 @@
     "quick_ratio": 0,
     "cash_ratio": 0,
     "returns_pct": {
-      "1D": -0.9196247930844216,
-      "7D": 1.8336483931947156,
-      "1M": 0.38012894570120326,
-      "3M": 32.763209779179824,
-      "6M": 26.974025361806454,
-      "1Y": 33.52667063256,
+      "1D": -2.014042867701421,
+      "7D": -0.9155455904334997,
+      "1M": 5.385532591414938,
+      "3M": 16.96074106749007,
+      "6M": 31.132542037586543,
+      "1Y": 30.64150571541189,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -597,8 +883,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.99771,
-        "shares": 3773147,
+        "pct": 1.00049,
+        "shares": 3783686,
         "is_insider": null
       },
       {
@@ -624,7 +910,7 @@
   },
   "dividend": {
     "yield_pct": 0,
-    "payout_pct": 14.426151516307458,
+    "payout_pct": 14.426477169559412,
     "annualized_dividend": 5,
     "listing_currency": "INR",
     "recent_payments": [
@@ -992,6 +1278,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "1b19ffde-5264-4c9c-b5af-5e639901750e",
+      "type": "narrative",
+      "date": "2026-06-06T05:03:05.000Z",
+      "title": "Retail And MSME Shift With Strong Capital Will Support Long Term Earnings Quality",
+      "body": "Catalysts About Karnataka Bank Karnataka Bank is a private sector bank that provides retail, agriculture, MSME and corporate banking services across India. What are the underlying business or industry changes driving this perspective?",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/banks/nse-ktkbank/karnataka-bank-shares/a4dk0h64-retail-and-msme-shift-with-strong-capital-will-support-long-term-earnings-quality",
+      "raw_subtype": "narrative"
+    },
     {
       "id": "fb117956-c927-4fa5-8a1a-59d96f72996f",
       "type": "narrative",

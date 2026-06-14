@@ -3,7 +3,7 @@
   "name": "RNFI Services Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-rnfi/rnfi-services-shares",
-  "parsed_at": "2026-05-31T21:54:39.378Z",
+  "parsed_at": "2026-06-11T00:54:30.971Z",
   "company_id": "8030B61F-F692-4663-9B93-33F4BF4473E2",
   "classification_status": "Active",
   "groww_source": null,
@@ -11,24 +11,23 @@
     "snowflake": {
       "valuation": 0,
       "future": 0,
-      "past": 6,
+      "past": 4,
       "financial_health": 5,
       "dividends": 0,
       "future_growth": 0,
-      "past_performance": 6,
+      "past_performance": 4,
       "value": 0,
       "health": 5,
       "dividend": 0
     },
-    "snowflake_total": 11,
+    "snowflake_total": 9,
     "snowflake_data_quality": {
       "insufficient": true,
-      "insufficient_count": 11,
+      "insufficient_count": 10,
       "checked_count": 30,
       "affected_pillars": [
         "Value",
         "Future",
-        "Health",
         "Dividends"
       ],
       "by_pillar": {
@@ -46,7 +45,7 @@
         },
         "Health": {
           "checked": 6,
-          "insufficient": 1
+          "insufficient": 0
         },
         "Dividends": {
           "checked": 6,
@@ -71,21 +70,310 @@
         }
       ]
     },
-    "current_price_inr": 278.7,
-    "market_cap_inr": 6954314013.192575,
-    "market_cap_usd": 120714180851.549,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 249,
+    "market_cap_inr": 6213219193.702732,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
-    "fifty_two_week": null,
-    "fair_value_inr": 58.112951,
+    "fifty_two_week": {
+      "low": 219.4,
+      "high": 387.15
+    },
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -79.1485644061715,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "3a862ed4-8fbf-428b-8056-2d886fd8e73f",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
-      "pe": 26.8,
+      "pe": 21.4,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -94,15 +382,17 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": "2026-05-31T21:54:39.378Z",
+      "pe_as_of": "2026-06-11T00:54:30.971Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://simplywall.st/stocks/in/diversified-financials/nse-rnfi/rnfi-services-shares"
     },
     "rewards": [
-      "Earnings grew by 61.8% over the past year"
+      "Earnings grew by 59.3% over the past year",
+      "Price-To-Earnings ratio (21.4x) is below the Indian market (22.9x)"
     ],
     "risks": [
-      "Does not have a meaningful market cap (₹7B)"
+      "High level of [[non-cash earnings]]",
+      "Does not have a meaningful market cap (₹6B)"
     ],
     "dividend": {
       "yield_pct": null,
@@ -114,9 +404,9 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 20.116846802,
-      "net_income_margin_1y": 0.318282225,
-      "future_revenue_growth_3y": 1.129623645
+      "pe": 20.092697454,
+      "net_income_margin_1y": 0.3172599264,
+      "future_revenue_growth_3y": 1.14035062
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -130,30 +420,30 @@
     "pe_benchmark_source": {
       "provider": "sws_industry_api",
       "label": "SWS industry API",
-      "company_pe": 26.8,
+      "company_pe": 21.4,
       "company_pe_source": "sws_statement",
       "company_pe_source_label": "SWS visible statement",
-      "industry_pe": 20.116846802,
+      "industry_pe": 20.092697454,
       "industry_name": "Diversified Financials",
       "industry_code": "7120000",
-      "sample_count": 79,
+      "sample_count": 80,
       "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 26.8,
-        "industry_pe": 20,
+        "company_pe": 21.4,
+        "industry_pe": 20.1,
         "industry_name": "Indian Consumer Finance",
-        "description": "RNFI is expensive based on its Price-To-Earnings Ratio (26.8x) compared to the Indian Consumer Finance industry average (20x).",
+        "description": "RNFI is expensive based on its Price-To-Earnings Ratio (21.4x) compared to the Indian Consumer Finance industry average (20.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 20.116846802,
+        "industry_pe": 20.092697454,
         "industry_code": "7120000",
         "type": "median_profitable",
-        "count": 79,
+        "count": 80,
         "source": {
           "type": "country",
           "country": "IN",
@@ -162,8 +452,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.8,
-        "sample_count": 80,
+        "industry_pe": 19.6,
+        "sample_count": 81,
         "industry_code": "7120000",
         "industry_name": "Diversified Financials"
       },
@@ -175,32 +465,41 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 278.7,
-        "fetched_at": "2026-05-31T21:54:39.378Z",
+        "value": 249,
+        "fetched_at": "2026-06-11T00:54:30.971Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-rnfi/rnfi-services-shares"
       },
       "multiples.pe": {
         "provider": "sws_statement",
-        "value": 26.8,
-        "fetched_at": "2026-05-31T21:54:39.378Z",
+        "value": 21.4,
+        "fetched_at": "2026-06-11T00:54:30.971Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-rnfi/rnfi-services-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 20.116846802,
+        "value": 20.092697454,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.318282225,
-        "fetched_at": "2026-05-31T21:54:39.378Z",
+        "value": 0.3172599264,
+        "fetched_at": "2026-06-11T00:54:30.971Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-rnfi/rnfi-services-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 1.129623645,
-        "fetched_at": "2026-05-31T21:54:39.378Z",
+        "value": 1.14035062,
+        "fetched_at": "2026-06-11T00:54:30.971Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-rnfi/rnfi-services-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 219.4,
+          "high": 387.15
+        },
+        "fetched_at": "2026-06-11T00:54:30.971Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-rnfi/rnfi-services-shares"
       }
     },
@@ -227,16 +526,16 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -3.896551724137935,
-      "7D": -3.111420128628538,
-      "1M": 0.7228044813877846,
-      "3M": 2.31277533039648,
-      "6M": -22.10732252655115,
-      "1Y": 19.690788060983465,
+      "1D": 0.38298730094738503,
+      "7D": -3.768115942028986,
+      "1M": -12.662223781129436,
+      "3M": 1.3224821973550356,
+      "6M": -26.764705882352942,
+      "1Y": 2.2587268993839835,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -301,6 +600,26 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "32c15bc8-ada6-4f4b-bf71-b2954a153926",
+      "type": "brief",
+      "date": "2026-06-03T17:07:59.000Z",
+      "title": "Full year 2026 earnings released: EPS: ₹11.59 (vs ₹7.97 in FY 2025)",
+      "body": "Full year 2026 results: EPS: ₹11.59 (up from ₹7.97 in FY 2025). Revenue: ₹9.74b (up 6.1% from FY 2025). Net income: ₹289.8m (up 59% from FY 2025). Profit margin: 3.0% (up from 2.0% in FY 2025). The increase in margin was driven by higher revenue.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "9424dc95-2221-48f3-bc28-570024e7c014",
+      "type": "article",
+      "date": "2026-06-02T08:52:36.000Z",
+      "title": "With EPS Growth And More, RNFI Services (NSE:RNFI) Makes An Interesting Case",
+      "body": "It's common for many investors, especially those who are inexperienced, to buy shares in companies with a good story...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/diversified-financials/nse-rnfi/rnfi-services-shares/news/with-eps-growth-and-more-rnfi-services-nsernfi-makes-an-inte",
+      "raw_subtype": "article"
+    },
     {
       "id": "b0892556-3d29-4b54-9924-9b1c0afd6d5c",
       "type": "brief",

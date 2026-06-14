@@ -3,7 +3,7 @@
   "name": "Poonawalla Fincorp Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-poonawalla/poonawalla-fincorp-shares",
-  "parsed_at": "2026-05-31T21:35:57.381Z",
+  "parsed_at": "2026-06-11T00:37:08.595Z",
   "company_id": "CD883F0B-DF45-474F-BD8B-36021885E800",
   "classification_status": "Active",
   "groww_source": {
@@ -76,22 +76,308 @@
         }
       ]
     },
-    "current_price_inr": 382.85,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_BECOME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 380.2,
     "market_cap_inr": 347240900000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midlarge6",
     "shares_outstanding": 880316748,
     "fifty_two_week": {
       "low": 361.2,
       "high": 570.4
     },
-    "fair_value_inr": 663,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": 76.09,
       "max": 663,
       "count": 19
     },
-    "upside_pct": 73.17487266553479,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystHighTarget",
+      "owner_classification": null,
+      "narrative_id": "fd46b746-5c29-47fa-a69e-f75cbf55071a",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 64.14,
       "ps": 5.11,
@@ -108,7 +394,7 @@
       "pe_source_url": "https://groww.in/stocks/magma-fincorp-ltd"
     },
     "rewards": [
-      "Earnings are forecast to grow 44.9% per year",
+      "Earnings are forecast to grow 45.15% per year",
       "Became profitable this year"
     ],
     "risks": [
@@ -218,8 +504,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 18.85756396507594,
-      "net_income_margin_1y": 0.2564706218,
-      "future_revenue_growth_3y": 0.3320316411,
+      "net_income_margin_1y": 0.257896607,
+      "future_revenue_growth_3y": 0.3297814148,
       "sector_pe": 18.85756396507594
     },
     "industry_benchmarks_meta": {
@@ -254,18 +540,18 @@
         "url": "https://groww.in/stocks/magma-fincorp-ltd"
       },
       "sws_statement": {
-        "company_pe": 62.2,
-        "industry_pe": 20,
+        "company_pe": 62.3,
+        "industry_pe": 20.1,
         "industry_name": "Indian Consumer Finance",
-        "description": "POONAWALLA is expensive based on its Price-To-Earnings Ratio (62.2x) compared to the Indian Consumer Finance industry average (20x).",
+        "description": "POONAWALLA is expensive based on its Price-To-Earnings Ratio (62.3x) compared to the Indian Consumer Finance industry average (20.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 20.116846802,
+        "industry_pe": 20.092697454,
         "industry_code": "7120000",
         "type": "median_profitable",
-        "count": 79,
+        "count": 80,
         "source": {
           "type": "country",
           "country": "IN",
@@ -274,25 +560,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.8,
-        "sample_count": 80,
+        "industry_pe": 19.6,
+        "sample_count": 81,
         "industry_code": "7120000",
         "industry_name": "Diversified Financials"
       },
       "sws_primary_industry": {
-        "industry_pe": 15.729172633,
+        "industry_pe": 15.226484123,
         "industry_name": "Diversified Financials",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 62.204327526586816
+        "company_pe": 61.77376342068253
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 382.85,
-        "fetched_at": "2026-05-31T21:35:57.381Z",
+        "value": 380.2,
+        "fetched_at": "2026-06-11T00:37:08.595Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-poonawalla/poonawalla-fincorp-shares"
       },
       "market_cap_inr": {
@@ -339,14 +625,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.2564706218,
-        "fetched_at": "2026-05-31T21:35:57.381Z",
+        "value": 0.257896607,
+        "fetched_at": "2026-06-11T00:37:08.595Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-poonawalla/poonawalla-fincorp-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.3320316411,
-        "fetched_at": "2026-05-31T21:35:57.381Z",
+        "value": 0.3297814148,
+        "fetched_at": "2026-06-11T00:37:08.595Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-poonawalla/poonawalla-fincorp-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -478,16 +764,16 @@
     "quick_ratio": 0.8277522585658974,
     "cash_ratio": 0.20377746013683232,
     "returns_pct": {
-      "1D": -2.9531051964511983,
-      "7D": -4.227642276422759,
-      "1M": -9.115727002967354,
-      "3M": -15.820140721196127,
-      "6M": -20.28940245679783,
-      "1Y": -6.002946231279153,
+      "1D": -0.9121709669012249,
+      "7D": -4.783370899073383,
+      "1M": -13.97216879737527,
+      "3M": -7.482662124346027,
+      "6M": -15.782478679809502,
+      "1Y": -10.834896810506564,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 4,
+    "recent_news_count": 1,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -559,8 +845,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.60005,
-        "shares": 5282350,
+        "pct": 0.61562,
+        "shares": 5419372,
         "is_insider": null
       },
       {
@@ -571,6 +857,11 @@
       {
         "pct": 0.25003,
         "shares": 2201026,
+        "is_insider": null
+      },
+      {
+        "pct": 0.2463,
+        "shares": 2168228,
         "is_insider": null
       },
       {
@@ -586,11 +877,6 @@
       {
         "pct": 0.20447,
         "shares": 1799949,
-        "is_insider": null
-      },
-      {
-        "pct": 0.13637,
-        "shares": 1200491,
         "is_insider": null
       }
     ],
@@ -1141,16 +1427,6 @@
       "body": "Analysts have raised their price target on Poonawalla Fincorp from ₹555 to ₹622, reflecting adjustments to growth, margin, and risk assumptions that still support a premium valuation multiple. What's in the News Poonawalla Fincorp deploys five new AI-powered platforms, integrating Early Warning System, Travel Bot, RegIntel, ER Governance Tool, and AI-driven Suspicious Transaction Reporting into core operations to enhance risk management, compliance, and efficiency (Key Developments).",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/diversified-financials/nse-poonawalla/poonawalla-fincorp-shares/4081xbxe-rising-smartphone-use-and-digital-onboarding-will-boost-retail-lending-dor1/updates/2-analysts-have-raised-their-price-target-on-poonawalla-fincor",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "b8e54149-b810-46ae-a02a-2111a3b3c7a9",
-      "type": "narrative-update",
-      "date": "2025-12-05T11:02:25.000Z",
-      "title": "POONAWALLA: AI Risk Systems And Capital Raise Will Shape Outlook",
-      "body": "Analysts have slightly reduced their fair value estimate for Poonawalla Fincorp to approximately ₹493 from about ₹493.30, citing a marginal uptick in the assumed discount rate and a modestly lower future P E multiple, while keeping growth and profitability expectations broadly unchanged. What's in the News Poonawalla Fincorp has rolled out five new AI powered platforms, including an Early Warning System for workforce risk, an AI driven Suspicious Transaction Reporting tool for AML compliance, a RegIntel compliance assistant, an Employee Relations Governance Tool, and a Travel Bot integrated with Microsoft Teams, as part of a broader risk first digital transformation program (company announcement).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/diversified-financials/nse-poonawalla/poonawalla-fincorp-shares/2tw1omwg-poonawalla-ai-initiatives-and-capital-raise-will-shape-balanced-outlook/updates/12-analysts-have-slightly-reduced-their-fair-value-estimate-for",
       "raw_subtype": "narrative-update"
     }
   ],

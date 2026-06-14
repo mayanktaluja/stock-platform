@@ -3,24 +3,24 @@
   "name": "Knowledge Realty Trust",
   "sector": "Real Estate",
   "sws_url": "https://simplywall.st/stocks/in/real-estate/nse-krt/knowledge-realty-trust-shares",
-  "parsed_at": "2026-05-31T20:32:56.807Z",
+  "parsed_at": "2026-06-10T23:39:47.775Z",
   "company_id": "A79D9E33-C0D8-4322-A348-D6F50B644E69",
   "classification_status": "Active",
   "groww_source": null,
   "overview": {
     "snowflake": {
       "valuation": 2,
-      "future": 3,
+      "future": 4,
       "past": 5,
       "financial_health": 1,
       "dividends": 3,
-      "future_growth": 3,
+      "future_growth": 4,
       "past_performance": 5,
       "value": 2,
       "health": 1,
       "dividend": 3
     },
-    "snowflake_total": 14,
+    "snowflake_total": 15,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 1,
@@ -58,21 +58,310 @@
         }
       ]
     },
-    "current_price_inr": 116.09,
-    "market_cap_inr": 514789346678.7889,
-    "market_cap_usd": 120714180851.549,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOO_EARLY"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOO_EARLY"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_50_TO_75"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DIVIDENDS_NOT_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 117.37,
+    "market_cap_inr": 520465377032.384,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
-    "fifty_two_week": null,
+    "fifty_two_week": {
+      "low": 106.24,
+      "high": 127.99
+    },
     "fair_value_inr": 129.25,
     "fair_value_range_inr": {
       "min": 57.39,
       "max": 129.25,
       "count": 3
     },
-    "upside_pct": 11.336032388663964,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "b186d04e-d2ff-4ec3-82bb-f25e744071fc",
+      "narrative_type": null,
+      "published_at": "2025-09-22T11:18:58.716Z"
+    },
+    "upside_pct": 10.121836925960633,
     "multiples": {
-      "pe": 96.8,
+      "pe": 138.2,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -81,37 +370,24 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": "2026-05-31T20:32:56.807Z",
+      "pe_as_of": "2026-06-10T23:39:47.775Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://simplywall.st/stocks/in/real-estate/nse-krt/knowledge-realty-trust-shares"
     },
     "rewards": [
-      "Trading at 32.8% below our estimate of its fair value",
-      "Earnings are forecast to grow 19.95% per year",
-      "Earnings grew by 111.5% over the past year"
+      "Trading at 32.3% below our estimate of its fair value",
+      "Earnings are forecast to grow 33.2% per year",
+      "Earnings grew by 68.7% over the past year"
     ],
     "risks": [
-      "Dividend of 5.4% is not well covered by free cash flows"
+      "Dividend of 5.53% is not well covered by free cash flows"
     ],
     "dividend": {
-      "yield_pct": 5.3190523762,
+      "yield_pct": 5.3114840229,
       "payout_pct": null,
       "annualized_dividend": 6.272,
       "listing_currency": "INR",
       "recent_payments": [
-        {
-          "exDate": "2026-02-10T00:00:00.000Z",
-          "payDate": "2026-02-17T00:00:00.000Z",
-          "recordDate": "2026-02-10T00:00:00.000Z",
-          "divAmount": 0.13,
-          "divAmountListingCurrency": 0.13,
-          "currencyIsoCode": "INR",
-          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-          "divFreqTypeName": "Bonus Payment",
-          "annualizedDividend": 6.272,
-          "annualizedDividendListingCurrency": 6.272,
-          "annualizedYield": 5.3190523762
-        },
         {
           "exDate": "2026-02-10T00:00:00.000Z",
           "payDate": "2026-02-17T00:00:00.000Z",
@@ -123,20 +399,7 @@
           "divFreqTypeName": "Interim Payment",
           "annualizedDividend": 6.272,
           "annualizedDividendListingCurrency": 6.272,
-          "annualizedYield": 5.3190523762
-        },
-        {
-          "exDate": "2026-02-10T00:00:00.000Z",
-          "payDate": "2026-02-17T00:00:00.000Z",
-          "recordDate": "2026-02-10T00:00:00.000Z",
-          "divAmount": 0.003,
-          "divAmountListingCurrency": 0.003,
-          "currencyIsoCode": "INR",
-          "dividendTypeName": "No special code applies",
-          "divFreqTypeName": "Interim Payment",
-          "annualizedDividend": 6.272,
-          "annualizedDividendListingCurrency": 6.272,
-          "annualizedYield": 5.3190523762
+          "annualizedYield": 5.3114840229
         },
         {
           "exDate": "2026-02-10T00:00:00.000Z",
@@ -149,17 +412,43 @@
           "divFreqTypeName": "Other Dividend",
           "annualizedDividend": 6.272,
           "annualizedDividendListingCurrency": 6.272,
-          "annualizedYield": 5.3190523762
+          "annualizedYield": 5.3114840229
+        },
+        {
+          "exDate": "2026-02-10T00:00:00.000Z",
+          "payDate": "2026-02-17T00:00:00.000Z",
+          "recordDate": "2026-02-10T00:00:00.000Z",
+          "divAmount": 0.003,
+          "divAmountListingCurrency": 0.003,
+          "currencyIsoCode": "INR",
+          "dividendTypeName": "No special code applies",
+          "divFreqTypeName": "Interim Payment",
+          "annualizedDividend": 6.272,
+          "annualizedDividendListingCurrency": 6.272,
+          "annualizedYield": 5.3114840229
+        },
+        {
+          "exDate": "2026-02-10T00:00:00.000Z",
+          "payDate": "2026-02-17T00:00:00.000Z",
+          "recordDate": "2026-02-10T00:00:00.000Z",
+          "divAmount": 0.13,
+          "divAmountListingCurrency": 0.13,
+          "currencyIsoCode": "INR",
+          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+          "divFreqTypeName": "Bonus Payment",
+          "annualizedDividend": 6.272,
+          "annualizedDividendListingCurrency": 6.272,
+          "annualizedYield": 5.3114840229
         },
         {
           "exDate": "2025-11-13T00:00:00.000Z",
           "payDate": "2025-11-20T00:00:00.000Z",
           "recordDate": "2025-11-13T00:00:00.000Z",
-          "divAmount": 0.03,
-          "divAmountListingCurrency": 0.03,
+          "divAmount": 0.138,
+          "divAmountListingCurrency": 0.138,
           "currencyIsoCode": "INR",
-          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-          "divFreqTypeName": "Bonus Payment",
+          "dividendTypeName": "No special code applies",
+          "divFreqTypeName": "Other Dividend",
           "annualizedDividend": 6.224,
           "annualizedDividendListingCurrency": 6.224,
           "annualizedYield": 5.0790932698
@@ -181,11 +470,11 @@
           "exDate": "2025-11-13T00:00:00.000Z",
           "payDate": "2025-11-20T00:00:00.000Z",
           "recordDate": "2025-11-13T00:00:00.000Z",
-          "divAmount": 0.138,
-          "divAmountListingCurrency": 0.138,
+          "divAmount": 0.03,
+          "divAmountListingCurrency": 0.03,
           "currencyIsoCode": "INR",
-          "dividendTypeName": "No special code applies",
-          "divFreqTypeName": "Other Dividend",
+          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+          "divFreqTypeName": "Bonus Payment",
           "annualizedDividend": 6.224,
           "annualizedDividendListingCurrency": 6.224,
           "annualizedYield": 5.0790932698
@@ -193,11 +482,11 @@
       ],
       "payment_count": 7
     },
-    "dividend_yield_pct": 5.3190523762,
+    "dividend_yield_pct": 5.3114840229,
     "industry_benchmarks": {
-      "pe": 54.990838374,
+      "pe": 55.014981366,
       "net_income_margin_1y": 0.4297131723,
-      "future_revenue_growth_3y": 0.2109472097
+      "future_revenue_growth_3y": 0.2736836106
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -211,10 +500,10 @@
     "pe_benchmark_source": {
       "provider": "sws_industry_api",
       "label": "SWS industry API",
-      "company_pe": 96.8,
+      "company_pe": 138.2,
       "company_pe_source": "sws_statement",
       "company_pe_source_label": "SWS visible statement",
-      "industry_pe": 54.990838374,
+      "industry_pe": 55.014981366,
       "industry_name": "Real Estate",
       "industry_code": "9622296",
       "sample_count": 5,
@@ -223,15 +512,15 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 96.8,
+        "company_pe": 138.2,
         "industry_pe": 14.2,
         "industry_name": "Asian Office REITs",
-        "description": "KRT is expensive based on its Price-To-Earnings Ratio (96.8x) compared to the Asian Office REITs industry average (14.2x).",
+        "description": "KRT is expensive based on its Price-To-Earnings Ratio (138.2x) compared to the Asian Office REITs industry average (14.2x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 54.990838374,
+        "industry_pe": 55.014981366,
         "industry_code": "9622296",
         "type": "median_profitable",
         "count": 5,
@@ -243,8 +532,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 75.9,
-        "sample_count": 4,
+        "industry_pe": 55.1,
+        "sample_count": 5,
         "industry_code": "9622296",
         "industry_name": "Real Estate"
       },
@@ -256,32 +545,59 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 116.09,
-        "fetched_at": "2026-05-31T20:32:56.807Z",
+        "value": 117.37,
+        "fetched_at": "2026-06-10T23:39:47.775Z",
+        "url": "https://simplywall.st/stocks/in/real-estate/nse-krt/knowledge-realty-trust-shares"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 129.25,
+        "fetched_at": "2026-06-10T23:39:47.775Z",
+        "url": "https://simplywall.st/stocks/in/real-estate/nse-krt/knowledge-realty-trust-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "b186d04e-d2ff-4ec3-82bb-f25e744071fc",
+        "narrative_type": null,
+        "published_at": "2025-09-22T11:18:58.716Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 10.121836925960633,
+        "fetched_at": "2026-06-10T23:39:47.775Z",
         "url": "https://simplywall.st/stocks/in/real-estate/nse-krt/knowledge-realty-trust-shares"
       },
       "multiples.pe": {
         "provider": "sws_statement",
-        "value": 96.8,
-        "fetched_at": "2026-05-31T20:32:56.807Z",
+        "value": 138.2,
+        "fetched_at": "2026-06-10T23:39:47.775Z",
         "url": "https://simplywall.st/stocks/in/real-estate/nse-krt/knowledge-realty-trust-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 54.990838374,
+        "value": 55.014981366,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.4297131723,
-        "fetched_at": "2026-05-31T20:32:56.807Z",
+        "fetched_at": "2026-06-10T23:39:47.775Z",
         "url": "https://simplywall.st/stocks/in/real-estate/nse-krt/knowledge-realty-trust-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.2109472097,
-        "fetched_at": "2026-05-31T20:32:56.807Z",
+        "value": 0.2736836106,
+        "fetched_at": "2026-06-10T23:39:47.775Z",
+        "url": "https://simplywall.st/stocks/in/real-estate/nse-krt/knowledge-realty-trust-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 106.24,
+          "high": 127.99
+        },
+        "fetched_at": "2026-06-10T23:39:47.775Z",
         "url": "https://simplywall.st/stocks/in/real-estate/nse-krt/knowledge-realty-trust-shares"
       }
     },
@@ -308,16 +624,16 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -0.7268684795621638,
-      "7D": -0.4971286534670423,
-      "1M": -1.3259668508287312,
-      "3M": -3.1453362255965263,
-      "6M": -2.5191031992610626,
-      "1Y": 9.271460843373502,
+      "1D": 0.3333903231321598,
+      "7D": 0.8419967351147041,
+      "1M": -1.2203332772260467,
+      "3M": 4.384560654571333,
+      "6M": -7.107241788682224,
+      "1Y": 10.476280120481936,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 0,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -354,8 +670,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.16019,
-        "shares": 7103510,
+        "pct": 0.16013,
+        "shares": 7100700,
         "is_insider": null
       },
       {
@@ -404,13 +720,13 @@
         "is_insider": null
       },
       {
-        "pct": 0.02221,
-        "shares": 984991,
+        "pct": 0.02254,
+        "shares": 999477,
         "is_insider": null
       },
       {
-        "pct": 0.02149,
-        "shares": 952924,
+        "pct": 0.02144,
+        "shares": 950756,
         "is_insider": null
       },
       {
@@ -419,8 +735,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.00541,
-        "shares": 239694,
+        "pct": 0.0055,
+        "shares": 243677,
         "is_insider": null
       }
     ],
@@ -435,24 +751,11 @@
     "groww_period": null
   },
   "dividend": {
-    "yield_pct": 5.3190523762,
+    "yield_pct": 5.3114840229,
     "payout_pct": null,
     "annualized_dividend": 6.272,
     "listing_currency": "INR",
     "recent_payments": [
-      {
-        "exDate": "2026-02-10T00:00:00.000Z",
-        "payDate": "2026-02-17T00:00:00.000Z",
-        "recordDate": "2026-02-10T00:00:00.000Z",
-        "divAmount": 0.13,
-        "divAmountListingCurrency": 0.13,
-        "currencyIsoCode": "INR",
-        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-        "divFreqTypeName": "Bonus Payment",
-        "annualizedDividend": 6.272,
-        "annualizedDividendListingCurrency": 6.272,
-        "annualizedYield": 5.3190523762
-      },
       {
         "exDate": "2026-02-10T00:00:00.000Z",
         "payDate": "2026-02-17T00:00:00.000Z",
@@ -464,20 +767,7 @@
         "divFreqTypeName": "Interim Payment",
         "annualizedDividend": 6.272,
         "annualizedDividendListingCurrency": 6.272,
-        "annualizedYield": 5.3190523762
-      },
-      {
-        "exDate": "2026-02-10T00:00:00.000Z",
-        "payDate": "2026-02-17T00:00:00.000Z",
-        "recordDate": "2026-02-10T00:00:00.000Z",
-        "divAmount": 0.003,
-        "divAmountListingCurrency": 0.003,
-        "currencyIsoCode": "INR",
-        "dividendTypeName": "No special code applies",
-        "divFreqTypeName": "Interim Payment",
-        "annualizedDividend": 6.272,
-        "annualizedDividendListingCurrency": 6.272,
-        "annualizedYield": 5.3190523762
+        "annualizedYield": 5.3114840229
       },
       {
         "exDate": "2026-02-10T00:00:00.000Z",
@@ -490,17 +780,43 @@
         "divFreqTypeName": "Other Dividend",
         "annualizedDividend": 6.272,
         "annualizedDividendListingCurrency": 6.272,
-        "annualizedYield": 5.3190523762
+        "annualizedYield": 5.3114840229
+      },
+      {
+        "exDate": "2026-02-10T00:00:00.000Z",
+        "payDate": "2026-02-17T00:00:00.000Z",
+        "recordDate": "2026-02-10T00:00:00.000Z",
+        "divAmount": 0.003,
+        "divAmountListingCurrency": 0.003,
+        "currencyIsoCode": "INR",
+        "dividendTypeName": "No special code applies",
+        "divFreqTypeName": "Interim Payment",
+        "annualizedDividend": 6.272,
+        "annualizedDividendListingCurrency": 6.272,
+        "annualizedYield": 5.3114840229
+      },
+      {
+        "exDate": "2026-02-10T00:00:00.000Z",
+        "payDate": "2026-02-17T00:00:00.000Z",
+        "recordDate": "2026-02-10T00:00:00.000Z",
+        "divAmount": 0.13,
+        "divAmountListingCurrency": 0.13,
+        "currencyIsoCode": "INR",
+        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+        "divFreqTypeName": "Bonus Payment",
+        "annualizedDividend": 6.272,
+        "annualizedDividendListingCurrency": 6.272,
+        "annualizedYield": 5.3114840229
       },
       {
         "exDate": "2025-11-13T00:00:00.000Z",
         "payDate": "2025-11-20T00:00:00.000Z",
         "recordDate": "2025-11-13T00:00:00.000Z",
-        "divAmount": 0.03,
-        "divAmountListingCurrency": 0.03,
+        "divAmount": 0.138,
+        "divAmountListingCurrency": 0.138,
         "currencyIsoCode": "INR",
-        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-        "divFreqTypeName": "Bonus Payment",
+        "dividendTypeName": "No special code applies",
+        "divFreqTypeName": "Other Dividend",
         "annualizedDividend": 6.224,
         "annualizedDividendListingCurrency": 6.224,
         "annualizedYield": 5.0790932698
@@ -522,11 +838,11 @@
         "exDate": "2025-11-13T00:00:00.000Z",
         "payDate": "2025-11-20T00:00:00.000Z",
         "recordDate": "2025-11-13T00:00:00.000Z",
-        "divAmount": 0.138,
-        "divAmountListingCurrency": 0.138,
+        "divAmount": 0.03,
+        "divAmountListingCurrency": 0.03,
         "currencyIsoCode": "INR",
-        "dividendTypeName": "No special code applies",
-        "divFreqTypeName": "Other Dividend",
+        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+        "divFreqTypeName": "Bonus Payment",
         "annualizedDividend": 6.224,
         "annualizedDividendListingCurrency": 6.224,
         "annualizedYield": 5.0790932698

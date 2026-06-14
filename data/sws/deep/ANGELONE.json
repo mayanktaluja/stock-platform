@@ -3,7 +3,7 @@
   "name": "Angel One Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-angelone/angel-one-shares",
-  "parsed_at": "2026-05-31T21:09:18.129Z",
+  "parsed_at": "2026-06-11T00:07:06.041Z",
   "company_id": "03A48170-4383-4D68-BD0E-841CD1CA9FF1",
   "classification_status": "Active",
   "groww_source": {
@@ -65,22 +65,308 @@
         }
       ]
     },
-    "current_price_inr": 337.3,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_VOLATILE_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 329.85,
     "market_cap_inr": 307480400000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midlarge6",
     "shares_outstanding": 911998779,
     "fifty_two_week": {
       "low": 208.63,
       "high": 351
     },
-    "fair_value_inr": 352.72727,
+    "fair_value_inr": 353.63636,
     "fair_value_range_inr": {
-      "min": 129.981635,
+      "min": 131.212488,
       "max": 85961.4,
       "count": 40
     },
-    "upside_pct": 4.573753335309803,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "835f75cb-dd88-4e52-8c3e-168227e1362f",
+      "narrative_type": null,
+      "published_at": "2026-06-07T21:07:59.592Z"
+    },
+    "upside_pct": 7.211265726845537,
     "multiples": {
       "pe": 33.61,
       "ps": 5.96,
@@ -97,12 +383,12 @@
       "pe_source_url": "https://groww.in/stocks/angel-broking-ltd"
     },
     "rewards": [
-      "Earnings are forecast to grow 19.76% per year"
+      "Earnings are forecast to grow 19.77% per year"
     ],
     "risks": [
       "Debt is not well covered by [[operating cash flow]]",
       "High level of [[non-cash earnings]]",
-      "Dividend of 1.97% is not well covered by free cash flows"
+      "Dividend of 2.04% is not well covered by free cash flows"
     ],
     "dividend": {
       "yield_pct": 7.33,
@@ -272,8 +558,8 @@
     "dividend_yield_pct": 7.33,
     "industry_benchmarks": {
       "pe": 36.165866965242294,
-      "net_income_margin_1y": 0.2564706218,
-      "future_revenue_growth_3y": 0.3320316411,
+      "net_income_margin_1y": 0.257896607,
+      "future_revenue_growth_3y": 0.3297814148,
       "sector_pe": 36.165866965242294
     },
     "industry_benchmarks_meta": {
@@ -308,18 +594,18 @@
         "url": "https://groww.in/stocks/angel-broking-ltd"
       },
       "sws_statement": {
-        "company_pe": 33.6,
-        "industry_pe": 27.5,
+        "company_pe": 32.5,
+        "industry_pe": 26.5,
         "industry_name": "Indian Capital Markets",
-        "description": "ANGELONE is expensive based on its Price-To-Earnings Ratio (33.6x) compared to the Indian Capital Markets industry average (27.5x).",
+        "description": "ANGELONE is expensive based on its Price-To-Earnings Ratio (32.5x) compared to the Indian Capital Markets industry average (26.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 26.705392444,
+        "industry_pe": 26.532080016,
         "industry_code": "7130000",
         "type": "median_profitable",
-        "count": 218,
+        "count": 214,
         "source": {
           "type": "country",
           "country": "IN",
@@ -328,25 +614,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.6,
-        "sample_count": 204,
+        "industry_pe": 21.1,
+        "sample_count": 201,
         "industry_code": "7130000",
         "industry_name": "Diversified Financials"
       },
       "sws_primary_industry": {
-        "industry_pe": 15.729172633,
+        "industry_pe": 15.226484123,
         "industry_name": "Diversified Financials",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 33.61572771434566
+        "company_pe": 32.87325166491822
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 337.3,
-        "fetched_at": "2026-05-31T21:09:18.129Z",
+        "value": 329.85,
+        "fetched_at": "2026-06-11T00:07:06.041Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-angelone/angel-one-shares"
       },
       "market_cap_inr": {
@@ -354,6 +640,24 @@
         "value": 307480400000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/angel-broking-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 353.63636,
+        "fetched_at": "2026-06-11T00:07:06.041Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-angelone/angel-one-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "835f75cb-dd88-4e52-8c3e-168227e1362f",
+        "narrative_type": null,
+        "published_at": "2026-06-07T21:07:59.592Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 7.211265726845537,
+        "fetched_at": "2026-06-11T00:07:06.041Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-angelone/angel-one-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -393,14 +697,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.2564706218,
-        "fetched_at": "2026-05-31T21:09:18.129Z",
+        "value": 0.257896607,
+        "fetched_at": "2026-06-11T00:07:06.041Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-angelone/angel-one-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.3320316411,
-        "fetched_at": "2026-05-31T21:09:18.129Z",
+        "value": 0.3297814148,
+        "fetched_at": "2026-06-11T00:07:06.041Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-angelone/angel-one-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -511,11 +815,11 @@
     },
     "earnings_growth_yoy_pct": -7.921330055754396,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 0.27327238309424035,
-    "latest_revenue": 47154850000,
+    "revenue_growth_pct": 0.8662592070741632,
+    "latest_revenue": 47433710000,
     "latest_net_income": 9150990000,
     "latest_eps": 10.03,
-    "most_recent_reported_date": "2026-05-23",
+    "most_recent_reported_date": "2026-06-06",
     "pb": 5.03,
     "ps": 5.96,
     "book_value": 67.0823801,
@@ -532,12 +836,12 @@
     "quick_ratio": 1.8308524102450308,
     "cash_ratio": 1.7012547409772474,
     "returns_pct": {
-      "1D": 0.10387297818668133,
-      "7D": -0.604096066008549,
-      "1M": 7.729160012775467,
-      "3M": 44.63979416809607,
-      "6M": 24.750351357348922,
-      "1Y": 7.099765034609772,
+      "1D": -2.2811435342912127,
+      "7D": -1.4637789395070882,
+      "1M": 3.988020176544778,
+      "3M": 54.808278969352806,
+      "6M": 27.095133510576836,
+      "1Y": 5.90785037726763,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -548,8 +852,8 @@
   "ownership": {
     "top_holders": [
       {
-        "pct": 26.58062,
-        "shares": 242414950,
+        "pct": 21.24559,
+        "shares": 193759550,
         "is_insider": null
       },
       {
@@ -824,19 +1128,19 @@
     "payment_count": 20
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-23",
+    "most_recent_reported_date": "2026-06-06",
     "latest_year": 2026,
-    "latest_revenue": 47154850000,
+    "latest_revenue": 47433710000,
     "latest_net_income": 9150990000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 0.27327238309424035,
+    "revenue_growth_pct": 0.8662592070741632,
     "earnings_growth_pct": -7.921330055754396,
-    "net_margin_pct": 19.40625407566772,
+    "net_margin_pct": 19.29216584576665,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 47154850000,
+        "revenue": 47433710000,
         "netIncome": 9150990000,
         "eps": null
       },
@@ -1068,6 +1372,16 @@
   ],
   "news": [
     {
+      "id": "6448c764-c300-4704-9f5d-bc71896a20ee",
+      "type": "narrative-update",
+      "date": "2026-06-07T21:07:59.000Z",
+      "title": "ANGELONE: Stable Outlook Will Balance Dividend Plans And Higher Borrowing Limits",
+      "body": "Analysts have made a small upward adjustment to the Angel One price target to ₹353.64. This reflects updated assumptions around fair value, discount rate, revenue growth, profit margin, and forward P/E multiples.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/diversified-financials/nse-angelone/angel-one-shares/18eav88l-digital-expansion-and-new-business-unit-will-reshape-market-prospects/updates/23-analysts-have-made-a-small-upward-adjustment-to-the-angel-on",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "15afea80-051d-40a7-b509-44bdedaa95ff",
       "type": "brief",
       "date": "2026-05-26T11:36:40.000Z",
@@ -1284,16 +1598,6 @@
       "title": "Angel One Limited Appoints Ajit Sinha as General Counsel",
       "body": "Angel One Limited announced that Ajit Sinha has joined as General Counsel, reinforcing its commitment to robust governance, legal risk management, and regulatory compliance across its rapidly scaling businesses. With over 24 years of experience in corporate law, financial services, capital markets, and banking, Ajit will lead the legal function and provide strategic counsel to the Board and leadership team. Ajit joins from the National Stock Exchange of India Limited (NSE), where he served as Vice President and Heading the Corporate Legal team for NSE and its group companies since December 2018. He steered legal strategy, governance, and risk management across domestic and international entities, with expertise in securities laws, M&A, litigation, IP, and enterprise risk frameworks. At NSE",
       "keyDevTypeId": "16",
-      "source_url": null,
-      "raw_subtype": "EventActivity"
-    },
-    {
-      "id": "7adfe224-4b9d-4a26-9fa5-01f95aa53b14",
-      "type": "event",
-      "date": "2025-12-16T11:30:00.000Z",
-      "title": "Angel One Limited to Report Q3, 2026 Results on Jan 15, 2026",
-      "body": "Angel One Limited announced that they will report Q3, 2026 results on Jan 15, 2026",
-      "keyDevTypeId": "55",
       "source_url": null,
       "raw_subtype": "EventActivity"
     }

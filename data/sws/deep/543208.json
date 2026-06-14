@@ -3,7 +3,7 @@
   "name": "Regis Industries Ltd",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/bse-543208/regis-industries-shares",
-  "parsed_at": "2026-05-31T20:08:23.998Z",
+  "parsed_at": "2026-06-10T23:09:58.848Z",
   "company_id": "4939C31A-9942-4E57-8717-50A9E975C5F3",
   "classification_status": "Active",
   "groww_source": {
@@ -77,9 +77,287 @@
         }
       ]
     },
-    "current_price_inr": 2.29,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_BECOME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_5_YEARS_AGO"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 2.27,
     "market_cap_inr": 591100000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -91,6 +369,14 @@
       "min": null,
       "max": null,
       "count": 0
+    },
+    "fair_value_source_detail": {
+      "method": "missing_consensus_narrative",
+      "owner_name": null,
+      "owner_classification": null,
+      "narrative_id": null,
+      "narrative_type": null,
+      "published_at": null
     },
     "upside_pct": null,
     "multiples": {
@@ -113,7 +399,7 @@
     ],
     "risks": [
       "Makes less than USD$1m in revenue (₹63M)",
-      "Does not have a meaningful market cap (₹591M)"
+      "Does not have a meaningful market cap (₹586M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -126,8 +412,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 23.373691419264986,
-      "net_income_margin_1y": 0.3861928045,
-      "future_revenue_growth_3y": 0.6191489568,
+      "net_income_margin_1y": 0.3863034101,
+      "future_revenue_growth_3y": 0.6215285206,
       "sector_pe": 23.373691419264986
     },
     "industry_benchmarks_meta": {
@@ -162,18 +448,18 @@
         "url": "https://groww.in/stocks/bhartia-bachat-ltd"
       },
       "sws_statement": {
-        "company_pe": 78.2,
-        "industry_pe": 26.7,
+        "company_pe": 77.5,
+        "industry_pe": 25.9,
         "industry_name": "Indian Capital Markets",
-        "description": "543208 is expensive based on its Price-To-Earnings Ratio (78.2x) compared to the Indian Capital Markets industry average (26.7x).",
+        "description": "543208 is expensive based on its Price-To-Earnings Ratio (77.5x) compared to the Indian Capital Markets industry average (25.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 26.705392444,
+        "industry_pe": 25.93266606,
         "industry_code": "7130000",
         "type": "median_profitable",
-        "count": 218,
+        "count": 215,
         "source": {
           "type": "country",
           "country": "IN",
@@ -182,8 +468,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.6,
-        "sample_count": 204,
+        "industry_pe": 21.1,
+        "sample_count": 201,
         "industry_code": "7130000",
         "industry_name": "Diversified Financials"
       },
@@ -195,8 +481,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 2.29,
-        "fetched_at": "2026-05-31T20:08:23.998Z",
+        "value": 2.27,
+        "fetched_at": "2026-06-10T23:09:58.848Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-543208/regis-industries-shares"
       },
       "market_cap_inr": {
@@ -243,14 +529,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.3861928045,
-        "fetched_at": "2026-05-31T20:08:23.998Z",
+        "value": 0.3863034101,
+        "fetched_at": "2026-06-10T23:09:58.848Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-543208/regis-industries-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.6191489568,
-        "fetched_at": "2026-05-31T20:08:23.998Z",
+        "value": 0.6215285206,
+        "fetched_at": "2026-06-10T23:09:58.848Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/bse-543208/regis-industries-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -383,15 +669,15 @@
     "cash_ratio": 1.6666666666666667,
     "returns_pct": {
       "1D": 0,
-      "7D": 0.4385964912280803,
-      "1M": -4.184100418410045,
-      "3M": -6.910569105691054,
-      "6M": -14.552238805970152,
-      "1Y": -67.59433656550344,
+      "7D": 0,
+      "1M": 0.4424778761062049,
+      "3M": -5.4166666666666625,
+      "6M": -24.834437086092713,
+      "1Y": -68.44299693104671,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 1,
+    "recent_news_count": 0,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -750,16 +1036,6 @@
       "keyDevTypeId": "55",
       "source_url": null,
       "raw_subtype": "EventActivity"
-    },
-    {
-      "id": "7d68710c-1303-40e6-8b9b-e38cabc016d7",
-      "type": "brief",
-      "date": "2025-12-08T11:31:03.000Z",
-      "title": "Investor sentiment improves as stock rises 15%",
-      "body": "After last week's 15% share price gain to ₹3.04, the stock trades at a trailing P/E ratio of 51.5x. Average trailing P/E is 27x in the Capital Markets industry in India. Total returns to shareholders of 165% over the past three years.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/543208.json"

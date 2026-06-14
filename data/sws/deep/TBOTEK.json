@@ -3,7 +3,7 @@
   "name": "TBO Tek Limited",
   "sector": "Consumer Services",
   "sws_url": "https://simplywall.st/stocks/in/consumer-services/nse-tbotek/tbo-tek-shares",
-  "parsed_at": "2026-05-31T22:44:19.388Z",
+  "parsed_at": "2026-06-11T01:48:20.946Z",
   "company_id": "13D78737-AA1E-4532-9C93-48EF8A3BBAFA",
   "classification_status": "Active",
   "groww_source": {
@@ -18,16 +18,16 @@
     "snowflake": {
       "valuation": 1,
       "future": 5,
-      "past": 1,
+      "past": 2,
       "financial_health": 4,
       "dividends": 0,
       "future_growth": 5,
-      "past_performance": 1,
+      "past_performance": 2,
       "value": 1,
       "health": 4,
       "dividend": 0
     },
-    "snowflake_total": 11,
+    "snowflake_total": 12,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 3,
@@ -75,22 +75,308 @@
         }
       ]
     },
-    "current_price_inr": 1229.4,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 1228.2,
     "market_cap_inr": 133036300000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "medium5",
     "shares_outstanding": 106301497,
     "fifty_two_week": {
       "low": 1004.2,
       "high": 1764.8
     },
-    "fair_value_inr": 1401.73314,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 901.295597,
+      "min": 973.98439,
       "max": 1910.7,
       "count": 4
     },
-    "upside_pct": 14.017662274280132,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystLowTarget",
+      "owner_classification": null,
+      "narrative_id": "a2c9a40f-68ec-4f02-973e-0211ec9388fb",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 54.72,
       "ps": 5.76,
@@ -107,13 +393,13 @@
       "pe_source_url": "https://groww.in/stocks/tbo-tek-ltd"
     },
     "rewards": [
-      "Earnings have grown 29.8% per year over the past 5 years",
-      "Earnings are forecast to grow 29.14% per year",
-      "Analysts in good agreement that stock price will rise by 38.3%"
+      "Earnings are forecast to grow 26.97% per year",
+      "Analysts in good agreement that stock price will rise by 41.3%",
+      "Earnings grew by 6.3% over the past year"
     ],
     "risks": [
       "High level of [[non-cash earnings]]",
-      "Profit margins (9%) are lower than last year (13.2%)"
+      "Profit margins (9.1%) are lower than last year (13.2%)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -126,8 +412,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 117.2719632175943,
-      "net_income_margin_1y": 0.08680669159,
-      "future_revenue_growth_3y": 0.3940313611,
+      "net_income_margin_1y": 0.08657243816,
+      "future_revenue_growth_3y": 0.39295204,
       "sector_pe": 117.2719632175943
     },
     "industry_benchmarks_meta": {
@@ -162,18 +448,18 @@
         "url": "https://groww.in/stocks/tbo-tek-ltd"
       },
       "sws_statement": {
-        "company_pe": 53.5,
-        "industry_pe": 26.7,
+        "company_pe": 52.8,
+        "industry_pe": 28.1,
         "industry_name": "Indian Hospitality",
-        "description": "TBOTEK is expensive based on its Price-To-Earnings Ratio (53.5x) compared to the Indian Hospitality industry average (26.7x).",
+        "description": "TBOTEK is expensive based on its Price-To-Earnings Ratio (52.8x) compared to the Indian Hospitality industry average (28.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 27.078875295,
+        "industry_pe": 28.141130414,
         "industry_code": "4210000",
         "type": "median_profitable",
-        "count": 80,
+        "count": 81,
         "source": {
           "type": "country",
           "country": "IN",
@@ -182,25 +468,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 25.25,
+        "industry_pe": 26.450000000000003,
         "sample_count": 80,
         "industry_code": "4210000",
         "industry_name": "Consumer Services"
       },
       "sws_primary_industry": {
-        "industry_pe": 17.518712405,
+        "industry_pe": 17.366873383,
         "industry_name": "Consumer Services",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 53.75524357271251
+        "company_pe": 53.702773837648856
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1229.4,
-        "fetched_at": "2026-05-31T22:44:19.388Z",
+        "value": 1228.2,
+        "fetched_at": "2026-06-11T01:48:20.946Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/nse-tbotek/tbo-tek-shares"
       },
       "market_cap_inr": {
@@ -247,14 +533,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.08680669159,
-        "fetched_at": "2026-05-31T22:44:19.388Z",
+        "value": 0.08657243816,
+        "fetched_at": "2026-06-11T01:48:20.946Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/nse-tbotek/tbo-tek-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.3940313611,
-        "fetched_at": "2026-05-31T22:44:19.388Z",
+        "value": 0.39295204,
+        "fetched_at": "2026-06-11T01:48:20.946Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/nse-tbotek/tbo-tek-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -386,16 +672,16 @@
     "quick_ratio": 1.3149190997543303,
     "cash_ratio": 0.3750363847350997,
     "returns_pct": {
-      "1D": 0.35918367346939517,
-      "7D": 2.913108990457072,
-      "1M": -3.5462105758669247,
-      "3M": 0.29368575624083343,
-      "6M": -25.594625673303874,
-      "1Y": -4.999613631094955,
+      "1D": 1.2113720642768888,
+      "7D": 2.8729374319457204,
+      "1M": 3.097456560060446,
+      "3M": 1.3032002639392901,
+      "6M": -25.976374156219865,
+      "1Y": -8.336443018135684,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 4,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -745,6 +1031,26 @@
   ],
   "news": [
     {
+      "id": "6c93b14c-a10f-47b9-bcce-0d6b8cd59976",
+      "type": "article",
+      "date": "2026-06-05T01:47:26.000Z",
+      "title": "TBO Tek's (NSE:TBOTEK) Profits Appear To Have Quality Issues",
+      "body": "The recent earnings posted by TBO Tek Limited ( NSE:TBOTEK ) were solid, but the stock didn't move as much as we...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/consumer-services/nse-tbotek/tbo-tek-shares/news/tbo-teks-nsetbotek-profits-appear-to-have-quality-issues",
+      "raw_subtype": "article"
+    },
+    {
+      "id": "7ecdc7f2-56d8-40d7-b8fc-747918d3f482",
+      "type": "article",
+      "date": "2026-06-01T02:10:42.000Z",
+      "title": "Analysts Have Made A Financial Statement On TBO Tek Limited's (NSE:TBOTEK) Annual Report",
+      "body": "Investors in TBO Tek Limited ( NSE:TBOTEK ) had a good week, as its shares rose 2.9% to close at ₹1,229 following the...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/consumer-services/nse-tbotek/tbo-tek-shares/news/analysts-have-made-a-financial-statement-on-tbo-tek-limiteds",
+      "raw_subtype": "article"
+    },
+    {
       "id": "ca2ebe75-a01d-48f9-b930-6c5ee8fa9a62",
       "type": "brief",
       "date": "2026-05-29T11:19:09.000Z",
@@ -873,16 +1179,6 @@
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/stocks/in/consumer-services/nse-tbotek/tbo-tek-shares/news/tbo-tek-nsetbotek-could-easily-take-on-more-debt",
       "raw_subtype": "article"
-    },
-    {
-      "id": "b81a49bd-126f-4c95-977c-625f115e2462",
-      "type": "narrative-update",
-      "date": "2025-12-16T05:04:42.000Z",
-      "title": "TBOTEK: AI Travel Partnership Will Drive Long Term Platform Upside",
-      "body": "Narrative Update The analyst price target for TBO Tek has been raised modestly from ₹1,852.78 to ₹1,908.00, as analysts factor in slightly faster revenue growth, improving profit margins, and a marginally higher justified future earnings multiple, despite a small uptick in the assumed discount rate. What's in the News TBO Tek has partnered with Amadeus South Asia to launch Travel Marketplace, an AI driven platform connecting travel sellers and providers through a single ecosystem, aimed at expanding access to next generation travel content and services across South Asia (Key Developments).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/consumer-services/nse-tbotek/tbo-tek-shares/cntdjvst-international-expansion-and-digitalization-will-expand-global-reach-ulhw/updates/6-narrative-update-the-analyst-price-target-for-tbo-tek-has-be",
-      "raw_subtype": "narrative-update"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/TBOTEK.json"

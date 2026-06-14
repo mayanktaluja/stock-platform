@@ -3,7 +3,7 @@
   "name": "Petronet LNG Limited",
   "sector": "Energy",
   "sws_url": "https://simplywall.st/stocks/in/energy/nse-petronet/petronet-lng-shares",
-  "parsed_at": "2026-05-31T21:30:04.706Z",
+  "parsed_at": "2026-06-11T00:32:16.545Z",
   "company_id": "8B184367-1A29-4989-B6CE-C15BFF96C712",
   "classification_status": "Active",
   "groww_source": {
@@ -28,9 +28,287 @@
       "dividend": 5
     },
     "snowflake_total": 17,
-    "current_price_inr": 271.05,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_NOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_50_TO_75_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 268.3,
     "market_cap_inr": 418200000000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midlarge6",
     "shares_outstanding": 1500000088,
     "fifty_two_week": {
@@ -40,10 +318,18 @@
     "fair_value_inr": 315.29032,
     "fair_value_range_inr": {
       "min": 107.724355,
-      "max": 400,
+      "max": 393.14078,
       "count": 20
     },
-    "upside_pct": 16.32182992067884,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "51179d40-c2ca-46ce-a709-de269ac7d3b2",
+      "narrative_type": null,
+      "published_at": "2026-05-10T00:13:24.015Z"
+    },
+    "upside_pct": 17.51409616101379,
     "multiples": {
       "pe": 10.69,
       "ps": 0.96,
@@ -61,8 +347,8 @@
     },
     "rewards": [
       "Trading below our calculated fair Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (10.4x) is below the Indian market (23.4x)",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
+      "Price-To-Earnings ratio (10.3x) is below the Indian market (22.9x)",
       "Trading at good value vs. industry average Price-To-Earnings ratio"
     ],
     "risks": [
@@ -236,8 +522,8 @@
     "dividend_yield_pct": 1.08,
     "industry_benchmarks": {
       "pe": 18.88956298261687,
-      "net_income_margin_1y": 0.1242489666,
-      "future_revenue_growth_3y": 2.150633131,
+      "net_income_margin_1y": 0.1227139714,
+      "future_revenue_growth_3y": 1.998825811,
       "sector_pe": 18.88956298261687
     },
     "industry_benchmarks_meta": {
@@ -272,15 +558,15 @@
         "url": "https://groww.in/stocks/petronet-lng-ltd"
       },
       "sws_statement": {
-        "company_pe": 10.4,
-        "industry_pe": 19.2,
+        "company_pe": 10.3,
+        "industry_pe": 18.4,
         "industry_name": "Indian Oil and Gas",
-        "description": "PETRONET is good value based on its Price-To-Earnings Ratio (10.4x) compared to the Indian Oil and Gas industry average (19.2x).",
+        "description": "PETRONET is good value based on its Price-To-Earnings Ratio (10.3x) compared to the Indian Oil and Gas industry average (18.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 19.197746836,
+        "industry_pe": 18.359426364,
         "industry_code": "1030000",
         "type": "median_profitable",
         "count": 34,
@@ -292,25 +578,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 14.9,
-        "sample_count": 31,
+        "industry_pe": 15.55,
+        "sample_count": 32,
         "industry_code": "1030000",
         "industry_name": "Energy"
       },
       "sws_primary_industry": {
-        "industry_pe": 14.859404592,
+        "industry_pe": 14.327869158,
         "industry_name": "Energy",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 10.391614220271794
+        "company_pe": 10.286183712595175
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 271.05,
-        "fetched_at": "2026-05-31T21:30:04.706Z",
+        "value": 268.3,
+        "fetched_at": "2026-06-11T00:32:16.545Z",
         "url": "https://simplywall.st/stocks/in/energy/nse-petronet/petronet-lng-shares"
       },
       "market_cap_inr": {
@@ -318,6 +604,24 @@
         "value": 418200000000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/petronet-lng-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 315.29032,
+        "fetched_at": "2026-06-11T00:32:16.545Z",
+        "url": "https://simplywall.st/stocks/in/energy/nse-petronet/petronet-lng-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "51179d40-c2ca-46ce-a709-de269ac7d3b2",
+        "narrative_type": null,
+        "published_at": "2026-05-10T00:13:24.015Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 17.51409616101379,
+        "fetched_at": "2026-06-11T00:32:16.545Z",
+        "url": "https://simplywall.st/stocks/in/energy/nse-petronet/petronet-lng-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -357,14 +661,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.1242489666,
-        "fetched_at": "2026-05-31T21:30:04.706Z",
+        "value": 0.1227139714,
+        "fetched_at": "2026-06-11T00:32:16.545Z",
         "url": "https://simplywall.st/stocks/in/energy/nse-petronet/petronet-lng-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 2.150633131,
-        "fetched_at": "2026-05-31T21:30:04.706Z",
+        "value": 1.998825811,
+        "fetched_at": "2026-06-11T00:32:16.545Z",
         "url": "https://simplywall.st/stocks/in/energy/nse-petronet/petronet-lng-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -496,16 +800,16 @@
     "quick_ratio": 5.261720544391702,
     "cash_ratio": 4.554970591679202,
     "returns_pct": {
-      "1D": -2.779770444763271,
-      "7D": -0.4773269689737511,
-      "1M": -3.2378980436955564,
-      "3M": -16.187384044526894,
-      "6M": -0.29427993378701905,
-      "1Y": -11.087420042643927,
+      "1D": -0.18601190476190474,
+      "7D": -0.6112243007964354,
+      "1M": -2.701722574796007,
+      "3M": -9.571958206943034,
+      "6M": -0.24168060977876082,
+      "1Y": -13.269759172458384,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 5,
+    "recent_news_count": 1,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -547,8 +851,8 @@
         "is_insider": null
       },
       {
-        "pct": 2.06794,
-        "shares": 31019169,
+        "pct": 2.04975,
+        "shares": 30746206,
         "is_insider": null
       },
       {
@@ -562,8 +866,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.18904,
-        "shares": 17835581,
+        "pct": 1.19022,
+        "shares": 17853282,
         "is_insider": null
       },
       {
@@ -587,13 +891,13 @@
         "is_insider": null
       },
       {
-        "pct": 0.70925,
-        "shares": 10638824,
+        "pct": 0.64556,
+        "shares": 9683376,
         "is_insider": null
       },
       {
-        "pct": 0.64556,
-        "shares": 9683376,
+        "pct": 0.61187,
+        "shares": 9178043,
         "is_insider": null
       },
       {
@@ -1057,6 +1361,16 @@
   ],
   "news": [
     {
+      "id": "a90a8339-0ad6-41b9-baba-5feb51e09ed2",
+      "type": "narrative-update",
+      "date": "2026-06-03T12:03:46.000Z",
+      "title": "PETRONET: Upcoming Board Decisions Will Support Long Term Upside Potential",
+      "body": "Analysts have trimmed the price target for Petronet LNG slightly from ₹400 to about ₹393, reflecting updated views on its projected revenue growth, profit margins, discount rate and future P/E assumptions. What's in the News Board meeting scheduled for March 18, 2026, to review non compliance identified by the exchange and the exchange's subsequent actions, along with other business matters.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/energy/nse-petronet/petronet-lng-shares/z3ck886w-dahej-kochi-and-gopalpur-terminals-will-spark-indias-lng-transition-hxmy/updates/7-analysts-have-trimmed-the-price-target-for-petronet-lng-slig",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "9211cab2-4f64-4e73-b68c-b43943c83dc1",
       "type": "brief",
       "date": "2026-05-11T12:02:10.000Z",
@@ -1275,16 +1589,6 @@
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/stocks/in/energy/nse-petronet/petronet-lng-shares/news/improved-earnings-required-before-petronet-lng-limited-nsepe",
       "raw_subtype": "article"
-    },
-    {
-      "id": "301db15a-4a56-4303-9db0-1fe642026bfd",
-      "type": "narrative-update",
-      "date": "2025-12-12T03:10:31.000Z",
-      "title": "PETRONET: Future Returns May Weaken As Revenue Trends Turn Negative",
-      "body": "Narrative Update on Petronet LNG Analysts have nudged their price target on Petronet LNG up by ₹5 to ₹245, citing a modestly lower discount rate and improved profit margin expectations that more than offset slightly weaker revenue growth assumptions and a marginally lower future P/E multiple. What's in the News Petronet LNG and ONGC sign a long-term ethane handling term sheet linked to a new multi fuel jetty at Dahej, expected to generate about ₹5,000 million in gross revenue over 15 years starting FY 2028 to 2029 (company disclosure) The under construction third jetty at Dahej will be capable of handling ethane, propane and LNG, positioning Petronet LNG as a first of its kind import infrastructure provider for multiple feedstocks in India (company disclosure) ONGC secures approximately 60",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/energy/nse-petronet/petronet-lng-shares/uez5ka5c-dahej-and-gopalpur-projects-will-collapse-in-indias-energy-mix-e687/updates/2-narrative-update-on-petronet-lng-analysts-have-nudged-their",
-      "raw_subtype": "narrative-update"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/PETRONET.json"

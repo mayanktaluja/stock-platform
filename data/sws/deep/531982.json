@@ -3,7 +3,7 @@
   "name": "Spectrum Foods Limited",
   "sector": "Food, Beverage & Tobacco",
   "sws_url": "https://simplywall.st/stocks/in/food-beverage-tobacco/bse-531982/spectrum-foods-shares",
-  "parsed_at": "2026-05-31T22:14:29.695Z",
+  "parsed_at": "2026-06-11T01:27:38.032Z",
   "company_id": "779FAA74-DCE3-40BF-AD55-33B593EA6781",
   "classification_status": "Active",
   "groww_source": {
@@ -18,16 +18,16 @@
     "snowflake": {
       "valuation": 0,
       "future": 0,
-      "past": 0,
+      "past": 4,
       "financial_health": 4,
       "dividends": 0,
       "future_growth": 0,
-      "past_performance": 0,
+      "past_performance": 4,
       "value": 0,
       "health": 4,
       "dividend": 0
     },
-    "snowflake_total": 4,
+    "snowflake_total": 8,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 12,
@@ -77,9 +77,287 @@
         }
       ]
     },
-    "current_price_inr": 12.41,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_EQUITY_NOW_POSITIVE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 12.92,
     "market_cap_inr": 292300000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -92,30 +370,38 @@
       "max": null,
       "count": 0
     },
+    "fair_value_source_detail": {
+      "method": "missing_consensus_narrative",
+      "owner_name": null,
+      "owner_classification": null,
+      "narrative_id": null,
+      "narrative_type": null,
+      "published_at": null
+    },
     "upside_pct": null,
     "multiples": {
-      "pe": null,
+      "pe": 103.7,
       "ps": 1.07,
       "pb": 0.68,
       "ev_ebitda": 52.78,
       "peg": -5.247762081784387
     },
     "multiples_meta": {
-      "pe_source": null,
-      "pe_source_label": null,
+      "pe_source": "sws_statement",
+      "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": null,
+      "pe_as_of": "2026-06-11T01:27:38.032Z",
       "pe_basis": "trailing_ttm",
-      "pe_source_url": null
+      "pe_source_url": "https://simplywall.st/stocks/in/food-beverage-tobacco/bse-531982/spectrum-foods-shares"
     },
     "rewards": [
-      "Earnings have grown 5% per year over the past 5 years"
+      "Earnings grew by 132.3% over the past year"
     ],
     "risks": [
-      "Has less than 1 year of [[cash runway]]",
       "Highly volatile share price over past 3 months",
-      "Does not have a meaningful market cap (₹301M)",
-      "Does not have meaningful revenue (₹276M)"
+      "Does not have a meaningful market cap (₹298M)",
+      "High level of [[non-cash earnings]]",
+      "Does not have meaningful revenue (₹277M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -129,7 +415,7 @@
     "industry_benchmarks": {
       "pe": 49.972079859212336,
       "net_income_margin_1y": 0.06501183937,
-      "future_revenue_growth_3y": 0.3785430898,
+      "future_revenue_growth_3y": 0.3819522721,
       "sector_pe": 49.972079859212336
     },
     "industry_benchmarks_meta": {
@@ -144,9 +430,9 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": null,
-      "company_pe_source": null,
-      "company_pe_source_label": null,
+      "company_pe": 103.7,
+      "company_pe_source": "sws_statement",
+      "company_pe_source_label": "SWS visible statement",
       "industry_pe": 49.972079859212336,
       "industry_name": "FMCG",
       "industry_id": 27,
@@ -164,18 +450,18 @@
         "url": "https://groww.in/stocks/spectrum-foods-ltd"
       },
       "sws_statement": {
-        "company_pe": null,
-        "industry_pe": 0.9,
+        "company_pe": 103.7,
+        "industry_pe": 18.6,
         "industry_name": "Indian Food",
-        "description": "531982 is expensive based on its Price-To-Sales Ratio (1.1x) compared to the Indian Food industry average (0.9x).",
-        "title": "Price-To-Sales vs Industry",
+        "description": "531982 is expensive based on its Price-To-Earnings Ratio (103.7x) compared to the Indian Food industry average (18.6x).",
+        "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 18.830078936,
+        "industry_pe": 18.621768344,
         "industry_code": "5120000",
         "type": "median_profitable",
-        "count": 217,
+        "count": 224,
         "source": {
           "type": "country",
           "country": "IN",
@@ -184,8 +470,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.9,
-        "sample_count": 218,
+        "industry_pe": 18,
+        "sample_count": 224,
         "industry_code": "5120000",
         "industry_name": "Food, Beverage & Tobacco"
       },
@@ -197,8 +483,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 12.41,
-        "fetched_at": "2026-05-31T22:14:29.695Z",
+        "value": 12.92,
+        "fetched_at": "2026-06-11T01:27:38.032Z",
         "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/bse-531982/spectrum-foods-shares"
       },
       "market_cap_inr": {
@@ -206,6 +492,12 @@
         "value": 292300000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/spectrum-foods-ltd"
+      },
+      "multiples.pe": {
+        "provider": "sws_statement",
+        "value": 103.7,
+        "fetched_at": "2026-06-11T01:27:38.032Z",
+        "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/bse-531982/spectrum-foods-shares"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
@@ -240,13 +532,13 @@
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.06501183937,
-        "fetched_at": "2026-05-31T22:14:29.695Z",
+        "fetched_at": "2026-06-11T01:27:38.032Z",
         "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/bse-531982/spectrum-foods-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.3785430898,
-        "fetched_at": "2026-05-31T22:14:29.695Z",
+        "value": 0.3819522721,
+        "fetched_at": "2026-06-11T01:27:38.032Z",
         "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/bse-531982/spectrum-foods-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -372,16 +664,16 @@
     "quick_ratio": 4.737078651685393,
     "cash_ratio": 0,
     "returns_pct": {
-      "1D": 2.055921052631579,
-      "7D": 1.888341543513961,
-      "1M": -7.388059701492539,
-      "3M": -4.317656129529687,
-      "6M": -20.95541401273885,
-      "1Y": -48.99301274147143,
+      "1D": 5.040650406504058,
+      "7D": 11.092003439380903,
+      "1M": -8.885754583921015,
+      "3M": 3.942075623491555,
+      "6M": -17.073170731707318,
+      "1Y": -48.48484848484848,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 1,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -591,6 +883,16 @@
     "BSE"
   ],
   "news": [
+    {
+      "id": "09770273-5531-4403-a95d-bae3b107a7d7",
+      "type": "brief",
+      "date": "2026-06-01T08:11:45.000Z",
+      "title": "Full year 2026 earnings released: EPS: ₹0.12 (vs ₹0.26 in FY 2025)",
+      "body": "Full year 2026 results: EPS: ₹0.12. Revenue: ₹277.3m (up 25% from FY 2025). Net income: ₹2.87m (up 132% from FY 2025). Profit margin: 1.0% (up from 0.6% in FY 2025). The increase in margin was driven by higher revenue.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "c0741fab-b7d7-4cdc-9323-23335e65fd13",
       "type": "event",

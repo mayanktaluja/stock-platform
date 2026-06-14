@@ -3,7 +3,7 @@
   "name": "Kabra Jewels Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/nse-kkjewels/kabra-jewels-shares",
-  "parsed_at": "2026-05-31T20:28:58.399Z",
+  "parsed_at": "2026-06-10T23:34:47.162Z",
   "company_id": "5134B04F-09E9-4028-98DE-A0D90D0F24C3",
   "classification_status": "Active",
   "groww_source": null,
@@ -70,21 +70,310 @@
         }
       ]
     },
-    "current_price_inr": 105.65,
-    "market_cap_inr": 1107740171.081697,
-    "market_cap_usd": 120714180851.549,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_HIGH_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 116.05,
+    "market_cap_inr": 1216784163.3131182,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
-    "fifty_two_week": null,
-    "fair_value_inr": 230.767819,
+    "fifty_two_week": {
+      "low": 81.15,
+      "high": 135.95
+    },
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 118.42670989115001,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "856aee0c-5cef-4abe-be77-cdfa7a67a8f8",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
-      "pe": 4.5,
+      "pe": 4.9,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -93,14 +382,14 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": "2026-05-31T20:28:58.399Z",
+      "pe_as_of": "2026-06-10T23:34:47.162Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://simplywall.st/stocks/in/retail/nse-kkjewels/kabra-jewels-shares"
     },
     "rewards": [
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (4.5x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (4.9x) is below the Indian market (23.2x)",
       "Earnings grew by 117% over the past year"
     ],
     "risks": [
@@ -118,9 +407,9 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 21.18993456,
-      "net_income_margin_1y": 0.03769127184,
-      "future_revenue_growth_3y": 0.7374679572
+      "pe": 19.517049487,
+      "net_income_margin_1y": 0.03758445428,
+      "future_revenue_growth_3y": 0.7371629745
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -134,30 +423,30 @@
     "pe_benchmark_source": {
       "provider": "sws_industry_api",
       "label": "SWS industry API",
-      "company_pe": 4.5,
+      "company_pe": 4.9,
       "company_pe_source": "sws_statement",
       "company_pe_source_label": "SWS visible statement",
-      "industry_pe": 21.18993456,
+      "industry_pe": 19.517049487,
       "industry_name": "Retail",
       "industry_code": "4440000",
-      "sample_count": 64,
+      "sample_count": 62,
       "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 4.5,
-        "industry_pe": 20.8,
+        "company_pe": 4.9,
+        "industry_pe": 19.3,
         "industry_name": "Indian Specialty Retail",
-        "description": "KKJEWELS is good value based on its Price-To-Earnings Ratio (4.5x) compared to the Indian Specialty Retail industry average (20.8x).",
+        "description": "KKJEWELS is good value based on its Price-To-Earnings Ratio (4.9x) compared to the Indian Specialty Retail industry average (19.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 21.18993456,
+        "industry_pe": 19.517049487,
         "industry_code": "4440000",
         "type": "median_profitable",
-        "count": 64,
+        "count": 62,
         "source": {
           "type": "country",
           "country": "IN",
@@ -166,8 +455,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.95,
-        "sample_count": 56,
+        "industry_pe": 17.3,
+        "sample_count": 55,
         "industry_code": "4440000",
         "industry_name": "Retail"
       },
@@ -179,32 +468,41 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 105.65,
-        "fetched_at": "2026-05-31T20:28:58.399Z",
+        "value": 116.05,
+        "fetched_at": "2026-06-10T23:34:47.162Z",
         "url": "https://simplywall.st/stocks/in/retail/nse-kkjewels/kabra-jewels-shares"
       },
       "multiples.pe": {
         "provider": "sws_statement",
-        "value": 4.5,
-        "fetched_at": "2026-05-31T20:28:58.399Z",
+        "value": 4.9,
+        "fetched_at": "2026-06-10T23:34:47.162Z",
         "url": "https://simplywall.st/stocks/in/retail/nse-kkjewels/kabra-jewels-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 21.18993456,
+        "value": 19.517049487,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.03769127184,
-        "fetched_at": "2026-05-31T20:28:58.399Z",
+        "value": 0.03758445428,
+        "fetched_at": "2026-06-10T23:34:47.162Z",
         "url": "https://simplywall.st/stocks/in/retail/nse-kkjewels/kabra-jewels-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.7374679572,
-        "fetched_at": "2026-05-31T20:28:58.399Z",
+        "value": 0.7371629745,
+        "fetched_at": "2026-06-10T23:34:47.162Z",
+        "url": "https://simplywall.st/stocks/in/retail/nse-kkjewels/kabra-jewels-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 81.15,
+          "high": 135.95
+        },
+        "fetched_at": "2026-06-10T23:34:47.162Z",
         "url": "https://simplywall.st/stocks/in/retail/nse-kkjewels/kabra-jewels-shares"
       }
     },
@@ -231,16 +529,16 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -0.5178907721280576,
-      "7D": -2.4018475750577313,
-      "1M": -4.215775158658197,
-      "3M": 19.71671388101984,
-      "6M": 16.162726772952173,
-      "1Y": -24.697077690662866,
+      "1D": -0.5143591941706032,
+      "7D": 7.106598984771577,
+      "1M": 5.499999999999997,
+      "3M": 21.137787056367433,
+      "6M": 31.874999999999996,
+      "1Y": -5.956239870340363,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 4,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -300,6 +598,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "5b1db3af-6c31-4b71-862a-6a10a1dc5ae2",
+      "type": "article",
+      "date": "2026-06-02T03:03:35.000Z",
+      "title": "Kabra Jewels' (NSE:KKJEWELS) Solid Profits Have Weak Fundamentals",
+      "body": "Kabra Jewels Limited's ( NSE:KKJEWELS ) robust earnings report didn't manage to move the market for its stock. We did...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/retail/nse-kkjewels/kabra-jewels-shares/news/kabra-jewels-nsekkjewels-solid-profits-have-weak-fundamental",
+      "raw_subtype": "article"
+    },
     {
       "id": "d7049c83-1aed-403d-8f5a-33b0a1036ee7",
       "type": "brief",

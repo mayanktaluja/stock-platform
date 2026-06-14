@@ -3,7 +3,7 @@
   "name": "Riddhi Corporate Services Limited",
   "sector": "Commercial Services",
   "sws_url": "https://simplywall.st/stocks/in/commercial-services/bse-540590/riddhi-services-shares",
-  "parsed_at": "2026-05-31T23:08:03.793Z",
+  "parsed_at": "2026-06-11T02:23:01.366Z",
   "company_id": "22921FDE-6A5D-42CE-BE89-209E4C5E1515",
   "classification_status": "Active",
   "groww_source": {
@@ -19,15 +19,15 @@
       "valuation": 4,
       "future": 0,
       "past": 2,
-      "financial_health": 5,
+      "financial_health": 6,
       "dividends": 3,
       "future_growth": 0,
       "past_performance": 2,
       "value": 4,
-      "health": 5,
+      "health": 6,
       "dividend": 3
     },
-    "snowflake_total": 14,
+    "snowflake_total": 15,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 7,
@@ -76,22 +76,308 @@
         }
       ]
     },
-    "current_price_inr": 64.4,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_VOLATILE_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 61.9,
     "market_cap_inr": 755500000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 50.75,
       "high": 83
     },
-    "fair_value_inr": 560.92528,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 771.0019875776399,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "4fe8db9d-b225-4dd0-b812-9a534b77f89a",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 7.83,
       "ps": 0.17,
@@ -108,13 +394,13 @@
       "pe_source_url": "https://groww.in/stocks/riddhi-corporate-services-ltd"
     },
     "rewards": [
-      "Trading at 88.5% below our estimate of its fair value",
+      "Trading at 49.7% below our estimate of its fair value",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
     "risks": [
-      "Profit margins (2.2%) are lower than last year (5.3%)",
-      "Does not have a meaningful market cap (₹764M)",
+      "Profit margins (1.7%) are lower than last year (5.3%)",
+      "Does not have a meaningful market cap (₹732M)",
       "Unstable dividend track record"
     ],
     "dividend": {
@@ -195,7 +481,7 @@
     "industry_benchmarks": {
       "pe": 20.79918137809377,
       "net_income_margin_1y": 0.1565829943,
-      "future_revenue_growth_3y": 0.4148978925,
+      "future_revenue_growth_3y": 0.4148396469,
       "sector_pe": 20.79918137809377
     },
     "industry_benchmarks_meta": {
@@ -230,18 +516,18 @@
         "url": "https://groww.in/stocks/riddhi-corporate-services-ltd"
       },
       "sws_statement": {
-        "company_pe": 7.9,
-        "industry_pe": 19.7,
+        "company_pe": 8.2,
+        "industry_pe": 19.3,
         "industry_name": "Indian Professional Services",
-        "description": "540590 is good value based on its Price-To-Earnings Ratio (7.9x) compared to the Indian Professional Services industry average (19.7x).",
+        "description": "540590 is good value based on its Price-To-Earnings Ratio (8.2x) compared to the Indian Professional Services industry average (19.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 19.714358381,
+        "industry_pe": 19.349527143,
         "industry_code": "9612010",
         "type": "median_profitable",
-        "count": 63,
+        "count": 62,
         "source": {
           "type": "country",
           "country": "IN",
@@ -250,8 +536,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.1,
-        "sample_count": 59,
+        "industry_pe": 18.6,
+        "sample_count": 57,
         "industry_code": "9612010",
         "industry_name": "Commercial Services"
       },
@@ -263,8 +549,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 64.4,
-        "fetched_at": "2026-05-31T23:08:03.793Z",
+        "value": 61.9,
+        "fetched_at": "2026-06-11T02:23:01.366Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/bse-540590/riddhi-services-shares"
       },
       "market_cap_inr": {
@@ -312,13 +598,13 @@
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.1565829943,
-        "fetched_at": "2026-05-31T23:08:03.793Z",
+        "fetched_at": "2026-06-11T02:23:01.366Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/bse-540590/riddhi-services-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.4148978925,
-        "fetched_at": "2026-05-31T23:08:03.793Z",
+        "value": 0.4148396469,
+        "fetched_at": "2026-06-11T02:23:01.366Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/bse-540590/riddhi-services-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -450,16 +736,16 @@
     "quick_ratio": 1.7361715351149782,
     "cash_ratio": 0.4165630826600373,
     "returns_pct": {
-      "1D": 1.1624253848570676,
-      "7D": 1.8987341772151944,
-      "1M": 2.044050071304082,
-      "3M": 2.173568142154537,
-      "6M": -6.626069305495133,
-      "1Y": 9.245122985581006,
+      "1D": 0.3729528133614349,
+      "7D": 2.551358515573226,
+      "1M": -4.769230769230772,
+      "3M": 3.1666666666666643,
+      "6M": -8.119340952946423,
+      "1Y": -5.206738131699845,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -827,6 +1113,16 @@
     "BSE"
   ],
   "news": [
+    {
+      "id": "13c5e6af-d056-49a5-977c-bdcb255647c6",
+      "type": "brief",
+      "date": "2026-06-01T08:17:15.000Z",
+      "title": "Full year 2026 earnings released: EPS: ₹6.99 (vs ₹11.42 in FY 2025)",
+      "body": "Full year 2026 results: EPS: ₹6.99 (down from ₹11.42 in FY 2025). Revenue: ₹5.23b (up 105% from FY 2025). Net income: ₹89.5m (down 34% from FY 2025). Profit margin: 1.7% (down from 5.3% in FY 2025). The decrease in margin was driven by higher expenses. Over the last 3 years on average, earnings per share has increased by 17% per year but the company’s share price has fallen by 34% per year, which means it is significantly lagging earnings.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "5a4ca688-7362-48a6-a0aa-a4935cba62e8",
       "type": "event",

@@ -3,7 +3,7 @@
   "name": "Hindustan Zinc Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-hindzinc/hindustan-zinc-shares",
-  "parsed_at": "2026-05-31T23:18:59.679Z",
+  "parsed_at": "2026-06-11T02:14:01.265Z",
   "company_id": "55B6C133-1AED-426D-8855-C58CC4C28123",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 5
     },
     "snowflake_total": 21,
-    "current_price_inr": 632.95,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_OUTSTANDING"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 547.55,
     "market_cap_inr": 2742020800000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 413.5,
       "high": 733
     },
-    "fair_value_inr": 655.653641,
+    "fair_value_inr": 655.1875,
     "fair_value_range_inr": {
-      "min": 407.428593,
-      "max": 655.653641,
+      "min": 405.104236,
+      "max": 655.1875,
       "count": 10
     },
-    "upside_pct": 3.5869564736550985,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "cb56525c-3859-45f5-a2db-386247b0290a",
+      "narrative_type": null,
+      "published_at": "2024-06-19T03:59:39.807Z"
+    },
+    "upside_pct": 19.658022098438508,
     "multiples": {
       "pe": 19.82,
       "ps": 7,
@@ -64,7 +350,7 @@
       "Trading below our calculated fair Price-To-Earnings ratio",
       "Earnings are forecast to grow 10.58% per year",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (19.3x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (17.2x) is below the Indian market (22.9x)",
       "Earnings grew by 33.6% over the past year"
     ],
     "risks": [
@@ -239,7 +525,7 @@
     "industry_benchmarks": {
       "pe": 18.52876332882753,
       "net_income_margin_1y": 0.07144101492,
-      "future_revenue_growth_3y": 0.451968346,
+      "future_revenue_growth_3y": 0.4829948519,
       "sector_pe": 18.52876332882753
     },
     "industry_benchmarks_meta": {
@@ -274,18 +560,18 @@
         "url": "https://groww.in/stocks/hindustan-zinc-ltd"
       },
       "sws_statement": {
-        "company_pe": 19.3,
-        "industry_pe": 21.9,
+        "company_pe": 17.2,
+        "industry_pe": 20.8,
         "industry_name": "Indian Metals and Mining",
-        "description": "HINDZINC is good value based on its Price-To-Earnings Ratio (19.3x) compared to the Indian Metals and Mining industry average (21.9x).",
+        "description": "HINDZINC is good value based on its Price-To-Earnings Ratio (17.2x) compared to the Indian Metals and Mining industry average (20.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 21.899662552,
+        "industry_pe": 20.837327412,
         "industry_code": "2050000",
         "type": "median_profitable",
-        "count": 192,
+        "count": 193,
         "source": {
           "type": "country",
           "country": "IN",
@@ -294,8 +580,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.05,
-        "sample_count": 196,
+        "industry_pe": 19.2,
+        "sample_count": 197,
         "industry_code": "2050000",
         "industry_name": "Materials"
       },
@@ -307,8 +593,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 632.95,
-        "fetched_at": "2026-05-31T23:18:59.679Z",
+        "value": 547.55,
+        "fetched_at": "2026-06-11T02:14:01.265Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-hindzinc/hindustan-zinc-shares"
       },
       "market_cap_inr": {
@@ -316,6 +602,24 @@
         "value": 2742020800000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/hindustan-zinc-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 655.1875,
+        "fetched_at": "2026-06-11T02:14:01.265Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-hindzinc/hindustan-zinc-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "cb56525c-3859-45f5-a2db-386247b0290a",
+        "narrative_type": null,
+        "published_at": "2024-06-19T03:59:39.807Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 19.658022098438508,
+        "fetched_at": "2026-06-11T02:14:01.265Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-hindzinc/hindustan-zinc-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -356,13 +660,13 @@
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.07144101492,
-        "fetched_at": "2026-05-31T23:18:59.679Z",
+        "fetched_at": "2026-06-11T02:14:01.265Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-hindzinc/hindustan-zinc-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.451968346,
-        "fetched_at": "2026-05-31T23:18:59.679Z",
+        "value": 0.4829948519,
+        "fetched_at": "2026-06-11T02:14:01.265Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-hindzinc/hindustan-zinc-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -494,16 +798,16 @@
     "quick_ratio": 1.2902252971438708,
     "cash_ratio": 0.02829519247826858,
     "returns_pct": {
-      "1D": -2.4504893272713226,
-      "7D": 0.1107156979043172,
-      "1M": 3.2460647581763467,
-      "3M": 4.827757535607832,
-      "6M": 30.451360263808752,
-      "1Y": 39.67781087939977,
+      "1D": -2.856382506874838,
+      "7D": -10.31856522807305,
+      "1M": -12.962962962962973,
+      "3M": -6.080617495711843,
+      "6M": -2.5104602510460294,
+      "1Y": 5.186821630967247,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -560,11 +864,6 @@
         "is_insider": null
       },
       {
-        "pct": 0.07721,
-        "shares": 3262325,
-        "is_insider": null
-      },
-      {
         "pct": 0.07514,
         "shares": 3174919,
         "is_insider": null
@@ -577,6 +876,11 @@
       {
         "pct": 0.06854,
         "shares": 2896095,
+        "is_insider": null
+      },
+      {
+        "pct": 0.06574,
+        "shares": 2777593,
         "is_insider": null
       },
       {
@@ -595,18 +899,18 @@
         "is_insider": null
       },
       {
-        "pct": 0.04402,
-        "shares": 1860065,
+        "pct": 0.04205,
+        "shares": 1776746,
         "is_insider": null
       },
       {
-        "pct": 0.03667,
-        "shares": 1549604,
+        "pct": 0.03659,
+        "shares": 1546155,
         "is_insider": null
       },
       {
-        "pct": 0.03489,
-        "shares": 1474086,
+        "pct": 0.03615,
+        "shares": 1527418,
         "is_insider": null
       }
     ],
@@ -1013,6 +1317,16 @@
   ],
   "news": [
     {
+      "id": "af2b8900-0598-47b0-a586-e62aba74ca02",
+      "type": "event",
+      "date": "2026-06-05T14:12:00.000Z",
+      "title": "Hindustan Zinc Limited, Annual General Meeting, Jun 29, 2026",
+      "body": "Hindustan Zinc Limited, Annual General Meeting, Jun 29, 2026, at 11:30 Indian Standard Time.",
+      "keyDevTypeId": "62",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
+    {
       "id": "de2dcf8d-deeb-4e31-be5e-130c082028ea",
       "type": "event",
       "date": "2026-05-29T12:27:00.000Z",
@@ -1161,16 +1475,6 @@
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/stocks/in/materials/nse-hindzinc/hindustan-zinc-shares/news/theres-reason-for-concern-over-hindustan-zinc-limiteds-nsehi",
       "raw_subtype": "article"
-    },
-    {
-      "id": "9bba0b40-ddbd-41e2-a70d-438f5d2c538b",
-      "type": "brief",
-      "date": "2025-12-15T12:57:45.000Z",
-      "title": "Investor sentiment improves as stock rises 16%",
-      "body": "After last week's 16% share price gain to ₹568, the stock trades at a forward P/E ratio of 19x. Average forward P/E is 15x in the Metals and Mining industry in India. Total returns to shareholders of 122% over the past three years. Simply Wall St's valuation model estimates the intrinsic value at ₹325 per share.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/HINDZINC.json"

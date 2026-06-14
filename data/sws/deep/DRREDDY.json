@@ -3,7 +3,7 @@
   "name": "Dr. Reddy's Laboratories Limited",
   "sector": "Pharmaceuticals & Biotech",
   "sws_url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-drreddy/dr-reddys-laboratories-shares",
-  "parsed_at": "2026-05-31T22:38:39.893Z",
+  "parsed_at": "2026-06-11T01:34:02.146Z",
   "company_id": "50EEB4AF-0CDB-4AD2-9C96-E9D38022777B",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 5
     },
     "snowflake_total": 16,
-    "current_price_inr": 1303.5,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_STABLE_IN_PAST_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 1271.7,
     "market_cap_inr": 1100954300000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 1148.4,
       "high": 1379.7
     },
-    "fair_value_inr": 1332.334727,
+    "fair_value_inr": 1331.7202,
     "fair_value_range_inr": {
-      "min": 693.971185,
+      "min": 693.651097,
       "max": 1506,
       "count": 24
     },
-    "upside_pct": 2.212100268507858,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "37442022-2143-4e10-8632-2fb16186a6aa",
+      "narrative_type": null,
+      "published_at": "2024-06-19T03:48:48.812Z"
+    },
+    "upside_pct": 4.719682315011396,
     "multiples": {
       "pe": 26.48,
       "ps": 3.28,
@@ -60,12 +346,12 @@
       "pe_source_url": "https://groww.in/stocks/dr-reddys-laboratories-ltd"
     },
     "rewards": [
-      "Earnings are forecast to grow 11.87% per year",
+      "Earnings are forecast to grow 11.42% per year",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (25.3x) is below the Pharmaceuticals industry average (29x)",
+      "Price-To-Earnings ratio (24.7x) is below the Pharmaceuticals industry average (28.8x)",
       "Trading below our calculated fair Price-To-Earnings ratio",
-      "Pays a reliable dividend of 0.61%"
+      "Pays a reliable dividend of 0.63%"
     ],
     "risks": [],
     "dividend": {
@@ -211,7 +497,7 @@
     "industry_benchmarks": {
       "pe": 34.294011798524444,
       "net_income_margin_1y": 0.1541587677,
-      "future_revenue_growth_3y": 0.423879921,
+      "future_revenue_growth_3y": 0.4212605545,
       "sector_pe": 34.294011798524444
     },
     "industry_benchmarks_meta": {
@@ -246,15 +532,15 @@
         "url": "https://groww.in/stocks/dr-reddys-laboratories-ltd"
       },
       "sws_statement": {
-        "company_pe": 25.3,
-        "industry_pe": 29,
+        "company_pe": 24.7,
+        "industry_pe": 28.8,
         "industry_name": "Indian Pharmaceuticals",
-        "description": "DRREDDY is good value based on its Price-To-Earnings Ratio (25.3x) compared to the Indian Pharmaceuticals industry average (29x).",
+        "description": "DRREDDY is good value based on its Price-To-Earnings Ratio (24.7x) compared to the Indian Pharmaceuticals industry average (28.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 29.045511308,
+        "industry_pe": 28.787047453,
         "industry_code": "6120000",
         "type": "median_profitable",
         "count": 152,
@@ -266,8 +552,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 28.1,
-        "sample_count": 151,
+        "industry_pe": 28.15,
+        "sample_count": 152,
         "industry_code": "6120000",
         "industry_name": "Pharmaceuticals & Biotech"
       },
@@ -279,8 +565,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1303.5,
-        "fetched_at": "2026-05-31T22:38:39.893Z",
+        "value": 1271.7,
+        "fetched_at": "2026-06-11T01:34:02.146Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-drreddy/dr-reddys-laboratories-shares"
       },
       "market_cap_inr": {
@@ -288,6 +574,24 @@
         "value": 1100954300000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/dr-reddys-laboratories-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 1331.7202,
+        "fetched_at": "2026-06-11T01:34:02.146Z",
+        "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-drreddy/dr-reddys-laboratories-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "37442022-2143-4e10-8632-2fb16186a6aa",
+        "narrative_type": null,
+        "published_at": "2024-06-19T03:48:48.812Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 4.719682315011396,
+        "fetched_at": "2026-06-11T01:34:02.146Z",
+        "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-drreddy/dr-reddys-laboratories-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -328,13 +632,13 @@
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.1541587677,
-        "fetched_at": "2026-05-31T22:38:39.893Z",
+        "fetched_at": "2026-06-11T01:34:02.146Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-drreddy/dr-reddys-laboratories-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.423879921,
-        "fetched_at": "2026-05-31T22:38:39.893Z",
+        "value": 0.4212605545,
+        "fetched_at": "2026-06-11T01:34:02.146Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-drreddy/dr-reddys-laboratories-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -466,118 +770,118 @@
     "quick_ratio": 1.3450386328624144,
     "cash_ratio": 0.19995342560636276,
     "returns_pct": {
-      "1D": -1.1751326762699015,
-      "7D": -0.2830477356181185,
-      "1M": -1.9777410136862652,
-      "3M": 1.337168623182776,
-      "6M": 3.55100095328885,
-      "1Y": 4.472228901178164,
+      "1D": 0.25226645644462325,
+      "7D": 0.6649251959154667,
+      "1M": -0.6406750527384988,
+      "3M": -3.5860500379075027,
+      "6M": -0.5940748847025646,
+      "1Y": -5.8766930649100635,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 6,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
   "ownership": {
     "top_holders": [
       {
-        "pct": 13.61483,
+        "pct": 13.61327,
         "shares": 113356510,
         "is_insider": null
       },
       {
-        "pct": 13.06913,
+        "pct": 13.06763,
         "shares": 108813010,
         "is_insider": null
       },
       {
-        "pct": 12.42708,
+        "pct": 12.42565,
         "shares": 103467317,
         "is_insider": null
       },
       {
-        "pct": 11.00911,
+        "pct": 11.00784,
         "shares": 91661369,
         "is_insider": null
       },
       {
-        "pct": 6.65428,
+        "pct": 6.65352,
         "shares": 55403282,
         "is_insider": null
       },
       {
-        "pct": 2.91075,
+        "pct": 2.91042,
         "shares": 24234822,
         "is_insider": null
       },
       {
-        "pct": 2.42427,
+        "pct": 2.42399,
         "shares": 20184378,
         "is_insider": null
       },
       {
-        "pct": 2.0652,
-        "shares": 17194777,
+        "pct": 2.06521,
+        "shares": 17196833,
         "is_insider": null
       },
       {
-        "pct": 1.953,
+        "pct": 1.95278,
         "shares": 16260613,
         "is_insider": null
       },
       {
-        "pct": 1.78667,
+        "pct": 1.78647,
         "shares": 14875771,
         "is_insider": null
       },
       {
-        "pct": 1.73365,
+        "pct": 1.73345,
         "shares": 14434307,
         "is_insider": null
       },
       {
-        "pct": 1.45403,
+        "pct": 1.45386,
         "shares": 12106171,
         "is_insider": null
       },
       {
-        "pct": 1.34582,
+        "pct": 1.34567,
         "shares": 11205255,
         "is_insider": null
       },
       {
-        "pct": 1.33211,
+        "pct": 1.33196,
         "shares": 11091093,
         "is_insider": null
       },
       {
-        "pct": 1.25438,
+        "pct": 1.25423,
         "shares": 10443898,
         "is_insider": null
       },
       {
-        "pct": 1.01853,
+        "pct": 1.01842,
         "shares": 8480263,
         "is_insider": null
       },
       {
-        "pct": 0.96083,
+        "pct": 0.96072,
         "shares": 7999796,
         "is_insider": null
       },
       {
-        "pct": 0.944,
+        "pct": 0.94389,
         "shares": 7859728,
         "is_insider": null
       },
       {
-        "pct": 0.92767,
+        "pct": 0.92757,
         "shares": 7723777,
         "is_insider": null
       },
       {
-        "pct": 0.85131,
+        "pct": 0.85121,
         "shares": 7087939,
         "is_insider": null
       }
@@ -933,6 +1237,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "3ca3fd48-8302-48d8-9f5a-71e77c30e290",
+      "type": "brief",
+      "date": "2026-06-01T11:37:01.000Z",
+      "title": "Insufficient new directors",
+      "body": "There is 1 new director who has joined the board in the last 3 years. The company's board is composed of: 1 new director. 7 experienced directors. 2 highly experienced directors. Independent Director Sanjiv Mehta was the last director to join the board, commencing their role in 2023. The company’s insufficient board refreshment is considered a risk according to the Simply Wall St Risk Model.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "3bcec0fb-a039-4c16-84b1-ac1d3d170f05",
       "type": "event",

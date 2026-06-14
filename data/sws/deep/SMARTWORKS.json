@@ -3,7 +3,7 @@
   "name": "Smartworks Coworking Spaces Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-smartworks/smartworks-coworking-spaces-shares",
-  "parsed_at": "2026-05-31T22:22:31.235Z",
+  "parsed_at": "2026-06-11T01:28:22.136Z",
   "company_id": "0C65E1BA-D267-49EA-9327-6389418D244D",
   "classification_status": "Active",
   "groww_source": {
@@ -76,9 +76,287 @@
         }
       ]
     },
-    "current_price_inr": 434.75,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_BECOME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 448.7,
     "market_cap_inr": 51566500000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -87,11 +365,19 @@
     },
     "fair_value_inr": 637,
     "fair_value_range_inr": {
-      "min": 1545.941278,
-      "max": 1545.941278,
+      "min": 1624.248525,
+      "max": 1624.248525,
       "count": 1
     },
-    "upside_pct": 46.52098907418056,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "bdd1a01f-05a9-4df3-99af-b126a323f72a",
+      "narrative_type": null,
+      "published_at": "2025-11-11T11:21:44.533Z"
+    },
+    "upside_pct": 41.965678627145095,
     "multiples": {
       "pe": 490.54,
       "ps": 2.86,
@@ -110,11 +396,11 @@
     "rewards": [
       "Became profitable this year",
       "Trading at good value vs. industry average Price-To-Sales ratio",
-      "Analysts in good agreement that stock price will rise by 46.5%",
+      "Analysts in good agreement that stock price will rise by 42%",
       "Earnings are forecast to grow 48.54% per year",
       "Trading at good value vs. peer average Price-To-Sales ratio",
       "Trading below our calculated fair Price-To-Sales ratio",
-      "Trading at 71.9% below our estimate of its fair value"
+      "Trading at 72.4% below our estimate of its fair value"
     ],
     "risks": [],
     "dividend": {
@@ -129,7 +415,7 @@
     "industry_benchmarks": {
       "pe": 94.41079081782424,
       "net_income_margin_1y": 0.1326471542,
-      "future_revenue_growth_3y": 1.380478339,
+      "future_revenue_growth_3y": 1.38451023,
       "sector_pe": 94.41079081782424
     },
     "industry_benchmarks_meta": {
@@ -165,14 +451,14 @@
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 4.8,
+        "industry_pe": 4.6,
         "industry_name": "Indian Real Estate",
-        "description": "SMARTWORKS is good value based on its Price-To-Sales Ratio (2.8x) compared to the Indian Real Estate industry average (4.8x).",
+        "description": "SMARTWORKS is good value based on its Price-To-Sales Ratio (2.9x) compared to the Indian Real Estate industry average (4.6x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 24.853140749,
+        "industry_pe": 25.658287008,
         "industry_code": "7310000",
         "type": "median_profitable",
         "count": 149,
@@ -184,8 +470,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 23.2,
-        "sample_count": 144,
+        "industry_pe": 22.95,
+        "sample_count": 142,
         "industry_code": "7310000",
         "industry_name": "Diversified Financials"
       },
@@ -197,8 +483,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 434.75,
-        "fetched_at": "2026-05-31T22:22:31.235Z",
+        "value": 448.7,
+        "fetched_at": "2026-06-11T01:28:22.136Z",
         "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-smartworks/smartworks-coworking-spaces-shares"
       },
       "market_cap_inr": {
@@ -206,6 +492,24 @@
         "value": 51566500000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/smartworks-coworking-spaces-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 637,
+        "fetched_at": "2026-06-11T01:28:22.136Z",
+        "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-smartworks/smartworks-coworking-spaces-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "bdd1a01f-05a9-4df3-99af-b126a323f72a",
+        "narrative_type": null,
+        "published_at": "2025-11-11T11:21:44.533Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 41.965678627145095,
+        "fetched_at": "2026-06-11T01:28:22.136Z",
+        "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-smartworks/smartworks-coworking-spaces-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -246,13 +550,13 @@
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.1326471542,
-        "fetched_at": "2026-05-31T22:22:31.235Z",
+        "fetched_at": "2026-06-11T01:28:22.136Z",
         "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-smartworks/smartworks-coworking-spaces-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 1.380478339,
-        "fetched_at": "2026-05-31T22:22:31.235Z",
+        "value": 1.38451023,
+        "fetched_at": "2026-06-11T01:28:22.136Z",
         "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-smartworks/smartworks-coworking-spaces-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -384,12 +688,12 @@
     "quick_ratio": 0.34760663812482995,
     "cash_ratio": 0.16864502641790405,
     "returns_pct": {
-      "1D": -3.4318080852954216,
-      "7D": -3.6351546048985877,
-      "1M": -0.9793873135178253,
-      "3M": 6.023655651749784,
-      "6M": -9.549568292936645,
-      "1Y": -2.314346702617686,
+      "1D": -1.145626790041857,
+      "7D": -0.48791306276335966,
+      "1M": -1.6116653875671576,
+      "3M": 14.15850400712377,
+      "6M": -5.006880491161223,
+      "1Y": 0.8201325693742224,
       "5Y": null
     },
     "next_earnings_date": null,

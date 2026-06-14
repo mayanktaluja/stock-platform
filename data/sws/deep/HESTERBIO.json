@@ -3,7 +3,7 @@
   "name": "Hester Biosciences Limited",
   "sector": "Pharmaceuticals & Biotech",
   "sws_url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-hesterbio/hester-biosciences-shares",
-  "parsed_at": "2026-05-31T23:17:28.382Z",
+  "parsed_at": "2026-06-11T02:12:23.178Z",
   "company_id": "6E66FFEC-7BA5-405C-9615-B23D27D2EA0A",
   "classification_status": "Active",
   "groww_source": {
@@ -76,22 +76,308 @@
         }
       ]
     },
-    "current_price_inr": 2009.2,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SAME_PE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 1939.2,
     "market_cap_inr": 16932500000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 1239.3,
       "high": 2350
     },
-    "fair_value_inr": 727.601398,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -63.78651214413698,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "a5158796-95b5-4299-b219-0ab170bec0f8",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 29.46,
       "ps": 5.09,
@@ -109,9 +395,7 @@
     },
     "rewards": [
       "Earnings grew by 102.4% over the past year",
-      "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (30.6x) is below the Biotechs industry average (32.2x)"
+      "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
     "risks": [
       "Has a high level of debt",
@@ -286,7 +570,7 @@
     "industry_benchmarks": {
       "pe": 34.294011798524444,
       "net_income_margin_1y": 0.1921820242,
-      "future_revenue_growth_3y": 14.192009664,
+      "future_revenue_growth_3y": 15.792973164,
       "sector_pe": 34.294011798524444
     },
     "industry_benchmarks_meta": {
@@ -321,18 +605,18 @@
         "url": "https://groww.in/stocks/hester-biosciences-ltd"
       },
       "sws_statement": {
-        "company_pe": 30.6,
-        "industry_pe": 32.2,
+        "company_pe": 29.9,
+        "industry_pe": 29.9,
         "industry_name": "Asian Biotechs",
-        "description": "HESTERBIO is good value based on its Price-To-Earnings Ratio (30.6x) compared to the Asian Biotechs industry average (32.2x).",
+        "description": "HESTERBIO is expensive based on its Price-To-Earnings Ratio (29.9x) compared to the Asian Biotechs industry average (29.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 32.223941688,
+        "industry_pe": 29.876159305,
         "industry_code": "6110000",
         "type": "median_profitable",
-        "count": 109,
+        "count": 107,
         "source": {
           "type": "region",
           "region": "XA",
@@ -341,8 +625,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 44.75,
-        "sample_count": 4,
+        "industry_pe": 29.9,
+        "sample_count": 3,
         "industry_code": "6110000",
         "industry_name": "Pharmaceuticals & Biotech"
       },
@@ -354,8 +638,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 2009.2,
-        "fetched_at": "2026-05-31T23:17:28.382Z",
+        "value": 1939.2,
+        "fetched_at": "2026-06-11T02:12:23.178Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-hesterbio/hester-biosciences-shares"
       },
       "market_cap_inr": {
@@ -403,13 +687,13 @@
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.1921820242,
-        "fetched_at": "2026-05-31T23:17:28.382Z",
+        "fetched_at": "2026-06-11T02:12:23.178Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-hesterbio/hester-biosciences-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 14.192009664,
-        "fetched_at": "2026-05-31T23:17:28.382Z",
+        "value": 15.792973164,
+        "fetched_at": "2026-06-11T02:12:23.178Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-hesterbio/hester-biosciences-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -541,12 +825,12 @@
     "quick_ratio": 0.8921169989506821,
     "cash_ratio": 0.042890870933892974,
     "returns_pct": {
-      "1D": 0.9648241206030174,
-      "7D": 7.145904436860068,
-      "1M": 21.357815897559806,
-      "3M": 28.62172716215352,
-      "6M": 21.48255638188524,
-      "1Y": 11.066887783305697,
+      "1D": -0.16474464579901388,
+      "7D": -0.9044917982523403,
+      "1M": 12.060098237503613,
+      "3M": 35.08881922675026,
+      "6M": 20.81490249828672,
+      "1Y": 4.22444372782974,
       "5Y": null
     },
     "next_earnings_date": null,

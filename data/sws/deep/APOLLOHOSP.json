@@ -3,7 +3,7 @@
   "name": "Apollo Hospitals Enterprise Limited",
   "sector": "Healthcare",
   "sws_url": "https://simplywall.st/stocks/in/healthcare/nse-apollohosp/apollo-hospitals-enterprise-shares",
-  "parsed_at": "2026-05-31T21:11:01.067Z",
+  "parsed_at": "2026-06-11T00:08:54.496Z",
   "company_id": "D1BB0BBC-33AD-4DEC-BCF4-9C80C50636D6",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 3
     },
     "snowflake_total": 20,
-    "current_price_inr": 8176.5,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 8488.5,
     "market_cap_inr": 1189990600000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "mega8",
     "shares_outstanding": 143784657,
     "fifty_two_week": {
       "low": 6696.5,
       "high": 8443
     },
-    "fair_value_inr": 8801.96552,
+    "fair_value_inr": 9201.53333,
     "fair_value_range_inr": {
       "min": 4041.702929,
       "max": 13413511.85,
       "count": 26
     },
-    "upside_pct": 7.649550785788538,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "860fb961-e2f5-4262-a06f-0ce3cb7155b4",
+      "narrative_type": null,
+      "published_at": "2026-06-02T09:07:54.288Z"
+    },
+    "upside_pct": 8.399992106968254,
     "multiples": {
       "pe": 59.42,
       "ps": 4.71,
@@ -61,12 +347,12 @@
     },
     "rewards": [
       "Earnings grew by 34.3% over the past year",
-      "Earnings are forecast to grow 22.21% per year"
+      "Earnings are forecast to grow 22.25% per year"
     ],
     "risks": [],
     "dividend": {
       "yield_pct": 0.24,
-      "payout_pct": 15.959227149120373,
+      "payout_pct": 14.810182520471754,
       "annualized_dividend": 20,
       "listing_currency": "INR",
       "recent_payments": [
@@ -232,8 +518,8 @@
     "dividend_yield_pct": 0.24,
     "industry_benchmarks": {
       "pe": 59.71694269463179,
-      "net_income_margin_1y": 0.1041750126,
-      "future_revenue_growth_3y": 2.366911977,
+      "net_income_margin_1y": 0.1021808233,
+      "future_revenue_growth_3y": 2.289381694,
       "sector_pe": 59.71694269463179
     },
     "industry_benchmarks_meta": {
@@ -268,18 +554,18 @@
         "url": "https://groww.in/stocks/apollo-hospitals-enterprise-ltd"
       },
       "sws_statement": {
-        "company_pe": 60.5,
-        "industry_pe": 40.5,
+        "company_pe": 63.1,
+        "industry_pe": 39.3,
         "industry_name": "Indian Healthcare",
-        "description": "APOLLOHOSP is expensive based on its Price-To-Earnings Ratio (60.5x) compared to the Indian Healthcare industry average (40.5x).",
+        "description": "APOLLOHOSP is expensive based on its Price-To-Earnings Ratio (63.1x) compared to the Indian Healthcare industry average (39.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 37.439100813,
+        "industry_pe": 39.275601591,
         "industry_code": "6030000",
         "type": "median_profitable",
-        "count": 80,
+        "count": 79,
         "source": {
           "type": "country",
           "country": "IN",
@@ -288,25 +574,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 35.1,
-        "sample_count": 75,
+        "industry_pe": 33.650000000000006,
+        "sample_count": 74,
         "industry_code": "6030000",
         "industry_name": "Healthcare"
       },
       "sws_primary_industry": {
-        "industry_pe": 22.65435289,
+        "industry_pe": 22.129830496,
         "industry_name": "Healthcare",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 65.24531039239136
+        "company_pe": 62.85811716251224
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 8176.5,
-        "fetched_at": "2026-05-31T21:11:01.067Z",
+        "value": 8488.5,
+        "fetched_at": "2026-06-11T00:08:54.496Z",
         "url": "https://simplywall.st/stocks/in/healthcare/nse-apollohosp/apollo-hospitals-enterprise-shares"
       },
       "market_cap_inr": {
@@ -314,6 +600,24 @@
         "value": 1189990600000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/apollo-hospitals-enterprise-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 9201.53333,
+        "fetched_at": "2026-06-11T00:08:54.496Z",
+        "url": "https://simplywall.st/stocks/in/healthcare/nse-apollohosp/apollo-hospitals-enterprise-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "860fb961-e2f5-4262-a06f-0ce3cb7155b4",
+        "narrative_type": null,
+        "published_at": "2026-06-02T09:07:54.288Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 8.399992106968254,
+        "fetched_at": "2026-06-11T00:08:54.496Z",
+        "url": "https://simplywall.st/stocks/in/healthcare/nse-apollohosp/apollo-hospitals-enterprise-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -353,14 +657,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.1041750126,
-        "fetched_at": "2026-05-31T21:11:01.067Z",
+        "value": 0.1021808233,
+        "fetched_at": "2026-06-11T00:08:54.496Z",
         "url": "https://simplywall.st/stocks/in/healthcare/nse-apollohosp/apollo-hospitals-enterprise-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 2.366911977,
-        "fetched_at": "2026-05-31T21:11:01.067Z",
+        "value": 2.289381694,
+        "fetched_at": "2026-06-11T00:08:54.496Z",
         "url": "https://simplywall.st/stocks/in/healthcare/nse-apollohosp/apollo-hospitals-enterprise-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -469,13 +773,13 @@
         "url": "https://groww.in/stocks/apollo-hospitals-enterprise-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 24.621343108098763,
+    "earnings_growth_yoy_pct": 23.400063552589767,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 11.109479673304579,
-    "latest_revenue": 242152000000,
-    "latest_net_income": 18019000000,
+    "revenue_growth_pct": 11.875568169220195,
+    "latest_revenue": 252285000000,
+    "latest_net_income": 19417000000,
     "latest_eps": 139.28,
-    "most_recent_reported_date": "2026-05-11",
+    "most_recent_reported_date": "2026-06-01",
     "pb": 12.56,
     "ps": 4.71,
     "book_value": 658.7832475,
@@ -492,16 +796,16 @@
     "quick_ratio": 0.9808834647370127,
     "cash_ratio": 0.1723111104253776,
     "returns_pct": {
-      "1D": -1.1604714415231188,
-      "7D": -2.2242152466367715,
-      "1M": 6.064340381372422,
-      "3M": 4.538771335421594,
-      "6M": 11.464794492536296,
-      "1Y": 18.23440098329839,
+      "1D": -0.41647114030971377,
+      "7D": 2.388275737289669,
+      "1M": 5.029695619896065,
+      "3M": 12.066803089312826,
+      "6M": 19.539501478664977,
+      "1Y": 22.533381450739807,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 6,
+    "recent_news_count": 5,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -513,8 +817,8 @@
         "is_insider": null
       },
       {
-        "pct": 3.41403,
-        "shares": 4908848,
+        "pct": 3.36238,
+        "shares": 4834586,
         "is_insider": null
       },
       {
@@ -598,13 +902,13 @@
         "is_insider": null
       },
       {
-        "pct": 1.12184,
-        "shares": 1613040,
+        "pct": 1.11099,
+        "shares": 1597440,
         "is_insider": null
       },
       {
-        "pct": 1.11099,
-        "shares": 1597440,
+        "pct": 1.10468,
+        "shares": 1588367,
         "is_insider": null
       }
     ],
@@ -620,7 +924,7 @@
   },
   "dividend": {
     "yield_pct": 0.24,
-    "payout_pct": 15.959227149120373,
+    "payout_pct": 14.810182520471754,
     "annualized_dividend": 20,
     "listing_currency": "INR",
     "recent_payments": [
@@ -784,44 +1088,44 @@
     "payment_count": 14
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-11",
+    "most_recent_reported_date": "2026-06-01",
     "latest_year": 2026,
-    "latest_revenue": 242152000000,
-    "latest_net_income": 18019000000,
+    "latest_revenue": 252285000000,
+    "latest_net_income": 19417000000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 11.109479673304579,
-    "earnings_growth_pct": 24.621343108098763,
-    "net_margin_pct": 7.441193960817999,
+    "revenue_growth_pct": 11.875568169220195,
+    "earnings_growth_pct": 23.400063552589767,
+    "net_margin_pct": 7.696454406722555,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 242152000000,
-        "netIncome": 18019000000,
+        "revenue": 252285000000,
+        "netIncome": 19417000000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 217940000000,
-        "netIncome": 14459000000,
+        "revenue": 225505000000,
+        "netIncome": 15735000000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 190592000000,
-        "netIncome": 8986000000,
+        "revenue": 197270000000,
+        "netIncome": 10372000000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 166125000000,
-        "netIncome": 8191000000,
+        "revenue": 172347000000,
+        "netIncome": 6685000000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 146626000000,
-        "netIncome": 10556000000,
+        "revenue": 146979900000,
+        "netIncome": 8834300000,
         "eps": null
       }
     ]
@@ -1027,6 +1331,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "d6fce14a-37bc-4e31-8860-0a71ed68889e",
+      "type": "narrative-update",
+      "date": "2026-06-02T09:07:54.000Z",
+      "title": "APOLLOHOSP: Dwarka Expansion And Stronger Margins Will Support Bullish Long Term Outlook",
+      "body": "Analysts have lifted their price target on Apollo Hospitals Enterprise from ₹8,801.97 to ₹9,201.53 as they update their assumptions around revenue growth, profit margins, and future P/E levels. What's in the News Board meeting scheduled for April 2, 2026, to consider and approve the establishment of a multi-speciality hospital at Dwarka, New Delhi (company filing).",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/healthcare/nse-apollohosp/apollo-hospitals-enterprise-shares/uchx9bse-700-new-beds-and-digital-health-will-reshape-healthcare-delivery-t7ch/updates/24-analysts-have-lifted-their-price-target-on-apollo-hospitals",
+      "raw_subtype": "narrative-update"
+    },
     {
       "id": "8bb16527-8e8a-457f-bfda-209781167c5e",
       "type": "article",
@@ -1235,16 +1549,6 @@
       "body": "Narrative Update on Apollo Hospitals Enterprise Analysts have nudged their price target on Apollo Hospitals Enterprise slightly higher to ₹8,693 from ₹8,693, reflecting marginally improved profit margin assumptions and a steady long term earnings multiple despite a modest trim to projected revenue growth. What's in the News Apollo Hospitals Enterprise has scheduled a board meeting for November 6, 2025, to approve unaudited standalone and consolidated financial results for the three and six months ended September 30, 2025, along with other related matters (Key Developments).",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/healthcare/nse-apollohosp/apollo-hospitals-enterprise-shares/uchx9bse-700-new-beds-and-digital-health-will-reshape-healthcare-delivery-t7ch/updates/14-narrative-update-on-apollo-hospitals-enterprise-analysts-hav",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "372adb52-1b01-47da-847b-492d3e01ec75",
-      "type": "narrative-update",
-      "date": "2025-12-09T00:10:26.000Z",
-      "title": "APOLLOHOSP: Expanding Women Focused Cancer Network Will Drive Long Term Upside",
-      "body": "Analysts have modestly raised their price target on Apollo Hospitals Enterprise to ₹8,692.83 per share, highlighting expectations of sustained robust revenue growth, along with only a marginal adjustment in projected profit margins and valuation multiples. What's in the News Apollo Hospitals has scheduled a board meeting on November 6, 2025 to approve unaudited standalone and consolidated financial results for the quarter and half year ended September 30, 2025 and to address related matters (company filing).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/healthcare/nse-apollohosp/apollo-hospitals-enterprise-shares/uchx9bse-700-new-beds-and-digital-health-will-reshape-healthcare-delivery-t7ch/updates/13-analysts-have-modestly-raised-their-price-target-on-apollo-h",
       "raw_subtype": "narrative-update"
     }
   ],

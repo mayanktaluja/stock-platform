@@ -3,7 +3,7 @@
   "name": "Prudent Corporate Advisory Services Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-prudent/prudent-advisory-services-shares",
-  "parsed_at": "2026-05-31T21:41:49.316Z",
+  "parsed_at": "2026-06-11T00:42:44.973Z",
   "company_id": "E12155EE-E51E-4DAA-A468-77D3CA6C3237",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 2
     },
     "snowflake_total": 16,
-    "current_price_inr": 2720.2,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_NOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_STABLE_BUT_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 2722.4,
     "market_cap_inr": 110553800000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midsmall4",
     "shares_outstanding": 41406680,
     "fifty_two_week": {
       "low": 2121,
       "high": 3098
     },
-    "fair_value_inr": 3075,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 1038.234043,
-      "max": 3075,
+      "min": 1025.753479,
+      "max": 3300,
       "count": 4
     },
-    "upside_pct": 13.04315859128006,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystHighTarget",
+      "owner_classification": null,
+      "narrative_id": "6c3689d0-8464-4962-99d4-9ca41f415f6f",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 49.78,
       "ps": 8.26,
@@ -128,8 +414,8 @@
     "dividend_yield_pct": 0.13,
     "industry_benchmarks": {
       "pe": 36.165866965242294,
-      "net_income_margin_1y": 0.2564706218,
-      "future_revenue_growth_3y": 0.3320316411,
+      "net_income_margin_1y": 0.257896607,
+      "future_revenue_growth_3y": 0.3297814148,
       "sector_pe": 36.165866965242294
     },
     "industry_benchmarks_meta": {
@@ -164,18 +450,18 @@
         "url": "https://groww.in/stocks/prudent-corporate-advisory-services-ltd"
       },
       "sws_statement": {
-        "company_pe": 50.7,
-        "industry_pe": 27.5,
+        "company_pe": 49.6,
+        "industry_pe": 25.9,
         "industry_name": "Indian Capital Markets",
-        "description": "PRUDENT is expensive based on its Price-To-Earnings Ratio (50.7x) compared to the Indian Capital Markets industry average (27.5x).",
+        "description": "PRUDENT is expensive based on its Price-To-Earnings Ratio (49.6x) compared to the Indian Capital Markets industry average (25.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 26.705392444,
+        "industry_pe": 25.93266606,
         "industry_code": "7130000",
         "type": "median_profitable",
-        "count": 218,
+        "count": 215,
         "source": {
           "type": "country",
           "country": "IN",
@@ -184,25 +470,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.6,
-        "sample_count": 204,
+        "industry_pe": 21.1,
+        "sample_count": 201,
         "industry_code": "7130000",
         "industry_name": "Diversified Financials"
       },
       "sws_primary_industry": {
-        "industry_pe": 15.729172633,
+        "industry_pe": 15.226484123,
         "industry_name": "Diversified Financials",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 50.72424356222064
+        "company_pe": 50.76526750745882
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 2720.2,
-        "fetched_at": "2026-05-31T21:41:49.316Z",
+        "value": 2722.4,
+        "fetched_at": "2026-06-11T00:42:44.973Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-prudent/prudent-advisory-services-shares"
       },
       "market_cap_inr": {
@@ -249,14 +535,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.2564706218,
-        "fetched_at": "2026-05-31T21:41:49.316Z",
+        "value": 0.257896607,
+        "fetched_at": "2026-06-11T00:42:44.973Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-prudent/prudent-advisory-services-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.3320316411,
-        "fetched_at": "2026-05-31T21:41:49.316Z",
+        "value": 0.3297814148,
+        "fetched_at": "2026-06-11T00:42:44.973Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-prudent/prudent-advisory-services-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -365,13 +651,13 @@
         "url": "https://groww.in/stocks/prudent-corporate-advisory-services-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 13.497545556957185,
+    "earnings_growth_yoy_pct": 9.264792283596146,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 18.155981910541403,
+    "revenue_growth_pct": 13.40042653900095,
     "latest_revenue": 13358492000,
     "latest_net_income": 2220525000,
     "latest_eps": 53.63,
-    "most_recent_reported_date": "2026-05-09",
+    "most_recent_reported_date": "2026-06-01",
     "pb": 12.52,
     "ps": 8.26,
     "book_value": 213.1838003,
@@ -388,16 +674,16 @@
     "quick_ratio": 1.3684417525367734,
     "cash_ratio": 0.4015574608668292,
     "returns_pct": {
-      "1D": 1.7734211313977715,
-      "7D": 2.734345494372673,
-      "1M": -4.901412389875551,
-      "3M": 15.758117366696442,
-      "6M": 9.987061297104965,
-      "1Y": -7.131883513707285,
+      "1D": 2.2920267528368528,
+      "7D": 2.7126957177891,
+      "1M": -0.7401465708972811,
+      "3M": 19.771227452705677,
+      "6M": 3.9917491118835704,
+      "1Y": -5.835149251150075,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 4,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -576,14 +862,14 @@
     "payment_count": 4
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-09",
+    "most_recent_reported_date": "2026-06-01",
     "latest_year": 2026,
     "latest_revenue": 13358492000,
     "latest_net_income": 2220525000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 18.155981910541403,
-    "earnings_growth_pct": 13.497545556957185,
+    "revenue_growth_pct": 13.40042653900095,
+    "earnings_growth_pct": 9.264792283596146,
     "net_margin_pct": 16.622572368198448,
     "yearly_history": [
       {
@@ -594,26 +880,26 @@
       },
       {
         "year": 2025,
-        "revenue": 11305811000,
-        "netIncome": 1956452000,
+        "revenue": 11779931000,
+        "netIncome": 2032242000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 8225638999.999999,
-        "netIncome": 1387512000,
+        "revenue": 9087045000,
+        "netIncome": 1548908000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 6190107000,
-        "netIncome": 1166885000,
+        "revenue": 6584810000,
+        "netIncome": 1253765000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 4558949000,
-        "netIncome": 803380000,
+        "revenue": 4923627000,
+        "netIncome": 841927000,
         "eps": null
       }
     ]
@@ -845,6 +1131,16 @@
   ],
   "news": [
     {
+      "id": "66fb3e74-0066-4d7c-b7e9-e6c2bcaa2027",
+      "type": "narrative-update",
+      "date": "2026-06-01T16:03:59.000Z",
+      "title": "PRUDENT: AI Tools And New Dividend Will Support Future Upside",
+      "body": "Analysts now see fair value for Prudent Advisory Services at ₹3,300, up from ₹3,075. The change is tied to updated assumptions for revenue growth, profit margins, the discount rate and a higher future P/E multiple.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/diversified-financials/nse-prudent/prudent-advisory-services-shares/r6fbv120-indias-rising-middle-class-and-digital-shift-will-empower-advisors-1rau/updates/12-analysts-now-see-fair-value-for-prudent-advisory-services-at",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "b043d2b8-f0b7-4049-bcd8-ee42724dbeb6",
       "type": "article",
       "date": "2026-05-23T03:05:41.000Z",
@@ -1022,16 +1318,6 @@
       "body": "Analysts have modestly lowered their price target for Prudent Advisory Services to $3,400, reflecting slightly improved revenue growth and profit margin expectations but a marginally compressed future P E multiple and discount rate. What's in the News Board meeting scheduled for November 4, 2025, to review and approve unaudited financial results for the quarter and half year ended September 30, 2025 (company filing).",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/diversified-financials/nse-prudent/prudent-advisory-services-shares/r6fbv120-indias-rising-middle-class-and-digital-shift-will-empower-advisors-1rau/updates/3-analysts-have-modestly-lowered-their-price-target-for-pruden",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "1c3d622b-9ff9-42e2-a2ef-df780521e727",
-      "type": "narrative-update",
-      "date": "2025-12-12T15:03:32.000Z",
-      "title": "PRUDENT: Faster Revenue Outlook Will Support Stronger Returns Ahead",
-      "body": "Analysts have lowered their price target on Prudent Advisory Services from $3,600 to $3,400, citing expectations for faster revenue growth and a slightly reduced discount rate, partially offset by a modestly lower profit margin and a more conservative future price-to-earnings multiple. What's in the News Board meeting scheduled for November 4, 2025, to consider and approve unaudited financial results for the quarter and half year ended September 30, 2025 (Key Developments) Special or extraordinary shareholders meeting to be conducted via postal ballot in India on December 11, 2025, focused on approving remuneration for Non-Executive, Non-Independent Director Mr. Chirag Ashwinkumar Shah for the 2025-26 financial year (Key Developments) Valuation Changes The consensus analyst price target wa",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/diversified-financials/nse-prudent/prudent-advisory-services-shares/r6fbv120-indias-rising-middle-class-and-digital-shift-will-empower-advisors-1rau/updates/2-analysts-have-lowered-their-price-target-on-prudent-advisory",
       "raw_subtype": "narrative-update"
     }
   ],

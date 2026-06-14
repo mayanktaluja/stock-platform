@@ -3,7 +3,7 @@
   "name": "OnMobile Global Limited",
   "sector": "Software",
   "sws_url": "https://simplywall.st/stocks/in/software/nse-onmobile/onmobile-global-shares",
-  "parsed_at": "2026-05-31T21:19:20.391Z",
+  "parsed_at": "2026-06-11T00:23:16.111Z",
   "company_id": "C5655FB5-912F-4D50-80CB-423C497DD41B",
   "classification_status": "Active",
   "groww_source": {
@@ -78,22 +78,308 @@
         }
       ]
     },
-    "current_price_inr": 51.23,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASING_LOSSES"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 49.55,
     "market_cap_inr": 5500000000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 40.21,
       "high": 75.09
     },
-    "fair_value_inr": 128.175892,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 150.19693929338283,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "a5d3ccc3-4940-4159-84d6-c29c21082d94",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 33.53,
       "ps": 1.06,
@@ -222,7 +508,7 @@
     "industry_benchmarks": {
       "pe": 38.83154804624678,
       "net_income_margin_1y": 0.1172391132,
-      "future_revenue_growth_3y": 0.5128865648,
+      "future_revenue_growth_3y": 0.5117326592,
       "sector_pe": 38.83154804624678
     },
     "industry_benchmarks_meta": {
@@ -258,14 +544,14 @@
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 3.3,
+        "industry_pe": 3.2,
         "industry_name": "Indian Software",
-        "description": "ONMOBILE is good value based on its Price-To-Sales Ratio (1.1x) compared to the Indian Software industry average (3.3x).",
+        "description": "ONMOBILE is good value based on its Price-To-Sales Ratio (1x) compared to the Indian Software industry average (3.2x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 24.120954879,
+        "industry_pe": 27.955181856,
         "industry_code": "8040000",
         "type": "median_profitable",
         "count": 58,
@@ -277,8 +563,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24.2,
-        "sample_count": 57,
+        "industry_pe": 25.05,
+        "sample_count": 56,
         "industry_code": "8040000",
         "industry_name": "Software"
       },
@@ -290,8 +576,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 51.23,
-        "fetched_at": "2026-05-31T21:19:20.391Z",
+        "value": 49.55,
+        "fetched_at": "2026-06-11T00:23:16.111Z",
         "url": "https://simplywall.st/stocks/in/software/nse-onmobile/onmobile-global-shares"
       },
       "market_cap_inr": {
@@ -339,13 +625,13 @@
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.1172391132,
-        "fetched_at": "2026-05-31T21:19:20.391Z",
+        "fetched_at": "2026-06-11T00:23:16.111Z",
         "url": "https://simplywall.st/stocks/in/software/nse-onmobile/onmobile-global-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.5128865648,
-        "fetched_at": "2026-05-31T21:19:20.391Z",
+        "value": 0.5117326592,
+        "fetched_at": "2026-06-11T00:23:16.111Z",
         "url": "https://simplywall.st/stocks/in/software/nse-onmobile/onmobile-global-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -471,12 +757,12 @@
     "quick_ratio": 1.1559261465157833,
     "cash_ratio": 0.4229600952948183,
     "returns_pct": {
-      "1D": -0.6207565470417077,
-      "7D": 1.1850681414181203,
-      "1M": -9.069932552360678,
-      "3M": 0.8464566929133853,
-      "6M": -10.904347826086962,
-      "1Y": -7.225642883013404,
+      "1D": -1.3734076433121114,
+      "7D": -2.575697994494696,
+      "1M": -10.559566787003613,
+      "3M": -2.0750988142292575,
+      "6M": -11.832740213523142,
+      "1Y": -11.407116037904528,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -873,16 +1159,6 @@
       "keyDevTypeId": "55",
       "source_url": null,
       "raw_subtype": "EventActivity"
-    },
-    {
-      "id": "59901101-ea4b-430a-a722-314bbbb24d5d",
-      "type": "brief",
-      "date": "2025-12-04T17:59:40.000Z",
-      "title": "New minor risk - Share price stability",
-      "body": "The company's share price has been volatile over the past 3 months. It is more volatile than 75% of Indian stocks, typically moving 7.0% a week. This is considered a minor risk. Share price volatility indicates the stock is highly sensitive to market conditions or economic conditions rather than being sensitive to its own business performance, which may also be inconsistent. It also increases the risk of potential losses in the short term as the stock tends to have larger drops in price more frequently than other stocks. Currently, the following risks have been identified for the company: Major Risk Earnings have declined by 57% per year over the past 5 years. Minor Risks Share price has been volatile over the past 3 months (7.0% average weekly change). Large one-off items impacting financ",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/ONMOBILE.json"

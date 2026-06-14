@@ -3,7 +3,7 @@
   "name": "Crompton Greaves Consumer Electricals Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/nse-crompton/crompton-greaves-consumer-electricals-shares",
-  "parsed_at": "2026-05-31T22:25:06.609Z",
+  "parsed_at": "2026-06-11T01:20:36.965Z",
   "company_id": "D4363052-FA25-458C-B95C-09F02038CBCF",
   "classification_status": "Active",
   "groww_source": {
@@ -65,22 +65,308 @@
         }
       ]
     },
-    "current_price_inr": 281.15,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_EXPECTED_TO_BECOME_PROFITABLE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_EXPECTED_TO_BECOME_PROFITABLE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_EXPECTED_TO_BECOME_PROFITABLE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASING_LOSSES"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_NOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_VOLATILE_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_LOSS_MAKING"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 254.65,
     "market_cap_inr": 185511900000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "medium5",
     "shares_outstanding": 643914875,
     "fifty_two_week": {
       "low": 217.4,
       "high": 362
     },
-    "fair_value_inr": 329.30303,
+    "fair_value_inr": 344.5,
     "fair_value_range_inr": {
-      "min": 138.942849,
-      "max": 329.30303,
+      "min": 144.424661,
+      "max": 344.5,
       "count": 24
     },
-    "upside_pct": 17.12716699270852,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "e483f02e-2b05-4521-b1c5-6cd55c3358c5",
+      "narrative_type": null,
+      "published_at": "2026-06-02T21:08:16.923Z"
+    },
+    "upside_pct": 35.28372275672491,
     "multiples": {
       "pe": 38.87,
       "ps": 2.29,
@@ -98,15 +384,15 @@
     },
     "rewards": [
       "Trading at good value vs. peer average Price-To-Sales ratio",
-      "Analysts in good agreement that stock price will rise by 22.5%",
+      "Analysts in good agreement that stock price will rise by 35.5%",
       "Earnings are forecast to grow 55.46% per year"
     ],
     "risks": [
-      "Dividend of 1.07% is not well covered by earnings"
+      "Dividend of 1.18% is not well covered by earnings"
     ],
     "dividend": {
       "yield_pct": 1.04,
-      "payout_pct": 41.88064227642276,
+      "payout_pct": null,
       "annualized_dividend": 3,
       "listing_currency": "INR",
       "recent_payments": [
@@ -233,8 +519,8 @@
     "dividend_yield_pct": 1.04,
     "industry_benchmarks": {
       "pe": 50.30824795612129,
-      "net_income_margin_1y": 0.0693600828,
-      "future_revenue_growth_3y": 0.2193400642,
+      "net_income_margin_1y": 0.06833056564,
+      "future_revenue_growth_3y": 0.2166318346,
       "sector_pe": 50.30824795612129
     },
     "industry_benchmarks_meta": {
@@ -270,14 +556,14 @@
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 1.6,
+        "industry_pe": 1.5,
         "industry_name": "Indian Consumer Durables",
-        "description": "CROMPTON is expensive based on its Price-To-Sales Ratio (2.2x) compared to the Indian Consumer Durables industry average (1.6x).",
+        "description": "CROMPTON is expensive based on its Price-To-Sales Ratio (2x) compared to the Indian Consumer Durables industry average (1.5x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 35.346003615,
+        "industry_pe": 36.291385747,
         "industry_code": "4110000",
         "type": "median_profitable",
         "count": 55,
@@ -289,25 +575,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 35.2,
-        "sample_count": 56,
+        "industry_pe": 34.6,
+        "sample_count": 54,
         "industry_code": "4110000",
         "industry_name": "Consumer Durables"
       },
       "sws_primary_industry": {
-        "industry_pe": 16.559656543,
+        "industry_pe": 16.573642049,
         "industry_name": "Consumer Durables",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 39.2491419200542
+        "company_pe": null
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 281.15,
-        "fetched_at": "2026-05-31T22:25:06.609Z",
+        "value": 254.65,
+        "fetched_at": "2026-06-11T01:20:36.965Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-crompton/crompton-greaves-consumer-electricals-shares"
       },
       "market_cap_inr": {
@@ -315,6 +601,24 @@
         "value": 185511900000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/crompton-greaves-consumer-electricals-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 344.5,
+        "fetched_at": "2026-06-11T01:20:36.965Z",
+        "url": "https://simplywall.st/stocks/in/consumer-durables/nse-crompton/crompton-greaves-consumer-electricals-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "e483f02e-2b05-4521-b1c5-6cd55c3358c5",
+        "narrative_type": null,
+        "published_at": "2026-06-02T21:08:16.923Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 35.28372275672491,
+        "fetched_at": "2026-06-11T01:20:36.965Z",
+        "url": "https://simplywall.st/stocks/in/consumer-durables/nse-crompton/crompton-greaves-consumer-electricals-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -354,14 +658,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.0693600828,
-        "fetched_at": "2026-05-31T22:25:06.609Z",
+        "value": 0.06833056564,
+        "fetched_at": "2026-06-11T01:20:36.965Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-crompton/crompton-greaves-consumer-electricals-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.2193400642,
-        "fetched_at": "2026-05-31T22:25:06.609Z",
+        "value": 0.2166318346,
+        "fetched_at": "2026-06-11T01:20:36.965Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-crompton/crompton-greaves-consumer-electricals-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -464,13 +768,13 @@
         "url": "https://groww.in/stocks/crompton-greaves-consumer-electricals-ltd"
       }
     },
-    "earnings_growth_yoy_pct": -17.033905926791977,
+    "earnings_growth_yoy_pct": -99.99999998100736,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 0.11419778598724495,
-    "latest_revenue": 78725300000,
-    "latest_net_income": 4612500000,
+    "revenue_growth_pct": 4.807229227622278,
+    "latest_revenue": 80955200000,
+    "latest_net_income": 1,
     "latest_eps": null,
-    "most_recent_reported_date": "2026-05-13",
+    "most_recent_reported_date": "2026-06-02",
     "pb": 6.25,
     "ps": 2.29,
     "book_value": 46.0666944,
@@ -487,16 +791,16 @@
     "quick_ratio": 1.1058050100975378,
     "cash_ratio": 0.07903149572465948,
     "returns_pct": {
-      "1D": -2.4631396357328788,
-      "7D": -4.614079728583553,
-      "1M": 1.862251367704064,
-      "3M": 9.036261392282317,
-      "6M": 5.954399849255682,
-      "1Y": -20.679926646917764,
+      "1D": -2.226914954885768,
+      "7D": -6.601870529983485,
+      "1M": -12.250172294968982,
+      "3M": 3.0137540453074503,
+      "6M": 0.21645021645022092,
+      "1Y": -27.769110764430575,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 5,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -578,8 +882,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.98058,
-        "shares": 12753266,
+        "pct": 1.98048,
+        "shares": 12752633,
         "is_insider": null
       },
       {
@@ -615,7 +919,7 @@
   },
   "dividend": {
     "yield_pct": 1.04,
-    "payout_pct": 41.88064227642276,
+    "payout_pct": null,
     "annualized_dividend": 3,
     "listing_currency": "INR",
     "recent_payments": [
@@ -740,44 +1044,44 @@
     "payment_count": 9
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-13",
+    "most_recent_reported_date": "2026-06-02",
     "latest_year": 2026,
-    "latest_revenue": 78725300000,
-    "latest_net_income": 4612500000,
+    "latest_revenue": 80955200000,
+    "latest_net_income": 1,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 0.11419778598724495,
-    "earnings_growth_pct": -17.033905926791977,
-    "net_margin_pct": 5.858980531036401,
+    "revenue_growth_pct": 4.807229227622278,
+    "earnings_growth_pct": -99.99999998100736,
+    "net_margin_pct": 1.2352511018439829e-9,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 78725300000,
-        "netIncome": 4612500000,
+        "revenue": 80955200000,
+        "netIncome": 1,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 78635500000,
-        "netIncome": 5559500000,
+        "revenue": 77242000000,
+        "netIncome": 5265200000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 73128100000,
-        "netIncome": 4399200000,
+        "revenue": 75736500000,
+        "netIncome": 4732900000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 68696100000.00001,
-        "netIncome": 4632100000,
+        "revenue": 68835200000,
+        "netIncome": 4605500000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 53941100000,
-        "netIncome": 5783800000,
+        "revenue": 62065700000,
+        "netIncome": 6046300000,
         "eps": null
       }
     ]
@@ -1009,6 +1313,16 @@
   ],
   "news": [
     {
+      "id": "0afb8af2-614b-4e8c-b52b-e30ae72cd1d1",
+      "type": "narrative-update",
+      "date": "2026-06-02T21:08:16.000Z",
+      "title": "CROMPTON: Solar Order Win Will Support Future Upside Potential",
+      "body": "Analysts have lifted their price target for Crompton Greaves Consumer Electricals from ₹329.30 to ₹344.50, citing updated assumptions for revenue growth, profit margins and future P/E that feed into their refreshed fair value estimate. What's in the News Crompton Greaves Consumer Electricals has a Board Meeting scheduled for May 13, 2026 to consider and approve audited standalone and consolidated financial results for the quarter and year ended March 31, 2026, and to consider a dividend recommendation, if any.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/consumer-durables/nse-crompton/crompton-greaves-consumer-electricals-shares/3vf96rpx-rural-electrification-and-efficiency-will-shape-future-markets-621c/updates/24-analysts-have-lifted-their-price-target-for-crompton-greaves",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "cedb7701-e6c0-4e33-94c6-21a3ecbca13b",
       "type": "brief",
       "date": "2026-05-15T11:47:07.000Z",
@@ -1186,16 +1500,6 @@
       "body": "Analysts have modestly reduced their price target for Crompton Greaves Consumer Electricals to ₹363 from ₹366, reflecting slightly softer assumptions on revenue growth, profit margins and future valuation multiples, while largely maintaining their positive long term outlook. What's in the News Won a large EPC contract from NREDCAP in Andhra Pradesh to design, supply, install and maintain 2 kW solar rooftop systems totaling 77.40 MWp for 38,699 SC and ST consumers, with an order value of about INR 445 crore and an execution timeline of around six months (company announcement).",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/consumer-durables/nse-crompton/crompton-greaves-consumer-electricals-shares/3vf96rpx-rural-electrification-and-efficiency-will-shape-future-markets-621c/updates/14-analysts-have-modestly-reduced-their-price-target-for-crompt",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "873a90b9-6d6d-4dac-ba20-f52211febeff",
-      "type": "narrative-update",
-      "date": "2025-12-07T22:03:50.000Z",
-      "title": "CROMPTON: Expanding Solar Rooftop Orders Will Drive Future Earnings Momentum",
-      "body": "Analysts have nudged their price target on Crompton Greaves Consumer Electricals slightly higher to align with a fair value estimate of ₹366.48, which reflects largely unchanged assumptions on growth, margins, and valuation multiples. What's in the News Won a large EPC contract from NREDCAP in Andhra Pradesh for 2 kW solar rooftop systems totaling 77.40 MWp for 38,699 SC and ST consumers, with an order value of about INR 445 crore.",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/consumer-durables/nse-crompton/crompton-greaves-consumer-electricals-shares/3vf96rpx-rural-electrification-and-efficiency-will-shape-future-markets-621c/updates/13-analysts-have-nudged-their-price-target-on-crompton-greaves",
       "raw_subtype": "narrative-update"
     }
   ],

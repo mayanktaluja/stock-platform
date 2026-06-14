@@ -3,7 +3,7 @@
   "name": "Praj Industries Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-prajind/praj-industries-shares",
-  "parsed_at": "2026-05-31T21:36:54.102Z",
+  "parsed_at": "2026-06-11T00:38:05.178Z",
   "company_id": "1F6C4A42-405D-47E9-A718-7ACE57F14611",
   "classification_status": "Active",
   "groww_source": {
@@ -20,30 +20,316 @@
       "future": 4,
       "past": 1,
       "financial_health": 6,
-      "dividends": 5,
+      "dividends": 3,
       "future_growth": 4,
       "past_performance": 1,
       "value": 2,
       "health": 6,
-      "dividend": 5
+      "dividend": 3
     },
-    "snowflake_total": 18,
-    "current_price_inr": 352.3,
+    "snowflake_total": 16,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ONE_TIME"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_5_YEARS_AGO"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DIVIDENDS_NOT_COVERED"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 343.75,
     "market_cap_inr": 70575000000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midsmall4",
     "shares_outstanding": 183813088,
     "fifty_two_week": {
       "low": 273,
       "high": 538
     },
-    "fair_value_inr": 360.85714,
+    "fair_value_inr": 367.28571,
     "fair_value_range_inr": {
-      "min": 148.362355,
+      "min": 41.214044,
       "max": 385.23,
       "count": 39
     },
-    "upside_pct": 2.428935566278741,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "a1c19559-0794-4e16-9a54-3f5beb7a6481",
+      "narrative_type": null,
+      "published_at": "2026-06-04T08:03:24.441Z"
+    },
+    "upside_pct": 6.846751999999999,
     "multiples": {
       "pe": 135.67,
       "ps": 2.22,
@@ -62,12 +348,12 @@
     "rewards": [
       "Trading at good value vs. peer average Price-To-Sales ratio",
       "Trading below our calculated fair Price-To-Sales ratio",
-      "Earnings are forecast to grow 71.77% per year"
+      "Earnings are forecast to grow 54.48% per year"
     ],
     "risks": [
-      "Unstable dividend track record",
       "Large [[one-off items]] impacting financial results",
-      "Profit margins (0.7%) are lower than last year (6.8%)"
+      "Profit margins (0.8%) are lower than last year (6.8%)",
+      "Dividend of 1.01% is not well covered by earnings"
     ],
     "dividend": {
       "yield_pct": 1.56,
@@ -86,7 +372,7 @@
           "divFreqTypeName": "Annual",
           "annualizedDividend": 6,
           "annualizedDividendListingCurrency": 6,
-          "annualizedYield": 1.7177013132
+          "annualizedYield": 1.7177695719
         },
         {
           "exDate": "2024-07-18T00:00:00.000Z",
@@ -224,8 +510,8 @@
     "dividend_yield_pct": 1.56,
     "industry_benchmarks": {
       "pe": 41.92916323228247,
-      "net_income_margin_1y": 0.0775877089,
-      "future_revenue_growth_3y": 0.6569887,
+      "net_income_margin_1y": 0.07792327667,
+      "future_revenue_growth_3y": 0.6221294666,
       "sector_pe": 41.92916323228247
     },
     "industry_benchmarks_meta": {
@@ -261,17 +547,17 @@
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 1.2,
+        "industry_pe": 1.1,
         "industry_name": "Indian Construction",
-        "description": "PRAJIND is expensive based on its Price-To-Sales Ratio (2x) compared to the Indian Construction industry average (1.2x).",
+        "description": "PRAJIND is expensive based on its Price-To-Sales Ratio (2.1x) compared to the Indian Construction industry average (1.1x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 15.073268522,
+        "industry_pe": 14.393596444,
         "industry_code": "3040000",
         "type": "median_profitable",
-        "count": 188,
+        "count": 189,
         "source": {
           "type": "country",
           "country": "IN",
@@ -280,25 +566,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.1,
-        "sample_count": 184,
+        "industry_pe": 13.8,
+        "sample_count": 187,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
       "sws_primary_industry": {
-        "industry_pe": 21.475319439,
+        "industry_pe": 21.150765987,
         "industry_name": "Capital Goods",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 124.41588980866145
+        "company_pe": 265.0231066706932
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 352.3,
-        "fetched_at": "2026-05-31T21:36:54.102Z",
+        "value": 343.75,
+        "fetched_at": "2026-06-11T00:38:05.178Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-prajind/praj-industries-shares"
       },
       "market_cap_inr": {
@@ -306,6 +592,24 @@
         "value": 70575000000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/praj-industries-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 367.28571,
+        "fetched_at": "2026-06-11T00:38:05.178Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-prajind/praj-industries-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "a1c19559-0794-4e16-9a54-3f5beb7a6481",
+        "narrative_type": null,
+        "published_at": "2026-06-04T08:03:24.441Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 6.846751999999999,
+        "fetched_at": "2026-06-11T00:38:05.178Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-prajind/praj-industries-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -345,14 +649,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.0775877089,
-        "fetched_at": "2026-05-31T21:36:54.102Z",
+        "value": 0.07792327667,
+        "fetched_at": "2026-06-11T00:38:05.178Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-prajind/praj-industries-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.6569887,
-        "fetched_at": "2026-05-31T21:36:54.102Z",
+        "value": 0.6221294666,
+        "fetched_at": "2026-06-11T00:38:05.178Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-prajind/praj-industries-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -461,13 +765,13 @@
         "url": "https://groww.in/stocks/praj-industries-ltd"
       }
     },
-    "earnings_growth_yoy_pct": -76.22352737493611,
+    "earnings_growth_yoy_pct": -82.97886922737534,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": -1.3951862215432005,
-    "latest_revenue": 31830050000,
-    "latest_net_income": 520491000,
+    "revenue_growth_pct": 1.5504388671279097,
+    "latest_revenue": 32182377000,
+    "latest_net_income": 238416000,
     "latest_eps": 2.83,
-    "most_recent_reported_date": "2026-04-20",
+    "most_recent_reported_date": "2026-06-03",
     "pb": 5.42,
     "ps": 2.22,
     "book_value": 70.7883825,
@@ -484,16 +788,16 @@
     "quick_ratio": 1.2596345317047433,
     "cash_ratio": 0.14552922554987602,
     "returns_pct": {
-      "1D": -8.207399687337155,
-      "7D": -9.724535554131963,
-      "1M": -12.067889679271177,
-      "3M": 10.803585469413438,
-      "6M": 11.41682479443391,
-      "1Y": -27.82216758860889,
+      "1D": -3.508771929824561,
+      "7D": -0.23218691046292594,
+      "1M": -13.674033149171269,
+      "3M": 9.317856574972177,
+      "6M": 13.187355943365167,
+      "1Y": -33.42693909170137,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 5,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -545,8 +849,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.58979,
-        "shares": 2922241,
+        "pct": 1.59503,
+        "shares": 2931871,
         "is_insider": null
       },
       {
@@ -627,7 +931,7 @@
         "divFreqTypeName": "Annual",
         "annualizedDividend": 6,
         "annualizedDividendListingCurrency": 6,
-        "annualizedYield": 1.7177013132
+        "annualizedYield": 1.7177695719
       },
       {
         "exDate": "2024-07-18T00:00:00.000Z",
@@ -763,44 +1067,44 @@
     "payment_count": 11
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-04-20",
+    "most_recent_reported_date": "2026-06-03",
     "latest_year": 2026,
-    "latest_revenue": 31830050000,
-    "latest_net_income": 520491000,
+    "latest_revenue": 32182377000,
+    "latest_net_income": 238416000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": -1.3951862215432005,
-    "earnings_growth_pct": -76.22352737493611,
-    "net_margin_pct": 1.635218920485516,
+    "revenue_growth_pct": 1.5504388671279097,
+    "earnings_growth_pct": -82.97886922737534,
+    "net_margin_pct": 0.7408278139305868,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 31830050000,
-        "netIncome": 520491000,
+        "revenue": 32182377000,
+        "netIncome": 238416000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 32280422000,
-        "netIncome": 2189101000,
+        "revenue": 31691027000,
+        "netIncome": 1400706000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 34662784000,
-        "netIncome": 2833560000,
+        "revenue": 34286970999.999996,
+        "netIncome": 3088816000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 35280378000,
-        "netIncome": 2397941000,
+        "revenue": 35327891000,
+        "netIncome": 2571870000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 23432744000,
-        "netIncome": 1502394000,
+        "revenue": 26769173000,
+        "netIncome": 1693395000,
         "eps": null
       }
     ]
@@ -1007,6 +1311,46 @@
   ],
   "news": [
     {
+      "id": "c07d30fc-0c77-4bb9-8a41-a3f28328f33e",
+      "type": "article",
+      "date": "2026-06-05T00:02:29.000Z",
+      "title": "Investors Can Find Comfort In Praj Industries' (NSE:PRAJIND) Earnings Quality",
+      "body": "Praj Industries Limited's ( NSE:PRAJIND ) earnings announcement last week didn't impress shareholders. However, our...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/capital-goods/nse-prajind/praj-industries-shares/news/investors-can-find-comfort-in-praj-industries-nseprajind-ear",
+      "raw_subtype": "article"
+    },
+    {
+      "id": "13eec5c1-1acf-40de-b17a-43caca569f10",
+      "type": "brief",
+      "date": "2026-06-04T11:33:07.000Z",
+      "title": "Consensus EPS estimates fall by 20%",
+      "body": "The consensus outlook for earnings per share (EPS) in fiscal year 2027 has deteriorated. 2027 revenue forecast decreased from ₹36.7b to ₹33.7b. EPS estimate also fell from ₹9.72 per share to ₹7.80 per share. Net income forecast to grow 501% next year vs 21% growth forecast for Construction industry in India. Consensus price target broadly unchanged at ₹367. Share price fell 8.8% to ₹350 over the past week.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "6b7f0280-81a7-4475-84d3-abf84467d249",
+      "type": "narrative-update",
+      "date": "2026-06-04T08:03:24.000Z",
+      "title": "PRAJIND: Precision Fermentation Initiatives And Stable Outlook Will Support Future Cash Flow",
+      "body": "Analysts have nudged their price target for Praj Industries slightly higher to about ₹367 per share from roughly ₹361. This reflects updated assumptions for higher discount rates, lower revenue growth and profit margins, and a richer future P/E multiple of about 43x versus 29x earlier.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-prajind/praj-industries-shares/dd7lj5h1-global-mandates-and-netzero-trends-will-drive-advanced-biofuels-78s8/updates/23-analysts-have-nudged-their-price-target-for-praj-industries",
+      "raw_subtype": "narrative-update"
+    },
+    {
+      "id": "1cde0091-e801-435d-a20c-230a09a18bfe",
+      "type": "article",
+      "date": "2026-06-01T07:48:42.000Z",
+      "title": "Praj Industries Limited Just Missed Earnings - But Analysts Have Updated Their Models",
+      "body": "There's been a notable change in appetite for Praj Industries Limited ( NSE:PRAJIND ) shares in the week since its...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/capital-goods/nse-prajind/praj-industries-shares/news/praj-industries-limited-just-missed-earnings-but-analysts-ha",
+      "raw_subtype": "article"
+    },
+    {
       "id": "d2201567-8854-4233-b978-b6ad5b6f8667",
       "type": "brief",
       "date": "2026-05-29T11:57:57.000Z",
@@ -1174,26 +1518,6 @@
       "body": "Analysts have nudged their price target for Praj Industries slightly higher to approximately ₹399 per share, citing marginal improvements in discount rate assumptions and sustained confidence in the company's long term growth and profitability profile. What's in the News Praj Industries signed an MoU with Allied Biofuels FE LLC to develop Central Asia's largest ethanol production facility in Uzbekistan, enabling integrated production of sustainable aviation fuel, e SAF, and green diesel aligned with Uzbekistan's net zero strategy (client announcement).",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-prajind/praj-industries-shares/dd7lj5h1-global-mandates-and-netzero-trends-will-drive-advanced-biofuels-78s8/updates/14-analysts-have-nudged-their-price-target-for-praj-industries",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "e1e2640d-9bd1-452c-97a3-9a1b47f6b597",
-      "type": "brief",
-      "date": "2025-12-15T12:40:40.000Z",
-      "title": "Now 25% overvalued",
-      "body": "Over the last 90 days, the stock has fallen 14% to ₹334. The fair value is estimated to be ₹267, however this is not to be taken as a sell recommendation but rather should be used as a guide only. Revenue has been flat over the last 3 years. Earnings per share has declined by 7.2%. Revenue is forecast to grow by 24% in 2 years. Earnings are forecast to grow by 119% in the next 2 years.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "9c6f3a9f-dd50-483e-9b04-2855b86a7aca",
-      "type": "narrative-update",
-      "date": "2025-12-08T13:02:24.000Z",
-      "title": "PRAJIND: Expanding Central Asia Ethanol Projects Will Drive Long-Term Cash Flows",
-      "body": "Analysts have slightly increased their price target on Praj Industries to ₹399.43, reflecting modestly stronger long term growth and valuation assumptions despite a marginally higher discount rate and slightly lower projected profit margins. What's in the News Praj Industries signed an MoU with Allied Biofuels FE LLC to develop Central Asia's largest ethanol production facility in Uzbekistan, forming the region's first integrated refinery for SAF, e SAF, and green diesel and supporting Uzbekistan's net zero strategy (client announcement).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-prajind/praj-industries-shares/dd7lj5h1-global-mandates-and-netzero-trends-will-drive-advanced-biofuels-78s8/updates/13-analysts-have-slightly-increased-their-price-target-on-praj",
       "raw_subtype": "narrative-update"
     }
   ],

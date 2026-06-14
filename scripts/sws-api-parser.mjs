@@ -174,6 +174,15 @@ function isAnalystConsensusNarrative(narrative, option = {}) {
   return fields.some((v) => v === "analystconsensustarget" || v === "analyst_consensus_target");
 }
 
+function isAnalystPriceTargetNarrative(narrative) {
+  const fields = [
+    narrative?.owner?.displayName,
+    narrative?.owner?.classification,
+    narrative?.type,
+  ].map((v) => String(v || "").trim().toLowerCase());
+  return fields.some((v) => v === "analystpricetarget" || v === "analyst_price_target");
+}
+
 function latestNarrativeFairValue(narrative) {
   const latest = narrative?.latestPublishedUpdate;
   const latestFv = latest?.valuation?.fairValue;
@@ -209,8 +218,8 @@ function fairValueResult(narrative, option, method) {
 
 function extractAnalystFairValue(api) {
   // `defaultNarrative` can point at arbitrary community narratives and has
-  // flipped between min/max-ish values in production. Only the explicit
-  // AnalystConsensusTarget narrative is allowed into alertable fair value.
+  // flipped between min/max-ish values in production. Only explicit SWS
+  // analyst-target narratives are allowed into alertable fair value.
   const historyOptions = api?.graphql?.NarrativeValuationHistory?.company?.valuationOptions;
   if (Array.isArray(historyOptions)) {
     for (const option of historyOptions) {
@@ -225,6 +234,10 @@ function extractAnalystFairValue(api) {
   const defaultNarrative = nv?.defaultNarrative;
   if (isAnalystConsensusNarrative(defaultNarrative)) {
     const result = fairValueResult(defaultNarrative, null, "default_narrative_consensus");
+    if (result) return result;
+  }
+  if (isAnalystPriceTargetNarrative(defaultNarrative)) {
+    const result = fairValueResult(defaultNarrative, null, "default_narrative_analyst_price_target");
     if (result) return result;
   }
 

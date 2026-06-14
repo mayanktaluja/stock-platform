@@ -3,7 +3,7 @@
   "name": "Sky Industries Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/bse-526479/sky-industries-shares",
-  "parsed_at": "2026-05-31T21:24:23.534Z",
+  "parsed_at": "2026-06-11T00:34:19.893Z",
   "company_id": "38276A55-75D4-43DE-A4ED-F22ED539A3B1",
   "classification_status": "Active",
   "groww_source": {
@@ -76,22 +76,308 @@
         }
       ]
     },
-    "current_price_inr": 89.7,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SAME_PB"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_VOLATILE_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 83.1,
     "market_cap_inr": 702000000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 63.06,
       "high": 123
     },
-    "fair_value_inr": 10.448861,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -88.35132552954292,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "04e69ee1-60ed-406b-a03d-353ce9d4217a",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 10.55,
       "ps": 0.81,
@@ -108,16 +394,16 @@
       "pe_source_url": "https://groww.in/stocks/sky-industries-ltd"
     },
     "rewards": [
-      "Earnings have grown 17.3% per year over the past 5 years",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (10.6x) is below the Indian market (23.4x)"
+      "Earnings have grown 17.3% per year over the past 5 years",
+      "Price-To-Earnings ratio (9.9x) is below the Indian market (23.2x)"
     ],
     "risks": [
       "Debt is not well covered by [[operating cash flow]]",
       "High level of [[non-cash earnings]]",
-      "Does not have a meaningful market cap (₹708M)",
-      "Dividend of 1.11% is not well covered by free cash flows"
+      "Does not have a meaningful market cap (₹656M)",
+      "Dividend of 1.2% is not well covered by free cash flows"
     ],
     "dividend": {
       "yield_pct": 1.12,
@@ -235,8 +521,8 @@
     "dividend_yield_pct": 1.12,
     "industry_benchmarks": {
       "pe": 34.610207441094815,
-      "net_income_margin_1y": 0.05921870449,
-      "future_revenue_growth_3y": 0.4160609582,
+      "net_income_margin_1y": 0.05901661834,
+      "future_revenue_growth_3y": 0.4189534718,
       "sector_pe": 34.610207441094815
     },
     "industry_benchmarks_meta": {
@@ -271,18 +557,18 @@
         "url": "https://groww.in/stocks/sky-industries-ltd"
       },
       "sws_statement": {
-        "company_pe": 10.6,
-        "industry_pe": 18,
+        "company_pe": 9.9,
+        "industry_pe": 19.3,
         "industry_name": "Indian Luxury",
-        "description": "526479 is good value based on its Price-To-Earnings Ratio (10.6x) compared to the Indian Luxury industry average (18x).",
+        "description": "526479 is good value based on its Price-To-Earnings Ratio (9.9x) compared to the Indian Luxury industry average (19.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 18.199713239,
+        "industry_pe": 19.295215828,
         "industry_code": "4130000",
         "type": "median_profitable",
-        "count": 294,
+        "count": 296,
         "source": {
           "type": "country",
           "country": "IN",
@@ -291,8 +577,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.1,
-        "sample_count": 290,
+        "industry_pe": 17.95,
+        "sample_count": 294,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
       },
@@ -304,8 +590,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 89.7,
-        "fetched_at": "2026-05-31T21:24:23.534Z",
+        "value": 83.1,
+        "fetched_at": "2026-06-11T00:34:19.893Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-526479/sky-industries-shares"
       },
       "market_cap_inr": {
@@ -352,14 +638,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.05921870449,
-        "fetched_at": "2026-05-31T21:24:23.534Z",
+        "value": 0.05901661834,
+        "fetched_at": "2026-06-11T00:34:19.893Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-526479/sky-industries-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.4160609582,
-        "fetched_at": "2026-05-31T21:24:23.534Z",
+        "value": 0.4189534718,
+        "fetched_at": "2026-06-11T00:34:19.893Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-526479/sky-industries-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -491,16 +777,16 @@
     "quick_ratio": 0.8296727924697445,
     "cash_ratio": 0.14119229045271178,
     "returns_pct": {
-      "1D": 0.8205012925705338,
-      "7D": 3.8074296956370866,
-      "1M": 6.405693950177943,
-      "3M": 14.457062651524815,
-      "6M": -2.127659574468088,
-      "1Y": 4.048254262846548,
+      "1D": -0.8471542775325235,
+      "7D": -5.439235320892127,
+      "1M": -6.723537995285676,
+      "3M": -4.262672811059912,
+      "6M": -6.597729571765769,
+      "1Y": -10.961105753776925,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 1,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },

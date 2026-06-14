@@ -69,17 +69,306 @@
         }
       ]
     },
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "BankHealth",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAppropriateBadLoanAllowance",
+          "title": "Allowance for Bad Loans",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAppropriateNonPerformingLoans",
+          "title": "Level of Bad Loans",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasPrimarilyLowRiskFunding",
+          "title": "Low Risk Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAppropriateLoanLevel",
+          "title": "Loan Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasPrimarilyDepositFunding",
+          "title": "Low Risk Deposits",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAnAppropriateLevelOfAssets",
+          "title": "Asset Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_MODERATE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredIn3Years",
+          "title": "Future Dividend Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        }
+      ]
+    },
     "current_price_inr": 140.06,
     "market_cap_inr": 154231615767,
     "market_cap_usd": 121304781320.862,
     "market_cap_band": "medium5",
     "shares_outstanding": 1101182463,
-    "fifty_two_week": null,
+    "fifty_two_week": {
+      "low": 98.09,
+      "high": 141.76
+    },
     "fair_value_inr": 198,
     "fair_value_range_inr": {
       "min": 105.24,
       "max": 198,
       "count": 12
+    },
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "3cd7390d-0946-40cd-b8b5-55a76645d788",
+      "narrative_type": null,
+      "published_at": "2026-05-13T10:13:51.170Z"
     },
     "upside_pct": 41.36798514922176,
     "multiples": {
@@ -216,7 +505,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 11.4,
+        "industry_pe": 11.75,
         "sample_count": 40,
         "industry_code": "7011000",
         "industry_name": "Banks"
@@ -234,6 +523,24 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 140.06,
+        "fetched_at": "2026-05-21T20:51:35.056Z",
+        "url": "https://simplywall.st/stocks/in/banks/nse-j-kbank/jammu-and-kashmir-bank-shares"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 198,
+        "fetched_at": "2026-05-21T20:51:35.056Z",
+        "url": "https://simplywall.st/stocks/in/banks/nse-j-kbank/jammu-and-kashmir-bank-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "3cd7390d-0946-40cd-b8b5-55a76645d788",
+        "narrative_type": null,
+        "published_at": "2026-05-13T10:13:51.170Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 41.36798514922176,
         "fetched_at": "2026-05-21T20:51:35.056Z",
         "url": "https://simplywall.st/stocks/in/banks/nse-j-kbank/jammu-and-kashmir-bank-shares"
       },
@@ -258,6 +565,15 @@
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
         "value": 0.2707434406,
+        "fetched_at": "2026-05-21T20:51:35.056Z",
+        "url": "https://simplywall.st/stocks/in/banks/nse-j-kbank/jammu-and-kashmir-bank-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 98.09,
+          "high": 141.76
+        },
         "fetched_at": "2026-05-21T20:51:35.056Z",
         "url": "https://simplywall.st/stocks/in/banks/nse-j-kbank/jammu-and-kashmir-bank-shares"
       }
@@ -294,7 +610,7 @@
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 5,
+    "recent_news_count": 0,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -692,16 +1008,6 @@
       "body": "Analysts have modestly reaffirmed their outlook on Jammu and Kashmir Bank, keeping the fair value estimate effectively unchanged at ₹131.0 as they fine tune assumptions around the discount rate, revenue growth, profit margins and future price to earnings expectations. What's in the News Board meeting scheduled for November 26, 2025, to consider raising additional Tier I and Tier II capital and to discuss other strategic matters (Key Developments).",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/banks/nse-j-kbank/jammu-and-kashmir-bank-shares/1zaxz4iu-jandkbank-upcoming-board-meeting-and-auditor-appointment-will-sustain-positive-momentum/updates/13-analysts-have-modestly-reaffirmed-their-outlook-on-jammu-and",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "296c6650-7da2-4130-8b41-978737297360",
-      "type": "narrative-update",
-      "date": "2025-12-03T14:08:36.000Z",
-      "title": "J&KBANK: Upcoming Capital Plan Will Support Stable Profitability Outlook",
-      "body": "Analysts have modestly reiterated their outlook on Jammu and Kashmir Bank, keeping the price target effectively unchanged at ₹131.00. Improved visibility on sustainable profitability and stable growth assumptions are seen as adequately reflected in current valuations.",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/banks/nse-j-kbank/jammu-and-kashmir-bank-shares/1zaxz4iu-jandkbank-upcoming-board-meeting-and-auditor-appointment-will-sustain-positive-momentum/updates/12-analysts-have-modestly-reiterated-their-outlook-on-jammu-and",
       "raw_subtype": "narrative-update"
     }
   ],

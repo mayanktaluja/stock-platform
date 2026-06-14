@@ -3,7 +3,7 @@
   "name": "Sakar Healthcare Limited",
   "sector": "Pharmaceuticals & Biotech",
   "sws_url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-sakar/sakar-healthcare-shares",
-  "parsed_at": "2026-05-31T22:01:54.616Z",
+  "parsed_at": "2026-06-11T01:03:21.618Z",
   "company_id": "6292658C-258F-44C6-A2B2-839956A22700",
   "classification_status": "Active",
   "groww_source": null,
@@ -23,21 +23,19 @@
     "snowflake_total": 11,
     "snowflake_data_quality": {
       "insufficient": true,
-      "insufficient_count": 12,
+      "insufficient_count": 3,
       "checked_count": 30,
       "affected_pillars": [
-        "Value",
-        "Future",
         "Dividends"
       ],
       "by_pillar": {
         "Value": {
           "checked": 6,
-          "insufficient": 3
+          "insufficient": 0
         },
         "Future": {
           "checked": 6,
-          "insufficient": 6
+          "insufficient": 0
         },
         "Past": {
           "checked": 6,
@@ -54,37 +52,326 @@
       },
       "samples": [
         {
-          "pillar": "Value",
-          "title": "PEG Ratio",
+          "pillar": "Dividends",
+          "title": "Growing Dividend",
           "reason_code": "OUTCOME_NULL"
         },
         {
-          "pillar": "Value",
-          "title": "Below Future Cash Flow Value",
+          "pillar": "Dividends",
+          "title": "Stable Dividend",
           "reason_code": "OUTCOME_NULL"
         },
         {
-          "pillar": "Value",
-          "title": "Significantly Below Future Cash Flow Value",
+          "pillar": "Dividends",
+          "title": "Earnings Coverage",
           "reason_code": "OUTCOME_NULL"
         }
       ]
     },
-    "current_price_inr": 796.5,
-    "market_cap_inr": 17722046075.012108,
-    "market_cap_usd": 120714180851.549,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 839,
+    "market_cap_inr": 18667666863.697624,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
-    "fifty_two_week": null,
-    "fair_value_inr": null,
+    "fifty_two_week": {
+      "low": 312.6,
+      "high": 839
+    },
+    "fair_value_inr": 930,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": null,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "0350c154-70da-4f3c-9e81-9d678f7784c9",
+      "narrative_type": null,
+      "published_at": "2024-07-25T13:12:50.343Z"
+    },
+    "upside_pct": 10.846245530393325,
     "multiples": {
-      "pe": 58.1,
+      "pe": 59.4,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -93,12 +380,13 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": "2026-05-31T22:01:54.616Z",
+      "pe_as_of": "2026-06-11T01:03:21.618Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-sakar/sakar-healthcare-shares"
     },
     "rewards": [
-      "Earnings grew by 74.2% over the past year"
+      "Earnings grew by 74.2% over the past year",
+      "Earnings are forecast to grow 48.05% per year"
     ],
     "risks": [
       "Highly volatile share price over past 3 months"
@@ -113,9 +401,9 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 29.045511308,
+      "pe": 28.787047453,
       "net_income_margin_1y": 0.1541587677,
-      "future_revenue_growth_3y": 0.423879921
+      "future_revenue_growth_3y": 0.4212605545
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -129,10 +417,10 @@
     "pe_benchmark_source": {
       "provider": "sws_industry_api",
       "label": "SWS industry API",
-      "company_pe": 58.1,
+      "company_pe": 59.4,
       "company_pe_source": "sws_statement",
       "company_pe_source_label": "SWS visible statement",
-      "industry_pe": 29.045511308,
+      "industry_pe": 28.787047453,
       "industry_name": "Pharmaceuticals & Biotech",
       "industry_code": "6120000",
       "sample_count": 152,
@@ -141,15 +429,15 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 58.1,
-        "industry_pe": 29,
+        "company_pe": 59.4,
+        "industry_pe": 28.8,
         "industry_name": "Indian Pharmaceuticals",
-        "description": "SAKAR is expensive based on its Price-To-Earnings Ratio (58.1x) compared to the Indian Pharmaceuticals industry average (29x).",
+        "description": "SAKAR is expensive based on its Price-To-Earnings Ratio (59.4x) compared to the Indian Pharmaceuticals industry average (28.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 29.045511308,
+        "industry_pe": 28.787047453,
         "industry_code": "6120000",
         "type": "median_profitable",
         "count": 152,
@@ -161,8 +449,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 28.1,
-        "sample_count": 151,
+        "industry_pe": 28.15,
+        "sample_count": 152,
         "industry_code": "6120000",
         "industry_name": "Pharmaceuticals & Biotech"
       },
@@ -174,32 +462,59 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 796.5,
-        "fetched_at": "2026-05-31T22:01:54.616Z",
+        "value": 839,
+        "fetched_at": "2026-06-11T01:03:21.618Z",
+        "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-sakar/sakar-healthcare-shares"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 930,
+        "fetched_at": "2026-06-11T01:03:21.618Z",
+        "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-sakar/sakar-healthcare-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "0350c154-70da-4f3c-9e81-9d678f7784c9",
+        "narrative_type": null,
+        "published_at": "2024-07-25T13:12:50.343Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 10.846245530393325,
+        "fetched_at": "2026-06-11T01:03:21.618Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-sakar/sakar-healthcare-shares"
       },
       "multiples.pe": {
         "provider": "sws_statement",
-        "value": 58.1,
-        "fetched_at": "2026-05-31T22:01:54.616Z",
+        "value": 59.4,
+        "fetched_at": "2026-06-11T01:03:21.618Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-sakar/sakar-healthcare-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 29.045511308,
+        "value": 28.787047453,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.1541587677,
-        "fetched_at": "2026-05-31T22:01:54.616Z",
+        "fetched_at": "2026-06-11T01:03:21.618Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-sakar/sakar-healthcare-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.423879921,
-        "fetched_at": "2026-05-31T22:01:54.616Z",
+        "value": 0.4212605545,
+        "fetched_at": "2026-06-11T01:03:21.618Z",
+        "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-sakar/sakar-healthcare-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 312.6,
+          "high": 839
+        },
+        "fetched_at": "2026-06-11T01:03:21.618Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-sakar/sakar-healthcare-shares"
       }
     },
@@ -226,16 +541,16 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 1.0466222645099905,
-      "7D": 4.582457983193274,
-      "1M": 27.30760009590027,
-      "3M": 61.039223615042445,
-      "6M": 112.1454254894127,
-      "1Y": 143.76434583014537,
+      "1D": 3.121927236971482,
+      "7D": 3.217075721227776,
+      "1M": 58.4214501510574,
+      "3M": 50.68247126436782,
+      "6M": 98.65040842902805,
+      "1Y": 164.37687096265952,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 0,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -394,26 +709,6 @@
       "keyDevTypeId": null,
       "source_url": null,
       "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "e8f44a58-e60e-407c-815d-0f1db2744203",
-      "type": "brief",
-      "date": "2025-12-15T08:16:24.000Z",
-      "title": "Investor sentiment improves as stock rises 16%",
-      "body": "After last week's 16% share price gain to ₹422, the stock trades at a trailing P/E ratio of 48.2x. Average trailing P/E is 28x in the Pharmaceuticals industry in India. Total returns to shareholders of 87% over the past three years.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "bb578523-8b64-44aa-a903-195f673b4ab6",
-      "type": "article",
-      "date": "2025-12-13T02:43:48.000Z",
-      "title": "What Sakar Healthcare Limited's (NSE:SAKAR) P/E Is Not Telling You",
-      "body": "With a price-to-earnings (or \"P/E\") ratio of 48.2x Sakar Healthcare Limited ( NSE:SAKAR ) may be sending very bearish...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-sakar/sakar-healthcare-shares/news/what-sakar-healthcare-limiteds-nsesakar-pe-is-not-telling-yo",
-      "raw_subtype": "article"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/SAKAR.json"

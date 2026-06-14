@@ -3,7 +3,7 @@
   "name": "Amiable Logistics (India) Limited",
   "sector": "Transportation",
   "sws_url": "https://simplywall.st/stocks/in/transportation/nse-amiable/amiable-logistics-india-shares",
-  "parsed_at": "2026-05-31T21:07:02.970Z",
+  "parsed_at": "2026-06-11T00:05:17.888Z",
   "company_id": "CD7AA108-8D07-48DE-90D6-1160D2DD5323",
   "classification_status": "Active",
   "groww_source": null,
@@ -12,15 +12,15 @@
       "valuation": 2,
       "future": 0,
       "past": 5,
-      "financial_health": 6,
+      "financial_health": 5,
       "dividends": 0,
       "future_growth": 0,
       "past_performance": 5,
       "value": 2,
-      "health": 6,
+      "health": 5,
       "dividend": 0
     },
-    "snowflake_total": 13,
+    "snowflake_total": 12,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 10,
@@ -70,21 +70,310 @@
         }
       ]
     },
-    "current_price_inr": 72.9,
-    "market_cap_inr": 127443785.53272547,
-    "market_cap_usd": 120714180851.549,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SAME_PB"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 76.85,
+    "market_cap_inr": 134349175.8325096,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
-    "fifty_two_week": null,
-    "fair_value_inr": 9.806106,
+    "fifty_two_week": {
+      "low": 60,
+      "high": 98.5
+    },
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -86.54855144032922,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "c2bbe266-bbb5-439c-8669-969654534765",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
-      "pe": 13.3,
+      "pe": 14,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -93,20 +382,20 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": "2026-05-31T21:07:02.970Z",
+      "pe_as_of": "2026-06-11T00:05:17.888Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://simplywall.st/stocks/in/transportation/nse-amiable/amiable-logistics-india-shares"
     },
     "rewards": [
-      "Price-To-Earnings ratio (13.3x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (14x) is below the Indian market (22.9x)",
       "Earnings grew by 22.8% over the past year",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
     "risks": [
       "Shares are highly illiquid",
-      "Does not have a meaningful market cap (₹127M)",
-      "Does not have meaningful revenue (₹205M)"
+      "Does not have a meaningful market cap (₹134M)",
+      "Does not have meaningful revenue (₹190M)"
     ],
     "dividend": {
       "yield_pct": null,
@@ -118,9 +407,9 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 15.905276181,
+      "pe": 16.669517793,
       "net_income_margin_1y": 0.04875633592,
-      "future_revenue_growth_3y": 0.4923863598
+      "future_revenue_growth_3y": 0.4999162272
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -134,10 +423,10 @@
     "pe_benchmark_source": {
       "provider": "sws_industry_api",
       "label": "SWS industry API",
-      "company_pe": 13.3,
+      "company_pe": 14,
       "company_pe_source": "sws_statement",
       "company_pe_source_label": "SWS visible statement",
-      "industry_pe": 15.905276181,
+      "industry_pe": 16.669517793,
       "industry_name": "Transportation",
       "industry_code": "3210000",
       "sample_count": 40,
@@ -146,15 +435,15 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 13.3,
-        "industry_pe": 15.9,
+        "company_pe": 14,
+        "industry_pe": 16.7,
         "industry_name": "Indian Logistics",
-        "description": "AMIABLE is good value based on its Price-To-Earnings Ratio (13.3x) compared to the Indian Logistics industry average (15.9x).",
+        "description": "AMIABLE is good value based on its Price-To-Earnings Ratio (14x) compared to the Indian Logistics industry average (16.7x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 15.905276181,
+        "industry_pe": 16.669517793,
         "industry_code": "3210000",
         "type": "median_profitable",
         "count": 40,
@@ -166,8 +455,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.25,
-        "sample_count": 36,
+        "industry_pe": 15.15,
+        "sample_count": 38,
         "industry_code": "3210000",
         "industry_name": "Transportation"
       },
@@ -179,32 +468,41 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 72.9,
-        "fetched_at": "2026-05-31T21:07:02.970Z",
+        "value": 76.85,
+        "fetched_at": "2026-06-11T00:05:17.888Z",
         "url": "https://simplywall.st/stocks/in/transportation/nse-amiable/amiable-logistics-india-shares"
       },
       "multiples.pe": {
         "provider": "sws_statement",
-        "value": 13.3,
-        "fetched_at": "2026-05-31T21:07:02.970Z",
+        "value": 14,
+        "fetched_at": "2026-06-11T00:05:17.888Z",
         "url": "https://simplywall.st/stocks/in/transportation/nse-amiable/amiable-logistics-india-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 15.905276181,
+        "value": 16.669517793,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.04875633592,
-        "fetched_at": "2026-05-31T21:07:02.970Z",
+        "fetched_at": "2026-06-11T00:05:17.888Z",
         "url": "https://simplywall.st/stocks/in/transportation/nse-amiable/amiable-logistics-india-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.4923863598,
-        "fetched_at": "2026-05-31T21:07:02.970Z",
+        "value": 0.4999162272,
+        "fetched_at": "2026-06-11T00:05:17.888Z",
+        "url": "https://simplywall.st/stocks/in/transportation/nse-amiable/amiable-logistics-india-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 60,
+          "high": 98.5
+        },
+        "fetched_at": "2026-06-11T00:05:17.888Z",
         "url": "https://simplywall.st/stocks/in/transportation/nse-amiable/amiable-logistics-india-shares"
       }
     },
@@ -231,12 +529,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 7.127112417340204,
-      "7D": 12.326656394453003,
-      "1M": -8.874999999999993,
-      "3M": 0,
-      "6M": 17.58064516129033,
-      "1Y": 2.676056338028177,
+      "1D": -3.877423389618522,
+      "7D": 5.418381344307254,
+      "1M": 5.418381344307254,
+      "3M": 5.418381344307254,
+      "6M": 23.951612903225797,
+      "1Y": 5.708390646492423,
       "5Y": null
     },
     "next_earnings_date": null,

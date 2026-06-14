@@ -3,7 +3,7 @@
   "name": "Astra Microwave Products Limited",
   "sector": "Tech",
   "sws_url": "https://simplywall.st/stocks/in/tech/nse-astramicro/astra-microwave-products-shares",
-  "parsed_at": "2026-05-31T21:18:25.270Z",
+  "parsed_at": "2026-06-11T00:15:21.247Z",
   "company_id": "96C22856-6E63-439F-B10F-879738F9964B",
   "classification_status": "Active",
   "groww_source": {
@@ -18,32 +18,318 @@
     "snowflake": {
       "valuation": 0,
       "future": 4,
-      "past": 3,
+      "past": 4,
       "financial_health": 5,
       "dividends": 3,
       "future_growth": 4,
-      "past_performance": 3,
+      "past_performance": 4,
       "value": 0,
       "health": 5,
       "dividend": 3
     },
-    "snowflake_total": 15,
-    "current_price_inr": 1401.7,
+    "snowflake_total": 16,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 1424.4,
     "market_cap_inr": 132937300000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 851,
       "high": 1432
     },
-    "fair_value_inr": 1441.146106,
+    "fair_value_inr": 1440.526698,
     "fair_value_range_inr": {
-      "min": 1441.146106,
-      "max": 1441.146106,
+      "min": 1440.526698,
+      "max": 1440.526698,
       "count": 4
     },
-    "upside_pct": 2.8141618035242826,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "b6bbb9c2-7e22-4c5c-a720-f37656b9199f",
+      "narrative_type": null,
+      "published_at": "2024-06-19T03:55:07.479Z"
+    },
+    "upside_pct": 1.1321748104464902,
     "multiples": {
       "pe": 68.91,
       "ps": 11.41,
@@ -61,7 +347,7 @@
     },
     "rewards": [
       "Earnings are forecast to grow 20.82% per year",
-      "Earnings have grown 33.9% per year over the past 5 years"
+      "Earnings grew by 25.7% over the past year"
     ],
     "risks": [],
     "dividend": {
@@ -81,7 +367,7 @@
           "divFreqTypeName": "Annual",
           "annualizedDividend": 2.2,
           "annualizedDividendListingCurrency": 2.2,
-          "annualizedYield": 0.2187380823
+          "annualizedYield": 0.2193770142
         },
         {
           "exDate": "2024-08-23T00:00:00.000Z",
@@ -206,8 +492,8 @@
     "dividend_yield_pct": 0.17,
     "industry_benchmarks": {
       "pe": 48.00927223189911,
-      "net_income_margin_1y": 0.10079533,
-      "future_revenue_growth_3y": 0.4012304192,
+      "net_income_margin_1y": 0.1174060665,
+      "future_revenue_growth_3y": 0.4609397939,
       "sector_pe": 48.00927223189911
     },
     "industry_benchmarks_meta": {
@@ -242,15 +528,15 @@
         "url": "https://groww.in/stocks/astra-microwave-products-ltd"
       },
       "sws_statement": {
-        "company_pe": 70.4,
-        "industry_pe": 50.9,
+        "company_pe": 71.6,
+        "industry_pe": 49.5,
         "industry_name": "Asian Communications",
-        "description": "ASTRAMICRO is expensive based on its Price-To-Earnings Ratio (70.4x) compared to the Asian Communications industry average (50.9x).",
+        "description": "ASTRAMICRO is expensive based on its Price-To-Earnings Ratio (71.6x) compared to the Asian Communications industry average (49.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 70.345074255,
+        "industry_pe": 66.295847635,
         "industry_code": "8110000",
         "type": "median_profitable",
         "count": 16,
@@ -262,8 +548,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 45.599999999999994,
-        "sample_count": 12,
+        "industry_pe": 37.8,
+        "sample_count": 11,
         "industry_code": "8110000",
         "industry_name": "Tech"
       },
@@ -275,8 +561,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1401.7,
-        "fetched_at": "2026-05-31T21:18:25.270Z",
+        "value": 1424.4,
+        "fetched_at": "2026-06-11T00:15:21.247Z",
         "url": "https://simplywall.st/stocks/in/tech/nse-astramicro/astra-microwave-products-shares"
       },
       "market_cap_inr": {
@@ -284,6 +570,24 @@
         "value": 132937300000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/astra-microwave-products-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 1440.526698,
+        "fetched_at": "2026-06-11T00:15:21.247Z",
+        "url": "https://simplywall.st/stocks/in/tech/nse-astramicro/astra-microwave-products-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "b6bbb9c2-7e22-4c5c-a720-f37656b9199f",
+        "narrative_type": null,
+        "published_at": "2024-06-19T03:55:07.479Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 1.1321748104464902,
+        "fetched_at": "2026-06-11T00:15:21.247Z",
+        "url": "https://simplywall.st/stocks/in/tech/nse-astramicro/astra-microwave-products-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -323,14 +627,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.10079533,
-        "fetched_at": "2026-05-31T21:18:25.270Z",
+        "value": 0.1174060665,
+        "fetched_at": "2026-06-11T00:15:21.247Z",
         "url": "https://simplywall.st/stocks/in/tech/nse-astramicro/astra-microwave-products-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.4012304192,
-        "fetched_at": "2026-05-31T21:18:25.270Z",
+        "value": 0.4609397939,
+        "fetched_at": "2026-06-11T00:15:21.247Z",
         "url": "https://simplywall.st/stocks/in/tech/nse-astramicro/astra-microwave-products-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -462,12 +766,12 @@
     "quick_ratio": 1.937448146790407,
     "cash_ratio": 0.4878542900692663,
     "returns_pct": {
-      "1D": 0.3077143266065518,
-      "7D": 19.303770533662433,
-      "1M": 26.47868260771487,
-      "3M": 44.71402023539129,
-      "6M": 50.33247533247535,
-      "1Y": 24.088172804532594,
+      "1D": -2.2844206626877925,
+      "7D": 7.607463926871651,
+      "1M": 25.475687103594087,
+      "3M": 37.7030162412993,
+      "6M": 57.036547048123055,
+      "1Y": 22.308088614116453,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -563,8 +867,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.9766,
-        "shares": 946903,
+        "pct": 0.97997,
+        "shares": 950167,
         "is_insider": null
       },
       {
@@ -573,8 +877,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.5095,
-        "shares": 494003,
+        "pct": 0.57922,
+        "shares": 561605,
         "is_insider": null
       }
     ],
@@ -605,7 +909,7 @@
         "divFreqTypeName": "Annual",
         "annualizedDividend": 2.2,
         "annualizedDividendListingCurrency": 2.2,
-        "annualizedYield": 0.2187380823
+        "annualizedYield": 0.2193770142
       },
       {
         "exDate": "2024-08-23T00:00:00.000Z",
@@ -1072,16 +1376,6 @@
       "body": "Finding a business that has the potential to grow substantially is not easy, but it is possible if we look at a few key...",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/stocks/in/tech/nse-astramicro/astra-microwave-products-shares/news/astra-microwave-products-nseastramicro-shareholders-will-wan-1",
-      "raw_subtype": "article"
-    },
-    {
-      "id": "753fb654-948d-4da6-97f3-24586e0bc49e",
-      "type": "article",
-      "date": "2025-12-05T00:10:11.000Z",
-      "title": "Astra Microwave Products Limited's (NSE:ASTRAMICRO) Popularity With Investors Is Under Threat From Overpricing",
-      "body": "With a price-to-earnings (or \"P/E\") ratio of 53.3x Astra Microwave Products Limited ( NSE:ASTRAMICRO ) may be sending...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/tech/nse-astramicro/astra-microwave-products-shares/news/astra-microwave-products-limiteds-nseastramicro-popularity-w",
       "raw_subtype": "article"
     }
   ],

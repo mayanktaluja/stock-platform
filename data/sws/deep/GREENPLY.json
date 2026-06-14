@@ -3,7 +3,7 @@
   "name": "Greenply Industries Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-greenply/greenply-industries-shares",
-  "parsed_at": "2026-05-31T23:11:05.835Z",
+  "parsed_at": "2026-06-11T02:05:34.451Z",
   "company_id": "D76E96E1-9149-4D9B-9F16-32061D3856C7",
   "classification_status": "Active",
   "groww_source": {
@@ -28,9 +28,287 @@
       "dividend": 2
     },
     "snowflake_total": 14,
-    "current_price_inr": 248.1,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DIVIDENDS_FALLEN"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 281.21,
     "market_cap_inr": 31906200000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "small3",
     "shares_outstanding": 124887795,
     "fifty_two_week": {
@@ -39,11 +317,19 @@
     },
     "fair_value_inr": 337.78571,
     "fair_value_range_inr": {
-      "min": 314,
-      "max": 314,
+      "min": 337.78571,
+      "max": 337.78571,
       "count": 4
     },
-    "upside_pct": 36.14901652559452,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "b692117d-47ea-4471-841c-53a694fde141",
+      "narrative_type": null,
+      "published_at": "2026-06-06T16:05:45.497Z"
+    },
+    "upside_pct": 20.118669321859116,
     "multiples": {
       "pe": 35.53,
       "ps": 1.16,
@@ -61,15 +347,14 @@
     },
     "rewards": [
       "Earnings are forecast to grow 31.09% per year",
-      "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Analysts in good agreement that stock price will rise by 36.1%"
+      "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
     "risks": [
       "Has a high level of debt"
     ],
     "dividend": {
       "yield_pct": 0.2,
-      "payout_pct": 8.294114189700744,
+      "payout_pct": 6.974493699445337,
       "annualized_dividend": 0.5,
       "listing_currency": "INR",
       "recent_payments": [
@@ -222,8 +507,8 @@
     "dividend_yield_pct": 0.2,
     "industry_benchmarks": {
       "pe": 45.056473576863425,
-      "net_income_margin_1y": 0.09487982097,
-      "future_revenue_growth_3y": 34.387188816,
+      "net_income_margin_1y": 0.09486136614,
+      "future_revenue_growth_3y": 32.656569349,
       "sector_pe": 45.056473576863425
     },
     "industry_benchmarks_meta": {
@@ -258,18 +543,18 @@
         "url": "https://groww.in/stocks/greenply-industries-ltd"
       },
       "sws_statement": {
-        "company_pe": 34.6,
-        "industry_pe": 23.7,
+        "company_pe": 40.3,
+        "industry_pe": 21.5,
         "industry_name": "Indian Forestry",
-        "description": "GREENPLY is expensive based on its Price-To-Earnings Ratio (34.6x) compared to the Indian Forestry industry average (23.7x).",
+        "description": "GREENPLY is expensive based on its Price-To-Earnings Ratio (40.3x) compared to the Indian Forestry industry average (21.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 21.939974729,
+        "industry_pe": 21.497125029,
         "industry_code": "2060000",
         "type": "median_profitable",
-        "count": 40,
+        "count": 41,
         "source": {
           "type": "country",
           "country": "IN",
@@ -278,25 +563,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.4,
-        "sample_count": 39,
+        "industry_pe": 20.549999999999997,
+        "sample_count": 40,
         "industry_code": "2060000",
         "industry_name": "Materials"
       },
       "sws_primary_industry": {
-        "industry_pe": 19.26596559,
+        "industry_pe": 18.498719492,
         "industry_name": "Materials",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 41.1553946092951
+        "company_pe": 39.225947464420464
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 248.1,
-        "fetched_at": "2026-05-31T23:11:05.835Z",
+        "value": 281.21,
+        "fetched_at": "2026-06-11T02:05:34.451Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-greenply/greenply-industries-shares"
       },
       "market_cap_inr": {
@@ -304,6 +589,24 @@
         "value": 31906200000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/greenply-industries-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 337.78571,
+        "fetched_at": "2026-06-11T02:05:34.451Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-greenply/greenply-industries-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "b692117d-47ea-4471-841c-53a694fde141",
+        "narrative_type": null,
+        "published_at": "2026-06-06T16:05:45.497Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 20.118669321859116,
+        "fetched_at": "2026-06-11T02:05:34.451Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-greenply/greenply-industries-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -343,14 +646,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.09487982097,
-        "fetched_at": "2026-05-31T23:11:05.835Z",
+        "value": 0.09486136614,
+        "fetched_at": "2026-06-11T02:05:34.451Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-greenply/greenply-industries-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 34.387188816,
-        "fetched_at": "2026-05-31T23:11:05.835Z",
+        "value": 32.656569349,
+        "fetched_at": "2026-06-11T02:05:34.451Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-greenply/greenply-industries-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -459,13 +762,13 @@
         "url": "https://groww.in/stocks/greenply-industries-ltd"
       }
     },
-    "earnings_growth_yoy_pct": -17.83774463315803,
+    "earnings_growth_yoy_pct": 2.9260862317715968,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 4.983873090544896,
-    "latest_revenue": 26115593000,
-    "latest_net_income": 752870000,
+    "revenue_growth_pct": 9.363982640300508,
+    "latest_revenue": 27390356000,
+    "latest_net_income": 895318000,
     "latest_eps": 7.19,
-    "most_recent_reported_date": "2026-02-06",
+    "most_recent_reported_date": "2026-06-05",
     "pb": 3.57,
     "ps": 1.16,
     "book_value": 71.6425583,
@@ -482,12 +785,12 @@
     "quick_ratio": 0.7418395852940737,
     "cash_ratio": 0.04163492134630037,
     "returns_pct": {
-      "1D": -2.591283863368667,
-      "7D": -4.189998069125312,
-      "1M": -12.779047284232728,
-      "3M": 12.3641304347826,
-      "6M": -12.161444503451937,
-      "1Y": -24.186401833460657,
+      "1D": -2.5876402937508756,
+      "7D": 6.506836344354812,
+      "1M": 6.036953242835592,
+      "3M": 42.168857431749224,
+      "6M": 2.1467490010897086,
+      "1Y": -11.164113094297909,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -610,7 +913,7 @@
   },
   "dividend": {
     "yield_pct": 0.2,
-    "payout_pct": 8.294114189700744,
+    "payout_pct": 6.974493699445337,
     "annualized_dividend": 0.5,
     "listing_currency": "INR",
     "recent_payments": [
@@ -761,44 +1064,44 @@
     "payment_count": 11
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-02-06",
+    "most_recent_reported_date": "2026-06-05",
     "latest_year": 2026,
-    "latest_revenue": 26115593000,
-    "latest_net_income": 752870000,
+    "latest_revenue": 27390356000,
+    "latest_net_income": 895318000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 4.983873090544896,
-    "earnings_growth_pct": -17.83774463315803,
-    "net_margin_pct": 2.882837085108502,
+    "revenue_growth_pct": 9.363982640300508,
+    "earnings_growth_pct": 2.9260862317715968,
+    "net_margin_pct": 3.2687344406914605,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 26115593000,
-        "netIncome": 752870000,
+        "revenue": 27390356000,
+        "netIncome": 895318000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 24875814000,
-        "netIncome": 916321000,
+        "revenue": 25045134000,
+        "netIncome": 869865000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 21799209000,
-        "netIncome": 852472000,
+        "revenue": 23334428000,
+        "netIncome": 1124704000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 16631465000,
-        "netIncome": 1060084000.0000001,
+        "revenue": 18682291000,
+        "netIncome": 715164000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 15628038000,
-        "netIncome": 947257000,
+        "revenue": 17555708000,
+        "netIncome": 1114326000,
         "eps": null
       }
     ]
@@ -1029,6 +1332,26 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "0e075053-68c3-44b3-a172-bf47b1609268",
+      "type": "narrative-update",
+      "date": "2026-06-06T16:05:45.000Z",
+      "title": "GREENPLY: Upcoming CEO Transition And 2026 Results Will Support Earnings Profile",
+      "body": "Analysts have revised their fair value estimate for Greenply Industries from ₹314.00 to about ₹337.79, citing updated assumptions around the discount rate, revenue growth, profit margin, and future P/E. What's in the News Greenply Industries reported that Chief Executive Officer Manoj Tulsian has tendered his resignation, citing personal reasons, with his role as CEO scheduled to end after close of business on 30 April 2026.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/materials/nse-greenply/greenply-industries-shares/f0tutbjy-formalization-and-automation-will-revamp-the-plywood-and-mdf-industry-siqh/updates/16-analysts-have-revised-their-fair-value-estimate-for-greenply",
+      "raw_subtype": "narrative-update"
+    },
+    {
+      "id": "3fa0ecff-3996-48ac-85dc-35ebcbc55c2b",
+      "type": "brief",
+      "date": "2026-06-05T11:39:46.000Z",
+      "title": "Investor sentiment improves as stock rises 18%",
+      "body": "After last week's 18% share price gain to ₹292, the stock trades at a forward P/E ratio of 24x. Average forward P/E is 11x in the Forestry industry in Asia. Total returns to shareholders of 82% over the past three years.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "7c16ff54-876e-4579-bc02-783e7be46cd1",
       "type": "brief",

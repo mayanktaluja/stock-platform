@@ -3,7 +3,7 @@
   "name": "Max Financial Services Limited",
   "sector": "Insurance",
   "sws_url": "https://simplywall.st/stocks/in/insurance/nse-mfsl/max-financial-services-shares",
-  "parsed_at": "2026-05-31T20:57:19.519Z",
+  "parsed_at": "2026-06-10T23:59:42.300Z",
   "company_id": "D77F94A3-496A-4463-A41F-8A69E25955A7",
   "classification_status": "Active",
   "groww_source": {
@@ -70,41 +70,327 @@
         }
       ]
     },
-    "current_price_inr": 1674,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 1598.3,
     "market_cap_inr": 580741900000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "large7",
     "shares_outstanding": 343446614,
     "fifty_two_week": {
       "low": 1433.6,
       "high": 1892.5
     },
-    "fair_value_inr": 2050.56,
+    "fair_value_inr": 2064.8,
     "fair_value_range_inr": {
       "min": 67.141049,
-      "max": 2050.56,
+      "max": 2064.8,
       "count": 5
     },
-    "upside_pct": 22.494623655913976,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "19f42c54-090e-4461-b691-d8f89be866c8",
+      "narrative_type": null,
+      "published_at": "2026-06-01T15:08:11.258Z"
+    },
+    "upside_pct": 29.187261465306904,
     "multiples": {
-      "pe": 398.85174346323384,
+      "pe": null,
       "ps": 1.22,
       "pb": 10.99,
       "ev_ebitda": 79.11,
       "peg": 43.01251874999996
     },
     "multiples_meta": {
-      "pe_source": "sws_computed",
-      "pe_source_label": "SWS computed",
+      "pe_source": null,
+      "pe_source_label": null,
       "pe_source_text": null,
-      "pe_as_of": "2026-05-31T20:57:19.519Z",
+      "pe_as_of": null,
       "pe_basis": "trailing_ttm",
-      "pe_source_url": "https://simplywall.st/stocks/in/insurance/nse-mfsl/max-financial-services-shares"
+      "pe_source_url": null
     },
     "rewards": [
       "Trading below our calculated fair Price-To-Sales ratio",
       "Earnings are forecast to grow 47.96% per year",
-      "Analysts in good agreement that stock price will rise by 23.3%",
+      "Analysts in good agreement that stock price will rise by 29.3%",
       "Trading at good value vs. peer average Price-To-Sales ratio"
     ],
     "risks": [
@@ -112,7 +398,7 @@
     ],
     "dividend": {
       "yield_pct": 0,
-      "payout_pct": 85.77456848671694,
+      "payout_pct": 149.23449733252866,
       "annualized_dividend": 3.6,
       "listing_currency": "INR",
       "recent_payments": [
@@ -135,8 +421,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 53.98741913742747,
-      "net_income_margin_1y": 0.1053584011,
-      "future_revenue_growth_3y": 0.2421742058,
+      "net_income_margin_1y": 0.1055126138,
+      "future_revenue_growth_3y": 0.2573088629,
       "sector_pe": 53.98741913742747
     },
     "industry_benchmarks_meta": {
@@ -151,9 +437,9 @@
     "pe_benchmark_source": {
       "provider": "groww_refinitiv",
       "label": "Groww/Refinitiv",
-      "company_pe": 398.85174346323384,
-      "company_pe_source": "sws_computed",
-      "company_pe_source_label": "SWS computed",
+      "company_pe": null,
+      "company_pe_source": null,
+      "company_pe_source_label": null,
       "industry_pe": 53.98741913742747,
       "industry_name": "Miscellaneous",
       "industry_id": 39,
@@ -179,7 +465,7 @@
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 51.832121788,
+        "industry_pe": 51.060154016,
         "industry_code": "7210000",
         "type": "median_profitable",
         "count": 15,
@@ -191,25 +477,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 51.8,
-        "sample_count": 15,
+        "industry_pe": 46.95,
+        "sample_count": 14,
         "industry_code": "7210000",
         "industry_name": "Insurance"
       },
       "sws_primary_industry": {
-        "industry_pe": 11.645006567,
+        "industry_pe": 11.682206384,
         "industry_name": "Insurance",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 398.85174346323384
+        "company_pe": null
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1674,
-        "fetched_at": "2026-05-31T20:57:19.519Z",
+        "value": 1598.3,
+        "fetched_at": "2026-06-10T23:59:42.300Z",
         "url": "https://simplywall.st/stocks/in/insurance/nse-mfsl/max-financial-services-shares"
       },
       "market_cap_inr": {
@@ -218,10 +504,22 @@
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/max-financial-services-ltd"
       },
-      "multiples.pe": {
-        "provider": "sws_computed",
-        "value": 398.85174346323384,
-        "fetched_at": "2026-05-31T20:57:19.519Z",
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 2064.8,
+        "fetched_at": "2026-06-10T23:59:42.300Z",
+        "url": "https://simplywall.st/stocks/in/insurance/nse-mfsl/max-financial-services-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "19f42c54-090e-4461-b691-d8f89be866c8",
+        "narrative_type": null,
+        "published_at": "2026-06-01T15:08:11.258Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 29.187261465306904,
+        "fetched_at": "2026-06-10T23:59:42.300Z",
         "url": "https://simplywall.st/stocks/in/insurance/nse-mfsl/max-financial-services-shares"
       },
       "multiples.pb": {
@@ -256,14 +554,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.1053584011,
-        "fetched_at": "2026-05-31T20:57:19.519Z",
+        "value": 0.1055126138,
+        "fetched_at": "2026-06-10T23:59:42.300Z",
         "url": "https://simplywall.st/stocks/in/insurance/nse-mfsl/max-financial-services-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.2421742058,
-        "fetched_at": "2026-05-31T20:57:19.519Z",
+        "value": 0.2573088629,
+        "fetched_at": "2026-06-10T23:59:42.300Z",
         "url": "https://simplywall.st/stocks/in/insurance/nse-mfsl/max-financial-services-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -372,13 +670,13 @@
         "url": "https://groww.in/stocks/max-financial-services-ltd"
       }
     },
-    "earnings_growth_yoy_pct": -56.396788492683605,
+    "earnings_growth_yoy_pct": -69.62308425606804,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 6.0001228504716195,
-    "latest_revenue": 492853380000,
-    "latest_net_income": 1441462000,
+    "revenue_growth_pct": 0.3684027561500765,
+    "latest_revenue": 476964300000,
+    "latest_net_income": 828500000,
     "latest_eps": 3.06,
-    "most_recent_reported_date": "2026-05-12",
+    "most_recent_reported_date": "2026-06-01",
     "pb": 10.99,
     "ps": 1.22,
     "book_value": 153.054966,
@@ -395,16 +693,16 @@
     "quick_ratio": 1.0360022073730097,
     "cash_ratio": 0.01127290964444985,
     "returns_pct": {
-      "1D": -0.49337216905426823,
-      "7D": -0.35714285714285715,
-      "1M": 3.949329359165419,
-      "3M": -7.6872173817139124,
-      "6M": -1.6509018271546863,
-      "1Y": 9.965184260658217,
+      "1D": 0.26347155134558975,
+      "7D": 2.48140548858682,
+      "1M": -5.7328221763491625,
+      "3M": -5.771725032425427,
+      "6M": -7.021524141942994,
+      "1Y": 4.951080175980029,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 1,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -481,8 +779,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.58423,
-        "shares": 5440971,
+        "pct": 1.56849,
+        "shares": 5386911,
         "is_insider": null
       },
       {
@@ -523,7 +821,7 @@
   },
   "dividend": {
     "yield_pct": 0,
-    "payout_pct": 85.77456848671694,
+    "payout_pct": 149.23449733252866,
     "annualized_dividend": 3.6,
     "listing_currency": "INR",
     "recent_payments": [
@@ -544,44 +842,44 @@
     "payment_count": 1
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-12",
+    "most_recent_reported_date": "2026-06-01",
     "latest_year": 2026,
-    "latest_revenue": 492853380000,
-    "latest_net_income": 1441462000,
+    "latest_revenue": 476964300000,
+    "latest_net_income": 828500000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 6.0001228504716195,
-    "earnings_growth_pct": -56.396788492683605,
-    "net_margin_pct": 0.29247278369076013,
+    "revenue_growth_pct": 0.3684027561500765,
+    "earnings_growth_pct": -69.62308425606804,
+    "net_margin_pct": 0.17370272785615193,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 492853380000,
-        "netIncome": 1441462000,
+        "revenue": 476964300000,
+        "netIncome": 828500000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 464955480000,
-        "netIncome": 3305862000,
+        "revenue": 475213600000,
+        "netIncome": 2727400000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 466125167000,
-        "netIncome": 3410476000,
+        "revenue": 492478635000,
+        "netIncome": 3797171000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 314236520000,
-        "netIncome": 3784860000,
+        "revenue": 373194858000,
+        "netIncome": 4098059000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 311860281000,
-        "netIncome": 2533700000,
+        "revenue": 285187781000,
+        "netIncome": 2885400000,
         "eps": null
       }
     ]
@@ -793,6 +1091,16 @@
   ],
   "news": [
     {
+      "id": "44600898-579c-478f-aa76-b595c8d1a819",
+      "type": "narrative-update",
+      "date": "2026-06-01T15:08:11.000Z",
+      "title": "MFSL: Planned Subsidiary Capital Raise Will Support Bullish 2026 Outlook",
+      "body": "Analysts have inched up their price target for Max Financial Services from ₹2,050.56 to ₹2,064.80, reflecting updated assumptions that combine higher projected revenue growth with a lower profit margin and a higher future P/E multiple. What's in the News A board meeting is scheduled for March 12, 2026 to consider raising further capital to support the funding requirements of material subsidiary Axis Max Life Insurance Limited, including potential issuance of equity shares and other eligible securities.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/insurance/nse-mfsl/max-financial-services-shares/ovrkeux2-bancassurance-partnerships-and-digital-channels-will-unlock-new-value-o94b/updates/24-analysts-have-inched-up-their-price-target-for-max-financial",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "2ddde455-013c-40b2-9cde-2a410e167b75",
       "type": "article",
       "date": "2026-05-15T00:10:20.000Z",
@@ -981,16 +1289,6 @@
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/stocks/in/insurance/nse-mfsl/max-financial-services-shares/news/what-max-financial-services-limiteds-nsemfsl-ps-is-not-telli",
       "raw_subtype": "article"
-    },
-    {
-      "id": "d8fb9ce1-51ae-4fa9-b464-41cebc4e8d30",
-      "type": "narrative-update",
-      "date": "2025-12-12T15:05:04.000Z",
-      "title": "MFSL: Upcoming Meetings And Stable Outlook Will Guide Future Performance",
-      "body": "Analysts have modestly revised their price target on Max Financial Services higher to ₹1,886.52, reflecting unchanged assumptions on discount rate, revenue growth, profit margin, and long term valuation multiples, while reaffirming confidence in the company’s earnings trajectory. What's in the News Max Financial Services has scheduled a Special/Extraordinary Shareholders Meeting on December 21, 2025, to be conducted via postal ballot in India (company filing).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/insurance/nse-mfsl/max-financial-services-shares/ovrkeux2-bancassurance-partnerships-and-digital-channels-will-unlock-new-value-o94b/updates/13-analysts-have-modestly-revised-their-price-target-on-max-fin",
-      "raw_subtype": "narrative-update"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/MFSL.json"

@@ -3,7 +3,7 @@
   "name": "Time Technoplast Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-timetechno/time-technoplast-shares",
-  "parsed_at": "2026-05-31T22:50:08.263Z",
+  "parsed_at": "2026-06-11T01:54:58.453Z",
   "company_id": "83353B4F-C01C-4A85-A5DD-5E3CF55D385C",
   "classification_status": "Active",
   "groww_source": {
@@ -16,69 +16,299 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 1,
-      "future": 0,
+      "valuation": 2,
+      "future": 3,
       "past": 4,
       "financial_health": 6,
       "dividends": 3,
-      "future_growth": 0,
+      "future_growth": 3,
       "past_performance": 4,
-      "value": 1,
+      "value": 2,
       "health": 6,
       "dividend": 3
     },
-    "snowflake_total": 14,
-    "snowflake_data_quality": {
-      "insufficient": true,
-      "insufficient_count": 6,
+    "snowflake_total": 18,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
       "checked_count": 30,
-      "affected_pillars": [
-        "Value",
-        "Future"
-      ],
-      "by_pillar": {
-        "Value": {
-          "checked": 6,
-          "insufficient": 1
-        },
-        "Future": {
-          "checked": 6,
-          "insufficient": 5
-        },
-        "Past": {
-          "checked": 6,
-          "insufficient": 0
-        },
-        "Health": {
-          "checked": 6,
-          "insufficient": 0
-        },
-        "Dividends": {
-          "checked": 6,
-          "insufficient": 0
-        }
-      },
-      "samples": [
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
         {
           "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
           "title": "PEG Ratio",
-          "reason_code": "OUTCOME_NULL"
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_SUBSTANTIAL_DISCOUNT"
         },
         {
           "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
           "title": "High Growth Earnings",
-          "reason_code": "OUTCOME_NULL"
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
         },
         {
           "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
           "title": "Earnings vs Market",
-          "reason_code": "OUTCOME_NULL"
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
         }
       ]
     },
-    "current_price_inr": 174.71,
+    "current_price_inr": 168.69,
     "market_cap_inr": 88829700000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midsmall4",
     "shares_outstanding": 493635379,
     "fifty_two_week": {
@@ -87,11 +317,19 @@
     },
     "fair_value_inr": 289,
     "fair_value_range_inr": {
-      "min": 205.789002,
+      "min": 189.796454,
       "max": 289,
-      "count": 20
+      "count": 21
     },
-    "upside_pct": 65.41697670425275,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "cf706afc-f9fa-412a-9abc-d17d5f619e08",
+      "narrative_type": null,
+      "published_at": "2025-09-24T10:17:44.589Z"
+    },
+    "upside_pct": 71.32017309858321,
     "multiples": {
       "pe": 19.56,
       "ps": 1.51,
@@ -108,11 +346,14 @@
       "pe_source_url": "https://groww.in/stocks/time-technoplast-ltd"
     },
     "rewards": [
-      "Trading at 15.1% below our estimate of its fair value",
-      "Earnings grew by 20.8% over the past year"
+      "Trading at good value vs. peer average Price-To-Earnings ratio",
+      "Trading at 9.4% below our estimate of its fair value",
+      "Earnings grew by 20.8% over the past year",
+      "Earnings are forecast to grow 19.2% per year",
+      "Trading below our calculated fair Price-To-Earnings ratio"
     ],
     "risks": [
-      "Dividend of 0.72% is not well covered by free cash flows"
+      "Dividend of 0.87% is not well covered by free cash flows"
     ],
     "dividend": {
       "yield_pct": 0.64,
@@ -256,8 +497,8 @@
     "dividend_yield_pct": 0.64,
     "industry_benchmarks": {
       "pe": 40.23659070712202,
-      "net_income_margin_1y": 0.09487982097,
-      "future_revenue_growth_3y": 34.387188816,
+      "net_income_margin_1y": 0.09486136614,
+      "future_revenue_growth_3y": 32.656569349,
       "sector_pe": 40.23659070712202
     },
     "industry_benchmarks_meta": {
@@ -292,18 +533,18 @@
         "url": "https://groww.in/stocks/time-technoplast-ltd"
       },
       "sws_statement": {
-        "company_pe": 18.4,
-        "industry_pe": 16.9,
+        "company_pe": 18.1,
+        "industry_pe": 17,
         "industry_name": "Indian Packaging",
-        "description": "TIMETECHNO is expensive based on its Price-To-Earnings Ratio (18.4x) compared to the Indian Packaging industry average (16.9x).",
+        "description": "TIMETECHNO is expensive based on its Price-To-Earnings Ratio (18.1x) compared to the Indian Packaging industry average (17x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 17.117180323,
+        "industry_pe": 17.045579205,
         "industry_code": "2040000",
         "type": "median_profitable",
-        "count": 84,
+        "count": 86,
         "source": {
           "type": "country",
           "country": "IN",
@@ -312,25 +553,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17,
-        "sample_count": 85,
+        "industry_pe": 16.950000000000003,
+        "sample_count": 86,
         "industry_code": "2040000",
         "industry_name": "Materials"
       },
       "sws_primary_industry": {
-        "industry_pe": 19.26596559,
+        "industry_pe": 18.498719492,
         "industry_name": "Materials",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 21.361562694149555
+        "company_pe": 20.62550518502712
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 174.71,
-        "fetched_at": "2026-05-31T22:50:08.263Z",
+        "value": 168.69,
+        "fetched_at": "2026-06-11T01:54:58.453Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-timetechno/time-technoplast-shares"
       },
       "market_cap_inr": {
@@ -338,6 +579,24 @@
         "value": 88829700000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/time-technoplast-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 289,
+        "fetched_at": "2026-06-11T01:54:58.453Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-timetechno/time-technoplast-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "cf706afc-f9fa-412a-9abc-d17d5f619e08",
+        "narrative_type": null,
+        "published_at": "2025-09-24T10:17:44.589Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 71.32017309858321,
+        "fetched_at": "2026-06-11T01:54:58.453Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-timetechno/time-technoplast-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -377,14 +636,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.09487982097,
-        "fetched_at": "2026-05-31T22:50:08.263Z",
+        "value": 0.09486136614,
+        "fetched_at": "2026-06-11T01:54:58.453Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-timetechno/time-technoplast-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 34.387188816,
-        "fetched_at": "2026-05-31T22:50:08.263Z",
+        "value": 32.656569349,
+        "fetched_at": "2026-06-11T01:54:58.453Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-timetechno/time-technoplast-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -516,12 +775,12 @@
     "quick_ratio": 1.7599305255720845,
     "cash_ratio": 0.18568709031675626,
     "returns_pct": {
-      "1D": -2.836327234302872,
-      "7D": 0.20073411332874186,
-      "1M": -5.14170919752416,
-      "3M": -4.924902046147139,
-      "6M": -12.871534011569919,
-      "1Y": -8.047368421052628,
+      "1D": -1.9415218275882133,
+      "7D": -1.506393413907872,
+      "1M": -8.225885425167295,
+      "3M": 0.26151560178305955,
+      "6M": -9.709361451587013,
+      "1Y": -23.13055365686944,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -622,13 +881,13 @@
         "is_insider": null
       },
       {
-        "pct": 0.28549,
-        "shares": 1409285,
+        "pct": 0.34418,
+        "shares": 1698970,
         "is_insider": null
       },
       {
-        "pct": 0.27499,
-        "shares": 1357438,
+        "pct": 0.28549,
+        "shares": 1409285,
         "is_insider": null
       }
     ],
@@ -1050,6 +1309,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "a98fac8c-597d-4e4a-a77b-4199a5ab0c54",
+      "type": "article",
+      "date": "2026-06-04T00:55:43.000Z",
+      "title": "Time Technoplast's (NSE:TIMETECHNO) Solid Profits Have Weak Fundamentals",
+      "body": "Time Technoplast Limited ( NSE:TIMETECHNO ) announced strong profits, but the stock was stagnant. Our analysis suggests...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/materials/nse-timetechno/time-technoplast-shares/news/time-technoplasts-nsetimetechno-solid-profits-have-weak-fund",
+      "raw_subtype": "article"
+    },
     {
       "id": "854dd0fc-c118-40ba-a3f3-076dbedd5096",
       "type": "brief",

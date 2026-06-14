@@ -3,7 +3,7 @@
   "name": "Aditya Birla Sun Life AMC Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-abslamc/aditya-birla-sun-life-amc-shares",
-  "parsed_at": "2026-05-31T20:54:54.783Z",
+  "parsed_at": "2026-06-10T23:52:57.452Z",
   "company_id": "DA07B93D-F3ED-445E-A383-0803C7FDC85B",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 3
     },
     "snowflake_total": 17,
-    "current_price_inr": 1064,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_5_YEARS_AGO"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_STABLE_BUT_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DIVIDENDS_NOT_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 1110.3,
     "market_cap_inr": 296968300000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midlarge6",
     "shares_outstanding": 289096345,
     "fifty_two_week": {
       "low": 708,
       "high": 1123.5
     },
-    "fair_value_inr": 737.5091,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 529.61668,
-      "max": 1099.9,
+      "min": 541.274611,
+      "max": 1125.35714,
       "count": 12
     },
-    "upside_pct": -30.685234962406017,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystLowTarget",
+      "owner_classification": null,
+      "narrative_id": "b20f5f3d-d39c-4e56-94d8-51d8ab08d2f9",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 30.46,
       "ps": 14.42,
@@ -62,7 +348,7 @@
     "rewards": [
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Earnings have grown 12.6% per year over the past 5 years",
-      "Earnings are forecast to grow 12.6% per year"
+      "Earnings are forecast to grow 12.62% per year"
     ],
     "risks": [
       "Dividend of 2.4% is not well covered by free cash flows"
@@ -157,8 +443,8 @@
     "dividend_yield_pct": 2.48,
     "industry_benchmarks": {
       "pe": 18.85756396507594,
-      "net_income_margin_1y": 0.2564706218,
-      "future_revenue_growth_3y": 0.3320316411,
+      "net_income_margin_1y": 0.257896607,
+      "future_revenue_growth_3y": 0.3297814148,
       "sector_pe": 18.85756396507594
     },
     "industry_benchmarks_meta": {
@@ -194,17 +480,17 @@
       },
       "sws_statement": {
         "company_pe": 31.5,
-        "industry_pe": 26.7,
+        "industry_pe": 25.9,
         "industry_name": "Indian Capital Markets",
-        "description": "ABSLAMC is expensive based on its Price-To-Earnings Ratio (31.5x) compared to the Indian Capital Markets industry average (26.7x).",
+        "description": "ABSLAMC is expensive based on its Price-To-Earnings Ratio (31.5x) compared to the Indian Capital Markets industry average (25.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 26.705392444,
+        "industry_pe": 25.93266606,
         "industry_code": "7130000",
         "type": "median_profitable",
-        "count": 218,
+        "count": 215,
         "source": {
           "type": "country",
           "country": "IN",
@@ -213,25 +499,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.6,
-        "sample_count": 204,
+        "industry_pe": 21.1,
+        "sample_count": 201,
         "industry_code": "7130000",
         "industry_name": "Diversified Financials"
       },
       "sws_primary_industry": {
-        "industry_pe": 15.729172633,
+        "industry_pe": 15.226484123,
         "industry_name": "Diversified Financials",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 31.546300376383233
+        "company_pe": 32.91903882321269
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1064,
-        "fetched_at": "2026-05-31T20:54:54.783Z",
+        "value": 1110.3,
+        "fetched_at": "2026-06-10T23:52:57.452Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-abslamc/aditya-birla-sun-life-amc-shares"
       },
       "market_cap_inr": {
@@ -278,14 +564,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.2564706218,
-        "fetched_at": "2026-05-31T20:54:54.783Z",
+        "value": 0.257896607,
+        "fetched_at": "2026-06-10T23:52:57.452Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-abslamc/aditya-birla-sun-life-amc-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.3320316411,
-        "fetched_at": "2026-05-31T20:54:54.783Z",
+        "value": 0.3297814148,
+        "fetched_at": "2026-06-10T23:52:57.452Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-abslamc/aditya-birla-sun-life-amc-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -417,16 +703,16 @@
     "quick_ratio": 1.0356269647223193,
     "cash_ratio": 0.6069682151589243,
     "returns_pct": {
-      "1D": 3.5724715273045895,
-      "7D": 5.169516655134917,
-      "1M": 3.896103896103905,
-      "3M": 19.068934646374213,
-      "6M": 44.69300333174678,
-      "1Y": 41.942369263607254,
+      "1D": 4.508659638554204,
+      "7D": 7.451853285589858,
+      "1M": 4.814500141602945,
+      "3M": 11.013347997800329,
+      "6M": 47.65609415519648,
+      "1Y": 38.62288532367812,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 1,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -478,13 +764,18 @@
         "is_insider": null
       },
       {
-        "pct": 0.45651,
-        "shares": 1319764,
+        "pct": 0.45656,
+        "shares": 1319887,
         "is_insider": null
       },
       {
         "pct": 0.212,
         "shares": 612889,
+        "is_insider": null
+      },
+      {
+        "pct": 0.17538,
+        "shares": 507021,
         "is_insider": null
       },
       {
@@ -503,11 +794,6 @@
         "is_insider": null
       },
       {
-        "pct": 0.13389,
-        "shares": 387078,
-        "is_insider": null
-      },
-      {
         "pct": 0.1238,
         "shares": 357899,
         "is_insider": null
@@ -523,8 +809,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.09803,
-        "shares": 283409,
+        "pct": 0.10079,
+        "shares": 291381,
         "is_insider": null
       },
       {
@@ -874,6 +1160,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "ec488dbb-803c-46fb-993c-604edbeb2e48",
+      "type": "narrative-update",
+      "date": "2026-06-04T03:10:39.000Z",
+      "title": "ABSLAMC: Dividend Payout And Margin Assumptions Will Shape Measured Future Outlook",
+      "body": "Analysts have raised their fair value estimate for Aditya Birla Sun Life AMC from about ₹985.79 to about ₹1,125.36, citing updated assumptions related to revenue growth, profit margins and future P/E levels. What's in the News A board meeting is scheduled for April 23, 2026 to review and approve audited standalone and consolidated financial results for the quarter and year ended March 31, 2026, and to consider a dividend recommendation on the equity shares.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/diversified-financials/nse-abslamc/aditya-birla-sun-life-amc-shares/x6siy7dt-india-economic-upturn-and-digital-initiatives-will-boost-investment-appeal-8l1v/updates/12-analysts-have-raised-their-fair-value-estimate-for-aditya-bi",
+      "raw_subtype": "narrative-update"
+    },
     {
       "id": "79f35945-544d-437f-8039-27592a8acb1b",
       "type": "article",

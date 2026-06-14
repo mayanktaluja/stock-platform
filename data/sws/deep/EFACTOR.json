@@ -3,7 +3,7 @@
   "name": "E Factor Experiences Limited",
   "sector": "Media",
   "sws_url": "https://simplywall.st/stocks/in/media/nse-efactor/e-factor-experiences-shares",
-  "parsed_at": "2026-05-31T22:41:24.370Z",
+  "parsed_at": "2026-06-11T01:36:16.410Z",
   "company_id": "AE029EEB-A00D-432D-AF0A-972D9AB62723",
   "classification_status": "Active",
   "groww_source": null,
@@ -69,21 +69,310 @@
         }
       ]
     },
-    "current_price_inr": 179.5,
-    "market_cap_inr": 2349313449.176903,
-    "market_cap_usd": 120714180851.549,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_STABLE_BUT_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 186,
+    "market_cap_inr": 2434386081.0412474,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
-    "fifty_two_week": null,
-    "fair_value_inr": 18.786602,
+    "fifty_two_week": {
+      "low": 168,
+      "high": 344.9
+    },
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 18.786602,
-      "max": 18.786602,
+      "min": 19.250975,
+      "max": 19.250975,
       "count": 2
     },
-    "upside_pct": -89.53392646239556,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "f83324ea-c249-4c8e-a115-6bfa3a069a95",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
-      "pe": 11.9,
+      "pe": 12.3,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -92,17 +381,17 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": "2026-05-31T22:41:24.370Z",
+      "pe_as_of": "2026-06-11T01:36:16.410Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://simplywall.st/stocks/in/media/nse-efactor/e-factor-experiences-shares"
     },
     "rewards": [
-      "Price-To-Earnings ratio (11.9x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (12.3x) is below the Indian market (22.9x)",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading at good value vs. industry average Price-To-Earnings ratio"
     ],
     "risks": [
-      "Dividend of 0.67% is not well covered by free cash flows",
+      "Dividend of 0.65% is not well covered by free cash flows",
       "High level of [[non-cash earnings]]",
       "Highly volatile share price over past 3 months",
       "Does not have a meaningful market cap (₹2B)"
@@ -144,9 +433,9 @@
     },
     "dividend_yield_pct": 0.4633608658,
     "industry_benchmarks": {
-      "pe": 19.331431755,
+      "pe": 17.228014944,
       "net_income_margin_1y": 0.1403672015,
-      "future_revenue_growth_3y": 0.3609417923
+      "future_revenue_growth_3y": 0.3593822242
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -160,30 +449,30 @@
     "pe_benchmark_source": {
       "provider": "sws_industry_api",
       "label": "SWS industry API",
-      "company_pe": 11.9,
+      "company_pe": 12.3,
       "company_pe_source": "sws_statement",
       "company_pe_source_label": "SWS visible statement",
-      "industry_pe": 19.331431755,
+      "industry_pe": 17.228014944,
       "industry_name": "Media",
       "industry_code": "4310000",
-      "sample_count": 54,
+      "sample_count": 55,
       "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 11.9,
-        "industry_pe": 20.2,
+        "company_pe": 12.3,
+        "industry_pe": 17.2,
         "industry_name": "Indian Media",
-        "description": "EFACTOR is good value based on its Price-To-Earnings Ratio (11.9x) compared to the Indian Media industry average (20.2x).",
+        "description": "EFACTOR is good value based on its Price-To-Earnings Ratio (12.3x) compared to the Indian Media industry average (17.2x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 19.331431755,
+        "industry_pe": 17.228014944,
         "industry_code": "4310000",
         "type": "median_profitable",
-        "count": 54,
+        "count": 55,
         "source": {
           "type": "country",
           "country": "IN",
@@ -192,8 +481,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 16.05,
-        "sample_count": 56,
+        "industry_pe": 16.1,
+        "sample_count": 59,
         "industry_code": "4310000",
         "industry_name": "Media"
       },
@@ -205,32 +494,41 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 179.5,
-        "fetched_at": "2026-05-31T22:41:24.370Z",
+        "value": 186,
+        "fetched_at": "2026-06-11T01:36:16.410Z",
         "url": "https://simplywall.st/stocks/in/media/nse-efactor/e-factor-experiences-shares"
       },
       "multiples.pe": {
         "provider": "sws_statement",
-        "value": 11.9,
-        "fetched_at": "2026-05-31T22:41:24.370Z",
+        "value": 12.3,
+        "fetched_at": "2026-06-11T01:36:16.410Z",
         "url": "https://simplywall.st/stocks/in/media/nse-efactor/e-factor-experiences-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 19.331431755,
+        "value": 17.228014944,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.1403672015,
-        "fetched_at": "2026-05-31T22:41:24.370Z",
+        "fetched_at": "2026-06-11T01:36:16.410Z",
         "url": "https://simplywall.st/stocks/in/media/nse-efactor/e-factor-experiences-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.3609417923,
-        "fetched_at": "2026-05-31T22:41:24.370Z",
+        "value": 0.3593822242,
+        "fetched_at": "2026-06-11T01:36:16.410Z",
+        "url": "https://simplywall.st/stocks/in/media/nse-efactor/e-factor-experiences-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 168,
+          "high": 344.9
+        },
+        "fetched_at": "2026-06-11T01:36:16.410Z",
         "url": "https://simplywall.st/stocks/in/media/nse-efactor/e-factor-experiences-shares"
       }
     },
@@ -257,12 +555,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -0.2777777777777778,
-      "7D": -8.721078057462499,
-      "1M": -21.956521739130437,
-      "3M": -23.600766120451155,
-      "6M": -45.14896867838044,
-      "1Y": -12.396290873596879,
+      "1D": 0.5405405405405406,
+      "7D": 2.2258862324814572,
+      "1M": -24.081632653061224,
+      "3M": -9.246157599414486,
+      "6M": -41.893158388003755,
+      "1Y": -12.8193109913288,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -348,6 +646,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "20b9b117-0096-4406-8b3b-af77ef08e47a",
+      "type": "article",
+      "date": "2026-06-03T01:32:11.000Z",
+      "title": "E Factor Experiences' (NSE:EFACTOR) Weak Earnings May Only Reveal A Part Of The Whole Picture",
+      "body": "The market wasn't impressed with the soft earnings from E Factor Experiences Limited ( NSE:EFACTOR ) recently. We did...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/media/nse-efactor/e-factor-experiences-shares/news/e-factor-experiences-nseefactor-weak-earnings-may-only-revea",
+      "raw_subtype": "article"
+    },
     {
       "id": "92aaada1-f313-4968-8a88-711612c6aef8",
       "type": "brief",

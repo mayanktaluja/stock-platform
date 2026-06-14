@@ -3,7 +3,7 @@
   "name": "Timken India Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-timken/timken-india-shares",
-  "parsed_at": "2026-05-31T22:50:16.718Z",
+  "parsed_at": "2026-06-11T01:55:07.818Z",
   "company_id": "9559C032-63A2-4C38-9406-FD9ED9F58D7C",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 0
     },
     "snowflake_total": 11,
-    "current_price_inr": 3630.4,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_NOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 3549.6,
     "market_cap_inr": 273544200000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 2800.5,
       "high": 3775
     },
-    "fair_value_inr": 3911.794225,
+    "fair_value_inr": 3951.24976,
     "fair_value_range_inr": {
-      "min": 1103.51559,
-      "max": 3911.794225,
+      "min": 1149.427334,
+      "max": 3951.24976,
       "count": 5
     },
-    "upside_pct": 7.751052914279419,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "c339c491-0c8e-4aff-a82c-e581994cf545",
+      "narrative_type": null,
+      "published_at": "2024-06-19T04:04:02.199Z"
+    },
+    "upside_pct": 11.315352715798971,
     "multiples": {
       "pe": 68.67,
       "ps": 8,
@@ -205,8 +491,8 @@
     "dividend_yield_pct": 0.07,
     "industry_benchmarks": {
       "pe": 51.00448227324711,
-      "net_income_margin_1y": 0.1031278814,
-      "future_revenue_growth_3y": 0.5858087225,
+      "net_income_margin_1y": 0.1061182964,
+      "future_revenue_growth_3y": 0.5866767627,
       "sector_pe": 51.00448227324711
     },
     "industry_benchmarks_meta": {
@@ -241,18 +527,18 @@
         "url": "https://groww.in/stocks/timken-india-ltd"
       },
       "sws_statement": {
-        "company_pe": 65.8,
-        "industry_pe": 25.9,
+        "company_pe": 64.1,
+        "industry_pe": 25.8,
         "industry_name": "Indian Machinery",
-        "description": "TIMKEN is expensive based on its Price-To-Earnings Ratio (65.8x) compared to the Indian Machinery industry average (25.9x).",
+        "description": "TIMKEN is expensive based on its Price-To-Earnings Ratio (64.1x) compared to the Indian Machinery industry average (25.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 25.908333666,
+        "industry_pe": 25.769114311,
         "industry_code": "3070000",
         "type": "median_profitable",
-        "count": 217,
+        "count": 220,
         "source": {
           "type": "country",
           "country": "IN",
@@ -261,8 +547,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 25.799999999999997,
-        "sample_count": 218,
+        "industry_pe": 25.6,
+        "sample_count": 219,
         "industry_code": "3070000",
         "industry_name": "Capital Goods"
       },
@@ -274,8 +560,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 3630.4,
-        "fetched_at": "2026-05-31T22:50:16.718Z",
+        "value": 3549.6,
+        "fetched_at": "2026-06-11T01:55:07.818Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-timken/timken-india-shares"
       },
       "market_cap_inr": {
@@ -283,6 +569,24 @@
         "value": 273544200000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/timken-india-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 3951.24976,
+        "fetched_at": "2026-06-11T01:55:07.818Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-timken/timken-india-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "c339c491-0c8e-4aff-a82c-e581994cf545",
+        "narrative_type": null,
+        "published_at": "2024-06-19T04:04:02.199Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 11.315352715798971,
+        "fetched_at": "2026-06-11T01:55:07.818Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-timken/timken-india-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -322,14 +626,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.1031278814,
-        "fetched_at": "2026-05-31T22:50:16.718Z",
+        "value": 0.1061182964,
+        "fetched_at": "2026-06-11T01:55:07.818Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-timken/timken-india-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.5858087225,
-        "fetched_at": "2026-05-31T22:50:16.718Z",
+        "value": 0.5866767627,
+        "fetched_at": "2026-06-11T01:55:07.818Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-timken/timken-india-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -461,12 +765,12 @@
     "quick_ratio": 1.76040744663871,
     "cash_ratio": 0.3256671068096406,
     "returns_pct": {
-      "1D": -0.17872363826335616,
-      "7D": -3.1944962935310044,
-      "1M": 5.516479683776091,
-      "3M": 4.535114745601659,
-      "6M": 15.090032969819934,
-      "1Y": 14.375728552975653,
+      "1D": 0.32219772765813387,
+      "7D": 1.65239554397319,
+      "1M": -1.9176568112738352,
+      "3M": 1.8098379463645464,
+      "6M": 16.220286818152058,
+      "1Y": 4.051122706220315,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -557,13 +861,13 @@
         "is_insider": null
       },
       {
-        "pct": 0.91814,
-        "shares": 690614,
+        "pct": 0.91734,
+        "shares": 690010,
         "is_insider": null
       },
       {
-        "pct": 0.55291,
-        "shares": 415895,
+        "pct": 0.55303,
+        "shares": 415982,
         "is_insider": null
       },
       {

@@ -3,7 +3,7 @@
   "name": "Birlasoft Limited",
   "sector": "Software",
   "sws_url": "https://simplywall.st/stocks/in/software/nse-bsoft/birlasoft-shares",
-  "parsed_at": "2026-05-31T22:13:57.156Z",
+  "parsed_at": "2026-06-11T01:07:30.486Z",
   "company_id": "EDB79012-1665-4787-87AE-CCE1F00DEF7A",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 5
     },
     "snowflake_total": 18,
-    "current_price_inr": 319.35,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 315.55,
     "market_cap_inr": 91720000000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midsmall4",
     "shares_outstanding": 279476288,
     "fifty_two_week": {
       "low": 306.4,
       "high": 474
     },
-    "fair_value_inr": 434,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 262.02,
+      "min": 273.201017,
       "max": 850,
-      "count": 33
+      "count": 31
     },
-    "upside_pct": 35.901049005793006,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystHighTarget",
+      "owner_classification": null,
+      "narrative_id": "5fcc7346-09e6-4a01-a1fe-359d32b8a1c1",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 17.69,
       "ps": 1.73,
@@ -61,11 +347,11 @@
     },
     "rewards": [
       "Trading below our calculated fair Price-To-Earnings ratio",
-      "Analysts in good agreement that stock price will rise by 21%",
       "Earnings are forecast to grow 13.03% per year",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (17.2x) is below the Indian market (23.4x)",
+      "Analysts in good agreement that stock price will rise by 22.5%",
+      "Price-To-Earnings ratio (17x) is below the Indian market (23.2x)",
       "Earnings have grown 7.1% per year over the past 5 years"
     ],
     "risks": [
@@ -239,8 +525,8 @@
     "dividend_yield_pct": 1.98,
     "industry_benchmarks": {
       "pe": 18.761595487228476,
-      "net_income_margin_1y": 0.09947274985,
-      "future_revenue_growth_3y": 1.4123928,
+      "net_income_margin_1y": 0.0994330966,
+      "future_revenue_growth_3y": 1.401190197,
       "sector_pe": 18.761595487228476
     },
     "industry_benchmarks_meta": {
@@ -275,15 +561,15 @@
         "url": "https://groww.in/stocks/kpit-technologies-ltd"
       },
       "sws_statement": {
-        "company_pe": 17.2,
-        "industry_pe": 24.1,
+        "company_pe": 17,
+        "industry_pe": 28.6,
         "industry_name": "Indian Software",
-        "description": "BSOFT is good value based on its Price-To-Earnings Ratio (17.2x) compared to the Indian Software industry average (24.1x).",
+        "description": "BSOFT is good value based on its Price-To-Earnings Ratio (17x) compared to the Indian Software industry average (28.6x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 24.120954879,
+        "industry_pe": 28.630562307,
         "industry_code": "8040000",
         "type": "median_profitable",
         "count": 58,
@@ -295,25 +581,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24.2,
-        "sample_count": 57,
+        "industry_pe": 25.05,
+        "sample_count": 56,
         "industry_code": "8040000",
         "industry_name": "Software"
       },
       "sws_primary_industry": {
-        "industry_pe": 20.803345639,
+        "industry_pe": 20.24766845,
         "industry_name": "Software",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 17.218008548702922
+        "company_pe": 17.01312853465855
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 319.35,
-        "fetched_at": "2026-05-31T22:13:57.156Z",
+        "value": 315.55,
+        "fetched_at": "2026-06-11T01:07:30.486Z",
         "url": "https://simplywall.st/stocks/in/software/nse-bsoft/birlasoft-shares"
       },
       "market_cap_inr": {
@@ -360,14 +646,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.09947274985,
-        "fetched_at": "2026-05-31T22:13:57.156Z",
+        "value": 0.0994330966,
+        "fetched_at": "2026-06-11T01:07:30.486Z",
         "url": "https://simplywall.st/stocks/in/software/nse-bsoft/birlasoft-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 1.4123928,
-        "fetched_at": "2026-05-31T22:13:57.156Z",
+        "value": 1.401190197,
+        "fetched_at": "2026-06-11T01:07:30.486Z",
         "url": "https://simplywall.st/stocks/in/software/nse-bsoft/birlasoft-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -499,16 +785,16 @@
     "quick_ratio": 4.28904845428634,
     "cash_ratio": 0.5107761455821092,
     "returns_pct": {
-      "1D": -2.6668698567509903,
-      "7D": -2.6965265082266807,
-      "1M": -13.54899837574444,
-      "3M": -18.13637528838759,
-      "6M": -16.004734350341916,
-      "1Y": -19.942341438957122,
+      "1D": -1.189917018944735,
+      "7D": -3.6929650541736505,
+      "1M": -11.337454341107044,
+      "3M": -15.763481046449549,
+      "6M": -26.565045380498013,
+      "1Y": -26.752553389043637,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 4,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -560,8 +846,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.48235,
-        "shares": 4142816,
+        "pct": 1.41216,
+        "shares": 3946665,
         "is_insider": null
       },
       {
@@ -1035,6 +1321,16 @@
   ],
   "news": [
     {
+      "id": "d169b5f9-a534-480b-b944-21399e40746e",
+      "type": "brief",
+      "date": "2026-06-02T12:55:40.000Z",
+      "title": "Now 24% overvalued",
+      "body": "Over the last 90 days, the stock has fallen 10% to ₹345. The fair value is estimated to be ₹277, however this is not to be taken as a sell recommendation but rather should be used as a guide only. Revenue has grown by 2.9% over the last 3 years. Earnings per share has grown by 6.3%. For the next 3 years, revenue is forecast to grow by 5.4% per annum. Earnings are also forecast to grow by 13% per annum over the same time period.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
       "id": "e87ebad2-aa01-4233-83c8-bdb3b3584983",
       "type": "narrative-update",
       "date": "2026-05-28T12:10:13.000Z",
@@ -1232,16 +1528,6 @@
       "body": "Analysts have nudged their price target for Birlasoft modestly higher to ₹318, citing slightly improved assumptions for long term revenue growth, profit margins, and a marginally lower discount rate that together support a firmer valuation multiple. What's in the News Company issues earnings guidance for the third and fourth quarter of 2025, targeting sequential revenue growth in both periods (company guidance).",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/software/nse-bsoft/birlasoft-shares/3yqb86eh-client-shifts-and-automation-will-crush-traditional-offshore-models/updates/3-analysts-have-nudged-their-price-target-for-birlasoft-modest",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "ff8f7f9d-ffa2-4521-abf4-c9f2ac70ed90",
-      "type": "narrative-update",
-      "date": "2025-12-12T11:06:48.000Z",
-      "title": "BSOFT: Higher Discount Rate Will Pressure Margins And Limit Upside Potential",
-      "body": "Analysts have reduced their fair value estimate for Birlasoft to ₹318 from ₹350. This change reflects a slightly higher discount rate, modestly stronger revenue growth expectations, and a marginally lower projected profit margin and future P/E multiple.",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/software/nse-bsoft/birlasoft-shares/3yqb86eh-client-shifts-and-automation-will-crush-traditional-offshore-models/updates/2-analysts-have-reduced-their-fair-value-estimate-for-birlasof",
       "raw_subtype": "narrative-update"
     }
   ],

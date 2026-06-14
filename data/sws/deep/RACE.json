@@ -3,7 +3,7 @@
   "name": "Race Eco Chain Limited",
   "sector": "Commercial Services",
   "sws_url": "https://simplywall.st/stocks/in/commercial-services/nse-race/race-eco-chain-shares",
-  "parsed_at": "2026-05-31T21:44:11.865Z",
+  "parsed_at": "2026-06-11T00:45:25.539Z",
   "company_id": "B045C2DB-372B-4126-97B7-5877924B9474",
   "classification_status": "Active",
   "groww_source": {
@@ -16,21 +16,21 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 0,
+      "valuation": 2,
       "future": 0,
       "past": 5,
-      "financial_health": 2,
+      "financial_health": 3,
       "dividends": 0,
       "future_growth": 0,
       "past_performance": 5,
-      "value": 0,
-      "health": 2,
+      "value": 2,
+      "health": 3,
       "dividend": 0
     },
-    "snowflake_total": 7,
+    "snowflake_total": 10,
     "snowflake_data_quality": {
       "insufficient": true,
-      "insufficient_count": 12,
+      "insufficient_count": 10,
       "checked_count": 30,
       "affected_pillars": [
         "Value",
@@ -40,7 +40,7 @@
       "by_pillar": {
         "Value": {
           "checked": 6,
-          "insufficient": 3
+          "insufficient": 1
         },
         "Future": {
           "checked": 6,
@@ -66,20 +66,298 @@
           "reason_code": "OUTCOME_NULL"
         },
         {
-          "pillar": "Value",
-          "title": "Below Future Cash Flow Value",
+          "pillar": "Future",
+          "title": "Future ROE",
           "reason_code": "OUTCOME_NULL"
         },
         {
-          "pillar": "Value",
-          "title": "Significantly Below Future Cash Flow Value",
+          "pillar": "Future",
+          "title": "High Growth Earnings",
           "reason_code": "OUTCOME_NULL"
         }
       ]
     },
-    "current_price_inr": 115.36,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 110,
     "market_cap_inr": 2048400000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -91,6 +369,14 @@
       "min": null,
       "max": null,
       "count": 0
+    },
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "468a41ef-5edf-441f-bc7b-ffc146090391",
+      "narrative_type": null,
+      "published_at": null
     },
     "upside_pct": null,
     "multiples": {
@@ -109,7 +395,8 @@
       "pe_source_url": "https://groww.in/stocks/anisha-impex-ltd"
     },
     "rewards": [
-      "Earnings grew by 183.7% over the past year"
+      "Earnings grew by 73.8% over the past year",
+      "Trading at 39.3% below our estimate of its fair value"
     ],
     "risks": [
       "Highly volatile share price over past 3 months",
@@ -127,8 +414,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 60.17841194839087,
-      "net_income_margin_1y": 0.09653111726,
-      "future_revenue_growth_3y": 0.3421137967,
+      "net_income_margin_1y": 0.08997360233,
+      "future_revenue_growth_3y": 0.3432211377,
       "sector_pe": 60.17841194839087
     },
     "industry_benchmarks_meta": {
@@ -163,18 +450,18 @@
         "url": "https://groww.in/stocks/anisha-impex-ltd"
       },
       "sws_statement": {
-        "company_pe": 30.6,
-        "industry_pe": 19.9,
+        "company_pe": 27.6,
+        "industry_pe": 19.8,
         "industry_name": "Indian Commercial Services",
-        "description": "RACE is expensive based on its Price-To-Earnings Ratio (30.6x) compared to the Indian Commercial Services industry average (19.9x).",
+        "description": "RACE is expensive based on its Price-To-Earnings Ratio (27.6x) compared to the Indian Commercial Services industry average (19.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 19.851410996,
+        "industry_pe": 19.847516019,
         "industry_code": "3110000",
         "type": "median_profitable",
-        "count": 55,
+        "count": 56,
         "source": {
           "type": "country",
           "country": "IN",
@@ -183,8 +470,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.6,
-        "sample_count": 56,
+        "industry_pe": 19.2,
+        "sample_count": 57,
         "industry_code": "3110000",
         "industry_name": "Commercial Services"
       },
@@ -196,8 +483,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 115.36,
-        "fetched_at": "2026-05-31T21:44:11.865Z",
+        "value": 110,
+        "fetched_at": "2026-06-11T00:45:25.539Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-race/race-eco-chain-shares"
       },
       "market_cap_inr": {
@@ -244,14 +531,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.09653111726,
-        "fetched_at": "2026-05-31T21:44:11.865Z",
+        "value": 0.08997360233,
+        "fetched_at": "2026-06-11T00:45:25.539Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-race/race-eco-chain-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.3421137967,
-        "fetched_at": "2026-05-31T21:44:11.865Z",
+        "value": 0.3432211377,
+        "fetched_at": "2026-06-11T00:45:25.539Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-race/race-eco-chain-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -383,16 +670,16 @@
     "quick_ratio": 1.314731154220923,
     "cash_ratio": 0.08893613251838071,
     "returns_pct": {
-      "1D": -1.746018226726852,
-      "7D": -5.053497942386832,
-      "1M": -7.4751363490535825,
-      "3M": 0.786300891141015,
-      "6M": -29.017967019443763,
-      "1Y": -53.66137778670414,
+      "1D": 2.5545403691963404,
+      "7D": -3.508771929824561,
+      "1M": -11.858974358974358,
+      "3M": -0.4344677769732114,
+      "6M": -25.925925925925924,
+      "1Y": -56.61605206073753,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 1,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },

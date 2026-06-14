@@ -3,7 +3,7 @@
   "name": "Usha Martin Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-ushamart/usha-martin-shares",
-  "parsed_at": "2026-05-31T23:01:17.724Z",
+  "parsed_at": "2026-06-11T02:05:39.970Z",
   "company_id": "7C9CAA95-6A90-4464-B435-B98E5DBB9D70",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 3
     },
     "snowflake_total": 17,
-    "current_price_inr": 506.05,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_STABLE_BUT_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 480.65,
     "market_cap_inr": 155448800000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 302.3,
       "high": 518
     },
-    "fair_value_inr": 564.222991,
+    "fair_value_inr": 564.293505,
     "fair_value_range_inr": {
-      "min": 202.482841,
-      "max": 564.222991,
+      "min": 201.897149,
+      "max": 564.293505,
       "count": 5
     },
-    "upside_pct": 11.49550261831834,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "db5ad6ef-ae0a-4e88-8932-b74d02e7fdbe",
+      "narrative_type": null,
+      "published_at": "2024-07-25T13:05:02.439Z"
+    },
+    "upside_pct": 17.402164776864666,
     "multiples": {
       "pe": 33.34,
       "ps": 4.21,
@@ -129,7 +415,7 @@
     "industry_benchmarks": {
       "pe": 27.706219018768824,
       "net_income_margin_1y": 0.07144101492,
-      "future_revenue_growth_3y": 0.451968346,
+      "future_revenue_growth_3y": 0.4882829576,
       "sector_pe": 27.706219018768824
     },
     "industry_benchmarks_meta": {
@@ -164,18 +450,18 @@
         "url": "https://groww.in/stocks/usha-martin-ltd"
       },
       "sws_statement": {
-        "company_pe": 31.4,
-        "industry_pe": 21.9,
+        "company_pe": 29.9,
+        "industry_pe": 20.8,
         "industry_name": "Indian Metals and Mining",
-        "description": "USHAMART is expensive based on its Price-To-Earnings Ratio (31.4x) compared to the Indian Metals and Mining industry average (21.9x).",
+        "description": "USHAMART is expensive based on its Price-To-Earnings Ratio (29.9x) compared to the Indian Metals and Mining industry average (20.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 21.899662552,
+        "industry_pe": 20.840689637,
         "industry_code": "2050000",
         "type": "median_profitable",
-        "count": 192,
+        "count": 194,
         "source": {
           "type": "country",
           "country": "IN",
@@ -184,8 +470,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.05,
-        "sample_count": 196,
+        "industry_pe": 19.2,
+        "sample_count": 197,
         "industry_code": "2050000",
         "industry_name": "Materials"
       },
@@ -197,8 +483,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 506.05,
-        "fetched_at": "2026-05-31T23:01:17.724Z",
+        "value": 480.65,
+        "fetched_at": "2026-06-11T02:05:39.970Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-ushamart/usha-martin-shares"
       },
       "market_cap_inr": {
@@ -206,6 +492,24 @@
         "value": 155448800000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/usha-martin-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 564.293505,
+        "fetched_at": "2026-06-11T02:05:39.970Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-ushamart/usha-martin-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "db5ad6ef-ae0a-4e88-8932-b74d02e7fdbe",
+        "narrative_type": null,
+        "published_at": "2024-07-25T13:05:02.439Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 17.402164776864666,
+        "fetched_at": "2026-06-11T02:05:39.970Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-ushamart/usha-martin-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -246,13 +550,13 @@
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.07144101492,
-        "fetched_at": "2026-05-31T23:01:17.724Z",
+        "fetched_at": "2026-06-11T02:05:39.970Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-ushamart/usha-martin-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.451968346,
-        "fetched_at": "2026-05-31T23:01:17.724Z",
+        "value": 0.4882829576,
+        "fetched_at": "2026-06-11T02:05:39.970Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-ushamart/usha-martin-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -384,12 +688,12 @@
     "quick_ratio": 1.9007921105217005,
     "cash_ratio": 0.6868791420479866,
     "returns_pct": {
-      "1D": -0.8619845234596879,
-      "7D": 8.664376207859142,
-      "1M": 9.582070160242528,
-      "3M": 20.948852772466548,
-      "6M": 18.263612993690124,
-      "1Y": 64.35531016563822,
+      "1D": -3.10452575345228,
+      "7D": -3.474244402048401,
+      "1M": 0.6280749502773998,
+      "3M": 14.127982903953463,
+      "6M": 9.089877439854732,
+      "1Y": 53.195219123505964,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -445,8 +749,8 @@
         "is_insider": null
       },
       {
-        "pct": 2.94618,
-        "shares": 8988804,
+        "pct": 2.92979,
+        "shares": 8938804,
         "is_insider": null
       },
       {
@@ -475,8 +779,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.87569,
-        "shares": 2671739,
+        "pct": 0.88241,
+        "shares": 2692224,
         "is_insider": null
       },
       {
@@ -773,6 +1077,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "2b1cc272-2aec-4fe2-b70f-a98e21b89548",
+      "type": "brief",
+      "date": "2026-06-02T12:53:30.000Z",
+      "title": "High number of new directors",
+      "body": "There are 5 new directors who have joined the board in the last 3 years. MD of Brunton Wire Ropes, FZCo. & Additional Non-Executive Non-Independent Director Sabyasachi Majumder was the last director to join the board, commencing their role in 2026. The company’s lack of board continuity is considered a risk according to the Simply Wall St Risk Model.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "2aa987fd-87d6-463e-854c-3ff26c20ba0e",
       "type": "brief",

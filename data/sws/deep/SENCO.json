@@ -3,7 +3,7 @@
   "name": "Senco Gold Limited",
   "sector": "Retail",
   "sws_url": "https://simplywall.st/stocks/in/retail/nse-senco/senco-gold-shares",
-  "parsed_at": "2026-05-31T22:10:21.354Z",
+  "parsed_at": "2026-06-11T01:12:10.591Z",
   "company_id": "7D88BC28-7839-41D7-B1FB-F8E0138651F3",
   "classification_status": "Active",
   "groww_source": {
@@ -16,34 +16,320 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 3,
+      "valuation": 4,
       "future": 1,
       "past": 5,
       "financial_health": 3,
-      "dividends": 1,
+      "dividends": 2,
       "future_growth": 1,
       "past_performance": 5,
-      "value": 3,
+      "value": 4,
       "health": 3,
-      "dividend": 1
+      "dividend": 2
     },
-    "snowflake_total": 13,
-    "current_price_inr": 346.2,
+    "snowflake_total": 15,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DECLINE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SAME_PB"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_SUBSTANTIAL_DISCOUNT"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DECLINE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DECLINE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DECLINE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_LONG_NO_GROWTH"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_STABLE_BUT_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 330.2,
     "market_cap_inr": 55705100000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "small3",
     "shares_outstanding": 163806672,
     "fifty_two_week": {
       "low": 276,
       "high": 404.85
     },
-    "fair_value_inr": 325,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 111.133094,
+      "min": 355,
       "max": 651,
       "count": 29
     },
-    "upside_pct": -6.1236279607163455,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystLowTarget",
+      "owner_classification": null,
+      "narrative_id": "2901e03b-35a8-4c14-b7ad-78da6c619c06",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 9.7,
       "ps": 0.66,
@@ -65,16 +351,17 @@
       "Revenue is forecast to grow 12.77% per year",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading below our calculated fair Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (9.9x) is below the Indian market (23.4x)"
+      "Trading at 9.2% below our estimate of its fair value"
     ],
     "risks": [
       "Earnings are forecast to decline by an average of 17.1% per year for the next 3 years",
       "Debt is not well covered by [[operating cash flow]]",
-      "High level of [[non-cash earnings]]"
+      "High level of [[non-cash earnings]]",
+      "Dividend of 0.3% is not well covered by free cash flows"
     ],
     "dividend": {
       "yield_pct": 0,
-      "payout_pct": 3.413563506783087,
+      "payout_pct": 2.852189671593661,
       "annualized_dividend": 1,
       "listing_currency": "INR",
       "recent_payments": [
@@ -136,8 +423,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 46.96311998779303,
-      "net_income_margin_1y": 0.04545091336,
-      "future_revenue_growth_3y": 0.4129153131,
+      "net_income_margin_1y": 0.04543187233,
+      "future_revenue_growth_3y": 0.4102879728,
       "sector_pe": 46.96311998779303
     },
     "industry_benchmarks_meta": {
@@ -172,18 +459,18 @@
         "url": "https://groww.in/stocks/senco-gold-ltd"
       },
       "sws_statement": {
-        "company_pe": 9.9,
-        "industry_pe": 20.8,
+        "company_pe": 9.4,
+        "industry_pe": 19.3,
         "industry_name": "Indian Specialty Retail",
-        "description": "SENCO is good value based on its Price-To-Earnings Ratio (9.9x) compared to the Indian Specialty Retail industry average (20.8x).",
+        "description": "SENCO is good value based on its Price-To-Earnings Ratio (9.4x) compared to the Indian Specialty Retail industry average (19.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 21.18993456,
+        "industry_pe": 19.335449999,
         "industry_code": "4440000",
         "type": "median_profitable",
-        "count": 64,
+        "count": 62,
         "source": {
           "type": "country",
           "country": "IN",
@@ -192,25 +479,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.95,
-        "sample_count": 56,
+        "industry_pe": 17.3,
+        "sample_count": 55,
         "industry_code": "4440000",
         "industry_name": "Retail"
       },
       "sws_primary_industry": {
-        "industry_pe": 15.530073024,
+        "industry_pe": 15.429198664,
         "industry_name": "Retail",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 11.817756860483048
+        "company_pe": 9.417930295602268
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 346.2,
-        "fetched_at": "2026-05-31T22:10:21.354Z",
+        "value": 330.2,
+        "fetched_at": "2026-06-11T01:12:10.591Z",
         "url": "https://simplywall.st/stocks/in/retail/nse-senco/senco-gold-shares"
       },
       "market_cap_inr": {
@@ -257,14 +544,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.04545091336,
-        "fetched_at": "2026-05-31T22:10:21.354Z",
+        "value": 0.04543187233,
+        "fetched_at": "2026-06-11T01:12:10.591Z",
         "url": "https://simplywall.st/stocks/in/retail/nse-senco/senco-gold-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.4129153131,
-        "fetched_at": "2026-05-31T22:10:21.354Z",
+        "value": 0.4102879728,
+        "fetched_at": "2026-06-11T01:12:10.591Z",
         "url": "https://simplywall.st/stocks/in/retail/nse-senco/senco-gold-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -373,13 +660,13 @@
         "url": "https://groww.in/stocks/senco-gold-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 201.21964233031403,
+    "earnings_growth_yoy_pct": 170.02505982857764,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 23.435431834530327,
-    "latest_revenue": 78110830000,
-    "latest_net_income": 4798700000,
+    "revenue_growth_pct": 24.880841436115677,
+    "latest_revenue": 84300300000,
+    "latest_net_income": 5743190000,
     "latest_eps": 35.05,
-    "most_recent_reported_date": "2026-05-08",
+    "most_recent_reported_date": "2026-06-06",
     "pb": 2.22,
     "ps": 0.66,
     "book_value": 153.4252953,
@@ -396,12 +683,12 @@
     "quick_ratio": 0.2811508894815859,
     "cash_ratio": 0.12292143011793928,
     "returns_pct": {
-      "1D": 1.7786270762898755,
-      "7D": -0.502945825549648,
-      "1M": 9.263058229446099,
-      "3M": 9.125295508274228,
-      "6M": 11.264663345653227,
-      "1Y": -8.545766741513676,
+      "1D": -4.483656349435927,
+      "7D": -3.8439138031450173,
+      "1M": -1.2116679132385972,
+      "3M": 10.78678074148632,
+      "6M": 5.782476373538367,
+      "1Y": -8.060698872337461,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -487,18 +774,18 @@
         "is_insider": null
       },
       {
-        "pct": 0.20757,
-        "shares": 340007,
-        "is_insider": null
-      },
-      {
         "pct": 0.20738,
         "shares": 339700,
         "is_insider": null
       },
       {
-        "pct": 0.18081,
-        "shares": 296173,
+        "pct": 0.20051,
+        "shares": 328445,
+        "is_insider": null
+      },
+      {
+        "pct": 0.18464,
+        "shares": 302456,
         "is_insider": null
       },
       {
@@ -524,7 +811,7 @@
   },
   "dividend": {
     "yield_pct": 0,
-    "payout_pct": 3.413563506783087,
+    "payout_pct": 2.852189671593661,
     "annualized_dividend": 1,
     "listing_currency": "INR",
     "recent_payments": [
@@ -584,38 +871,38 @@
     "payment_count": 4
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-08",
+    "most_recent_reported_date": "2026-06-06",
     "latest_year": 2026,
-    "latest_revenue": 78110830000,
-    "latest_net_income": 4798700000,
+    "latest_revenue": 84300300000,
+    "latest_net_income": 5743190000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 23.435431834530327,
-    "earnings_growth_pct": 201.21964233031403,
-    "net_margin_pct": 6.143450274436976,
+    "revenue_growth_pct": 24.880841436115677,
+    "earnings_growth_pct": 170.02505982857764,
+    "net_margin_pct": 6.8127752807522635,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 78110830000,
-        "netIncome": 4798700000,
+        "revenue": 84300300000,
+        "netIncome": 5743190000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 63280720000,
-        "netIncome": 1593090000,
+        "revenue": 67504590000,
+        "netIncome": 2126909999.9999998,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 52414430000,
-        "netIncome": 1810040000,
+        "revenue": 53399320000,
+        "netIncome": 2046080000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 40774040000,
-        "netIncome": 1584790000,
+        "revenue": 43755620000,
+        "netIncome": 1635940000,
         "eps": null
       },
       {
@@ -827,6 +1114,26 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "131c469e-1de0-4441-b3db-d9c1bf715315",
+      "type": "narrative-update",
+      "date": "2026-06-07T15:05:25.000Z",
+      "title": "SENCO: Dividend Plans And Q4 Results Will Shape Fairly Valued Shares",
+      "body": "Analysts have lifted Senco Gold's fair value estimate from ₹325 to ₹355, citing updated assumptions around discount rates, revenue growth, profit margins, and future P/E that together support a higher price target. What's in the News Senco Gold has scheduled a board meeting for May 26, 2026, to consider and approve audited standalone and consolidated financial results for the fourth quarter and full year ended March 31, 2026.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/retail/nse-senco/senco-gold-shares/jdiqhzng-digital-shift-will-erode-retail-in-india-with-limited-upside/updates/5-analysts-have-lifted-senco-golds-fair-value-estimate-from-indian-rupee",
+      "raw_subtype": "narrative-update"
+    },
+    {
+      "id": "5256e518-573a-4880-b998-8f0d1ffee836",
+      "type": "article",
+      "date": "2026-06-03T01:44:52.000Z",
+      "title": "Senco Gold's (NSE:SENCO) Earnings Are Of Questionable Quality",
+      "body": "Senco Gold Limited ( NSE:SENCO ) announced strong profits, but the stock was stagnant. We did some digging, and we...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/retail/nse-senco/senco-gold-shares/news/senco-golds-nsesenco-earnings-are-of-questionable-quality",
+      "raw_subtype": "article"
+    },
     {
       "id": "b1602a7b-fe22-4295-9efb-2b15ba7ae344",
       "type": "brief",
@@ -1045,16 +1352,6 @@
       "body": "Analysts now set their price target for Senco Gold at ₹454.83, down slightly from ₹456.50. They cite updated assumptions around revenue growth, profit margins, discount rate and future P/E expectations.",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/retail/nse-senco/senco-gold-shares/jexeucq2-india-retail-expansion-and-omni-channel-efforts-will-shape-the-future-rz6v/updates/5-analysts-now-set-their-price-target-for-senco-gold-at-indian-rupee4548",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "93abd778-0ec1-4314-bff0-16b4f6811b31",
-      "type": "narrative-update",
-      "date": "2025-12-15T09:08:14.000Z",
-      "title": "SENCO: New Design Collaborations Will Drive Future Jewellery Demand",
-      "body": "Narrative Update on Senco Gold Analysts have slightly increased their price target for Senco Gold to ₹456.50, reflecting modestly higher assumed discount rates and forward valuation multiples, while keeping growth and margin expectations broadly unchanged. What's in the News Board meeting scheduled on November 12, 2025 to consider and approve unaudited standalone and consolidated financial results for the quarter and half year ended September 30, 2025 (company filing) Strategic and marketing tie up with August Jewellery Private Limited, Melorra brand, extended from September 30, 2025 to December 31, 2025 on unchanged terms (company announcement) Collaboration with Sky Gold and Diamonds to design and supply 9kt gold jewellery collections, targeting demand for contemporary, lightweight and a",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/retail/nse-senco/senco-gold-shares/jexeucq2-india-retail-expansion-and-omni-channel-efforts-will-shape-the-future-rz6v/updates/4-narrative-update-on-senco-gold-analysts-have-slightly-increa",
       "raw_subtype": "narrative-update"
     }
   ],

@@ -3,7 +3,7 @@
   "name": "Abbott India Limited",
   "sector": "Pharmaceuticals & Biotech",
   "sws_url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-abbotindia/abbott-india-shares",
-  "parsed_at": "2026-05-31T20:54:05.947Z",
+  "parsed_at": "2026-06-10T23:52:12.381Z",
   "company_id": "C599B6AA-C2D2-4EDE-956F-7AEC64621153",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 6
     },
     "snowflake_total": 20,
-    "current_price_inr": 26855,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_5_YEARS_AGO"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_STABLE_IN_PAST_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_50_TO_75"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 26455,
     "market_cap_inr": 588820500000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 25150,
       "high": 37000
     },
-    "fair_value_inr": 32536.720453,
+    "fair_value_inr": 32534.351726,
     "fair_value_range_inr": {
-      "min": 9737.461755,
-      "max": 32536.720453,
+      "min": 9736.752852,
+      "max": 32534.351726,
       "count": 7
     },
-    "upside_pct": 21.15703017315212,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "1fda36dd-91cb-4f97-b93f-28af039f308c",
+      "narrative_type": null,
+      "published_at": "2024-06-19T03:53:17.431Z"
+    },
+    "upside_pct": 22.97997250425251,
     "multiples": {
       "pe": 37.94,
       "ps": 8.51,
@@ -60,11 +346,11 @@
       "pe_source_url": "https://groww.in/stocks/abbott-india-ltd"
     },
     "rewards": [
-      "Analysts in good agreement that stock price will rise by 21.2%",
+      "Analysts in good agreement that stock price will rise by 24.5%",
       "Earnings are forecast to grow 9.52% per year",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Earnings have grown 17.4% per year over the past 5 years",
-      "Pays a high and reliable dividend of 1.95%"
+      "Pays a high and reliable dividend of 2.01%"
     ],
     "risks": [],
     "dividend": {
@@ -103,19 +389,6 @@
           "exDate": "2023-07-21T00:00:00.000Z",
           "payDate": "2023-09-08T00:00:00.000Z",
           "recordDate": "2023-07-21T00:00:00.000Z",
-          "divAmount": 145,
-          "divAmountListingCurrency": 145,
-          "currencyIsoCode": "INR",
-          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-          "divFreqTypeName": "Bonus Payment",
-          "annualizedDividend": 325,
-          "annualizedDividendListingCurrency": 325,
-          "annualizedYield": 1.3399373275
-        },
-        {
-          "exDate": "2023-07-21T00:00:00.000Z",
-          "payDate": "2023-09-08T00:00:00.000Z",
-          "recordDate": "2023-07-21T00:00:00.000Z",
           "divAmount": 180,
           "divAmountListingCurrency": 180,
           "currencyIsoCode": "INR",
@@ -126,17 +399,17 @@
           "annualizedYield": 1.3399373275
         },
         {
-          "exDate": "2022-08-02T00:00:00.000Z",
-          "payDate": "2022-09-09T00:00:00.000Z",
-          "recordDate": "2022-08-03T00:00:00.000Z",
-          "divAmount": 130,
-          "divAmountListingCurrency": 130,
+          "exDate": "2023-07-21T00:00:00.000Z",
+          "payDate": "2023-09-08T00:00:00.000Z",
+          "recordDate": "2023-07-21T00:00:00.000Z",
+          "divAmount": 145,
+          "divAmountListingCurrency": 145,
           "currencyIsoCode": "INR",
           "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
           "divFreqTypeName": "Bonus Payment",
-          "annualizedDividend": 275,
-          "annualizedDividendListingCurrency": 275,
-          "annualizedYield": 1.3619210213
+          "annualizedDividend": 325,
+          "annualizedDividendListingCurrency": 325,
+          "annualizedYield": 1.3399373275
         },
         {
           "exDate": "2022-08-02T00:00:00.000Z",
@@ -147,6 +420,19 @@
           "currencyIsoCode": "INR",
           "dividendTypeName": "No special code applies",
           "divFreqTypeName": "Annual",
+          "annualizedDividend": 275,
+          "annualizedDividendListingCurrency": 275,
+          "annualizedYield": 1.3619210213
+        },
+        {
+          "exDate": "2022-08-02T00:00:00.000Z",
+          "payDate": "2022-09-09T00:00:00.000Z",
+          "recordDate": "2022-08-03T00:00:00.000Z",
+          "divAmount": 130,
+          "divAmountListingCurrency": 130,
+          "currencyIsoCode": "INR",
+          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+          "divFreqTypeName": "Bonus Payment",
           "annualizedDividend": 275,
           "annualizedDividendListingCurrency": 275,
           "annualizedYield": 1.3619210213
@@ -181,19 +467,6 @@
           "exDate": "2020-08-28T00:00:00.000Z",
           "payDate": "2020-10-07T00:00:00.000Z",
           "recordDate": "2020-08-31T00:00:00.000Z",
-          "divAmount": 143,
-          "divAmountListingCurrency": 143,
-          "currencyIsoCode": "INR",
-          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-          "divFreqTypeName": "Bonus Payment",
-          "annualizedDividend": 250,
-          "annualizedDividendListingCurrency": 250,
-          "annualizedYield": 1.6121993057
-        },
-        {
-          "exDate": "2020-08-28T00:00:00.000Z",
-          "payDate": "2020-10-07T00:00:00.000Z",
-          "recordDate": "2020-08-31T00:00:00.000Z",
           "divAmount": 107,
           "divAmountListingCurrency": 107,
           "currencyIsoCode": "INR",
@@ -204,17 +477,17 @@
           "annualizedYield": 1.6121993057
         },
         {
-          "exDate": "2019-08-13T00:00:00.000Z",
-          "payDate": "2019-09-21T00:00:00.000Z",
-          "recordDate": "2019-08-15T00:00:00.000Z",
-          "divAmount": 15,
-          "divAmountListingCurrency": 15,
+          "exDate": "2020-08-28T00:00:00.000Z",
+          "payDate": "2020-10-07T00:00:00.000Z",
+          "recordDate": "2020-08-31T00:00:00.000Z",
+          "divAmount": 143,
+          "divAmountListingCurrency": 143,
           "currencyIsoCode": "INR",
           "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
           "divFreqTypeName": "Bonus Payment",
-          "annualizedDividend": 65,
-          "annualizedDividendListingCurrency": 65,
-          "annualizedYield": 0.5598235956
+          "annualizedDividend": 250,
+          "annualizedDividendListingCurrency": 250,
+          "annualizedYield": 1.6121993057
         },
         {
           "exDate": "2019-08-13T00:00:00.000Z",
@@ -228,6 +501,19 @@
           "annualizedDividend": 65,
           "annualizedDividendListingCurrency": 65,
           "annualizedYield": 0.5598235956
+        },
+        {
+          "exDate": "2019-08-13T00:00:00.000Z",
+          "payDate": "2019-09-21T00:00:00.000Z",
+          "recordDate": "2019-08-15T00:00:00.000Z",
+          "divAmount": 15,
+          "divAmountListingCurrency": 15,
+          "currencyIsoCode": "INR",
+          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+          "divFreqTypeName": "Bonus Payment",
+          "annualizedDividend": 65,
+          "annualizedDividendListingCurrency": 65,
+          "annualizedYield": 0.5598235956
         }
       ],
       "payment_count": 16
@@ -236,7 +522,7 @@
     "industry_benchmarks": {
       "pe": 45.475913369314384,
       "net_income_margin_1y": 0.1541587677,
-      "future_revenue_growth_3y": 0.423879921,
+      "future_revenue_growth_3y": 0.4212605545,
       "sector_pe": 45.475913369314384
     },
     "industry_benchmarks_meta": {
@@ -271,15 +557,15 @@
         "url": "https://groww.in/stocks/abbott-india-ltd"
       },
       "sws_statement": {
-        "company_pe": 36.8,
-        "industry_pe": 29,
+        "company_pe": 35.8,
+        "industry_pe": 28.8,
         "industry_name": "Indian Pharmaceuticals",
-        "description": "ABBOTINDIA is expensive based on its Price-To-Earnings Ratio (36.8x) compared to the Indian Pharmaceuticals industry average (29x).",
+        "description": "ABBOTINDIA is expensive based on its Price-To-Earnings Ratio (35.8x) compared to the Indian Pharmaceuticals industry average (28.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 29.045511308,
+        "industry_pe": 28.787047453,
         "industry_code": "6120000",
         "type": "median_profitable",
         "count": 152,
@@ -291,8 +577,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 28.1,
-        "sample_count": 151,
+        "industry_pe": 28.15,
+        "sample_count": 152,
         "industry_code": "6120000",
         "industry_name": "Pharmaceuticals & Biotech"
       },
@@ -304,8 +590,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 26855,
-        "fetched_at": "2026-05-31T20:54:05.947Z",
+        "value": 26455,
+        "fetched_at": "2026-06-10T23:52:12.381Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-abbotindia/abbott-india-shares"
       },
       "market_cap_inr": {
@@ -313,6 +599,24 @@
         "value": 588820500000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/abbott-india-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 32534.351726,
+        "fetched_at": "2026-06-10T23:52:12.381Z",
+        "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-abbotindia/abbott-india-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "1fda36dd-91cb-4f97-b93f-28af039f308c",
+        "narrative_type": null,
+        "published_at": "2024-06-19T03:53:17.431Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 22.97997250425251,
+        "fetched_at": "2026-06-10T23:52:12.381Z",
+        "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-abbotindia/abbott-india-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -353,13 +657,13 @@
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.1541587677,
-        "fetched_at": "2026-05-31T20:54:05.947Z",
+        "fetched_at": "2026-06-10T23:52:12.381Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-abbotindia/abbott-india-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.423879921,
-        "fetched_at": "2026-05-31T20:54:05.947Z",
+        "value": 0.4212605545,
+        "fetched_at": "2026-06-10T23:52:12.381Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-abbotindia/abbott-india-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -491,16 +795,16 @@
     "quick_ratio": 1.9121545202733365,
     "cash_ratio": 1.5271541477884556,
     "returns_pct": {
-      "1D": -3.1728862448170183,
-      "7D": -3.503413582464966,
-      "1M": 5.417075564278704,
-      "3M": 1.2250282698831512,
-      "6M": -10.706566916043226,
-      "1Y": -12.252899852965202,
+      "1D": 1.3407393219689714,
+      "7D": 0.6276150627615062,
+      "1M": -4.821010973196619,
+      "3M": -0.8619074386359378,
+      "6M": -5.551588718314888,
+      "1Y": -16.400695212513824,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 4,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -653,19 +957,6 @@
         "exDate": "2023-07-21T00:00:00.000Z",
         "payDate": "2023-09-08T00:00:00.000Z",
         "recordDate": "2023-07-21T00:00:00.000Z",
-        "divAmount": 145,
-        "divAmountListingCurrency": 145,
-        "currencyIsoCode": "INR",
-        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-        "divFreqTypeName": "Bonus Payment",
-        "annualizedDividend": 325,
-        "annualizedDividendListingCurrency": 325,
-        "annualizedYield": 1.3399373275
-      },
-      {
-        "exDate": "2023-07-21T00:00:00.000Z",
-        "payDate": "2023-09-08T00:00:00.000Z",
-        "recordDate": "2023-07-21T00:00:00.000Z",
         "divAmount": 180,
         "divAmountListingCurrency": 180,
         "currencyIsoCode": "INR",
@@ -676,17 +967,17 @@
         "annualizedYield": 1.3399373275
       },
       {
-        "exDate": "2022-08-02T00:00:00.000Z",
-        "payDate": "2022-09-09T00:00:00.000Z",
-        "recordDate": "2022-08-03T00:00:00.000Z",
-        "divAmount": 130,
-        "divAmountListingCurrency": 130,
+        "exDate": "2023-07-21T00:00:00.000Z",
+        "payDate": "2023-09-08T00:00:00.000Z",
+        "recordDate": "2023-07-21T00:00:00.000Z",
+        "divAmount": 145,
+        "divAmountListingCurrency": 145,
         "currencyIsoCode": "INR",
         "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
         "divFreqTypeName": "Bonus Payment",
-        "annualizedDividend": 275,
-        "annualizedDividendListingCurrency": 275,
-        "annualizedYield": 1.3619210213
+        "annualizedDividend": 325,
+        "annualizedDividendListingCurrency": 325,
+        "annualizedYield": 1.3399373275
       },
       {
         "exDate": "2022-08-02T00:00:00.000Z",
@@ -697,6 +988,19 @@
         "currencyIsoCode": "INR",
         "dividendTypeName": "No special code applies",
         "divFreqTypeName": "Annual",
+        "annualizedDividend": 275,
+        "annualizedDividendListingCurrency": 275,
+        "annualizedYield": 1.3619210213
+      },
+      {
+        "exDate": "2022-08-02T00:00:00.000Z",
+        "payDate": "2022-09-09T00:00:00.000Z",
+        "recordDate": "2022-08-03T00:00:00.000Z",
+        "divAmount": 130,
+        "divAmountListingCurrency": 130,
+        "currencyIsoCode": "INR",
+        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+        "divFreqTypeName": "Bonus Payment",
         "annualizedDividend": 275,
         "annualizedDividendListingCurrency": 275,
         "annualizedYield": 1.3619210213
@@ -731,19 +1035,6 @@
         "exDate": "2020-08-28T00:00:00.000Z",
         "payDate": "2020-10-07T00:00:00.000Z",
         "recordDate": "2020-08-31T00:00:00.000Z",
-        "divAmount": 143,
-        "divAmountListingCurrency": 143,
-        "currencyIsoCode": "INR",
-        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-        "divFreqTypeName": "Bonus Payment",
-        "annualizedDividend": 250,
-        "annualizedDividendListingCurrency": 250,
-        "annualizedYield": 1.6121993057
-      },
-      {
-        "exDate": "2020-08-28T00:00:00.000Z",
-        "payDate": "2020-10-07T00:00:00.000Z",
-        "recordDate": "2020-08-31T00:00:00.000Z",
         "divAmount": 107,
         "divAmountListingCurrency": 107,
         "currencyIsoCode": "INR",
@@ -754,17 +1045,17 @@
         "annualizedYield": 1.6121993057
       },
       {
-        "exDate": "2019-08-13T00:00:00.000Z",
-        "payDate": "2019-09-21T00:00:00.000Z",
-        "recordDate": "2019-08-15T00:00:00.000Z",
-        "divAmount": 15,
-        "divAmountListingCurrency": 15,
+        "exDate": "2020-08-28T00:00:00.000Z",
+        "payDate": "2020-10-07T00:00:00.000Z",
+        "recordDate": "2020-08-31T00:00:00.000Z",
+        "divAmount": 143,
+        "divAmountListingCurrency": 143,
         "currencyIsoCode": "INR",
         "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
         "divFreqTypeName": "Bonus Payment",
-        "annualizedDividend": 65,
-        "annualizedDividendListingCurrency": 65,
-        "annualizedYield": 0.5598235956
+        "annualizedDividend": 250,
+        "annualizedDividendListingCurrency": 250,
+        "annualizedYield": 1.6121993057
       },
       {
         "exDate": "2019-08-13T00:00:00.000Z",
@@ -775,6 +1066,19 @@
         "currencyIsoCode": "INR",
         "dividendTypeName": "No special code applies",
         "divFreqTypeName": "Annual",
+        "annualizedDividend": 65,
+        "annualizedDividendListingCurrency": 65,
+        "annualizedYield": 0.5598235956
+      },
+      {
+        "exDate": "2019-08-13T00:00:00.000Z",
+        "payDate": "2019-09-21T00:00:00.000Z",
+        "recordDate": "2019-08-15T00:00:00.000Z",
+        "divAmount": 15,
+        "divAmountListingCurrency": 15,
+        "currencyIsoCode": "INR",
+        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+        "divFreqTypeName": "Bonus Payment",
         "annualizedDividend": 65,
         "annualizedDividendListingCurrency": 65,
         "annualizedYield": 0.5598235956

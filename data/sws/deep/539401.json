@@ -3,7 +3,7 @@
   "name": "Patdiam Jewellery Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/bse-539401/patdiam-jewellery-shares",
-  "parsed_at": "2026-05-31T22:52:27.715Z",
+  "parsed_at": "2026-06-11T02:06:08.977Z",
   "company_id": "5F6C1ABE-CB5D-4BCE-B7C4-B12E15110494",
   "classification_status": "Active",
   "groww_source": null,
@@ -70,19 +70,308 @@
         }
       ]
     },
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
     "current_price_inr": 251.65,
     "market_cap_inr": 1086373253.9901953,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
-    "fifty_two_week": null,
-    "fair_value_inr": 1.755685,
+    "fifty_two_week": {
+      "low": 240.5,
+      "high": 361
+    },
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -99.30233061792173,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "11813ad8-1d4a-4483-98d8-37184c03b241",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 9.1,
       "ps": null,
@@ -93,7 +382,7 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": "2026-05-31T22:52:27.715Z",
+      "pe_as_of": "2026-06-11T02:06:08.977Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://simplywall.st/stocks/in/consumer-durables/bse-539401/patdiam-jewellery-shares"
     },
@@ -101,11 +390,12 @@
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Earnings grew by 74.4% over the past year",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (9.1x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (9.1x) is below the Indian market (22.9x)"
     ],
     "risks": [
       "Shares are highly illiquid",
-      "Does not have a meaningful market cap (₹1B)"
+      "Does not have a meaningful market cap (₹1B)",
+      "Latest financial reports are more than 6 months old"
     ],
     "dividend": {
       "yield_pct": null,
@@ -117,9 +407,9 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 18.199713239,
-      "net_income_margin_1y": 0.05921870449,
-      "future_revenue_growth_3y": 0.4160609582
+      "pe": 18.902190904,
+      "net_income_margin_1y": 0.05901661834,
+      "future_revenue_growth_3y": 0.418253061
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -136,27 +426,27 @@
       "company_pe": 9.1,
       "company_pe_source": "sws_statement",
       "company_pe_source_label": "SWS visible statement",
-      "industry_pe": 18.199713239,
+      "industry_pe": 18.902190904,
       "industry_name": "Consumer Durables",
       "industry_code": "4130000",
-      "sample_count": 294,
+      "sample_count": 296,
       "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
         "company_pe": 9.1,
-        "industry_pe": 18,
+        "industry_pe": 18.9,
         "industry_name": "Indian Luxury",
-        "description": "539401 is good value based on its Price-To-Earnings Ratio (9.1x) compared to the Indian Luxury industry average (18x).",
+        "description": "539401 is good value based on its Price-To-Earnings Ratio (9.1x) compared to the Indian Luxury industry average (18.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 18.199713239,
+        "industry_pe": 18.902190904,
         "industry_code": "4130000",
         "type": "median_profitable",
-        "count": 294,
+        "count": 296,
         "source": {
           "type": "country",
           "country": "IN",
@@ -165,8 +455,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.1,
-        "sample_count": 290,
+        "industry_pe": 17.95,
+        "sample_count": 294,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
       },
@@ -179,31 +469,40 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 251.65,
-        "fetched_at": "2026-05-31T22:52:27.715Z",
+        "fetched_at": "2026-06-11T02:06:08.977Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-539401/patdiam-jewellery-shares"
       },
       "multiples.pe": {
         "provider": "sws_statement",
         "value": 9.1,
-        "fetched_at": "2026-05-31T22:52:27.715Z",
+        "fetched_at": "2026-06-11T02:06:08.977Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-539401/patdiam-jewellery-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 18.199713239,
+        "value": 18.902190904,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.05921870449,
-        "fetched_at": "2026-05-31T22:52:27.715Z",
+        "value": 0.05901661834,
+        "fetched_at": "2026-06-11T02:06:08.977Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-539401/patdiam-jewellery-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.4160609582,
-        "fetched_at": "2026-05-31T22:52:27.715Z",
+        "value": 0.418253061,
+        "fetched_at": "2026-06-11T02:06:08.977Z",
+        "url": "https://simplywall.st/stocks/in/consumer-durables/bse-539401/patdiam-jewellery-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 240.5,
+          "high": 361
+        },
+        "fetched_at": "2026-06-11T02:06:08.977Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-539401/patdiam-jewellery-shares"
       }
     },
@@ -235,7 +534,7 @@
       "1M": -3.9503816793893107,
       "3M": -3.9503816793893107,
       "6M": -3.9503816793893107,
-      "1Y": -20.864779874213834,
+      "1Y": -30.290858725761773,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -309,6 +608,16 @@
     "BSE"
   ],
   "news": [
+    {
+      "id": "cd5f41a7-ae4c-49ad-be64-71a43399db55",
+      "type": "brief",
+      "date": "2026-06-02T00:27:08.000Z",
+      "title": "New minor risk - Financial data availability",
+      "body": "The company's latest financial reports are more than 6 months old. Last reported fiscal period ended September 2025. This is considered a minor risk. If the company has not reported its earnings on time, it may have been delayed due to audit problems or it may be finding it difficult to reconcile its accounts. Currently, the following risks have been identified for the company: Major Risk Shares are highly illiquid. Minor Risks Latest financial reports are more than 6 months old (reported September 2025 fiscal period end). Market cap is less than US$100m (₹1.09b market cap, or US$11.4m).",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "c9f29ce3-6418-4ac0-a591-8901c53e9eed",
       "type": "event",

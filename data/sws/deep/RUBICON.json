@@ -3,7 +3,7 @@
   "name": "Rubicon Research Limited",
   "sector": "Pharmaceuticals & Biotech",
   "sws_url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-rubicon/rubicon-research-shares",
-  "parsed_at": "2026-05-31T21:58:30.388Z",
+  "parsed_at": "2026-06-11T00:58:21.566Z",
   "company_id": "018CE797-F57C-48BB-8E2C-3B45872DB6CC",
   "classification_status": "Active",
   "groww_source": {
@@ -16,76 +16,320 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 1,
+      "valuation": 0,
       "future": 6,
       "past": 4,
       "financial_health": 6,
       "dividends": 0,
       "future_growth": 6,
       "past_performance": 4,
-      "value": 1,
+      "value": 0,
       "health": 6,
       "dividend": 0
     },
-    "snowflake_total": 17,
-    "snowflake_data_quality": {
-      "insufficient": true,
-      "insufficient_count": 2,
+    "snowflake_total": 16,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
       "checked_count": 30,
-      "affected_pillars": [
-        "Dividends"
-      ],
-      "by_pillar": {
-        "Value": {
-          "checked": 6,
-          "insufficient": 0
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
         },
-        "Future": {
-          "checked": 6,
-          "insufficient": 0
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
         },
-        "Past": {
-          "checked": 6,
-          "insufficient": 0
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
         },
-        "Health": {
-          "checked": 6,
-          "insufficient": 0
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
         },
-        "Dividends": {
-          "checked": 6,
-          "insufficient": 2
-        }
-      },
-      "samples": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
         {
           "pillar": "Dividends",
+          "name": "IsDividendGrowing",
           "title": "Growing Dividend",
-          "reason_code": "OUTCOME_NULL"
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_NOTABLE_DIVIDEND"
         },
         {
           "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
           "title": "Stable Dividend",
-          "reason_code": "OUTCOME_NULL"
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
         }
       ]
     },
-    "current_price_inr": 1005.6,
+    "current_price_inr": 1188.1,
     "market_cap_inr": 159115800000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 570.75,
       "high": 1015.7
     },
-    "fair_value_inr": 910,
+    "fair_value_inr": 1175,
     "fair_value_range_inr": {
-      "min": 910,
-      "max": 910,
+      "min": 1175,
+      "max": 1175,
       "count": 3
     },
-    "upside_pct": -9.506762132060462,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "9149732c-f367-4d49-a03b-bd59d4df19f6",
+      "narrative_type": null,
+      "published_at": "2025-11-15T20:27:00.267Z"
+    },
+    "upside_pct": -1.1026007911791862,
     "multiples": {
       "pe": 77.14,
       "ps": 9.98,
@@ -103,8 +347,7 @@
     },
     "rewards": [
       "Earnings grew by 83.6% over the past year",
-      "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Earnings are forecast to grow 27.42% per year"
+      "Earnings are forecast to grow 30.43% per year"
     ],
     "risks": [
       "High level of [[non-cash earnings]]"
@@ -120,8 +363,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 34.294011798524444,
-      "net_income_margin_1y": 0.1541587677,
-      "future_revenue_growth_3y": 0.423879921,
+      "net_income_margin_1y": 0.1540434066,
+      "future_revenue_growth_3y": 0.421486728,
       "sector_pe": 34.294011798524444
     },
     "industry_benchmarks_meta": {
@@ -156,15 +399,15 @@
         "url": "https://groww.in/stocks/rubicon-research-ltd"
       },
       "sws_statement": {
-        "company_pe": 67.1,
-        "industry_pe": 29,
+        "company_pe": 79.3,
+        "industry_pe": 28.7,
         "industry_name": "Indian Pharmaceuticals",
-        "description": "RUBICON is expensive based on its Price-To-Earnings Ratio (67.1x) compared to the Indian Pharmaceuticals industry average (29x).",
+        "description": "RUBICON is expensive based on its Price-To-Earnings Ratio (79.3x) compared to the Indian Pharmaceuticals industry average (28.7x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 29.045511308,
+        "industry_pe": 28.731688448,
         "industry_code": "6120000",
         "type": "median_profitable",
         "count": 152,
@@ -176,8 +419,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 28.1,
-        "sample_count": 151,
+        "industry_pe": 28.15,
+        "sample_count": 152,
         "industry_code": "6120000",
         "industry_name": "Pharmaceuticals & Biotech"
       },
@@ -189,8 +432,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1005.6,
-        "fetched_at": "2026-05-31T21:58:30.388Z",
+        "value": 1188.1,
+        "fetched_at": "2026-06-11T00:58:21.566Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-rubicon/rubicon-research-shares"
       },
       "market_cap_inr": {
@@ -198,6 +441,24 @@
         "value": 159115800000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/rubicon-research-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 1175,
+        "fetched_at": "2026-06-11T00:58:21.566Z",
+        "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-rubicon/rubicon-research-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "9149732c-f367-4d49-a03b-bd59d4df19f6",
+        "narrative_type": null,
+        "published_at": "2025-11-15T20:27:00.267Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": -1.1026007911791862,
+        "fetched_at": "2026-06-11T00:58:21.566Z",
+        "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-rubicon/rubicon-research-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -237,14 +498,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.1541587677,
-        "fetched_at": "2026-05-31T21:58:30.388Z",
+        "value": 0.1540434066,
+        "fetched_at": "2026-06-11T00:58:21.566Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-rubicon/rubicon-research-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.423879921,
-        "fetched_at": "2026-05-31T21:58:30.388Z",
+        "value": 0.421486728,
+        "fetched_at": "2026-06-11T00:58:21.566Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-rubicon/rubicon-research-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -376,16 +637,16 @@
     "quick_ratio": 0.662360053739364,
     "cash_ratio": 0.16952530228392296,
     "returns_pct": {
-      "1D": 3.8950304783552068,
-      "7D": 5.880494867070285,
-      "1M": 3.090881131785327,
-      "3M": 28.865252771192413,
-      "6M": 53.327742624075626,
-      "1Y": 60.07640878701049,
+      "1D": 1.5036309269542854,
+      "7D": -6.595911949685542,
+      "1M": 24.87256293026432,
+      "3M": 48.67046236626415,
+      "6M": 86.7054294020586,
+      "1Y": 89.1276663482967,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 5,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -452,6 +713,11 @@
         "is_insider": null
       },
       {
+        "pct": 0.94194,
+        "shares": 1551848,
+        "is_insider": null
+      },
+      {
         "pct": 0.87701,
         "shares": 1444878,
         "is_insider": null
@@ -484,11 +750,6 @@
       {
         "pct": 0.22627,
         "shares": 372780,
-        "is_insider": null
-      },
-      {
-        "pct": 0.18793,
-        "shares": 309617,
         "is_insider": null
       }
     ],
@@ -672,6 +933,26 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "b39e9102-00e9-4ca7-90d7-ac8a0e923938",
+      "type": "article",
+      "date": "2026-06-06T04:46:29.000Z",
+      "title": "We Think That There Are Issues Underlying Rubicon Research's (NSE:RUBICON) Earnings",
+      "body": "Rubicon Research Limited's ( NSE:RUBICON ) stock was strong after they recently reported robust earnings. However, we...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-rubicon/rubicon-research-shares/news/we-think-that-there-are-issues-underlying-rubicon-researchs",
+      "raw_subtype": "article"
+    },
+    {
+      "id": "df87cf77-b086-4884-bd5b-eb52a869623a",
+      "type": "article",
+      "date": "2026-06-03T01:23:57.000Z",
+      "title": "Rubicon Research Limited Just Beat Earnings Expectations: Here's What Analysts Think Will Happen Next",
+      "body": "Rubicon Research Limited ( NSE:RUBICON ) just released its full-year report and things are looking bullish. The company...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-rubicon/rubicon-research-shares/news/rubicon-research-limited-just-beat-earnings-expectations-her",
+      "raw_subtype": "article"
+    },
     {
       "id": "245fd4aa-c9e7-4097-b45b-8e6a4d07d75a",
       "type": "brief",

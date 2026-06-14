@@ -3,7 +3,7 @@
   "name": "SRU Steels Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-540914/sru-steels-shares",
-  "parsed_at": "2026-05-31T23:12:26.860Z",
+  "parsed_at": "2026-06-11T02:25:27.768Z",
   "company_id": "52D10D97-8ECD-4888-B1B3-51B3E3E24778",
   "classification_status": "Active",
   "groww_source": {
@@ -77,18 +77,308 @@
         }
       ]
     },
-    "current_price_inr": 1.81,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_BECOME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 1.9,
     "market_cap_inr": 104900000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 1.31,
       "high": 6.19
     },
-    "fair_value_inr": 3.177659,
-    "fair_value_range_inr": null,
-    "upside_pct": 75.56127071823204,
+    "fair_value_inr": null,
+    "fair_value_range_inr": {
+      "min": null,
+      "max": null,
+      "count": 0
+    },
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "888154ef-32fc-4977-bfbf-efb8701c7fc1",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 6.03,
       "ps": 0.24,
@@ -108,12 +398,12 @@
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Became profitable this year",
-      "Price-To-Earnings ratio (5.3x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (5.9x) is below the Indian market (22.9x)"
     ],
     "risks": [
       "Highly volatile share price over past 3 months",
       "Does not have meaningful revenue (₹435M)",
-      "Does not have a meaningful market cap (₹108M)"
+      "Does not have a meaningful market cap (₹120M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -140,8 +430,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 80.0113529025094,
-      "net_income_margin_1y": 0.0528311647,
-      "future_revenue_growth_3y": 0.1545987815,
+      "net_income_margin_1y": 0.05713572021,
+      "future_revenue_growth_3y": 0.1646852446,
       "sector_pe": 80.0113529025094
     },
     "industry_benchmarks_meta": {
@@ -176,18 +466,18 @@
         "url": "https://groww.in/stocks/sru-steels-ltd"
       },
       "sws_statement": {
-        "company_pe": 5.3,
-        "industry_pe": 23.4,
+        "company_pe": 5.9,
+        "industry_pe": 24.2,
         "industry_name": "Indian Trade Distributors",
-        "description": "540914 is good value based on its Price-To-Earnings Ratio (5.3x) compared to the Indian Trade Distributors industry average (23.4x).",
+        "description": "540914 is good value based on its Price-To-Earnings Ratio (5.9x) compared to the Indian Trade Distributors industry average (24.2x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 23.432792853,
+        "industry_pe": 24.16407612,
         "industry_code": "3080000",
         "type": "median_profitable",
-        "count": 124,
+        "count": 123,
         "source": {
           "type": "country",
           "country": "IN",
@@ -196,8 +486,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.5,
-        "sample_count": 119,
+        "industry_pe": 19.85,
+        "sample_count": 122,
         "industry_code": "3080000",
         "industry_name": "Capital Goods"
       },
@@ -209,8 +499,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1.81,
-        "fetched_at": "2026-05-31T23:12:26.860Z",
+        "value": 1.9,
+        "fetched_at": "2026-06-11T02:25:27.768Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-540914/sru-steels-shares"
       },
       "market_cap_inr": {
@@ -257,14 +547,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.0528311647,
-        "fetched_at": "2026-05-31T23:12:26.860Z",
+        "value": 0.05713572021,
+        "fetched_at": "2026-06-11T02:25:27.768Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-540914/sru-steels-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.1545987815,
-        "fetched_at": "2026-05-31T23:12:26.860Z",
+        "value": 0.1646852446,
+        "fetched_at": "2026-06-11T02:25:27.768Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-540914/sru-steels-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -396,16 +686,16 @@
     "quick_ratio": 3.8985704560925805,
     "cash_ratio": 0.026548672566371685,
     "returns_pct": {
-      "1D": 3.4285714285714315,
-      "7D": 9.03614457831326,
-      "1M": 19.867549668874172,
-      "3M": -45.31722054380665,
-      "6M": -64.6484375,
-      "1Y": -64.15841584158416,
+      "1D": -5.000000000000004,
+      "7D": -8.65384615384616,
+      "1M": 21.794871794871785,
+      "3M": 23.376623376623368,
+      "6M": -48.087431693989075,
+      "1Y": -65.13761467889908,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 1,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -735,6 +1025,16 @@
   ],
   "news": [
     {
+      "id": "eb927c14-05f3-4139-b42b-fc72a2964a11",
+      "type": "brief",
+      "date": "2026-06-01T11:49:03.000Z",
+      "title": "Investor sentiment improves as stock rises 18%",
+      "body": "After last week's 18% share price gain to ₹1.90, the stock trades at a trailing P/E ratio of 5.6x. Average trailing P/E is 24x in the Trade Distributors industry in India. Total loss to shareholders of 93% over the past three years.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
       "id": "fab9243d-7a74-426a-8f9f-b6b51b9fea5a",
       "type": "event",
       "date": "2026-05-25T05:53:00.000Z",
@@ -793,26 +1093,6 @@
       "keyDevTypeId": "55",
       "source_url": null,
       "raw_subtype": "EventActivity"
-    },
-    {
-      "id": "739d2adb-0e6b-42d8-b788-c85e9dfd3ece",
-      "type": "brief",
-      "date": "2025-12-05T11:33:46.000Z",
-      "title": "Investor sentiment deteriorates as stock falls 16%",
-      "body": "After last week's 16% share price decline to ₹4.31, the stock trades at a trailing P/E ratio of 20x. Average trailing P/E is 28x in the Trade Distributors industry in India. Total loss to shareholders of 40% over the past year.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "aa260a9f-f723-4232-82d0-d42f2a275c07",
-      "type": "brief",
-      "date": "2025-12-04T18:35:54.000Z",
-      "title": "New minor risk - Share price stability",
-      "body": "The company's share price has been volatile over the past 3 months. It is more volatile than 75% of Indian stocks, typically moving 7.3% a week. This is considered a minor risk. Share price volatility indicates the stock is highly sensitive to market conditions or economic conditions rather than being sensitive to its own business performance, which may also be inconsistent. It also increases the risk of potential losses in the short term as the stock tends to have larger drops in price more frequently than other stocks. Currently, the following risks have been identified for the company: Major Risks High level of non-cash earnings (130% accrual ratio). Shareholders have been substantially diluted in the past year (400% increase in shares outstanding). Market cap is less than US$10m (₹262.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/540914.json"

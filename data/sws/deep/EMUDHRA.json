@@ -3,7 +3,7 @@
   "name": "eMudhra Limited",
   "sector": "Commercial Services",
   "sws_url": "https://simplywall.st/stocks/in/commercial-services/nse-emudhra/emudhra-shares",
-  "parsed_at": "2026-05-31T22:44:17.364Z",
+  "parsed_at": "2026-06-11T01:40:13.440Z",
   "company_id": "DBF31760-E900-408E-9118-5E588B9B70E1",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 1
     },
     "snowflake_total": 15,
-    "current_price_inr": 469.05,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_LONG_NO_GROWTH"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_STABLE_BUT_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 469.4,
     "market_cap_inr": 39401800000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "small3",
-    "shares_outstanding": 81323656,
+    "shares_outstanding": 82043531,
     "fifty_two_week": {
       "low": 364.55,
       "high": 836.55
     },
     "fair_value_inr": 700,
     "fair_value_range_inr": {
-      "min": 64.334319,
+      "min": 65.520002,
       "max": 700,
       "count": 12
     },
-    "upside_pct": 49.23782112781153,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "d150f4c2-7985-4b3d-9a80-1488598333a8",
+      "narrative_type": null,
+      "published_at": "2026-05-30T22:08:21.005Z"
+    },
+    "upside_pct": 49.12654452492544,
     "multiples": {
       "pe": 35.8,
       "ps": 5.61,
@@ -68,7 +354,7 @@
     ],
     "dividend": {
       "yield_pct": 0.26,
-      "payout_pct": 9.430622866260947,
+      "payout_pct": 9.514102507607243,
       "annualized_dividend": 1.25,
       "listing_currency": "INR",
       "recent_payments": [
@@ -130,8 +416,8 @@
     "dividend_yield_pct": 0.26,
     "industry_benchmarks": {
       "pe": 18.761595487228476,
-      "net_income_margin_1y": 0.07234671003,
-      "future_revenue_growth_3y": 0.3740225928,
+      "net_income_margin_1y": 0.07149669577,
+      "future_revenue_growth_3y": 0.358570421,
       "sector_pe": 18.761595487228476
     },
     "industry_benchmarks_meta": {
@@ -166,15 +452,15 @@
         "url": "https://groww.in/stocks/emudhra-ltd"
       },
       "sws_statement": {
-        "company_pe": 35.4,
-        "industry_pe": 19.8,
+        "company_pe": 35.7,
+        "industry_pe": 20.3,
         "industry_name": "Indian Professional Services",
-        "description": "EMUDHRA is expensive based on its Price-To-Earnings Ratio (35.4x) compared to the Indian Professional Services industry average (19.8x).",
+        "description": "EMUDHRA is expensive based on its Price-To-Earnings Ratio (35.7x) compared to the Indian Professional Services industry average (20.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 19.714358381,
+        "industry_pe": 20.253723075,
         "industry_code": "9612010",
         "type": "median_profitable",
         "count": 63,
@@ -186,25 +472,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.1,
-        "sample_count": 59,
+        "industry_pe": 18.6,
+        "sample_count": 57,
         "industry_code": "9612010",
         "industry_name": "Commercial Services"
       },
       "sws_primary_industry": {
-        "industry_pe": 16.094987777,
+        "industry_pe": 16.028068325,
         "industry_name": "Commercial Services",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 35.38746924335758
+        "company_pe": 35.72735773656672
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 469.05,
-        "fetched_at": "2026-05-31T22:44:17.364Z",
+        "value": 469.4,
+        "fetched_at": "2026-06-11T01:40:13.440Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-emudhra/emudhra-shares"
       },
       "market_cap_inr": {
@@ -212,6 +498,24 @@
         "value": 39401800000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/emudhra-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 700,
+        "fetched_at": "2026-06-11T01:40:13.440Z",
+        "url": "https://simplywall.st/stocks/in/commercial-services/nse-emudhra/emudhra-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "d150f4c2-7985-4b3d-9a80-1488598333a8",
+        "narrative_type": null,
+        "published_at": "2026-05-30T22:08:21.005Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 49.12654452492544,
+        "fetched_at": "2026-06-11T01:40:13.440Z",
+        "url": "https://simplywall.st/stocks/in/commercial-services/nse-emudhra/emudhra-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -251,14 +555,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.07234671003,
-        "fetched_at": "2026-05-31T22:44:17.364Z",
+        "value": 0.07149669577,
+        "fetched_at": "2026-06-11T01:40:13.440Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-emudhra/emudhra-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.3740225928,
-        "fetched_at": "2026-05-31T22:44:17.364Z",
+        "value": 0.358570421,
+        "fetched_at": "2026-06-11T01:40:13.440Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-emudhra/emudhra-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -390,98 +694,98 @@
     "quick_ratio": 2.735487959442332,
     "cash_ratio": 0.4131812420785805,
     "returns_pct": {
-      "1D": -1.2422360248447157,
-      "7D": -0.41401273885350076,
-      "1M": -4.19730392156863,
-      "3M": 9.565522074281708,
-      "6M": -24.0343347639485,
-      "1Y": -39.51254110516474,
+      "1D": -2.886107375607747,
+      "7D": 0.5354465624330692,
+      "1M": -6.354114713216961,
+      "3M": 8.469093009820908,
+      "6M": -24.351329572925064,
+      "1Y": -37.40081349603254,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 8,
+    "recent_news_count": 1,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
   "ownership": {
     "top_holders": [
       {
-        "pct": 33.35136,
+        "pct": 33.05872,
         "shares": 27122543,
         "is_insider": null
       },
       {
-        "pct": 17.02196,
+        "pct": 16.8726,
         "shares": 13842877,
         "is_insider": null
       },
       {
-        "pct": 7.01537,
+        "pct": 6.95382,
         "shares": 5705159,
         "is_insider": null
       },
       {
-        "pct": 6.82381,
+        "pct": 6.76393,
         "shares": 5549370,
         "is_insider": null
       },
       {
-        "pct": 4.26492,
+        "pct": 4.2275,
         "shares": 3468392,
         "is_insider": null
       },
       {
-        "pct": 3.87912,
+        "pct": 3.84509,
         "shares": 3154646,
         "is_insider": null
       },
       {
-        "pct": 2.04713,
+        "pct": 2.02917,
         "shares": 1664801,
         "is_insider": null
       },
       {
-        "pct": 1.99194,
+        "pct": 1.97446,
         "shares": 1619919,
         "is_insider": null
       },
       {
-        "pct": 1.13851,
+        "pct": 1.12852,
         "shares": 925880,
         "is_insider": null
       },
       {
-        "pct": 1.12973,
+        "pct": 1.11982,
         "shares": 918737,
         "is_insider": null
       },
       {
-        "pct": 1.08512,
+        "pct": 1.0756,
         "shares": 882463,
         "is_insider": null
       },
       {
-        "pct": 0.63089,
+        "pct": 0.62535,
         "shares": 513061,
         "is_insider": null
       },
       {
-        "pct": 0.08179,
+        "pct": 0.08108,
         "shares": 66517,
         "is_insider": null
       },
       {
-        "pct": 0.03566,
+        "pct": 0.03535,
         "shares": 29000,
         "is_insider": null
       },
       {
-        "pct": 0.02647,
+        "pct": 0.02623,
         "shares": 21524,
         "is_insider": null
       },
       {
-        "pct": 0.00123,
+        "pct": 0.00122,
         "shares": 1002,
         "is_insider": null
       }
@@ -498,7 +802,7 @@
   },
   "dividend": {
     "yield_pct": 0.26,
-    "payout_pct": 9.430622866260947,
+    "payout_pct": 9.514102507607243,
     "annualized_dividend": 1.25,
     "listing_currency": "INR",
     "recent_payments": [

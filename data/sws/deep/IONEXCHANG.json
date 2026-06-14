@@ -3,7 +3,7 @@
   "name": "Ion Exchange (India) Limited",
   "sector": "Commercial Services",
   "sws_url": "https://simplywall.st/stocks/in/commercial-services/nse-ionexchang/ion-exchange-india-shares",
-  "parsed_at": "2026-05-31T20:11:58.565Z",
+  "parsed_at": "2026-06-10T23:15:32.302Z",
   "company_id": "EC1D8E59-6E4B-4FAE-BE4E-DEAB162521D9",
   "classification_status": "Active",
   "groww_source": {
@@ -65,22 +65,308 @@
         }
       ]
     },
-    "current_price_inr": 362.05,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 336.65,
     "market_cap_inr": 55740600000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 312.7,
       "high": 580.75
     },
-    "fair_value_inr": 448.309563,
+    "fair_value_inr": 447.335607,
     "fair_value_range_inr": {
-      "min": 22.084459,
-      "max": 22.084459,
+      "min": 22.03648,
+      "max": 22.03648,
       "count": 1
     },
-    "upside_pct": 23.825317773788154,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "72450c0d-602b-46bb-b390-2230460c9c13",
+      "narrative_type": null,
+      "published_at": "2024-07-25T13:04:22.838Z"
+    },
+    "upside_pct": 32.87854062082282,
     "multiples": {
       "pe": 38.94,
       "ps": 1.91,
@@ -101,7 +387,7 @@
       "Trading below our calculated fair Price-To-Earnings ratio"
     ],
     "risks": [
-      "Dividend of 0.35% is not well covered by free cash flows",
+      "Dividend of 0.37% is not well covered by free cash flows",
       "Significant insider selling over the past 3 months",
       "High level of [[non-cash earnings]]",
       "Profit margins (4.9%) are lower than last year (7.6%)"
@@ -183,8 +469,8 @@
     "dividend_yield_pct": 0.32,
     "industry_benchmarks": {
       "pe": 24.919301661303475,
-      "net_income_margin_1y": 0.09653111726,
-      "future_revenue_growth_3y": 0.3421137967,
+      "net_income_margin_1y": 0.08997360233,
+      "future_revenue_growth_3y": 0.3445516051,
       "sector_pe": 24.919301661303475
     },
     "industry_benchmarks_meta": {
@@ -219,18 +505,18 @@
         "url": "https://groww.in/stocks/ion-exchange-india-ltd"
       },
       "sws_statement": {
-        "company_pe": 31.2,
-        "industry_pe": 19.2,
+        "company_pe": 29.1,
+        "industry_pe": 20,
         "industry_name": "Indian Commercial Services",
-        "description": "IONEXCHANG is expensive based on its Price-To-Earnings Ratio (31.2x) compared to the Indian Commercial Services industry average (19.2x).",
+        "description": "IONEXCHANG is expensive based on its Price-To-Earnings Ratio (29.1x) compared to the Indian Commercial Services industry average (20x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 19.851410996,
+        "industry_pe": 19.925935312,
         "industry_code": "3110000",
         "type": "median_profitable",
-        "count": 55,
+        "count": 56,
         "source": {
           "type": "country",
           "country": "IN",
@@ -239,8 +525,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.6,
-        "sample_count": 56,
+        "industry_pe": 19.2,
+        "sample_count": 57,
         "industry_code": "3110000",
         "industry_name": "Commercial Services"
       },
@@ -252,8 +538,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 362.05,
-        "fetched_at": "2026-05-31T20:11:58.565Z",
+        "value": 336.65,
+        "fetched_at": "2026-06-10T23:15:32.302Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-ionexchang/ion-exchange-india-shares"
       },
       "market_cap_inr": {
@@ -261,6 +547,24 @@
         "value": 55740600000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/ion-exchange-india-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 447.335607,
+        "fetched_at": "2026-06-10T23:15:32.302Z",
+        "url": "https://simplywall.st/stocks/in/commercial-services/nse-ionexchang/ion-exchange-india-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "72450c0d-602b-46bb-b390-2230460c9c13",
+        "narrative_type": null,
+        "published_at": "2024-07-25T13:04:22.838Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 32.87854062082282,
+        "fetched_at": "2026-06-10T23:15:32.302Z",
+        "url": "https://simplywall.st/stocks/in/commercial-services/nse-ionexchang/ion-exchange-india-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -300,14 +604,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.09653111726,
-        "fetched_at": "2026-05-31T20:11:58.565Z",
+        "value": 0.08997360233,
+        "fetched_at": "2026-06-10T23:15:32.302Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-ionexchang/ion-exchange-india-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.3421137967,
-        "fetched_at": "2026-05-31T20:11:58.565Z",
+        "value": 0.3445516051,
+        "fetched_at": "2026-06-10T23:15:32.302Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-ionexchang/ion-exchange-india-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -439,16 +743,16 @@
     "quick_ratio": 1.1871242453917763,
     "cash_ratio": 0.1975121171176755,
     "returns_pct": {
-      "1D": -4.7487503288608295,
-      "7D": -8.353372990760663,
-      "1M": -8.872388623206644,
-      "3M": -0.563032134029116,
-      "6M": 3.2952924393723286,
-      "1Y": -33.51391056835919,
+      "1D": -2.9407524866657186,
+      "7D": -4.833922261484106,
+      "1M": -16.701719658542622,
+      "3M": -5.35563677256115,
+      "6M": -4.129289477431297,
+      "1Y": -39.1889450867052,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 4,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -842,6 +1146,16 @@
   ],
   "news": [
     {
+      "id": "cb970e16-b8e8-457f-9ae4-7830d6ffc3cb",
+      "type": "article",
+      "date": "2026-06-03T00:41:13.000Z",
+      "title": "Ion Exchange (India)'s (NSE:IONEXCHANG) Anemic Earnings Might Be Worse Than You Think",
+      "body": "The latest earnings report from Ion Exchange (India) Limited ( NSE:IONEXCHANG ) disappointed investors. Our analysis...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/commercial-services/nse-ionexchang/ion-exchange-india-shares/news/ion-exchange-indias-nseionexchang-anemic-earnings-might-be-w",
+      "raw_subtype": "article"
+    },
+    {
       "id": "0608205b-f42e-4a42-a6d1-757378e70b27",
       "type": "brief",
       "date": "2026-05-27T17:12:11.000Z",
@@ -900,16 +1214,6 @@
       "keyDevTypeId": "55",
       "source_url": null,
       "raw_subtype": "EventActivity"
-    },
-    {
-      "id": "ef1d05d1-2064-4908-8f38-7005fa6c1bbc",
-      "type": "article",
-      "date": "2025-12-16T08:35:09.000Z",
-      "title": "Is Ion Exchange (India) (NSE:IONEXCHANG) Using Too Much Debt?",
-      "body": "Legendary fund manager Li Lu (who Charlie Munger backed) once said, 'The biggest investment risk is not the volatility...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/commercial-services/nse-ionexchang/ion-exchange-india-shares/news/is-ion-exchange-india-nseionexchang-using-too-much-debt",
-      "raw_subtype": "article"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/IONEXCHANG.json"

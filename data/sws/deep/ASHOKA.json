@@ -3,7 +3,7 @@
   "name": "Ashoka Buildcon Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-ashoka/ashoka-buildcon-shares",
-  "parsed_at": "2026-05-31T21:17:21.130Z",
+  "parsed_at": "2026-06-11T00:14:00.723Z",
   "company_id": "D94C3DAE-3460-4E84-B8A2-E0A15604C9AB",
   "classification_status": "Active",
   "groww_source": {
@@ -70,22 +70,308 @@
         }
       ]
     },
-    "current_price_inr": 122.39,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DECLINE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DECLINE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DECLINE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DECLINE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 117.81,
     "market_cap_inr": 34725500000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "small3",
     "shares_outstanding": 280723217,
     "fifty_two_week": {
       "low": 101,
       "high": 230.8
     },
-    "fair_value_inr": 233,
+    "fair_value_inr": 170.28571,
     "fair_value_range_inr": {
       "min": 70.1,
       "max": 420.83,
       "count": 36
     },
-    "upside_pct": 90.37503063975815,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "48e33088-6814-405e-bbdb-6584440229f8",
+      "narrative_type": null,
+      "published_at": "2026-06-04T15:15:09.641Z"
+    },
+    "upside_pct": 44.54266191325014,
     "multiples": {
       "pe": 1.35,
       "ps": 0.46,
@@ -105,7 +391,7 @@
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading below our calculated fair Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (1.3x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (1.3x) is below the Indian market (22.9x)",
       "Earnings grew by 50.5% over the past year"
     ],
     "risks": [
@@ -114,7 +400,7 @@
     ],
     "dividend": {
       "yield_pct": 0,
-      "payout_pct": 1.0547286253840484,
+      "payout_pct": 1.174299142253952,
       "annualized_dividend": 1.0667,
       "listing_currency": "INR",
       "recent_payments": [
@@ -163,8 +449,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 24.919301661303475,
-      "net_income_margin_1y": 0.0775877089,
-      "future_revenue_growth_3y": 0.6569887,
+      "net_income_margin_1y": 0.07792327667,
+      "future_revenue_growth_3y": 0.6221294666,
       "sector_pe": 24.919301661303475
     },
     "industry_benchmarks_meta": {
@@ -200,17 +486,17 @@
       },
       "sws_statement": {
         "company_pe": 1.3,
-        "industry_pe": 15.1,
+        "industry_pe": 14.4,
         "industry_name": "Indian Construction",
-        "description": "ASHOKA is good value based on its Price-To-Earnings Ratio (1.3x) compared to the Indian Construction industry average (15.1x).",
+        "description": "ASHOKA is good value based on its Price-To-Earnings Ratio (1.3x) compared to the Indian Construction industry average (14.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 15.073268522,
+        "industry_pe": 14.393596444,
         "industry_code": "3040000",
         "type": "median_profitable",
-        "count": 188,
+        "count": 189,
         "source": {
           "type": "country",
           "country": "IN",
@@ -219,25 +505,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.1,
-        "sample_count": 184,
+        "industry_pe": 13.8,
+        "sample_count": 187,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
       "sws_primary_industry": {
-        "industry_pe": 21.475319439,
+        "industry_pe": 21.150765987,
         "industry_name": "Capital Goods",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 1.2101643991820914
+        "company_pe": 1.2969361765157783
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 122.39,
-        "fetched_at": "2026-05-31T21:17:21.130Z",
+        "value": 117.81,
+        "fetched_at": "2026-06-11T00:14:00.723Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-ashoka/ashoka-buildcon-shares"
       },
       "market_cap_inr": {
@@ -245,6 +531,24 @@
         "value": 34725500000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/ashoka-buildcon-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 170.28571,
+        "fetched_at": "2026-06-11T00:14:00.723Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-ashoka/ashoka-buildcon-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "48e33088-6814-405e-bbdb-6584440229f8",
+        "narrative_type": null,
+        "published_at": "2026-06-04T15:15:09.641Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 44.54266191325014,
+        "fetched_at": "2026-06-11T00:14:00.723Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-ashoka/ashoka-buildcon-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -284,14 +588,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.0775877089,
-        "fetched_at": "2026-05-31T21:17:21.130Z",
+        "value": 0.07792327667,
+        "fetched_at": "2026-06-11T00:14:00.723Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-ashoka/ashoka-buildcon-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.6569887,
-        "fetched_at": "2026-05-31T21:17:21.130Z",
+        "value": 0.6221294666,
+        "fetched_at": "2026-06-11T00:14:00.723Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-ashoka/ashoka-buildcon-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -400,13 +704,13 @@
         "url": "https://groww.in/stocks/ashoka-buildcon-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 67.58694544238347,
+    "earnings_growth_yoy_pct": 44.7908844559078,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": -17.70147240091936,
-    "latest_revenue": 82599969000,
-    "latest_net_income": 28390948000,
+    "revenue_growth_pct": -20.494359537500088,
+    "latest_revenue": 75198839000,
+    "latest_net_income": 25500100000,
     "latest_eps": 91.76,
-    "most_recent_reported_date": "2026-03-10",
+    "most_recent_reported_date": "2026-06-04",
     "pb": 0.53,
     "ps": 0.46,
     "book_value": 234.3689873,
@@ -423,12 +727,12 @@
     "quick_ratio": 2.0235732050366866,
     "cash_ratio": 0.21594972440341734,
     "returns_pct": {
-      "1D": -1.0510146333575852,
-      "7D": -0.8506156837329854,
-      "1M": -9.138827023014096,
-      "3M": -5.868327949546231,
-      "6M": -31.148739873987395,
-      "1Y": -44.43889595060831,
+      "1D": -2.780986961544813,
+      "7D": -4.915254237288138,
+      "1M": -11.547413469479688,
+      "3M": -2.6765799256505534,
+      "6M": -28.79419764279238,
+      "1Y": -45.86683821164361,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -489,8 +793,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.22945,
-        "shares": 3451347,
+        "pct": 1.22435,
+        "shares": 3437037,
         "is_insider": null
       },
       {
@@ -504,13 +808,13 @@
         "is_insider": null
       },
       {
-        "pct": 0.40997,
-        "shares": 1150882,
+        "pct": 0.3894,
+        "shares": 1093145,
         "is_insider": null
       },
       {
-        "pct": 0.3894,
-        "shares": 1093145,
+        "pct": 0.30364,
+        "shares": 852375,
         "is_insider": null
       },
       {
@@ -551,7 +855,7 @@
   },
   "dividend": {
     "yield_pct": 0,
-    "payout_pct": 1.0547286253840484,
+    "payout_pct": 1.174299142253952,
     "annualized_dividend": 1.0667,
     "listing_currency": "INR",
     "recent_payments": [
@@ -598,44 +902,44 @@
     "payment_count": 3
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-03-10",
+    "most_recent_reported_date": "2026-06-04",
     "latest_year": 2026,
-    "latest_revenue": 82599969000,
-    "latest_net_income": 28390948000,
+    "latest_revenue": 75198839000,
+    "latest_net_income": 25500100000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": -17.70147240091936,
-    "earnings_growth_pct": 67.58694544238347,
-    "net_margin_pct": 34.371620647944795,
+    "revenue_growth_pct": -20.494359537500088,
+    "earnings_growth_pct": 44.7908844559078,
+    "net_margin_pct": 33.910230981092674,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 82599969000,
-        "netIncome": 28390948000,
+        "revenue": 75198839000,
+        "netIncome": 25500100000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 100366278000,
-        "netIncome": 16941026000.000002,
+        "revenue": 94583024000,
+        "netIncome": 17611675000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 97984622000,
-        "netIncome": 5030795000,
+        "revenue": 103286932000,
+        "netIncome": 5960395000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 81004819000,
-        "netIncome": 2924218000,
+        "revenue": 81562674000,
+        "netIncome": 3045552000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 59989836000,
-        "netIncome": 7785610000,
+        "revenue": 65412098000,
+        "netIncome": 8328978999.999999,
         "eps": null
       }
     ]
@@ -847,6 +1151,16 @@
   ],
   "news": [
     {
+      "id": "fe66533d-6b23-42a1-aeb2-62953a3d76ed",
+      "type": "narrative-update",
+      "date": "2026-06-04T15:15:09.000Z",
+      "title": "ASHOKA: Angola Power Contract Will Drive Future Upside Potential",
+      "body": "Analysts have trimmed their price target on Ashoka Buildcon from ₹188.71 to ₹170.29, citing updated assumptions on discount rate, revenue growth, profit margins and a higher future P/E multiple in their refreshed models. What's in the News The board has scheduled a meeting on May 21, 2026, at 19:45 IST to consider and approve the audited standalone and consolidated financial results for the quarter and year ended March 31, 2026.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-ashoka/ashoka-buildcon-shares/mcweku3s-monetization-will-reduce-debt-by-2025-but-face-delays-zd4x/updates/14-analysts-have-trimmed-their-price-target-on-ashoka-buildcon",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "1831e319-1a8d-4860-8c80-0c7956601728",
       "type": "article",
       "date": "2026-05-29T00:36:07.000Z",
@@ -1035,26 +1349,6 @@
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-ashoka/ashoka-buildcon-shares/txorrzxr-government-contract-vulnerabilities-and-rising-costs-will-weaken-stability/updates/3-analysts-have-maintained-their-fair-value-estimate-for-ashok",
       "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "87d6e953-533a-48a2-be9f-5446795fc9b7",
-      "type": "narrative-update",
-      "date": "2025-12-14T12:07:57.000Z",
-      "title": "ASHOKA: New Infrastructure Wins Will Drive Earnings Upside Ahead",
-      "body": "Analysts have raised their price target on Ashoka Buildcon from ₹170 to ₹204, as they now expect a significantly smaller revenue decline and are willing to ascribe a higher future earnings multiple, despite a modestly lower margin outlook and a slightly higher discount rate. What's in the News BMC awarded Ashoka Buildcon an additional scope of work worth INR 4,472.1 million, including taxes, for the ongoing flyover project at the T Junction on Sion Panvel Highway in Mumbai (Key Developments) The company received a Letter of Acceptance from North Western Railway for an electrification upgradation contract valued at INR 5,393.5 million, including GST, covering multiple sections of the Ajmer Division (Key Developments) The railway contract involves design, supply, erection, testing and commis",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-ashoka/ashoka-buildcon-shares/txorrzxr-government-contract-vulnerabilities-and-rising-costs-will-weaken-stability/updates/2-analysts-have-raised-their-price-target-on-ashoka-buildcon-f",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "fda5ba6c-7b54-4b6b-9376-2b3b5e2e4551",
-      "type": "article",
-      "date": "2025-12-07T04:36:42.000Z",
-      "title": "Does Ashoka Buildcon (NSE:ASHOKA) Have A Healthy Balance Sheet?",
-      "body": "Warren Buffett famously said, 'Volatility is far from synonymous with risk.' So it might be obvious that you need to...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/capital-goods/nse-ashoka/ashoka-buildcon-shares/news/does-ashoka-buildcon-nseashoka-have-a-healthy-balance-sheet-1",
-      "raw_subtype": "article"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/ASHOKA.json"

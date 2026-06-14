@@ -3,7 +3,7 @@
   "name": "Vodafone Idea Limited",
   "sector": "Telecom",
   "sws_url": "https://simplywall.st/stocks/in/telecom/nse-idea/vodafone-idea-shares",
-  "parsed_at": "2026-05-31T20:02:17.294Z",
+  "parsed_at": "2026-06-10T23:05:31.232Z",
   "company_id": "5E8892DD-1D11-4659-82F7-707B61F42FAA",
   "classification_status": "Active",
   "groww_source": {
@@ -76,22 +76,308 @@
         }
       ]
     },
-    "current_price_inr": 13.99,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DECLINE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_ASSETS"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DECLINE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DECLINE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DECLINE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_BECOME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_EQUITY"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_EQUITY"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_EQUITY"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_EQUITY"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_EQUITY"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 13.88,
     "market_cap_inr": 1537387700000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "mega8",
     "shares_outstanding": 108343035001,
     "fifty_two_week": {
       "low": 6.12,
       "high": 14.29
     },
-    "fair_value_inr": 5.79443,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": 5.79443,
       "max": 47,
-      "count": 63
+      "count": 64
     },
-    "upside_pct": -58.581629735525375,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystLowTarget",
+      "owner_classification": null,
+      "narrative_id": "02165e23-8a64-43ed-8341-aeb305c15b86",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 4.45,
       "ps": 3.43,
@@ -112,12 +398,12 @@
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Became profitable this year",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Trading at 49.6% below our estimate of its fair value"
+      "Trading at 50% below our estimate of its fair value"
     ],
     "risks": [
       "Negative shareholders equity",
       "Debt is not well covered by [[operating cash flow]]",
-      "Earnings are forecast to decline by an average of 78.4% per year for the next 3 years",
+      "Earnings are forecast to decline by an average of 75.2% per year for the next 3 years",
       "High level of [[non-cash earnings]]"
     ],
     "dividend": {
@@ -145,8 +431,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 38.83154804624678,
-      "net_income_margin_1y": 0.1109030276,
-      "future_revenue_growth_3y": 0.4737025479,
+      "net_income_margin_1y": 0.1124275317,
+      "future_revenue_growth_3y": 0.4304294979,
       "sector_pe": 38.83154804624678
     },
     "industry_benchmarks_meta": {
@@ -182,14 +468,14 @@
       },
       "sws_statement": {
         "company_pe": 4.4,
-        "industry_pe": 18.1,
+        "industry_pe": 15.8,
         "industry_name": "Asian Wireless Telecom",
-        "description": "IDEA is good value based on its Price-To-Earnings Ratio (4.4x) compared to the Asian Wireless Telecom industry average (18.1x).",
+        "description": "IDEA is good value based on its Price-To-Earnings Ratio (4.4x) compared to the Asian Wireless Telecom industry average (15.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 18.088465403,
+        "industry_pe": 15.838236962,
         "industry_code": "9030000",
         "type": "median_profitable",
         "count": 45,
@@ -201,25 +487,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 41.7,
+        "industry_pe": 41,
         "sample_count": 3,
         "industry_code": "9030000",
         "industry_name": "Telecom"
       },
       "sws_primary_industry": {
-        "industry_pe": 16.822358665,
+        "industry_pe": 16.009636295,
         "industry_name": "Telecom",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 4.386776625561444
+        "company_pe": 4.352284457669253
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 13.99,
-        "fetched_at": "2026-05-31T20:02:17.294Z",
+        "value": 13.88,
+        "fetched_at": "2026-06-10T23:05:31.232Z",
         "url": "https://simplywall.st/stocks/in/telecom/nse-idea/vodafone-idea-shares"
       },
       "market_cap_inr": {
@@ -266,14 +552,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.1109030276,
-        "fetched_at": "2026-05-31T20:02:17.294Z",
+        "value": 0.1124275317,
+        "fetched_at": "2026-06-10T23:05:31.232Z",
         "url": "https://simplywall.st/stocks/in/telecom/nse-idea/vodafone-idea-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.4737025479,
-        "fetched_at": "2026-05-31T20:02:17.294Z",
+        "value": 0.4304294979,
+        "fetched_at": "2026-06-10T23:05:31.232Z",
         "url": "https://simplywall.st/stocks/in/telecom/nse-idea/vodafone-idea-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -405,16 +691,16 @@
     "quick_ratio": 0.5506563531457079,
     "cash_ratio": 0.14439769205573333,
     "returns_pct": {
-      "1D": -1.339915373765864,
-      "7D": 1.8936635105608142,
-      "1M": 35.957240038872705,
-      "3M": 32.10576015108593,
-      "6M": 40.46184738955822,
-      "1Y": 99.00426742532005,
+      "1D": -1.838755304101837,
+      "7D": -6.531986531986525,
+      "1M": 13.957307060755344,
+      "3M": 45.18828451882845,
+      "6M": 19.243986254295535,
+      "1Y": 99.13916786226687,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 9,
+    "recent_news_count": 8,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -441,8 +727,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.08647,
-        "shares": 1177116605,
+        "pct": 1.08252,
+        "shares": 1172833803,
         "is_insider": null
       },
       {
@@ -803,6 +1089,16 @@
   ],
   "news": [
     {
+      "id": "36520919-5bd8-4c9e-8199-1335111c78ce",
+      "type": "narrative-update",
+      "date": "2026-06-08T06:06:11.000Z",
+      "title": "IDEA: Future Returns Will Face Risk From Uncertain Long Term Investor Deal",
+      "body": "Analysts have lifted their price target for Vodafone Idea to about ₹11.27 from roughly ₹9.97, citing updated assumptions around the discount rate, revenue growth, profit margins and future P/E that they now view as more appropriate for the stock. What's in the News Board meeting scheduled for May 16, 2026, to review standalone and consolidated audited financial results for the quarter and year ended March 31, 2026, and to consider a proposal to raise funds through issuance of equity shares and or warrants on a preferential basis, subject to shareholder and other approvals.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/telecom/nse-idea/vodafone-idea-shares/8ybxj283-expanding-5g-network-and-digital-shift-will-unlock-value-11ho/updates/16-analysts-have-lifted-their-price-target-for-vodafone-idea-to",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "d53dcd96-70db-4960-9382-799b8181b243",
       "type": "narrative-update",
       "date": "2026-05-25T04:29:12.000Z",
@@ -1030,16 +1326,6 @@
       "body": "Narrative Update on Analyst Price Target Analysts have made a modest upward revision to their price target on Vodafone Idea, citing slightly lower discount rates, marginally improved long term profit margin expectations, and a marginally cheaper projected future P E multiple that together enhance the stock's risk reward profile. This nudges fair value closer to ₹8.90 per share.",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/telecom/nse-idea/vodafone-idea-shares/8ybxj283-expanding-5g-network-and-digital-shift-will-unlock-value-11ho/updates/14-narrative-update-on-analyst-price-target-analysts-have-made",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "2ff3cc19-44eb-456c-b02f-88844adb9c1f",
-      "type": "narrative-update",
-      "date": "2025-12-05T16:04:10.000Z",
-      "title": "IDEA: Future Outlook Will Remain Constrained By Unresolved Government Liability Risks",
-      "body": "Analysts have raised their price target on Vodafone Idea to Rs 8.88 from Rs 8.55, citing slightly lower perceived risk, modestly stronger expected revenue growth, a marginally improved profit margin outlook, and a higher anticipated future price to earnings multiple. What's in the News Kyndryl renewed its three-year partnership with Vodafone Idea to modernize IT operations, deploy a cyber resilience framework and expand AI driven automation across Vi's technology estate (Client Announcements).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/telecom/nse-idea/vodafone-idea-shares/8ybxj283-expanding-5g-network-and-digital-shift-will-unlock-value-11ho/updates/13-analysts-have-raised-their-price-target-on-vodafone-idea-to",
       "raw_subtype": "narrative-update"
     }
   ],

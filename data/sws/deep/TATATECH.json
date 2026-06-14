@@ -3,7 +3,7 @@
   "name": "Tata Technologies Limited",
   "sector": "Software",
   "sws_url": "https://simplywall.st/stocks/in/software/nse-tatatech/tata-technologies-shares",
-  "parsed_at": "2026-05-31T22:44:01.676Z",
+  "parsed_at": "2026-06-11T01:48:02.255Z",
   "company_id": "CB3792D6-8D3D-49C2-A29B-ED6ECA305DFB",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 3
     },
     "snowflake_total": 15,
-    "current_price_inr": 705.3,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_EARNS_NET_INTEREST"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_LONG_FALLEN"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_STABLE_BUT_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_50_TO_75"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 758.2,
     "market_cap_inr": 291951300000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midlarge6",
     "shares_outstanding": 406051830,
     "fifty_two_week": {
       "low": 507.4,
       "high": 797
     },
-    "fair_value_inr": 1071.62781,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 286.405922,
+      "min": 277.809239,
       "max": 1071.62781,
-      "count": 74
+      "count": 75
     },
-    "upside_pct": 51.93928966397278,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystHighTarget",
+      "owner_classification": null,
+      "narrative_id": "7dcbde94-d7de-49ce-be1f-162a4b158bfe",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 53.42,
       "ps": 5.31,
@@ -127,8 +413,8 @@
     "dividend_yield_pct": 1.63,
     "industry_benchmarks": {
       "pe": 18.761595487228476,
-      "net_income_margin_1y": 0.09947274985,
-      "future_revenue_growth_3y": 1.4123928,
+      "net_income_margin_1y": 0.0994330966,
+      "future_revenue_growth_3y": 1.401190197,
       "sector_pe": 18.761595487228476
     },
     "industry_benchmarks_meta": {
@@ -163,18 +449,18 @@
         "url": "https://groww.in/stocks/tata-technologies-ltd"
       },
       "sws_statement": {
-        "company_pe": 52.4,
-        "industry_pe": 23.6,
+        "company_pe": 55.4,
+        "industry_pe": 23,
         "industry_name": "Indian IT",
-        "description": "TATATECH is expensive based on its Price-To-Earnings Ratio (52.4x) compared to the Indian IT industry average (23.6x).",
+        "description": "TATATECH is expensive based on its Price-To-Earnings Ratio (55.4x) compared to the Indian IT industry average (23x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 23.644221907,
+        "industry_pe": 22.964061807,
         "industry_code": "8030000",
         "type": "median_profitable",
-        "count": 126,
+        "count": 127,
         "source": {
           "type": "country",
           "country": "IN",
@@ -183,25 +469,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.4,
-        "sample_count": 123,
+        "industry_pe": 22.5,
+        "sample_count": 126,
         "industry_code": "8030000",
         "industry_name": "Software"
       },
       "sws_primary_industry": {
-        "industry_pe": 20.803345639,
+        "industry_pe": 20.24766845,
         "industry_name": "Software",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 53.90433768732707
+        "company_pe": 57.947354082704365
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 705.3,
-        "fetched_at": "2026-05-31T22:44:01.676Z",
+        "value": 758.2,
+        "fetched_at": "2026-06-11T01:48:02.255Z",
         "url": "https://simplywall.st/stocks/in/software/nse-tatatech/tata-technologies-shares"
       },
       "market_cap_inr": {
@@ -248,14 +534,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.09947274985,
-        "fetched_at": "2026-05-31T22:44:01.676Z",
+        "value": 0.0994330966,
+        "fetched_at": "2026-06-11T01:48:02.255Z",
         "url": "https://simplywall.st/stocks/in/software/nse-tatatech/tata-technologies-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 1.4123928,
-        "fetched_at": "2026-05-31T22:44:01.676Z",
+        "value": 1.401190197,
+        "fetched_at": "2026-06-11T01:48:02.255Z",
         "url": "https://simplywall.st/stocks/in/software/nse-tatatech/tata-technologies-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -387,16 +673,16 @@
     "quick_ratio": 1.5320985472225228,
     "cash_ratio": 0.18866585590410137,
     "returns_pct": {
-      "1D": -2.00764154220216,
-      "7D": 5.056974752364629,
-      "1M": 23.26109751835021,
-      "3M": 20.47143223161669,
-      "6M": 3.865694720565496,
-      "1Y": -8.91127469972879,
+      "1D": 1.7581532680177185,
+      "7D": 3.7138362629095263,
+      "1M": 20.15847860538828,
+      "3M": 37.39240735707167,
+      "6M": 14.878787878787886,
+      "1Y": -3.407860373272183,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 5,
+    "recent_news_count": 10,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -433,8 +719,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.84689,
-        "shares": 3438799,
+        "pct": 0.85142,
+        "shares": 3457199,
         "is_insider": null
       },
       {
@@ -478,8 +764,13 @@
         "is_insider": null
       },
       {
-        "pct": 0.11405,
-        "shares": 463098,
+        "pct": 0.11373,
+        "shares": 461812,
+        "is_insider": null
+      },
+      {
+        "pct": 0.11028,
+        "shares": 447787,
         "is_insider": null
       },
       {
@@ -488,18 +779,13 @@
         "is_insider": null
       },
       {
-        "pct": 0.08238,
-        "shares": 334521,
+        "pct": 0.08884,
+        "shares": 360718,
         "is_insider": null
       },
       {
         "pct": 0.07975,
         "shares": 323819,
-        "is_insider": null
-      },
-      {
-        "pct": 0.07635,
-        "shares": 310002,
         "is_insider": null
       }
     ],
@@ -819,6 +1105,86 @@
   ],
   "news": [
     {
+      "id": "33755236-c5f6-4d49-9c44-9e7a2d9c9857",
+      "type": "brief",
+      "date": "2026-06-09T11:37:06.000Z",
+      "title": "Full year 2026 earnings: Revenues exceed analysts expectations while EPS lags behind",
+      "body": "Full year 2026 results: EPS: ₹13.47 (down from ₹16.69 in FY 2025). Revenue: ₹55.1b (up 6.5% from FY 2025). Net income: ₹5.47b (down 19% from FY 2025). Profit margin: 9.9% (down from 13% in FY 2025). The decrease in margin was driven by higher expenses. Revenue exceeded analyst estimates by 1.5%. Earnings per share (EPS) missed analyst estimates by 8.7%. Revenue is forecast to grow 12% p.a. on average during the next 3 years, compared to a 6.0% growth forecast for the IT industry in India.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "bb42a354-2ae2-42db-84d4-dc7a314dccf4",
+      "type": "narrative-update",
+      "date": "2026-06-05T03:09:22.000Z",
+      "title": "TATATECH: Lower Margins And One Time Dividend Will Constrain Future Returns",
+      "body": "Analysts have lifted their fair value estimate for Tata Technologies from ₹605.71 to ₹621.79 as they factor in a lower discount rate, slightly adjusted revenue growth and profit margin assumptions, and a marginally higher future P/E multiple. What's in the News Tata Technologies has scheduled a board meeting for May 4, 2026 to consider and approve audited standalone and consolidated financial results for the quarter and financial year ended March 31, 2026, and to consider recommending a dividend on equity shares for shareholder approval at the AGM (source, Key Developments).",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/software/nse-tatatech/tata-technologies-shares/yyq7mskt-ai-digital-transformation-and-electrification-will-shape-future-markets-0yzy/updates/13-analysts-have-lifted-their-fair-value-estimate-for-tata-tech",
+      "raw_subtype": "narrative-update"
+    },
+    {
+      "id": "71043621-1cfb-4cb4-a12a-6ab71f21dcea",
+      "type": "event",
+      "date": "2026-06-03T11:56:00.000Z",
+      "title": "Tata Technologies Limited to Report Q1, 2027 Results on Aug 14, 2026",
+      "body": "Tata Technologies Limited announced that they will report Q1, 2027 results on Aug 14, 2026",
+      "keyDevTypeId": "55",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
+    {
+      "id": "2e6461df-ba29-4a26-ab6d-a06aab3076a1",
+      "type": "event",
+      "date": "2026-06-03T11:56:00.000Z",
+      "title": "Tata Technologies Limited to Report Q2, 2027 Results on Nov 14, 2026",
+      "body": "Tata Technologies Limited announced that they will report Q2, 2027 results on Nov 14, 2026",
+      "keyDevTypeId": "55",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
+    {
+      "id": "d77502b5-1590-4911-9cc2-7bcce8f5ca33",
+      "type": "event",
+      "date": "2026-06-03T11:56:00.000Z",
+      "title": "Tata Technologies Limited to Report Q4, 2027 Results on May 30, 2027",
+      "body": "Tata Technologies Limited announced that they will report Q4, 2027 results on May 30, 2027",
+      "keyDevTypeId": "55",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
+    {
+      "id": "b8ac1f4d-c86e-480f-b874-3579648051cc",
+      "type": "event",
+      "date": "2026-06-03T11:56:00.000Z",
+      "title": "Tata Technologies Limited to Report Q3, 2027 Results on Feb 14, 2027",
+      "body": "Tata Technologies Limited announced that they will report Q3, 2027 results on Feb 14, 2027",
+      "keyDevTypeId": "55",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
+    {
+      "id": "77d8f03f-4d95-4118-beb9-94e0eec27b87",
+      "type": "brief",
+      "date": "2026-06-01T12:22:33.000Z",
+      "title": "Dividend of ₹11.70 announced",
+      "body": "Shareholders will receive a dividend of ₹11.70. Ex-date: 18th June 2026 Payment date: 26th July 2026 Dividend yield will be 1.6%, which is about the same as the industry average. Sustainability & Growth Dividend is covered by both earnings (62% earnings payout ratio) and cash flows (46% cash payout ratio). The dividend has decreased over the past 2 years, but has still been somewhat stable with no excessively large reductions to payments. EPS is expected to grow by 78% over the next 3 years, which should provide support to the dividend and adequate earnings cover.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "cce74025-c8c9-49a6-9e1f-83fbed535442",
+      "type": "event",
+      "date": "2026-05-30T14:15:00.000Z",
+      "title": "Tata Technologies Limited, Annual General Meeting, Jun 26, 2026",
+      "body": "Tata Technologies Limited, Annual General Meeting, Jun 26, 2026, at 15:00 Indian Standard Time.",
+      "keyDevTypeId": "62",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
+    {
       "id": "c834346f-abc9-45e7-a7f9-d23e520ea6d8",
       "type": "event",
       "date": "2026-05-29T14:39:00.000Z",
@@ -1037,26 +1403,6 @@
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/software/nse-tatatech/tata-technologies-shares/ps5zk77r-digital-transformation-and-ev-adoption-will-drive-expansion-78sb/updates/3-analysts-have-nudged-their-fair-value-estimate-for-tata-tech",
       "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "0bf77d48-9db0-44be-87ba-5fa2c654deed",
-      "type": "narrative-update",
-      "date": "2025-12-10T23:11:54.000Z",
-      "title": "TATATECH Will Benefit From Expanding Software-Defined Vehicle Collaboration With Global Automakers",
-      "body": "Narrative Update on Tata Technologies Analysts have modestly raised their price target on Tata Technologies to ₹1,084 from ₹1,082, citing higher expected revenue growth, slightly better profit margins, and a lower implied future P E multiple that together support a higher fair value despite a marginally reduced discount rate. What's in the News Appointed Mr. Uttam Gujrati as Chief Financial Officer effective December 31, 2025, succeeding Ms. Savitha Balachandran, with a transition period to help ensure continuity in financial leadership (Key Developments).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/software/nse-tatatech/tata-technologies-shares/ps5zk77r-digital-transformation-and-ev-adoption-will-drive-expansion-78sb/updates/2-narrative-update-on-tata-technologies-analysts-have-modestly",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "963f07d7-faa1-49c7-82d0-06ec7c22fb79",
-      "type": "article",
-      "date": "2025-12-08T00:12:18.000Z",
-      "title": "Investors Will Want Tata Technologies' (NSE:TATATECH) Growth In ROCE To Persist",
-      "body": "To find a multi-bagger stock, what are the underlying trends we should look for in a business? Amongst other things...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/software/nse-tatatech/tata-technologies-shares/news/investors-will-want-tata-technologies-nsetatatech-growth-in",
-      "raw_subtype": "article"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/TATATECH.json"

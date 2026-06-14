@@ -3,7 +3,7 @@
   "name": "BLS International Services Limited",
   "sector": "Commercial Services",
   "sws_url": "https://simplywall.st/stocks/in/commercial-services/nse-bls/bls-international-services-shares",
-  "parsed_at": "2026-05-31T21:39:16.015Z",
+  "parsed_at": "2026-06-11T00:30:34.135Z",
   "company_id": "8695EECD-D993-4180-A402-66753F40A68A",
   "classification_status": "Active",
   "groww_source": {
@@ -28,9 +28,287 @@
       "dividend": 4
     },
     "snowflake_total": 19,
-    "current_price_inr": 260.9,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_SUBSTANTIAL_DISCOUNT"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 253.65,
     "market_cap_inr": 108987800000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midsmall4",
     "shares_outstanding": 411574060,
     "fifty_two_week": {
@@ -43,7 +321,15 @@
       "max": 1745.7,
       "count": 26
     },
-    "upside_pct": 70.56343426600232,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "41368a00-c294-4e84-9fc7-767eae030966",
+      "narrative_type": null,
+      "published_at": "2025-12-03T23:02:27.647Z"
+    },
+    "upside_pct": 75.43859649122807,
     "multiples": {
       "pe": 15.06,
       "ps": 3.64,
@@ -63,7 +349,7 @@
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Earnings are forecast to grow 13.54% per year",
       "Trading below our calculated fair Price-To-Earnings ratio",
-      "Trading at 10.6% below our estimate of its fair value",
+      "Trading at 15.1% below our estimate of its fair value",
       "Earnings grew by 35.1% over the past year",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
@@ -238,8 +524,8 @@
     "dividend_yield_pct": 0.19,
     "industry_benchmarks": {
       "pe": 18.761595487228476,
-      "net_income_margin_1y": 0.07234671003,
-      "future_revenue_growth_3y": 0.3740225928,
+      "net_income_margin_1y": 0.07149669577,
+      "future_revenue_growth_3y": 0.358570421,
       "sector_pe": 18.761595487228476
     },
     "industry_benchmarks_meta": {
@@ -274,15 +560,15 @@
         "url": "https://groww.in/stocks/bls-international-services-ltd"
       },
       "sws_statement": {
-        "company_pe": 15.6,
-        "industry_pe": 19.8,
+        "company_pe": 15.2,
+        "industry_pe": 20.3,
         "industry_name": "Indian Professional Services",
-        "description": "BLS is good value based on its Price-To-Earnings Ratio (15.6x) compared to the Indian Professional Services industry average (19.8x).",
+        "description": "BLS is good value based on its Price-To-Earnings Ratio (15.2x) compared to the Indian Professional Services industry average (20.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 19.714358381,
+        "industry_pe": 20.253723075,
         "industry_code": "9612010",
         "type": "median_profitable",
         "count": 63,
@@ -294,25 +580,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.1,
-        "sample_count": 59,
+        "industry_pe": 18.6,
+        "sample_count": 57,
         "industry_code": "9612010",
         "industry_name": "Commercial Services"
       },
       "sws_primary_industry": {
-        "industry_pe": 16.094987777,
+        "industry_pe": 16.028068325,
         "industry_name": "Commercial Services",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 17.836040847614832
+        "company_pe": 17.340405369863944
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 260.9,
-        "fetched_at": "2026-05-31T21:39:16.015Z",
+        "value": 253.65,
+        "fetched_at": "2026-06-11T00:30:34.135Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-bls/bls-international-services-shares"
       },
       "market_cap_inr": {
@@ -320,6 +606,24 @@
         "value": 108987800000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/bls-international-services-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 445,
+        "fetched_at": "2026-06-11T00:30:34.135Z",
+        "url": "https://simplywall.st/stocks/in/commercial-services/nse-bls/bls-international-services-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "41368a00-c294-4e84-9fc7-767eae030966",
+        "narrative_type": null,
+        "published_at": "2025-12-03T23:02:27.647Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 75.43859649122807,
+        "fetched_at": "2026-06-11T00:30:34.135Z",
+        "url": "https://simplywall.st/stocks/in/commercial-services/nse-bls/bls-international-services-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -359,14 +663,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.07234671003,
-        "fetched_at": "2026-05-31T21:39:16.015Z",
+        "value": 0.07149669577,
+        "fetched_at": "2026-06-11T00:30:34.135Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-bls/bls-international-services-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.3740225928,
-        "fetched_at": "2026-05-31T21:39:16.015Z",
+        "value": 0.358570421,
+        "fetched_at": "2026-06-11T00:30:34.135Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-bls/bls-international-services-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -498,12 +802,12 @@
     "quick_ratio": 2.912379920664001,
     "cash_ratio": 1.882684679230855,
     "returns_pct": {
-      "1D": -1.4914102322069265,
-      "7D": -2.5401568920433366,
-      "1M": -6.537703743507076,
-      "3M": -6.386795837818447,
-      "6M": -20.879454131918127,
-      "1Y": -36.78216622243761,
+      "1D": -3.9386479833364914,
+      "7D": -6.1945266272189246,
+      "1M": -10.96876096876096,
+      "3M": 0.7547169811320777,
+      "6M": -20.895056915640097,
+      "1Y": -33.020860839714814,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -604,8 +908,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.69399,
-        "shares": 2856294,
+        "pct": 0.63985,
+        "shares": 2633453,
         "is_insider": null
       },
       {

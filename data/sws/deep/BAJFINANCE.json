@@ -3,7 +3,7 @@
   "name": "Bajaj Finance Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-bajfinance/bajaj-finance-shares",
-  "parsed_at": "2026-05-31T21:27:57.066Z",
+  "parsed_at": "2026-06-11T00:22:42.175Z",
   "company_id": "9050666D-70CA-4029-80E9-E8C416D7ECA5",
   "classification_status": "Active",
   "groww_source": {
@@ -16,18 +16,18 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 1,
+      "valuation": 2,
       "future": 5,
       "past": 1,
       "financial_health": 2,
       "dividends": 4,
       "future_growth": 5,
       "past_performance": 1,
-      "value": 1,
+      "value": 2,
       "health": 2,
       "dividend": 4
     },
-    "snowflake_total": 13,
+    "snowflake_total": 14,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 1,
@@ -65,22 +65,308 @@
         }
       ]
     },
-    "current_price_inr": 908.25,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_STABLE_IN_PAST_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 884.1,
     "market_cap_inr": 5796052200000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "mega8",
     "shares_outstanding": 6203541775,
     "fifty_two_week": {
       "low": 787.9,
       "high": 1102.5
     },
-    "fair_value_inr": 1270,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 410.071932,
+      "min": 422.424169,
       "max": 1346.77,
-      "count": 90
+      "count": 92
     },
-    "upside_pct": 39.82934214148087,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystLowTarget",
+      "owner_classification": null,
+      "narrative_id": "819af416-0926-4020-b23e-c7ee0427eec7",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 29.98,
       "ps": 7.11,
@@ -98,17 +384,17 @@
     },
     "rewards": [
       "Earnings have grown 25.1% per year over the past 5 years",
-      "Earnings are forecast to grow 19.47% per year",
+      "Earnings are forecast to grow 19.5% per year",
       "Trading below our calculated fair Price-To-Earnings ratio"
     ],
     "risks": [
-      "Dividend of 0.66% is not well covered by free cash flows",
+      "Dividend of 0.68% is not well covered by free cash flows",
       "High level of [[non-cash earnings]]",
       "Debt is not well covered by [[operating cash flow]]"
     ],
     "dividend": {
       "yield_pct": 0.64,
-      "payout_pct": 12.384797794413275,
+      "payout_pct": 11.743330914494576,
       "annualized_dividend": 3.6,
       "listing_currency": "INR",
       "recent_payments": [
@@ -261,8 +547,8 @@
     "dividend_yield_pct": 0.64,
     "industry_benchmarks": {
       "pe": 18.85756396507594,
-      "net_income_margin_1y": 0.2564706218,
-      "future_revenue_growth_3y": 0.3320316411,
+      "net_income_margin_1y": 0.257896607,
+      "future_revenue_growth_3y": 0.3297814148,
       "sector_pe": 18.85756396507594
     },
     "industry_benchmarks_meta": {
@@ -297,18 +583,18 @@
         "url": "https://groww.in/stocks/bajaj-finance-ltd"
       },
       "sws_statement": {
-        "company_pe": 29.6,
-        "industry_pe": 20,
+        "company_pe": 28.9,
+        "industry_pe": 20.1,
         "industry_name": "Indian Consumer Finance",
-        "description": "BAJFINANCE is expensive based on its Price-To-Earnings Ratio (29.6x) compared to the Indian Consumer Finance industry average (20x).",
+        "description": "BAJFINANCE is expensive based on its Price-To-Earnings Ratio (28.9x) compared to the Indian Consumer Finance industry average (20.1x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 20.116846802,
+        "industry_pe": 20.092697454,
         "industry_code": "7120000",
         "type": "median_profitable",
-        "count": 79,
+        "count": 80,
         "source": {
           "type": "country",
           "country": "IN",
@@ -317,25 +603,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.8,
-        "sample_count": 80,
+        "industry_pe": 19.6,
+        "sample_count": 81,
         "industry_code": "7120000",
         "industry_name": "Diversified Financials"
       },
       "sws_primary_industry": {
-        "industry_pe": 15.729172633,
+        "industry_pe": 15.226484123,
         "industry_name": "Diversified Financials",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 31.24581276882183
+        "company_pe": 28.839663504179597
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 908.25,
-        "fetched_at": "2026-05-31T21:27:57.066Z",
+        "value": 884.1,
+        "fetched_at": "2026-06-11T00:22:42.175Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-bajfinance/bajaj-finance-shares"
       },
       "market_cap_inr": {
@@ -382,14 +668,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.2564706218,
-        "fetched_at": "2026-05-31T21:27:57.066Z",
+        "value": 0.257896607,
+        "fetched_at": "2026-06-11T00:22:42.175Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-bajfinance/bajaj-finance-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.3320316411,
-        "fetched_at": "2026-05-31T21:27:57.066Z",
+        "value": 0.3297814148,
+        "fetched_at": "2026-06-11T00:22:42.175Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-bajfinance/bajaj-finance-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -498,13 +784,13 @@
         "url": "https://groww.in/stocks/bajaj-finance-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 8.381927440013175,
+    "earnings_growth_yoy_pct": 9.135718159358868,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 11.517794675778982,
-    "latest_revenue": 412833300000,
-    "latest_net_income": 180323900000,
+    "revenue_growth_pct": 13.046871252473851,
+    "latest_revenue": 438345800000,
+    "latest_net_income": 190173900000,
     "latest_eps": 31.05,
-    "most_recent_reported_date": "2026-04-17",
+    "most_recent_reported_date": "2026-06-05",
     "pb": 5.08,
     "ps": 7.11,
     "book_value": 183.1041795,
@@ -521,16 +807,16 @@
     "quick_ratio": 3.440783737447955,
     "cash_ratio": 2.205006122948812,
     "returns_pct": {
-      "1D": -2.4593244912205314,
-      "7D": -0.9055697997926959,
-      "1M": -2.338709677419355,
-      "3M": -8.801084446229538,
-      "6M": -12.457831325301205,
-      "1Y": -0.3948017766079972,
+      "1D": -0.31570639305445425,
+      "7D": 0.8325729927007377,
+      "1M": -5.549917205277489,
+      "3M": 2.4330900243309,
+      "6M": -13.093482748451779,
+      "1Y": -6.196286472148539,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -562,8 +848,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.82651,
-        "shares": 113308551,
+        "pct": 1.75869,
+        "shares": 109101041,
         "is_insider": null
       },
       {
@@ -587,13 +873,13 @@
         "is_insider": null
       },
       {
-        "pct": 0.76736,
-        "shares": 47603726,
+        "pct": 0.77878,
+        "shares": 48312043,
         "is_insider": null
       },
       {
-        "pct": 0.74851,
-        "shares": 46434345,
+        "pct": 0.75097,
+        "shares": 46586736,
         "is_insider": null
       },
       {
@@ -612,13 +898,13 @@
         "is_insider": null
       },
       {
-        "pct": 0.61001,
-        "shares": 37842106,
+        "pct": 0.58228,
+        "shares": 36121830,
         "is_insider": null
       },
       {
-        "pct": 0.58228,
-        "shares": 36121830,
+        "pct": 0.52818,
+        "shares": 32766097,
         "is_insider": null
       },
       {
@@ -649,7 +935,7 @@
   },
   "dividend": {
     "yield_pct": 0.64,
-    "payout_pct": 12.384797794413275,
+    "payout_pct": 11.743330914494576,
     "annualized_dividend": 3.6,
     "listing_currency": "INR",
     "recent_payments": [
@@ -800,44 +1086,44 @@
     "payment_count": 11
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-04-17",
+    "most_recent_reported_date": "2026-06-05",
     "latest_year": 2026,
-    "latest_revenue": 412833300000,
-    "latest_net_income": 180323900000,
+    "latest_revenue": 438345800000,
+    "latest_net_income": 190173900000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 11.517794675778982,
-    "earnings_growth_pct": 8.381927440013175,
-    "net_margin_pct": 43.67959173836025,
+    "revenue_growth_pct": 13.046871252473851,
+    "earnings_growth_pct": 9.135718159358868,
+    "net_margin_pct": 43.38444670851187,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 412833300000,
-        "netIncome": 180323900000,
+        "revenue": 438345800000,
+        "netIncome": 190173900000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 370195000000,
-        "netIncome": 166378200000,
+        "revenue": 387755800000,
+        "netIncome": 174254500000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 317091400000,
-        "netIncome": 144511700000,
+        "revenue": 330429200000,
+        "netIncome": 149262600000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 256687200000,
-        "netIncome": 115076900000,
+        "revenue": 271858500000,
+        "netIncome": 123483300000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 170909500000,
-        "netIncome": 70282300000,
+        "revenue": 202326000000,
+        "netIncome": 86220400000,
         "eps": null
       }
     ]
@@ -1044,6 +1330,16 @@
   ],
   "news": [
     {
+      "id": "8557305c-ebe4-4402-969a-4f58bf558137",
+      "type": "narrative-update",
+      "date": "2026-06-06T18:08:06.000Z",
+      "title": "BAJFINANCE: Dividend Policy And Fine Tuned Profit Assumptions Will Shape Returns",
+      "body": "Analysts have trimmed their price target on Bajaj Finance by about ₹8, reflecting fine tuned assumptions on discount rate, revenue growth, profit margins, and future P/E that slightly adjust the stock's assessed fair value. What's in the News Bajaj Finance has proposed a special payout of ₹0.60 per equity share at the AGM scheduled for July 30, 2026.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/diversified-financials/nse-bajfinance/bajaj-finance-shares/wnk286si-intense-fintech-competition-and-tighter-regulations-will-compress-margins-7bih/updates/5-analysts-have-trimmed-their-price-target-on-bajaj-finance-by",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "c6815f1a-ea50-40e8-ada4-da9cebf47a14",
       "type": "narrative-update",
       "date": "2026-05-23T05:06:58.000Z",
@@ -1221,16 +1517,6 @@
       "body": "Analysts have raised their price target on Bajaj Finance from ₹1,150 to ₹1,329, citing slightly faster expected revenue growth and a higher anticipated future P/E multiple, which more than offset a modest reduction in projected profit margins and discount rate. What's in the News Promoter Bajaj Finance may sell a 2% stake in Bajaj Housing Finance via a block deal on 2 December 2025, with around 166 million shares on offer at a likely floor price of INR 95 per share, about a 9% discount to the prior close.",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/diversified-financials/nse-bajfinance/bajaj-finance-shares/5szo91vw-digital-integration-and-rural-expansion-will-boost-secular-demand-ccaj/updates/2-analysts-have-raised-their-price-target-on-bajaj-finance-fro",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "42655a58-2a3d-4773-afc8-9983f5a8689e",
-      "type": "narrative-update",
-      "date": "2025-12-04T10:05:42.000Z",
-      "title": "BAJFINANCE: Upcoming Results Will Clarify Margins Amid Slightly Higher Required Returns",
-      "body": "Analysts have modestly raised their price target on Bajaj Finance, with fair value moving from ₹1,066.16 to ₹1,073.81, citing a slightly improved profit margin outlook and resilient long term earnings visibility, despite marginally softer revenue growth assumptions and a higher discount rate. What's in the News The board has scheduled a meeting on November 10, 2025, to consider and approve the unaudited standalone and consolidated financial results for the quarter and half year ended September 30, 2025 (company filing).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/diversified-financials/nse-bajfinance/bajaj-finance-shares/a7ii6a0g-analysts-adjust-bajaj-finance-price-target-amid-minor-valuation-shifts-and-upcoming-board-review/updates/15-analysts-have-modestly-raised-their-price-target-on-bajaj-fi",
       "raw_subtype": "narrative-update"
     }
   ],

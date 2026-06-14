@@ -3,27 +3,27 @@
   "name": "Swasti Vinayaka Synthetics Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/bse-510245/swasti-vinayaka-synthetics-shares",
-  "parsed_at": "2026-05-31T21:46:21.771Z",
+  "parsed_at": "2026-06-11T00:39:32.916Z",
   "company_id": "5A0A1ED8-0506-423D-84CF-1333AF9DBD71",
   "classification_status": "Active",
   "groww_source": null,
   "overview": {
     "snowflake": {
-      "valuation": 1,
+      "valuation": 4,
       "future": 0,
-      "past": 3,
-      "financial_health": 4,
+      "past": 5,
+      "financial_health": 6,
       "dividends": 0,
       "future_growth": 0,
-      "past_performance": 3,
-      "value": 1,
-      "health": 4,
+      "past_performance": 5,
+      "value": 4,
+      "health": 6,
       "dividend": 0
     },
-    "snowflake_total": 8,
+    "snowflake_total": 15,
     "snowflake_data_quality": {
       "insufficient": true,
-      "insufficient_count": 11,
+      "insufficient_count": 9,
       "checked_count": 30,
       "affected_pillars": [
         "Value",
@@ -33,7 +33,7 @@
       "by_pillar": {
         "Value": {
           "checked": 6,
-          "insufficient": 3
+          "insufficient": 1
         },
         "Future": {
           "checked": 6,
@@ -59,32 +59,321 @@
           "reason_code": "OUTCOME_NULL"
         },
         {
-          "pillar": "Value",
-          "title": "Below Future Cash Flow Value",
+          "pillar": "Future",
+          "title": "Future ROE",
           "reason_code": "OUTCOME_NULL"
         },
         {
-          "pillar": "Value",
-          "title": "Significantly Below Future Cash Flow Value",
+          "pillar": "Future",
+          "title": "High Growth Earnings",
           "reason_code": "OUTCOME_NULL"
         }
       ]
     },
-    "current_price_inr": 3.96,
-    "market_cap_inr": 356399920.1654349,
-    "market_cap_usd": 120714180851.549,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SAME_PB"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 3.79,
+    "market_cap_inr": 341099923.59267634,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
-    "fifty_two_week": null,
-    "fair_value_inr": 1.478207,
+    "fifty_two_week": {
+      "low": 3.09,
+      "high": 6.12
+    },
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -62.67154040404039,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "4750bc7b-badc-4378-a08d-04157b63ca0b",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
-      "pe": 15.4,
+      "pe": 11.2,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -93,18 +382,19 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": "2026-05-31T21:46:21.771Z",
+      "pe_as_of": "2026-06-11T00:39:32.916Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://simplywall.st/stocks/in/consumer-durables/bse-510245/swasti-vinayaka-synthetics-shares"
     },
     "rewards": [
-      "Earnings have grown 8.4% per year over the past 5 years",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (15.4x) is below the Indian market (23.4x)"
+      "Earnings grew by 25.9% over the past year",
+      "Trading at good value vs. peer average Price-To-Earnings ratio",
+      "Trading at 85.7% below our estimate of its fair value"
     ],
     "risks": [
-      "Does not have a meaningful market cap (₹356M)",
-      "Does not have meaningful revenue (₹358M)"
+      "Does not have a meaningful market cap (₹341M)",
+      "Does not have meaningful revenue (₹320M)"
     ],
     "dividend": {
       "yield_pct": 3.7864474785,
@@ -169,9 +459,9 @@
     },
     "dividend_yield_pct": 3.7864474785,
     "industry_benchmarks": {
-      "pe": 18.199713239,
-      "net_income_margin_1y": 0.05921870449,
-      "future_revenue_growth_3y": 0.4160609582
+      "pe": 19.295215828,
+      "net_income_margin_1y": 0.05901661834,
+      "future_revenue_growth_3y": 0.4189534718
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -185,30 +475,30 @@
     "pe_benchmark_source": {
       "provider": "sws_industry_api",
       "label": "SWS industry API",
-      "company_pe": 15.4,
+      "company_pe": 11.2,
       "company_pe_source": "sws_statement",
       "company_pe_source_label": "SWS visible statement",
-      "industry_pe": 18.199713239,
+      "industry_pe": 19.295215828,
       "industry_name": "Consumer Durables",
       "industry_code": "4130000",
-      "sample_count": 294,
+      "sample_count": 296,
       "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 15.4,
-        "industry_pe": 18,
+        "company_pe": 11.2,
+        "industry_pe": 19.3,
         "industry_name": "Indian Luxury",
-        "description": "510245 is good value based on its Price-To-Earnings Ratio (15.4x) compared to the Indian Luxury industry average (18x).",
+        "description": "510245 is good value based on its Price-To-Earnings Ratio (11.2x) compared to the Indian Luxury industry average (19.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 18.199713239,
+        "industry_pe": 19.295215828,
         "industry_code": "4130000",
         "type": "median_profitable",
-        "count": 294,
+        "count": 296,
         "source": {
           "type": "country",
           "country": "IN",
@@ -217,8 +507,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.1,
-        "sample_count": 290,
+        "industry_pe": 17.95,
+        "sample_count": 294,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
       },
@@ -230,32 +520,41 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 3.96,
-        "fetched_at": "2026-05-31T21:46:21.771Z",
+        "value": 3.79,
+        "fetched_at": "2026-06-11T00:39:32.916Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-510245/swasti-vinayaka-synthetics-shares"
       },
       "multiples.pe": {
         "provider": "sws_statement",
-        "value": 15.4,
-        "fetched_at": "2026-05-31T21:46:21.771Z",
+        "value": 11.2,
+        "fetched_at": "2026-06-11T00:39:32.916Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-510245/swasti-vinayaka-synthetics-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 18.199713239,
+        "value": 19.295215828,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.05921870449,
-        "fetched_at": "2026-05-31T21:46:21.771Z",
+        "value": 0.05901661834,
+        "fetched_at": "2026-06-11T00:39:32.916Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-510245/swasti-vinayaka-synthetics-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.4160609582,
-        "fetched_at": "2026-05-31T21:46:21.771Z",
+        "value": 0.4189534718,
+        "fetched_at": "2026-06-11T00:39:32.916Z",
+        "url": "https://simplywall.st/stocks/in/consumer-durables/bse-510245/swasti-vinayaka-synthetics-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 3.09,
+          "high": 6.12
+        },
+        "fetched_at": "2026-06-11T00:39:32.916Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-510245/swasti-vinayaka-synthetics-shares"
       }
     },
@@ -282,12 +581,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 0,
-      "7D": -1.7369727047146473,
-      "1M": -7.692307692307694,
-      "3M": 7.608695652173908,
-      "6M": -13.913043478260864,
-      "1Y": -35.81847649918963,
+      "1D": -0.2631578947368365,
+      "7D": -4.773869346733667,
+      "1M": -0.2631578947368365,
+      "3M": 7.670454545454546,
+      "6M": -15.40178571428572,
+      "1Y": -38.0718954248366,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -434,6 +733,16 @@
     "BSE"
   ],
   "news": [
+    {
+      "id": "756cfab7-862c-482c-8724-9187b7eafbe9",
+      "type": "brief",
+      "date": "2026-05-31T23:00:45.000Z",
+      "title": "Full year 2026 earnings released: EPS: ₹0.33 (vs ₹0.27 in FY 2025)",
+      "body": "Full year 2026 results: EPS: ₹0.33 (up from ₹0.27 in FY 2025). Revenue: ₹338.7m (down 12% from FY 2025). Net income: ₹30.5m (up 26% from FY 2025). Profit margin: 9.0% (up from 6.3% in FY 2025). The increase in margin was driven by lower expenses. Over the last 3 years on average, earnings per share has increased by 5% per year but the company’s share price has fallen by 14% per year, which means it is significantly lagging earnings.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "c7c6ad64-a9ca-429a-9dac-c6bd4d044987",
       "type": "event",

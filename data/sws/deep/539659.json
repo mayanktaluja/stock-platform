@@ -3,7 +3,7 @@
   "name": "Vikram Kamats Hospitality Limited",
   "sector": "Consumer Services",
   "sws_url": "https://simplywall.st/stocks/in/consumer-services/bse-539659/vikram-kamats-hospitality-shares",
-  "parsed_at": "2026-05-31T22:55:59.319Z",
+  "parsed_at": "2026-06-11T02:11:47.220Z",
   "company_id": "FC0C2C5F-9F9A-49ED-99C8-8CF664266FF8",
   "classification_status": "Active",
   "groww_source": {
@@ -76,22 +76,308 @@
         }
       ]
     },
-    "current_price_inr": 44.99,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ONE_TIME"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DIVIDENDS_FALLEN"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_50_TO_75"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 41.3,
     "market_cap_inr": 785100000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 30.2,
       "high": 70
     },
-    "fair_value_inr": 2.053697,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -95.43521449210935,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "27e9715b-c29b-4329-a730-3c245bcffe5f",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": null,
       "ps": 1.56,
@@ -113,12 +399,12 @@
     ],
     "risks": [
       "Shareholders have been diluted in the past year",
-      "Does not have a meaningful market cap (₹819M)",
+      "Does not have a meaningful market cap (₹737M)",
       "Interest payments are not well covered by earnings",
       "Large [[one-off items]] impacting financial results",
-      "Profit margins (0.2%) are lower than last year (1.5%)",
       "Highly volatile share price over past 3 months",
-      "Dividend of 0.67% is not well covered by free cash flows"
+      "Profit margins (0.2%) are lower than last year (1.5%)",
+      "Dividend of 0.74% is not well covered by free cash flows"
     ],
     "dividend": {
       "yield_pct": 0.58,
@@ -137,7 +423,7 @@
           "divFreqTypeName": "Annual",
           "annualizedDividend": 0.3,
           "annualizedDividendListingCurrency": 0.3,
-          "annualizedYield": 0.567609316
+          "annualizedYield": 0.5737522218
         },
         {
           "exDate": "2024-09-20T00:00:00.000Z",
@@ -210,8 +496,8 @@
     "dividend_yield_pct": 0.58,
     "industry_benchmarks": {
       "pe": 35.67618631448488,
-      "net_income_margin_1y": 0.165515606,
-      "future_revenue_growth_3y": 1.224870747,
+      "net_income_margin_1y": 0.1628077426,
+      "future_revenue_growth_3y": 1.232276429,
       "sector_pe": 35.67618631448488
     },
     "industry_benchmarks_meta": {
@@ -247,17 +533,17 @@
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 3,
+        "industry_pe": 2.8,
         "industry_name": "Indian Hospitality",
-        "description": "539659 is good value based on its Price-To-Sales Ratio (1.4x) compared to the Indian Hospitality industry average (3x).",
+        "description": "539659 is good value based on its Price-To-Sales Ratio (1.3x) compared to the Indian Hospitality industry average (2.8x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 27.078875295,
+        "industry_pe": 28.141130414,
         "industry_code": "4210000",
         "type": "median_profitable",
-        "count": 80,
+        "count": 81,
         "source": {
           "type": "country",
           "country": "IN",
@@ -266,7 +552,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 25.25,
+        "industry_pe": 26.450000000000003,
         "sample_count": 80,
         "industry_code": "4210000",
         "industry_name": "Consumer Services"
@@ -279,8 +565,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 44.99,
-        "fetched_at": "2026-05-31T22:55:59.319Z",
+        "value": 41.3,
+        "fetched_at": "2026-06-11T02:11:47.220Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/bse-539659/vikram-kamats-hospitality-shares"
       },
       "market_cap_inr": {
@@ -321,14 +607,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.165515606,
-        "fetched_at": "2026-05-31T22:55:59.319Z",
+        "value": 0.1628077426,
+        "fetched_at": "2026-06-11T02:11:47.220Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/bse-539659/vikram-kamats-hospitality-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 1.224870747,
-        "fetched_at": "2026-05-31T22:55:59.319Z",
+        "value": 1.232276429,
+        "fetched_at": "2026-06-11T02:11:47.220Z",
         "url": "https://simplywall.st/stocks/in/consumer-services/bse-539659/vikram-kamats-hospitality-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -454,12 +740,12 @@
     "quick_ratio": 0.8534893801473774,
     "cash_ratio": 0.4629388816644993,
     "returns_pct": {
-      "1D": 4.288363467779326,
-      "7D": 5.0186741363211915,
-      "1M": 1.925690983235164,
-      "3M": -16.808431952662716,
-      "6M": -22.37750172532781,
-      "1Y": -31.83333333333333,
+      "1D": 1.950135768945937,
+      "7D": -3.9534883720930303,
+      "1M": 0.34013605442177014,
+      "3M": -13.95833333333334,
+      "6M": -26.170897390060784,
+      "1Y": -35.96899224806202,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -562,7 +848,7 @@
         "divFreqTypeName": "Annual",
         "annualizedDividend": 0.3,
         "annualizedDividendListingCurrency": 0.3,
-        "annualizedYield": 0.567609316
+        "annualizedYield": 0.5737522218
       },
       {
         "exDate": "2024-09-20T00:00:00.000Z",
@@ -938,16 +1224,6 @@
       "keyDevTypeId": "55",
       "source_url": null,
       "raw_subtype": "EventActivity"
-    },
-    {
-      "id": "9cbd2e5e-2c2a-4266-9de6-747737caaf99",
-      "type": "brief",
-      "date": "2025-12-04T17:55:11.000Z",
-      "title": "New major risk - Market cap size",
-      "body": "The company's market capitalization is less than US$10m. Market cap: ₹885.8m (US$9.86m) This is considered a major risk. Companies with a small market capitalization are most likely businesses that have not yet released a product to market or are simply a very small company without a wide reach. Either way, risk is elevated with these companies because there is a chance the product may not come to fruition or the company's addressable market or demand may not be as large as expected. In addition, if the company's size is the main factor, it is less likely to have many investors and analysts following it and scrutinizing its performance and outlook. Currently, the following risks have been identified for the company: Major Risks High level of non-cash earnings (32% accrual ratio). Market ca",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/539659.json"

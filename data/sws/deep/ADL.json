@@ -3,7 +3,7 @@
   "name": "Archidply Decor Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-adl/archidply-decor-shares",
-  "parsed_at": "2026-05-31T20:58:18.124Z",
+  "parsed_at": "2026-06-10T23:54:40.567Z",
   "company_id": "E0D11F3F-E21F-4F75-809D-3802BBDF6661",
   "classification_status": "Active",
   "groww_source": {
@@ -16,18 +16,18 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 3,
+      "valuation": 1,
       "future": 0,
-      "past": 2,
-      "financial_health": 5,
+      "past": 1,
+      "financial_health": 4,
       "dividends": 0,
       "future_growth": 0,
-      "past_performance": 2,
-      "value": 3,
-      "health": 5,
+      "past_performance": 1,
+      "value": 1,
+      "health": 4,
       "dividend": 0
     },
-    "snowflake_total": 10,
+    "snowflake_total": 6,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 10,
@@ -77,22 +77,308 @@
         }
       ]
     },
-    "current_price_inr": 74.28,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SAME_PB"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ONE_TIME"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 72.29,
     "market_cap_inr": 439700000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 50.26,
       "high": 109.9
     },
-    "fair_value_inr": 133.55424,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 79.79838449111469,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "f82bab31-ee10-49d7-a6d5-dd13571a1e5d",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": null,
       "ps": 0.86,
@@ -108,13 +394,12 @@
       "pe_basis": "trailing_ttm",
       "pe_source_url": null
     },
-    "rewards": [
-      "Trading at 44.4% below our estimate of its fair value",
-      "Trading at good value vs. peer average Price-To-Sales ratio"
-    ],
+    "rewards": [],
     "risks": [
-      "Profit margins (0.04%) are lower than last year (0.4%)",
-      "Does not have a meaningful market cap (₹413M)",
+      "Does not have meaningful revenue (₹463M)",
+      "Profit margins (0%) are lower than last year (0.1%)",
+      "Large [[one-off items]] impacting financial results",
+      "Does not have a meaningful market cap (₹403M)",
       "Highly volatile share price over past 3 months"
     ],
     "dividend": {
@@ -128,8 +413,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 46.1375953312554,
-      "net_income_margin_1y": 0.07066619667,
-      "future_revenue_growth_3y": 0.2051669559,
+      "net_income_margin_1y": 0.07068772409,
+      "future_revenue_growth_3y": 0.1918086332,
       "sector_pe": 46.1375953312554
     },
     "industry_benchmarks_meta": {
@@ -165,17 +450,17 @@
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 0.5,
+        "industry_pe": 0.6,
         "industry_name": "Indian Forestry",
-        "description": "ADL is expensive based on its Price-To-Sales Ratio (0.8x) compared to the Indian Forestry industry average (0.5x).",
+        "description": "ADL is expensive based on its Price-To-Sales Ratio (0.9x) compared to the Indian Forestry industry average (0.6x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 21.939974729,
+        "industry_pe": 22.240372999,
         "industry_code": "2060000",
         "type": "median_profitable",
-        "count": 40,
+        "count": 41,
         "source": {
           "type": "country",
           "country": "IN",
@@ -184,8 +469,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.4,
-        "sample_count": 39,
+        "industry_pe": 20.549999999999997,
+        "sample_count": 40,
         "industry_code": "2060000",
         "industry_name": "Materials"
       },
@@ -197,8 +482,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 74.28,
-        "fetched_at": "2026-05-31T20:58:18.124Z",
+        "value": 72.29,
+        "fetched_at": "2026-06-10T23:54:40.567Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-adl/archidply-decor-shares"
       },
       "market_cap_inr": {
@@ -239,14 +524,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.07066619667,
-        "fetched_at": "2026-05-31T20:58:18.124Z",
+        "value": 0.07068772409,
+        "fetched_at": "2026-06-10T23:54:40.567Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-adl/archidply-decor-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.2051669559,
-        "fetched_at": "2026-05-31T20:58:18.124Z",
+        "value": 0.1918086332,
+        "fetched_at": "2026-06-10T23:54:40.567Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-adl/archidply-decor-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -378,34 +663,29 @@
     "quick_ratio": 0.8234762979683974,
     "cash_ratio": 0.03250564334085779,
     "returns_pct": {
-      "1D": -1.0127931769722882,
-      "7D": -3.682572614107888,
-      "1M": -0.29530201342281726,
-      "3M": 7.449732388254023,
-      "6M": 0.21586616297894845,
-      "1Y": -14.354894500172954,
+      "1D": -0.15193370165745776,
+      "7D": 0.9918971779826878,
+      "1M": -2.9012760241772955,
+      "3M": 0.5144605116796503,
+      "6M": -8.609355246523373,
+      "1Y": -23.90526315789473,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 1,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
   "ownership": {
     "top_holders": [
       {
-        "pct": 19.81472,
-        "shares": 1102937,
+        "pct": 32.51559,
+        "shares": 1809899,
         "is_insider": null
       },
       {
-        "pct": 17.71169,
-        "shares": 985877,
-        "is_insider": null
-      },
-      {
-        "pct": 12.70087,
-        "shares": 706962,
+        "pct": 18.95984,
+        "shares": 1055352,
         "is_insider": null
       },
       {
@@ -441,11 +721,6 @@
       {
         "pct": 2.02986,
         "shares": 112987,
-        "is_insider": null
-      },
-      {
-        "pct": 1.24815,
-        "shares": 69475,
         "is_insider": null
       },
       {
@@ -643,6 +918,26 @@
   ],
   "news": [
     {
+      "id": "86afeefd-3322-43d5-844a-901ef5499892",
+      "type": "brief",
+      "date": "2026-06-03T17:12:32.000Z",
+      "title": "New minor risk - Revenue size",
+      "body": "The company makes less than US$5m in revenue. Total revenue: ₹478m (US$5.0m) This is considered a minor risk. Companies with a small amount of revenue are most likely businesses that have not yet released a product to market or are simply a very small company without a wide reach. Either way, risk is elevated with these companies because there is a chance the product may not come to fruition or the company's addressable market or demand may not be as large as expected. In addition, if the company's size is the main factor, it is less likely to have many investors and analysts following it and scrutinizing its performance and outlook. Currently, the following risks have been identified for the company: Major Risk Market cap is less than US$10m (₹398.4m market cap, or US$4.16m). Minor Risks ",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "a63a74ca-c5d7-4563-83b0-649991cffaf1",
+      "type": "brief",
+      "date": "2026-05-31T23:21:29.000Z",
+      "title": "Full year 2026 earnings released: EPS: ₹0.004 (vs ₹0.10 in FY 2025)",
+      "body": "Full year 2026 results: EPS: ₹0.004 (down from ₹0.10 in FY 2025). Revenue: ₹477.9m (down 8.9% from FY 2025). Net income: ₹20.0k (down 97% from FY 2025). Profit margin: 0% (down from 0.1% in FY 2025). Over the last 3 years on average, the company's share price growth rate has exceeded its earnings growth rate by 65 percentage points per year, which is a significant difference in performance.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
       "id": "4d0263d1-14eb-4a0a-a5e7-c109985b2aad",
       "type": "event",
       "date": "2026-05-25T08:59:00.000Z",
@@ -681,16 +976,6 @@
       "keyDevTypeId": "55",
       "source_url": null,
       "raw_subtype": "EventActivity"
-    },
-    {
-      "id": "98a576d8-6e66-4a46-ae44-31505e44168c",
-      "type": "article",
-      "date": "2025-12-15T07:59:10.000Z",
-      "title": "Is Archidply Decor (NSE:ADL) Using Too Much Debt?",
-      "body": "Howard Marks put it nicely when he said that, rather than worrying about share price volatility, 'The possibility of...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/materials/nse-adl/archidply-decor-shares/news/is-archidply-decor-nseadl-using-too-much-debt",
-      "raw_subtype": "article"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/ADL.json"

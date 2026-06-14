@@ -3,7 +3,7 @@
   "name": "Sterling and Wilson Renewable Energy Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-swsolar/sterling-and-wilson-renewable-energy-shares",
-  "parsed_at": "2026-05-31T22:39:44.724Z",
+  "parsed_at": "2026-06-11T01:42:54.340Z",
   "company_id": "2F4CB391-3B38-4547-9041-26C87E3FB084",
   "classification_status": "Active",
   "groww_source": {
@@ -76,9 +76,287 @@
         }
       ]
     },
-    "current_price_inr": 187.58,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 28,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_SUBSTANTIAL_DISCOUNT"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_EXPECTED_TO_BECOME_PROFITABLE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_EXPECTED_TO_BECOME_PROFITABLE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_EXPECTED_TO_BECOME_PROFITABLE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_REDUCING_LOSSES"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "IsInterestCoveredByProfit",
+          "result": "uncaptured",
+          "available": false,
+          "insufficient": false,
+          "outcome_name": null
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "IsDebtCoveredByCashflow",
+          "result": "uncaptured",
+          "available": false,
+          "insufficient": false,
+          "outcome_name": null
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 199.53,
     "market_cap_inr": 44604600000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "small3",
     "shares_outstanding": 233531720,
     "fifty_two_week": {
@@ -87,11 +365,19 @@
     },
     "fair_value_inr": 292.5,
     "fair_value_range_inr": {
-      "min": 199.975,
+      "min": 203.93996,
       "max": 500,
       "count": 49
     },
-    "upside_pct": 55.933468386821616,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "a3f793ef-41bf-485c-a75d-77b3570cf4cd",
+      "narrative_type": null,
+      "published_at": "2026-06-07T20:05:39.825Z"
+    },
+    "upside_pct": 46.59449706811006,
     "multiples": {
       "pe": null,
       "ps": 0.59,
@@ -109,10 +395,10 @@
     },
     "rewards": [
       "Trading at good value vs. industry average Price-To-Sales ratio",
+      "Trading at 2.2% below our estimate of its fair value",
       "Earnings are forecast to grow 105.6% per year",
       "Trading below our calculated fair Price-To-Sales ratio",
-      "Trading at good value vs. peer average Price-To-Sales ratio",
-      "Trading at 6.2% below our estimate of its fair value"
+      "Trading at good value vs. peer average Price-To-Sales ratio"
     ],
     "risks": [],
     "dividend": {
@@ -140,8 +426,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 24.919301661303475,
-      "net_income_margin_1y": 0.0775877089,
-      "future_revenue_growth_3y": 0.6569887,
+      "net_income_margin_1y": 0.07792327667,
+      "future_revenue_growth_3y": 0.6221294666,
       "sector_pe": 24.919301661303475
     },
     "industry_benchmarks_meta": {
@@ -177,17 +463,17 @@
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 1.2,
+        "industry_pe": 1.1,
         "industry_name": "Indian Construction",
-        "description": "SWSOLAR is good value based on its Price-To-Sales Ratio (0.6x) compared to the Indian Construction industry average (1.2x).",
+        "description": "SWSOLAR is good value based on its Price-To-Sales Ratio (0.6x) compared to the Indian Construction industry average (1.1x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 15.073268522,
+        "industry_pe": 14.536772712,
         "industry_code": "3040000",
         "type": "median_profitable",
-        "count": 188,
+        "count": 189,
         "source": {
           "type": "country",
           "country": "IN",
@@ -196,13 +482,13 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.1,
-        "sample_count": 184,
+        "industry_pe": 13.8,
+        "sample_count": 187,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
       "sws_primary_industry": {
-        "industry_pe": 21.475319439,
+        "industry_pe": 21.150765987,
         "industry_name": "Capital Goods",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
@@ -213,8 +499,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 187.58,
-        "fetched_at": "2026-05-31T22:39:44.724Z",
+        "value": 199.53,
+        "fetched_at": "2026-06-11T01:42:54.340Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-swsolar/sterling-and-wilson-renewable-energy-shares"
       },
       "market_cap_inr": {
@@ -222,6 +508,24 @@
         "value": 44604600000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/sterling-and-wilson-solar-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 292.5,
+        "fetched_at": "2026-06-11T01:42:54.340Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-swsolar/sterling-and-wilson-renewable-energy-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "a3f793ef-41bf-485c-a75d-77b3570cf4cd",
+        "narrative_type": null,
+        "published_at": "2026-06-07T20:05:39.825Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 46.59449706811006,
+        "fetched_at": "2026-06-11T01:42:54.340Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-swsolar/sterling-and-wilson-renewable-energy-shares"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
@@ -255,14 +559,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.0775877089,
-        "fetched_at": "2026-05-31T22:39:44.724Z",
+        "value": 0.07792327667,
+        "fetched_at": "2026-06-11T01:42:54.340Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-swsolar/sterling-and-wilson-renewable-energy-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.6569887,
-        "fetched_at": "2026-05-31T22:39:44.724Z",
+        "value": 0.6221294666,
+        "fetched_at": "2026-06-11T01:42:54.340Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-swsolar/sterling-and-wilson-renewable-energy-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -371,7 +675,7 @@
     "latest_revenue": 75480500000,
     "latest_net_income": 1,
     "latest_eps": null,
-    "most_recent_reported_date": "2026-05-22",
+    "most_recent_reported_date": "2026-06-07",
     "pb": 6.86,
     "ps": 0.59,
     "book_value": 27.8229087,
@@ -388,16 +692,16 @@
     "quick_ratio": 1.1601662155056573,
     "cash_ratio": 0.1299684511869754,
     "returns_pct": {
-      "1D": -1.8265557125660654,
-      "7D": -5.281761260351434,
-      "1M": -11.510519860364175,
-      "3M": -5.257841305116418,
-      "6M": -16.985307134006018,
-      "1Y": -38.599018003273315,
+      "1D": -0.7017020005971916,
+      "7D": 2.4544287548138644,
+      "1M": -6.059322033898307,
+      "3M": 11.276560147231052,
+      "6M": -8.413660148719366,
+      "1Y": -37.96673402766982,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 1,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -459,13 +763,13 @@
         "is_insider": null
       },
       {
-        "pct": 1.20034,
-        "shares": 2803179,
+        "pct": 1.13275,
+        "shares": 2645322,
         "is_insider": null
       },
       {
-        "pct": 1.13275,
-        "shares": 2645322,
+        "pct": 0.4519,
+        "shares": 1055326,
         "is_insider": null
       },
       {
@@ -494,8 +798,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.23717,
-        "shares": 553863,
+        "pct": 0.22933,
+        "shares": 535567,
         "is_insider": null
       },
       {
@@ -537,7 +841,7 @@
     "payment_count": 1
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-22",
+    "most_recent_reported_date": "2026-06-07",
     "latest_year": 2026,
     "latest_revenue": 75480500000,
     "latest_net_income": 1,
@@ -761,6 +1065,26 @@
   ],
   "news": [
     {
+      "id": "33ff3e7e-26da-438b-8410-6cc86b622b9d",
+      "type": "narrative-update",
+      "date": "2026-06-07T20:05:39.000Z",
+      "title": "SWSOLAR: New Solar EPC Wins Will Support Future Upside Potential",
+      "body": "Analysts kept their price target for Sterling and Wilson Renewable Energy steady at ₹292.50, citing only marginal tweaks to assumptions such as discount rate, revenue growth, profit margin, and future P/E that did not materially change their overall valuation view. What's in the News Sterling and Wilson Renewable Energy has been declared L1 bidder by Coal India for a turn key EPC package to develop an 875 MW (AC) grid connected solar PV project in Bikaner, Rajasthan, with a total contract value, including O&M and taxes, of about ₹34,900 million.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-swsolar/sterling-and-wilson-renewable-energy-shares/hlt92l7d-swsolar-new-project-wins-will-drive-strong-order-inflow-momentum/updates/17-analysts-kept-their-price-target-for-sterling-and-wilson-ren",
+      "raw_subtype": "narrative-update"
+    },
+    {
+      "id": "281f0b85-34ce-4b79-b97f-4a9cdab3401d",
+      "type": "event",
+      "date": "2026-06-06T14:18:00.000Z",
+      "title": "Sterling and Wilson Renewable Energy Limited, Annual General Meeting, Jul 02, 2026",
+      "body": "Sterling and Wilson Renewable Energy Limited, Annual General Meeting, Jul 02, 2026, at 12:00 Indian Standard Time.",
+      "keyDevTypeId": "62",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
+    {
       "id": "06f520c4-1815-4f70-9903-7802d83e75ef",
       "type": "narrative-update",
       "date": "2026-05-23T18:07:29.000Z",
@@ -918,16 +1242,6 @@
       "body": "Analysts have modestly lifted their price target for Sterling and Wilson Renewable Energy to ₹320.50, citing slightly higher long term discount rate assumptions and a marginally richer future earnings multiple while maintaining their core growth and margin outlook. What's in the News Sterling and Wilson Renewable Energy secured a turnkey EPC contract for a 240 MW AC solar PV project in South Africa, valued at about USD 147 million.",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-swsolar/sterling-and-wilson-renewable-energy-shares/hlt92l7d-swsolar-new-project-wins-will-drive-strong-order-inflow-momentum/updates/7-analysts-have-modestly-lifted-their-price-target-for-sterlin",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "822a52fc-009d-4bbf-8e16-aecd95eef1ac",
-      "type": "narrative-update",
-      "date": "2025-12-03T17:07:18.000Z",
-      "title": "SWSOLAR: Expanding Solar Order Book Will Drive Future Upside Potential",
-      "body": "Analysts have nudged their price target for Sterling and Wilson Renewable Energy slightly higher to ₹320.50 per share. This reflects modestly increased discount rate and valuation assumptions, while maintaining broadly unchanged expectations for revenue growth and profit margins.",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-swsolar/sterling-and-wilson-renewable-energy-shares/hlt92l7d-swsolar-new-project-wins-will-drive-strong-order-inflow-momentum/updates/6-analysts-have-nudged-their-price-target-for-sterling-and-wil",
       "raw_subtype": "narrative-update"
     }
   ],

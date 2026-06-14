@@ -3,7 +3,7 @@
   "name": "IIFL Finance Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-iifl/iifl-finance-shares",
-  "parsed_at": "2026-05-31T20:03:29.215Z",
+  "parsed_at": "2026-06-10T23:06:50.894Z",
   "company_id": "F173A4C5-6A32-4FA5-B54F-77C2321C66D5",
   "classification_status": "Active",
   "groww_source": {
@@ -16,18 +16,18 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 3,
+      "valuation": 2,
       "future": 4,
       "past": 3,
       "financial_health": 3,
       "dividends": 3,
       "future_growth": 4,
       "past_performance": 3,
-      "value": 3,
+      "value": 2,
       "health": 3,
       "dividend": 3
     },
-    "snowflake_total": 16,
+    "snowflake_total": 15,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 1,
@@ -65,22 +65,308 @@
         }
       ]
     },
-    "current_price_inr": 466.9,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 496.3,
     "market_cap_inr": 203241500000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "medium5",
     "shares_outstanding": 425311648,
     "fifty_two_week": {
       "low": 409.1,
       "high": 675
     },
-    "fair_value_inr": 617.5,
+    "fair_value_inr": 585,
     "fair_value_range_inr": {
-      "min": 439.082992,
-      "max": 617.5,
+      "min": 447.677722,
+      "max": 585,
       "count": 14
     },
-    "upside_pct": 32.2553009209681,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "1a662196-0ae7-402f-9b1f-473b1c155bbf",
+      "narrative_type": null,
+      "published_at": "2026-06-08T21:08:38.278Z"
+    },
+    "upside_pct": 17.87225468466653,
     "multiples": {
       "pe": 11.19,
       "ps": 1.52,
@@ -98,14 +384,13 @@
     },
     "rewards": [
       "Earnings grew by 338.5% over the past year",
-      "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Earnings are forecast to grow 24.56% per year",
+      "Earnings are forecast to grow 24.8% per year",
       "Trading below our calculated fair Price-To-Earnings ratio",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (12x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (12.7x) is below the Indian market (23.2x)"
     ],
     "risks": [
-      "Dividend of 0.86% is not well covered by free cash flows",
+      "Dividend of 0.81% is not well covered by free cash flows",
       "High level of [[non-cash earnings]]",
       "Debt is not well covered by [[operating cash flow]]"
     ],
@@ -238,8 +523,8 @@
     "dividend_yield_pct": 0.84,
     "industry_benchmarks": {
       "pe": 18.85756396507594,
-      "net_income_margin_1y": 0.2564706218,
-      "future_revenue_growth_3y": 0.3320316411,
+      "net_income_margin_1y": 0.257896607,
+      "future_revenue_growth_3y": 0.3297814148,
       "sector_pe": 18.85756396507594
     },
     "industry_benchmarks_meta": {
@@ -274,18 +559,18 @@
         "url": "https://groww.in/stocks/iifl-holdings-ltd"
       },
       "sws_statement": {
-        "company_pe": 12,
-        "industry_pe": 25.6,
+        "company_pe": 12.7,
+        "industry_pe": 25.8,
         "industry_name": "Indian Diversified Financial",
-        "description": "IIFL is good value based on its Price-To-Earnings Ratio (12x) compared to the Indian Diversified Financial industry average (25.6x).",
+        "description": "IIFL is good value based on its Price-To-Earnings Ratio (12.7x) compared to the Indian Diversified Financial industry average (25.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 25.581812879,
+        "industry_pe": 26.278496959,
         "industry_code": "7110000",
         "type": "median_profitable",
-        "count": 131,
+        "count": 126,
         "source": {
           "type": "country",
           "country": "IN",
@@ -294,25 +579,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.4,
-        "sample_count": 124,
+        "industry_pe": 20.95,
+        "sample_count": 118,
         "industry_code": "7110000",
         "industry_name": "Diversified Financials"
       },
       "sws_primary_industry": {
-        "industry_pe": 15.729172633,
+        "industry_pe": 15.226484123,
         "industry_name": "Diversified Financials",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 11.956768331599228
+        "company_pe": 12.709668286512525
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 466.9,
-        "fetched_at": "2026-05-31T20:03:29.215Z",
+        "value": 496.3,
+        "fetched_at": "2026-06-10T23:06:50.894Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-iifl/iifl-finance-shares"
       },
       "market_cap_inr": {
@@ -320,6 +605,24 @@
         "value": 203241500000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/iifl-holdings-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 585,
+        "fetched_at": "2026-06-10T23:06:50.894Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-iifl/iifl-finance-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "1a662196-0ae7-402f-9b1f-473b1c155bbf",
+        "narrative_type": null,
+        "published_at": "2026-06-08T21:08:38.278Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 17.87225468466653,
+        "fetched_at": "2026-06-10T23:06:50.894Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-iifl/iifl-finance-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -359,14 +662,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.2564706218,
-        "fetched_at": "2026-05-31T20:03:29.215Z",
+        "value": 0.257896607,
+        "fetched_at": "2026-06-10T23:06:50.894Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-iifl/iifl-finance-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.3320316411,
-        "fetched_at": "2026-05-31T20:03:29.215Z",
+        "value": 0.3297814148,
+        "fetched_at": "2026-06-10T23:06:50.894Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-iifl/iifl-finance-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -481,7 +784,7 @@
     "latest_revenue": 79009500000,
     "latest_net_income": 16608000000,
     "latest_eps": 42.71,
-    "most_recent_reported_date": "2026-05-24",
+    "most_recent_reported_date": "2026-06-08",
     "pb": 1.46,
     "ps": 1.52,
     "book_value": 327.2783281,
@@ -498,16 +801,16 @@
     "quick_ratio": 2.8284486554783896,
     "cash_ratio": 1.8343804954424705,
     "returns_pct": {
-      "1D": -2.3936448207379626,
-      "7D": 0.9077155824508296,
-      "1M": 4.440219214852917,
-      "3M": -5.904877065699318,
-      "6M": -19.319163642647325,
-      "1Y": 8.631921824104225,
+      "1D": -2.312764491683889,
+      "7D": -0.5012028869286287,
+      "1M": 7.342922028766083,
+      "3M": 3.245267318493868,
+      "6M": -14.578313253012047,
+      "1Y": 3.1165593185123623,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -604,8 +907,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.0474,
-        "shares": 4454700,
+        "pct": 1.04194,
+        "shares": 4431499,
         "is_insider": null
       },
       {
@@ -751,7 +1054,7 @@
     "payment_count": 9
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-24",
+    "most_recent_reported_date": "2026-06-08",
     "latest_year": 2026,
     "latest_revenue": 79009500000,
     "latest_net_income": 16608000000,
@@ -995,6 +1298,26 @@
   ],
   "news": [
     {
+      "id": "7e9cb8f8-821f-41ba-8706-b5568b1ec88c",
+      "type": "narrative-update",
+      "date": "2026-06-08T21:08:38.000Z",
+      "title": "IIFL: Planned Microfinance Exit Will Support Home Finance Expansion",
+      "body": "Analysts have trimmed their price target on IIFL Finance from ₹617.50 to ₹585.00. This reflects updated assumptions around discount rate, revenue growth, profit margins and forward P/E multiples.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/diversified-financials/nse-iifl/iifl-finance-shares/d77y9y6f-iifl-revenue-outlook-and-risk-controls-will-support-balanced-performance/updates/23-analysts-have-trimmed-their-price-target-on-iifl-finance-fro",
+      "raw_subtype": "narrative-update"
+    },
+    {
+      "id": "4b751aef-1364-4945-8f60-143cfb70a199",
+      "type": "brief",
+      "date": "2026-06-04T11:39:31.000Z",
+      "title": "Now 21% overvalued after recent price rise",
+      "body": "Over the last 90 days, the stock has risen 9.3% to ₹530. The fair value is estimated to be ₹438, however this is not to be taken as a sell recommendation but rather should be used as a guide only. Revenue has grown by 5.8% over the last 3 years. Earnings per share has declined by 26%. For the next 3 years, revenue is forecast to grow by 16% per annum. Earnings are also forecast to grow by 25% per annum over the same time period.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
       "id": "4e8c0ed2-0bb9-498f-882a-547ecaf16ce6",
       "type": "narrative-update",
       "date": "2026-05-24T23:09:09.000Z",
@@ -1223,16 +1546,6 @@
       "keyDevTypeId": "16",
       "source_url": null,
       "raw_subtype": "EventActivity"
-    },
-    {
-      "id": "7aa49d97-ca46-4da0-9e21-9f5734047514",
-      "type": "narrative-update",
-      "date": "2025-12-14T22:05:50.000Z",
-      "title": "IIFL: Upcoming Debt Issuances And Governance Changes Will Support Steady Outlook",
-      "body": "Analysts have marginally raised their price target on IIFL Finance to ₹617.50, citing slightly lower perceived risk, steady long term revenue and profit margin assumptions, and a modestly cheaper forward valuation multiple. What's in the News Board meeting scheduled on December 11, 2025, to approve terms and conditions for issuing senior, unsecured, listed, rated, redeemable non convertible debentures on a private placement basis (company filing) Board meeting on November 26, 2025, to consider and approve a public issue of secured, rated, listed, redeemable non convertible debentures in one or more tranches, in line with SEBI non convertible securities regulations, subject to approvals (company filing) Board meeting on October 30, 2025, to review unaudited consolidated and standalone finan",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/diversified-financials/nse-iifl/iifl-finance-shares/d77y9y6f-iifl-revenue-outlook-and-risk-controls-will-support-balanced-performance/updates/13-analysts-have-marginally-raised-their-price-target-on-iifl-f",
-      "raw_subtype": "narrative-update"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/IIFL.json"

@@ -3,7 +3,7 @@
   "name": "Bimetal Bearings Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-505681/bimetal-bearings-shares",
-  "parsed_at": "2026-05-31T20:15:59.942Z",
+  "parsed_at": "2026-06-10T23:18:20.587Z",
   "company_id": "CA4A4030-5E60-4E53-BD36-3F38ABDBA42C",
   "classification_status": "Active",
   "groww_source": {
@@ -16,18 +16,18 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 1,
+      "valuation": 2,
       "future": 0,
       "past": 2,
       "financial_health": 6,
       "dividends": 4,
       "future_growth": 0,
       "past_performance": 2,
-      "value": 1,
+      "value": 2,
       "health": 6,
       "dividend": 4
     },
-    "snowflake_total": 13,
+    "snowflake_total": 14,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 7,
@@ -76,22 +76,308 @@
         }
       ]
     },
-    "current_price_inr": 645.1,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DIVIDENDS_NOT_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 640,
     "market_cap_inr": 2240600000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 537.9,
       "high": 632.3
     },
-    "fair_value_inr": 362.065211,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 362.065211,
-      "max": 362.065211,
+      "min": 399.82404,
+      "max": 399.82404,
       "count": 1
     },
-    "upside_pct": -43.87456037823594,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "5e21a807-366f-4fd8-91f4-71744d2c14d5",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 21.22,
       "ps": 0.82,
@@ -108,12 +394,13 @@
       "pe_source_url": "https://groww.in/stocks/bimetal-bearings-ltd"
     },
     "rewards": [
+      "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (21.1x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (20.9x) is below the Indian market (23.2x)",
       "Earnings have grown 12.9% per year over the past 5 years"
     ],
     "risks": [
-      "Dividend of 2.02% is not well covered by free cash flows",
+      "Dividend of 2.11% is not well covered by free cash flows",
       "Does not have a meaningful market cap (₹2B)"
     ],
     "dividend": {
@@ -133,7 +420,7 @@
           "divFreqTypeName": "Annual",
           "annualizedDividend": 13,
           "annualizedDividendListingCurrency": 13,
-          "annualizedYield": 2.1718516676
+          "annualizedYield": 2.1725154821
         },
         {
           "exDate": "2024-07-12T00:00:00.000Z",
@@ -259,7 +546,7 @@
     "industry_benchmarks": {
       "pe": 50.2660786493168,
       "net_income_margin_1y": 0.1031278814,
-      "future_revenue_growth_3y": 0.5858087225,
+      "future_revenue_growth_3y": 0.5969668729,
       "sector_pe": 50.2660786493168
     },
     "industry_benchmarks_meta": {
@@ -294,18 +581,18 @@
         "url": "https://groww.in/stocks/bimetal-bearings-ltd"
       },
       "sws_statement": {
-        "company_pe": 21.1,
-        "industry_pe": 25.9,
+        "company_pe": 20.9,
+        "industry_pe": 26,
         "industry_name": "Indian Machinery",
-        "description": "505681 is good value based on its Price-To-Earnings Ratio (21.1x) compared to the Indian Machinery industry average (25.9x).",
+        "description": "505681 is good value based on its Price-To-Earnings Ratio (20.9x) compared to the Indian Machinery industry average (26x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 25.908333666,
+        "industry_pe": 25.989998333,
         "industry_code": "3070000",
         "type": "median_profitable",
-        "count": 217,
+        "count": 220,
         "source": {
           "type": "country",
           "country": "IN",
@@ -314,8 +601,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 25.799999999999997,
-        "sample_count": 218,
+        "industry_pe": 25.6,
+        "sample_count": 219,
         "industry_code": "3070000",
         "industry_name": "Capital Goods"
       },
@@ -327,8 +614,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 645.1,
-        "fetched_at": "2026-05-31T20:15:59.942Z",
+        "value": 640,
+        "fetched_at": "2026-06-10T23:18:20.587Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-505681/bimetal-bearings-shares"
       },
       "market_cap_inr": {
@@ -376,13 +663,13 @@
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.1031278814,
-        "fetched_at": "2026-05-31T20:15:59.942Z",
+        "fetched_at": "2026-06-10T23:18:20.587Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-505681/bimetal-bearings-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.5858087225,
-        "fetched_at": "2026-05-31T20:15:59.942Z",
+        "value": 0.5969668729,
+        "fetched_at": "2026-06-10T23:18:20.587Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-505681/bimetal-bearings-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -514,16 +801,16 @@
     "quick_ratio": 1.374041986004665,
     "cash_ratio": 0.045151616127957345,
     "returns_pct": {
-      "1D": 10.273504273504278,
-      "7D": 12.035428968391816,
-      "1M": 8.238255033557051,
-      "3M": 15.103934338478004,
-      "6M": 3.323456394650436,
-      "1Y": 7.132774225691281,
+      "1D": 4.0650406504065035,
+      "7D": -1.644382972183809,
+      "1M": 6.666666666666667,
+      "3M": 25.687352710133542,
+      "6M": 6.030483764082169,
+      "1Y": 1.773077840502501,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -587,7 +874,7 @@
         "divFreqTypeName": "Annual",
         "annualizedDividend": 13,
         "annualizedDividendListingCurrency": 13,
-        "annualizedYield": 2.1718516676
+        "annualizedYield": 2.1725154821
       },
       {
         "exDate": "2024-07-12T00:00:00.000Z",

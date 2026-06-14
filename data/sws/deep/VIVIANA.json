@@ -3,7 +3,7 @@
   "name": "Viviana Power Tech Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-viviana/viviana-power-tech-shares",
-  "parsed_at": "2026-05-31T23:10:59.460Z",
+  "parsed_at": "2026-06-11T02:18:06.730Z",
   "company_id": "69F2E347-C3D3-46D3-8068-9284806894FE",
   "classification_status": "Active",
   "groww_source": null,
@@ -69,21 +69,310 @@
         }
       ]
     },
-    "current_price_inr": 953.4,
-    "market_cap_inr": 9574433256.723692,
-    "market_cap_usd": 120714180851.549,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_OUTSTANDING"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 818.1,
+    "market_cap_inr": 8215695245.778952,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
-    "fifty_two_week": null,
-    "fair_value_inr": 10.402165,
+    "fifty_two_week": {
+      "low": 577.5,
+      "high": 1099.96875
+    },
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -98.90894010908329,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "84a4cf0c-1ca9-47e4-bc7e-5ec20c9c5558",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
-      "pe": 18.2,
+      "pe": 15.6,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -92,18 +381,19 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": "2026-05-31T23:10:59.460Z",
+      "pe_as_of": "2026-06-11T02:18:06.730Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://simplywall.st/stocks/in/capital-goods/nse-viviana/viviana-power-tech-shares"
     },
     "rewards": [
       "Earnings grew by 166.5% over the past year",
-      "Price-To-Earnings ratio (18.2x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (15.6x) is below the Indian market (23.2x)"
     ],
     "risks": [
       "Highly volatile share price over past 3 months",
       "Debt is not well covered by [[operating cash flow]]",
-      "High level of [[non-cash earnings]]"
+      "High level of [[non-cash earnings]]",
+      "Does not have a meaningful market cap (₹8B)"
     ],
     "dividend": {
       "yield_pct": null,
@@ -115,9 +405,9 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 15.073268522,
-      "net_income_margin_1y": 0.06405545837,
-      "future_revenue_growth_3y": 0.4628660854
+      "pe": 14.536772712,
+      "net_income_margin_1y": 0.06358528991,
+      "future_revenue_growth_3y": 0.4770711206
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -131,30 +421,30 @@
     "pe_benchmark_source": {
       "provider": "sws_industry_api",
       "label": "SWS industry API",
-      "company_pe": 18.2,
+      "company_pe": 15.6,
       "company_pe_source": "sws_statement",
       "company_pe_source_label": "SWS visible statement",
-      "industry_pe": 15.073268522,
+      "industry_pe": 14.536772712,
       "industry_name": "Capital Goods",
       "industry_code": "3040000",
-      "sample_count": 188,
+      "sample_count": 189,
       "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 18.2,
-        "industry_pe": 15.1,
+        "company_pe": 15.6,
+        "industry_pe": 14.5,
         "industry_name": "Indian Construction",
-        "description": "VIVIANA is expensive based on its Price-To-Earnings Ratio (18.2x) compared to the Indian Construction industry average (15.1x).",
+        "description": "VIVIANA is expensive based on its Price-To-Earnings Ratio (15.6x) compared to the Indian Construction industry average (14.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 15.073268522,
+        "industry_pe": 14.536772712,
         "industry_code": "3040000",
         "type": "median_profitable",
-        "count": 188,
+        "count": 189,
         "source": {
           "type": "country",
           "country": "IN",
@@ -163,8 +453,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.1,
-        "sample_count": 184,
+        "industry_pe": 13.8,
+        "sample_count": 187,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -176,32 +466,41 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 953.4,
-        "fetched_at": "2026-05-31T23:10:59.460Z",
+        "value": 818.1,
+        "fetched_at": "2026-06-11T02:18:06.730Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-viviana/viviana-power-tech-shares"
       },
       "multiples.pe": {
         "provider": "sws_statement",
-        "value": 18.2,
-        "fetched_at": "2026-05-31T23:10:59.460Z",
+        "value": 15.6,
+        "fetched_at": "2026-06-11T02:18:06.730Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-viviana/viviana-power-tech-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 15.073268522,
+        "value": 14.536772712,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.06405545837,
-        "fetched_at": "2026-05-31T23:10:59.460Z",
+        "value": 0.06358528991,
+        "fetched_at": "2026-06-11T02:18:06.730Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-viviana/viviana-power-tech-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.4628660854,
-        "fetched_at": "2026-05-31T23:10:59.460Z",
+        "value": 0.4770711206,
+        "fetched_at": "2026-06-11T02:18:06.730Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-viviana/viviana-power-tech-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 577.5,
+          "high": 1099.96875
+        },
+        "fetched_at": "2026-06-11T02:18:06.730Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-viviana/viviana-power-tech-shares"
       }
     },
@@ -228,12 +527,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -2.2003385136174844,
-      "7D": 8.835616438356162,
-      "1M": 18.12662619254119,
-      "3M": 48.70155189893161,
-      "6M": 13.38526491050722,
-      "1Y": 67.9075399009356,
+      "1D": -0.41387705416919995,
+      "7D": -6.684156495950727,
+      "1M": 2.647427854454206,
+      "3M": 31.23195380173244,
+      "6M": 2.102964118564745,
+      "1Y": 5.450737130427781,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -277,6 +576,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "08397e56-90f7-466a-b06a-57920593e2f3",
+      "type": "article",
+      "date": "2026-06-01T08:08:59.000Z",
+      "title": "Viviana Power Tech's (NSE:VIVIANA) Shareholders May Want To Dig Deeper Than Statutory Profit",
+      "body": "The market for Viviana Power Tech Limited's ( NSE:VIVIANA ) stock was strong after it released a healthy earnings...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/capital-goods/nse-viviana/viviana-power-tech-shares/news/viviana-power-techs-nseviviana-shareholders-may-want-to-dig",
+      "raw_subtype": "article"
+    },
     {
       "id": "6e76a6b2-0788-413f-a564-09e5f83aa8ba",
       "type": "brief",
@@ -375,16 +684,6 @@
       "body": "What are the early trends we should look for to identify a stock that could multiply in value over the long term...",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/stocks/in/capital-goods/nse-viviana/viviana-power-tech-shares/news/capital-investments-at-viviana-power-tech-nseviviana-point-t",
-      "raw_subtype": "article"
-    },
-    {
-      "id": "79cf2e4a-178e-4eb1-b317-04c04ecfa5bb",
-      "type": "article",
-      "date": "2025-12-09T00:03:49.000Z",
-      "title": "Slammed 32% Viviana Power Tech Limited (NSE:VIVIANA) Screens Well Here But There Might Be A Catch",
-      "body": "Viviana Power Tech Limited ( NSE:VIVIANA ) shares have had a horrible month, losing 32% after a relatively good period...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/capital-goods/nse-viviana/viviana-power-tech-shares/news/slammed-32-viviana-power-tech-limited-nseviviana-screens-wel",
       "raw_subtype": "article"
     }
   ],

@@ -3,7 +3,7 @@
   "name": "Brisk Technovision Limited",
   "sector": "Tech",
   "sws_url": "https://simplywall.st/stocks/in/tech/bse-544101/brisk-technovision-shares",
-  "parsed_at": "2026-05-31T20:25:48.043Z",
+  "parsed_at": "2026-06-10T23:25:08.513Z",
   "company_id": "73E0750F-7311-480B-9733-774EA2006F41",
   "classification_status": "Active",
   "groww_source": {
@@ -16,18 +16,18 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 4,
+      "valuation": 2,
       "future": 0,
       "past": 2,
       "financial_health": 6,
       "dividends": 4,
       "future_growth": 0,
       "past_performance": 2,
-      "value": 4,
+      "value": 2,
       "health": 6,
       "dividend": 4
     },
-    "snowflake_total": 16,
+    "snowflake_total": 14,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 7,
@@ -76,22 +76,308 @@
         }
       ]
     },
-    "current_price_inr": 79,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SAME_PB"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_EARNS_NET_INTEREST"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_COMMITMENTS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_STABLE_BUT_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_50_TO_75"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 93.5,
     "market_cap_inr": 158000000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 64.5,
       "high": 122.5
     },
-    "fair_value_inr": 896.884252,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 896.884252,
-      "max": 896.884252,
+      "min": 896.061528,
+      "max": 896.061528,
       "count": 1
     },
-    "upside_pct": 1035.2965215189872,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "34436a98-dc86-4072-a66d-72fd3bda71c7",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 15.55,
       "ps": 0.53,
@@ -108,15 +394,14 @@
       "pe_source_url": "https://groww.in/stocks/brisk-technovision-ltd"
     },
     "rewards": [
-      "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Trading at 91.2% below our estimate of its fair value"
+      "Trading at 89.6% below our estimate of its fair value"
     ],
     "risks": [
+      "Latest financial reports are more than 6 months old",
       "Profit margins (1.7%) are lower than last year (5.5%)",
       "Shares are highly illiquid",
       "Does not have meaningful revenue (₹329M)",
-      "Does not have a meaningful market cap (₹158M)"
+      "Does not have a meaningful market cap (₹187M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -135,7 +420,7 @@
           "divFreqTypeName": "Interim Payment",
           "annualizedDividend": 3.2,
           "annualizedDividendListingCurrency": 3.2,
-          "annualizedYield": 4.0182827241
+          "annualizedYield": 4.012037327
         },
         {
           "exDate": "2025-09-17T00:00:00.000Z",
@@ -148,7 +433,7 @@
           "divFreqTypeName": "Final Payment",
           "annualizedDividend": 3.2,
           "annualizedDividendListingCurrency": 3.2,
-          "annualizedYield": 4.0182827241
+          "annualizedYield": 4.012037327
         },
         {
           "exDate": "2025-03-13T00:00:00.000Z",
@@ -183,7 +468,7 @@
     "industry_benchmarks": {
       "pe": 67.71248708269187,
       "net_income_margin_1y": 0.07373093212,
-      "future_revenue_growth_3y": 1.141410219,
+      "future_revenue_growth_3y": 1.162165232,
       "sector_pe": 67.71248708269187
     },
     "industry_benchmarks_meta": {
@@ -218,18 +503,18 @@
         "url": "https://groww.in/stocks/brisk-technovision-ltd"
       },
       "sws_statement": {
-        "company_pe": 28.1,
-        "industry_pe": 33.8,
+        "company_pe": 33.3,
+        "industry_pe": 32.3,
         "industry_name": "Indian Electronic",
-        "description": "544101 is good value based on its Price-To-Earnings Ratio (28.1x) compared to the Indian Electronic industry average (33.8x).",
+        "description": "544101 is expensive based on its Price-To-Earnings Ratio (33.3x) compared to the Indian Electronic industry average (32.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 33.78759453,
+        "industry_pe": 30.403176606,
         "industry_code": "8130000",
         "type": "median_profitable",
-        "count": 59,
+        "count": 62,
         "source": {
           "type": "country",
           "country": "IN",
@@ -238,7 +523,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 29.1,
+        "industry_pe": 26,
         "sample_count": 58,
         "industry_code": "8130000",
         "industry_name": "Tech"
@@ -251,8 +536,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 79,
-        "fetched_at": "2026-05-31T20:25:48.043Z",
+        "value": 93.5,
+        "fetched_at": "2026-06-10T23:25:08.513Z",
         "url": "https://simplywall.st/stocks/in/tech/bse-544101/brisk-technovision-shares"
       },
       "market_cap_inr": {
@@ -300,13 +585,13 @@
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.07373093212,
-        "fetched_at": "2026-05-31T20:25:48.043Z",
+        "fetched_at": "2026-06-10T23:25:08.513Z",
         "url": "https://simplywall.st/stocks/in/tech/bse-544101/brisk-technovision-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 1.141410219,
-        "fetched_at": "2026-05-31T20:25:48.043Z",
+        "value": 1.162165232,
+        "fetched_at": "2026-06-10T23:25:08.513Z",
         "url": "https://simplywall.st/stocks/in/tech/bse-544101/brisk-technovision-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -438,12 +723,12 @@
     "quick_ratio": 0,
     "cash_ratio": 0,
     "returns_pct": {
-      "1D": 6.5695399973020425,
-      "7D": 6.0402684563758395,
-      "1M": 17.91044776119403,
-      "3M": 6.742332117281441,
-      "6M": -21.782178217821784,
-      "1Y": -30.08849557522124,
+      "1D": 14.02439024390244,
+      "7D": 18.354430379746837,
+      "1M": 26.129772022123305,
+      "3M": 31.690140845070424,
+      "6M": 10,
+      "1Y": -14.220183486238533,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -541,7 +826,7 @@
         "divFreqTypeName": "Interim Payment",
         "annualizedDividend": 3.2,
         "annualizedDividendListingCurrency": 3.2,
-        "annualizedYield": 4.0182827241
+        "annualizedYield": 4.012037327
       },
       {
         "exDate": "2025-09-17T00:00:00.000Z",
@@ -554,7 +839,7 @@
         "divFreqTypeName": "Final Payment",
         "annualizedDividend": 3.2,
         "annualizedDividendListingCurrency": 3.2,
-        "annualizedYield": 4.0182827241
+        "annualizedYield": 4.012037327
       },
       {
         "exDate": "2025-03-13T00:00:00.000Z",
@@ -750,6 +1035,26 @@
     "BSE"
   ],
   "news": [
+    {
+      "id": "2f98e5cb-37b7-43f4-b2ec-cd09fc07dd15",
+      "type": "brief",
+      "date": "2026-06-10T18:37:57.000Z",
+      "title": "Investor sentiment improves as stock rises 18%",
+      "body": "After last week's 18% share price gain to ₹93.50, the stock trades at a trailing P/E ratio of 33.3x. Average trailing P/E is 32x in the Electronic industry in India. Total loss to shareholders of 10% over the past year.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "3d3daf78-a4cc-40f3-b0e6-2f97c59af9c4",
+      "type": "brief",
+      "date": "2026-06-02T18:22:59.000Z",
+      "title": "New minor risk - Financial data availability",
+      "body": "The company's latest financial reports are more than 6 months old. Last reported fiscal period ended September 2025. This is considered a minor risk. If the company has not reported its earnings on time, it may have been delayed due to audit problems or it may be finding it difficult to reconcile its accounts. Currently, the following risks have been identified for the company: Major Risks Shares are highly illiquid. Market cap is less than US$10m (₹158.0m market cap, or US$1.65m). Minor Risks Latest financial reports are more than 6 months old (reported September 2025 fiscal period end). Profit margins are more than 30% lower than last year (1.7% net profit margin). Revenue is less than US$5m (₹329m revenue, or US$3.4m).",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "6c2611ba-4cb5-41f9-9ad9-4c1e75875a0e",
       "type": "event",

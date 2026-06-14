@@ -3,7 +3,7 @@
   "name": "Asian Petro Products and Exports Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/bse-524434/asian-petro-products-and-exports-shares",
-  "parsed_at": "2026-05-31T21:13:54.295Z",
+  "parsed_at": "2026-06-11T00:21:55.042Z",
   "company_id": "6D709BCE-A307-4E0A-9FAD-733BE61C7642",
   "classification_status": "Active",
   "groww_source": {
@@ -16,18 +16,18 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 0,
+      "valuation": 2,
       "future": 0,
-      "past": 3,
-      "financial_health": 3,
+      "past": 2,
+      "financial_health": 5,
       "dividends": 0,
       "future_growth": 0,
-      "past_performance": 3,
-      "value": 0,
-      "health": 3,
+      "past_performance": 2,
+      "value": 2,
+      "health": 5,
       "dividend": 0
     },
-    "snowflake_total": 6,
+    "snowflake_total": 9,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 12,
@@ -77,9 +77,287 @@
         }
       ]
     },
-    "current_price_inr": 9.2,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SAME_PB"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_BECOME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_EQUITY_NOW_POSITIVE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 10.09,
     "market_cap_inr": 246800000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -91,6 +369,14 @@
       "min": null,
       "max": null,
       "count": 0
+    },
+    "fair_value_source_detail": {
+      "method": "missing_consensus_narrative",
+      "owner_name": null,
+      "owner_classification": null,
+      "narrative_id": null,
+      "narrative_type": null,
+      "published_at": null
     },
     "upside_pct": null,
     "multiples": {
@@ -109,11 +395,14 @@
       "pe_source_url": "https://groww.in/stocks/asian-petroproducts-exports-ltd"
     },
     "rewards": [
-      "Became profitable this year"
+      "Trading at good value vs. industry average Price-To-Earnings ratio",
+      "Became profitable this year",
+      "Trading at good value vs. peer average Price-To-Earnings ratio",
+      "Price-To-Earnings ratio (20.5x) is below the Indian market (23.2x)"
     ],
     "risks": [
-      "Interest payments are not well covered by earnings",
-      "Does not have a meaningful market cap (₹226M)"
+      "High level of [[non-cash earnings]]",
+      "Does not have a meaningful market cap (₹248M)"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -126,8 +415,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 75.66402873302489,
-      "net_income_margin_1y": 0.09915925459,
-      "future_revenue_growth_3y": 0.4901950831,
+      "net_income_margin_1y": 0.1007363079,
+      "future_revenue_growth_3y": 0.4928230277,
       "sector_pe": 75.66402873302489
     },
     "industry_benchmarks_meta": {
@@ -162,18 +451,18 @@
         "url": "https://groww.in/stocks/asian-petroproducts-exports-ltd"
       },
       "sws_statement": {
-        "company_pe": 130.5,
-        "industry_pe": 22.2,
+        "company_pe": 20.5,
+        "industry_pe": 20.8,
         "industry_name": "Indian Chemicals",
-        "description": "524434 is expensive based on its Price-To-Earnings Ratio (130.5x) compared to the Indian Chemicals industry average (22.2x).",
+        "description": "524434 is good value based on its Price-To-Earnings Ratio (20.5x) compared to the Indian Chemicals industry average (20.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 22.185241114,
+        "industry_pe": 20.782619721,
         "industry_code": "2020000",
         "type": "median_profitable",
-        "count": 304,
+        "count": 302,
         "source": {
           "type": "country",
           "country": "IN",
@@ -182,8 +471,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.5,
-        "sample_count": 293,
+        "industry_pe": 19.6,
+        "sample_count": 294,
         "industry_code": "2020000",
         "industry_name": "Materials"
       },
@@ -195,8 +484,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 9.2,
-        "fetched_at": "2026-05-31T21:13:54.295Z",
+        "value": 10.09,
+        "fetched_at": "2026-06-11T00:21:55.042Z",
         "url": "https://simplywall.st/stocks/in/materials/bse-524434/asian-petro-products-and-exports-shares"
       },
       "market_cap_inr": {
@@ -243,14 +532,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.09915925459,
-        "fetched_at": "2026-05-31T21:13:54.295Z",
+        "value": 0.1007363079,
+        "fetched_at": "2026-06-11T00:21:55.042Z",
         "url": "https://simplywall.st/stocks/in/materials/bse-524434/asian-petro-products-and-exports-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.4901950831,
-        "fetched_at": "2026-05-31T21:13:54.295Z",
+        "value": 0.4928230277,
+        "fetched_at": "2026-06-11T00:21:55.042Z",
         "url": "https://simplywall.st/stocks/in/materials/bse-524434/asian-petro-products-and-exports-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -382,16 +671,16 @@
     "quick_ratio": 1.1953554695457322,
     "cash_ratio": 0.002037074760643716,
     "returns_pct": {
-      "1D": -8.457711442786083,
-      "7D": -3.157894736842113,
-      "1M": 1.6574585635358958,
-      "3M": 6.35838150289016,
-      "6M": 9.785202863961795,
-      "1Y": 3.4870641169853624,
+      "1D": 4.127966976264194,
+      "7D": 2.540650406504065,
+      "1M": 6.210526315789472,
+      "3M": 18.705882352941174,
+      "6M": 13.370786516853927,
+      "1Y": 4.343329886246122,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 1,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -661,6 +950,16 @@
     "BSE"
   ],
   "news": [
+    {
+      "id": "5ea1e87e-0555-4f32-bb8e-e25ea003c3a7",
+      "type": "brief",
+      "date": "2026-06-02T11:46:02.000Z",
+      "title": "Full year 2026 earnings released: EPS: ₹0.49 (vs ₹0.48 loss in FY 2025)",
+      "body": "Full year 2026 results: EPS: ₹0.49 (up from ₹0.48 loss in FY 2025). Revenue: ₹691.6m (up 66% from FY 2025). Net income: ₹12.1m (up ₹23.9m from FY 2025). Profit margin: 1.7% (up from net loss in FY 2025). The move to profitability was driven by higher revenue. Over the last 3 years on average, earnings per share has increased by 15% per year but the company’s share price has fallen by 31% per year, which means it is significantly lagging earnings.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "ff3f2ede-885d-44f7-89c4-d5690b6315d7",
       "type": "event",

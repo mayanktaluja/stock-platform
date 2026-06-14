@@ -3,7 +3,7 @@
   "name": "Havells India Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-havells/havells-india-shares",
-  "parsed_at": "2026-05-31T23:15:41.777Z",
+  "parsed_at": "2026-06-11T02:10:23.417Z",
   "company_id": "4CA2F67C-F55B-4C39-B603-862D1B0ACE4B",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 3
     },
     "snowflake_total": 16,
-    "current_price_inr": 1176.8,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_NOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DIVIDENDS_NOT_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 1155.5,
     "market_cap_inr": 759137600000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "large7",
     "shares_outstanding": 627256842,
     "fifty_two_week": {
       "low": 1142.5,
       "high": 1621.1
     },
-    "fair_value_inr": 1481.88889,
+    "fair_value_inr": 1470.69444,
     "fair_value_range_inr": {
-      "min": 315.121471,
-      "max": 1481.88889,
+      "min": 336.022834,
+      "max": 1470.69444,
       "count": 22
     },
-    "upside_pct": 25.925296566961254,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "650614fd-344e-447f-a53d-647333d68437",
+      "narrative_type": null,
+      "published_at": "2026-06-06T01:08:04.519Z"
+    },
+    "upside_pct": 27.277753353526613,
     "multiples": {
       "pe": 44.94,
       "ps": 3.37,
@@ -60,13 +346,13 @@
       "pe_source_url": "https://groww.in/stocks/havells-india-ltd"
     },
     "rewards": [
-      "Earnings are forecast to grow 11.17% per year",
+      "Earnings are forecast to grow 11.13% per year",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Analysts in good agreement that stock price will rise by 25.9%",
+      "Analysts in good agreement that stock price will rise by 27.5%",
       "Earnings have grown 7.5% per year over the past 5 years"
     ],
     "risks": [
-      "Dividend of 0.85% is not well covered by free cash flows",
+      "Dividend of 0.87% is not well covered by free cash flows",
       "High level of [[non-cash earnings]]"
     ],
     "dividend": {
@@ -237,8 +523,8 @@
     "dividend_yield_pct": 0.83,
     "industry_benchmarks": {
       "pe": 50.30824795612129,
-      "net_income_margin_1y": 0.0775877089,
-      "future_revenue_growth_3y": 0.6569887,
+      "net_income_margin_1y": 0.07792327667,
+      "future_revenue_growth_3y": 0.6221294666,
       "sector_pe": 50.30824795612129
     },
     "industry_benchmarks_meta": {
@@ -273,18 +559,18 @@
         "url": "https://groww.in/stocks/havells-india-ltd"
       },
       "sws_statement": {
-        "company_pe": 43.7,
-        "industry_pe": 29.5,
+        "company_pe": 42.7,
+        "industry_pe": 28.6,
         "industry_name": "Indian Electrical",
-        "description": "HAVELLS is expensive based on its Price-To-Earnings Ratio (43.7x) compared to the Indian Electrical industry average (29.5x).",
+        "description": "HAVELLS is expensive based on its Price-To-Earnings Ratio (42.7x) compared to the Indian Electrical industry average (28.6x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 29.47654624,
+        "industry_pe": 28.631556336,
         "industry_code": "3050000",
         "type": "median_profitable",
-        "count": 123,
+        "count": 124,
         "source": {
           "type": "country",
           "country": "IN",
@@ -293,25 +579,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 28.2,
-        "sample_count": 127,
+        "industry_pe": 29.3,
+        "sample_count": 129,
         "industry_code": "3050000",
         "industry_name": "Capital Goods"
       },
       "sws_primary_industry": {
-        "industry_pe": 21.475319439,
+        "industry_pe": 21.150765987,
         "industry_name": "Capital Goods",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 43.663392702157864
+        "company_pe": 42.8730882625284
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1176.8,
-        "fetched_at": "2026-05-31T23:15:41.777Z",
+        "value": 1155.5,
+        "fetched_at": "2026-06-11T02:10:23.417Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-havells/havells-india-shares"
       },
       "market_cap_inr": {
@@ -319,6 +605,24 @@
         "value": 759137600000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/havells-india-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 1470.69444,
+        "fetched_at": "2026-06-11T02:10:23.417Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-havells/havells-india-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "650614fd-344e-447f-a53d-647333d68437",
+        "narrative_type": null,
+        "published_at": "2026-06-06T01:08:04.519Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 27.277753353526613,
+        "fetched_at": "2026-06-11T02:10:23.417Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-havells/havells-india-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -358,14 +662,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.0775877089,
-        "fetched_at": "2026-05-31T23:15:41.777Z",
+        "value": 0.07792327667,
+        "fetched_at": "2026-06-11T02:10:23.417Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-havells/havells-india-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.6569887,
-        "fetched_at": "2026-05-31T23:15:41.777Z",
+        "value": 0.6221294666,
+        "fetched_at": "2026-06-11T02:10:23.417Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-havells/havells-india-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -480,7 +784,7 @@
     "latest_revenue": 225277700000,
     "latest_net_income": 16905599999.999998,
     "latest_eps": 26.93,
-    "most_recent_reported_date": "2026-05-18",
+    "most_recent_reported_date": "2026-06-05",
     "pb": 8.03,
     "ps": 3.37,
     "book_value": 150.743126,
@@ -497,16 +801,16 @@
     "quick_ratio": 0.7374736079847841,
     "cash_ratio": 0.5155167600202412,
     "returns_pct": {
-      "1D": -2.8241123038810936,
-      "7D": -2.0068282121742143,
-      "1M": -6.043912175648706,
-      "3M": -15.768377353088539,
-      "6M": -18.385463624384503,
-      "1Y": -22.31317665698442,
+      "1D": 0.43459365493263796,
+      "7D": -0.07782774126600579,
+      "1M": -6.056910569105691,
+      "3M": -14.660265878877402,
+      "6M": -18.026390465380242,
+      "1Y": -26.82540687733519,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -538,8 +842,13 @@
         "is_insider": null
       },
       {
-        "pct": 3.38758,
-        "shares": 21248839,
+        "pct": 3.3265,
+        "shares": 20865730,
+        "is_insider": null
+      },
+      {
+        "pct": 1.83625,
+        "shares": 11518016,
         "is_insider": null
       },
       {
@@ -548,8 +857,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.38356,
-        "shares": 8678492,
+        "pct": 1.35659,
+        "shares": 8509334,
         "is_insider": null
       },
       {
@@ -593,8 +902,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.32752,
-        "shares": 2054413,
+        "pct": 0.32725,
+        "shares": 2052716,
         "is_insider": null
       },
       {
@@ -603,13 +912,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.27061,
-        "shares": 1697432,
-        "is_insider": null
-      },
-      {
-        "pct": 0.2509,
-        "shares": 1573771,
+        "pct": 0.27999,
+        "shares": 1756226,
         "is_insider": null
       }
     ],
@@ -789,7 +1093,7 @@
     "payment_count": 16
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-18",
+    "most_recent_reported_date": "2026-06-05",
     "latest_year": 2026,
     "latest_revenue": 225277700000,
     "latest_net_income": 16905599999.999998,
@@ -1033,6 +1337,16 @@
   ],
   "news": [
     {
+      "id": "ab3bff80-a464-42ca-a03b-1c908fb73634",
+      "type": "narrative-update",
+      "date": "2026-06-06T01:08:04.000Z",
+      "title": "HAVELLS: Upcoming Results And Dividend Decision Will Support Future Upside Potential",
+      "body": "Analysts have slightly reduced their fair value estimate for Havells India, adjusting the price target from about ₹1,481.89 to around ₹1,470.69 as they fine tune assumptions on discount rate, revenue growth, profit margins and future P/E multiples. What's in the News Havells India has scheduled a board meeting for April 22, 2026, to consider and approve the standalone and consolidated audited financial results for the fourth quarter and full financial year ended March 31, 2026.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-havells/havells-india-shares/x22xvft5-analysts-lower-havells-india-price-target-as-revenue-growth-slows-and-margins-improve/updates/25-analysts-have-slightly-reduced-their-fair-value-estimate-for",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "eb0d86e4-2dcf-4212-bbfb-06b954c27e81",
       "type": "narrative-update",
       "date": "2026-05-19T06:12:37.000Z",
@@ -1270,26 +1584,6 @@
       "body": "Analysts have nudged their price target for Havells India slightly lower to ₹1,666.94 from ₹1,668.33, as modestly reduced discount rate and valuation multiple assumptions more than offset essentially unchanged growth and margin outlooks. What's in the News Havells India and the HPL Group have signed a comprehensive Settlement Agreement resolving all long standing trademark disputes and litigations over the use of the HAVELLS brand name, including matters before the Delhi High Court and the Supreme Court of India (Key Developments) The Delhi High Court had earlier referred the HAVELLS trademark disputes between Havells India and the HPL Group to mediation, culminating in a final settlement executed on 08 November 2025 (Key Developments) Havells India has scheduled a board meeting on 17 Octo",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-havells/havells-india-shares/x22xvft5-analysts-lower-havells-india-price-target-as-revenue-growth-slows-and-margins-improve/updates/15-analysts-have-nudged-their-price-target-for-havells-india-sl",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "877a5aa6-5e81-47b0-9d33-57f098bdf115",
-      "type": "event",
-      "date": "2025-12-15T00:00:00.000Z",
-      "title": "Havells India Ltd Appoints Manjit Singh Sethi as President - Cables, Effective December 15, 2025",
-      "body": "Havells India Ltd. has appointed Manjit Singh Sethi as President - Cables, with effect from December 15, 2025. Sethi brings over 35 years of experience in the electrical industry, having held senior leadership positions at ABB India, now Hitachi Energy, and KEC International. Across his career, he has led large transformer and cable businesses, driven profitable growth, and advanced renewable EPC initiatives. He is an electrical engineer from Punjab Engineering College, Chandigarh, and holds an M.Tech in Management Studies from the Indian Institute of Technology, Delhi.",
-      "keyDevTypeId": "16",
-      "source_url": null,
-      "raw_subtype": "EventActivity"
-    },
-    {
-      "id": "3f72dba8-fae7-4609-a460-c655ac2ad2c9",
-      "type": "narrative-update",
-      "date": "2025-12-05T13:03:02.000Z",
-      "title": "HAVELLS: Digital Expansion Will Support Premium Multiples And Future Upside",
-      "body": "Analysts have marginally lowered their price target on Havells India to ₹1,668 from ₹1,670, reflecting slightly higher discount rate assumptions and a modest trimming of long term growth and margin expectations, while maintaining an overall constructive view on the company’s premium valuations. What's in the News Havells India and the HPL Group have signed a comprehensive Settlement Agreement resolving all long standing disputes and litigations over the use of the HAVELLS trademark, including matters before the Delhi High Court and the Supreme Court of India (company announcement).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-havells/havells-india-shares/x22xvft5-analysts-lower-havells-india-price-target-as-revenue-growth-slows-and-margins-improve/updates/14-analysts-have-marginally-lowered-their-price-target-on-havel",
       "raw_subtype": "narrative-update"
     }
   ],

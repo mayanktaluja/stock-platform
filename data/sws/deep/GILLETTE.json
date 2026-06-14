@@ -3,7 +3,7 @@
   "name": "Gillette India Limited",
   "sector": "Household",
   "sws_url": "https://simplywall.st/stocks/in/household/nse-gillette/gillette-india-shares",
-  "parsed_at": "2026-05-31T22:59:54.335Z",
+  "parsed_at": "2026-06-11T01:56:27.406Z",
   "company_id": "0D5D5003-F01A-4320-8FCE-D2DA82688498",
   "classification_status": "Active",
   "groww_source": {
@@ -16,18 +16,18 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 1,
+      "valuation": 2,
       "future": 0,
-      "past": 5,
+      "past": 6,
       "financial_health": 6,
       "dividends": 4,
       "future_growth": 0,
-      "past_performance": 5,
-      "value": 1,
+      "past_performance": 6,
+      "value": 2,
       "health": 6,
       "dividend": 4
     },
-    "snowflake_total": 16,
+    "snowflake_total": 18,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 7,
@@ -76,22 +76,308 @@
         }
       ]
     },
-    "current_price_inr": 8016.5,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_OUTSTANDING"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_NOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DIVIDENDS_NOT_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 7701.5,
     "market_cap_inr": 269556800000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 7206,
       "high": 11500
     },
-    "fair_value_inr": 3503.700432,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 3503.700432,
-      "max": 3503.700432,
+      "min": 3548.201232,
+      "max": 3548.201232,
       "count": 1
     },
-    "upside_pct": -56.293888455061435,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "d9588ee0-bb23-42e6-8dba-f326f613b3e1",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 43.44,
       "ps": 8.77,
@@ -108,11 +394,13 @@
       "pe_source_url": "https://groww.in/stocks/gillette-india-ltd"
     },
     "rewards": [
+      "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Earnings have grown 18.2% per year over the past 5 years"
+      "Price-To-Earnings ratio (38.2x) is below the Personal Products industry average (39.3x)",
+      "Earnings grew by 22.6% over the past year"
     ],
     "risks": [
-      "Dividend of 2.24% is not well covered by free cash flows"
+      "Dividend of 2.35% is not well covered by free cash flows"
     ],
     "dividend": {
       "yield_pct": 1.35,
@@ -124,11 +412,11 @@
           "exDate": "2026-02-04T00:00:00.000Z",
           "payDate": "2026-02-26T00:00:00.000Z",
           "recordDate": "2026-02-04T00:00:00.000Z",
-          "divAmount": 60,
-          "divAmountListingCurrency": 60,
+          "divAmount": 120,
+          "divAmountListingCurrency": 120,
           "currencyIsoCode": "INR",
-          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-          "divFreqTypeName": "Bonus Payment",
+          "dividendTypeName": "No special code applies",
+          "divFreqTypeName": "Interim Payment",
           "annualizedDividend": 167,
           "annualizedDividendListingCurrency": 167,
           "annualizedYield": 2.0706446801
@@ -137,11 +425,11 @@
           "exDate": "2026-02-04T00:00:00.000Z",
           "payDate": "2026-02-26T00:00:00.000Z",
           "recordDate": "2026-02-04T00:00:00.000Z",
-          "divAmount": 120,
-          "divAmountListingCurrency": 120,
+          "divAmount": 60,
+          "divAmountListingCurrency": 60,
           "currencyIsoCode": "INR",
-          "dividendTypeName": "No special code applies",
-          "divFreqTypeName": "Interim Payment",
+          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+          "divFreqTypeName": "Bonus Payment",
           "annualizedDividend": 167,
           "annualizedDividendListingCurrency": 167,
           "annualizedYield": 2.0706446801
@@ -189,11 +477,11 @@
           "exDate": "2024-02-08T00:00:00.000Z",
           "payDate": "2024-02-28T00:00:00.000Z",
           "recordDate": "2024-02-08T00:00:00.000Z",
-          "divAmount": 45,
-          "divAmountListingCurrency": 45,
+          "divAmount": 40,
+          "divAmountListingCurrency": 40,
           "currencyIsoCode": "INR",
-          "dividendTypeName": "No special code applies",
-          "divFreqTypeName": "Interim Payment",
+          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+          "divFreqTypeName": "Bonus Payment",
           "annualizedDividend": 95,
           "annualizedDividendListingCurrency": 95,
           "annualizedYield": 1.3471076077
@@ -202,11 +490,11 @@
           "exDate": "2024-02-08T00:00:00.000Z",
           "payDate": "2024-02-28T00:00:00.000Z",
           "recordDate": "2024-02-08T00:00:00.000Z",
-          "divAmount": 40,
-          "divAmountListingCurrency": 40,
+          "divAmount": 45,
+          "divAmountListingCurrency": 45,
           "currencyIsoCode": "INR",
-          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-          "divFreqTypeName": "Bonus Payment",
+          "dividendTypeName": "No special code applies",
+          "divFreqTypeName": "Interim Payment",
           "annualizedDividend": 95,
           "annualizedDividendListingCurrency": 95,
           "annualizedYield": 1.3471076077
@@ -283,7 +571,7 @@
     "industry_benchmarks": {
       "pe": 49.972079859212336,
       "net_income_margin_1y": 0.1701929734,
-      "future_revenue_growth_3y": 0.276221244,
+      "future_revenue_growth_3y": 0.2776314532,
       "sector_pe": 49.972079859212336
     },
     "industry_benchmarks_meta": {
@@ -318,15 +606,15 @@
         "url": "https://groww.in/stocks/gillette-india-ltd"
       },
       "sws_statement": {
-        "company_pe": 40.1,
-        "industry_pe": 40.1,
+        "company_pe": 38.2,
+        "industry_pe": 39.3,
         "industry_name": "Indian Personal Products",
-        "description": "GILLETTE is expensive based on its Price-To-Earnings Ratio (40.1x) compared to the Indian Personal Products industry average (40.1x).",
+        "description": "GILLETTE is good value based on its Price-To-Earnings Ratio (38.2x) compared to the Indian Personal Products industry average (39.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 40.050618651,
+        "industry_pe": 39.287535026,
         "industry_code": "5220000",
         "type": "median_profitable",
         "count": 25,
@@ -338,7 +626,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 38.35,
+        "industry_pe": 37.25,
         "sample_count": 22,
         "industry_code": "5220000",
         "industry_name": "Household"
@@ -351,8 +639,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 8016.5,
-        "fetched_at": "2026-05-31T22:59:54.335Z",
+        "value": 7701.5,
+        "fetched_at": "2026-06-11T01:56:27.406Z",
         "url": "https://simplywall.st/stocks/in/household/nse-gillette/gillette-india-shares"
       },
       "market_cap_inr": {
@@ -400,13 +688,13 @@
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.1701929734,
-        "fetched_at": "2026-05-31T22:59:54.335Z",
+        "fetched_at": "2026-06-11T01:56:27.406Z",
         "url": "https://simplywall.st/stocks/in/household/nse-gillette/gillette-india-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.276221244,
-        "fetched_at": "2026-05-31T22:59:54.335Z",
+        "value": 0.2776314532,
+        "fetched_at": "2026-06-11T01:56:27.406Z",
         "url": "https://simplywall.st/stocks/in/household/nse-gillette/gillette-india-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -538,12 +826,12 @@
     "quick_ratio": 0.9074362146470524,
     "cash_ratio": 0.32980977695030683,
     "returns_pct": {
-      "1D": -3.106303257388046,
-      "7D": 2.9935119162330572,
-      "1M": -0.6075258818424152,
-      "3M": -3.9077015283188494,
-      "6M": -7.691864816627325,
-      "1Y": -15.339528989333614,
+      "1D": 0.5746000652954619,
+      "7D": -0.22671330483223215,
+      "1M": -3.1440608690184244,
+      "3M": -3.6288556591378343,
+      "6M": -5.392789140716172,
+      "1Y": -24.75697327927312,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -594,13 +882,13 @@
         "is_insider": null
       },
       {
-        "pct": 0.46986,
-        "shares": 153106,
+        "pct": 0.46714,
+        "shares": 152218,
         "is_insider": null
       },
       {
-        "pct": 0.27766,
-        "shares": 90475,
+        "pct": 0.27835,
+        "shares": 90701,
         "is_insider": null
       },
       {
@@ -674,11 +962,11 @@
         "exDate": "2026-02-04T00:00:00.000Z",
         "payDate": "2026-02-26T00:00:00.000Z",
         "recordDate": "2026-02-04T00:00:00.000Z",
-        "divAmount": 60,
-        "divAmountListingCurrency": 60,
+        "divAmount": 120,
+        "divAmountListingCurrency": 120,
         "currencyIsoCode": "INR",
-        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-        "divFreqTypeName": "Bonus Payment",
+        "dividendTypeName": "No special code applies",
+        "divFreqTypeName": "Interim Payment",
         "annualizedDividend": 167,
         "annualizedDividendListingCurrency": 167,
         "annualizedYield": 2.0706446801
@@ -687,11 +975,11 @@
         "exDate": "2026-02-04T00:00:00.000Z",
         "payDate": "2026-02-26T00:00:00.000Z",
         "recordDate": "2026-02-04T00:00:00.000Z",
-        "divAmount": 120,
-        "divAmountListingCurrency": 120,
+        "divAmount": 60,
+        "divAmountListingCurrency": 60,
         "currencyIsoCode": "INR",
-        "dividendTypeName": "No special code applies",
-        "divFreqTypeName": "Interim Payment",
+        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+        "divFreqTypeName": "Bonus Payment",
         "annualizedDividend": 167,
         "annualizedDividendListingCurrency": 167,
         "annualizedYield": 2.0706446801
@@ -739,11 +1027,11 @@
         "exDate": "2024-02-08T00:00:00.000Z",
         "payDate": "2024-02-28T00:00:00.000Z",
         "recordDate": "2024-02-08T00:00:00.000Z",
-        "divAmount": 45,
-        "divAmountListingCurrency": 45,
+        "divAmount": 40,
+        "divAmountListingCurrency": 40,
         "currencyIsoCode": "INR",
-        "dividendTypeName": "No special code applies",
-        "divFreqTypeName": "Interim Payment",
+        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+        "divFreqTypeName": "Bonus Payment",
         "annualizedDividend": 95,
         "annualizedDividendListingCurrency": 95,
         "annualizedYield": 1.3471076077
@@ -752,11 +1040,11 @@
         "exDate": "2024-02-08T00:00:00.000Z",
         "payDate": "2024-02-28T00:00:00.000Z",
         "recordDate": "2024-02-08T00:00:00.000Z",
-        "divAmount": 40,
-        "divAmountListingCurrency": 40,
+        "divAmount": 45,
+        "divAmountListingCurrency": 45,
         "currencyIsoCode": "INR",
-        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-        "divFreqTypeName": "Bonus Payment",
+        "dividendTypeName": "No special code applies",
+        "divFreqTypeName": "Interim Payment",
         "annualizedDividend": 95,
         "annualizedDividendListingCurrency": 95,
         "annualizedYield": 1.3471076077

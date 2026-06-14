@@ -3,7 +3,7 @@
   "name": "Polyplex Corporation Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-polyplex/polyplex-shares",
-  "parsed_at": "2026-05-31T21:35:46.295Z",
+  "parsed_at": "2026-06-11T00:36:56.244Z",
   "company_id": "D0F75E96-9B7F-4331-A6E1-12899859BA15",
   "classification_status": "Active",
   "groww_source": {
@@ -77,22 +77,308 @@
         }
       ]
     },
-    "current_price_inr": 926.1,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 889.6,
     "market_cap_inr": 28353700000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 740,
       "high": 1398
     },
-    "fair_value_inr": 372.254685,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 372.254685,
+      "min": 373.954316,
       "max": 727.91,
       "count": 5
     },
-    "upside_pct": -59.804050858438615,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "00067fb3-37c9-4877-88aa-aabbae57df07",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 69.26,
       "ps": 0.4,
@@ -110,8 +396,8 @@
     },
     "rewards": [],
     "risks": [
-      "Unstable dividend track record",
       "Profit margins (0.6%) are lower than last year (3%)",
+      "Unstable dividend track record",
       "Earnings have declined by 41.4% per year over past 5 years"
     ],
     "dividend": {
@@ -215,11 +501,11 @@
           "exDate": "2022-11-24T00:00:00.000Z",
           "payDate": "2022-12-14T00:00:00.000Z",
           "recordDate": "2022-11-25T00:00:00.000Z",
-          "divAmount": 35,
-          "divAmountListingCurrency": 35,
+          "divAmount": 20,
+          "divAmountListingCurrency": 20,
           "currencyIsoCode": "INR",
-          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-          "divFreqTypeName": "Bonus Payment",
+          "dividendTypeName": "No special code applies",
+          "divFreqTypeName": "Interim Payment",
           "annualizedDividend": 91,
           "annualizedDividendListingCurrency": 91,
           "annualizedYield": 5.6128208515
@@ -228,11 +514,11 @@
           "exDate": "2022-11-24T00:00:00.000Z",
           "payDate": "2022-12-14T00:00:00.000Z",
           "recordDate": "2022-11-25T00:00:00.000Z",
-          "divAmount": 20,
-          "divAmountListingCurrency": 20,
+          "divAmount": 35,
+          "divAmountListingCurrency": 35,
           "currencyIsoCode": "INR",
-          "dividendTypeName": "No special code applies",
-          "divFreqTypeName": "Interim Payment",
+          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+          "divFreqTypeName": "Bonus Payment",
           "annualizedDividend": 91,
           "annualizedDividendListingCurrency": 91,
           "annualizedYield": 5.6128208515
@@ -282,8 +568,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 23.156212158832627,
-      "net_income_margin_1y": 0.09915925459,
-      "future_revenue_growth_3y": 0.4901950831,
+      "net_income_margin_1y": 0.1007363079,
+      "future_revenue_growth_3y": 0.4928230277,
       "sector_pe": 23.156212158832627
     },
     "industry_benchmarks_meta": {
@@ -318,18 +604,18 @@
         "url": "https://groww.in/stocks/polyplex-corporation-ltd"
       },
       "sws_statement": {
-        "company_pe": 64.6,
-        "industry_pe": 22.2,
+        "company_pe": 62.3,
+        "industry_pe": 20.8,
         "industry_name": "Indian Chemicals",
-        "description": "POLYPLEX is expensive based on its Price-To-Earnings Ratio (64.6x) compared to the Indian Chemicals industry average (22.2x).",
+        "description": "POLYPLEX is expensive based on its Price-To-Earnings Ratio (62.3x) compared to the Indian Chemicals industry average (20.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 22.185241114,
+        "industry_pe": 20.782619721,
         "industry_code": "2020000",
         "type": "median_profitable",
-        "count": 304,
+        "count": 302,
         "source": {
           "type": "country",
           "country": "IN",
@@ -338,8 +624,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.5,
-        "sample_count": 293,
+        "industry_pe": 19.6,
+        "sample_count": 294,
         "industry_code": "2020000",
         "industry_name": "Materials"
       },
@@ -351,8 +637,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 926.1,
-        "fetched_at": "2026-05-31T21:35:46.295Z",
+        "value": 889.6,
+        "fetched_at": "2026-06-11T00:36:56.244Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-polyplex/polyplex-shares"
       },
       "market_cap_inr": {
@@ -399,14 +685,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.09915925459,
-        "fetched_at": "2026-05-31T21:35:46.295Z",
+        "value": 0.1007363079,
+        "fetched_at": "2026-06-11T00:36:56.244Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-polyplex/polyplex-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.4901950831,
-        "fetched_at": "2026-05-31T21:35:46.295Z",
+        "value": 0.4928230277,
+        "fetched_at": "2026-06-11T00:36:56.244Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-polyplex/polyplex-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -538,12 +824,12 @@
     "quick_ratio": 1.5271024660128845,
     "cash_ratio": 0.5139624428356033,
     "returns_pct": {
-      "1D": 2.43902439024391,
-      "7D": -3.676738259919915,
-      "1M": -3.010944127349845,
-      "3M": 9.171283743958513,
-      "6M": 11.143114311431146,
-      "1Y": -30.836445108289766,
+      "1D": -1.0070661547877322,
+      "7D": -4.034519956850051,
+      "1M": -4.875962360992303,
+      "3M": 8.243596763399646,
+      "6M": 7.368294007603654,
+      "1Y": -32.9918650195842,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -584,8 +870,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.45782,
-        "shares": 457645,
+        "pct": 1.43744,
+        "shares": 451248,
         "is_insider": null
       },
       {
@@ -629,6 +915,11 @@
         "is_insider": null
       },
       {
+        "pct": 0.2069,
+        "shares": 64952,
+        "is_insider": null
+      },
+      {
         "pct": 0.14932,
         "shares": 46876,
         "is_insider": null
@@ -646,11 +937,6 @@
       {
         "pct": 0.09461,
         "shares": 29700,
-        "is_insider": null
-      },
-      {
-        "pct": 0.03811,
-        "shares": 11963,
         "is_insider": null
       }
     ],
@@ -765,11 +1051,11 @@
         "exDate": "2022-11-24T00:00:00.000Z",
         "payDate": "2022-12-14T00:00:00.000Z",
         "recordDate": "2022-11-25T00:00:00.000Z",
-        "divAmount": 35,
-        "divAmountListingCurrency": 35,
+        "divAmount": 20,
+        "divAmountListingCurrency": 20,
         "currencyIsoCode": "INR",
-        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-        "divFreqTypeName": "Bonus Payment",
+        "dividendTypeName": "No special code applies",
+        "divFreqTypeName": "Interim Payment",
         "annualizedDividend": 91,
         "annualizedDividendListingCurrency": 91,
         "annualizedYield": 5.6128208515
@@ -778,11 +1064,11 @@
         "exDate": "2022-11-24T00:00:00.000Z",
         "payDate": "2022-12-14T00:00:00.000Z",
         "recordDate": "2022-11-25T00:00:00.000Z",
-        "divAmount": 20,
-        "divAmountListingCurrency": 20,
+        "divAmount": 35,
+        "divAmountListingCurrency": 35,
         "currencyIsoCode": "INR",
-        "dividendTypeName": "No special code applies",
-        "divFreqTypeName": "Interim Payment",
+        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+        "divFreqTypeName": "Bonus Payment",
         "annualizedDividend": 91,
         "annualizedDividendListingCurrency": 91,
         "annualizedYield": 5.6128208515

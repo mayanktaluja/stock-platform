@@ -3,7 +3,7 @@
   "name": "Manappuram Finance Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-manappuram/manappuram-finance-shares",
-  "parsed_at": "2026-05-31T20:46:05.548Z",
+  "parsed_at": "2026-06-10T23:51:27.241Z",
   "company_id": "9C6D34D8-2410-494E-9434-5B302A6DF998",
   "classification_status": "Active",
   "groww_source": {
@@ -16,18 +16,18 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 0,
+      "valuation": 2,
       "future": 5,
       "past": 0,
       "financial_health": 2,
       "dividends": 3,
       "future_growth": 5,
       "past_performance": 0,
-      "value": 0,
+      "value": 2,
       "health": 2,
       "dividend": 3
     },
-    "snowflake_total": 10,
+    "snowflake_total": 12,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 1,
@@ -65,22 +65,308 @@
         }
       ]
     },
-    "current_price_inr": 325.4,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 288.25,
     "market_cap_inr": 278180800000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 230.03,
       "high": 334
     },
-    "fair_value_inr": 316.3284,
+    "fair_value_inr": 322.797496,
     "fair_value_range_inr": {
-      "min": 165.090865,
-      "max": 316.3284,
+      "min": 175.601219,
+      "max": 322.797496,
       "count": 23
     },
-    "upside_pct": -2.7878303626306056,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "a576f38d-e618-4c53-a9bd-e9bcd6755331",
+      "narrative_type": null,
+      "published_at": "2024-06-19T03:56:41.316Z"
+    },
+    "upside_pct": 11.985254466608856,
     "multiples": {
       "pe": 28.02,
       "ps": 2.92,
@@ -97,12 +383,14 @@
       "pe_source_url": "https://groww.in/stocks/manappuram-finance-ltd"
     },
     "rewards": [
-      "Earnings are forecast to grow 34.81% per year"
+      "Earnings are forecast to grow 34.95% per year",
+      "Trading at good value vs. peer average Price-To-Earnings ratio",
+      "Trading below our calculated fair Price-To-Earnings ratio"
     ],
     "risks": [
       "Debt is not well covered by [[operating cash flow]]",
       "High level of [[non-cash earnings]]",
-      "Dividend of 0.61% is not well covered by free cash flows"
+      "Dividend of 0.69% is not well covered by free cash flows"
     ],
     "dividend": {
       "yield_pct": 0.84,
@@ -272,8 +560,8 @@
     "dividend_yield_pct": 0.84,
     "industry_benchmarks": {
       "pe": 18.85756396507594,
-      "net_income_margin_1y": 0.318282225,
-      "future_revenue_growth_3y": 1.129623645,
+      "net_income_margin_1y": 0.3172599264,
+      "future_revenue_growth_3y": 1.14035062,
       "sector_pe": 18.85756396507594
     },
     "industry_benchmarks_meta": {
@@ -308,18 +596,18 @@
         "url": "https://groww.in/stocks/manappuram-finance-ltd"
       },
       "sws_statement": {
-        "company_pe": 30.5,
-        "industry_pe": 20,
+        "company_pe": 27,
+        "industry_pe": 20.3,
         "industry_name": "Indian Consumer Finance",
-        "description": "MANAPPURAM is expensive based on its Price-To-Earnings Ratio (30.5x) compared to the Indian Consumer Finance industry average (20x).",
+        "description": "MANAPPURAM is expensive based on its Price-To-Earnings Ratio (27x) compared to the Indian Consumer Finance industry average (20.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 20.116846802,
+        "industry_pe": 20.092697454,
         "industry_code": "7120000",
         "type": "median_profitable",
-        "count": 79,
+        "count": 80,
         "source": {
           "type": "country",
           "country": "IN",
@@ -328,8 +616,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.8,
-        "sample_count": 80,
+        "industry_pe": 19.6,
+        "sample_count": 81,
         "industry_code": "7120000",
         "industry_name": "Diversified Financials"
       },
@@ -341,8 +629,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 325.4,
-        "fetched_at": "2026-05-31T20:46:05.548Z",
+        "value": 288.25,
+        "fetched_at": "2026-06-10T23:51:27.241Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-manappuram/manappuram-finance-shares"
       },
       "market_cap_inr": {
@@ -350,6 +638,24 @@
         "value": 278180800000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/manappuram-finance-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 322.797496,
+        "fetched_at": "2026-06-10T23:51:27.241Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-manappuram/manappuram-finance-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "a576f38d-e618-4c53-a9bd-e9bcd6755331",
+        "narrative_type": null,
+        "published_at": "2024-06-19T03:56:41.316Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 11.985254466608856,
+        "fetched_at": "2026-06-10T23:51:27.241Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-manappuram/manappuram-finance-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -389,14 +695,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.318282225,
-        "fetched_at": "2026-05-31T20:46:05.548Z",
+        "value": 0.3172599264,
+        "fetched_at": "2026-06-10T23:51:27.241Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-manappuram/manappuram-finance-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 1.129623645,
-        "fetched_at": "2026-05-31T20:46:05.548Z",
+        "value": 1.14035062,
+        "fetched_at": "2026-06-10T23:51:27.241Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-manappuram/manappuram-finance-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -528,12 +834,12 @@
     "quick_ratio": 13.077326299622717,
     "cash_ratio": 10.2648659477146,
     "returns_pct": {
-      "1D": -1.0190114068441134,
-      "7D": 0.40111076828138054,
-      "1M": 10.17436939224647,
-      "3M": 14.880847308031766,
-      "6M": 14.195472889980696,
-      "1Y": 37.09711396671582,
+      "1D": -6.183889340927584,
+      "7D": -7.597371373617563,
+      "1M": -5.63103617613357,
+      "3M": 12.79593034631187,
+      "6M": 0.22600834492349695,
+      "1Y": 8.630111173921227,
       "5Y": null
     },
     "next_earnings_date": null,

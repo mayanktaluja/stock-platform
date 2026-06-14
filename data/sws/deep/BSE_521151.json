@@ -3,7 +3,7 @@
   "name": "Dhanlaxmi Fabrics Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/bse-521151/dhanlaxmi-fabrics-shares",
-  "parsed_at": "2026-05-31T21:52:41.231Z",
+  "parsed_at": "2026-06-11T00:45:36.286Z",
   "company_id": "C20FFB5F-ECCE-4FCE-829F-E94D8F930AA4",
   "classification_status": "Active",
   "groww_source": null,
@@ -12,22 +12,23 @@
       "valuation": 1,
       "future": 0,
       "past": 0,
-      "financial_health": 6,
+      "financial_health": 4,
       "dividends": 0,
       "future_growth": 0,
       "past_performance": 0,
       "value": 1,
-      "health": 6,
+      "health": 4,
       "dividend": 0
     },
-    "snowflake_total": 7,
+    "snowflake_total": 5,
     "snowflake_data_quality": {
       "insufficient": true,
-      "insufficient_count": 12,
+      "insufficient_count": 13,
       "checked_count": 30,
       "affected_pillars": [
         "Value",
         "Future",
+        "Health",
         "Dividends"
       ],
       "by_pillar": {
@@ -45,7 +46,7 @@
         },
         "Health": {
           "checked": 6,
-          "insufficient": 0
+          "insufficient": 1
         },
         "Dividends": {
           "checked": 6,
@@ -70,19 +71,308 @@
         }
       ]
     },
-    "current_price_inr": 50.95,
-    "market_cap_inr": 437206936.4310981,
-    "market_cap_usd": 120714180851.549,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASING_LOSSES"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 50.05,
+    "market_cap_inr": 429483948.3489001,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
-    "fifty_two_week": null,
-    "fair_value_inr": 1.030086,
+    "fifty_two_week": {
+      "low": 48,
+      "high": 64.88
+    },
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -97.97824141315016,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "63a31c78-2553-4a2c-83e0-5b2e3f181e73",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": null,
       "ps": null,
@@ -101,9 +391,9 @@
       "Trading at good value vs. peer average Price-To-Sales ratio"
     ],
     "risks": [
-      "Earnings have declined by 41% per year over past 5 years",
-      "Does not have meaningful revenue (₹217M)",
-      "Does not have a meaningful market cap (₹437M)"
+      "Earnings have declined by 41.5% per year over past 5 years",
+      "Does not have meaningful revenue (₹244M)",
+      "Does not have a meaningful market cap (₹429M)"
     ],
     "dividend": {
       "yield_pct": null,
@@ -115,9 +405,9 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 18.199713239,
-      "net_income_margin_1y": 0.05921870449,
-      "future_revenue_growth_3y": 0.4160609582
+      "pe": 19.295215828,
+      "net_income_margin_1y": 0.05901661834,
+      "future_revenue_growth_3y": 0.4189534718
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -134,10 +424,10 @@
       "company_pe": null,
       "company_pe_source": null,
       "company_pe_source_label": null,
-      "industry_pe": 18.199713239,
+      "industry_pe": 19.295215828,
       "industry_name": "Consumer Durables",
       "industry_code": "4130000",
-      "sample_count": 294,
+      "sample_count": 296,
       "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
@@ -146,15 +436,15 @@
         "company_pe": null,
         "industry_pe": 0.8,
         "industry_name": "Indian Luxury",
-        "description": "521151 is expensive based on its Price-To-Sales Ratio (2x) compared to the Indian Luxury industry average (0.8x).",
+        "description": "521151 is expensive based on its Price-To-Sales Ratio (1.8x) compared to the Indian Luxury industry average (0.8x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 18.199713239,
+        "industry_pe": 19.295215828,
         "industry_code": "4130000",
         "type": "median_profitable",
-        "count": 294,
+        "count": 296,
         "source": {
           "type": "country",
           "country": "IN",
@@ -163,8 +453,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.1,
-        "sample_count": 290,
+        "industry_pe": 17.95,
+        "sample_count": 294,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
       },
@@ -176,26 +466,35 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 50.95,
-        "fetched_at": "2026-05-31T21:52:41.231Z",
+        "value": 50.05,
+        "fetched_at": "2026-06-11T00:45:36.286Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-521151/dhanlaxmi-fabrics-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 18.199713239,
+        "value": 19.295215828,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.05921870449,
-        "fetched_at": "2026-05-31T21:52:41.231Z",
+        "value": 0.05901661834,
+        "fetched_at": "2026-06-11T00:45:36.286Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-521151/dhanlaxmi-fabrics-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.4160609582,
-        "fetched_at": "2026-05-31T21:52:41.231Z",
+        "value": 0.4189534718,
+        "fetched_at": "2026-06-11T00:45:36.286Z",
+        "url": "https://simplywall.st/stocks/in/consumer-durables/bse-521151/dhanlaxmi-fabrics-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 48,
+          "high": 64.88
+        },
+        "fetched_at": "2026-06-11T00:45:36.286Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/bse-521151/dhanlaxmi-fabrics-shares"
       }
     },
@@ -222,16 +521,16 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 0,
-      "7D": 0,
-      "1M": 0.09823182711199267,
-      "3M": -15.505804311774451,
-      "6M": -14.969959946595457,
-      "1Y": -17.822580645161285,
+      "1D": -0.6944444444444473,
+      "7D": 3.387729807890933,
+      "1M": -1.4763779527559056,
+      "3M": -14.692347025737181,
+      "6M": -9.099164547766083,
+      "1Y": -16.58333333333334,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 0,
+    "recent_news_count": 1,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -331,6 +630,16 @@
     "BSE"
   ],
   "news": [
+    {
+      "id": "3c5115f0-e5a8-456c-98e0-55979a426812",
+      "type": "brief",
+      "date": "2026-06-02T11:36:49.000Z",
+      "title": "Full year 2026 earnings released: ₹3.85 loss per share (vs ₹0.10 profit in FY 2025)",
+      "body": "Full year 2026 results: ₹3.85 loss per share (down from ₹0.10 profit in FY 2025). Revenue: ₹258.1m (up 97% from FY 2025). Net loss: ₹33.0m (down ₹33.9m from profit in FY 2025). Over the last 3 years on average, earnings per share has increased by 24% per year but the company’s share price has only increased by 7% per year, which means it is significantly lagging earnings growth.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "27c452a3-c44e-4732-9ea1-0a7aa084679b",
       "type": "brief",

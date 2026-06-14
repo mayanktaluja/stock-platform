@@ -3,7 +3,7 @@
   "name": "Indoco Remedies Limited",
   "sector": "Pharmaceuticals & Biotech",
   "sws_url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-indoco/indoco-remedies-shares",
-  "parsed_at": "2026-05-31T20:07:47.369Z",
+  "parsed_at": "2026-06-10T23:10:39.627Z",
   "company_id": "8DD00D36-E47B-4697-B6AF-666955743450",
   "classification_status": "Active",
   "groww_source": {
@@ -65,22 +65,308 @@
         }
       ]
     },
-    "current_price_inr": 209.66,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_SUBSTANTIAL_DISCOUNT"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_EXPECTED_TO_BECOME_PROFITABLE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_EXPECTED_TO_BECOME_PROFITABLE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_EXPECTED_TO_BECOME_PROFITABLE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASING_LOSSES"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 204.96,
     "market_cap_inr": 18806900000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "micro2",
     "shares_outstanding": 92303605,
     "fifty_two_week": {
       "low": 162.19,
       "high": 349.8
     },
-    "fair_value_inr": 380,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": 255.648075,
       "max": 556.69,
       "count": 8
     },
-    "upside_pct": 81.24582657636174,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "ThewealthyinvestorbyDSAB",
+      "owner_classification": null,
+      "narrative_id": "d1f2bddc-bd76-4891-a950-65eecdded2c8",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": null,
       "ps": 1.05,
@@ -97,12 +383,12 @@
       "pe_source_url": null
     },
     "rewards": [
-      "Trading at 18% below our estimate of its fair value",
+      "Trading at 19.8% below our estimate of its fair value",
       "Trading at good value vs. peer average Price-To-Sales ratio",
       "Trading below our calculated fair Price-To-Sales ratio",
       "Trading at good value vs. industry average Price-To-Sales ratio",
       "Earnings are forecast to grow 112.99% per year",
-      "Analysts in good agreement that stock price will rise by 31.8%"
+      "Analysts in good agreement that stock price will rise by 34.8%"
     ],
     "risks": [
       "Interest payments are not well covered by earnings"
@@ -156,11 +442,11 @@
           "exDate": "2022-09-14T00:00:00.000Z",
           "payDate": "2022-10-22T00:00:00.000Z",
           "recordDate": "2022-09-15T00:00:00.000Z",
-          "divAmount": 0.75,
-          "divAmountListingCurrency": 0.75,
+          "divAmount": 1.5,
+          "divAmountListingCurrency": 1.5,
           "currencyIsoCode": "INR",
-          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-          "divFreqTypeName": "Bonus Payment",
+          "dividendTypeName": "No special code applies",
+          "divFreqTypeName": "Annual",
           "annualizedDividend": 1.5,
           "annualizedDividendListingCurrency": 1.5,
           "annualizedYield": 0.4326959316
@@ -169,11 +455,11 @@
           "exDate": "2022-09-14T00:00:00.000Z",
           "payDate": "2022-10-22T00:00:00.000Z",
           "recordDate": "2022-09-15T00:00:00.000Z",
-          "divAmount": 1.5,
-          "divAmountListingCurrency": 1.5,
+          "divAmount": 0.75,
+          "divAmountListingCurrency": 0.75,
           "currencyIsoCode": "INR",
-          "dividendTypeName": "No special code applies",
-          "divFreqTypeName": "Annual",
+          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+          "divFreqTypeName": "Bonus Payment",
           "annualizedDividend": 1.5,
           "annualizedDividendListingCurrency": 1.5,
           "annualizedYield": 0.4326959316
@@ -262,8 +548,8 @@
     "dividend_yield_pct": 0.1,
     "industry_benchmarks": {
       "pe": 34.294011798524444,
-      "net_income_margin_1y": 0.1517834297,
-      "future_revenue_growth_3y": 2.756126798,
+      "net_income_margin_1y": 0.1516710327,
+      "future_revenue_growth_3y": 2.535577209,
       "sector_pe": 34.294011798524444
     },
     "industry_benchmarks_meta": {
@@ -299,14 +585,14 @@
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 2.2,
+        "industry_pe": 2.3,
         "industry_name": "Indian Pharmaceuticals",
-        "description": "INDOCO is good value based on its Price-To-Sales Ratio (1x) compared to the Indian Pharmaceuticals industry average (2.2x).",
+        "description": "INDOCO is good value based on its Price-To-Sales Ratio (1x) compared to the Indian Pharmaceuticals industry average (2.3x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 29.045511308,
+        "industry_pe": 28.889282371,
         "industry_code": "6120000",
         "type": "median_profitable",
         "count": 152,
@@ -318,13 +604,13 @@
         }
       },
       "internal_median": {
-        "industry_pe": 28.1,
-        "sample_count": 151,
+        "industry_pe": 28.15,
+        "sample_count": 152,
         "industry_code": "6120000",
         "industry_name": "Pharmaceuticals & Biotech"
       },
       "sws_primary_industry": {
-        "industry_pe": 23.933255082,
+        "industry_pe": 23.572522071,
         "industry_name": "Pharmaceuticals & Biotech",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
@@ -335,8 +621,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 209.66,
-        "fetched_at": "2026-05-31T20:07:47.369Z",
+        "value": 204.96,
+        "fetched_at": "2026-06-10T23:10:39.627Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-indoco/indoco-remedies-shares"
       },
       "market_cap_inr": {
@@ -377,14 +663,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.1517834297,
-        "fetched_at": "2026-05-31T20:07:47.369Z",
+        "value": 0.1516710327,
+        "fetched_at": "2026-06-10T23:10:39.627Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-indoco/indoco-remedies-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 2.756126798,
-        "fetched_at": "2026-05-31T20:07:47.369Z",
+        "value": 2.535577209,
+        "fetched_at": "2026-06-10T23:10:39.627Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-indoco/indoco-remedies-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -510,16 +796,16 @@
     "quick_ratio": 0.7487910313049261,
     "cash_ratio": 0.03134292907700347,
     "returns_pct": {
-      "1D": 2.7745098039215668,
-      "7D": 5.314446453686951,
-      "1M": 0.07159562789365935,
-      "3M": 3.6484081471227974,
-      "6M": -18.149521764591054,
-      "1Y": -19.034562656883566,
+      "1D": -0.43719032352084214,
+      "7D": -1.1907631490141246,
+      "1M": -6.376758633290692,
+      "3M": 2.4748762561871995,
+      "6M": -15.4978354978355,
+      "1Y": -29.445783132530117,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 5,
+    "recent_news_count": 4,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -685,11 +971,11 @@
         "exDate": "2022-09-14T00:00:00.000Z",
         "payDate": "2022-10-22T00:00:00.000Z",
         "recordDate": "2022-09-15T00:00:00.000Z",
-        "divAmount": 0.75,
-        "divAmountListingCurrency": 0.75,
+        "divAmount": 1.5,
+        "divAmountListingCurrency": 1.5,
         "currencyIsoCode": "INR",
-        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-        "divFreqTypeName": "Bonus Payment",
+        "dividendTypeName": "No special code applies",
+        "divFreqTypeName": "Annual",
         "annualizedDividend": 1.5,
         "annualizedDividendListingCurrency": 1.5,
         "annualizedYield": 0.4326959316
@@ -698,11 +984,11 @@
         "exDate": "2022-09-14T00:00:00.000Z",
         "payDate": "2022-10-22T00:00:00.000Z",
         "recordDate": "2022-09-15T00:00:00.000Z",
-        "divAmount": 1.5,
-        "divAmountListingCurrency": 1.5,
+        "divAmount": 0.75,
+        "divAmountListingCurrency": 0.75,
         "currencyIsoCode": "INR",
-        "dividendTypeName": "No special code applies",
-        "divFreqTypeName": "Annual",
+        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+        "divFreqTypeName": "Bonus Payment",
         "annualizedDividend": 1.5,
         "annualizedDividendListingCurrency": 1.5,
         "annualizedYield": 0.4326959316
@@ -1032,6 +1318,26 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "e6ce226a-1c4b-4253-bd30-8bd5568b2287",
+      "type": "brief",
+      "date": "2026-06-08T12:46:48.000Z",
+      "title": "Now 22% undervalued",
+      "body": "Over the last 90 days, the stock has risen 1.5% to ₹200. The fair value is estimated to be ₹256, however this is not to be taken as a buy recommendation but rather should be used as a guide only. Revenue has been flat over the last 3 years. Meanwhile, the company became loss making.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "43a49c5c-074b-45c6-a902-01122419f1e4",
+      "type": "narrative-update",
+      "date": "2026-06-04T02:07:34.000Z",
+      "title": "INDOCO: Ophthalmic Business Transfer Will Shape Bullish Outlook",
+      "body": "Analysts have kept the fair value for Indoco Remedies steady at ₹250, as small adjustments to revenue growth, profit margin, and future P/E assumptions offset each other rather than pointing to a clear shift in the stock's valuation story. What's in the News The Malta Medicines Authority inspected Indoco Remedies' solid oral dosage facility at Baddi (Unit I) from January 29, 2026 to February 3, 2026 and granted EU GMP certification confirming compliance with Good Manufacturing Practice requirements under the EC Directive.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/pharmaceuticals-biotech/nse-indoco/indoco-remedies-shares/likydap9-us-and-eu-regulation-will-hamper-long-term-profitability-jpqo/updates/3-analysts-have-kept-the-fair-value-for-indoco-remedies-steady",
+      "raw_subtype": "narrative-update"
+    },
     {
       "id": "761b9d9d-1117-417a-91ae-9f2197c25a6b",
       "type": "brief",

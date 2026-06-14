@@ -3,7 +3,7 @@
   "name": "Polymac Thermoformers Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/bse-537573/polymac-thermoformers-shares",
-  "parsed_at": "2026-05-31T22:30:08.305Z",
+  "parsed_at": "2026-06-11T01:45:30.041Z",
   "company_id": "353534C9-620A-4B92-852B-019ED8A0246A",
   "classification_status": "Active",
   "groww_source": null,
@@ -23,11 +23,12 @@
     "snowflake_total": 5,
     "snowflake_data_quality": {
       "insufficient": true,
-      "insufficient_count": 12,
+      "insufficient_count": 13,
       "checked_count": 30,
       "affected_pillars": [
         "Value",
         "Future",
+        "Health",
         "Dividends"
       ],
       "by_pillar": {
@@ -45,7 +46,7 @@
         },
         "Health": {
           "checked": 6,
-          "insufficient": 0
+          "insufficient": 1
         },
         "Dividends": {
           "checked": 6,
@@ -70,19 +71,308 @@
         }
       ]
     },
-    "current_price_inr": 13.68,
-    "market_cap_inr": 65412282.873081885,
-    "market_cap_usd": 120714180851.549,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 11,
+    "market_cap_inr": 52597595.87747812,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
-    "fifty_two_week": null,
-    "fair_value_inr": 0.185152,
+    "fifty_two_week": {
+      "low": 11,
+      "high": 20.31
+    },
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -98.64654970760233,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "b32295f7-0a87-465e-996c-8609deafbff9",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": null,
       "ps": null,
@@ -105,9 +395,9 @@
       "Shares are highly illiquid",
       "High level of [[non-cash earnings]]",
       "Profit margins (0.09%) are lower than last year (0.5%)",
-      "Does not have a meaningful market cap (₹65M)",
       "Earnings have declined by 44.1% per year over past 5 years",
-      "Does not have meaningful revenue (₹134M)"
+      "Does not have a meaningful market cap (₹65M)",
+      "Does not have meaningful revenue (₹131M)"
     ],
     "dividend": {
       "yield_pct": null,
@@ -119,9 +409,9 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 17.117180323,
-      "net_income_margin_1y": 0.08290400815,
-      "future_revenue_growth_3y": 0.1742544252
+      "pe": 17.045579205,
+      "net_income_margin_1y": 0.06909072618,
+      "future_revenue_growth_3y": 0.1689719642
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -138,10 +428,10 @@
       "company_pe": null,
       "company_pe_source": null,
       "company_pe_source_label": null,
-      "industry_pe": 17.117180323,
+      "industry_pe": 17.045579205,
       "industry_name": "Materials",
       "industry_code": "2040000",
-      "sample_count": 84,
+      "sample_count": 86,
       "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
@@ -155,10 +445,10 @@
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 17.117180323,
+        "industry_pe": 17.045579205,
         "industry_code": "2040000",
         "type": "median_profitable",
-        "count": 84,
+        "count": 86,
         "source": {
           "type": "country",
           "country": "IN",
@@ -167,8 +457,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17,
-        "sample_count": 85,
+        "industry_pe": 16.950000000000003,
+        "sample_count": 86,
         "industry_code": "2040000",
         "industry_name": "Materials"
       },
@@ -180,26 +470,35 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 13.68,
-        "fetched_at": "2026-05-31T22:30:08.305Z",
+        "value": 11,
+        "fetched_at": "2026-06-11T01:45:30.041Z",
         "url": "https://simplywall.st/stocks/in/materials/bse-537573/polymac-thermoformers-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 17.117180323,
+        "value": 17.045579205,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.08290400815,
-        "fetched_at": "2026-05-31T22:30:08.305Z",
+        "value": 0.06909072618,
+        "fetched_at": "2026-06-11T01:45:30.041Z",
         "url": "https://simplywall.st/stocks/in/materials/bse-537573/polymac-thermoformers-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.1742544252,
-        "fetched_at": "2026-05-31T22:30:08.305Z",
+        "value": 0.1689719642,
+        "fetched_at": "2026-06-11T01:45:30.041Z",
+        "url": "https://simplywall.st/stocks/in/materials/bse-537573/polymac-thermoformers-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 11,
+          "high": 20.31
+        },
+        "fetched_at": "2026-06-11T01:45:30.041Z",
         "url": "https://simplywall.st/stocks/in/materials/bse-537573/polymac-thermoformers-shares"
       }
     },
@@ -226,16 +525,16 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -9.999999999999998,
-      "7D": -1.7241379310344844,
-      "1M": -7.254237288135595,
-      "3M": -17.59036144578314,
-      "6M": 0,
-      "1Y": 5.230769230769228,
+      "1D": -19.5906432748538,
+      "7D": -19.5906432748538,
+      "1M": -20.977011494252874,
+      "3M": -33.734939759036145,
+      "6M": -26.32283991962491,
+      "1Y": -39.726027397260275,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },

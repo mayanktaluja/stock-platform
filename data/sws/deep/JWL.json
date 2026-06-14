@@ -3,7 +3,7 @@
   "name": "Jupiter Wagons Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-jwl/jupiter-wagons-shares",
-  "parsed_at": "2026-05-31T20:21:39.718Z",
+  "parsed_at": "2026-06-10T23:26:59.268Z",
   "company_id": "803D3210-6F92-45AE-A7B8-32BF9BF1204E",
   "classification_status": "Active",
   "groww_source": {
@@ -17,33 +17,319 @@
   "overview": {
     "snowflake": {
       "valuation": 0,
-      "future": 3,
-      "past": 2,
-      "financial_health": 5,
+      "future": 4,
+      "past": 1,
+      "financial_health": 4,
       "dividends": 2,
-      "future_growth": 3,
-      "past_performance": 2,
+      "future_growth": 4,
+      "past_performance": 1,
       "value": 0,
-      "health": 5,
+      "health": 4,
       "dividend": 2
     },
-    "snowflake_total": 12,
-    "current_price_inr": 290.75,
+    "snowflake_total": 11,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_STABLE_BUT_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 270.85,
     "market_cap_inr": 127548700000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "medium5",
     "shares_outstanding": 427370389,
     "fifty_two_week": {
       "low": 235.65,
       "high": 419.4
     },
-    "fair_value_inr": 376,
+    "fair_value_inr": 286.75,
     "fair_value_range_inr": {
-      "min": 15.247104,
-      "max": 376,
+      "min": 14.863362,
+      "max": 337,
       "count": 54
     },
-    "upside_pct": 29.3207222699914,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "8ebd5aa2-63b6-4abe-926e-4d2bf1bc606f",
+      "narrative_type": null,
+      "published_at": "2026-05-21T08:08:27.672Z"
+    },
+    "upside_pct": 5.870407974893844,
     "multiples": {
       "pe": 52.82,
       "ps": 4.01,
@@ -60,10 +346,12 @@
       "pe_source_url": "https://groww.in/stocks/commercial-engineers-body-builders-company-ltd"
     },
     "rewards": [
-      "Earnings are forecast to grow 19.47% per year"
+      "Earnings are forecast to grow 22.73% per year"
     ],
     "risks": [
-      "Dividend of 0.69% is not well covered by free cash flows"
+      "High level of [[non-cash earnings]]",
+      "Profit margins (5.8%) are lower than last year (9.6%)",
+      "Dividend of 0.74% is not well covered by free cash flows"
     ],
     "dividend": {
       "yield_pct": 0.43,
@@ -82,7 +370,7 @@
           "divFreqTypeName": "Interim Payment",
           "annualizedDividend": 2,
           "annualizedDividendListingCurrency": 2,
-          "annualizedYield": 0.639443397
+          "annualizedYield": 0.6419406022
         },
         {
           "exDate": "2024-10-07T00:00:00.000Z",
@@ -142,8 +430,8 @@
     "dividend_yield_pct": 0.43,
     "industry_benchmarks": {
       "pe": 41.92916323228247,
-      "net_income_margin_1y": 0.0775877089,
-      "future_revenue_growth_3y": 0.6569887,
+      "net_income_margin_1y": 0.07792327667,
+      "future_revenue_growth_3y": 0.6221294666,
       "sector_pe": 41.92916323228247
     },
     "industry_benchmarks_meta": {
@@ -178,18 +466,18 @@
         "url": "https://groww.in/stocks/commercial-engineers-body-builders-company-ltd"
       },
       "sws_statement": {
-        "company_pe": 50.6,
-        "industry_pe": 26.4,
+        "company_pe": 67.7,
+        "industry_pe": 26,
         "industry_name": "Indian Machinery",
-        "description": "JWL is expensive based on its Price-To-Earnings Ratio (50.6x) compared to the Indian Machinery industry average (26.4x).",
+        "description": "JWL is expensive based on its Price-To-Earnings Ratio (67.7x) compared to the Indian Machinery industry average (26x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 25.908333666,
+        "industry_pe": 25.769114311,
         "industry_code": "3070000",
         "type": "median_profitable",
-        "count": 217,
+        "count": 220,
         "source": {
           "type": "country",
           "country": "IN",
@@ -198,25 +486,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 25.799999999999997,
-        "sample_count": 218,
+        "industry_pe": 25.6,
+        "sample_count": 219,
         "industry_code": "3070000",
         "industry_name": "Capital Goods"
       },
       "sws_primary_industry": {
-        "industry_pe": 21.475319439,
+        "industry_pe": 21.150765987,
         "industry_name": "Capital Goods",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 50.61017124155414
+        "company_pe": 47.1462248693893
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 290.75,
-        "fetched_at": "2026-05-31T20:21:39.718Z",
+        "value": 270.85,
+        "fetched_at": "2026-06-10T23:26:59.268Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-jwl/jupiter-wagons-shares"
       },
       "market_cap_inr": {
@@ -224,6 +512,24 @@
         "value": 127548700000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/commercial-engineers-body-builders-company-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 286.75,
+        "fetched_at": "2026-06-10T23:26:59.268Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-jwl/jupiter-wagons-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "8ebd5aa2-63b6-4abe-926e-4d2bf1bc606f",
+        "narrative_type": null,
+        "published_at": "2026-05-21T08:08:27.672Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 5.870407974893844,
+        "fetched_at": "2026-06-10T23:26:59.268Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-jwl/jupiter-wagons-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -263,14 +569,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.0775877089,
-        "fetched_at": "2026-05-31T20:21:39.718Z",
+        "value": 0.07792327667,
+        "fetched_at": "2026-06-10T23:26:59.268Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-jwl/jupiter-wagons-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.6569887,
-        "fetched_at": "2026-05-31T20:21:39.718Z",
+        "value": 0.6221294666,
+        "fetched_at": "2026-06-10T23:26:59.268Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-jwl/jupiter-wagons-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -379,13 +685,13 @@
         "url": "https://groww.in/stocks/commercial-engineers-body-builders-company-ltd"
       }
     },
-    "earnings_growth_yoy_pct": -35.77137490549601,
+    "earnings_growth_yoy_pct": -23.99707404474619,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": -19.760892462921174,
+    "revenue_growth_pct": -10.236679232006944,
     "latest_revenue": 31801001000,
     "latest_net_income": 2455197000,
     "latest_eps": 5.65,
-    "most_recent_reported_date": "2026-05-02",
+    "most_recent_reported_date": "2026-05-20",
     "pb": 4.36,
     "ps": 4.01,
     "book_value": 68.462933,
@@ -402,16 +708,16 @@
     "quick_ratio": 1.197292892638948,
     "cash_ratio": 0.42227502990502647,
     "returns_pct": {
-      "1D": -2.5963149078726966,
-      "7D": 4.982848889691284,
-      "1M": 1.1656228253305578,
-      "3M": 8.813622754491023,
-      "6M": 1.7319804058782324,
-      "1Y": -27.430425558467487,
+      "1D": -2.8689259458490226,
+      "7D": -3.3886213661494557,
+      "1M": -6.683893195521094,
+      "3M": -0.4959588537839698,
+      "6M": 3.8535276073619675,
+      "1Y": -33.92290802634788,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 5,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -488,8 +794,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.69974,
-        "shares": 2990463,
+        "pct": 0.65133,
+        "shares": 2783583,
         "is_insider": null
       },
       {
@@ -545,7 +851,7 @@
         "divFreqTypeName": "Interim Payment",
         "annualizedDividend": 2,
         "annualizedDividendListingCurrency": 2,
-        "annualizedYield": 0.639443397
+        "annualizedYield": 0.6419406022
       },
       {
         "exDate": "2024-10-07T00:00:00.000Z",
@@ -603,14 +909,14 @@
     "payment_count": 5
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-02",
+    "most_recent_reported_date": "2026-05-20",
     "latest_year": 2026,
     "latest_revenue": 31801001000,
     "latest_net_income": 2455197000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": -19.760892462921174,
-    "earnings_growth_pct": -35.77137490549601,
+    "revenue_growth_pct": -10.236679232006944,
+    "earnings_growth_pct": -23.99707404474619,
     "net_margin_pct": 7.720502257145931,
     "yearly_history": [
       {
@@ -621,26 +927,26 @@
       },
       {
         "year": 2025,
-        "revenue": 39632795000,
-        "netIncome": 3822590000,
+        "revenue": 35427612000,
+        "netIncome": 3230398000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 36437333000,
-        "netIncome": 3315582000,
+        "revenue": 37704079000,
+        "netIncome": 3606238000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 20682474000,
-        "netIncome": 1207873000,
+        "revenue": 25260329000,
+        "netIncome": 1707217000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 11783540000,
-        "netIncome": 496758000,
+        "revenue": 12087847000,
+        "netIncome": 520357999.99999994,
         "eps": null
       }
     ]
@@ -872,6 +1178,36 @@
   ],
   "news": [
     {
+      "id": "5a11fa88-d717-481d-aefa-ecfa917f93fc",
+      "type": "article",
+      "date": "2026-06-07T03:42:02.000Z",
+      "title": "Weak Statutory Earnings May Not Tell The Whole Story For Jupiter Wagons (NSE:JWL)",
+      "body": "The market wasn't impressed with the soft earnings from Jupiter Wagons Limited ( NSE:JWL ) recently. We did some...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/capital-goods/nse-jwl/jupiter-wagons-shares/news/weak-statutory-earnings-may-not-tell-the-whole-story-for-jup",
+      "raw_subtype": "article"
+    },
+    {
+      "id": "11c566b4-74b8-4d90-a331-839f2901c698",
+      "type": "brief",
+      "date": "2026-06-06T19:42:29.000Z",
+      "title": "New minor risk - Profit margin trend",
+      "body": "The company's profit margins are lower than last year and have reduced by more than 30%. Net profit margin: 5.8% Last year net profit margin: 9.6% This is considered a minor risk. A large drop in profit margin could indicate the company does not have strong competitive advantages or it is yet to establish itself and its core business. Even if it is a well established business, this may make it a much riskier investment than one that has a combination of proven competitive advantages and a stable or growing profit margin. Currently, the following risks have been identified for the company: Major Risk High level of non-cash earnings (23% accrual ratio). Minor Risks Paying a dividend despite having no free cash flows. Profit margins are more than 30% lower than last year (5.8% net profit marg",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "32f5e924-9069-44ca-b083-367fb0a49053",
+      "type": "narrative-update",
+      "date": "2026-06-04T11:06:15.000Z",
+      "title": "JWL: Upcoming Results Meeting Will Support Confident Long Term Earnings Outlook",
+      "body": "Analysts have revised their price target for Jupiter Wagons to ₹337 from ₹376, citing updated assumptions on discount rate, revenue growth, profit margin, and future P/E that together point to a more conservative fair value framework. What's in the News Board meeting scheduled for 30 May 2026 at 13:00 IST to review and approve the audited standalone and consolidated financial results for the quarter and year ended 31 March 2026.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-jwl/jupiter-wagons-shares/crcfasfp-rail-modernization-and-clean-tech-trends-will-dominate-global-markets/updates/9-analysts-have-revised-their-price-target-for-jupiter-wagons",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "711df9c2-cc8b-490f-b6c2-ca69b1c3d285",
       "type": "event",
       "date": "2026-05-26T10:28:00.000Z",
@@ -1090,26 +1426,6 @@
       "keyDevTypeId": null,
       "source_url": null,
       "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "e7d107c5-1332-4a49-a801-594f333d5953",
-      "type": "narrative-update",
-      "date": "2025-12-09T12:04:50.000Z",
-      "title": "JWL: Future Capacity Expansion In Energy Storage Will Drive Global Demand",
-      "body": "Narrative Update on Jupiter Wagons Analysts have maintained their price target for Jupiter Wagons at ₹346.00. This reflects unchanged expectations, as modest tweaks to the discount rate, revenue growth, profit margin, and future valuation assumptions are seen as offsetting each other in the overall outlook.",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-jwl/jupiter-wagons-shares/ihp53f1m-upcoming-capacity-expansion-and-new-appointments-will-drive-sector-leadership/updates/15-narrative-update-on-jupiter-wagons-analysts-have-maintained",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "230571dd-ab29-4b32-8f44-b98dc4758dff",
-      "type": "article",
-      "date": "2025-12-08T07:37:50.000Z",
-      "title": "The Price Is Right For Jupiter Wagons Limited (NSE:JWL)",
-      "body": "With a price-to-earnings (or \"P/E\") ratio of 40.5x Jupiter Wagons Limited ( NSE:JWL ) may be sending very bearish...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/capital-goods/nse-jwl/jupiter-wagons-shares/news/the-price-is-right-for-jupiter-wagons-limited-nsejwl",
-      "raw_subtype": "article"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/JWL.json"

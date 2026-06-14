@@ -3,7 +3,7 @@
   "name": "Parag Milk Foods Limited",
   "sector": "Food, Beverage & Tobacco",
   "sws_url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-paragmilk/parag-milk-foods-shares",
-  "parsed_at": "2026-05-31T21:25:01.724Z",
+  "parsed_at": "2026-06-11T00:27:51.011Z",
   "company_id": "5853CBA5-5841-4086-A324-8FB28B314175",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 3
     },
     "snowflake_total": 15,
-    "current_price_inr": 222.31,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_VOLATILE_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 237.74,
     "market_cap_inr": 26710900000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 177.84,
       "high": 376.95
     },
-    "fair_value_inr": 275.260018,
+    "fair_value_inr": 274.69958,
     "fair_value_range_inr": {
-      "min": 117.167225,
-      "max": 275.260018,
+      "min": 116.928669,
+      "max": 274.69958,
       "count": 2
     },
-    "upside_pct": 23.818099950519546,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "19d19c7b-be7a-4d94-b4c5-b3606df15f8b",
+      "narrative_type": null,
+      "published_at": "2024-07-25T13:41:51.339Z"
+    },
+    "upside_pct": 15.546218558088675,
     "multiples": {
       "pe": 19.79,
       "ps": 0.7,
@@ -62,7 +348,7 @@
     "rewards": [
       "Trading below our calculated fair Price-To-Earnings ratio",
       "Earnings have grown 44.8% per year over the past 5 years",
-      "Price-To-Earnings ratio (20.5x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (22.6x) is below the Indian market (22.9x)",
       "Earnings are forecast to grow 22.18% per year",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
@@ -174,7 +460,7 @@
     "industry_benchmarks": {
       "pe": 47.946214725606616,
       "net_income_margin_1y": 0.06501183937,
-      "future_revenue_growth_3y": 0.3785430898,
+      "future_revenue_growth_3y": 0.3819522721,
       "sector_pe": 47.946214725606616
     },
     "industry_benchmarks_meta": {
@@ -209,18 +495,18 @@
         "url": "https://groww.in/stocks/parag-milk-foods-ltd"
       },
       "sws_statement": {
-        "company_pe": 20.5,
-        "industry_pe": 18.7,
+        "company_pe": 22.6,
+        "industry_pe": 18.6,
         "industry_name": "Indian Food",
-        "description": "PARAGMILK is expensive based on its Price-To-Earnings Ratio (20.5x) compared to the Indian Food industry average (18.7x).",
+        "description": "PARAGMILK is expensive based on its Price-To-Earnings Ratio (22.6x) compared to the Indian Food industry average (18.6x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 18.830078936,
+        "industry_pe": 18.621768344,
         "industry_code": "5120000",
         "type": "median_profitable",
-        "count": 217,
+        "count": 224,
         "source": {
           "type": "country",
           "country": "IN",
@@ -229,8 +515,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.9,
-        "sample_count": 218,
+        "industry_pe": 18,
+        "sample_count": 224,
         "industry_code": "5120000",
         "industry_name": "Food, Beverage & Tobacco"
       },
@@ -242,8 +528,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 222.31,
-        "fetched_at": "2026-05-31T21:25:01.724Z",
+        "value": 237.74,
+        "fetched_at": "2026-06-11T00:27:51.011Z",
         "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-paragmilk/parag-milk-foods-shares"
       },
       "market_cap_inr": {
@@ -251,6 +537,24 @@
         "value": 26710900000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/parag-milk-foods-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 274.69958,
+        "fetched_at": "2026-06-11T00:27:51.011Z",
+        "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-paragmilk/parag-milk-foods-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "19d19c7b-be7a-4d94-b4c5-b3606df15f8b",
+        "narrative_type": null,
+        "published_at": "2024-07-25T13:41:51.339Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 15.546218558088675,
+        "fetched_at": "2026-06-11T00:27:51.011Z",
+        "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-paragmilk/parag-milk-foods-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -291,13 +595,13 @@
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.06501183937,
-        "fetched_at": "2026-05-31T21:25:01.724Z",
+        "fetched_at": "2026-06-11T00:27:51.011Z",
         "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-paragmilk/parag-milk-foods-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.3785430898,
-        "fetched_at": "2026-05-31T21:25:01.724Z",
+        "value": 0.3819522721,
+        "fetched_at": "2026-06-11T00:27:51.011Z",
         "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-paragmilk/parag-milk-foods-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -429,16 +733,16 @@
     "quick_ratio": 0.773405925811517,
     "cash_ratio": 0.023515329369063247,
     "returns_pct": {
-      "1D": 4.077715355805248,
-      "7D": 5.756148613291467,
-      "1M": -1.7501215362177962,
-      "3M": 9.809829587552489,
-      "6M": -33.0895410082769,
-      "1Y": 8.038100792146567,
+      "1D": -2.3294030647878015,
+      "7D": -2.5535926548346066,
+      "1M": 11.34319970026227,
+      "3M": 16.58493526873285,
+      "6M": -25.706249999999997,
+      "1Y": 9.754858963113428,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -500,8 +804,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.75999,
-        "shares": 949518,
+        "pct": 0.75632,
+        "shares": 944939,
         "is_insider": null
       },
       {
@@ -520,13 +824,13 @@
         "is_insider": null
       },
       {
-        "pct": 0.04278,
-        "shares": 53449,
+        "pct": 0.03893,
+        "shares": 48640,
         "is_insider": null
       },
       {
-        "pct": 0.03893,
-        "shares": 48640,
+        "pct": 0.03796,
+        "shares": 47422,
         "is_insider": null
       },
       {
@@ -883,6 +1187,16 @@
   ],
   "news": [
     {
+      "id": "5205fcc3-1ebd-4683-b739-3951276ced92",
+      "type": "article",
+      "date": "2026-06-03T00:30:43.000Z",
+      "title": "Here's Why Parag Milk Foods (NSE:PARAGMILK) Has Caught The Eye Of Investors",
+      "body": "Investors are often guided by the idea of discovering 'the next big thing', even if that means buying 'story stocks...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-paragmilk/parag-milk-foods-shares/news/heres-why-parag-milk-foods-nseparagmilk-has-caught-the-eye-o",
+      "raw_subtype": "article"
+    },
+    {
       "id": "8ddc4d55-866d-4e47-95fe-9ae8d72d1e20",
       "type": "brief",
       "date": "2026-05-25T11:37:05.000Z",
@@ -941,16 +1255,6 @@
       "keyDevTypeId": "55",
       "source_url": null,
       "raw_subtype": "EventActivity"
-    },
-    {
-      "id": "cfc8264a-865d-4a61-b94c-e7f4b84b263f",
-      "type": "article",
-      "date": "2025-12-09T00:42:36.000Z",
-      "title": "Here's Why Parag Milk Foods (NSE:PARAGMILK) Can Manage Its Debt Responsibly",
-      "body": "Legendary fund manager Li Lu (who Charlie Munger backed) once said, 'The biggest investment risk is not the volatility...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-paragmilk/parag-milk-foods-shares/news/heres-why-parag-milk-foods-nseparagmilk-can-manage-its-debt",
-      "raw_subtype": "article"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/PARAGMILK.json"

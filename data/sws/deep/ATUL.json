@@ -3,7 +3,7 @@
   "name": "Atul Ltd",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-atul/atul-shares",
-  "parsed_at": "2026-05-31T21:21:10.493Z",
+  "parsed_at": "2026-06-11T00:17:06.934Z",
   "company_id": "EAB362F3-CFE5-4010-8B53-DB54681B3F3F",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 4
     },
     "snowflake_total": 16,
-    "current_price_inr": 6855.5,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 6641.5,
     "market_cap_inr": 205842000000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 5560.5,
       "high": 7788
     },
-    "fair_value_inr": 7668.132105,
+    "fair_value_inr": 7653.395561,
     "fair_value_range_inr": {
-      "min": 3186.647148,
-      "max": 3186.647148,
+      "min": 3219.263719,
+      "max": 3219.263719,
       "count": 2
     },
-    "upside_pct": 11.853724819487997,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "bd0a6582-ab02-4adc-842a-d3615a2260b2",
+      "narrative_type": null,
+      "published_at": "2024-07-25T13:01:04.638Z"
+    },
+    "upside_pct": 15.235949122939099,
     "multiples": {
       "pe": 29.86,
       "ps": 3.29,
@@ -235,8 +521,8 @@
     "dividend_yield_pct": 0.43,
     "industry_benchmarks": {
       "pe": 40.473660493160494,
-      "net_income_margin_1y": 0.09915925459,
-      "future_revenue_growth_3y": 0.4901950831,
+      "net_income_margin_1y": 0.1007363079,
+      "future_revenue_growth_3y": 0.4930780903,
       "sector_pe": 40.473660493160494
     },
     "industry_benchmarks_meta": {
@@ -271,18 +557,18 @@
         "url": "https://groww.in/stocks/atul-ltd"
       },
       "sws_statement": {
-        "company_pe": 29.7,
-        "industry_pe": 22.2,
+        "company_pe": 28.8,
+        "industry_pe": 20.7,
         "industry_name": "Indian Chemicals",
-        "description": "ATUL is expensive based on its Price-To-Earnings Ratio (29.7x) compared to the Indian Chemicals industry average (22.2x).",
+        "description": "ATUL is expensive based on its Price-To-Earnings Ratio (28.8x) compared to the Indian Chemicals industry average (20.7x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 22.185241114,
+        "industry_pe": 20.665261726,
         "industry_code": "2020000",
         "type": "median_profitable",
-        "count": 304,
+        "count": 302,
         "source": {
           "type": "country",
           "country": "IN",
@@ -291,8 +577,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.5,
-        "sample_count": 293,
+        "industry_pe": 19.6,
+        "sample_count": 294,
         "industry_code": "2020000",
         "industry_name": "Materials"
       },
@@ -304,8 +590,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 6855.5,
-        "fetched_at": "2026-05-31T21:21:10.493Z",
+        "value": 6641.5,
+        "fetched_at": "2026-06-11T00:17:06.934Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-atul/atul-shares"
       },
       "market_cap_inr": {
@@ -313,6 +599,24 @@
         "value": 205842000000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/atul-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 7653.395561,
+        "fetched_at": "2026-06-11T00:17:06.934Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-atul/atul-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "bd0a6582-ab02-4adc-842a-d3615a2260b2",
+        "narrative_type": null,
+        "published_at": "2024-07-25T13:01:04.638Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 15.235949122939099,
+        "fetched_at": "2026-06-11T00:17:06.934Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-atul/atul-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -352,14 +656,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.09915925459,
-        "fetched_at": "2026-05-31T21:21:10.493Z",
+        "value": 0.1007363079,
+        "fetched_at": "2026-06-11T00:17:06.934Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-atul/atul-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.4901950831,
-        "fetched_at": "2026-05-31T21:21:10.493Z",
+        "value": 0.4930780903,
+        "fetched_at": "2026-06-11T00:17:06.934Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-atul/atul-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -491,16 +795,16 @@
     "quick_ratio": 2.887687714451228,
     "cash_ratio": 0.08437235417316519,
     "returns_pct": {
-      "1D": -2.099250267761514,
-      "7D": -2.544601606368612,
-      "1M": 0.6385789782736347,
-      "3M": 2.719508540605334,
-      "6M": 16.70922710248553,
-      "1Y": -3.0750742259295913,
+      "1D": -0.18785692816351068,
+      "7D": -0.21035234016978438,
+      "1M": -3.634648868253047,
+      "3M": 5.378817929393098,
+      "6M": 12.036099865047234,
+      "1Y": -6.831731780879569,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 1,
+    "recent_news_count": 0,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },

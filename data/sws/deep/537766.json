@@ -3,7 +3,7 @@
   "name": "B.C. Power Controls Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-537766/bc-power-controls-shares",
-  "parsed_at": "2026-05-31T22:32:27.001Z",
+  "parsed_at": "2026-06-11T01:45:53.969Z",
   "company_id": "35756B48-ADE1-4EA4-BE1D-BAD64D37C209",
   "classification_status": "Active",
   "groww_source": {
@@ -77,22 +77,308 @@
         }
       ]
     },
-    "current_price_inr": 1.99,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_EARNS_NET_INTEREST"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_COMMITMENTS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 1.91,
     "market_cap_inr": 145200000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 1.45,
       "high": 3.13
     },
-    "fair_value_inr": 8.596593,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 331.98959798994974,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "58d53151-c05c-4848-97cf-295a21e3fa89",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 34.67,
       "ps": 0.16,
@@ -109,13 +395,13 @@
       "pe_source_url": "https://groww.in/stocks/bc-power-controls-ltd"
     },
     "rewards": [
-      "Trading at 76.9% below our estimate of its fair value",
+      "Trading at 78.8% below our estimate of its fair value",
       "Earnings grew by 965.4% over the past year",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
     "risks": [
-      "Does not have a meaningful market cap (₹139M)",
+      "Does not have a meaningful market cap (₹135M)",
       "Earnings have declined by 5% per year over past 5 years"
     ],
     "dividend": {
@@ -130,7 +416,7 @@
     "industry_benchmarks": {
       "pe": 60.17841194839087,
       "net_income_margin_1y": 0.1057680891,
-      "future_revenue_growth_3y": 0.8153234448,
+      "future_revenue_growth_3y": 0.8362054337,
       "sector_pe": 60.17841194839087
     },
     "industry_benchmarks_meta": {
@@ -165,18 +451,18 @@
         "url": "https://groww.in/stocks/bc-power-controls-ltd"
       },
       "sws_statement": {
-        "company_pe": 7.8,
-        "industry_pe": 29.5,
+        "company_pe": 7.6,
+        "industry_pe": 28.6,
         "industry_name": "Indian Electrical",
-        "description": "537766 is good value based on its Price-To-Earnings Ratio (7.8x) compared to the Indian Electrical industry average (29.5x).",
+        "description": "537766 is good value based on its Price-To-Earnings Ratio (7.6x) compared to the Indian Electrical industry average (28.6x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 29.47654624,
+        "industry_pe": 28.631556336,
         "industry_code": "3050000",
         "type": "median_profitable",
-        "count": 123,
+        "count": 124,
         "source": {
           "type": "country",
           "country": "IN",
@@ -185,8 +471,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 28.2,
-        "sample_count": 127,
+        "industry_pe": 29.3,
+        "sample_count": 129,
         "industry_code": "3050000",
         "industry_name": "Capital Goods"
       },
@@ -198,8 +484,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1.99,
-        "fetched_at": "2026-05-31T22:32:27.001Z",
+        "value": 1.91,
+        "fetched_at": "2026-06-11T01:45:53.969Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-537766/bc-power-controls-shares"
       },
       "market_cap_inr": {
@@ -247,13 +533,13 @@
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.1057680891,
-        "fetched_at": "2026-05-31T22:32:27.001Z",
+        "fetched_at": "2026-06-11T01:45:53.969Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-537766/bc-power-controls-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.8153234448,
-        "fetched_at": "2026-05-31T22:32:27.001Z",
+        "value": 0.8362054337,
+        "fetched_at": "2026-06-11T01:45:53.969Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-537766/bc-power-controls-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -385,12 +671,12 @@
     "quick_ratio": 4.814232902033272,
     "cash_ratio": 0.01386321626617375,
     "returns_pct": {
-      "1D": -4.32692307692308,
-      "7D": 0,
-      "1M": -7.00934579439253,
-      "3M": 13.068181818181818,
-      "6M": 3.645833333333337,
-      "1Y": -0.9950248756218805,
+      "1D": -1.0362694300518145,
+      "7D": -2.051282051282053,
+      "1M": -9.478672985781989,
+      "3M": 13.017751479289942,
+      "6M": -10.747663551401878,
+      "1Y": -13.181818181818192,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -676,16 +962,6 @@
       "keyDevTypeId": "55",
       "source_url": null,
       "raw_subtype": "EventActivity"
-    },
-    {
-      "id": "afe2abac-ca9d-4dc7-b4e7-9616a18af390",
-      "type": "brief",
-      "date": "2025-12-12T18:30:56.000Z",
-      "title": "Investor sentiment improves as stock rises 29%",
-      "body": "After last week's 29% share price gain to ₹2.14, the stock trades at a trailing P/E ratio of 11.4x. Average trailing P/E is 29x in the Electrical industry in India. Total loss to shareholders of 57% over the past three years.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/537766.json"

@@ -3,7 +3,7 @@
   "name": "Bharti Hexacom Limited",
   "sector": "Telecom",
   "sws_url": "https://simplywall.st/stocks/in/telecom/nse-bhartihexa/bharti-hexacom-shares",
-  "parsed_at": "2026-05-31T21:35:31.303Z",
+  "parsed_at": "2026-06-11T00:28:44.150Z",
   "company_id": "D765276B-5BA1-4C3F-80BD-B4FA0CA65283",
   "classification_status": "Active",
   "groww_source": {
@@ -18,32 +18,318 @@
     "snowflake": {
       "valuation": 1,
       "future": 5,
-      "past": 6,
-      "financial_health": 3,
+      "past": 5,
+      "financial_health": 4,
       "dividends": 3,
       "future_growth": 5,
-      "past_performance": 6,
+      "past_performance": 5,
       "value": 1,
-      "health": 3,
+      "health": 4,
       "dividend": 3
     },
     "snowflake_total": 18,
-    "current_price_inr": 1495.5,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_STABLE_BUT_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_50_TO_75"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 1457.2,
     "market_cap_inr": 767750000000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "large7",
     "shares_outstanding": 500000000,
     "fifty_two_week": {
       "low": 1439.3,
       "high": 2052.9
     },
-    "fair_value_inr": 2105,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": 1375.920795,
-      "max": 2300,
-      "count": 9
+      "max": 1893.92308,
+      "count": 8
     },
-    "upside_pct": 40.75560013373454,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystHighTarget",
+      "owner_classification": null,
+      "narrative_id": "0454dd35-67b3-4520-a71f-d1cae49b6d6c",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 44.3,
       "ps": 8.2,
@@ -60,13 +346,11 @@
       "pe_source_url": "https://groww.in/stocks/bharti-hexacom-ltd"
     },
     "rewards": [
-      "Analysts in good agreement that stock price will rise by 21.3%",
-      "Earnings grew by 40.6% over the past year",
-      "Earnings are forecast to grow 26.84% per year"
+      "Analysts in good agreement that stock price will rise by 22.9%",
+      "Earnings grew by 16% over the past year",
+      "Earnings are forecast to grow 26.42% per year"
     ],
-    "risks": [
-      "Has a high level of debt"
-    ],
+    "risks": [],
     "dividend": {
       "yield_pct": 1.17,
       "payout_pct": 28.49165194597983,
@@ -84,7 +368,7 @@
           "divFreqTypeName": "Annual",
           "annualizedDividend": 10,
           "annualizedDividendListingCurrency": 10,
-          "annualizedYield": 0.5885841834
+          "annualizedYield": 0.5861925811
         },
         {
           "exDate": "2024-08-16T00:00:00.000Z",
@@ -105,8 +389,8 @@
     "dividend_yield_pct": 1.17,
     "industry_benchmarks": {
       "pe": 69.52870376074797,
-      "net_income_margin_1y": 0.1109030276,
-      "future_revenue_growth_3y": 0.4737025479,
+      "net_income_margin_1y": 0.1124275317,
+      "future_revenue_growth_3y": 0.4304294979,
       "sector_pe": 69.52870376074797
     },
     "industry_benchmarks_meta": {
@@ -142,14 +426,14 @@
       },
       "sws_statement": {
         "company_pe": 42.6,
-        "industry_pe": 18.1,
+        "industry_pe": 15.9,
         "industry_name": "Asian Wireless Telecom",
-        "description": "BHARTIHEXA is expensive based on its Price-To-Earnings Ratio (42.6x) compared to the Asian Wireless Telecom industry average (18.1x).",
+        "description": "BHARTIHEXA is expensive based on its Price-To-Earnings Ratio (42.6x) compared to the Asian Wireless Telecom industry average (15.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 18.088465403,
+        "industry_pe": 15.94320266,
         "industry_code": "9030000",
         "type": "median_profitable",
         "count": 45,
@@ -161,25 +445,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 41.7,
+        "industry_pe": 41,
         "sample_count": 3,
         "industry_code": "9030000",
         "industry_name": "Telecom"
       },
       "sws_primary_industry": {
-        "industry_pe": 16.822358665,
+        "industry_pe": 16.009636295,
         "industry_name": "Telecom",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 42.60926548521283
+        "company_pe": 41.518035215681806
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1495.5,
-        "fetched_at": "2026-05-31T21:35:31.303Z",
+        "value": 1457.2,
+        "fetched_at": "2026-06-11T00:28:44.150Z",
         "url": "https://simplywall.st/stocks/in/telecom/nse-bhartihexa/bharti-hexacom-shares"
       },
       "market_cap_inr": {
@@ -226,14 +510,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.1109030276,
-        "fetched_at": "2026-05-31T21:35:31.303Z",
+        "value": 0.1124275317,
+        "fetched_at": "2026-06-11T00:28:44.150Z",
         "url": "https://simplywall.st/stocks/in/telecom/nse-bhartihexa/bharti-hexacom-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.4737025479,
-        "fetched_at": "2026-05-31T21:35:31.303Z",
+        "value": 0.4304294979,
+        "fetched_at": "2026-06-11T00:28:44.150Z",
         "url": "https://simplywall.st/stocks/in/telecom/nse-bhartihexa/bharti-hexacom-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -365,12 +649,12 @@
     "quick_ratio": 0.37586999121562265,
     "cash_ratio": 0.010237178187715386,
     "returns_pct": {
-      "1D": -2.509778357235984,
-      "7D": -3.0281416158734307,
-      "1M": -2.0692816449479343,
-      "3M": -6.932603148920287,
-      "6M": -15.427246507945483,
-      "1Y": -19.188371339025174,
+      "1D": -1.2603333785065667,
+      "7D": -2.6066033952680123,
+      "1M": -0.512050249197788,
+      "3M": -4.251264866285567,
+      "6M": -13.437091600332662,
+      "1Y": -19.12083032691347,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -421,8 +705,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.47324,
-        "shares": 2366221,
+        "pct": 0.45929,
+        "shares": 2296468,
         "is_insider": null
       },
       {
@@ -508,7 +792,7 @@
         "divFreqTypeName": "Annual",
         "annualizedDividend": 10,
         "annualizedDividendListingCurrency": 10,
-        "annualizedYield": 0.5885841834
+        "annualizedYield": 0.5861925811
       },
       {
         "exDate": "2024-08-16T00:00:00.000Z",
@@ -734,6 +1018,16 @@
   ],
   "news": [
     {
+      "id": "42f6fcd0-b782-47b3-90e4-6944463550fb",
+      "type": "narrative-update",
+      "date": "2026-06-06T21:06:30.000Z",
+      "title": "BHARTIHEXA: Rich P/E Will Likely Persist With Softer Margins And Dividend Support",
+      "body": "Analysts have kept their ₹1,450 price target for Bharti Hexacom unchanged, citing updated assumptions that indicate lower revenue growth and profit margins, along with a higher future P/E multiple. What's in the News Board meeting held on May 13, 2026, to consider and record audited financial results for Q4 and the year ended March 31, 2026, and to consider the recommendation or declaration of a dividend for FY 2025-26.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/telecom/nse-bhartihexa/bharti-hexacom-shares/iebjgfix-mobile-saturation-and-regulation-will-squeeze-margins-despite-upside/updates/6-analysts-have-kept-their-indian-rupee1450-price-target-for-bharti-hexa",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "0d790d55-fef5-48f4-8999-a4f875924875",
       "type": "narrative-update",
       "date": "2026-05-22T11:05:35.000Z",
@@ -912,26 +1206,6 @@
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/stocks/in/telecom/nse-bhartihexa/bharti-hexacom-shares/news/calculating-the-fair-value-of-bharti-hexacom-limited-nsebhar",
       "raw_subtype": "article"
-    },
-    {
-      "id": "22a59d24-e1bd-45fb-9d36-220b9ec58eef",
-      "type": "narrative-update",
-      "date": "2025-12-16T19:03:41.000Z",
-      "title": "BHARTIHEXA: Expanding Profit Margins Will Likely Fail To Justify Rich Pricing",
-      "body": "Analysts have raised their price target for Bharti Hexacom by approximately ₹70, citing expectations of stronger revenue growth, expanding profit margins, and a slightly lower future price to earnings multiple that together support a higher fair value estimate. What's in the News Board meeting scheduled on October 31, 2025, to review and approve audited financial results for Q2 and the half year ended September 30, 2025 (company filing) Additional board meeting slated for November 3, 2025, to consider and record audited financial results for Q2 and the half year ended September 30, 2025, indicating flexibility in finalizing the accounts timetable (company filing) Valuation Changes The Fair Value Estimate has risen moderately from ₹1,386.26 to ₹1,453.60, reflecting a higher intrinsic value ",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/telecom/nse-bhartihexa/bharti-hexacom-shares/iebjgfix-mobile-saturation-and-regulation-will-squeeze-margins-despite-upside/updates/2-analysts-have-raised-their-price-target-for-bharti-hexacom-b",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "2df7f49a-5308-4caa-a6d8-8fbb874d8233",
-      "type": "brief",
-      "date": "2025-12-03T12:25:05.000Z",
-      "title": "Now 20% overvalued",
-      "body": "Over the last 90 days, the stock has fallen 1.1% to ₹1,755. The fair value is estimated to be ₹1,461, however this is not to be taken as a sell recommendation but rather should be used as a guide only. Revenue has grown by 13% over the last 3 years, while earnings per share has been flat. Revenue is forecast to grow by 30% in 2 years. Earnings are forecast to grow by 104% in the next 2 years.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/BHARTIHEXA.json"

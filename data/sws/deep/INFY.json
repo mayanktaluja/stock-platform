@@ -3,7 +3,7 @@
   "name": "Infosys Limited",
   "sector": "Software",
   "sws_url": "https://simplywall.st/stocks/in/software/nse-infy/infosys-shares",
-  "parsed_at": "2026-05-31T20:09:06.755Z",
+  "parsed_at": "2026-06-10T23:12:03.351Z",
   "company_id": "47D88023-60E2-4188-93F9-F70BB0462870",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 5
     },
     "snowflake_total": 21,
-    "current_price_inr": 1160.9,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_OVER_PAST_5_YEARS"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_50_TO_75"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_50_TO_75_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 1145.3,
     "market_cap_inr": 4701116900000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "mega8",
     "shares_outstanding": 4046972468,
     "fifty_two_week": {
       "low": 1089,
       "high": 1728
     },
-    "fair_value_inr": 1461.825,
+    "fair_value_inr": 1460.95,
     "fair_value_range_inr": {
-      "min": 926.497138,
-      "max": 1461.825,
-      "count": 153
+      "min": 903.332337,
+      "max": 1460.95,
+      "count": 154
     },
-    "upside_pct": 25.92169868205702,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "46b3d639-a0f0-47a7-8936-fe9dd8e6ea68",
+      "narrative_type": null,
+      "published_at": "2026-06-03T22:05:05.820Z"
+    },
+    "upside_pct": 27.560464507116052,
     "multiples": {
       "pe": 15.95,
       "ps": 2.63,
@@ -60,12 +346,12 @@
       "pe_source_url": "https://groww.in/stocks/infosys-ltd"
     },
     "rewards": [
-      "Analysts in good agreement that stock price will rise by 25.8%",
       "Earnings have grown 3.7% per year over the past 5 years",
-      "Price-To-Earnings ratio (14.9x) is below the Indian market (23.4x)",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading below our calculated fair Price-To-Earnings ratio",
-      "Trading at good value vs. industry average Price-To-Earnings ratio"
+      "Analysts in good agreement that stock price will rise by 23.8%",
+      "Trading at good value vs. industry average Price-To-Earnings ratio",
+      "Price-To-Earnings ratio (15.1x) is below the Indian market (22.9x)"
     ],
     "risks": [
       "Unstable dividend track record"
@@ -238,8 +524,8 @@
     "dividend_yield_pct": 4.14,
     "industry_benchmarks": {
       "pe": 18.761595487228476,
-      "net_income_margin_1y": 0.09947274985,
-      "future_revenue_growth_3y": 1.4123928,
+      "net_income_margin_1y": 0.0994330966,
+      "future_revenue_growth_3y": 1.401190197,
       "sector_pe": 18.761595487228476
     },
     "industry_benchmarks_meta": {
@@ -274,18 +560,18 @@
         "url": "https://groww.in/stocks/infosys-ltd"
       },
       "sws_statement": {
-        "company_pe": 14.9,
-        "industry_pe": 23.6,
+        "company_pe": 15.1,
+        "industry_pe": 23,
         "industry_name": "Indian IT",
-        "description": "INFY is good value based on its Price-To-Earnings Ratio (14.9x) compared to the Indian IT industry average (23.6x).",
+        "description": "INFY is good value based on its Price-To-Earnings Ratio (15.1x) compared to the Indian IT industry average (23x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 23.644221907,
+        "industry_pe": 22.964061807,
         "industry_code": "8030000",
         "type": "median_profitable",
-        "count": 126,
+        "count": 127,
         "source": {
           "type": "country",
           "country": "IN",
@@ -294,13 +580,13 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.4,
-        "sample_count": 123,
+        "industry_pe": 22.5,
+        "sample_count": 126,
         "industry_code": "8030000",
         "industry_name": "Software"
       },
       "sws_primary_industry": {
-        "industry_pe": 20.803345639,
+        "industry_pe": 20.24766845,
         "industry_name": "Software",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
@@ -311,8 +597,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1160.9,
-        "fetched_at": "2026-05-31T20:09:06.755Z",
+        "value": 1145.3,
+        "fetched_at": "2026-06-10T23:12:03.351Z",
         "url": "https://simplywall.st/stocks/in/software/nse-infy/infosys-shares"
       },
       "market_cap_inr": {
@@ -320,6 +606,24 @@
         "value": 4701116900000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/infosys-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 1460.95,
+        "fetched_at": "2026-06-10T23:12:03.351Z",
+        "url": "https://simplywall.st/stocks/in/software/nse-infy/infosys-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "46b3d639-a0f0-47a7-8936-fe9dd8e6ea68",
+        "narrative_type": null,
+        "published_at": "2026-06-03T22:05:05.820Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 27.560464507116052,
+        "fetched_at": "2026-06-10T23:12:03.351Z",
+        "url": "https://simplywall.st/stocks/in/software/nse-infy/infosys-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -359,14 +663,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.09947274985,
-        "fetched_at": "2026-05-31T20:09:06.755Z",
+        "value": 0.0994330966,
+        "fetched_at": "2026-06-10T23:12:03.351Z",
         "url": "https://simplywall.st/stocks/in/software/nse-infy/infosys-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 1.4123928,
-        "fetched_at": "2026-05-31T20:09:06.755Z",
+        "value": 1.401190197,
+        "fetched_at": "2026-06-10T23:12:03.351Z",
         "url": "https://simplywall.st/stocks/in/software/nse-infy/infosys-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -475,13 +779,13 @@
         "url": "https://groww.in/stocks/infosys-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 4.9081697276757446,
+    "earnings_growth_yoy_pct": 3.4019975031210987,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 4.570213207449292,
+    "revenue_growth_pct": 3.3531583264971285,
     "latest_revenue": 20158000000,
     "latest_net_income": 3313000000,
     "latest_eps": 72.67,
-    "most_recent_reported_date": "2026-05-08",
+    "most_recent_reported_date": "2026-06-03",
     "pb": 5.34,
     "ps": 2.63,
     "book_value": 217.059261,
@@ -498,16 +802,16 @@
     "quick_ratio": 1.977925155766217,
     "cash_ratio": 0.4243148197698865,
     "returns_pct": {
-      "1D": 0.08621432882145012,
-      "7D": -1.1579395487441386,
-      "1M": -0.5653104925053456,
-      "3M": -10.706868702407494,
-      "6M": -25.588103326709817,
-      "1Y": -25.286394645385496,
+      "1D": -2.9653477929339997,
+      "7D": -6.322591199083916,
+      "1M": -2.693288020390828,
+      "3M": -9.519671354084373,
+      "6M": -28.338130396696286,
+      "1Y": -28.23934837092732,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 5,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -790,14 +1094,14 @@
     "payment_count": 23
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-08",
+    "most_recent_reported_date": "2026-06-03",
     "latest_year": 2026,
     "latest_revenue": 20158000000,
     "latest_net_income": 3313000000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 4.570213207449292,
-    "earnings_growth_pct": 4.9081697276757446,
+    "revenue_growth_pct": 3.3531583264971285,
+    "earnings_growth_pct": 3.4019975031210987,
     "net_margin_pct": 16.435162218474055,
     "yearly_history": [
       {
@@ -808,26 +1112,26 @@
       },
       {
         "year": 2025,
-        "revenue": 19277000000,
-        "netIncome": 3158000000,
+        "revenue": 19504000000,
+        "netIncome": 3204000000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 18562000000,
-        "netIncome": 3167000000,
+        "revenue": 18659000000,
+        "netIncome": 3206000000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 18212000000,
-        "netIncome": 2981000000,
+        "revenue": 18385000000,
+        "netIncome": 3016000000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 16311000000,
-        "netIncome": 2963000000,
+        "revenue": 16973000000,
+        "netIncome": 2948000000,
         "eps": null
       }
     ]
@@ -1033,6 +1337,36 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "6816c22a-3b6c-4451-9984-ee9ec601d25e",
+      "type": "narrative-update",
+      "date": "2026-06-03T22:05:05.000Z",
+      "title": "INFY: AI Services Expansion Will Support Margins Despite Recent Model Fine Tuning",
+      "body": "Infosys' updated analyst price target edges down by about ₹1 to roughly ₹1,461 as analysts factor in slightly softer revenue growth assumptions, a modestly lower future P/E and a small uptick in expected profit margins. Analyst Commentary Recent Street research on Infosys has focused on fine tuning valuation assumptions, with several firms trimming their price targets in relatively small increments.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/software/nse-infy/infosys-shares/1rqk8uky-infy-continued-digital-demand-will-drive-margin-strength-despite-new-visa-fees/updates/25-infosys-updated-analyst-price-target-edges-down-by-about-indian-rupee1",
+      "raw_subtype": "narrative-update"
+    },
+    {
+      "id": "d6bf3c53-352e-417c-8b7f-9e3738b0b699",
+      "type": "brief",
+      "date": "2026-06-03T04:00:26.000Z",
+      "title": "Upcoming dividend of ₹25.00 per share",
+      "body": "Eligible shareholders must have bought the stock before 10 June 2026. Payment date: 25 June 2026. Payout ratio is a comfortable 65% and this is well supported by cash flows. Trailing yield: 3.9%. Within top quartile of Indian dividend payers (1.5%). In line with average of industry peers (3.8%).",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "842e547d-c8a8-42b1-9517-2b889ec59490",
+      "type": "event",
+      "date": "2026-06-02T07:49:00.000Z",
+      "title": "Infosys and Handelsblatt Media Group Unveil Editorial Link Intelligence to Enhance Storytelling and Enrich Reader Experience",
+      "body": "Infosys Limited announced that it has launched Editorial Link Intelligence (ELI) in collaboration with Handelsblatt Media Group. Editorial Link Intelligence leverages Infosys Aster and automates editorial workflows to accelerate content delivery and drives deeper reader engagement. This editorial recommendation engine, developed exclusively for Handelsblatt and WirtschaftsWoche, is designed to elevate digital journalism by delivering enhanced storytelling and driving deeper reader engagement. The launch of ELI marks a key milestone in Infosys' three-year collaboration with Handelsblatt as its official AI & Digital Innovation Partner. ELI is designed to help modernize Handelsblatt and WirtschaftsWoche editorial operations and deliver more context-rich content experiences to its diverse read",
+      "keyDevTypeId": "41",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
     {
       "id": "7ed16e2d-1083-4370-97da-281817ea07dd",
       "type": "brief",
@@ -1291,26 +1625,6 @@
       "body": "If we want to find a stock that could multiply over the long term, what are the underlying trends we should look for...",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/stocks/in/software/nse-infy/infosys-shares/news/capital-investments-at-infosys-nseinfy-point-to-a-promising",
-      "raw_subtype": "article"
-    },
-    {
-      "id": "f0fd3c9f-eab0-443d-89c6-a26d89f4b752",
-      "type": "narrative-update",
-      "date": "2025-12-14T18:06:00.000Z",
-      "title": "INFY: US Visa Policy Shift And AI Contracts Will Shape Outlook",
-      "body": "Analysts have nudged their fair value estimate for Infosys slightly higher to approximately ₹1,725 per share from about ₹1,719, citing a marginally higher required return, offset by modestly softer long term growth and profitability assumptions, and a largely unchanged forward valuation multiple. What's in the News Infosys launched an AI Agent for the energy sector using Infosys Topaz, Infosys Cobalt, Microsoft Copilot Studio, Azure OpenAI and chatGPT4o to provide real time insights, predictive warnings and automation that improve safety, reliability and operational efficiency in drilling and production environments.",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/software/nse-infy/infosys-shares/1rqk8uky-infy-continued-digital-demand-will-drive-margin-strength-despite-new-visa-fees/updates/15-analysts-have-nudged-their-fair-value-estimate-for-infosys-s",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "4130522f-a946-4e00-bac6-f4bede361398",
-      "type": "article",
-      "date": "2025-12-09T09:22:41.000Z",
-      "title": "Pinning Down Infosys Limited's (NSE:INFY) P/E Is Difficult Right Now",
-      "body": "With a median price-to-earnings (or \"P/E\") ratio of close to 25x in India, you could be forgiven for feeling...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/software/nse-infy/infosys-shares/news/pinning-down-infosys-limiteds-nseinfy-pe-is-difficult-right",
       "raw_subtype": "article"
     }
   ],

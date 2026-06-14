@@ -3,7 +3,7 @@
   "name": "Shiv Aum Steels Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-shivaum/shiv-aum-steels-shares",
-  "parsed_at": "2026-05-31T22:16:15.252Z",
+  "parsed_at": "2026-06-11T01:17:27.825Z",
   "company_id": "B5E7DD91-9ADC-4B21-B53F-E7A81CCAD571",
   "classification_status": "Active",
   "groww_source": null,
@@ -70,21 +70,310 @@
         }
       ]
     },
-    "current_price_inr": 317.2,
-    "market_cap_inr": 4314046164.993272,
-    "market_cap_usd": 120714180851.549,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 355.75,
+    "market_cap_inr": 4838341498.096963,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
-    "fifty_two_week": null,
-    "fair_value_inr": 169.734036,
+    "fifty_two_week": {
+      "low": 275,
+      "high": 362.65
+    },
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -46.48990037831021,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "72134cd6-7efe-46c8-8a0d-f7b6aba1280c",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
-      "pe": 59.9,
+      "pe": 67.2,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -93,14 +382,14 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": "2026-05-31T22:16:15.252Z",
+      "pe_as_of": "2026-06-11T01:17:27.825Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://simplywall.st/stocks/in/capital-goods/nse-shivaum/shiv-aum-steels-shares"
     },
     "rewards": [],
     "risks": [
       "Interest payments are not well covered by earnings",
-      "Does not have a meaningful market cap (₹4B)",
+      "Does not have a meaningful market cap (₹5B)",
       "Earnings have declined by 5% per year over past 5 years"
     ],
     "dividend": {
@@ -113,9 +402,9 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 23.432792853,
-      "net_income_margin_1y": 0.0528311647,
-      "future_revenue_growth_3y": 0.1545987815
+      "pe": 24.16407612,
+      "net_income_margin_1y": 0.05869823067,
+      "future_revenue_growth_3y": 0.1609746598
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -129,30 +418,30 @@
     "pe_benchmark_source": {
       "provider": "sws_industry_api",
       "label": "SWS industry API",
-      "company_pe": 59.9,
+      "company_pe": 67.2,
       "company_pe_source": "sws_statement",
       "company_pe_source_label": "SWS visible statement",
-      "industry_pe": 23.432792853,
+      "industry_pe": 24.16407612,
       "industry_name": "Capital Goods",
       "industry_code": "3080000",
-      "sample_count": 124,
+      "sample_count": 123,
       "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 59.9,
-        "industry_pe": 23.4,
+        "company_pe": 67.2,
+        "industry_pe": 24.2,
         "industry_name": "Indian Trade Distributors",
-        "description": "SHIVAUM is expensive based on its Price-To-Earnings Ratio (59.9x) compared to the Indian Trade Distributors industry average (23.4x).",
+        "description": "SHIVAUM is expensive based on its Price-To-Earnings Ratio (67.2x) compared to the Indian Trade Distributors industry average (24.2x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 23.432792853,
+        "industry_pe": 24.16407612,
         "industry_code": "3080000",
         "type": "median_profitable",
-        "count": 124,
+        "count": 123,
         "source": {
           "type": "country",
           "country": "IN",
@@ -161,8 +450,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.5,
-        "sample_count": 119,
+        "industry_pe": 19.85,
+        "sample_count": 122,
         "industry_code": "3080000",
         "industry_name": "Capital Goods"
       },
@@ -174,32 +463,41 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 317.2,
-        "fetched_at": "2026-05-31T22:16:15.252Z",
+        "value": 355.75,
+        "fetched_at": "2026-06-11T01:17:27.825Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-shivaum/shiv-aum-steels-shares"
       },
       "multiples.pe": {
         "provider": "sws_statement",
-        "value": 59.9,
-        "fetched_at": "2026-05-31T22:16:15.252Z",
+        "value": 67.2,
+        "fetched_at": "2026-06-11T01:17:27.825Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-shivaum/shiv-aum-steels-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 23.432792853,
+        "value": 24.16407612,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.0528311647,
-        "fetched_at": "2026-05-31T22:16:15.252Z",
+        "value": 0.05869823067,
+        "fetched_at": "2026-06-11T01:17:27.825Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-shivaum/shiv-aum-steels-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.1545987815,
-        "fetched_at": "2026-05-31T22:16:15.252Z",
+        "value": 0.1609746598,
+        "fetched_at": "2026-06-11T01:17:27.825Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-shivaum/shiv-aum-steels-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 275,
+          "high": 362.65
+        },
+        "fetched_at": "2026-06-11T01:17:27.825Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-shivaum/shiv-aum-steels-shares"
       }
     },
@@ -226,12 +524,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -0.4862745098039251,
-      "7D": -4.328155632634602,
-      "1M": -7.305669199298656,
-      "3M": 14.512635379061367,
-      "6M": 11.298245614035084,
-      "1Y": 16.190476190476186,
+      "1D": 0,
+      "7D": 11.871069182389938,
+      "1M": 6.6876593192382705,
+      "3M": 29.363636363636363,
+      "6M": 18.781302170283805,
+      "1Y": 26.827094474153295,
       "5Y": null
     },
     "next_earnings_date": null,

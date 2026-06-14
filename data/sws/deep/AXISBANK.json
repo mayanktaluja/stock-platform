@@ -3,7 +3,7 @@
   "name": "Axis Bank Limited",
   "sector": "Banks",
   "sws_url": "https://simplywall.st/stocks/in/banks/nse-axisbank/axis-bank-shares",
-  "parsed_at": "2026-05-31T21:23:27.871Z",
+  "parsed_at": "2026-06-11T00:19:22.304Z",
   "company_id": "42BCC47D-208F-4815-A858-A24EBAD4F2AF",
   "classification_status": "Active",
   "groww_source": {
@@ -65,22 +65,308 @@
         }
       ]
     },
-    "current_price_inr": 1286.6,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "BankHealth",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAppropriateBadLoanAllowance",
+          "title": "Allowance for Bad Loans",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAppropriateNonPerformingLoans",
+          "title": "Level of Bad Loans",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasPrimarilyLowRiskFunding",
+          "title": "Low Risk Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAppropriateLoanLevel",
+          "title": "Loan Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasPrimarilyDepositFunding",
+          "title": "Low Risk Deposits",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAnAppropriateLevelOfAssets",
+          "title": "Asset Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredIn3Years",
+          "title": "Future Dividend Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 1314.5,
     "market_cap_inr": 4053059000000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 1042.5,
       "high": 1418.3
     },
-    "fair_value_inr": 1578.854701,
+    "fair_value_inr": 1585.469126,
     "fair_value_range_inr": {
-      "min": 923.642642,
-      "max": 1578.854701,
+      "min": 938.35945,
+      "max": 1585.469126,
       "count": 18
     },
-    "upside_pct": 22.71527288978704,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "1fb19326-e116-4405-a5a0-601aede82a1f",
+      "narrative_type": null,
+      "published_at": "2024-06-19T03:48:25.613Z"
+    },
+    "upside_pct": 20.613855154050967,
     "multiples": {
       "pe": 15.27,
       "ps": 2.5,
@@ -97,9 +383,9 @@
       "pe_source_url": "https://groww.in/stocks/axis-bank-ltd"
     },
     "rewards": [
-      "Price-To-Earnings ratio (15.2x) is below the Indian market (23.4x)",
       "Analysts in good agreement that stock price will rise by 22.7%",
-      "Earnings are forecast to grow 14.31% per year"
+      "Earnings are forecast to grow 14.27% per year",
+      "Price-To-Earnings ratio (15.2x) is below the Indian market (22.9x)"
     ],
     "risks": [],
     "dividend": {
@@ -205,8 +491,8 @@
     "dividend_yield_pct": 0.08,
     "industry_benchmarks": {
       "pe": 12.587464209030458,
-      "net_income_margin_1y": 0.2781474604,
-      "future_revenue_growth_3y": 0.1287410551,
+      "net_income_margin_1y": 0.2781476236,
+      "future_revenue_growth_3y": 0.1262692753,
       "sector_pe": 12.587464209030458
     },
     "industry_benchmarks_meta": {
@@ -242,14 +528,14 @@
       },
       "sws_statement": {
         "company_pe": 15.2,
-        "industry_pe": 11.4,
+        "industry_pe": 11.6,
         "industry_name": "Indian Banks",
-        "description": "AXISBANK is expensive based on its Price-To-Earnings Ratio (15.2x) compared to the Indian Banks industry average (11.4x).",
+        "description": "AXISBANK is expensive based on its Price-To-Earnings Ratio (15.2x) compared to the Indian Banks industry average (11.6x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 11.441700538,
+        "industry_pe": 11.624761504,
         "industry_code": "7011000",
         "type": "median_profitable",
         "count": 39,
@@ -261,7 +547,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 11.4,
+        "industry_pe": 11.75,
         "sample_count": 40,
         "industry_code": "7011000",
         "industry_name": "Banks"
@@ -274,8 +560,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1286.6,
-        "fetched_at": "2026-05-31T21:23:27.871Z",
+        "value": 1314.5,
+        "fetched_at": "2026-06-11T00:19:22.304Z",
         "url": "https://simplywall.st/stocks/in/banks/nse-axisbank/axis-bank-shares"
       },
       "market_cap_inr": {
@@ -283,6 +569,24 @@
         "value": 4053059000000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/axis-bank-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 1585.469126,
+        "fetched_at": "2026-06-11T00:19:22.304Z",
+        "url": "https://simplywall.st/stocks/in/banks/nse-axisbank/axis-bank-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "1fb19326-e116-4405-a5a0-601aede82a1f",
+        "narrative_type": null,
+        "published_at": "2024-06-19T03:48:25.613Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 20.613855154050967,
+        "fetched_at": "2026-06-11T00:19:22.304Z",
+        "url": "https://simplywall.st/stocks/in/banks/nse-axisbank/axis-bank-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -322,14 +626,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.2781474604,
-        "fetched_at": "2026-05-31T21:23:27.871Z",
+        "value": 0.2781476236,
+        "fetched_at": "2026-06-11T00:19:22.304Z",
         "url": "https://simplywall.st/stocks/in/banks/nse-axisbank/axis-bank-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.1287410551,
-        "fetched_at": "2026-05-31T21:23:27.871Z",
+        "value": 0.1262692753,
+        "fetched_at": "2026-06-11T00:19:22.304Z",
         "url": "https://simplywall.st/stocks/in/banks/nse-axisbank/axis-bank-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -461,12 +765,12 @@
     "quick_ratio": 0,
     "cash_ratio": 0,
     "returns_pct": {
-      "1D": -1.3419216317767042,
-      "7D": 0.09335615372645231,
-      "1M": -0.755939524838027,
-      "3M": -7.030854830551353,
-      "6M": 0.5391888723919561,
-      "1Y": 7.719356999330191,
+      "1D": 1.7099969049829702,
+      "7D": 4.724346717654553,
+      "1M": 3.316827792187381,
+      "3M": 6.480356419603078,
+      "6M": 2.2082264209626072,
+      "1Y": 6.748416436576246,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -477,102 +781,102 @@
   "ownership": {
     "top_holders": [
       {
-        "pct": 7.87595,
+        "pct": 7.87433,
         "shares": 244860645,
         "is_insider": null
       },
       {
-        "pct": 6.34929,
+        "pct": 6.34798,
         "shares": 197397130,
         "is_insider": null
       },
       {
-        "pct": 5.17039,
+        "pct": 5.16933,
         "shares": 160745617,
         "is_insider": null
       },
       {
-        "pct": 5.01585,
+        "pct": 5.01482,
         "shares": 155941015,
         "is_insider": null
       },
       {
-        "pct": 3.31553,
+        "pct": 3.31485,
         "shares": 103078770,
         "is_insider": null
       },
       {
-        "pct": 3.211,
-        "shares": 99828809,
+        "pct": 3.21461,
+        "shares": 99961576,
         "is_insider": null
       },
       {
-        "pct": 2.99445,
+        "pct": 2.99383,
         "shares": 93096354,
         "is_insider": null
       },
       {
-        "pct": 2.58823,
+        "pct": 2.5877,
         "shares": 80467152,
         "is_insider": null
       },
       {
-        "pct": 2.48147,
+        "pct": 2.48096,
         "shares": 77148055,
         "is_insider": null
       },
       {
-        "pct": 2.34912,
+        "pct": 2.34864,
         "shares": 73033429,
         "is_insider": null
       },
       {
-        "pct": 2.14993,
+        "pct": 2.14949,
         "shares": 66840650,
         "is_insider": null
       },
       {
-        "pct": 1.8602,
+        "pct": 1.85982,
         "shares": 57833073,
         "is_insider": null
       },
       {
-        "pct": 1.69855,
+        "pct": 1.6982,
         "shares": 52807164,
         "is_insider": null
       },
       {
-        "pct": 1.65861,
+        "pct": 1.65827,
         "shares": 51565621,
         "is_insider": null
       },
       {
-        "pct": 1.49725,
-        "shares": 46548968,
+        "pct": 1.4938,
+        "shares": 46451198,
         "is_insider": null
       },
       {
-        "pct": 1.48425,
+        "pct": 1.48394,
         "shares": 46144812,
         "is_insider": null
       },
       {
-        "pct": 1.34241,
+        "pct": 1.34214,
         "shares": 41735193,
         "is_insider": null
       },
       {
-        "pct": 1.33995,
-        "shares": 41658434,
+        "pct": 1.3391,
+        "shares": 41640820,
         "is_insider": null
       },
       {
-        "pct": 1.32745,
+        "pct": 1.32718,
         "shares": 41269938,
         "is_insider": null
       },
       {
-        "pct": 1.15967,
+        "pct": 1.15943,
         "shares": 36053812,
         "is_insider": null
       }

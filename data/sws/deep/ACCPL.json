@@ -3,24 +3,24 @@
   "name": "Accretion Pharmaceuticals Limited",
   "sector": "Pharmaceuticals & Biotech",
   "sws_url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-accpl/accretion-pharmaceuticals-shares",
-  "parsed_at": "2026-05-31T20:55:20.056Z",
+  "parsed_at": "2026-06-10T23:53:21.880Z",
   "company_id": "464C100C-1E6A-4B2D-AB95-C73E1554350D",
   "classification_status": "Active",
   "groww_source": null,
   "overview": {
     "snowflake": {
-      "valuation": 2,
+      "valuation": 1,
       "future": 0,
       "past": 2,
       "financial_health": 4,
       "dividends": 0,
       "future_growth": 0,
       "past_performance": 2,
-      "value": 2,
+      "value": 1,
       "health": 4,
       "dividend": 0
     },
-    "snowflake_total": 8,
+    "snowflake_total": 7,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 13,
@@ -71,21 +71,310 @@
         }
       ]
     },
-    "current_price_inr": 122.7,
-    "market_cap_inr": 1363932847.9483979,
-    "market_cap_usd": 120714180851.549,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SAME_PB"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 140.35,
+    "market_cap_inr": 1560130197.3069084,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
-    "fifty_two_week": null,
-    "fair_value_inr": 43.983519,
+    "fifty_two_week": {
+      "low": 54.6,
+      "high": 144.9
+    },
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -64.15361124694377,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "a860ea7c-f84e-4f96-b112-17638aa046fd",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
-      "pe": 14.1,
+      "pe": 15.4,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -94,7 +383,7 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": "2026-05-31T20:55:20.056Z",
+      "pe_as_of": "2026-06-10T23:53:21.880Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-accpl/accretion-pharmaceuticals-shares"
     },
@@ -102,7 +391,7 @@
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Earnings grew by 42.3% over the past year",
-      "Price-To-Earnings ratio (14.1x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (15.4x) is below the Indian market (22.9x)"
     ],
     "risks": [
       "High level of [[non-cash earnings]]",
@@ -118,9 +407,9 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 29.045511308,
+      "pe": 28.787047453,
       "net_income_margin_1y": 0.1541587677,
-      "future_revenue_growth_3y": 0.423879921
+      "future_revenue_growth_3y": 0.4212605545
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -134,10 +423,10 @@
     "pe_benchmark_source": {
       "provider": "sws_industry_api",
       "label": "SWS industry API",
-      "company_pe": 14.1,
+      "company_pe": 15.4,
       "company_pe_source": "sws_statement",
       "company_pe_source_label": "SWS visible statement",
-      "industry_pe": 29.045511308,
+      "industry_pe": 28.787047453,
       "industry_name": "Pharmaceuticals & Biotech",
       "industry_code": "6120000",
       "sample_count": 152,
@@ -146,15 +435,15 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 14.1,
-        "industry_pe": 29,
+        "company_pe": 15.4,
+        "industry_pe": 28.8,
         "industry_name": "Indian Pharmaceuticals",
-        "description": "ACCPL is good value based on its Price-To-Earnings Ratio (14.1x) compared to the Indian Pharmaceuticals industry average (29x).",
+        "description": "ACCPL is good value based on its Price-To-Earnings Ratio (15.4x) compared to the Indian Pharmaceuticals industry average (28.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 29.045511308,
+        "industry_pe": 28.787047453,
         "industry_code": "6120000",
         "type": "median_profitable",
         "count": 152,
@@ -166,8 +455,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 28.1,
-        "sample_count": 151,
+        "industry_pe": 28.15,
+        "sample_count": 152,
         "industry_code": "6120000",
         "industry_name": "Pharmaceuticals & Biotech"
       },
@@ -179,32 +468,41 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 122.7,
-        "fetched_at": "2026-05-31T20:55:20.056Z",
+        "value": 140.35,
+        "fetched_at": "2026-06-10T23:53:21.880Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-accpl/accretion-pharmaceuticals-shares"
       },
       "multiples.pe": {
         "provider": "sws_statement",
-        "value": 14.1,
-        "fetched_at": "2026-05-31T20:55:20.056Z",
+        "value": 15.4,
+        "fetched_at": "2026-06-10T23:53:21.880Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-accpl/accretion-pharmaceuticals-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 29.045511308,
+        "value": 28.787047453,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.1541587677,
-        "fetched_at": "2026-05-31T20:55:20.056Z",
+        "fetched_at": "2026-06-10T23:53:21.880Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-accpl/accretion-pharmaceuticals-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.423879921,
-        "fetched_at": "2026-05-31T20:55:20.056Z",
+        "value": 0.4212605545,
+        "fetched_at": "2026-06-10T23:53:21.880Z",
+        "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-accpl/accretion-pharmaceuticals-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 54.6,
+          "high": 144.9
+        },
+        "fetched_at": "2026-06-10T23:53:21.880Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-accpl/accretion-pharmaceuticals-shares"
       }
     },
@@ -231,12 +529,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 4.469987228607918,
-      "7D": 9.995517705065,
-      "1M": 18.550724637681164,
-      "3M": 72.8169014084507,
-      "6M": 21.42503711034142,
-      "1Y": 82.99776286353469,
+      "1D": 4.5048399106477905,
+      "7D": 0.035637918745533105,
+      "1M": 14.431308601712178,
+      "3M": 110.41979010494751,
+      "6M": 46.96335078534031,
+      "1Y": 101.07449856733524,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -295,6 +593,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "5216cfd1-774c-4a87-b5fe-3d36685d2806",
+      "type": "brief",
+      "date": "2026-06-03T11:29:26.000Z",
+      "title": "Investor sentiment improves as stock rises 19%",
+      "body": "After last week's 19% share price gain to ₹140, the stock trades at a trailing P/E ratio of 16.1x. Average trailing P/E is 29x in the Pharmaceuticals industry in India. Total returns to shareholders of 114% over the past year.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "dbff309d-ba7c-45d4-b46d-d19e84f44320",
       "type": "article",
@@ -361,16 +669,6 @@
       "date": "2026-01-08T17:59:39.000Z",
       "title": "New major risk - Market cap size",
       "body": "The company's market capitalization is less than US$10m. Market cap: ₹857.0m (US$9.53m) This is considered a major risk. Companies with a small market capitalization are most likely businesses that have not yet released a product to market or are simply a very small company without a wide reach. Either way, risk is elevated with these companies because there is a chance the product may not come to fruition or the company's addressable market or demand may not be as large as expected. In addition, if the company's size is the main factor, it is less likely to have many investors and analysts following it and scrutinizing its performance and outlook. Currently, the following risks have been identified for the company: Major Risks Share price has been highly volatile over the past 3 months (1",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "704ba59c-e668-49ee-bb98-8404748d4974",
-      "type": "brief",
-      "date": "2025-12-10T11:35:35.000Z",
-      "title": "Investor sentiment improves as stock rises 16%",
-      "body": "After last week's 16% share price gain to ₹97.20, the stock trades at a trailing P/E ratio of 11.9x. Average trailing P/E is 29x in the Pharmaceuticals industry in India.",
       "keyDevTypeId": null,
       "source_url": null,
       "raw_subtype": "BriefActivity"

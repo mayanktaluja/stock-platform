@@ -3,7 +3,7 @@
   "name": "Lex Nimble Solutions Limited",
   "sector": "Commercial Services",
   "sws_url": "https://simplywall.st/stocks/in/commercial-services/bse-541196/lex-nimble-solutions-shares",
-  "parsed_at": "2026-05-31T23:13:04.130Z",
+  "parsed_at": "2026-06-11T02:28:23.418Z",
   "company_id": "FA77C9B0-285F-4DA6-A2A0-7393CC81832B",
   "classification_status": "Active",
   "groww_source": null,
@@ -13,14 +13,14 @@
       "future": 0,
       "past": 2,
       "financial_health": 6,
-      "dividends": 2,
+      "dividends": 3,
       "future_growth": 0,
       "past_performance": 2,
       "value": 0,
       "health": 6,
-      "dividend": 2
+      "dividend": 3
     },
-    "snowflake_total": 10,
+    "snowflake_total": 11,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 7,
@@ -69,21 +69,310 @@
         }
       ]
     },
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SAME_PB"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_OVER_PAST_5_YEARS"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOO_EARLY"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOO_EARLY"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
     "current_price_inr": 83.16,
     "market_cap_inr": 348440407.5227911,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
-    "fifty_two_week": null,
-    "fair_value_inr": 8.016824,
+    "fifty_two_week": {
+      "low": 83.16,
+      "high": 92.13
+    },
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -90.35975949975949,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "43ad2e5a-d08a-4ff7-a91a-e9dea30215c4",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
-      "pe": 32.2,
+      "pe": 33,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -92,22 +381,18 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": "2026-05-31T23:13:04.130Z",
+      "pe_as_of": "2026-06-11T02:28:23.418Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://simplywall.st/stocks/in/commercial-services/bse-541196/lex-nimble-solutions-shares"
     },
-    "rewards": [
-      "Earnings have grown 19% per year over the past 5 years"
-    ],
+    "rewards": [],
     "risks": [
       "Shares are highly illiquid",
-      "Does not have meaningful revenue (₹94M)",
       "Does not have a meaningful market cap (₹348M)",
-      "Dividend of 1.2% is not well covered by free cash flows",
-      "Profit margins (11.5%) are lower than last year (22.3%)"
+      "Makes less than USD$1m in revenue (₹90M)"
     ],
     "dividend": {
-      "yield_pct": 1.1434631384,
+      "yield_pct": 1.1582226544,
       "payout_pct": null,
       "annualized_dividend": 1,
       "listing_currency": "INR",
@@ -123,16 +408,16 @@
           "divFreqTypeName": "Annual",
           "annualizedDividend": 1,
           "annualizedDividendListingCurrency": 1,
-          "annualizedYield": 1.1434631384
+          "annualizedYield": 1.1582226544
         }
       ],
       "payment_count": 1
     },
-    "dividend_yield_pct": 1.1434631384,
+    "dividend_yield_pct": 1.1582226544,
     "industry_benchmarks": {
-      "pe": 19.714358381,
+      "pe": 19.349527143,
       "net_income_margin_1y": 0.1565829943,
-      "future_revenue_growth_3y": 0.4148978925
+      "future_revenue_growth_3y": 0.4148396469
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -146,30 +431,30 @@
     "pe_benchmark_source": {
       "provider": "sws_industry_api",
       "label": "SWS industry API",
-      "company_pe": 32.2,
+      "company_pe": 33,
       "company_pe_source": "sws_statement",
       "company_pe_source_label": "SWS visible statement",
-      "industry_pe": 19.714358381,
+      "industry_pe": 19.349527143,
       "industry_name": "Commercial Services",
       "industry_code": "9612010",
-      "sample_count": 63,
+      "sample_count": 62,
       "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 32.2,
-        "industry_pe": 24.7,
+        "company_pe": 33,
+        "industry_pe": 19.3,
         "industry_name": "Indian Professional Services",
-        "description": "541196 is expensive based on its Price-To-Earnings Ratio (32.2x) compared to the Indian Professional Services industry average (24.7x).",
+        "description": "541196 is expensive based on its Price-To-Earnings Ratio (33x) compared to the Indian Professional Services industry average (19.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 19.714358381,
+        "industry_pe": 19.349527143,
         "industry_code": "9612010",
         "type": "median_profitable",
-        "count": 63,
+        "count": 62,
         "source": {
           "type": "country",
           "country": "IN",
@@ -178,8 +463,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.1,
-        "sample_count": 59,
+        "industry_pe": 18.6,
+        "sample_count": 57,
         "industry_code": "9612010",
         "industry_name": "Commercial Services"
       },
@@ -192,31 +477,40 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 83.16,
-        "fetched_at": "2026-05-31T23:13:04.130Z",
+        "fetched_at": "2026-06-11T02:28:23.418Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/bse-541196/lex-nimble-solutions-shares"
       },
       "multiples.pe": {
         "provider": "sws_statement",
-        "value": 32.2,
-        "fetched_at": "2026-05-31T23:13:04.130Z",
+        "value": 33,
+        "fetched_at": "2026-06-11T02:28:23.418Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/bse-541196/lex-nimble-solutions-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 19.714358381,
+        "value": 19.349527143,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.1565829943,
-        "fetched_at": "2026-05-31T23:13:04.130Z",
+        "fetched_at": "2026-06-11T02:28:23.418Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/bse-541196/lex-nimble-solutions-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.4148978925,
-        "fetched_at": "2026-05-31T23:13:04.130Z",
+        "value": 0.4148396469,
+        "fetched_at": "2026-06-11T02:28:23.418Z",
+        "url": "https://simplywall.st/stocks/in/commercial-services/bse-541196/lex-nimble-solutions-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 83.16,
+          "high": 92.13
+        },
+        "fetched_at": "2026-06-11T02:28:23.418Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/bse-541196/lex-nimble-solutions-shares"
       }
     },
@@ -243,12 +537,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -4.992573974637272,
-      "7D": -9.736242266362748,
-      "1M": -14.241517995256267,
-      "3M": -14.241517995256267,
-      "6M": -14.241517995256267,
-      "1Y": -14.241517995256267,
+      "1D": 0,
+      "7D": 0,
+      "1M": 0,
+      "3M": 0,
+      "6M": 0,
+      "1Y": -9.736242266362748,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -320,7 +614,7 @@
     "groww_period": null
   },
   "dividend": {
-    "yield_pct": 1.1434631384,
+    "yield_pct": 1.1582226544,
     "payout_pct": null,
     "annualized_dividend": 1,
     "listing_currency": "INR",
@@ -336,7 +630,7 @@
         "divFreqTypeName": "Annual",
         "annualizedDividend": 1,
         "annualizedDividendListingCurrency": 1,
-        "annualizedYield": 1.1434631384
+        "annualizedYield": 1.1582226544
       }
     ],
     "payment_count": 1
@@ -351,6 +645,16 @@
     "BSE"
   ],
   "news": [
+    {
+      "id": "73ad4c8c-0e35-4029-be2c-180a77f4436a",
+      "type": "brief",
+      "date": "2026-06-09T17:15:08.000Z",
+      "title": "New major risk - Revenue size",
+      "body": "The company makes less than US$1m in revenue. Total revenue: ₹90m (US$944k) This is considered a major risk. Companies with a small amount of revenue are most likely businesses that have not yet released a product to market or are simply a very small company without a wide reach. Either way, risk is elevated with these companies because there is a chance the product may not come to fruition or the company's addressable market or demand may not be as large as expected. In addition, if the company's size is the main factor, it is less likely to have many investors and analysts following it and scrutinizing its performance and outlook. Currently, the following risks have been identified for the company: Major Risks Shares are highly illiquid. Revenue is less than US$1m (₹90m revenue, or US$94",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "c34579ac-0c77-4a03-96b1-dfddc2f96ed7",
       "type": "event",

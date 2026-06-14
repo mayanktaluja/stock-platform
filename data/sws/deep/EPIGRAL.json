@@ -3,7 +3,7 @@
   "name": "Epigral Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-epigral/epigral-shares",
-  "parsed_at": "2026-05-31T22:45:56.378Z",
+  "parsed_at": "2026-06-11T01:41:21.854Z",
   "company_id": "BD5C2189-DAF9-4CF2-845A-6F396BA46FB2",
   "classification_status": "Active",
   "groww_source": {
@@ -28,9 +28,287 @@
       "dividend": 3
     },
     "snowflake_total": 18,
-    "current_price_inr": 1160.9,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_LONG_NO_GROWTH"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_VOLATILE_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_50_TO_75_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 1113.8,
     "market_cap_inr": 52466300000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "small3",
     "shares_outstanding": 43141338,
     "fifty_two_week": {
@@ -39,11 +317,19 @@
     },
     "fair_value_inr": 2000,
     "fair_value_range_inr": {
-      "min": 413.317319,
+      "min": 418.170609,
       "max": 2050,
-      "count": 8
+      "count": 7
     },
-    "upside_pct": 72.28012748729434,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "5315a343-0f23-411d-a20f-0ff66679a2ca",
+      "narrative_type": null,
+      "published_at": "2026-06-07T06:05:33.559Z"
+    },
+    "upside_pct": 79.5654516071108,
     "multiples": {
       "pe": 15.8,
       "ps": 2.07,
@@ -64,7 +350,7 @@
       "Trading below our calculated fair Price-To-Earnings ratio",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (15.1x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (14.5x) is below the Indian market (23.2x)"
     ],
     "risks": [
       "Unstable dividend track record"
@@ -146,8 +432,8 @@
     "dividend_yield_pct": 0.41,
     "industry_benchmarks": {
       "pe": 40.473660493160494,
-      "net_income_margin_1y": 0.09487982097,
-      "future_revenue_growth_3y": 34.387188816,
+      "net_income_margin_1y": 0.09486136614,
+      "future_revenue_growth_3y": 32.656569349,
       "sector_pe": 40.473660493160494
     },
     "industry_benchmarks_meta": {
@@ -182,18 +468,18 @@
         "url": "https://groww.in/stocks/meghmani-finechem-ltd-500"
       },
       "sws_statement": {
-        "company_pe": 15.1,
-        "industry_pe": 22.2,
+        "company_pe": 14.5,
+        "industry_pe": 20.8,
         "industry_name": "Indian Chemicals",
-        "description": "EPIGRAL is good value based on its Price-To-Earnings Ratio (15.1x) compared to the Indian Chemicals industry average (22.2x).",
+        "description": "EPIGRAL is good value based on its Price-To-Earnings Ratio (14.5x) compared to the Indian Chemicals industry average (20.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 22.185241114,
+        "industry_pe": 20.782619721,
         "industry_code": "2020000",
         "type": "median_profitable",
-        "count": 304,
+        "count": 302,
         "source": {
           "type": "country",
           "country": "IN",
@@ -202,25 +488,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.5,
-        "sample_count": 293,
+        "industry_pe": 19.6,
+        "sample_count": 294,
         "industry_code": "2020000",
         "industry_name": "Materials"
       },
       "sws_primary_industry": {
-        "industry_pe": 19.26596559,
+        "industry_pe": 18.498719492,
         "industry_name": "Materials",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 15.086537724553425
+        "company_pe": 14.474447168238093
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1160.9,
-        "fetched_at": "2026-05-31T22:45:56.378Z",
+        "value": 1113.8,
+        "fetched_at": "2026-06-11T01:41:21.854Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-epigral/epigral-shares"
       },
       "market_cap_inr": {
@@ -228,6 +514,24 @@
         "value": 52466300000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/meghmani-finechem-ltd-500"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 2000,
+        "fetched_at": "2026-06-11T01:41:21.854Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-epigral/epigral-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "5315a343-0f23-411d-a20f-0ff66679a2ca",
+        "narrative_type": null,
+        "published_at": "2026-06-07T06:05:33.559Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 79.5654516071108,
+        "fetched_at": "2026-06-11T01:41:21.854Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-epigral/epigral-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -267,14 +571,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.09487982097,
-        "fetched_at": "2026-05-31T22:45:56.378Z",
+        "value": 0.09486136614,
+        "fetched_at": "2026-06-11T01:41:21.854Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-epigral/epigral-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 34.387188816,
-        "fetched_at": "2026-05-31T22:45:56.378Z",
+        "value": 32.656569349,
+        "fetched_at": "2026-06-11T01:41:21.854Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-epigral/epigral-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -389,7 +693,7 @@
     "latest_revenue": 25271800000,
     "latest_net_income": 3319700000,
     "latest_eps": 76.95,
-    "most_recent_reported_date": "2026-05-23",
+    "most_recent_reported_date": "2026-06-07",
     "pb": 2.36,
     "ps": 2.07,
     "book_value": 514.9194348,
@@ -406,16 +710,16 @@
     "quick_ratio": 0.672925874834605,
     "cash_ratio": 0.007685594437093551,
     "returns_pct": {
-      "1D": -4.2082680089116264,
-      "7D": -7.209655503157207,
-      "1M": -2.8169603616424483,
-      "3M": 30.174927113702644,
-      "6M": -23.205662499173112,
-      "1Y": -34.71488021594871,
+      "1D": -3.122553709663398,
+      "7D": -1.4510706069722252,
+      "1M": -14.356016916570551,
+      "3M": 26.266863167441322,
+      "6M": -21.14690265486726,
+      "1Y": -39.07335484929708,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 6,
+    "recent_news_count": 5,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -512,13 +816,13 @@
         "is_insider": null
       },
       {
-        "pct": 0.09895,
-        "shares": 42688,
+        "pct": 0.07491,
+        "shares": 32317,
         "is_insider": null
       },
       {
-        "pct": 0.07491,
-        "shares": 32317,
+        "pct": 0.06472,
+        "shares": 27922,
         "is_insider": null
       }
     ],
@@ -607,7 +911,7 @@
     "payment_count": 5
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-23",
+    "most_recent_reported_date": "2026-06-07",
     "latest_year": 2026,
     "latest_revenue": 25271800000,
     "latest_net_income": 3319700000,
@@ -850,6 +1154,26 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "627e3b7d-91e9-4367-a01a-864e890c9c44",
+      "type": "event",
+      "date": "2026-06-09T09:06:00.000Z",
+      "title": "Epigral Limited Approves Final Dividend for the Financial Year Ended March 31, 2026",
+      "body": "Epigral Limited at the AGM held on approved to declare a Final Dividend of INR 5.00 (50%) per equity share of INR 10/- each fully paid-up for the Financial Year ended March 31, 2026.",
+      "keyDevTypeId": "45",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
+    {
+      "id": "e69ccf3b-316a-4e32-b4d6-c3aed2d1b850",
+      "type": "narrative-update",
+      "date": "2026-06-07T06:05:33.000Z",
+      "title": "EPIGRAL: Steady ₹2,000 View Will Reflect 2026 Board Meeting Outcomes",
+      "body": "Analysts have kept Epigral's fair value estimate steady at ₹2,000. They point to broadly unchanged assumptions on discount rate, revenue growth, profit margin and future P/E as the basis for maintaining their price target view.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/materials/nse-epigral/epigral-shares/upn6zrun-capacity-expansion-and-green-energy-will-unlock-global-opportunities-queq/updates/20-analysts-have-kept-epigrals-fair-value-estimate-steady-at-indian-rupee",
+      "raw_subtype": "narrative-update"
+    },
     {
       "id": "a1b06587-5218-492d-8d41-27f6a1996d12",
       "type": "brief",

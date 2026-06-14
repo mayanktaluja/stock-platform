@@ -3,7 +3,7 @@
   "name": "Muthoot Microfin Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-muthootmf/muthoot-microfin-shares",
-  "parsed_at": "2026-05-31T21:05:00.274Z",
+  "parsed_at": "2026-06-11T00:07:13.556Z",
   "company_id": "071F8FCD-0E86-4CFD-8C14-9A8F53FF0E7E",
   "classification_status": "Active",
   "groww_source": {
@@ -76,9 +76,287 @@
         }
       ]
     },
-    "current_price_inr": 179.98,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SAME_PB"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_BECOME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 186.31,
     "market_cap_inr": 30373200000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "small3",
     "shares_outstanding": 167597540,
     "fifty_two_week": {
@@ -87,11 +365,19 @@
     },
     "fair_value_inr": 215,
     "fair_value_range_inr": {
-      "min": 28.870171,
+      "min": 30.20389,
       "max": 220,
       "count": 5
     },
-    "upside_pct": 19.45771752416936,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "858d9afc-845f-49a1-8043-2e919b260563",
+      "narrative_type": null,
+      "published_at": "2025-12-10T08:05:53.852Z"
+    },
+    "upside_pct": 15.399066072674572,
     "multiples": {
       "pe": 17.83,
       "ps": 1.27,
@@ -108,7 +394,7 @@
       "pe_source_url": "https://groww.in/stocks/muthoot-microfin-ltd"
     },
     "rewards": [
-      "Price-To-Earnings ratio (17.7x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (18.3x) is below the Indian market (23.2x)",
       "Trading below our calculated fair Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Became profitable this year",
@@ -129,8 +415,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 23.373691419264986,
-      "net_income_margin_1y": 0.2564706218,
-      "future_revenue_growth_3y": 0.3320316411,
+      "net_income_margin_1y": 0.257896607,
+      "future_revenue_growth_3y": 0.3297814148,
       "sector_pe": 23.373691419264986
     },
     "industry_benchmarks_meta": {
@@ -165,18 +451,18 @@
         "url": "https://groww.in/stocks/muthoot-microfin-ltd"
       },
       "sws_statement": {
-        "company_pe": 17.7,
-        "industry_pe": 24.4,
+        "company_pe": 18.3,
+        "industry_pe": 25.8,
         "industry_name": "Indian Diversified Financial",
-        "description": "MUTHOOTMF is good value based on its Price-To-Earnings Ratio (17.7x) compared to the Indian Diversified Financial industry average (24.4x).",
+        "description": "MUTHOOTMF is good value based on its Price-To-Earnings Ratio (18.3x) compared to the Indian Diversified Financial industry average (25.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 25.581812879,
+        "industry_pe": 25.750965002,
         "industry_code": "7110000",
         "type": "median_profitable",
-        "count": 131,
+        "count": 126,
         "source": {
           "type": "country",
           "country": "IN",
@@ -185,13 +471,13 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.4,
-        "sample_count": 124,
+        "industry_pe": 20.95,
+        "sample_count": 118,
         "industry_code": "7110000",
         "industry_name": "Diversified Financials"
       },
       "sws_primary_industry": {
-        "industry_pe": 15.729172633,
+        "industry_pe": 15.226484123,
         "industry_name": "Diversified Financials",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
@@ -202,8 +488,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 179.98,
-        "fetched_at": "2026-05-31T21:05:00.274Z",
+        "value": 186.31,
+        "fetched_at": "2026-06-11T00:07:13.556Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-muthootmf/muthoot-microfin-shares"
       },
       "market_cap_inr": {
@@ -211,6 +497,24 @@
         "value": 30373200000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/muthoot-microfin-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 215,
+        "fetched_at": "2026-06-11T00:07:13.556Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-muthootmf/muthoot-microfin-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "858d9afc-845f-49a1-8043-2e919b260563",
+        "narrative_type": null,
+        "published_at": "2025-12-10T08:05:53.852Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 15.399066072674572,
+        "fetched_at": "2026-06-11T00:07:13.556Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-muthootmf/muthoot-microfin-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -250,14 +554,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.2564706218,
-        "fetched_at": "2026-05-31T21:05:00.274Z",
+        "value": 0.257896607,
+        "fetched_at": "2026-06-11T00:07:13.556Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-muthootmf/muthoot-microfin-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.3320316411,
-        "fetched_at": "2026-05-31T21:05:00.274Z",
+        "value": 0.3297814148,
+        "fetched_at": "2026-06-11T00:07:13.556Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-muthootmf/muthoot-microfin-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -389,16 +693,16 @@
     "quick_ratio": 14.29395093437251,
     "cash_ratio": 10.103356655743513,
     "returns_pct": {
-      "1D": 1.1691961776278719,
-      "7D": -0.16640781007322575,
-      "1M": -6.547588140609592,
-      "3M": 6.553786039902904,
-      "6M": -7.6836274107509315,
-      "1Y": 40.5983907507226,
+      "1D": 1.5866957470010885,
+      "7D": 3.4480843975569173,
+      "1M": -1.2142099681866343,
+      "3M": 21.327168533472257,
+      "6M": 6.414210646561566,
+      "1Y": 36.85177023652124,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 1,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -440,8 +744,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.01618,
-        "shares": 27119,
+        "pct": 0.01253,
+        "shares": 20992,
         "is_insider": null
       },
       {

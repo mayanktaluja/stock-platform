@@ -3,7 +3,7 @@
   "name": "D.K. Enterprises Global Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-dkegl/dk-enterprises-global-shares",
-  "parsed_at": "2026-05-31T22:37:03.890Z",
+  "parsed_at": "2026-06-11T01:31:00.065Z",
   "company_id": "F483E222-213A-42F5-BD1B-C95A6EB60EF8",
   "classification_status": "Active",
   "groww_source": null,
@@ -69,21 +69,310 @@
         }
       ]
     },
-    "current_price_inr": 66.9,
-    "market_cap_inr": 502285228.15217626,
-    "market_cap_usd": 120714180851.549,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_STABLE_BUT_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 64.15,
+    "market_cap_inr": 481638226.9949493,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
-    "fifty_two_week": null,
-    "fair_value_inr": 35.310734,
+    "fifty_two_week": {
+      "low": 62.95,
+      "high": 84.7
+    },
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -47.218633781763835,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "b1cdfad4-8644-45cc-a8ef-4db070c724a8",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
-      "pe": 8.8,
+      "pe": 8.4,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -92,24 +381,24 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": "2026-05-31T22:37:03.890Z",
+      "pe_as_of": "2026-06-11T01:31:00.065Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://simplywall.st/stocks/in/materials/nse-dkegl/dk-enterprises-global-shares"
     },
     "rewards": [
-      "Price-To-Earnings ratio (8.8x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (8.4x) is below the Indian market (23.3x)",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Earnings have grown 14.2% per year over the past 5 years",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
     "risks": [
-      "Does not have a meaningful market cap (₹502M)",
+      "Does not have a meaningful market cap (₹482M)",
       "Shares are highly illiquid",
-      "Dividend of 2.99% is not well covered by free cash flows",
+      "Dividend of 3.12% is not well covered by free cash flows",
       "High level of [[non-cash earnings]]"
     ],
     "dividend": {
-      "yield_pct": 2.7708125567,
+      "yield_pct": 2.7800800419,
       "payout_pct": null,
       "annualized_dividend": 2,
       "listing_currency": "INR",
@@ -125,7 +414,7 @@
           "divFreqTypeName": "Annual",
           "annualizedDividend": 2,
           "annualizedDividendListingCurrency": 2,
-          "annualizedYield": 2.7708125567
+          "annualizedYield": 2.7800800419
         },
         {
           "exDate": "2024-07-12T00:00:00.000Z",
@@ -169,11 +458,11 @@
       ],
       "payment_count": 4
     },
-    "dividend_yield_pct": 2.7708125567,
+    "dividend_yield_pct": 2.7800800419,
     "industry_benchmarks": {
-      "pe": 17.117180323,
-      "net_income_margin_1y": 0.08290400815,
-      "future_revenue_growth_3y": 0.1742544252
+      "pe": 17.045579205,
+      "net_income_margin_1y": 0.06909072618,
+      "future_revenue_growth_3y": 0.1689719642
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -187,30 +476,30 @@
     "pe_benchmark_source": {
       "provider": "sws_industry_api",
       "label": "SWS industry API",
-      "company_pe": 8.8,
+      "company_pe": 8.4,
       "company_pe_source": "sws_statement",
       "company_pe_source_label": "SWS visible statement",
-      "industry_pe": 17.117180323,
+      "industry_pe": 17.045579205,
       "industry_name": "Materials",
       "industry_code": "2040000",
-      "sample_count": 84,
+      "sample_count": 86,
       "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 8.8,
-        "industry_pe": 16.9,
+        "company_pe": 8.4,
+        "industry_pe": 17.4,
         "industry_name": "Indian Packaging",
-        "description": "DKEGL is good value based on its Price-To-Earnings Ratio (8.8x) compared to the Indian Packaging industry average (16.9x).",
+        "description": "DKEGL is good value based on its Price-To-Earnings Ratio (8.4x) compared to the Indian Packaging industry average (17.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 17.117180323,
+        "industry_pe": 17.045579205,
         "industry_code": "2040000",
         "type": "median_profitable",
-        "count": 84,
+        "count": 86,
         "source": {
           "type": "country",
           "country": "IN",
@@ -219,8 +508,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17,
-        "sample_count": 85,
+        "industry_pe": 16.950000000000003,
+        "sample_count": 86,
         "industry_code": "2040000",
         "industry_name": "Materials"
       },
@@ -232,32 +521,41 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 66.9,
-        "fetched_at": "2026-05-31T22:37:03.890Z",
+        "value": 64.15,
+        "fetched_at": "2026-06-11T01:31:00.065Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-dkegl/dk-enterprises-global-shares"
       },
       "multiples.pe": {
         "provider": "sws_statement",
-        "value": 8.8,
-        "fetched_at": "2026-05-31T22:37:03.890Z",
+        "value": 8.4,
+        "fetched_at": "2026-06-11T01:31:00.065Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-dkegl/dk-enterprises-global-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 17.117180323,
+        "value": 17.045579205,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.08290400815,
-        "fetched_at": "2026-05-31T22:37:03.890Z",
+        "value": 0.06909072618,
+        "fetched_at": "2026-06-11T01:31:00.065Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-dkegl/dk-enterprises-global-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.1742544252,
-        "fetched_at": "2026-05-31T22:37:03.890Z",
+        "value": 0.1689719642,
+        "fetched_at": "2026-06-11T01:31:00.065Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-dkegl/dk-enterprises-global-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 62.95,
+          "high": 84.7
+        },
+        "fetched_at": "2026-06-11T01:31:00.065Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-dkegl/dk-enterprises-global-shares"
       }
     },
@@ -284,16 +582,16 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 0.8289374529012983,
-      "7D": -9.472259810554803,
-      "1M": -14.77707006369426,
-      "3M": -3.3236994219653133,
-      "6M": -7.083333333333325,
-      "1Y": -4.291845493562231,
+      "1D": -2.433460076045619,
+      "7D": -4.110612855007473,
+      "1M": -18.280254777070056,
+      "3M": -2.0610687022900676,
+      "6M": -11.69993117687543,
+      "1Y": -2.8030303030302943,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 4,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -326,7 +624,7 @@
     "groww_period": null
   },
   "dividend": {
-    "yield_pct": 2.7708125567,
+    "yield_pct": 2.7800800419,
     "payout_pct": null,
     "annualized_dividend": 2,
     "listing_currency": "INR",
@@ -342,7 +640,7 @@
         "divFreqTypeName": "Annual",
         "annualizedDividend": 2,
         "annualizedDividendListingCurrency": 2,
-        "annualizedYield": 2.7708125567
+        "annualizedYield": 2.7800800419
       },
       {
         "exDate": "2024-07-12T00:00:00.000Z",
@@ -396,6 +694,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "c2a5b649-c6ea-42a3-b2c1-c79030c85996",
+      "type": "event",
+      "date": "2026-06-10T14:32:00.000Z",
+      "title": "D.K. Enterprises Global Limited, Annual General Meeting, Jul 03, 2026",
+      "body": "D.K. Enterprises Global Limited, Annual General Meeting, Jul 03, 2026, at 12:30 Indian Standard Time.",
+      "keyDevTypeId": "62",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
     {
       "id": "d35728b5-6603-4d35-97ce-483d9e60ccab",
       "type": "brief",

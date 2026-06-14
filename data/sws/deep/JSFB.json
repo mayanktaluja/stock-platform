@@ -3,7 +3,7 @@
   "name": "Jana Small Finance Bank Limited",
   "sector": "Banks",
   "sws_url": "https://simplywall.st/stocks/in/banks/nse-jsfb/jana-small-finance-bank-shares",
-  "parsed_at": "2026-05-31T20:19:18.268Z",
+  "parsed_at": "2026-06-10T23:22:47.989Z",
   "company_id": "2D60A966-FA45-46B4-9C9F-27D452253211",
   "classification_status": "Active",
   "groww_source": {
@@ -16,18 +16,18 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 1,
+      "valuation": 2,
       "future": 5,
       "past": 2,
       "financial_health": 4,
       "dividends": 0,
       "future_growth": 5,
       "past_performance": 2,
-      "value": 1,
+      "value": 2,
       "health": 4,
       "dividend": 0
     },
-    "snowflake_total": 12,
+    "snowflake_total": 13,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 4,
@@ -76,9 +76,287 @@
         }
       ]
     },
-    "current_price_inr": 495.25,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "BankHealth",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAppropriateBadLoanAllowance",
+          "title": "Allowance for Bad Loans",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAppropriateNonPerformingLoans",
+          "title": "Level of Bad Loans",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasPrimarilyLowRiskFunding",
+          "title": "Low Risk Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAppropriateLoanLevel",
+          "title": "Loan Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasPrimarilyDepositFunding",
+          "title": "Low Risk Deposits",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAnAppropriateLevelOfAssets",
+          "title": "Asset Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_MODERATE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredIn3Years",
+          "title": "Future Dividend Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 466.8,
     "market_cap_inr": 51503700000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "small3",
     "shares_outstanding": 105324557,
     "fifty_two_week": {
@@ -87,11 +365,19 @@
     },
     "fair_value_inr": 490,
     "fair_value_range_inr": {
-      "min": 346.934751,
+      "min": 340.36076,
       "max": 683.56,
       "count": 5
     },
-    "upside_pct": -1.0600706713780919,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "56a25922-95c9-4bee-a68b-87340f188977",
+      "narrative_type": null,
+      "published_at": "2026-04-26T13:07:18.006Z"
+    },
+    "upside_pct": 4.970008568980289,
     "multiples": {
       "pe": 15.78,
       "ps": 0.81,
@@ -110,7 +396,8 @@
     "rewards": [
       "Earnings are forecast to grow 34.38% per year",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (16x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (15.1x) is below the Indian market (23.2x)",
+      "Trading below our calculated fair Price-To-Earnings ratio"
     ],
     "risks": [
       "Profit margins (11.8%) are lower than last year (20.5%)"
@@ -126,8 +413,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 13.356880346706902,
-      "net_income_margin_1y": 0.3177821454,
-      "future_revenue_growth_3y": 0.2745257838,
+      "net_income_margin_1y": 0.3178841988,
+      "future_revenue_growth_3y": 0.2771620146,
       "sector_pe": 13.356880346706902
     },
     "industry_benchmarks_meta": {
@@ -162,15 +449,15 @@
         "url": "https://groww.in/stocks/jana-small-finance-bank-ltd"
       },
       "sws_statement": {
-        "company_pe": 16,
-        "industry_pe": 11.4,
+        "company_pe": 15.1,
+        "industry_pe": 11.9,
         "industry_name": "Indian Banks",
-        "description": "JSFB is expensive based on its Price-To-Earnings Ratio (16x) compared to the Indian Banks industry average (11.4x).",
+        "description": "JSFB is expensive based on its Price-To-Earnings Ratio (15.1x) compared to the Indian Banks industry average (11.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 11.441700538,
+        "industry_pe": 11.880641305,
         "industry_code": "7011000",
         "type": "median_profitable",
         "count": 39,
@@ -182,25 +469,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 11.4,
+        "industry_pe": 11.75,
         "sample_count": 40,
         "industry_code": "7011000",
         "industry_name": "Banks"
       },
       "sws_primary_industry": {
-        "industry_pe": 11.055229769,
+        "industry_pe": 11.140031027,
         "industry_name": "Banks",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 16.821650488779973
+        "company_pe": 15.855318421327596
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 495.25,
-        "fetched_at": "2026-05-31T20:19:18.268Z",
+        "value": 466.8,
+        "fetched_at": "2026-06-10T23:22:47.989Z",
         "url": "https://simplywall.st/stocks/in/banks/nse-jsfb/jana-small-finance-bank-shares"
       },
       "market_cap_inr": {
@@ -208,6 +495,24 @@
         "value": 51503700000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/jana-small-finance-bank-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 490,
+        "fetched_at": "2026-06-10T23:22:47.989Z",
+        "url": "https://simplywall.st/stocks/in/banks/nse-jsfb/jana-small-finance-bank-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "56a25922-95c9-4bee-a68b-87340f188977",
+        "narrative_type": null,
+        "published_at": "2026-04-26T13:07:18.006Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 4.970008568980289,
+        "fetched_at": "2026-06-10T23:22:47.989Z",
+        "url": "https://simplywall.st/stocks/in/banks/nse-jsfb/jana-small-finance-bank-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -247,14 +552,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.3177821454,
-        "fetched_at": "2026-05-31T20:19:18.268Z",
+        "value": 0.3178841988,
+        "fetched_at": "2026-06-10T23:22:47.989Z",
         "url": "https://simplywall.st/stocks/in/banks/nse-jsfb/jana-small-finance-bank-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.2745257838,
-        "fetched_at": "2026-05-31T20:19:18.268Z",
+        "value": 0.2771620146,
+        "fetched_at": "2026-06-10T23:22:47.989Z",
         "url": "https://simplywall.st/stocks/in/banks/nse-jsfb/jana-small-finance-bank-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -386,16 +691,16 @@
     "quick_ratio": 0,
     "cash_ratio": 0,
     "returns_pct": {
-      "1D": 1.4336917562724014,
-      "7D": 9.945609945609949,
-      "1M": 6.242625764238984,
-      "3M": 33.56256742179072,
-      "6M": 9.158033943134232,
-      "1Y": 0.47677013593021356,
+      "1D": -1.7573397874355394,
+      "7D": -3.5038759689922454,
+      "1M": 2.5708635464733,
+      "3M": 32.670171948273406,
+      "6M": 7.532826537664129,
+      "1Y": -10.342840679919325,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },

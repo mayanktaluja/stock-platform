@@ -3,7 +3,7 @@
   "name": "Latent View Analytics Limited",
   "sector": "Commercial Services",
   "sws_url": "https://simplywall.st/stocks/in/commercial-services/nse-latentview/latent-view-analytics-shares",
-  "parsed_at": "2026-05-31T20:37:28.108Z",
+  "parsed_at": "2026-06-10T23:44:13.461Z",
   "company_id": "FB870EF0-0370-4628-973F-95240301DE20",
   "classification_status": "Active",
   "groww_source": {
@@ -75,22 +75,308 @@
         }
       ]
     },
-    "current_price_inr": 322.55,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 293.35,
     "market_cap_inr": 65698700000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midsmall4",
     "shares_outstanding": 206924980,
     "fifty_two_week": {
       "low": 248,
       "high": 517.5
     },
-    "fair_value_inr": 416,
+    "fair_value_inr": 404.75,
     "fair_value_range_inr": {
-      "min": 224.760455,
-      "max": 416,
-      "count": 14
+      "min": 230.542843,
+      "max": 404.75,
+      "count": 15
     },
-    "upside_pct": 28.972252363974572,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "11cfd95b-a627-4104-a65a-da5f61fb76ca",
+      "narrative_type": null,
+      "published_at": "2026-06-04T06:06:54.522Z"
+    },
+    "upside_pct": 37.975115050281225,
     "multiples": {
       "pe": 32.5,
       "ps": 6.19,
@@ -109,7 +395,7 @@
     "rewards": [
       "Earnings grew by 13.7% over the past year",
       "Earnings are forecast to grow 19.3% per year",
-      "Analysts in good agreement that stock price will rise by 25.5%"
+      "Analysts in good agreement that stock price will rise by 32.9%"
     ],
     "risks": [],
     "dividend": {
@@ -123,8 +409,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 18.761595487228476,
-      "net_income_margin_1y": 0.07234671003,
-      "future_revenue_growth_3y": 0.3740225928,
+      "net_income_margin_1y": 0.07149669577,
+      "future_revenue_growth_3y": 0.358570421,
       "sector_pe": 18.761595487228476
     },
     "industry_benchmarks_meta": {
@@ -159,18 +445,18 @@
         "url": "https://groww.in/stocks/latent-view-analytics-ltd"
       },
       "sws_statement": {
-        "company_pe": 33.7,
-        "industry_pe": 19.8,
+        "company_pe": 31.8,
+        "industry_pe": 19.3,
         "industry_name": "Indian Professional Services",
-        "description": "LATENTVIEW is expensive based on its Price-To-Earnings Ratio (33.7x) compared to the Indian Professional Services industry average (19.8x).",
+        "description": "LATENTVIEW is expensive based on its Price-To-Earnings Ratio (31.8x) compared to the Indian Professional Services industry average (19.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 19.714358381,
+        "industry_pe": 19.349527143,
         "industry_code": "9612010",
         "type": "median_profitable",
-        "count": 63,
+        "count": 62,
         "source": {
           "type": "country",
           "country": "IN",
@@ -179,25 +465,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 18.1,
-        "sample_count": 59,
+        "industry_pe": 18.6,
+        "sample_count": 57,
         "industry_code": "9612010",
         "industry_name": "Commercial Services"
       },
       "sws_primary_industry": {
-        "industry_pe": 16.094987777,
+        "industry_pe": 16.028068325,
         "industry_name": "Commercial Services",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 33.56549907918691
+        "company_pe": 30.638416169330014
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 322.55,
-        "fetched_at": "2026-05-31T20:37:28.108Z",
+        "value": 293.35,
+        "fetched_at": "2026-06-10T23:44:13.461Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-latentview/latent-view-analytics-shares"
       },
       "market_cap_inr": {
@@ -205,6 +491,24 @@
         "value": 65698700000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/latent-view-analytics-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 404.75,
+        "fetched_at": "2026-06-10T23:44:13.461Z",
+        "url": "https://simplywall.st/stocks/in/commercial-services/nse-latentview/latent-view-analytics-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "11cfd95b-a627-4104-a65a-da5f61fb76ca",
+        "narrative_type": null,
+        "published_at": "2026-06-04T06:06:54.522Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 37.975115050281225,
+        "fetched_at": "2026-06-10T23:44:13.461Z",
+        "url": "https://simplywall.st/stocks/in/commercial-services/nse-latentview/latent-view-analytics-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -244,14 +548,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.07234671003,
-        "fetched_at": "2026-05-31T20:37:28.108Z",
+        "value": 0.07149669577,
+        "fetched_at": "2026-06-10T23:44:13.461Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-latentview/latent-view-analytics-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.3740225928,
-        "fetched_at": "2026-05-31T20:37:28.108Z",
+        "value": 0.358570421,
+        "fetched_at": "2026-06-10T23:44:13.461Z",
         "url": "https://simplywall.st/stocks/in/commercial-services/nse-latentview/latent-view-analytics-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -360,13 +664,13 @@
         "url": "https://groww.in/stocks/latent-view-analytics-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 14.159246309915433,
+    "earnings_growth_yoy_pct": 6.464544418889581,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 18.184278113037642,
-    "latest_revenue": 10132860000,
-    "latest_net_income": 1988460000,
+    "revenue_growth_pct": 24.218361306082638,
+    "latest_revenue": 11360030000,
+    "latest_net_income": 1981220000,
     "latest_eps": 9.77,
-    "most_recent_reported_date": "2026-04-06",
+    "most_recent_reported_date": "2026-06-03",
     "pb": 3.74,
     "ps": 6.19,
     "book_value": 84.8231324,
@@ -383,12 +687,12 @@
     "quick_ratio": 4.0535728835655505,
     "cash_ratio": 1.3598142263505253,
     "returns_pct": {
-      "1D": 1.7828968128747347,
-      "7D": -1.2098009188361374,
-      "1M": 9.376059681247893,
-      "3M": -4.344602609727159,
-      "6M": -35.27641216012842,
-      "1Y": -22.57561209793567,
+      "1D": -3.661740558292275,
+      "7D": -6.5913071167011585,
+      "1M": -5.0186174518374616,
+      "3M": -0.5761735299101808,
+      "6M": -40.73138700878876,
+      "1Y": -28.833090732654043,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -449,8 +753,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.13659,
-        "shares": 282632,
+        "pct": 0.14417,
+        "shares": 298319,
         "is_insider": null
       },
       {
@@ -464,8 +768,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.10988,
-        "shares": 227366,
+        "pct": 0.10994,
+        "shares": 227489,
         "is_insider": null
       },
       {
@@ -484,13 +788,13 @@
         "is_insider": null
       },
       {
-        "pct": 0.02938,
-        "shares": 60800,
+        "pct": 0.03408,
+        "shares": 70523,
         "is_insider": null
       },
       {
-        "pct": 0.02881,
-        "shares": 59620,
+        "pct": 0.02938,
+        "shares": 60800,
         "is_insider": null
       },
       {
@@ -518,44 +822,44 @@
     "payment_count": 0
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-04-06",
+    "most_recent_reported_date": "2026-06-03",
     "latest_year": 2026,
-    "latest_revenue": 10132860000,
-    "latest_net_income": 1988460000,
+    "latest_revenue": 11360030000,
+    "latest_net_income": 1981220000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 18.184278113037642,
-    "earnings_growth_pct": 14.159246309915433,
-    "net_margin_pct": 19.62387716794666,
+    "revenue_growth_pct": 24.218361306082638,
+    "earnings_growth_pct": 6.464544418889581,
+    "net_margin_pct": 17.440270844355165,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 10132860000,
-        "netIncome": 1988460000,
+        "revenue": 11360030000,
+        "netIncome": 1981220000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 8573780000.000001,
-        "netIncome": 1741830000,
+        "revenue": 9145210000,
+        "netIncome": 1860920000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 6415310000,
-        "netIncome": 1586440000,
+        "revenue": 6718870000,
+        "netIncome": 1647110000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 5433750000,
-        "netIncome": 1554310000,
+        "revenue": 5711120000,
+        "netIncome": 1568130000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 4078170000,
-        "netIncome": 1295120000,
+        "revenue": 4399280000,
+        "netIncome": 1386750000,
         "eps": null
       }
     ]
@@ -762,6 +1066,16 @@
   ],
   "news": [
     {
+      "id": "2574ac8d-1e05-49b3-a85b-60ba8aaa5ad7",
+      "type": "narrative-update",
+      "date": "2026-06-04T06:06:54.000Z",
+      "title": "LATENTVIEW: Inorganic Expansion Plans And Margin Outlook Will Drive Further Upside",
+      "body": "Analysts have trimmed their fair value estimate for Latent View Analytics from ₹416 to about ₹404.75, reflecting updated views on slightly lower revenue growth expectations, a higher profit margin outlook and a modestly reduced forward P/E assumption. What's in the News Latent View Analytics is assessing acquisition opportunities, with management highlighting interest in firms that have strong professional services partnerships with Databricks, as discussed on the company’s Fourth Quarter Fiscal Year 2026 earnings call.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/commercial-services/nse-latentview/latent-view-analytics-shares/ie90w34f-latentview-earnings-review-will-unlock-future-upside-this-october/updates/16-analysts-have-trimmed-their-fair-value-estimate-for-latent-v",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "afff71e6-5d09-4243-9471-6cfb780d7903",
       "type": "brief",
       "date": "2026-05-17T22:52:31.000Z",
@@ -930,16 +1244,6 @@
       "keyDevTypeId": "55",
       "source_url": null,
       "raw_subtype": "EventActivity"
-    },
-    {
-      "id": "4c38aa5e-2ab4-4841-86d3-d293183fff9e",
-      "type": "narrative-update",
-      "date": "2025-12-14T06:04:44.000Z",
-      "title": "LATENTVIEW: Leadership Transition And Stable Profitability Will Shape Future Performance",
-      "body": "Analysts have modestly raised their price target on Latent View Analytics to ₹534 from about ₹524, citing slightly lower perceived risk, steady long term revenue growth expectations, and a marginally higher anticipated future earnings multiple. What's in the News Chief Financial Officer Rajan Bala Venkatesan has resigned to pursue a new professional opportunity and will be relieved from his role at the close of business on February 13, 2026 (company filing).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/commercial-services/nse-latentview/latent-view-analytics-shares/ie90w34f-latentview-earnings-review-will-unlock-future-upside-this-october/updates/8-analysts-have-modestly-raised-their-price-target-on-latent-v",
-      "raw_subtype": "narrative-update"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/LATENTVIEW.json"

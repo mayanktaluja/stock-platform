@@ -3,7 +3,7 @@
   "name": "EPL Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-epl/epl-shares",
-  "parsed_at": "2026-05-31T22:46:00.906Z",
+  "parsed_at": "2026-06-11T01:41:27.028Z",
   "company_id": "AD06FE92-8482-4DA7-A423-C08AEDAE7710",
   "classification_status": "Active",
   "groww_source": {
@@ -17,33 +17,319 @@
   "overview": {
     "snowflake": {
       "valuation": 4,
-      "future": 2,
+      "future": 1,
       "past": 2,
       "financial_health": 6,
       "dividends": 6,
-      "future_growth": 2,
+      "future_growth": 1,
       "past_performance": 2,
       "value": 4,
       "health": 6,
       "dividend": 6
     },
-    "snowflake_total": 20,
-    "current_price_inr": 213.65,
+    "snowflake_total": 19,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_SUBSTANTIAL_DISCOUNT"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_STABLE_IN_PAST_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_50_TO_75_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 214.22,
     "market_cap_inr": 69004300000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 176.4,
       "high": 254
     },
-    "fair_value_inr": 291.460761,
+    "fair_value_inr": 293.05944,
     "fair_value_range_inr": {
-      "min": 222.541189,
-      "max": 291.460761,
+      "min": 223.741359,
+      "max": 293.05944,
       "count": 11
     },
-    "upside_pct": 36.41973367657383,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "08732827-8301-42e7-b3fc-55049856da15",
+      "narrative_type": null,
+      "published_at": "2024-06-19T03:57:38.145Z"
+    },
+    "upside_pct": 36.80302492764448,
     "multiples": {
       "pe": 17.52,
       "ps": 1.45,
@@ -60,12 +346,12 @@
       "pe_source_url": "https://groww.in/stocks/essel-propack-ltd"
     },
     "rewards": [
-      "Pays a high and reliable dividend of 2.33%",
-      "Analysts in good agreement that stock price will rise by 36.4%",
+      "Pays a high and reliable dividend of 2.3%",
+      "Analysts in good agreement that stock price will rise by 34.7%",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading below our calculated fair Price-To-Earnings ratio",
       "Earnings have grown 13.7% per year over the past 5 years",
-      "Trading at 4% below our estimate of its fair value",
+      "Trading at 2.7% below our estimate of its fair value",
       "Earnings are forecast to grow 16.03% per year"
     ],
     "risks": [],
@@ -237,8 +523,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 23.156212158832627,
-      "net_income_margin_1y": 0.08290400815,
-      "future_revenue_growth_3y": 0.1742544252,
+      "net_income_margin_1y": 0.06909072618,
+      "future_revenue_growth_3y": 0.1689719642,
       "sector_pe": 23.156212158832627
     },
     "industry_benchmarks_meta": {
@@ -273,18 +559,18 @@
         "url": "https://groww.in/stocks/essel-propack-ltd"
       },
       "sws_statement": {
-        "company_pe": 17.6,
-        "industry_pe": 16.9,
+        "company_pe": 17.9,
+        "industry_pe": 17,
         "industry_name": "Indian Packaging",
-        "description": "EPL is expensive based on its Price-To-Earnings Ratio (17.6x) compared to the Indian Packaging industry average (16.9x).",
+        "description": "EPL is expensive based on its Price-To-Earnings Ratio (17.9x) compared to the Indian Packaging industry average (17x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 17.117180323,
+        "industry_pe": 17.045579205,
         "industry_code": "2040000",
         "type": "median_profitable",
-        "count": 84,
+        "count": 86,
         "source": {
           "type": "country",
           "country": "IN",
@@ -293,8 +579,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17,
-        "sample_count": 85,
+        "industry_pe": 16.950000000000003,
+        "sample_count": 86,
         "industry_code": "2040000",
         "industry_name": "Materials"
       },
@@ -306,8 +592,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 213.65,
-        "fetched_at": "2026-05-31T22:46:00.906Z",
+        "value": 214.22,
+        "fetched_at": "2026-06-11T01:41:27.028Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-epl/epl-shares"
       },
       "market_cap_inr": {
@@ -315,6 +601,24 @@
         "value": 69004300000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/essel-propack-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 293.05944,
+        "fetched_at": "2026-06-11T01:41:27.028Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-epl/epl-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "08732827-8301-42e7-b3fc-55049856da15",
+        "narrative_type": null,
+        "published_at": "2024-06-19T03:57:38.145Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 36.80302492764448,
+        "fetched_at": "2026-06-11T01:41:27.028Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-epl/epl-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -354,14 +658,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.08290400815,
-        "fetched_at": "2026-05-31T22:46:00.906Z",
+        "value": 0.06909072618,
+        "fetched_at": "2026-06-11T01:41:27.028Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-epl/epl-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.1742544252,
-        "fetched_at": "2026-05-31T22:46:00.906Z",
+        "value": 0.1689719642,
+        "fetched_at": "2026-06-11T01:41:27.028Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-epl/epl-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -493,118 +797,118 @@
     "quick_ratio": 0.879082798790828,
     "cash_ratio": 0.1501142815011428,
     "returns_pct": {
-      "1D": -0.8078369469334606,
-      "7D": -1.0879629629629604,
-      "1M": -5.856173437913101,
-      "3M": -1.5755286313170809,
-      "6M": 4.699598157404687,
-      "1Y": -10.72249383644645,
+      "1D": -1.1398772439891083,
+      "7D": 1.5549445339907089,
+      "1M": -9.516367476240761,
+      "3M": 11.058116024677284,
+      "6M": -1.0576878666112384,
+      "1Y": -10.68584531999166,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 1,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
   "ownership": {
     "top_holders": [
       {
-        "pct": 26.37929,
+        "pct": 26.37688,
         "shares": 84479781,
         "is_insider": null
       },
       {
-        "pct": 24.82248,
+        "pct": 24.82021,
         "shares": 79494085,
         "is_insider": null
       },
       {
-        "pct": 4.80343,
+        "pct": 4.80299,
         "shares": 15383006,
         "is_insider": null
       },
       {
-        "pct": 2.46658,
+        "pct": 2.46635,
         "shares": 7899233,
         "is_insider": null
       },
       {
-        "pct": 1.98616,
+        "pct": 1.98598,
         "shares": 6360689,
         "is_insider": null
       },
       {
-        "pct": 1.9514,
+        "pct": 1.95123,
         "shares": 6249380,
         "is_insider": null
       },
       {
-        "pct": 1.79739,
+        "pct": 1.79722,
         "shares": 5756142,
         "is_insider": null
       },
       {
-        "pct": 1.78199,
+        "pct": 1.78183,
         "shares": 5706843,
         "is_insider": null
       },
       {
-        "pct": 1.47133,
+        "pct": 1.4712,
         "shares": 4711944,
         "is_insider": null
       },
       {
-        "pct": 1.44312,
+        "pct": 1.44299,
         "shares": 4621599,
         "is_insider": null
       },
       {
-        "pct": 1.32018,
+        "pct": 1.32006,
         "shares": 4227890,
         "is_insider": null
       },
       {
-        "pct": 1.21663,
+        "pct": 1.21652,
         "shares": 3896253,
         "is_insider": null
       },
       {
-        "pct": 1.0015,
+        "pct": 1.00141,
         "shares": 3207297,
         "is_insider": null
       },
       {
-        "pct": 0.88822,
-        "shares": 2844515,
+        "pct": 0.89295,
+        "shares": 2859942,
         "is_insider": null
       },
       {
-        "pct": 0.66958,
+        "pct": 0.66952,
         "shares": 2144332,
         "is_insider": null
       },
       {
-        "pct": 0.6438,
+        "pct": 0.64374,
         "shares": 2061773,
         "is_insider": null
       },
       {
-        "pct": 0.61774,
+        "pct": 0.61768,
         "shares": 1978303,
         "is_insider": null
       },
       {
-        "pct": 0.50994,
+        "pct": 0.5099,
         "shares": 1633091,
         "is_insider": null
       },
       {
-        "pct": 0.41372,
+        "pct": 0.41369,
         "shares": 1324954,
         "is_insider": null
       },
       {
-        "pct": 0.32561,
+        "pct": 0.32558,
         "shares": 1042773,
         "is_insider": null
       }
@@ -1045,16 +1349,6 @@
       "keyDevTypeId": "55",
       "source_url": null,
       "raw_subtype": "EventActivity"
-    },
-    {
-      "id": "43241546-b021-4109-8541-9b1ab45bbe4f",
-      "type": "article",
-      "date": "2025-12-13T02:57:27.000Z",
-      "title": "EPL Limited's (NSE:EPL) Business And Shares Still Trailing The Market",
-      "body": "When close to half the companies in India have price-to-earnings ratios (or \"P/E's\") above 26x, you may consider EPL...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/materials/nse-epl/epl-shares/news/epl-limiteds-nseepl-business-and-shares-still-trailing-the-m",
-      "raw_subtype": "article"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/EPL.json"

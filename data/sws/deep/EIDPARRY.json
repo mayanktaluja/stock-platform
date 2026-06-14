@@ -3,7 +3,7 @@
   "name": "E.I.D.- Parry (India) Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-eidparry/eid-parry-india-shares",
-  "parsed_at": "2026-05-31T22:41:47.942Z",
+  "parsed_at": "2026-06-11T01:37:43.914Z",
   "company_id": "8CBEA9B9-5B4A-4E5A-B16D-CC71DCFB0D2A",
   "classification_status": "Active",
   "groww_source": {
@@ -16,18 +16,18 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 3,
+      "valuation": 4,
       "future": 3,
       "past": 2,
       "financial_health": 6,
       "dividends": 0,
       "future_growth": 3,
       "past_performance": 2,
-      "value": 3,
+      "value": 4,
       "health": 6,
       "dividend": 0
     },
-    "snowflake_total": 14,
+    "snowflake_total": 15,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 2,
@@ -70,22 +70,308 @@
         }
       ]
     },
-    "current_price_inr": 755.4,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SAME_PE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 723.25,
     "market_cap_inr": 132296900000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "medium5",
     "shares_outstanding": 177629742,
     "fifty_two_week": {
       "low": 742,
       "high": 1246.8
     },
-    "fair_value_inr": 1409,
+    "fair_value_inr": 1166,
     "fair_value_range_inr": {
-      "min": 1178.371126,
-      "max": 1409,
-      "count": 20
+      "min": 1166,
+      "max": 1186.215955,
+      "count": 21
     },
-    "upside_pct": 86.52369605507016,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "51359c62-7708-409c-8d57-52da00b91887",
+      "narrative_type": null,
+      "published_at": "2026-06-02T02:07:46.161Z"
+    },
+    "upside_pct": 61.21673003802282,
     "multiples": {
       "pe": 9.58,
       "ps": 0.34,
@@ -103,15 +389,16 @@
     },
     "rewards": [
       "Earnings are forecast to grow 45.25% per year",
+      "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading below our calculated fair Price-To-Earnings ratio",
-      "Trading at 35.9% below our estimate of its fair value"
+      "Trading at 38.2% below our estimate of its fair value"
     ],
     "risks": [
       "Profit margins (1.5%) are lower than last year (2.8%)"
     ],
     "dividend": {
       "yield_pct": 0.27,
-      "payout_pct": 6.876211826187942,
+      "payout_pct": 12.47531284896583,
       "annualized_dividend": 4,
       "listing_currency": "INR",
       "recent_payments": [
@@ -238,8 +525,8 @@
     "dividend_yield_pct": 0.27,
     "industry_benchmarks": {
       "pe": 17.938168523705105,
-      "net_income_margin_1y": 0.09487982097,
-      "future_revenue_growth_3y": 34.387188816,
+      "net_income_margin_1y": 0.09486136614,
+      "future_revenue_growth_3y": 32.656569349,
       "sector_pe": 17.938168523705105
     },
     "industry_benchmarks_meta": {
@@ -274,18 +561,18 @@
         "url": "https://groww.in/stocks/eid-parry-india-ltd"
       },
       "sws_statement": {
-        "company_pe": 23.6,
-        "industry_pe": 22.2,
+        "company_pe": 23,
+        "industry_pe": 20.7,
         "industry_name": "Indian Chemicals",
-        "description": "EIDPARRY is expensive based on its Price-To-Earnings Ratio (23.6x) compared to the Indian Chemicals industry average (22.2x).",
+        "description": "EIDPARRY is expensive based on its Price-To-Earnings Ratio (23x) compared to the Indian Chemicals industry average (20.7x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 22.185241114,
+        "industry_pe": 20.665261726,
         "industry_code": "2020000",
         "type": "median_profitable",
-        "count": 304,
+        "count": 302,
         "source": {
           "type": "country",
           "country": "IN",
@@ -294,25 +581,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.5,
-        "sample_count": 293,
+        "industry_pe": 19.6,
+        "sample_count": 294,
         "industry_code": "2020000",
         "industry_name": "Materials"
       },
       "sws_primary_industry": {
-        "industry_pe": 19.26596559,
+        "industry_pe": 18.498719492,
         "industry_name": "Materials",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 12.985726033755927
+        "company_pe": 22.556925045036344
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 755.4,
-        "fetched_at": "2026-05-31T22:41:47.942Z",
+        "value": 723.25,
+        "fetched_at": "2026-06-11T01:37:43.914Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-eidparry/eid-parry-india-shares"
       },
       "market_cap_inr": {
@@ -320,6 +607,24 @@
         "value": 132296900000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/eid-parry-india-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 1166,
+        "fetched_at": "2026-06-11T01:37:43.914Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-eidparry/eid-parry-india-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "51359c62-7708-409c-8d57-52da00b91887",
+        "narrative_type": null,
+        "published_at": "2026-06-02T02:07:46.161Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 61.21673003802282,
+        "fetched_at": "2026-06-11T01:37:43.914Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-eidparry/eid-parry-india-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -359,14 +664,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.09487982097,
-        "fetched_at": "2026-05-31T22:41:47.942Z",
+        "value": 0.09486136614,
+        "fetched_at": "2026-06-11T01:37:43.914Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-eidparry/eid-parry-india-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 34.387188816,
-        "fetched_at": "2026-05-31T22:41:47.942Z",
+        "value": 32.656569349,
+        "fetched_at": "2026-06-11T01:37:43.914Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-eidparry/eid-parry-india-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -475,13 +780,13 @@
         "url": "https://groww.in/stocks/eid-parry-india-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 40.48946295037389,
+    "earnings_growth_yoy_pct": -44.88144778863835,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 14.219611268004156,
-    "latest_revenue": 335855000000,
-    "latest_net_income": 10333000000,
+    "revenue_growth_pct": 14.734275208051093,
+    "latest_revenue": 385340800000,
+    "latest_net_income": 5695400000,
     "latest_eps": 77.59,
-    "most_recent_reported_date": "2025-09-04",
+    "most_recent_reported_date": "2026-06-01",
     "pb": 1.51,
     "ps": 0.34,
     "book_value": 492.6835107,
@@ -498,16 +803,16 @@
     "quick_ratio": 0.7636556641988469,
     "cash_ratio": 0.09907521120831295,
     "returns_pct": {
-      "1D": 1.6142050040355127,
-      "7D": -3.0233005969574513,
-      "1M": -9.770664118490213,
-      "3M": -12.690707350901533,
-      "6M": -26.724221553981963,
-      "1Y": -20.642924676961865,
+      "1D": -1.718983557548577,
+      "7D": -4.439452995970142,
+      "1M": -11.788022929625562,
+      "3M": -10.74844203122108,
+      "6M": -30.147768978172696,
+      "1Y": -28.479604449938194,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 4,
+    "recent_news_count": 7,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -554,8 +859,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.3182,
-        "shares": 2341510,
+        "pct": 1.33918,
+        "shares": 2378786,
         "is_insider": null
       },
       {
@@ -564,8 +869,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.12294,
-        "shares": 1994674,
+        "pct": 1.1288,
+        "shares": 2005080,
         "is_insider": null
       },
       {
@@ -594,11 +899,6 @@
         "is_insider": null
       },
       {
-        "pct": 0.33583,
-        "shares": 596533,
-        "is_insider": null
-      },
-      {
         "pct": 0.32376,
         "shares": 575101,
         "is_insider": null
@@ -606,6 +906,11 @@
       {
         "pct": 0.318,
         "shares": 564860,
+        "is_insider": null
+      },
+      {
+        "pct": 0.2981,
+        "shares": 529520,
         "is_insider": null
       },
       {
@@ -626,7 +931,7 @@
   },
   "dividend": {
     "yield_pct": 0.27,
-    "payout_pct": 6.876211826187942,
+    "payout_pct": 12.47531284896583,
     "annualized_dividend": 4,
     "listing_currency": "INR",
     "recent_payments": [
@@ -751,16 +1056,22 @@
     "payment_count": 9
   },
   "fiscal": {
-    "most_recent_reported_date": "2025-09-04",
-    "latest_year": 2025,
-    "latest_revenue": 335855000000,
-    "latest_net_income": 10333000000,
+    "most_recent_reported_date": "2026-06-01",
+    "latest_year": 2026,
+    "latest_revenue": 385340800000,
+    "latest_net_income": 5695400000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 14.219611268004156,
-    "earnings_growth_pct": 40.48946295037389,
-    "net_margin_pct": 3.076625329383216,
+    "revenue_growth_pct": 14.734275208051093,
+    "earnings_growth_pct": -44.88144778863835,
+    "net_margin_pct": 1.4780163429359154,
     "yearly_history": [
+      {
+        "year": 2026,
+        "revenue": 385340800000,
+        "netIncome": 5695400000,
+        "eps": null
+      },
       {
         "year": 2025,
         "revenue": 335855000000,
@@ -769,26 +1080,20 @@
       },
       {
         "year": 2024,
-        "revenue": 294043200000,
-        "netIncome": 7355000000,
+        "revenue": 291334500000,
+        "netIncome": 8821400000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 328601400000,
-        "netIncome": 9909700000,
+        "revenue": 351264400000,
+        "netIncome": 7801000000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 306691300000,
-        "netIncome": 10480200000,
-        "eps": null
-      },
-      {
-        "year": 2021,
-        "revenue": 199420500000,
-        "netIncome": 4766900000,
+        "revenue": 263199099999.99997,
+        "netIncome": 10504600000,
         "eps": null
       }
     ]
@@ -974,6 +1279,36 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "c524811e-ed45-40de-ab94-926d918c8b57",
+      "type": "article",
+      "date": "2026-06-03T00:16:39.000Z",
+      "title": "Investors Can Find Comfort In E.I.D.- Parry (India)'s (NSE:EIDPARRY) Earnings Quality",
+      "body": "The most recent earnings report from E.I.D.- Parry (India) Limited ( NSE:EIDPARRY ) was disappointing for shareholders...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/materials/nse-eidparry/eid-parry-india-shares/news/investors-can-find-comfort-in-eid-parry-indias-nseeidparry-e",
+      "raw_subtype": "article"
+    },
+    {
+      "id": "27a313da-5252-4d13-8259-1a106e9c1a88",
+      "type": "brief",
+      "date": "2026-06-02T12:27:56.000Z",
+      "title": "Consensus EPS estimates fall by 26%, revenue upgraded",
+      "body": "The consensus outlook for fiscal year 2027 has been updated. 2027 revenue forecast increased from ₹342.4b to ₹367.8b. EPS estimate fell from ₹75.80 to ₹55.80 per share. Net income forecast to grow 74% next year vs 22% growth forecast for Chemicals industry in India. Consensus price target down from ₹1,355 to ₹1,166. Share price was steady at ₹755 over the past week.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "01e13cd6-9966-49aa-ac9e-9fa40d5d2d8d",
+      "type": "narrative-update",
+      "date": "2026-06-02T02:07:46.000Z",
+      "title": "EIDPARRY: Future Profitability And Director Reappointment Will Support Upside Potential",
+      "body": "Analysts have trimmed their price target for E.I.D. Parry (India) from ₹1,409 to ₹1,166, reflecting updated assumptions of revenue growth at 1.30%, a profit margin of 5.40% and a future P/E of 13.90x. What's in the News Board meeting scheduled for May 26, 2026, to consider and approve audited standalone and consolidated financial results for the quarter and year ended March 31, 2026.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/materials/nse-eidparry/eid-parry-india-shares/9lrj4s5a-higher-ethanol-blending-mandates-and-sustainable-practices-will-create-value-4hyf/updates/3-analysts-have-trimmed-their-price-target-for-eid-parry-i",
+      "raw_subtype": "narrative-update"
+    },
     {
       "id": "fc255a86-e0f5-451f-8788-9bd16048f5f7",
       "type": "brief",

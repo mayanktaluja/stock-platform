@@ -3,7 +3,7 @@
   "name": "Bharat Dynamics Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-bdl/bharat-dynamics-shares",
-  "parsed_at": "2026-05-31T21:33:05.848Z",
+  "parsed_at": "2026-06-11T00:25:32.481Z",
   "company_id": "715E832C-31CC-4905-80A2-47FBF92FCB9F",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 3
     },
     "snowflake_total": 17,
-    "current_price_inr": 1204.6,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_5_YEARS_AGO"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_VOLATILE_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 1183.8,
     "market_cap_inr": 470446300000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 1086,
       "high": 2096.6
     },
-    "fair_value_inr": 1347.66667,
+    "fair_value_inr": 1315.75,
     "fair_value_range_inr": {
-      "min": 112.845963,
+      "min": 108.811498,
       "max": 6176.42,
       "count": 39
     },
-    "upside_pct": 11.876695168520685,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "05efe132-04e6-4bed-a5ff-41c2280a6c98",
+      "narrative_type": null,
+      "published_at": "2024-06-19T03:49:45.995Z"
+    },
+    "upside_pct": 11.146308498057108,
     "multiples": {
       "pe": 81.13,
       "ps": 12.61,
@@ -60,7 +346,7 @@
       "pe_source_url": "https://groww.in/stocks/bharat-dynamics-ltd"
     },
     "rewards": [
-      "Earnings are forecast to grow 37.03% per year"
+      "Earnings are forecast to grow 36.09% per year"
     ],
     "risks": [
       "Unstable dividend track record"
@@ -82,7 +368,7 @@
           "divFreqTypeName": "Interim Payment",
           "annualizedDividend": 4.65,
           "annualizedDividendListingCurrency": 4.65,
-          "annualizedYield": 0.3302428926
+          "annualizedYield": 0.3299347303
         },
         {
           "exDate": "2025-09-19T00:00:00.000Z",
@@ -95,7 +381,7 @@
           "divFreqTypeName": "Final Payment",
           "annualizedDividend": 4.65,
           "annualizedDividendListingCurrency": 4.65,
-          "annualizedYield": 0.3302428926
+          "annualizedYield": 0.3299347303
         },
         {
           "exDate": "2025-02-14T00:00:00.000Z",
@@ -233,8 +519,8 @@
     "dividend_yield_pct": 0.36,
     "industry_benchmarks": {
       "pe": 52.01431886755819,
-      "net_income_margin_1y": 0.2127401416,
-      "future_revenue_growth_3y": 0.7216912465,
+      "net_income_margin_1y": 0.2110054623,
+      "future_revenue_growth_3y": 0.7301919806,
       "sector_pe": 52.01431886755819
     },
     "industry_benchmarks_meta": {
@@ -269,18 +555,18 @@
         "url": "https://groww.in/stocks/bharat-dynamics-ltd"
       },
       "sws_statement": {
-        "company_pe": 105,
-        "industry_pe": 52.1,
+        "company_pe": 104.9,
+        "industry_pe": 49.8,
         "industry_name": "Indian Aerospace & Defense",
-        "description": "BDL is expensive based on its Price-To-Earnings Ratio (105x) compared to the Indian Aerospace & Defense industry average (52.1x).",
+        "description": "BDL is expensive based on its Price-To-Earnings Ratio (104.9x) compared to the Indian Aerospace & Defense industry average (49.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 50.49377995,
+        "industry_pe": 49.795004412,
         "industry_code": "3020000",
         "type": "median_profitable",
-        "count": 22,
+        "count": 21,
         "source": {
           "type": "country",
           "country": "IN",
@@ -289,7 +575,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 49,
+        "industry_pe": 48.7,
         "sample_count": 20,
         "industry_code": "3020000",
         "industry_name": "Capital Goods"
@@ -302,8 +588,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1204.6,
-        "fetched_at": "2026-05-31T21:33:05.848Z",
+        "value": 1183.8,
+        "fetched_at": "2026-06-11T00:25:32.481Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-bdl/bharat-dynamics-shares"
       },
       "market_cap_inr": {
@@ -311,6 +597,24 @@
         "value": 470446300000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/bharat-dynamics-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 1315.75,
+        "fetched_at": "2026-06-11T00:25:32.481Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-bdl/bharat-dynamics-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "05efe132-04e6-4bed-a5ff-41c2280a6c98",
+        "narrative_type": null,
+        "published_at": "2024-06-19T03:49:45.995Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 11.146308498057108,
+        "fetched_at": "2026-06-11T00:25:32.481Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-bdl/bharat-dynamics-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -350,14 +654,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.2127401416,
-        "fetched_at": "2026-05-31T21:33:05.848Z",
+        "value": 0.2110054623,
+        "fetched_at": "2026-06-11T00:25:32.481Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-bdl/bharat-dynamics-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.7216912465,
-        "fetched_at": "2026-05-31T21:33:05.848Z",
+        "value": 0.7301919806,
+        "fetched_at": "2026-06-11T00:25:32.481Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-bdl/bharat-dynamics-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -489,12 +793,12 @@
     "quick_ratio": 1.666425555901564,
     "cash_ratio": 0.8241730951921069,
     "returns_pct": {
-      "1D": -6.0520979566370405,
-      "7D": -8.220952380952388,
-      "1M": -13.592999067498745,
-      "3M": -4.789756560227643,
-      "6M": -20.414904862579284,
-      "1Y": -38.995239542185764,
+      "1D": -1.5796474891918857,
+      "7D": -3.5207823960880233,
+      "1M": -15.52130164846928,
+      "3M": -12.272120942641184,
+      "6M": -16.03659834030783,
+      "1Y": -37.51055743243244,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -632,7 +936,7 @@
         "divFreqTypeName": "Interim Payment",
         "annualizedDividend": 4.65,
         "annualizedDividendListingCurrency": 4.65,
-        "annualizedYield": 0.3302428926
+        "annualizedYield": 0.3299347303
       },
       {
         "exDate": "2025-09-19T00:00:00.000Z",
@@ -645,7 +949,7 @@
         "divFreqTypeName": "Final Payment",
         "annualizedDividend": 4.65,
         "annualizedDividendListingCurrency": 4.65,
-        "annualizedYield": 0.3302428926
+        "annualizedYield": 0.3299347303
       },
       {
         "exDate": "2025-02-14T00:00:00.000Z",

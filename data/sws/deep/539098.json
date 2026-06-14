@@ -3,24 +3,24 @@
   "name": "Filtra Consultants and Engineers Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-539098/filtra-consultants-and-engineers-shares",
-  "parsed_at": "2026-05-31T22:46:02.126Z",
+  "parsed_at": "2026-06-11T02:00:38.991Z",
   "company_id": "C01B32F9-84C4-41C4-BE8C-112BDC00D0EF",
   "classification_status": "Active",
   "groww_source": null,
   "overview": {
     "snowflake": {
-      "valuation": 2,
+      "valuation": 1,
       "future": 0,
       "past": 4,
       "financial_health": 4,
       "dividends": 3,
       "future_growth": 0,
       "past_performance": 4,
-      "value": 2,
+      "value": 1,
       "health": 4,
       "dividend": 3
     },
-    "snowflake_total": 13,
+    "snowflake_total": 12,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 7,
@@ -69,21 +69,310 @@
         }
       ]
     },
-    "current_price_inr": 54.35,
-    "market_cap_inr": 595893426.2112582,
-    "market_cap_usd": 120714180851.549,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_VOLATILE_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_50_TO_75"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 50.53,
+    "market_cap_inr": 554010944.368995,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
-    "fifty_two_week": null,
-    "fair_value_inr": 17.923663,
+    "fifty_two_week": {
+      "low": 47,
+      "high": 77
+    },
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -67.02177920883166,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "470b0be6-8676-4728-81f0-fd83f7303c95",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
-      "pe": 16,
+      "pe": 14.9,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -92,21 +381,20 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": "2026-05-31T22:46:02.126Z",
+      "pe_as_of": "2026-06-11T02:00:38.991Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://simplywall.st/stocks/in/capital-goods/bse-539098/filtra-consultants-and-engineers-shares"
     },
     "rewards": [
       "Earnings grew by 27.9% over the past year",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (16x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (14.9x) is below the Indian market (22.9x)"
     ],
     "risks": [
-      "Dividend of 3.68% is not well covered by free cash flows",
+      "Dividend of 3.96% is not well covered by free cash flows",
       "High level of [[non-cash earnings]]",
       "Highly volatile share price over past 3 months",
-      "Does not have a meaningful market cap (₹596M)"
+      "Does not have a meaningful market cap (₹554M)"
     ],
     "dividend": {
       "yield_pct": 3.1482241323,
@@ -171,9 +459,9 @@
     },
     "dividend_yield_pct": 3.1482241323,
     "industry_benchmarks": {
-      "pe": 23.432792853,
-      "net_income_margin_1y": 0.0528311647,
-      "future_revenue_growth_3y": 0.1545987815
+      "pe": 24.16407612,
+      "net_income_margin_1y": 0.05713572021,
+      "future_revenue_growth_3y": 0.1646852446
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -187,30 +475,30 @@
     "pe_benchmark_source": {
       "provider": "sws_industry_api",
       "label": "SWS industry API",
-      "company_pe": 16,
+      "company_pe": 14.9,
       "company_pe_source": "sws_statement",
       "company_pe_source_label": "SWS visible statement",
-      "industry_pe": 23.432792853,
+      "industry_pe": 24.16407612,
       "industry_name": "Capital Goods",
       "industry_code": "3080000",
-      "sample_count": 124,
+      "sample_count": 123,
       "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 16,
-        "industry_pe": 23.4,
+        "company_pe": 14.9,
+        "industry_pe": 24.2,
         "industry_name": "Indian Trade Distributors",
-        "description": "539098 is good value based on its Price-To-Earnings Ratio (16x) compared to the Indian Trade Distributors industry average (23.4x).",
+        "description": "539098 is good value based on its Price-To-Earnings Ratio (14.9x) compared to the Indian Trade Distributors industry average (24.2x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 23.432792853,
+        "industry_pe": 24.16407612,
         "industry_code": "3080000",
         "type": "median_profitable",
-        "count": 124,
+        "count": 123,
         "source": {
           "type": "country",
           "country": "IN",
@@ -219,8 +507,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.5,
-        "sample_count": 119,
+        "industry_pe": 19.85,
+        "sample_count": 122,
         "industry_code": "3080000",
         "industry_name": "Capital Goods"
       },
@@ -232,32 +520,41 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 54.35,
-        "fetched_at": "2026-05-31T22:46:02.126Z",
+        "value": 50.53,
+        "fetched_at": "2026-06-11T02:00:38.991Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-539098/filtra-consultants-and-engineers-shares"
       },
       "multiples.pe": {
         "provider": "sws_statement",
-        "value": 16,
-        "fetched_at": "2026-05-31T22:46:02.126Z",
+        "value": 14.9,
+        "fetched_at": "2026-06-11T02:00:38.991Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-539098/filtra-consultants-and-engineers-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 23.432792853,
+        "value": 24.16407612,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.0528311647,
-        "fetched_at": "2026-05-31T22:46:02.126Z",
+        "value": 0.05713572021,
+        "fetched_at": "2026-06-11T02:00:38.991Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-539098/filtra-consultants-and-engineers-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.1545987815,
-        "fetched_at": "2026-05-31T22:46:02.126Z",
+        "value": 0.1646852446,
+        "fetched_at": "2026-06-11T02:00:38.991Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/bse-539098/filtra-consultants-and-engineers-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 47,
+          "high": 77
+        },
+        "fetched_at": "2026-06-11T02:00:38.991Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-539098/filtra-consultants-and-engineers-shares"
       }
     },
@@ -284,16 +581,16 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -10.828547990155869,
-      "7D": 0.6481481481481508,
-      "1M": -7.8813559322033875,
-      "3M": -17.65151515151515,
-      "6M": -15.078124999999998,
-      "1Y": -6.982714359062123,
+      "1D": -17.82403642868759,
+      "7D": -17.82403642868759,
+      "1M": -6.425925925925924,
+      "3M": -19.79365079365079,
+      "6M": -27.814285714285713,
+      "1Y": -15.783333333333333,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 1,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -421,6 +718,16 @@
     "BSE"
   ],
   "news": [
+    {
+      "id": "5638ee86-2e0e-4368-a8ba-00802ab2afec",
+      "type": "brief",
+      "date": "2026-06-08T11:50:12.000Z",
+      "title": "Investor sentiment deteriorates as stock falls 18%",
+      "body": "After last week's 18% share price decline to ₹50.53, the stock trades at a trailing P/E ratio of 14.9x. Average trailing P/E is 24x in the Trade Distributors industry in India. Total returns to shareholders of 104% over the past three years.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "a6d287bc-deea-4eee-8e5b-35af3b2f501f",
       "type": "brief",

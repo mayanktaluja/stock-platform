@@ -3,7 +3,7 @@
   "name": "BlackBuck Limited",
   "sector": "Software",
   "sws_url": "https://simplywall.st/stocks/in/software/nse-blackbuck/blackbuck-shares",
-  "parsed_at": "2026-05-31T21:36:45.319Z",
+  "parsed_at": "2026-06-11T00:30:03.489Z",
   "company_id": "329F1FFD-B4D8-4DBD-AF0E-E18FCF52F9CA",
   "classification_status": "Active",
   "groww_source": {
@@ -75,9 +75,287 @@
         }
       ]
     },
-    "current_price_inr": 510.55,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_BECOME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 530.45,
     "market_cap_inr": 94862400000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midsmall4",
     "shares_outstanding": 181896405,
     "fifty_two_week": {
@@ -88,9 +366,17 @@
     "fair_value_range_inr": {
       "min": 101.18,
       "max": 31148.19,
-      "count": 16
+      "count": 18
     },
-    "upside_pct": 41.108328273430615,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "ddae35d1-4077-49c2-949d-f7dc27a95f57",
+      "narrative_type": null,
+      "published_at": "2025-12-10T01:03:47.871Z"
+    },
+    "upside_pct": 35.81460458101611,
     "multiples": {
       "pe": 59.14,
       "ps": 14.53,
@@ -108,7 +394,7 @@
     },
     "rewards": [
       "Became profitable this year",
-      "Analysts in good agreement that stock price will rise by 39.5%",
+      "Analysts in good agreement that stock price will rise by 39.9%",
       "Earnings are forecast to grow 23.03% per year"
     ],
     "risks": [],
@@ -123,8 +409,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 44.15202093698116,
-      "net_income_margin_1y": 0.09947274985,
-      "future_revenue_growth_3y": 1.4123928,
+      "net_income_margin_1y": 0.0994330966,
+      "future_revenue_growth_3y": 1.401190197,
       "sector_pe": 44.15202093698116
     },
     "industry_benchmarks_meta": {
@@ -159,15 +445,15 @@
         "url": "https://groww.in/stocks/zinka-logistics-solutions-ltd"
       },
       "sws_statement": {
-        "company_pe": 57.9,
-        "industry_pe": 24.1,
+        "company_pe": 57.8,
+        "industry_pe": 28,
         "industry_name": "Indian Software",
-        "description": "BLACKBUCK is expensive based on its Price-To-Earnings Ratio (57.9x) compared to the Indian Software industry average (24.1x).",
+        "description": "BLACKBUCK is expensive based on its Price-To-Earnings Ratio (57.8x) compared to the Indian Software industry average (28x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 24.120954879,
+        "industry_pe": 27.955181856,
         "industry_code": "8040000",
         "type": "median_profitable",
         "count": 58,
@@ -179,25 +465,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24.2,
-        "sample_count": 57,
+        "industry_pe": 25.05,
+        "sample_count": 56,
         "industry_code": "8040000",
         "industry_name": "Software"
       },
       "sws_primary_industry": {
-        "industry_pe": 20.803345639,
+        "industry_pe": 20.24766845,
         "industry_name": "Software",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 30.892407089716084
+        "company_pe": 32.096518148545485
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 510.55,
-        "fetched_at": "2026-05-31T21:36:45.319Z",
+        "value": 530.45,
+        "fetched_at": "2026-06-11T00:30:03.489Z",
         "url": "https://simplywall.st/stocks/in/software/nse-blackbuck/blackbuck-shares"
       },
       "market_cap_inr": {
@@ -205,6 +491,24 @@
         "value": 94862400000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/zinka-logistics-solutions-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 720.42857,
+        "fetched_at": "2026-06-11T00:30:03.489Z",
+        "url": "https://simplywall.st/stocks/in/software/nse-blackbuck/blackbuck-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "ddae35d1-4077-49c2-949d-f7dc27a95f57",
+        "narrative_type": null,
+        "published_at": "2025-12-10T01:03:47.871Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 35.81460458101611,
+        "fetched_at": "2026-06-11T00:30:03.489Z",
+        "url": "https://simplywall.st/stocks/in/software/nse-blackbuck/blackbuck-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -244,14 +548,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.09947274985,
-        "fetched_at": "2026-05-31T21:36:45.319Z",
+        "value": 0.0994330966,
+        "fetched_at": "2026-06-11T00:30:03.489Z",
         "url": "https://simplywall.st/stocks/in/software/nse-blackbuck/blackbuck-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 1.4123928,
-        "fetched_at": "2026-05-31T21:36:45.319Z",
+        "value": 1.401190197,
+        "fetched_at": "2026-06-11T00:30:03.489Z",
         "url": "https://simplywall.st/stocks/in/software/nse-blackbuck/blackbuck-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -383,16 +687,16 @@
     "quick_ratio": 3.3326695515643547,
     "cash_ratio": 2.4446827250794625,
     "returns_pct": {
-      "1D": -1.8739188929463664,
-      "7D": 2.0691723310675774,
-      "1M": -7.35801125022682,
-      "3M": -12.382014758881075,
-      "6M": -23.541744664919502,
-      "1Y": 16.657146121329838,
+      "1D": 4.142534602925301,
+      "7D": 4.030202000392247,
+      "1M": -5.6390643066797,
+      "3M": -7.344978165938857,
+      "6M": -18.854214471470094,
+      "1Y": 14.161196599591106,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 4,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -830,16 +1134,6 @@
       "keyDevTypeId": "16",
       "source_url": null,
       "raw_subtype": "EventActivity"
-    },
-    {
-      "id": "41871598-e6d9-4048-b2be-33be935e7c96",
-      "type": "article",
-      "date": "2025-12-09T06:56:29.000Z",
-      "title": "BlackBuck (NSE:BLACKBUCK) Has A Rock Solid Balance Sheet",
-      "body": "Howard Marks put it nicely when he said that, rather than worrying about share price volatility, 'The possibility of...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/software/nse-blackbuck/blackbuck-shares/news/blackbuck-nseblackbuck-has-a-rock-solid-balance-sheet",
-      "raw_subtype": "article"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/BLACKBUCK.json"

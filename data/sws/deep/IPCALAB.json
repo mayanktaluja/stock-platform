@@ -3,7 +3,7 @@
   "name": "Ipca Laboratories Limited",
   "sector": "Pharmaceuticals & Biotech",
   "sws_url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-ipcalab/ipca-laboratories-shares",
-  "parsed_at": "2026-05-31T20:12:02.521Z",
+  "parsed_at": "2026-06-10T23:15:37.592Z",
   "company_id": "DC7648BC-D3A0-4337-889C-B4D330897C4F",
   "classification_status": "Active",
   "groww_source": {
@@ -20,30 +20,316 @@
       "future": 2,
       "past": 4,
       "financial_health": 5,
-      "dividends": 3,
+      "dividends": 4,
       "future_growth": 2,
       "past_performance": 4,
       "value": 2,
       "health": 5,
-      "dividend": 3
+      "dividend": 4
     },
-    "snowflake_total": 16,
-    "current_price_inr": 1524.4,
+    "snowflake_total": 17,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 1630.2,
     "market_cap_inr": 398797700000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midlarge6",
     "shares_outstanding": 253704218,
     "fifty_two_week": {
       "low": 1251.6,
       "high": 1678.3
     },
-    "fair_value_inr": 1415.37079,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 713.904448,
+      "min": 1071.51224,
       "max": 1655.33333,
       "count": 6
     },
-    "upside_pct": -7.1522704014694405,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystLowTarget",
+      "owner_classification": null,
+      "narrative_id": "48586982-ad05-42c4-9594-3254e6a8d995",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 42.38,
       "ps": 4.2,
@@ -60,12 +346,14 @@
       "pe_source_url": "https://groww.in/stocks/ipca-laboratories-ltd"
     },
     "rewards": [
-      "Earnings are forecast to grow 18.38% per year",
+      "Earnings are forecast to grow 17.3% per year",
       "Earnings grew by 54.7% over the past year",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading below our calculated fair Price-To-Earnings ratio"
     ],
-    "risks": [],
+    "risks": [
+      "Unstable dividend track record"
+    ],
     "dividend": {
       "yield_pct": 0.25,
       "payout_pct": 11.153427104971039,
@@ -221,8 +509,8 @@
     "dividend_yield_pct": 0.25,
     "industry_benchmarks": {
       "pe": 34.294011798524444,
-      "net_income_margin_1y": 0.1517834297,
-      "future_revenue_growth_3y": 2.756126798,
+      "net_income_margin_1y": 0.1516710327,
+      "future_revenue_growth_3y": 2.535577209,
       "sector_pe": 34.294011798524444
     },
     "industry_benchmarks_meta": {
@@ -257,15 +545,15 @@
         "url": "https://groww.in/stocks/ipca-laboratories-ltd"
       },
       "sws_statement": {
-        "company_pe": 33.9,
-        "industry_pe": 29,
+        "company_pe": 36.2,
+        "industry_pe": 28.7,
         "industry_name": "Indian Pharmaceuticals",
-        "description": "IPCALAB is expensive based on its Price-To-Earnings Ratio (33.9x) compared to the Indian Pharmaceuticals industry average (29x).",
+        "description": "IPCALAB is expensive based on its Price-To-Earnings Ratio (36.2x) compared to the Indian Pharmaceuticals industry average (28.7x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 29.045511308,
+        "industry_pe": 28.787047453,
         "industry_code": "6120000",
         "type": "median_profitable",
         "count": 152,
@@ -277,25 +565,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 28.1,
-        "sample_count": 151,
+        "industry_pe": 28.15,
+        "sample_count": 152,
         "industry_code": "6120000",
         "industry_name": "Pharmaceuticals & Biotech"
       },
       "sws_primary_industry": {
-        "industry_pe": 23.933255082,
+        "industry_pe": 23.572522071,
         "industry_name": "Pharmaceuticals & Biotech",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 42.505710697044634
+        "company_pe": 45.45579216630947
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1524.4,
-        "fetched_at": "2026-05-31T20:12:02.521Z",
+        "value": 1630.2,
+        "fetched_at": "2026-06-10T23:15:37.592Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-ipcalab/ipca-laboratories-shares"
       },
       "market_cap_inr": {
@@ -342,14 +630,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.1517834297,
-        "fetched_at": "2026-05-31T20:12:02.521Z",
+        "value": 0.1516710327,
+        "fetched_at": "2026-06-10T23:15:37.592Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-ipcalab/ipca-laboratories-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 2.756126798,
-        "fetched_at": "2026-05-31T20:12:02.521Z",
+        "value": 2.535577209,
+        "fetched_at": "2026-06-10T23:15:37.592Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-ipcalab/ipca-laboratories-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -481,12 +769,12 @@
     "quick_ratio": 1.472334539263673,
     "cash_ratio": 0.10396222994648192,
     "returns_pct": {
-      "1D": -3.0526583566522514,
-      "7D": -4.84988452655888,
-      "1M": -1.1477854873224704,
-      "3M": -0.294329256328079,
-      "6M": 4.906751083889628,
-      "1Y": 7.670574939963282,
+      "1D": -0.23255813953488094,
+      "7D": 4.856242361870457,
+      "1M": 6.20195439739414,
+      "3M": 4.446437724243983,
+      "6M": 11.208131523296265,
+      "1Y": 18.914581661682103,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -572,8 +860,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.09876,
-        "shares": 2787609,
+        "pct": 1.10195,
+        "shares": 2795705,
         "is_insider": null
       },
       {
@@ -1029,6 +1317,26 @@
   ],
   "news": [
     {
+      "id": "f05d61c5-7f32-40b4-bea4-943df93cf28d",
+      "type": "narrative-update",
+      "date": "2026-06-04T12:06:22.000Z",
+      "title": "IPCALAB: Higher Fair Value And Board Review Will Support Future Upside Potential",
+      "body": "Analysts now set a higher fair value price target for Ipca Laboratories at ₹1,887, compared with ₹1,731 earlier, reflecting updated assumptions on revenue growth, profit margins and future P/E levels. What's in the News A board meeting is scheduled for May 29, 2026, to review standalone and consolidated audited financial results for the fourth quarter and full year ended March 31, 2026.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/pharmaceuticals-biotech/nse-ipcalab/ipca-laboratories-shares/nt6incj9-emerging-markets-in-asia-and-africa-will-fuel-healthcare-demand/updates/4-analysts-now-set-a-higher-fair-value-price-target-for-ipca-l",
+      "raw_subtype": "narrative-update"
+    },
+    {
+      "id": "9e06bc49-21b2-40d4-8c1b-014533905bb8",
+      "type": "article",
+      "date": "2026-06-03T00:55:19.000Z",
+      "title": "Should You Be Adding Ipca Laboratories (NSE:IPCALAB) To Your Watchlist Today?",
+      "body": "It's common for many investors, especially those who are inexperienced, to buy shares in companies with a good story...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-ipcalab/ipca-laboratories-shares/news/should-you-be-adding-ipca-laboratories-nseipcalab-to-your-wa",
+      "raw_subtype": "article"
+    },
+    {
       "id": "e3457d29-c470-41b8-a5b7-324cebf3371f",
       "type": "brief",
       "date": "2026-05-30T20:51:45.000Z",
@@ -1207,26 +1515,6 @@
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/pharmaceuticals-biotech/nse-ipcalab/ipca-laboratories-shares/nt6incj9-emerging-markets-in-asia-and-africa-will-fuel-healthcare-demand/updates/2-analysts-have-trimmed-their-price-target-on-ipca-laboratorie",
       "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "20863733-b354-41c0-a655-f3be55b5d635",
-      "type": "narrative-update",
-      "date": "2025-12-10T14:04:41.000Z",
-      "title": "IPCALAB: Biosimilar Partnership And Board Meetings Will Shape Balanced Outlook",
-      "body": "Analysts have nudged their price target for Ipca Laboratories slightly higher to approximately ₹1,552 from about ₹1,543, reflecting modestly improved valuation multiples, even though there were only minor trims to long term revenue growth and profit margin assumptions. What's in the News Ipca Laboratories and BioSimilar Sciences PR LLC entered a Technology Transfer and Joint Development Agreement to shift late stage development, clinical manufacturing, and commercial supply of a next generation anti cancer or anti inflammatory monoclonal antibody biosimilar to BSS sterile campus in Aguadilla, Puerto Rico (company announcement) A board meeting is scheduled on October 17, 2025, at 17:00 Indian Standard Time to review corporate matters (company filing) A board meeting is set for November 13, ",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/pharmaceuticals-biotech/nse-ipcalab/ipca-laboratories-shares/k0tlbe1w-domestic-chronic-focus-and-api-capacity-will-foster-global-opportunities-g44c/updates/12-analysts-have-nudged-their-price-target-for-ipca-laboratorie",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "14b90c77-1ff5-4d30-abfb-1cd7b96eddcd",
-      "type": "article",
-      "date": "2025-12-09T00:06:58.000Z",
-      "title": "Is Now The Time To Put Ipca Laboratories (NSE:IPCALAB) On Your Watchlist?",
-      "body": "The excitement of investing in a company that can reverse its fortunes is a big draw for some speculators, so even...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-ipcalab/ipca-laboratories-shares/news/is-now-the-time-to-put-ipca-laboratories-nseipcalab-on-your-2",
-      "raw_subtype": "article"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/IPCALAB.json"

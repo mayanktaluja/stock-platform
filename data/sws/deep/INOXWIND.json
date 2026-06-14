@@ -3,7 +3,7 @@
   "name": "Inox Wind Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-inoxwind/inox-wind-shares",
-  "parsed_at": "2026-05-31T20:10:58.055Z",
+  "parsed_at": "2026-06-10T23:12:44.130Z",
   "company_id": "9A77D0A7-893C-4FD1-8895-FC4A02794C27",
   "classification_status": "Active",
   "groww_source": {
@@ -18,16 +18,16 @@
     "snowflake": {
       "valuation": 3,
       "future": 5,
-      "past": 5,
+      "past": 1,
       "financial_health": 5,
       "dividends": 0,
       "future_growth": 5,
-      "past_performance": 5,
+      "past_performance": 1,
       "value": 3,
       "health": 5,
       "dividend": 0
     },
-    "snowflake_total": 18,
+    "snowflake_total": 14,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 3,
@@ -75,22 +75,308 @@
         }
       ]
     },
-    "current_price_inr": 93.02,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 82.73,
     "market_cap_inr": 165738000000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "medium5",
     "shares_outstanding": 1728237822,
     "fifty_two_week": {
       "low": 75.05,
       "high": 198.13
     },
-    "fair_value_inr": 155,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": 0,
       "max": 312.97,
       "count": 37
     },
-    "upside_pct": 66.63083207912278,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystLowTarget",
+      "owner_classification": null,
+      "narrative_id": "b98e7adb-2d47-4725-976c-a65c7164bf9c",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 30.94,
       "ps": 3.74,
@@ -108,8 +394,8 @@
     },
     "rewards": [
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Analysts in good agreement that stock price will rise by 44.2%",
-      "Earnings are forecast to grow 41.5% per year",
+      "Analysts in good agreement that stock price will rise by 41.2%",
+      "Earnings are forecast to grow 37.88% per year",
       "Trading below our calculated fair Price-To-Earnings ratio"
     ],
     "risks": [
@@ -127,8 +413,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 50.60717150952937,
-      "net_income_margin_1y": 0.0775877089,
-      "future_revenue_growth_3y": 0.6569887,
+      "net_income_margin_1y": 0.07792327667,
+      "future_revenue_growth_3y": 0.6221294666,
       "sector_pe": 50.60717150952937
     },
     "industry_benchmarks_meta": {
@@ -163,18 +449,18 @@
         "url": "https://groww.in/stocks/inox-wind-ltd"
       },
       "sws_statement": {
-        "company_pe": 39.7,
-        "industry_pe": 29.5,
+        "company_pe": 35.3,
+        "industry_pe": 28.7,
         "industry_name": "Indian Electrical",
-        "description": "INOXWIND is expensive based on its Price-To-Earnings Ratio (39.7x) compared to the Indian Electrical industry average (29.5x).",
+        "description": "INOXWIND is expensive based on its Price-To-Earnings Ratio (35.3x) compared to the Indian Electrical industry average (28.7x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 29.47654624,
+        "industry_pe": 28.631556336,
         "industry_code": "3050000",
         "type": "median_profitable",
-        "count": 123,
+        "count": 124,
         "source": {
           "type": "country",
           "country": "IN",
@@ -183,25 +469,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 28.2,
-        "sample_count": 127,
+        "industry_pe": 29.3,
+        "sample_count": 129,
         "industry_code": "3050000",
         "industry_name": "Capital Goods"
       },
       "sws_primary_industry": {
-        "industry_pe": 21.475319439,
+        "industry_pe": 21.150765987,
         "industry_name": "Capital Goods",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 32.03249507139633
+        "company_pe": 35.299504990633025
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 93.02,
-        "fetched_at": "2026-05-31T20:10:58.055Z",
+        "value": 82.73,
+        "fetched_at": "2026-06-10T23:12:44.130Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-inoxwind/inox-wind-shares"
       },
       "market_cap_inr": {
@@ -248,14 +534,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.0775877089,
-        "fetched_at": "2026-05-31T20:10:58.055Z",
+        "value": 0.07792327667,
+        "fetched_at": "2026-06-10T23:12:44.130Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-inoxwind/inox-wind-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.6569887,
-        "fetched_at": "2026-05-31T20:10:58.055Z",
+        "value": 0.6221294666,
+        "fetched_at": "2026-06-10T23:12:44.130Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-inoxwind/inox-wind-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -364,13 +650,13 @@
         "url": "https://groww.in/stocks/inox-wind-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 12.615351819543474,
+    "earnings_growth_yoy_pct": -25.602924159212385,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 24.473261229679117,
-    "latest_revenue": 44276975000,
-    "latest_net_income": 5018675000,
+    "revenue_growth_pct": 22.03972936805357,
+    "latest_revenue": 45689600000,
+    "latest_net_income": 4050400000,
     "latest_eps": 3.1,
-    "most_recent_reported_date": "2026-04-29",
+    "most_recent_reported_date": "2026-06-02",
     "pb": 2.54,
     "ps": 3.74,
     "book_value": 37.728244,
@@ -387,16 +673,16 @@
     "quick_ratio": 1.782412418388768,
     "cash_ratio": 0.13100167555803788,
     "returns_pct": {
-      "1D": -2.9120133597745603,
-      "7D": -1.3678294984625239,
-      "1M": -8.973480771112635,
-      "3M": 0.9660262672310871,
-      "6M": -30.84014869888476,
-      "1Y": -49.81928035820252,
+      "1D": -3.9586719294172235,
+      "7D": -0.3373087579809675,
+      "1M": -17.12911950315536,
+      "3M": -1.135277246653923,
+      "6M": -33.608859642083296,
+      "1Y": -55.68352260552818,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 8,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -428,13 +714,13 @@
         "is_insider": null
       },
       {
-        "pct": 3.58955,
-        "shares": 62035964,
+        "pct": 3.63957,
+        "shares": 62900439,
         "is_insider": null
       },
       {
-        "pct": 3.47225,
-        "shares": 60008703,
+        "pct": 3.58955,
+        "shares": 62035964,
         "is_insider": null
       },
       {
@@ -493,8 +779,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.40231,
-        "shares": 6952873,
+        "pct": 0.4024,
+        "shares": 6954507,
         "is_insider": null
       },
       {
@@ -522,44 +808,44 @@
     "payment_count": 0
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-04-29",
+    "most_recent_reported_date": "2026-06-02",
     "latest_year": 2026,
-    "latest_revenue": 44276975000,
-    "latest_net_income": 5018675000,
+    "latest_revenue": 45689600000,
+    "latest_net_income": 4050400000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 24.473261229679117,
-    "earnings_growth_pct": 12.615351819543474,
-    "net_margin_pct": 11.334728716223275,
+    "revenue_growth_pct": 22.03972936805357,
+    "earnings_growth_pct": -25.602924159212385,
+    "net_margin_pct": 8.865037120044825,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 44276975000,
-        "netIncome": 5018675000,
+        "revenue": 45689600000,
+        "netIncome": 4050400000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 35571475000,
-        "netIncome": 4456475000,
+        "revenue": 37438300000,
+        "netIncome": 5444300000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 17463035000,
-        "netIncome": -335217000,
+        "revenue": 20333200000,
+        "netIncome": 742400000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 7330448000,
-        "netIncome": -6512854000,
+        "revenue": 8750900000,
+        "netIncome": -6015200000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 6246231000,
-        "netIncome": -4801997000,
+        "revenue": 6658800000,
+        "netIncome": -5043300000,
         "eps": null
       }
     ]
@@ -791,6 +1077,56 @@
   ],
   "news": [
     {
+      "id": "000750b3-fdb7-41d0-9985-412b082c6dc1",
+      "type": "article",
+      "date": "2026-06-07T03:37:06.000Z",
+      "title": "Inox Wind's (NSE:INOXWIND) Sluggish Earnings Might Be Just The Beginning Of Its Problems",
+      "body": "Last week's earnings announcement from Inox Wind Limited ( NSE:INOXWIND ) was disappointing to investors, with a...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/capital-goods/nse-inoxwind/inox-wind-shares/news/inox-winds-nseinoxwind-sluggish-earnings-might-be-just-the-b",
+      "raw_subtype": "article"
+    },
+    {
+      "id": "c24c4507-9d03-4cfe-ba40-25002ea879f5",
+      "type": "brief",
+      "date": "2026-06-05T11:44:41.000Z",
+      "title": "Consensus EPS estimates fall by 14%",
+      "body": "The consensus outlook for earnings per share (EPS) in fiscal year 2027 has deteriorated. 2027 revenue forecast decreased from ₹75.4b to ₹68.8b. EPS estimate also fell from ₹5.88 per share to ₹5.03 per share. Net income forecast to grow 98% next year vs 26% growth forecast for Electrical industry in India. Consensus price target down from ₹140 to ₹123. Share price fell 6.7% to ₹86.79 over the past week.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "4bcb349d-9cb8-4a4e-bece-a91dedfb9724",
+      "type": "narrative-update",
+      "date": "2026-06-02T19:04:48.000Z",
+      "title": "INOXWIND: Upcoming Shareholder Events Will Support Future Upside Potential",
+      "body": "Analysts have trimmed their price target on Inox Wind from ₹120 to ₹101, reflecting updated assumptions around discount rates, revenue growth, profit margins and future P/E multiples. What's in the News Inox Wind has scheduled a Special and Extraordinary Shareholders Meeting for June 22, 2026, at 12:00 Indian Standard Time.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-inoxwind/inox-wind-shares/vgkiqpz8-wind-and-solar-pressures-will-squeeze-margins-but-spark-potential/updates/7-analysts-have-trimmed-their-price-target-on-inox-wind-from-indian-rupee",
+      "raw_subtype": "narrative-update"
+    },
+    {
+      "id": "8b9fbad5-356b-49da-93d4-c568d5d0811a",
+      "type": "brief",
+      "date": "2026-06-01T11:27:22.000Z",
+      "title": "Price target decreased by 11% to ₹124",
+      "body": "Down from ₹140, the current price target is an average from 6 analysts. New target price is 48% above last closing price of ₹83.84. Stock is down 55% over the past year. The company is forecast to post earnings per share of ₹5.15 for next year compared to ₹2.65 last year.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "5e0bd8de-3f15-4c1b-9630-6797729a879a",
+      "type": "article",
+      "date": "2026-06-01T09:10:37.000Z",
+      "title": "Inox Wind Limited Just Missed EPS By 30%: Here's What Analysts Think Will Happen Next",
+      "body": "As you might know, Inox Wind Limited ( NSE:INOXWIND ) last week released its latest full-year, and things did not turn...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/capital-goods/nse-inoxwind/inox-wind-shares/news/inox-wind-limited-just-missed-eps-by-30-heres-what-analysts",
+      "raw_subtype": "article"
+    },
+    {
       "id": "a5a31719-33fd-42ac-8e33-5023f41ec554",
       "type": "brief",
       "date": "2026-05-31T06:06:56.000Z",
@@ -999,36 +1335,6 @@
       "keyDevTypeId": null,
       "source_url": null,
       "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "6a4e36fe-65f1-4d37-ba15-252c10a93880",
-      "type": "narrative-update",
-      "date": "2025-12-14T10:04:17.000Z",
-      "title": "INOXWIND: New Project Pipeline Will Drive Stronger Profitability Ahead",
-      "body": "Analysts have raised their price target on Inox Wind from ₹158 to ₹172, citing expectations of slightly stronger profitability and improved valuation support despite a modest uptick in the assumed discount rate and a more conservative future earnings multiple. What's in the News Inox Wind signed an exclusive MoU with KP Energy to jointly develop 2.5 GW of wind and wind solar hybrid projects across multiple Indian states, combining turbine supply, EPC, and O&M capabilities with KP Energy's project development expertise (Key Developments).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/capital-goods/nse-inoxwind/inox-wind-shares/vgkiqpz8-wind-and-solar-pressures-will-squeeze-margins-but-spark-potential/updates/2-analysts-have-raised-their-price-target-on-inox-wind-from-indian-rupee1",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "fdde90ab-3fd8-4227-96b6-d302109d8d6e",
-      "type": "brief",
-      "date": "2025-12-10T11:27:05.000Z",
-      "title": "Now 21% undervalued after recent price drop",
-      "body": "Over the last 90 days, the stock has fallen 19% to ₹120. The fair value is estimated to be ₹152, however this is not to be taken as a buy recommendation but rather should be used as a guide only. Revenue has grown by 63% over the last 3 years. Meanwhile, the company has become profitable. Revenue is forecast to grow by 150% in 2 years. Earnings are forecast to grow by 112% in the next 2 years.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "9232e873-7153-4849-a4d9-4242c5a91399",
-      "type": "article",
-      "date": "2025-12-07T04:12:26.000Z",
-      "title": "Calculating The Fair Value Of Inox Wind Limited (NSE:INOXWIND)",
-      "body": "Key Insights Inox Wind's estimated fair value is ₹151 based on 2 Stage Free Cash Flow to Equity Inox Wind's ₹130 share...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/capital-goods/nse-inoxwind/inox-wind-shares/news/calculating-the-fair-value-of-inox-wind-limited-nseinoxwind",
-      "raw_subtype": "article"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/INOXWIND.json"

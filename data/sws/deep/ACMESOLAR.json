@@ -3,7 +3,7 @@
   "name": "ACME Solar Holdings Limited",
   "sector": "Utilities",
   "sws_url": "https://simplywall.st/stocks/in/utilities/nse-acmesolar/acme-solar-holdings-shares",
-  "parsed_at": "2026-05-31T20:55:48.489Z",
+  "parsed_at": "2026-06-10T23:53:48.809Z",
   "company_id": "B348254B-4F4D-4EF5-9417-26BEA8E546BE",
   "classification_status": "Active",
   "groww_source": {
@@ -16,34 +16,320 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 2,
+      "valuation": 1,
       "future": 6,
       "past": 4,
       "financial_health": 2,
       "dividends": 0,
       "future_growth": 6,
       "past_performance": 4,
-      "value": 2,
+      "value": 1,
       "health": 2,
       "dividend": 0
     },
-    "snowflake_total": 14,
-    "current_price_inr": 310.1,
+    "snowflake_total": 13,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 336.9,
     "market_cap_inr": 185124400000,
-    "market_cap_usd": 120714180851.549,
-    "market_cap_band": "medium5",
-    "shares_outstanding": 605971804,
+    "market_cap_usd": 120753634221.641,
+    "market_cap_band": "midlarge6",
+    "shares_outstanding": 706150694,
     "fifty_two_week": {
       "low": 195.9,
       "high": 324.3
     },
     "fair_value_inr": 354.28571,
     "fair_value_range_inr": {
-      "min": 5.756523,
+      "min": 5.892654,
       "max": 794.88,
-      "count": 9
+      "count": 8
     },
-    "upside_pct": 14.248858432763614,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "a98a72d3-0bd5-4a9c-a118-32c68418b728",
+      "narrative_type": null,
+      "published_at": "2025-12-09T21:05:36.825Z"
+    },
+    "upside_pct": 5.160495696052247,
     "multiples": {
       "pe": 37.17,
       "ps": 9.15,
@@ -61,18 +347,17 @@
     },
     "rewards": [
       "Earnings grew by 97.9% over the past year",
-      "Earnings are forecast to grow 36.35% per year",
-      "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (37.7x) is below the Renewable Energy industry average (43.2x)",
-      "Trading at good value vs. industry average Price-To-Earnings ratio"
+      "Earnings are forecast to grow 36.46% per year",
+      "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
     "risks": [
       "High level of [[non-cash earnings]]",
+      "Shareholders have been diluted in the past year",
       "Interest payments are not well covered by earnings"
     ],
     "dividend": {
       "yield_pct": 0.07,
-      "payout_pct": 2.517942437822419,
+      "payout_pct": 2.9342071498764866,
       "annualized_dividend": 0.2,
       "listing_currency": "INR",
       "recent_payments": [
@@ -108,8 +393,8 @@
     "dividend_yield_pct": 0.07,
     "industry_benchmarks": {
       "pe": 24.919301661303475,
-      "net_income_margin_1y": 0.1209423191,
-      "future_revenue_growth_3y": 5.427136977,
+      "net_income_margin_1y": 0.1212166852,
+      "future_revenue_growth_3y": 4.632223946,
       "sector_pe": 24.919301661303475
     },
     "industry_benchmarks_meta": {
@@ -144,15 +429,15 @@
         "url": "https://groww.in/stocks/acme-solar-holdings-ltd"
       },
       "sws_statement": {
-        "company_pe": 37.7,
-        "industry_pe": 43.2,
+        "company_pe": 49.4,
+        "industry_pe": 47.9,
         "industry_name": "Indian Renewable Energy",
-        "description": "ACMESOLAR is good value based on its Price-To-Earnings Ratio (37.7x) compared to the Indian Renewable Energy industry average (43.2x).",
+        "description": "ACMESOLAR is expensive based on its Price-To-Earnings Ratio (49.4x) compared to the Indian Renewable Energy industry average (47.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 43.204392735,
+        "industry_pe": 47.89880143,
         "industry_code": "9551702",
         "type": "median_profitable",
         "count": 24,
@@ -164,25 +449,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 34.95,
-        "sample_count": 20,
+        "industry_pe": 27.4,
+        "sample_count": 19,
         "industry_code": "9551702",
         "industry_name": "Utilities"
       },
       "sws_primary_industry": {
-        "industry_pe": 15.980260868,
+        "industry_pe": 15.472304367,
         "industry_name": "Utilities",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 39.0406974984366
+        "company_pe": 49.426719439669405
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 310.1,
-        "fetched_at": "2026-05-31T20:55:48.489Z",
+        "value": 336.9,
+        "fetched_at": "2026-06-10T23:53:48.809Z",
         "url": "https://simplywall.st/stocks/in/utilities/nse-acmesolar/acme-solar-holdings-shares"
       },
       "market_cap_inr": {
@@ -190,6 +475,24 @@
         "value": 185124400000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/acme-solar-holdings-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 354.28571,
+        "fetched_at": "2026-06-10T23:53:48.809Z",
+        "url": "https://simplywall.st/stocks/in/utilities/nse-acmesolar/acme-solar-holdings-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "a98a72d3-0bd5-4a9c-a118-32c68418b728",
+        "narrative_type": null,
+        "published_at": "2025-12-09T21:05:36.825Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 5.160495696052247,
+        "fetched_at": "2026-06-10T23:53:48.809Z",
+        "url": "https://simplywall.st/stocks/in/utilities/nse-acmesolar/acme-solar-holdings-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -229,14 +532,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.1209423191,
-        "fetched_at": "2026-05-31T20:55:48.489Z",
+        "value": 0.1212166852,
+        "fetched_at": "2026-06-10T23:53:48.809Z",
         "url": "https://simplywall.st/stocks/in/utilities/nse-acmesolar/acme-solar-holdings-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 5.427136977,
-        "fetched_at": "2026-05-31T20:55:48.489Z",
+        "value": 4.632223946,
+        "fetched_at": "2026-06-10T23:53:48.809Z",
         "url": "https://simplywall.st/stocks/in/utilities/nse-acmesolar/acme-solar-holdings-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -368,119 +671,119 @@
     "quick_ratio": 2.1639825350293154,
     "cash_ratio": 1.912355286693829,
     "returns_pct": {
-      "1D": 1.4725130890052354,
-      "7D": 6.857339765678855,
-      "1M": 2.3094688221709005,
-      "3M": 31.398305084745772,
-      "6M": 34.73821420812514,
-      "1Y": 20.217096336499335,
+      "1D": -3.3839977057642705,
+      "7D": 2.3856556754292555,
+      "1M": 16.07235142118862,
+      "3M": 40.328223925358195,
+      "6M": 47.55606166783461,
+      "1Y": 33.34652681575301,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 4,
+    "recent_news_count": 5,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
   "ownership": {
     "top_holders": [
       {
-        "pct": 83.29329,
+        "pct": 71.47679,
         "shares": 504733832,
         "is_insider": null
       },
       {
-        "pct": 1.06094,
+        "pct": 0.91043,
         "shares": 6428997,
         "is_insider": null
       },
       {
-        "pct": 0.91686,
+        "pct": 0.78679,
         "shares": 5555901,
         "is_insider": null
       },
       {
-        "pct": 0.58291,
+        "pct": 0.5185,
+        "shares": 3661397,
+        "is_insider": null
+      },
+      {
+        "pct": 0.50022,
         "shares": 3532280,
         "is_insider": null
       },
       {
-        "pct": 0.57833,
+        "pct": 0.49629,
         "shares": 3504521,
         "is_insider": null
       },
       {
-        "pct": 0.57092,
-        "shares": 3459613,
+        "pct": 0.48995,
+        "shares": 3459784,
         "is_insider": null
       },
       {
-        "pct": 0.56108,
+        "pct": 0.48148,
         "shares": 3400000,
         "is_insider": null
       },
       {
-        "pct": 0.42202,
+        "pct": 0.36215,
         "shares": 2557349,
         "is_insider": null
       },
       {
-        "pct": 0.42043,
+        "pct": 0.36078,
         "shares": 2547683,
         "is_insider": null
       },
       {
-        "pct": 0.41522,
+        "pct": 0.35632,
         "shares": 2516126,
         "is_insider": null
       },
       {
-        "pct": 0.4,
+        "pct": 0.34325,
         "shares": 2423895,
         "is_insider": null
       },
       {
-        "pct": 0.38975,
+        "pct": 0.33446,
         "shares": 2361780,
         "is_insider": null
       },
       {
-        "pct": 0.35923,
+        "pct": 0.30826,
         "shares": 2176807,
         "is_insider": null
       },
       {
-        "pct": 0.29998,
-        "shares": 1817804,
-        "is_insider": null
-      },
-      {
-        "pct": 0.23462,
+        "pct": 0.20133,
         "shares": 1421724,
         "is_insider": null
       },
       {
-        "pct": 0.17166,
+        "pct": 0.14731,
         "shares": 1040234,
         "is_insider": null
       },
       {
-        "pct": 0.14589,
+        "pct": 0.12519,
         "shares": 884023,
         "is_insider": null
       },
       {
-        "pct": 0.10805,
+        "pct": 0.09272,
         "shares": 654742,
         "is_insider": null
       },
       {
-        "pct": 0.10083,
+        "pct": 0.08652,
         "shares": 610988,
         "is_insider": null
       },
       {
-        "pct": 0.07904,
-        "shares": 478932,
+        "pct": 0.06203,
+        "shares": 438004,
         "is_insider": null
       }
     ],
@@ -496,7 +799,7 @@
   },
   "dividend": {
     "yield_pct": 0.07,
-    "payout_pct": 2.517942437822419,
+    "payout_pct": 2.9342071498764866,
     "annualized_dividend": 0.2,
     "listing_currency": "INR",
     "recent_payments": [
@@ -774,6 +1077,46 @@
   ],
   "news": [
     {
+      "id": "8b5c4cf4-c1e5-4efa-9019-21e1c91ee9ea",
+      "type": "brief",
+      "date": "2026-06-07T22:45:52.000Z",
+      "title": "New minor risk - Shareholder dilution",
+      "body": "The company's shareholders have been diluted in the past year. Increase in shares outstanding: 17% This is considered a minor risk. Shareholder dilution occurs when there is an increase in the number of shares on issue that is not proportionally distributed between all shareholders. Often due to the company raising equity capital or some options being converted into stock. All else being equal, if there are more shares outstanding then each existing share will be entitled to a lower proportion of the company's total earnings, thus reducing earnings per share (EPS). While dilution might not always result in lower EPS (like if the company is using the capital to fund an EPS accretive acquisition) in a lot cases it does, along with lower dividends per share and less voting power at shareholde",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "0eecfcdd-f275-4519-86f8-105c2d9b31a1",
+      "type": "brief",
+      "date": "2026-06-05T11:55:31.000Z",
+      "title": "Investor sentiment improves as stock rises 15%",
+      "body": "After last week's 15% share price gain to ₹357, the stock trades at a forward P/E ratio of 31x. Average forward P/E is 31x in the Renewable Energy industry in India. Total returns to shareholders of 42% over the past year.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "80cef04b-455e-4ef1-a528-7e633b4f7ea4",
+      "type": "event",
+      "date": "2026-06-04T00:00:00.000Z",
+      "title": "ACME Solar Holdings Limited has completed a Follow-on Equity Offering in the amount of INR 28 billion.",
+      "body": "ACME Solar Holdings Limited has completed a Follow-on Equity Offering in the amount of INR 28 billion.\r\n\r\nSecurity Name: Equity Shares\r\nSecurity Type: Common Stock\r\nSecurities Offered: 100,178,890\r\nPrice\\Range: INR 279.5\r\n\r\nTransaction Features: Regulation S; Subsequent Direct Listing",
+      "keyDevTypeId": "86",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
+    {
+      "id": "c67e019a-4885-4667-aba6-da54d57e7078",
+      "type": "event",
+      "date": "2026-06-01T00:00:00.000Z",
+      "title": "ACME Solar Holdings Limited has filed a Follow-on Equity Offering.",
+      "body": "ACME Solar Holdings Limited has filed a Follow-on Equity Offering.\r\n\r\nSecurity Name: Equity Shares\r\nSecurity Type: Common Stock\r\nPrice(minimum): INR 294.13\r\n\r\nTransaction Features: Regulation S; Subsequent Direct Listing",
+      "keyDevTypeId": "86",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
+    {
       "id": "351bc022-5eb8-4183-ab40-e25bb9c5d528",
       "type": "brief",
       "date": "2026-05-16T20:55:15.000Z",
@@ -882,16 +1225,6 @@
       "keyDevTypeId": "55",
       "source_url": null,
       "raw_subtype": "EventActivity"
-    },
-    {
-      "id": "7363912c-1d27-4907-919b-90f669dad6bb",
-      "type": "article",
-      "date": "2025-12-16T03:45:49.000Z",
-      "title": "Slowing Rates Of Return At ACME Solar Holdings (NSE:ACMESOLAR) Leave Little Room For Excitement",
-      "body": "If we want to find a stock that could multiply over the long term, what are the underlying trends we should look for...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/utilities/nse-acmesolar/acme-solar-holdings-shares/news/slowing-rates-of-return-at-acme-solar-holdings-nseacmesolar",
-      "raw_subtype": "article"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/ACMESOLAR.json"

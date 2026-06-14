@@ -3,7 +3,7 @@
   "name": "Subros Limited",
   "sector": "Automobiles",
   "sws_url": "https://simplywall.st/stocks/in/automobiles/nse-subros/subros-shares",
-  "parsed_at": "2026-05-31T22:33:07.123Z",
+  "parsed_at": "2026-06-11T01:35:44.706Z",
   "company_id": "044B7FC6-B281-488C-BE32-262B52C42308",
   "classification_status": "Active",
   "groww_source": {
@@ -18,32 +18,318 @@
     "snowflake": {
       "valuation": 2,
       "future": 3,
-      "past": 2,
+      "past": 3,
       "financial_health": 6,
       "dividends": 3,
       "future_growth": 3,
-      "past_performance": 2,
+      "past_performance": 3,
       "value": 2,
       "health": 6,
       "dividend": 3
     },
-    "snowflake_total": 16,
-    "current_price_inr": 720.6,
+    "snowflake_total": 17,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SAME_PE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 709.85,
     "market_cap_inr": 48085300000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 622.1,
       "high": 1213.7
     },
-    "fair_value_inr": 940.194811,
+    "fair_value_inr": 942.668005,
     "fair_value_range_inr": {
-      "min": 940.194811,
-      "max": 940.194811,
+      "min": 942.668005,
+      "max": 942.668005,
       "count": 3
     },
-    "upside_pct": 30.473884401887307,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "4cd459e3-5b6c-4329-8546-d8661e2b1c8a",
+      "narrative_type": null,
+      "published_at": "2024-06-19T04:02:35.508Z"
+    },
+    "upside_pct": 32.79819750651546,
     "multiples": {
       "pe": 29.03,
       "ps": 1.28,
@@ -61,9 +347,9 @@
     },
     "rewards": [
       "Trading below our calculated fair Price-To-Earnings ratio",
-      "Earnings have grown 31.5% per year over the past 5 years",
+      "Earnings grew by 15.4% over the past year",
       "Earnings are forecast to grow 19.59% per year",
-      "Analysts in good agreement that stock price will rise by 30.5%"
+      "Analysts in good agreement that stock price will rise by 32.8%"
     ],
     "risks": [
       "Dividend of 0.42% is not well covered by free cash flows",
@@ -211,8 +497,8 @@
     "dividend_yield_pct": 0.41,
     "industry_benchmarks": {
       "pe": 35.35685650485562,
-      "net_income_margin_1y": 0.06791655765,
-      "future_revenue_growth_3y": 2.175173168,
+      "net_income_margin_1y": 0.06813180623,
+      "future_revenue_growth_3y": 1.577312273,
       "sector_pe": 35.35685650485562
     },
     "industry_benchmarks_meta": {
@@ -247,15 +533,15 @@
         "url": "https://groww.in/stocks/subros-ltd"
       },
       "sws_statement": {
-        "company_pe": 27.1,
-        "industry_pe": 27,
+        "company_pe": 26.7,
+        "industry_pe": 26.6,
         "industry_name": "Indian Auto Components",
-        "description": "SUBROS is expensive based on its Price-To-Earnings Ratio (27.1x) compared to the Indian Auto Components industry average (27x).",
+        "description": "SUBROS is expensive based on its Price-To-Earnings Ratio (26.7x) compared to the Indian Auto Components industry average (26.6x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 27.035828631,
+        "industry_pe": 26.637397669,
         "industry_code": "4011000",
         "type": "median_profitable",
         "count": 129,
@@ -267,7 +553,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 24.55,
+        "industry_pe": 24.95,
         "sample_count": 124,
         "industry_code": "4011000",
         "industry_name": "Automobiles"
@@ -280,8 +566,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 720.6,
-        "fetched_at": "2026-05-31T22:33:07.123Z",
+        "value": 709.85,
+        "fetched_at": "2026-06-11T01:35:44.706Z",
         "url": "https://simplywall.st/stocks/in/automobiles/nse-subros/subros-shares"
       },
       "market_cap_inr": {
@@ -289,6 +575,24 @@
         "value": 48085300000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/subros-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 942.668005,
+        "fetched_at": "2026-06-11T01:35:44.706Z",
+        "url": "https://simplywall.st/stocks/in/automobiles/nse-subros/subros-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "4cd459e3-5b6c-4329-8546-d8661e2b1c8a",
+        "narrative_type": null,
+        "published_at": "2024-06-19T04:02:35.508Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 32.79819750651546,
+        "fetched_at": "2026-06-11T01:35:44.706Z",
+        "url": "https://simplywall.st/stocks/in/automobiles/nse-subros/subros-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -328,14 +632,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.06791655765,
-        "fetched_at": "2026-05-31T22:33:07.123Z",
+        "value": 0.06813180623,
+        "fetched_at": "2026-06-11T01:35:44.706Z",
         "url": "https://simplywall.st/stocks/in/automobiles/nse-subros/subros-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 2.175173168,
-        "fetched_at": "2026-05-31T22:33:07.123Z",
+        "value": 1.577312273,
+        "fetched_at": "2026-06-11T01:35:44.706Z",
         "url": "https://simplywall.st/stocks/in/automobiles/nse-subros/subros-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -467,16 +771,16 @@
     "quick_ratio": 1.0217602435887339,
     "cash_ratio": 0.04985956899493398,
     "returns_pct": {
-      "1D": -2.1322830368056405,
-      "7D": -0.7369653557407566,
-      "1M": -7.473035439137125,
-      "3M": -9.015151515151512,
-      "6M": -15.768556399766215,
-      "1Y": -5.358550039401097,
+      "1D": -2.7602739726027368,
+      "7D": -1.5737659456461484,
+      "1M": -9.115933679021822,
+      "3M": 3.2434004799651035,
+      "6M": -18.031177829099303,
+      "1Y": -8.98192075907167,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 6,
+    "recent_news_count": 5,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },

@@ -3,7 +3,7 @@
   "name": "Sharda Cropchem Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-shardacrop/sharda-cropchem-shares",
-  "parsed_at": "2026-05-31T22:15:03.251Z",
+  "parsed_at": "2026-06-11T01:16:05.717Z",
   "company_id": "9C54E8F1-66AB-41CD-AEA9-DE8AFC3B5740",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 4
     },
     "snowflake_total": 22,
-    "current_price_inr": 905,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_NOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DIVIDENDS_NOT_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 902.85,
     "market_cap_inr": 84401300000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midsmall4",
     "shares_outstanding": 90220495,
     "fifty_two_week": {
       "low": 656.6,
       "high": 1297
     },
-    "fair_value_inr": 1440,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 1246.60395,
+      "min": 1260.5,
       "max": 1440,
-      "count": 13
+      "count": 14
     },
-    "upside_pct": 59.11602209944752,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystHighTarget",
+      "owner_classification": null,
+      "narrative_id": "8800cc6a-d14a-420b-9d67-b47e1c446dce",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 12.39,
       "ps": 1.6,
@@ -61,12 +347,12 @@
     },
     "rewards": [
       "Earnings grew by 123.7% over the past year",
-      "Analysts in good agreement that stock price will rise by 39.5%",
+      "Analysts in good agreement that stock price will rise by 39.8%",
       "Trading below our calculated fair Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Revenue is forecast to grow 12.35% per year",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Trading at 27.4% below our estimate of its fair value"
+      "Trading at 28.5% below our estimate of its fair value"
     ],
     "risks": [
       "High level of [[non-cash earnings]]",
@@ -241,8 +527,8 @@
     "dividend_yield_pct": 1.6,
     "industry_benchmarks": {
       "pe": 28.894368264807905,
-      "net_income_margin_1y": 0.09487982097,
-      "future_revenue_growth_3y": 34.387188816,
+      "net_income_margin_1y": 0.09486136614,
+      "future_revenue_growth_3y": 32.656569349,
       "sector_pe": 28.894368264807905
     },
     "industry_benchmarks_meta": {
@@ -278,17 +564,17 @@
       },
       "sws_statement": {
         "company_pe": 12,
-        "industry_pe": 22.2,
+        "industry_pe": 20.8,
         "industry_name": "Indian Chemicals",
-        "description": "SHARDACROP is good value based on its Price-To-Earnings Ratio (12x) compared to the Indian Chemicals industry average (22.2x).",
+        "description": "SHARDACROP is good value based on its Price-To-Earnings Ratio (12x) compared to the Indian Chemicals industry average (20.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 22.185241114,
+        "industry_pe": 20.782619721,
         "industry_code": "2020000",
         "type": "median_profitable",
-        "count": 304,
+        "count": 302,
         "source": {
           "type": "country",
           "country": "IN",
@@ -297,25 +583,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.5,
-        "sample_count": 293,
+        "industry_pe": 19.6,
+        "sample_count": 294,
         "industry_code": "2020000",
         "industry_name": "Materials"
       },
       "sws_primary_industry": {
-        "industry_pe": 19.26596559,
+        "industry_pe": 18.498719492,
         "industry_name": "Materials",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 11.992102349084469
+        "company_pe": 11.963612824166754
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 905,
-        "fetched_at": "2026-05-31T22:15:03.251Z",
+        "value": 902.85,
+        "fetched_at": "2026-06-11T01:16:05.717Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-shardacrop/sharda-cropchem-shares"
       },
       "market_cap_inr": {
@@ -362,14 +648,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.09487982097,
-        "fetched_at": "2026-05-31T22:15:03.251Z",
+        "value": 0.09486136614,
+        "fetched_at": "2026-06-11T01:16:05.717Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-shardacrop/sharda-cropchem-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 34.387188816,
-        "fetched_at": "2026-05-31T22:15:03.251Z",
+        "value": 32.656569349,
+        "fetched_at": "2026-06-11T01:16:05.717Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-shardacrop/sharda-cropchem-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -484,7 +770,7 @@
     "latest_revenue": 52675852000,
     "latest_net_income": 6808610000,
     "latest_eps": 75.48,
-    "most_recent_reported_date": "2026-05-26",
+    "most_recent_reported_date": "2026-06-09",
     "pb": 2.69,
     "ps": 1.6,
     "book_value": 347.6472275,
@@ -501,16 +787,16 @@
     "quick_ratio": 1.390723286913448,
     "cash_ratio": 0.09215108604092716,
     "returns_pct": {
-      "1D": -3.1878476679503587,
-      "7D": 1.3324375769790593,
-      "1M": -21.34538501651312,
-      "3M": -24.03894577807622,
-      "6M": 4.909291137773144,
-      "1Y": 24.948225873256945,
+      "1D": 1.9823788546255585,
+      "7D": -1.6931620209059184,
+      "1M": -21.99326075686885,
+      "3M": -12.616144018583045,
+      "6M": -1.489361702127657,
+      "1Y": 9.708973813718934,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 7,
+    "recent_news_count": 5,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -557,8 +843,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.65324,
-        "shares": 589360,
+        "pct": 0.65404,
+        "shares": 590080,
         "is_insider": null
       },
       {
@@ -572,8 +858,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.10757,
-        "shares": 97054,
+        "pct": 0.09861,
+        "shares": 88969,
         "is_insider": null
       },
       {
@@ -582,8 +868,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.08611,
-        "shares": 77686,
+        "pct": 0.08789,
+        "shares": 79294,
         "is_insider": null
       },
       {
@@ -602,8 +888,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.0345,
-        "shares": 31127,
+        "pct": 0.03417,
+        "shares": 30826,
         "is_insider": null
       },
       {
@@ -793,7 +1079,7 @@
     "payment_count": 18
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-26",
+    "most_recent_reported_date": "2026-06-09",
     "latest_year": 2026,
     "latest_revenue": 52675852000,
     "latest_net_income": 6808610000,
@@ -1062,6 +1348,16 @@
   ],
   "news": [
     {
+      "id": "af9434cc-583b-4968-946e-57d4ec302baf",
+      "type": "narrative-update",
+      "date": "2026-06-09T18:05:32.000Z",
+      "title": "SHARDACROP: Steady Fair Value And Prospective Dividend Will Support Future Upside",
+      "body": "Analysts have kept the price target for Sharda Cropchem steady at ₹1,440. They cite only small tweaks to assumptions on discount rate, revenue growth, profit margin and future P/E that do not materially change their valuation view.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/materials/nse-shardacrop/sharda-cropchem-shares/lzlgh4ej-rising-global-food-demand-will-spur-sustainable-crop-protection/updates/8-analysts-have-kept-the-price-target-for-sharda-cropchem-stea",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "fb09da99-d968-4d35-8b49-ad98aeac96b3",
       "type": "narrative-update",
       "date": "2026-05-26T15:05:50.000Z",
@@ -1300,16 +1596,6 @@
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/stocks/in/materials/nse-shardacrop/sharda-cropchem-shares/news/insufficient-growth-at-sharda-cropchem-limited-nseshardacrop",
       "raw_subtype": "article"
-    },
-    {
-      "id": "3dc766f8-c00b-4a32-9d33-e3bc36090701",
-      "type": "narrative-update",
-      "date": "2025-12-14T18:06:46.000Z",
-      "title": "SHARDACROP: Improved Margins And Earnings Outlook Will Drive Stronger Share Performance",
-      "body": "Analysts have raised their price target on Sharda Cropchem from ₹1,260 to ₹1,360, citing expectations of stronger revenue growth, improved profit margins and a slightly lower required return offsetting a modestly lower future P E multiple. What's in the News Board meeting scheduled for October 30, 2025, to review and approve unaudited standalone and consolidated financial results for the quarter and half year ended September 30, 2025 (company filing).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/materials/nse-shardacrop/sharda-cropchem-shares/lzlgh4ej-rising-global-food-demand-will-spur-sustainable-crop-protection/updates/2-analysts-have-raised-their-price-target-on-sharda-cropchem-f",
-      "raw_subtype": "narrative-update"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/SHARDACROP.json"

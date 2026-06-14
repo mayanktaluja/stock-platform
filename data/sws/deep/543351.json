@@ -3,7 +3,7 @@
   "name": "Naapbooks Limited",
   "sector": "Software",
   "sws_url": "https://simplywall.st/stocks/in/software/bse-543351/naapbooks-shares",
-  "parsed_at": "2026-05-31T20:11:37.579Z",
+  "parsed_at": "2026-06-10T23:11:29.311Z",
   "company_id": "453D5A76-C87C-416B-AA5A-00DCCF81F191",
   "classification_status": "Active",
   "groww_source": {
@@ -16,21 +16,21 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 2,
+      "valuation": 4,
       "future": 0,
       "past": 4,
       "financial_health": 6,
       "dividends": 0,
       "future_growth": 0,
       "past_performance": 4,
-      "value": 2,
+      "value": 4,
       "health": 6,
       "dividend": 0
     },
-    "snowflake_total": 12,
+    "snowflake_total": 14,
     "snowflake_data_quality": {
       "insufficient": true,
-      "insufficient_count": 12,
+      "insufficient_count": 10,
       "checked_count": 30,
       "affected_pillars": [
         "Value",
@@ -40,7 +40,7 @@
       "by_pillar": {
         "Value": {
           "checked": 6,
-          "insufficient": 3
+          "insufficient": 1
         },
         "Future": {
           "checked": 6,
@@ -66,20 +66,298 @@
           "reason_code": "OUTCOME_NULL"
         },
         {
-          "pillar": "Value",
-          "title": "Below Future Cash Flow Value",
+          "pillar": "Future",
+          "title": "Future ROE",
           "reason_code": "OUTCOME_NULL"
         },
         {
-          "pillar": "Value",
-          "title": "Significantly Below Future Cash Flow Value",
+          "pillar": "Future",
+          "title": "High Growth Earnings",
           "reason_code": "OUTCOME_NULL"
         }
       ]
     },
-    "current_price_inr": 74.96,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 70.95,
     "market_cap_inr": 770000000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
@@ -91,6 +369,14 @@
       "min": null,
       "max": null,
       "count": 0
+    },
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "52104745-6a2f-4998-98d2-dce1ed935ba8",
+      "narrative_type": null,
+      "published_at": null
     },
     "upside_pct": null,
     "multiples": {
@@ -109,17 +395,17 @@
       "pe_source_url": "https://groww.in/stocks/naapbooks-ltd"
     },
     "rewards": [
-      "Price-To-Earnings ratio (12.3x) is below the Indian market (23.4x)",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Earnings grew by 180.8% over the past year"
+      "Earnings grew by 85.3% over the past year",
+      "Trading at 69.6% below our estimate of its fair value"
     ],
     "risks": [
       "Does not have a meaningful market cap (₹803M)",
       "High level of [[non-cash earnings]]",
+      "Does not have meaningful revenue (₹176M)",
       "Shareholders have been diluted in the past year",
-      "Highly volatile share price over past 3 months",
-      "Does not have meaningful revenue (₹181M)"
+      "Highly volatile share price over past 3 months"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -132,8 +418,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 18.761595487228476,
-      "net_income_margin_1y": 0.1202305246,
-      "future_revenue_growth_3y": 0.2209798542,
+      "net_income_margin_1y": 0.1114700445,
+      "future_revenue_growth_3y": 0.2229716203,
       "sector_pe": 18.761595487228476
     },
     "industry_benchmarks_meta": {
@@ -168,18 +454,18 @@
         "url": "https://groww.in/stocks/naapbooks-ltd"
       },
       "sws_statement": {
-        "company_pe": 12.3,
-        "industry_pe": 23.6,
+        "company_pe": 9.7,
+        "industry_pe": 23,
         "industry_name": "Indian IT",
-        "description": "543351 is good value based on its Price-To-Earnings Ratio (12.3x) compared to the Indian IT industry average (23.6x).",
+        "description": "543351 is good value based on its Price-To-Earnings Ratio (9.7x) compared to the Indian IT industry average (23x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 23.644221907,
+        "industry_pe": 22.964061807,
         "industry_code": "8030000",
         "type": "median_profitable",
-        "count": 126,
+        "count": 127,
         "source": {
           "type": "country",
           "country": "IN",
@@ -188,8 +474,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.4,
-        "sample_count": 123,
+        "industry_pe": 22.5,
+        "sample_count": 126,
         "industry_code": "8030000",
         "industry_name": "Software"
       },
@@ -201,8 +487,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 74.96,
-        "fetched_at": "2026-05-31T20:11:37.579Z",
+        "value": 70.95,
+        "fetched_at": "2026-06-10T23:11:29.311Z",
         "url": "https://simplywall.st/stocks/in/software/bse-543351/naapbooks-shares"
       },
       "market_cap_inr": {
@@ -249,14 +535,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.1202305246,
-        "fetched_at": "2026-05-31T20:11:37.579Z",
+        "value": 0.1114700445,
+        "fetched_at": "2026-06-10T23:11:29.311Z",
         "url": "https://simplywall.st/stocks/in/software/bse-543351/naapbooks-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.2209798542,
-        "fetched_at": "2026-05-31T20:11:37.579Z",
+        "value": 0.2229716203,
+        "fetched_at": "2026-06-10T23:11:29.311Z",
         "url": "https://simplywall.st/stocks/in/software/bse-543351/naapbooks-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -388,16 +674,16 @@
     "quick_ratio": 0,
     "cash_ratio": 0,
     "returns_pct": {
-      "1D": 5.473476853806107,
-      "7D": -1.3684210526315872,
-      "1M": -14.740673339399462,
-      "3M": -10.920974450386229,
-      "6M": -49.82597054886212,
-      "1Y": -38.17731958762887,
+      "1D": -5.387384984664612,
+      "7D": -4.1216216216216175,
+      "1M": -22.543668122270734,
+      "3M": -25.31578947368421,
+      "6M": -49.28520371694067,
+      "1Y": -52.51004016064257,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -638,6 +924,16 @@
     "BSE"
   ],
   "news": [
+    {
+      "id": "3fa1d6c1-e9ed-4df6-ae89-78bfbc61b034",
+      "type": "brief",
+      "date": "2026-06-01T07:58:54.000Z",
+      "title": "Full year 2026 earnings released: EPS: ₹7.66 (vs ₹4.70 in FY 2025)",
+      "body": "Full year 2026 results: EPS: ₹7.66 (up from ₹4.70 in FY 2025). Revenue: ₹178.4m (up 46% from FY 2025). Net income: ₹83.0m (up 85% from FY 2025). Profit margin: 47% (up from 37% in FY 2025). The increase in margin was driven by higher revenue. Over the last 3 years on average, earnings per share has increased by 55% per year but the company’s share price has only increased by 40% per year, which means it is significantly lagging earnings growth.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "8099171a-cece-4dc2-96b5-5b0fc9ac778a",
       "type": "event",

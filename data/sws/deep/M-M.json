@@ -21,17 +21,306 @@
       "dividend": 3
     },
     "snowflake_total": 16,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SAME_PB"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DECLINE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DECLINE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DIVIDENDS_NOT_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
     "current_price_inr": 3099,
     "market_cap_inr": 3463318440000,
     "market_cap_usd": 121304781320.862,
     "market_cap_band": "mega8",
     "shares_outstanding": 1117560000,
-    "fifty_two_week": null,
+    "fifty_two_week": {
+      "low": 2931.1,
+      "high": 3802.4
+    },
     "fair_value_inr": 4138.82857,
     "fair_value_range_inr": {
       "min": 627.8886,
       "max": 4143.64706,
       "count": 62
+    },
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "347422c0-6394-435c-8a18-f29ddcd681ce",
+      "narrative_type": null,
+      "published_at": "2026-05-16T05:05:36.785Z"
     },
     "upside_pct": 33.55368086479508,
     "multiples": {
@@ -249,7 +538,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 27.65,
+        "industry_pe": 28.25,
         "sample_count": 18,
         "industry_code": "4020000",
         "industry_name": "Automobiles"
@@ -267,6 +556,24 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 3099,
+        "fetched_at": "2026-05-21T21:22:39.349Z",
+        "url": "https://simplywall.st/stocks/in/automobiles/nse-m-m/mahindra-mahindra-shares"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 4138.82857,
+        "fetched_at": "2026-05-21T21:22:39.349Z",
+        "url": "https://simplywall.st/stocks/in/automobiles/nse-m-m/mahindra-mahindra-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "347422c0-6394-435c-8a18-f29ddcd681ce",
+        "narrative_type": null,
+        "published_at": "2026-05-16T05:05:36.785Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 33.55368086479508,
         "fetched_at": "2026-05-21T21:22:39.349Z",
         "url": "https://simplywall.st/stocks/in/automobiles/nse-m-m/mahindra-mahindra-shares"
       },
@@ -291,6 +598,15 @@
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
         "value": 0.4155911421,
+        "fetched_at": "2026-05-21T21:22:39.349Z",
+        "url": "https://simplywall.st/stocks/in/automobiles/nse-m-m/mahindra-mahindra-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 2931.1,
+          "high": 3802.4
+        },
         "fetched_at": "2026-05-21T21:22:39.349Z",
         "url": "https://simplywall.st/stocks/in/automobiles/nse-m-m/mahindra-mahindra-shares"
       }
@@ -327,7 +643,7 @@
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 5,
+    "recent_news_count": 1,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -843,16 +1159,6 @@
       "body": "Analysts have nudged their price target for Mahindra & Mahindra slightly higher to reflect modestly stronger long term revenue growth expectations, which are partially offset by a marginally higher discount rate and a stable profit margin outlook. What's in the News Mahindra & Mahindra unveiled the XUV 7XO as its next major premium SUV, building on the XUV700 platform with upgraded design, technology, comfort and performance to reinforce its leadership in the segment (product announcement).",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/automobiles/nse-m-m/mahindra-mahindra-shares/qo2p8x3v-india-manufacturing-partnerships-and-ev-momentum-will-drive-future-upside/updates/17-analysts-have-nudged-their-price-target-for-mahindra-and-mahin",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "630ffadc-d837-485c-9aa5-6923a28fc23b",
-      "type": "narrative-update",
-      "date": "2025-12-09T03:11:00.000Z",
-      "title": "M&M: Upcoming Insurance Venture Will Drive Long-Term Upside Potential",
-      "body": "Analysts have nudged their price target for Mahindra & Mahindra slightly higher to ₹4,132.31, citing a marginally improved long term earnings outlook reflected in small upward adjustments to the discount rate, revenue growth, profit margin, and future P E assumptions. What's in the News Mahindra & Mahindra and Manulife Financial Corporation agreed to form a 50:50 life insurance joint venture in India, targeting leadership in rural and semi urban markets and committing up to USD 400 million each over time (strategic alliance).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/automobiles/nse-m-m/mahindra-mahindra-shares/qo2p8x3v-india-manufacturing-partnerships-and-ev-momentum-will-drive-future-upside/updates/16-analysts-have-nudged-their-price-target-for-mahindra-and-mahin",
       "raw_subtype": "narrative-update"
     }
   ],

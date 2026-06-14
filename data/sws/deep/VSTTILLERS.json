@@ -3,7 +3,7 @@
   "name": "V.S.T. Tillers Tractors Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-vsttillers/vst-tillers-tractors-shares",
-  "parsed_at": "2026-05-31T23:12:47.981Z",
+  "parsed_at": "2026-06-11T02:20:02.555Z",
   "company_id": "2CADB1D4-7039-472C-BB41-25F74E6E73C0",
   "classification_status": "Active",
   "groww_source": {
@@ -28,22 +28,308 @@
       "dividend": 4
     },
     "snowflake_total": 18,
-    "current_price_inr": 4593,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT_5_YEARS_AGO"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NO_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 4531,
     "market_cap_inr": 40239200000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 3611.1,
       "high": 6374
     },
-    "fair_value_inr": 5389.8938,
+    "fair_value_inr": 5384.408807,
     "fair_value_range_inr": {
-      "min": 1795.366045,
-      "max": 1795.366045,
+      "min": 1843.410016,
+      "max": 1843.410016,
       "count": 2
     },
-    "upside_pct": 17.350180709775742,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "4d0f4ec2-1258-4966-b38f-d1a4c02cbc37",
+      "narrative_type": null,
+      "published_at": "2024-07-25T13:41:09.440Z"
+    },
+    "upside_pct": 18.83488870006621,
     "multiples": {
       "pe": 38.42,
       "ps": 3.24,
@@ -60,8 +346,8 @@
       "pe_source_url": "https://groww.in/stocks/vst-tillers-tractors-ltd"
     },
     "rewards": [
-      "Earnings grew by 12.6% over the past year",
-      "Earnings are forecast to grow 20.65% per year"
+      "Earnings are forecast to grow 20.65% per year",
+      "Earnings grew by 12.6% over the past year"
     ],
     "risks": [
       "Unstable dividend track record"
@@ -208,8 +494,8 @@
     "dividend_yield_pct": 0.54,
     "industry_benchmarks": {
       "pe": 24.54353882911374,
-      "net_income_margin_1y": 0.1031278814,
-      "future_revenue_growth_3y": 0.5858087225,
+      "net_income_margin_1y": 0.1061182964,
+      "future_revenue_growth_3y": 0.5866767627,
       "sector_pe": 24.54353882911374
     },
     "industry_benchmarks_meta": {
@@ -244,18 +530,18 @@
         "url": "https://groww.in/stocks/vst-tillers-tractors-ltd"
       },
       "sws_statement": {
-        "company_pe": 37.9,
-        "industry_pe": 26.4,
+        "company_pe": 37.5,
+        "industry_pe": 26,
         "industry_name": "Indian Machinery",
-        "description": "VSTTILLERS is expensive based on its Price-To-Earnings Ratio (37.9x) compared to the Indian Machinery industry average (26.4x).",
+        "description": "VSTTILLERS is expensive based on its Price-To-Earnings Ratio (37.5x) compared to the Indian Machinery industry average (26x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 25.908333666,
+        "industry_pe": 25.769114311,
         "industry_code": "3070000",
         "type": "median_profitable",
-        "count": 217,
+        "count": 220,
         "source": {
           "type": "country",
           "country": "IN",
@@ -264,8 +550,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 25.799999999999997,
-        "sample_count": 218,
+        "industry_pe": 25.6,
+        "sample_count": 219,
         "industry_code": "3070000",
         "industry_name": "Capital Goods"
       },
@@ -277,8 +563,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 4593,
-        "fetched_at": "2026-05-31T23:12:47.981Z",
+        "value": 4531,
+        "fetched_at": "2026-06-11T02:20:02.555Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-vsttillers/vst-tillers-tractors-shares"
       },
       "market_cap_inr": {
@@ -286,6 +572,24 @@
         "value": 40239200000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/vst-tillers-tractors-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 5384.408807,
+        "fetched_at": "2026-06-11T02:20:02.555Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-vsttillers/vst-tillers-tractors-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "4d0f4ec2-1258-4966-b38f-d1a4c02cbc37",
+        "narrative_type": null,
+        "published_at": "2024-07-25T13:41:09.440Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 18.83488870006621,
+        "fetched_at": "2026-06-11T02:20:02.555Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-vsttillers/vst-tillers-tractors-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -325,14 +629,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.1031278814,
-        "fetched_at": "2026-05-31T23:12:47.981Z",
+        "value": 0.1061182964,
+        "fetched_at": "2026-06-11T02:20:02.555Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-vsttillers/vst-tillers-tractors-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.5858087225,
-        "fetched_at": "2026-05-31T23:12:47.981Z",
+        "value": 0.5866767627,
+        "fetched_at": "2026-06-11T02:20:02.555Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-vsttillers/vst-tillers-tractors-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -464,12 +768,12 @@
     "quick_ratio": 4.979038613081166,
     "cash_ratio": 0.2617283950617284,
     "returns_pct": {
-      "1D": -0.9702457956015523,
-      "7D": -2.6184670836425314,
-      "1M": -11.639091958445556,
-      "3M": -20.48130193905817,
-      "6M": -18.00410604302419,
-      "1Y": 17.87501604003593,
+      "1D": -1.3348431069398816,
+      "7D": -2.8453802774620973,
+      "1M": -9.524760383386582,
+      "3M": -14.087978763746682,
+      "6M": -21.336805555555554,
+      "1Y": 19.46949322364605,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -925,6 +1229,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "3a17eb78-e501-4498-9f26-6c96824fae79",
+      "type": "brief",
+      "date": "2026-06-01T12:36:52.000Z",
+      "title": "Insufficient new directors",
+      "body": "There is 1 new director who has joined the board in the last 3 years. The company's board is composed of: 1 new director. 2 experienced directors. 4 highly experienced directors. Independent Director Kula Ajith Rai was the last director to join the board, commencing their role in 2023. The company’s insufficient board refreshment is considered a risk according to the Simply Wall St Risk Model.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "71280e5b-6f0b-4154-afc6-1fea7454a17d",
       "type": "brief",

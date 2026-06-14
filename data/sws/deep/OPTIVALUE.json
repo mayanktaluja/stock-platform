@@ -3,7 +3,7 @@
   "name": "Optivalue Tek Consulting Limited",
   "sector": "Software",
   "sws_url": "https://simplywall.st/stocks/in/software/nse-optivalue/optivalue-tek-consulting-shares",
-  "parsed_at": "2026-05-31T21:19:39.295Z",
+  "parsed_at": "2026-06-11T00:23:33.315Z",
   "company_id": "19C379EC-105A-4B0A-BA42-E0BA4B3B7BAD",
   "classification_status": "Active",
   "groww_source": null,
@@ -70,21 +70,310 @@
         }
       ]
     },
-    "current_price_inr": 85,
-    "market_cap_inr": 1989969306.0891182,
-    "market_cap_usd": 120714180851.549,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SAME_PB"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 78.95,
+    "market_cap_inr": 1848330314.3027754,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
-    "fifty_two_week": null,
+    "fifty_two_week": {
+      "low": 63,
+      "high": 105.3
+    },
     "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
+    "fair_value_source_detail": {
+      "method": "missing_consensus_narrative",
+      "owner_name": null,
+      "owner_classification": null,
+      "narrative_id": null,
+      "narrative_type": null,
+      "published_at": null
+    },
     "upside_pct": null,
     "multiples": {
-      "pe": 14.5,
+      "pe": 13.3,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -93,7 +382,7 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": "2026-05-31T21:19:39.295Z",
+      "pe_as_of": "2026-06-11T00:23:33.315Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://simplywall.st/stocks/in/software/nse-optivalue/optivalue-tek-consulting-shares"
     },
@@ -101,7 +390,7 @@
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Earnings have grown 30.2% per year over the past 5 years",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (14.5x) is below the Indian market (23.4x)"
+      "Price-To-Earnings ratio (13.3x) is below the Indian market (22.9x)"
     ],
     "risks": [
       "High level of [[non-cash earnings]]",
@@ -118,9 +407,9 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 23.644221907,
-      "net_income_margin_1y": 0.1202305246,
-      "future_revenue_growth_3y": 0.2209798542
+      "pe": 22.964061807,
+      "net_income_margin_1y": 0.1114700445,
+      "future_revenue_growth_3y": 0.2229716203
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -134,30 +423,30 @@
     "pe_benchmark_source": {
       "provider": "sws_industry_api",
       "label": "SWS industry API",
-      "company_pe": 14.5,
+      "company_pe": 13.3,
       "company_pe_source": "sws_statement",
       "company_pe_source_label": "SWS visible statement",
-      "industry_pe": 23.644221907,
+      "industry_pe": 22.964061807,
       "industry_name": "Software",
       "industry_code": "8030000",
-      "sample_count": 126,
+      "sample_count": 127,
       "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 14.5,
-        "industry_pe": 23.6,
+        "company_pe": 13.3,
+        "industry_pe": 23,
         "industry_name": "Indian IT",
-        "description": "OPTIVALUE is good value based on its Price-To-Earnings Ratio (14.5x) compared to the Indian IT industry average (23.6x).",
+        "description": "OPTIVALUE is good value based on its Price-To-Earnings Ratio (13.3x) compared to the Indian IT industry average (23x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 23.644221907,
+        "industry_pe": 22.964061807,
         "industry_code": "8030000",
         "type": "median_profitable",
-        "count": 126,
+        "count": 127,
         "source": {
           "type": "country",
           "country": "IN",
@@ -166,8 +455,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 21.4,
-        "sample_count": 123,
+        "industry_pe": 22.5,
+        "sample_count": 126,
         "industry_code": "8030000",
         "industry_name": "Software"
       },
@@ -179,32 +468,41 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 85,
-        "fetched_at": "2026-05-31T21:19:39.295Z",
+        "value": 78.95,
+        "fetched_at": "2026-06-11T00:23:33.315Z",
         "url": "https://simplywall.st/stocks/in/software/nse-optivalue/optivalue-tek-consulting-shares"
       },
       "multiples.pe": {
         "provider": "sws_statement",
-        "value": 14.5,
-        "fetched_at": "2026-05-31T21:19:39.295Z",
+        "value": 13.3,
+        "fetched_at": "2026-06-11T00:23:33.315Z",
         "url": "https://simplywall.st/stocks/in/software/nse-optivalue/optivalue-tek-consulting-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 23.644221907,
+        "value": 22.964061807,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.1202305246,
-        "fetched_at": "2026-05-31T21:19:39.295Z",
+        "value": 0.1114700445,
+        "fetched_at": "2026-06-11T00:23:33.315Z",
         "url": "https://simplywall.st/stocks/in/software/nse-optivalue/optivalue-tek-consulting-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.2209798542,
-        "fetched_at": "2026-05-31T21:19:39.295Z",
+        "value": 0.2229716203,
+        "fetched_at": "2026-06-11T00:23:33.315Z",
+        "url": "https://simplywall.st/stocks/in/software/nse-optivalue/optivalue-tek-consulting-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 63,
+          "high": 105.3
+        },
+        "fetched_at": "2026-06-11T00:23:33.315Z",
         "url": "https://simplywall.st/stocks/in/software/nse-optivalue/optivalue-tek-consulting-shares"
       }
     },
@@ -231,16 +529,16 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -0.5847953216374269,
-      "7D": 2.4096385542168677,
-      "1M": 7.868020304568532,
-      "3M": 23.18840579710145,
-      "6M": -0.23474178403756202,
-      "1Y": -17.15399610136452,
+      "1D": 0.7657945118060097,
+      "7D": -5.50568521843207,
+      "1M": -7.768691588785037,
+      "3M": 17.310549777117394,
+      "6M": 9.652777777777782,
+      "1Y": -23.050682261208568,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 4,
+    "recent_news_count": 5,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -300,6 +598,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "86b9efd7-c081-4511-90f1-d7f7cc1393ea",
+      "type": "article",
+      "date": "2026-06-05T02:59:22.000Z",
+      "title": "Optivalue Tek Consulting (NSE:OPTIVALUE) Strong Profits May Be Masking Some Underlying Issues",
+      "body": "Optivalue Tek Consulting Limited's ( NSE:OPTIVALUE ) healthy profit numbers didn't contain any surprises for investors...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/software/nse-optivalue/optivalue-tek-consulting-shares/news/optivalue-tek-consulting-nseoptivalue-strong-profits-may-be",
+      "raw_subtype": "article"
+    },
     {
       "id": "c135f146-c9c5-4745-aa92-d972dd0eb067",
       "type": "brief",

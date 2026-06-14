@@ -3,7 +3,7 @@
   "name": "Sanjivani Paranteral Limited",
   "sector": "Pharmaceuticals & Biotech",
   "sws_url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/bse-531569/sanjivani-paranteral-shares",
-  "parsed_at": "2026-05-31T22:02:33.127Z",
+  "parsed_at": "2026-06-11T01:14:56.540Z",
   "company_id": "C57F6EFF-A261-4D3F-82E7-77F7E02BD098",
   "classification_status": "Active",
   "groww_source": {
@@ -76,22 +76,308 @@
         }
       ]
     },
-    "current_price_inr": 145.55,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_EQUITY_NOW_POSITIVE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOO_EARLY"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOO_EARLY"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 140,
     "market_cap_inr": 1790400000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 126,
       "high": 268.8
     },
-    "fair_value_inr": 8.827684,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -93.93494744074201,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "83ad6b2f-55ef-48b4-8068-8892556564d2",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 26.74,
       "ps": 2.61,
@@ -109,10 +395,10 @@
     },
     "rewards": [
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (26.3x) is below the Pharmaceuticals industry average (29x)"
+      "Price-To-Earnings ratio (25.3x) is below the Pharmaceuticals industry average (28.7x)"
     ],
     "risks": [
-      "Dividend of 0.34% is not well covered by free cash flows",
+      "Dividend of 0.36% is not well covered by free cash flows",
       "Does not have a meaningful market cap (₹2B)",
       "Highly volatile share price over past 3 months",
       "High level of [[non-cash earnings]]"
@@ -134,7 +420,7 @@
           "divFreqTypeName": "Annual",
           "annualizedDividend": 0.5,
           "annualizedDividendListingCurrency": 0.5,
-          "annualizedYield": 0.2624530042
+          "annualizedYield": 0.2656169002
         }
       ],
       "payment_count": 1
@@ -142,8 +428,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 34.294011798524444,
-      "net_income_margin_1y": 0.1541587677,
-      "future_revenue_growth_3y": 0.423879921,
+      "net_income_margin_1y": 0.1540434066,
+      "future_revenue_growth_3y": 0.421486728,
       "sector_pe": 34.294011798524444
     },
     "industry_benchmarks_meta": {
@@ -178,15 +464,15 @@
         "url": "https://groww.in/stocks/sanjivani-paranteral-ltd"
       },
       "sws_statement": {
-        "company_pe": 26.3,
-        "industry_pe": 29,
+        "company_pe": 25.3,
+        "industry_pe": 28.7,
         "industry_name": "Indian Pharmaceuticals",
-        "description": "531569 is good value based on its Price-To-Earnings Ratio (26.3x) compared to the Indian Pharmaceuticals industry average (29x).",
+        "description": "531569 is good value based on its Price-To-Earnings Ratio (25.3x) compared to the Indian Pharmaceuticals industry average (28.7x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 29.045511308,
+        "industry_pe": 28.731688448,
         "industry_code": "6120000",
         "type": "median_profitable",
         "count": 152,
@@ -198,8 +484,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 28.1,
-        "sample_count": 151,
+        "industry_pe": 28.15,
+        "sample_count": 152,
         "industry_code": "6120000",
         "industry_name": "Pharmaceuticals & Biotech"
       },
@@ -211,8 +497,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 145.55,
-        "fetched_at": "2026-05-31T22:02:33.127Z",
+        "value": 140,
+        "fetched_at": "2026-06-11T01:14:56.540Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/bse-531569/sanjivani-paranteral-shares"
       },
       "market_cap_inr": {
@@ -259,14 +545,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.1541587677,
-        "fetched_at": "2026-05-31T22:02:33.127Z",
+        "value": 0.1540434066,
+        "fetched_at": "2026-06-11T01:14:56.540Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/bse-531569/sanjivani-paranteral-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.423879921,
-        "fetched_at": "2026-05-31T22:02:33.127Z",
+        "value": 0.421486728,
+        "fetched_at": "2026-06-11T01:14:56.540Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/bse-531569/sanjivani-paranteral-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -398,16 +684,16 @@
     "quick_ratio": 0.9617279272451685,
     "cash_ratio": 0.0515346722243274,
     "returns_pct": {
-      "1D": -0.1372212692967332,
-      "7D": 0.17205781142463866,
-      "1M": -10.869565217391305,
-      "3M": -24.25188654696851,
-      "6M": -22.373333333333328,
-      "1Y": -41.084800647642176,
+      "1D": -6.666666666666667,
+      "7D": -2.5748086290883707,
+      "1M": -11.082883455065094,
+      "3M": -15.688045769346587,
+      "6M": -37.219730941704036,
+      "1Y": -40.61505832449629,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 1,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -486,7 +772,7 @@
         "divFreqTypeName": "Annual",
         "annualizedDividend": 0.5,
         "annualizedDividendListingCurrency": 0.5,
-        "annualizedYield": 0.2624530042
+        "annualizedYield": 0.2656169002
       }
     ],
     "payment_count": 1
@@ -805,16 +1091,6 @@
       "date": "2026-01-14T11:45:56.000Z",
       "title": "Investor sentiment deteriorates as stock falls 19%",
       "body": "After last week's 19% share price decline to ₹193, the stock trades at a trailing P/E ratio of 31.9x. Average trailing P/E is 28x in the Pharmaceuticals industry in India. Total returns to shareholders of 428% over the past three years.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "60169fb0-b106-4057-afd6-a9261b25d21d",
-      "type": "brief",
-      "date": "2025-12-04T12:35:26.000Z",
-      "title": "Investor sentiment improves as stock rises 17%",
-      "body": "After last week's 17% share price gain to ₹217, the stock trades at a trailing P/E ratio of 35.8x. Average trailing P/E is 29x in the Pharmaceuticals industry in India. Total returns to shareholders of 424% over the past three years.",
       "keyDevTypeId": null,
       "source_url": null,
       "raw_subtype": "BriefActivity"

@@ -3,7 +3,7 @@
   "name": "Arman Financial Services Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/diversified-financials/nse-armanfin/arman-financial-services-shares",
-  "parsed_at": "2026-05-31T21:15:28.147Z",
+  "parsed_at": "2026-06-11T00:10:47.944Z",
   "company_id": "7C65FDD9-7530-4BA6-B9E0-0F613E994745",
   "classification_status": "Active",
   "groww_source": {
@@ -78,22 +78,308 @@
         }
       ]
     },
-    "current_price_inr": 1686.1,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 1603.5,
     "market_cap_inr": 18942300000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 1270,
       "high": 1906.6
     },
-    "fair_value_inr": 346.3092,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 346.3092,
-      "max": 346.3092,
+      "min": 348.596554,
+      "max": 348.596554,
       "count": 1
     },
-    "upside_pct": -79.46093351521263,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "e63434d0-490b-4116-8049-ce13e327c556",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 66.8,
       "ps": 2.83,
@@ -114,8 +400,7 @@
     ],
     "risks": [
       "Debt is not well covered by [[operating cash flow]]",
-      "High level of [[non-cash earnings]]",
-      "Profit margins (12.9%) are lower than last year (21.2%)"
+      "High level of [[non-cash earnings]]"
     ],
     "dividend": {
       "yield_pct": 0,
@@ -181,8 +466,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 18.85756396507594,
-      "net_income_margin_1y": 0.318282225,
-      "future_revenue_growth_3y": 1.129623645,
+      "net_income_margin_1y": 0.3172599264,
+      "future_revenue_growth_3y": 1.140962972,
       "sector_pe": 18.85756396507594
     },
     "industry_benchmarks_meta": {
@@ -217,18 +502,18 @@
         "url": "https://groww.in/stocks/arman-financial-services-ltd"
       },
       "sws_statement": {
-        "company_pe": 31.3,
-        "industry_pe": 20.1,
+        "company_pe": 29.5,
+        "industry_pe": 20.3,
         "industry_name": "Indian Consumer Finance",
-        "description": "ARMANFIN is expensive based on its Price-To-Earnings Ratio (31.3x) compared to the Indian Consumer Finance industry average (20.1x).",
+        "description": "ARMANFIN is expensive based on its Price-To-Earnings Ratio (29.5x) compared to the Indian Consumer Finance industry average (20.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 20.116846802,
+        "industry_pe": 20.292129088,
         "industry_code": "7120000",
         "type": "median_profitable",
-        "count": 79,
+        "count": 80,
         "source": {
           "type": "country",
           "country": "IN",
@@ -237,8 +522,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 19.8,
-        "sample_count": 80,
+        "industry_pe": 19.6,
+        "sample_count": 81,
         "industry_code": "7120000",
         "industry_name": "Diversified Financials"
       },
@@ -250,8 +535,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1686.1,
-        "fetched_at": "2026-05-31T21:15:28.147Z",
+        "value": 1603.5,
+        "fetched_at": "2026-06-11T00:10:47.944Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-armanfin/arman-financial-services-shares"
       },
       "market_cap_inr": {
@@ -298,14 +583,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.318282225,
-        "fetched_at": "2026-05-31T21:15:28.147Z",
+        "value": 0.3172599264,
+        "fetched_at": "2026-06-11T00:10:47.944Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-armanfin/arman-financial-services-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 1.129623645,
-        "fetched_at": "2026-05-31T21:15:28.147Z",
+        "value": 1.140962972,
+        "fetched_at": "2026-06-11T00:10:47.944Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-armanfin/arman-financial-services-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -437,12 +722,12 @@
     "quick_ratio": 5.051546391752577,
     "cash_ratio": 4.672914714151828,
     "returns_pct": {
-      "1D": -6.494010647737364,
-      "7D": -1.154883339195688,
-      "1M": 10.680057765524472,
-      "3M": 7.566188197767139,
-      "6M": 2.9302240400463955,
-      "1Y": 11.921672751410549,
+      "1D": -0.3480206326517873,
+      "7D": 2.0038167938931295,
+      "1M": -14.634795570698472,
+      "3M": 16.288345782870397,
+      "6M": 8.154593282072042,
+      "1Y": -8.866155157715259,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -453,103 +738,103 @@
   "ownership": {
     "top_holders": [
       {
-        "pct": 10.12563,
+        "pct": 10.12386,
         "shares": 1064500,
         "is_insider": null
       },
       {
-        "pct": 9.0204,
+        "pct": 9.01883,
         "shares": 948308,
         "is_insider": null
       },
       {
-        "pct": 6.32796,
+        "pct": 6.32685,
         "shares": 665253,
         "is_insider": null
       },
       {
-        "pct": 4.14812,
+        "pct": 4.1474,
         "shares": 436089,
         "is_insider": null
       },
       {
-        "pct": 3.80484,
+        "pct": 3.80418,
         "shares": 400000,
         "is_insider": null
       },
       {
-        "pct": 2.41579,
+        "pct": 2.41537,
         "shares": 253970,
         "is_insider": null
       },
       {
-        "pct": 2.35719,
+        "pct": 2.35677,
         "shares": 247809,
         "is_insider": null
       },
       {
-        "pct": 1.85353,
+        "pct": 1.8532,
         "shares": 194860,
         "is_insider": null
       },
       {
-        "pct": 1.79308,
+        "pct": 1.79277,
         "shares": 188505,
         "is_insider": null
       },
       {
-        "pct": 1.1279,
+        "pct": 1.1277,
         "shares": 118575,
         "is_insider": null
       },
       {
-        "pct": 1.11196,
+        "pct": 1.11177,
         "shares": 116900,
         "is_insider": null
       },
       {
-        "pct": 1.09723,
+        "pct": 1.09704,
         "shares": 115351,
         "is_insider": null
       },
       {
-        "pct": 1.04633,
+        "pct": 1.04615,
         "shares": 110000,
         "is_insider": null
       },
       {
-        "pct": 1.03682,
+        "pct": 1.03664,
         "shares": 109000,
         "is_insider": null
       },
       {
-        "pct": 1.02732,
+        "pct": 1.02714,
         "shares": 108001,
         "is_insider": null
       },
       {
-        "pct": 0.40228,
+        "pct": 0.40221,
         "shares": 42291,
         "is_insider": null
       },
       {
-        "pct": 0.31813,
+        "pct": 0.31808,
         "shares": 33445,
         "is_insider": null
       },
       {
-        "pct": 0.11613,
+        "pct": 0.11611,
         "shares": 12209,
         "is_insider": null
       },
       {
-        "pct": 0.09227,
+        "pct": 0.09225,
         "shares": 9700,
         "is_insider": null
       },
       {
-        "pct": 0.07261,
-        "shares": 7633,
+        "pct": 0.08506,
+        "shares": 8944,
         "is_insider": null
       }
     ],
@@ -831,6 +1116,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "53392318-f0f4-4b08-84ed-0ad9f96324da",
+      "type": "event",
+      "date": "2026-06-09T13:34:00.000Z",
+      "title": "Arman Financial Services Limited Appoints Pushpendrakumar as Interim Head - Internal Audit and Reconstitution of Board Committees, with Effect from June 09, 2026",
+      "body": "Arman Financial Services Limited approved, by way of Circular Resolution, the appointment of Mr. Pushpendrakumar as Interim Head - Internal Audit and designated him as a Senior Management Personnel of the Company with effect from June 09, 2026. Mr. Pushpendrakumar is a seasoned professional with over 16 years of experience in the Banking, NBFC, and NBFC-MFI sectors including AU Small Finance Bank, Utkarsh Small Finance Bank, IIFL Samasta Finance, Muthoot Fincorp, Asirvad Micro Finance, and Satin Creditcare Network Limited. He holds an MBA from Technical University, Kota and a Bachelor of Computer Applications (BCA) from Rajasthan University. Throughout his career, he has gained extensive experience in internal audit, risk management, operational controls, compliance monitoring, branch audi",
+      "keyDevTypeId": "16",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
     {
       "id": "c5a2a6d6-b421-42ca-a088-156a1794e5d1",
       "type": "brief",

@@ -3,7 +3,7 @@
   "name": "Zenlabs Ethica Limited",
   "sector": "Healthcare",
   "sws_url": "https://simplywall.st/stocks/in/healthcare/bse-530697/zenlabs-ethica-shares",
-  "parsed_at": "2026-05-31T21:57:13.301Z",
+  "parsed_at": "2026-06-11T00:51:45.559Z",
   "company_id": "D0B14122-6B71-430D-95DF-435EF857F407",
   "classification_status": "Active",
   "groww_source": null,
@@ -70,19 +70,308 @@
         }
       ]
     },
-    "current_price_inr": 37.77,
-    "market_cap_inr": 245883255.15218708,
-    "market_cap_usd": 120714180851.549,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASING_LOSSES"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 33.97,
+    "market_cap_inr": 221145199.29890904,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
-    "fifty_two_week": null,
-    "fair_value_inr": 104.266286,
+    "fifty_two_week": {
+      "low": 17.17,
+      "high": 38.2
+    },
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 176.0558273762245,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "5b0d38bb-d165-4b0a-87a3-26ad7ccd9c86",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": null,
       "ps": null,
@@ -99,13 +388,14 @@
     },
     "rewards": [
       "Trading at good value vs. industry average Price-To-Sales ratio",
-      "Trading at 63.8% below our estimate of its fair value"
+      "Trading at 66.3% below our estimate of its fair value"
     ],
     "risks": [
-      "Earnings have declined by 44% per year over past 5 years",
+      "Earnings have declined by 56.8% per year over past 5 years",
       "Interest payments are not well covered by earnings",
       "Highly volatile share price over past 3 months",
-      "Does not have a meaningful market cap (₹246M)"
+      "Does not have meaningful revenue (₹469M)",
+      "Does not have a meaningful market cap (₹241M)"
     ],
     "dividend": {
       "yield_pct": 0.881593848,
@@ -144,9 +434,9 @@
     },
     "dividend_yield_pct": 0.881593848,
     "industry_benchmarks": {
-      "pe": 37.439100813,
-      "net_income_margin_1y": 0.1249783351,
-      "future_revenue_growth_3y": 0.8191622289
+      "pe": 39.956076252,
+      "net_income_margin_1y": 0.1248504866,
+      "future_revenue_growth_3y": 0.8308858435
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -163,27 +453,27 @@
       "company_pe": null,
       "company_pe_source": null,
       "company_pe_source_label": null,
-      "industry_pe": 37.439100813,
+      "industry_pe": 39.956076252,
       "industry_name": "Healthcare",
       "industry_code": "6030000",
-      "sample_count": 80,
+      "sample_count": 79,
       "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 2.5,
+        "industry_pe": 2.6,
         "industry_name": "Indian Healthcare",
-        "description": "530697 is good value based on its Price-To-Sales Ratio (0.5x) compared to the Indian Healthcare industry average (2.5x).",
+        "description": "530697 is good value based on its Price-To-Sales Ratio (0.5x) compared to the Indian Healthcare industry average (2.6x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 37.439100813,
+        "industry_pe": 39.956076252,
         "industry_code": "6030000",
         "type": "median_profitable",
-        "count": 80,
+        "count": 79,
         "source": {
           "type": "country",
           "country": "IN",
@@ -192,8 +482,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 35.1,
-        "sample_count": 75,
+        "industry_pe": 33.650000000000006,
+        "sample_count": 74,
         "industry_code": "6030000",
         "industry_name": "Healthcare"
       },
@@ -205,26 +495,35 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 37.77,
-        "fetched_at": "2026-05-31T21:57:13.301Z",
+        "value": 33.97,
+        "fetched_at": "2026-06-11T00:51:45.559Z",
         "url": "https://simplywall.st/stocks/in/healthcare/bse-530697/zenlabs-ethica-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 37.439100813,
+        "value": 39.956076252,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.1249783351,
-        "fetched_at": "2026-05-31T21:57:13.301Z",
+        "value": 0.1248504866,
+        "fetched_at": "2026-06-11T00:51:45.559Z",
         "url": "https://simplywall.st/stocks/in/healthcare/bse-530697/zenlabs-ethica-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.8191622289,
-        "fetched_at": "2026-05-31T21:57:13.301Z",
+        "value": 0.8308858435,
+        "fetched_at": "2026-06-11T00:51:45.559Z",
+        "url": "https://simplywall.st/stocks/in/healthcare/bse-530697/zenlabs-ethica-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 17.17,
+          "high": 38.2
+        },
+        "fetched_at": "2026-06-11T00:51:45.559Z",
         "url": "https://simplywall.st/stocks/in/healthcare/bse-530697/zenlabs-ethica-shares"
       }
     },
@@ -251,16 +550,16 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": 1.9433198380566965,
-      "7D": 25.60691719321584,
-      "1M": 64.2888212266203,
-      "3M": 80.02859866539562,
-      "6M": 31.236970118137602,
-      "1Y": 17.152605459057074,
+      "1D": -4.979020979020983,
+      "7D": -6.803840877914963,
+      "1M": 17.828650711064867,
+      "3M": 62.14797136038186,
+      "6M": 48.860648553900084,
+      "1Y": 2.8147699757869242,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -373,6 +672,16 @@
   ],
   "news": [
     {
+      "id": "1121a8b3-6a03-4275-85c1-b5bb93a4ab22",
+      "type": "brief",
+      "date": "2026-05-31T22:56:26.000Z",
+      "title": "Full year 2026 earnings released: ₹2.97 loss per share (vs ₹0.41 profit in FY 2025)",
+      "body": "Full year 2026 results: ₹2.97 loss per share (down from ₹0.41 profit in FY 2025). Revenue: ₹471.1m (down 8.4% from FY 2025). Net loss: ₹19.4m (down ₹22.0m from profit in FY 2025). Over the last 3 years on average, the company's share price growth rate has exceeded its earnings growth rate by 83 percentage points per year, which is a significant difference in performance.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
       "id": "fa098413-855a-4b0c-af22-506f93d87c57",
       "type": "event",
       "date": "2026-05-29T11:50:00.000Z",
@@ -438,16 +747,6 @@
       "date": "2026-01-13T11:57:01.000Z",
       "title": "New major risk - Share price stability",
       "body": "The company's share price has been highly volatile over the past 3 months. It is more volatile than 90% of Indian stocks, typically moving 8.5% a week. This is considered a major risk. Share price volatility increases the risk of potential losses in the short-term as the stock tends to have larger drops in price more frequently than other stocks. It may also indicate the stock is highly sensitive to market conditions or economic conditions rather than being sensitive to its own business performance, which may also be inconsistent. Currently, the following risks have been identified for the company: Major Risks Interest payments are not well covered by earnings (1.4x net interest cover). Share price has been highly volatile over the past 3 months (8.5% average weekly change). Market cap is ",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
-    },
-    {
-      "id": "234874d4-c545-4c38-9903-6d0402c0bc35",
-      "type": "brief",
-      "date": "2025-12-04T11:48:41.000Z",
-      "title": "Investor sentiment deteriorates as stock falls 17%",
-      "body": "After last week's 17% share price decline to ₹24.83, the stock trades at a trailing P/E ratio of 65.5x. Average trailing P/E is 42x in the Healthcare industry in India. Total loss to shareholders of 64% over the past three years.",
       "keyDevTypeId": null,
       "source_url": null,
       "raw_subtype": "BriefActivity"

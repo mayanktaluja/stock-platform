@@ -3,7 +3,7 @@
   "name": "Punjab National Bank",
   "sector": "Banks",
   "sws_url": "https://simplywall.st/stocks/in/banks/nse-pnb/punjab-national-bank-shares",
-  "parsed_at": "2026-05-31T21:32:21.002Z",
+  "parsed_at": "2026-06-11T00:34:32.812Z",
   "company_id": "2E9E3A4A-8DBC-4DD8-83AC-95D1CE8311B7",
   "classification_status": "Active",
   "groww_source": {
@@ -65,22 +65,308 @@
         }
       ]
     },
-    "current_price_inr": 106.05,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "BankHealth",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAppropriateBadLoanAllowance",
+          "title": "Allowance for Bad Loans",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAppropriateNonPerformingLoans",
+          "title": "Level of Bad Loans",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasPrimarilyLowRiskFunding",
+          "title": "Low Risk Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAppropriateLoanLevel",
+          "title": "Loan Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasPrimarilyDepositFunding",
+          "title": "Low Risk Deposits",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasAnAppropriateLevelOfAssets",
+          "title": "Asset Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_MODERATE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DIVIDENDS_FALLEN"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredIn3Years",
+          "title": "Future Dividend Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_WELL_COVERED_BY_EARNINGS"
+        }
+      ]
+    },
+    "current_price_inr": 107.17,
     "market_cap_inr": 1225722400000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "mega8",
     "shares_outstanding": 11492943268,
     "fifty_two_week": {
       "low": 98.5,
       "high": 135.15
     },
-    "fair_value_inr": 126.64706,
+    "fair_value_inr": 119.70588,
     "fair_value_range_inr": {
       "min": 73.91,
-      "max": 126.64706,
+      "max": 119.70588,
       "count": 33
     },
-    "upside_pct": 19.4220273455917,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "68cd394c-459e-4600-ace9-4d1fc60eb27d",
+      "narrative_type": null,
+      "published_at": "2026-06-05T06:07:13.364Z"
+    },
+    "upside_pct": 11.697191378184185,
     "multiples": {
       "pe": 6.64,
       "ps": 0.82,
@@ -97,7 +383,7 @@
       "pe_source_url": "https://groww.in/stocks/punjab-national-bank"
     },
     "rewards": [
-      "Price-To-Earnings ratio (6.6x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (6.9x) is below the Indian market (22.9x)",
       "Trading below our calculated fair Price-To-Earnings ratio",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio"
@@ -107,7 +393,7 @@
     ],
     "dividend": {
       "yield_pct": 2.81,
-      "payout_pct": 18.734625351286148,
+      "payout_pct": 18.121077165547835,
       "annualized_dividend": 2.9,
       "listing_currency": "INR",
       "recent_payments": [
@@ -169,8 +455,8 @@
     "dividend_yield_pct": 2.81,
     "industry_benchmarks": {
       "pe": 12.587464209030458,
-      "net_income_margin_1y": 0.3177821454,
-      "future_revenue_growth_3y": 0.2745257838,
+      "net_income_margin_1y": 0.3178841988,
+      "future_revenue_growth_3y": 0.2771620146,
       "sector_pe": 12.587464209030458
     },
     "industry_benchmarks_meta": {
@@ -205,15 +491,15 @@
         "url": "https://groww.in/stocks/punjab-national-bank"
       },
       "sws_statement": {
-        "company_pe": 6.6,
-        "industry_pe": 11.4,
+        "company_pe": 6.9,
+        "industry_pe": 11.6,
         "industry_name": "Indian Banks",
-        "description": "PNB is good value based on its Price-To-Earnings Ratio (6.6x) compared to the Indian Banks industry average (11.4x).",
+        "description": "PNB is good value based on its Price-To-Earnings Ratio (6.9x) compared to the Indian Banks industry average (11.6x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 11.441700538,
+        "industry_pe": 11.624761504,
         "industry_code": "7011000",
         "type": "median_profitable",
         "count": 39,
@@ -225,25 +511,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 11.4,
+        "industry_pe": 11.75,
         "sample_count": 40,
         "industry_code": "7011000",
         "industry_name": "Banks"
       },
       "sws_primary_industry": {
-        "industry_pe": 11.055229769,
+        "industry_pe": 11.140031027,
         "industry_name": "Banks",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 6.851058684496192
+        "company_pe": 6.696675309764694
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 106.05,
-        "fetched_at": "2026-05-31T21:32:21.002Z",
+        "value": 107.17,
+        "fetched_at": "2026-06-11T00:34:32.812Z",
         "url": "https://simplywall.st/stocks/in/banks/nse-pnb/punjab-national-bank-shares"
       },
       "market_cap_inr": {
@@ -251,6 +537,24 @@
         "value": 1225722400000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/punjab-national-bank"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 119.70588,
+        "fetched_at": "2026-06-11T00:34:32.812Z",
+        "url": "https://simplywall.st/stocks/in/banks/nse-pnb/punjab-national-bank-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "68cd394c-459e-4600-ace9-4d1fc60eb27d",
+        "narrative_type": null,
+        "published_at": "2026-06-05T06:07:13.364Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 11.697191378184185,
+        "fetched_at": "2026-06-11T00:34:32.812Z",
+        "url": "https://simplywall.st/stocks/in/banks/nse-pnb/punjab-national-bank-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -290,14 +594,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.3177821454,
-        "fetched_at": "2026-05-31T21:32:21.002Z",
+        "value": 0.3178841988,
+        "fetched_at": "2026-06-11T00:34:32.812Z",
         "url": "https://simplywall.st/stocks/in/banks/nse-pnb/punjab-national-bank-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.2745257838,
-        "fetched_at": "2026-05-31T21:32:21.002Z",
+        "value": 0.2771620146,
+        "fetched_at": "2026-06-11T00:34:32.812Z",
         "url": "https://simplywall.st/stocks/in/banks/nse-pnb/punjab-national-bank-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -406,13 +710,13 @@
         "url": "https://groww.in/stocks/punjab-national-bank"
       }
     },
-    "earnings_growth_yoy_pct": -3.733437083508971,
+    "earnings_growth_yoy_pct": 10.63731366895829,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 2.6348422257291397,
-    "latest_revenue": 513072500000,
-    "latest_net_income": 177903400000,
+    "revenue_growth_pct": 12.222544584220026,
+    "latest_revenue": 589106300000,
+    "latest_net_income": 183926900000,
     "latest_eps": 16.07,
-    "most_recent_reported_date": "2026-04-24",
+    "most_recent_reported_date": "2026-06-04",
     "pb": 0.87,
     "ps": 0.82,
     "book_value": 123.2615313,
@@ -429,24 +733,24 @@
     "quick_ratio": 0,
     "cash_ratio": 0,
     "returns_pct": {
-      "1D": -0.5812318365051135,
-      "7D": 3.302162478082993,
-      "1M": -4.61413923367513,
-      "3M": -18.070148331273177,
-      "6M": -14.819277108433738,
-      "1Y": -2.222017333579197,
+      "1D": -2.261741906064755,
+      "7D": 1.294896030245751,
+      "1M": 2.4373924679793513,
+      "3M": -8.095360603721806,
+      "6M": -9.031491384432561,
+      "1Y": -2.8377153218494975,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 3,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
   "ownership": {
     "top_holders": [
       {
-        "pct": 70.07888,
-        "shares": 8054125685,
+        "pct": 70.08,
+        "shares": 8054254642,
         "is_insider": null
       },
       {
@@ -465,8 +769,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.83878,
-        "shares": 96400150,
+        "pct": 0.9036,
+        "shares": 103850144,
         "is_insider": null
       },
       {
@@ -515,8 +819,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.22054,
-        "shares": 25346433,
+        "pct": 0.22158,
+        "shares": 25466239,
         "is_insider": null
       },
       {
@@ -525,8 +829,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.17963,
-        "shares": 20645184,
+        "pct": 0.17988,
+        "shares": 20673676,
         "is_insider": null
       },
       {
@@ -557,7 +861,7 @@
   },
   "dividend": {
     "yield_pct": 2.81,
-    "payout_pct": 18.734625351286148,
+    "payout_pct": 18.121077165547835,
     "annualized_dividend": 2.9,
     "listing_currency": "INR",
     "recent_payments": [
@@ -617,44 +921,44 @@
     "payment_count": 4
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-04-24",
+    "most_recent_reported_date": "2026-06-04",
     "latest_year": 2026,
-    "latest_revenue": 513072500000,
-    "latest_net_income": 177903400000,
+    "latest_revenue": 589106300000,
+    "latest_net_income": 183926900000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 2.6348422257291397,
-    "earnings_growth_pct": -3.733437083508971,
-    "net_margin_pct": 34.67412500182723,
+    "revenue_growth_pct": 12.222544584220026,
+    "earnings_growth_pct": 10.63731366895829,
+    "net_margin_pct": 31.22134324484393,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 513072500000,
-        "netIncome": 177903400000,
+        "revenue": 589106300000,
+        "netIncome": 183926900000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 499900900000,
-        "netIncome": 184802900000,
+        "revenue": 524944699999.99994,
+        "netIncome": 166243100000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 421406900000,
-        "netIncome": 91072000000,
+        "revenue": 464480000000,
+        "netIncome": 117410100000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 274050200000,
-        "netIncome": 33484500000,
+        "revenue": 310947800000,
+        "netIncome": 44087700000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 241667300000,
-        "netIncome": 38607400000,
+        "revenue": 232205700000,
+        "netIncome": 29741400000,
         "eps": null
       }
     ]
@@ -886,6 +1190,26 @@
   ],
   "news": [
     {
+      "id": "6d4f8610-117c-4b5c-bf63-bb0c8ce56228",
+      "type": "brief",
+      "date": "2026-06-05T11:34:13.000Z",
+      "title": "Upcoming dividend of ₹3.00 per share",
+      "body": "Eligible shareholders must have bought the stock before 12 June 2026. Payment date: 20 July 2026. Payout ratio is a comfortable 19% but the company is not cash flow positive. Trailing yield: 2.8%. Within top quartile of Indian dividend payers (1.5%). Higher than average of industry peers (1.5%).",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "674e2d75-20fa-4b2c-b59e-22a93381c770",
+      "type": "narrative-update",
+      "date": "2026-06-05T06:07:13.000Z",
+      "title": "PNB: Dividend Outlook And Margin Strength Will Support Future Upside",
+      "body": "Analysts have trimmed their price target for Punjab National Bank from about ₹127 to about ₹120, citing updated assumptions that now factor in a lower revenue growth outlook, a higher profit margin, and a slightly lower future P/E multiple. What's in the News Punjab National Bank has scheduled a board meeting on May 5, 2026, to consider and approve audited standalone and consolidated financial results for the quarter and year ended March 31, 2026, and to consider recommending a dividend, subject to shareholder approval in the upcoming 2026 AGM.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/banks/nse-pnb/punjab-national-bank-shares/zbk5v2ig-pnb-upcoming-leadership-transition-and-financial-review-will-shape-outlook/updates/23-analysts-have-trimmed-their-price-target-for-punjab-national",
+      "raw_subtype": "narrative-update"
+    },
+    {
       "id": "fd572958-776e-4a48-a288-5fa3c7573ee6",
       "type": "brief",
       "date": "2026-05-07T17:24:14.000Z",
@@ -1083,16 +1407,6 @@
       "body": "Analysts have modestly lifted their price target for Punjab National Bank to ₹122.94 from ₹120.95, citing slightly firmer profit margin assumptions and a small adjustment in the forward P/E used in their models. What's in the News Punjab National Bank has put on the block bad loans worth INR 7,600 million, including non performing exposures to Gammon India, Simbhaoli Sugars, Ranchi Expressways and several smaller borrowers, as part of an asset sale to reconstruction firms (Key Developments).",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/banks/nse-pnb/punjab-national-bank-shares/zbk5v2ig-pnb-upcoming-leadership-transition-and-financial-review-will-shape-outlook/updates/15-analysts-have-modestly-lifted-their-price-target-for-punjab",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "4d8e90b7-b2b3-4663-94c2-62b91e75e144",
-      "type": "narrative-update",
-      "date": "2025-12-16T08:05:08.000Z",
-      "title": "PNB: Upcoming Board Review Will Shape Outlook Amid Steady Margins",
-      "body": "Analysts have slightly raised their price target on Punjab National Bank to ₹120.95 per share from ₹120.95, reflecting modestly improved assumptions around the bank's discount rate and forward earnings multiple, while maintaining stable growth and margin expectations. What's in the News The board meeting is scheduled for October 18, 2025, at 11:15 IST to review and approve the unaudited financial results for the quarter and half year ended September 30, 2025 (company filing).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/banks/nse-pnb/punjab-national-bank-shares/zbk5v2ig-pnb-upcoming-leadership-transition-and-financial-review-will-shape-outlook/updates/14-analysts-have-slightly-raised-their-price-target-on-punjab-n",
       "raw_subtype": "narrative-update"
     }
   ],

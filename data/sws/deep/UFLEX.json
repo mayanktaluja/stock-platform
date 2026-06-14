@@ -3,7 +3,7 @@
   "name": "Uflex Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-uflex/uflex-shares",
-  "parsed_at": "2026-05-31T22:56:33.598Z",
+  "parsed_at": "2026-06-11T02:01:01.181Z",
   "company_id": "AC34F962-86E5-4722-8329-66C55E1D7663",
   "classification_status": "Active",
   "groww_source": {
@@ -76,22 +76,308 @@
         }
       ]
     },
-    "current_price_inr": 423.95,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DIVIDENDS_FALLEN"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 413.5,
     "market_cap_inr": 29556200000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 330,
       "high": 648
     },
-    "fair_value_inr": 18.065709,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -95.7387170656917,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "dc989d81-4d74-4830-ab6a-6b7ccf04fa42",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 10.21,
       "ps": 0.2,
@@ -110,13 +396,13 @@
     "rewards": [
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (9.7x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (9.4x) is below the Indian market (23.2x)",
       "Earnings grew by 122.8% over the past year"
     ],
     "risks": [
       "Interest payments are not well covered by earnings",
       "Earnings have declined by 38.6% per year over past 5 years",
-      "Dividend of 0.71% is not well covered by free cash flows"
+      "Dividend of 0.73% is not well covered by free cash flows"
     ],
     "dividend": {
       "yield_pct": 0.73,
@@ -260,8 +546,8 @@
     "dividend_yield_pct": 0.73,
     "industry_benchmarks": {
       "pe": 23.156212158832627,
-      "net_income_margin_1y": 0.08290400815,
-      "future_revenue_growth_3y": 0.1742544252,
+      "net_income_margin_1y": 0.06909072618,
+      "future_revenue_growth_3y": 0.1722687041,
       "sector_pe": 23.156212158832627
     },
     "industry_benchmarks_meta": {
@@ -296,18 +582,18 @@
         "url": "https://groww.in/stocks/uflex-ltd"
       },
       "sws_statement": {
-        "company_pe": 9.7,
-        "industry_pe": 17.1,
+        "company_pe": 9.4,
+        "industry_pe": 17.2,
         "industry_name": "Indian Packaging",
-        "description": "UFLEX is good value based on its Price-To-Earnings Ratio (9.7x) compared to the Indian Packaging industry average (17.1x).",
+        "description": "UFLEX is good value based on its Price-To-Earnings Ratio (9.4x) compared to the Indian Packaging industry average (17.2x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 17.117180323,
+        "industry_pe": 17.175703166,
         "industry_code": "2040000",
         "type": "median_profitable",
-        "count": 84,
+        "count": 86,
         "source": {
           "type": "country",
           "country": "IN",
@@ -316,8 +602,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17,
-        "sample_count": 85,
+        "industry_pe": 16.950000000000003,
+        "sample_count": 86,
         "industry_code": "2040000",
         "industry_name": "Materials"
       },
@@ -329,8 +615,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 423.95,
-        "fetched_at": "2026-05-31T22:56:33.598Z",
+        "value": 413.5,
+        "fetched_at": "2026-06-11T02:01:01.181Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-uflex/uflex-shares"
       },
       "market_cap_inr": {
@@ -377,14 +663,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.08290400815,
-        "fetched_at": "2026-05-31T22:56:33.598Z",
+        "value": 0.06909072618,
+        "fetched_at": "2026-06-11T02:01:01.181Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-uflex/uflex-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.1742544252,
-        "fetched_at": "2026-05-31T22:56:33.598Z",
+        "value": 0.1722687041,
+        "fetched_at": "2026-06-11T02:01:01.181Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-uflex/uflex-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -516,12 +802,12 @@
     "quick_ratio": 0.9095101052077387,
     "cash_ratio": 0.17117183733469787,
     "returns_pct": {
-      "1D": 3.4276652842156654,
-      "7D": 2.391015577828759,
-      "1M": -4.137931034482762,
-      "3M": -11.988789703134731,
-      "6M": -13.417747370570815,
-      "1Y": -32.124559718219665,
+      "1D": -0.8631023735315326,
+      "7D": -5.905108658550459,
+      "1M": -3.399135614998251,
+      "3M": -8.233466489125615,
+      "6M": -12.291865521264182,
+      "1Y": -34.58830973661314,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -602,8 +888,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.17143,
-        "shares": 845910,
+        "pct": 1.16358,
+        "shares": 840236,
         "is_insider": null
       },
       {
@@ -983,6 +1269,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "a5188954-460d-47fa-8e3c-dec2f08e73b2",
+      "type": "event",
+      "date": "2026-06-01T08:23:00.000Z",
+      "title": "Uflex Limited, Annual General Meeting, Jul 29, 2026",
+      "body": "Uflex Limited, Annual General Meeting, Jul 29, 2026.",
+      "keyDevTypeId": "62",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
     {
       "id": "5a79a971-d957-4169-9ae0-6c0c120ef1f5",
       "type": "brief",

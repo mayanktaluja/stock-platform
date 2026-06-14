@@ -3,7 +3,7 @@
   "name": "Max Estates Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-maxestates/max-estates-shares",
-  "parsed_at": "2026-05-31T20:51:27.036Z",
+  "parsed_at": "2026-06-10T23:55:43.721Z",
   "company_id": "53489EF9-8867-4F4E-8194-B5AF280F2F4D",
   "classification_status": "Active",
   "groww_source": {
@@ -76,22 +76,308 @@
         }
       ]
     },
-    "current_price_inr": 444,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 442.35,
     "market_cap_inr": 74132900000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midsmall4",
-    "shares_outstanding": 163450352,
+    "shares_outstanding": 163487626,
     "fifty_two_week": {
       "low": 305.45,
       "high": 564.3
     },
-    "fair_value_inr": 639.75,
+    "fair_value_inr": 615.2,
     "fair_value_range_inr": {
-      "min": 639.75,
-      "max": 4067.938142,
+      "min": 615.2,
+      "max": 4217.348311,
       "count": 3
     },
-    "upside_pct": 44.08783783783784,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "f3a47ce6-eee4-4899-98b7-4f0779a178cd",
+      "narrative_type": null,
+      "published_at": "2026-06-01T02:03:43.311Z"
+    },
+    "upside_pct": 39.075392788515884,
     "multiples": {
       "pe": 472.45,
       "ps": 37.16,
@@ -108,10 +394,10 @@
       "pe_source_url": "https://groww.in/stocks/max-estates-ltd"
     },
     "rewards": [
-      "Earnings are forecast to grow 75.05% per year",
+      "Earnings are forecast to grow 73.9% per year",
       "Trading below our calculated fair Price-To-Sales ratio",
-      "Analysts in good agreement that stock price will rise by 38.6%",
-      "Trading at 89.1% below our estimate of its fair value"
+      "Analysts in good agreement that stock price will rise by 38.4%",
+      "Trading at 89.5% below our estimate of its fair value"
     ],
     "risks": [
       "Interest payments are not well covered by earnings",
@@ -128,8 +414,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 31.86659331376836,
-      "net_income_margin_1y": 0.177719107,
-      "future_revenue_growth_3y": 0.2915412391,
+      "net_income_margin_1y": 0.1791986372,
+      "future_revenue_growth_3y": 0.2879177477,
       "sector_pe": 31.86659331376836
     },
     "industry_benchmarks_meta": {
@@ -165,14 +451,14 @@
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 4.8,
+        "industry_pe": 4.6,
         "industry_name": "Indian Real Estate",
-        "description": "MAXESTATES is expensive based on its Price-To-Sales Ratio (24.5x) compared to the Indian Real Estate industry average (4.8x).",
+        "description": "MAXESTATES is expensive based on its Price-To-Sales Ratio (24.4x) compared to the Indian Real Estate industry average (4.6x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 24.853140749,
+        "industry_pe": 25.378248006,
         "industry_code": "7310000",
         "type": "median_profitable",
         "count": 149,
@@ -184,25 +470,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 23.2,
-        "sample_count": 144,
+        "industry_pe": 22.95,
+        "sample_count": 142,
         "industry_code": "7310000",
         "industry_name": "Diversified Financials"
       },
       "sws_primary_industry": {
-        "industry_pe": 13.254496843,
+        "industry_pe": 13.224967906,
         "industry_name": "Diversified Financials",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 150.73528732399632
+        "company_pe": 460.84620369537237
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 444,
-        "fetched_at": "2026-05-31T20:51:27.036Z",
+        "value": 442.35,
+        "fetched_at": "2026-06-10T23:55:43.721Z",
         "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-maxestates/max-estates-shares"
       },
       "market_cap_inr": {
@@ -210,6 +496,24 @@
         "value": 74132900000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/max-estates-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 615.2,
+        "fetched_at": "2026-06-10T23:55:43.721Z",
+        "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-maxestates/max-estates-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "f3a47ce6-eee4-4899-98b7-4f0779a178cd",
+        "narrative_type": null,
+        "published_at": "2026-06-01T02:03:43.311Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 39.075392788515884,
+        "fetched_at": "2026-06-10T23:55:43.721Z",
+        "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-maxestates/max-estates-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -249,14 +553,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.177719107,
-        "fetched_at": "2026-05-31T20:51:27.036Z",
+        "value": 0.1791986372,
+        "fetched_at": "2026-06-10T23:55:43.721Z",
         "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-maxestates/max-estates-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.2915412391,
-        "fetched_at": "2026-05-31T20:51:27.036Z",
+        "value": 0.2879177477,
+        "fetched_at": "2026-06-10T23:55:43.721Z",
         "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-maxestates/max-estates-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -365,13 +669,13 @@
         "url": "https://groww.in/stocks/max-estates-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 17.974271012006863,
+    "earnings_growth_yoy_pct": -69.03957700351182,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 8.812020221682316,
-    "latest_revenue": 2716738000,
-    "latest_net_income": 481453000,
+    "revenue_growth_pct": 5.210716859511105,
+    "latest_revenue": 2968008000,
+    "latest_net_income": 156926000,
     "latest_eps": 0.96,
-    "most_recent_reported_date": "2026-05-09",
+    "most_recent_reported_date": "2026-05-31",
     "pb": 3.06,
     "ps": 37.16,
     "book_value": 148.0517064,
@@ -388,12 +692,12 @@
     "quick_ratio": 0.3429928751030242,
     "cash_ratio": 0.12865605950941547,
     "returns_pct": {
-      "1D": -2.0732245258050237,
-      "7D": 3.5085674321016462,
-      "1M": 11.055527763881939,
-      "3M": 10.214720119151043,
-      "6M": -8.396946564885493,
-      "1Y": -13.878382310154198,
+      "1D": 0.19252548131370842,
+      "7D": -1.721839591201955,
+      "1M": 8.101173020527867,
+      "3M": 18.02294557097119,
+      "6M": -0.41647906348490904,
+      "1Y": -12.553128397746367,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -404,103 +708,103 @@
   "ownership": {
     "top_holders": [
       {
-        "pct": 21.21093,
+        "pct": 21.2061,
         "shares": 34669346,
         "is_insider": null
       },
       {
-        "pct": 20.79651,
+        "pct": 20.79177,
         "shares": 33991966,
         "is_insider": null
       },
       {
-        "pct": 20.41,
+        "pct": 20.40534,
         "shares": 33360210,
         "is_insider": null
       },
       {
-        "pct": 3.00732,
+        "pct": 3.00663,
         "shares": 4915469,
         "is_insider": null
       },
       {
-        "pct": 2.4909,
+        "pct": 2.49033,
         "shares": 4071389,
         "is_insider": null
       },
       {
-        "pct": 1.85397,
+        "pct": 1.85355,
         "shares": 3030328,
         "is_insider": null
       },
       {
-        "pct": 1.67023,
+        "pct": 1.66985,
         "shares": 2730000,
         "is_insider": null
       },
       {
-        "pct": 1.57686,
+        "pct": 1.5765,
         "shares": 2577384,
         "is_insider": null
       },
       {
-        "pct": 1.46781,
+        "pct": 1.46747,
         "shares": 2399139,
         "is_insider": null
       },
       {
-        "pct": 1.14592,
+        "pct": 1.14566,
         "shares": 1873006,
         "is_insider": null
       },
       {
-        "pct": 1.06122,
+        "pct": 1.06098,
         "shares": 1734575,
         "is_insider": null
       },
       {
-        "pct": 1.04318,
+        "pct": 1.04294,
         "shares": 1705075,
         "is_insider": null
       },
       {
-        "pct": 0.19122,
-        "shares": 312554,
+        "pct": 0.18808,
+        "shares": 307482,
         "is_insider": null
       },
       {
-        "pct": 0.18201,
+        "pct": 0.18197,
         "shares": 297493,
         "is_insider": null
       },
       {
-        "pct": 0.11609,
+        "pct": 0.11606,
         "shares": 189743,
         "is_insider": null
       },
       {
-        "pct": 0.09069,
+        "pct": 0.09067,
         "shares": 148236,
         "is_insider": null
       },
       {
-        "pct": 0.07953,
+        "pct": 0.07952,
         "shares": 130000,
         "is_insider": null
       },
       {
-        "pct": 0.07402,
+        "pct": 0.074,
         "shares": 120978,
         "is_insider": null
       },
       {
-        "pct": 0.0671,
-        "shares": 109681,
+        "pct": 0.05571,
+        "shares": 91082,
         "is_insider": null
       },
       {
-        "pct": 0.05572,
-        "shares": 91082,
+        "pct": 0.02216,
+        "shares": 36234,
         "is_insider": null
       }
     ],
@@ -523,38 +827,38 @@
     "payment_count": 0
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-09",
+    "most_recent_reported_date": "2026-05-31",
     "latest_year": 2026,
-    "latest_revenue": 2716738000,
-    "latest_net_income": 481453000,
+    "latest_revenue": 2968008000,
+    "latest_net_income": 156926000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 8.812020221682316,
-    "earnings_growth_pct": 17.974271012006863,
-    "net_margin_pct": 17.721730987677134,
+    "revenue_growth_pct": 5.210716859511105,
+    "earnings_growth_pct": -69.03957700351182,
+    "net_margin_pct": 5.287249899595958,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 2716738000,
-        "netIncome": 481453000,
+        "revenue": 2968008000,
+        "netIncome": 156926000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 2496726000,
-        "netIncome": 408100000,
+        "revenue": 2821013000,
+        "netIncome": 506860000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 1202701000,
-        "netIncome": -421630000,
+        "revenue": 1436136000,
+        "netIncome": -28037000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 1299186000,
-        "netIncome": 190149000,
+        "revenue": 1199085500,
+        "netIncome": -236292000,
         "eps": null
       },
       {
@@ -737,6 +1041,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "2af4ea9e-d7f8-4ed7-b8c6-8637a5008aaf",
+      "type": "narrative-update",
+      "date": "2026-06-01T02:03:43.000Z",
+      "title": "MAXESTATES: New Residential And Mixed Use Launches Will Support Upside",
+      "body": "Analysts have trimmed their price target for Max Estates from about ₹639.75 to roughly ₹615.20, mainly reflecting updated assumptions around revenue growth, margins and future P/E levels, while keeping the overall risk profile broadly similar. What's in the News A board meeting is scheduled for May 22, 2026 to consider and approve the audited standalone and consolidated financial results for the year ending March 31, 2026, and to address board changes, including noting the resignation of Mr. Anthony Ramsey Malloy and considering the appointment of Ms. Jillian Leigh Moo-Young as an Additional Director, subject to shareholder approval (Board Meeting).",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/real-estate-management-and-development/nse-maxestates/max-estates-shares/al9u2go6-urbanization-trends-in-delhi-ncr-will-boost-real-estate-activity/updates/9-analysts-have-trimmed-their-price-target-for-max-estates-fro",
+      "raw_subtype": "narrative-update"
+    },
     {
       "id": "7f654aed-ebde-44cf-be76-c72395b976de",
       "type": "article",

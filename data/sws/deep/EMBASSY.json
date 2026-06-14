@@ -3,7 +3,7 @@
   "name": "Embassy Office Parks REIT",
   "sector": "Real Estate",
   "sws_url": "https://simplywall.st/stocks/in/real-estate/nse-embassy/embassy-office-parks-reit-shares",
-  "parsed_at": "2026-05-31T22:43:29.259Z",
+  "parsed_at": "2026-06-11T01:39:21.008Z",
   "company_id": "5D74F78C-62D3-4739-A9A0-3D919BD944BF",
   "classification_status": "Active",
   "groww_source": null,
@@ -21,22 +21,311 @@
       "dividend": 4
     },
     "snowflake_total": 12,
-    "current_price_inr": 427.17,
-    "market_cap_inr": 404911770197,
-    "market_cap_usd": 120714180851.549,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SAME_PB"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASED_BUT_NOT_ENOUGH_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_VOLATILE_SHORT_TIME"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_50_TO_75"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_50_TO_75_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 429.53,
+    "market_cap_inr": 407148799430,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "midlarge6",
     "shares_outstanding": 947893743,
-    "fifty_two_week": null,
-    "fair_value_inr": 481.35294,
+    "fifty_two_week": {
+      "low": 380.81,
+      "high": 460.99
+    },
+    "fair_value_inr": 479.5,
     "fair_value_range_inr": {
-      "min": 481.35294,
-      "max": 597.61019,
+      "min": 479.5,
+      "max": 576.717115,
       "count": 15
     },
-    "upside_pct": 12.684163213708821,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "2c2833c9-93b8-44c4-bb6a-bffb35a31419",
+      "narrative_type": null,
+      "published_at": "2026-06-03T22:06:31.729Z"
+    },
+    "upside_pct": 11.633646078271607,
     "multiples": {
-      "pe": 119.6,
-      "ps": 8.917225495454307,
+      "pe": 120.4,
+      "ps": 8.707493223255524,
       "pb": null,
       "ev_ebitda": null
     },
@@ -44,12 +333,12 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": "2026-05-31T22:43:29.259Z",
+      "pe_as_of": "2026-06-11T01:39:21.008Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://simplywall.st/stocks/in/real-estate/nse-embassy/embassy-office-parks-reit-shares"
     },
     "rewards": [
-      "Trading at 28.5% below our estimate of its fair value",
+      "Trading at 26.5% below our estimate of its fair value",
       "Earnings are forecast to grow 41.24% per year"
     ],
     "risks": [
@@ -63,19 +352,6 @@
       "annualized_dividend": 23.01,
       "listing_currency": "INR",
       "recent_payments": [
-        {
-          "exDate": "2026-02-11T00:00:00.000Z",
-          "payDate": "2026-02-18T00:00:00.000Z",
-          "recordDate": "2026-02-11T00:00:00.000Z",
-          "divAmount": 5.1,
-          "divAmountListingCurrency": 5.1,
-          "currencyIsoCode": "INR",
-          "dividendTypeName": "No special code applies",
-          "divFreqTypeName": "Other Dividend",
-          "annualizedDividend": 23.01,
-          "annualizedDividendListingCurrency": 23.01,
-          "annualizedYield": 5.5204042613
-        },
         {
           "exDate": "2026-02-11T00:00:00.000Z",
           "payDate": "2026-02-18T00:00:00.000Z",
@@ -103,14 +379,14 @@
           "annualizedYield": 5.5204042613
         },
         {
-          "exDate": "2025-11-07T00:00:00.000Z",
-          "payDate": "2025-11-14T00:00:00.000Z",
-          "recordDate": "2025-11-08T00:00:00.000Z",
-          "divAmount": 0.66,
-          "divAmountListingCurrency": 0.66,
+          "exDate": "2026-02-11T00:00:00.000Z",
+          "payDate": "2026-02-18T00:00:00.000Z",
+          "recordDate": "2026-02-11T00:00:00.000Z",
+          "divAmount": 5.1,
+          "divAmountListingCurrency": 5.1,
           "currencyIsoCode": "INR",
-          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-          "divFreqTypeName": "Bonus Payment",
+          "dividendTypeName": "No special code applies",
+          "divFreqTypeName": "Other Dividend",
           "annualizedDividend": 23.01,
           "annualizedDividendListingCurrency": 23.01,
           "annualizedYield": 5.5204042613
@@ -119,11 +395,11 @@
           "exDate": "2025-11-07T00:00:00.000Z",
           "payDate": "2025-11-14T00:00:00.000Z",
           "recordDate": "2025-11-08T00:00:00.000Z",
-          "divAmount": 3.88,
-          "divAmountListingCurrency": 3.88,
+          "divAmount": 0.66,
+          "divAmountListingCurrency": 0.66,
           "currencyIsoCode": "INR",
-          "dividendTypeName": "No special code applies",
-          "divFreqTypeName": "Other Dividend",
+          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+          "divFreqTypeName": "Bonus Payment",
           "annualizedDividend": 23.01,
           "annualizedDividendListingCurrency": 23.01,
           "annualizedYield": 5.5204042613
@@ -142,14 +418,14 @@
           "annualizedYield": 5.5204042613
         },
         {
-          "exDate": "2025-08-05T00:00:00.000Z",
-          "payDate": "2025-08-12T00:00:00.000Z",
-          "recordDate": "2025-08-05T00:00:00.000Z",
-          "divAmount": 2.01,
-          "divAmountListingCurrency": 2.01,
+          "exDate": "2025-11-07T00:00:00.000Z",
+          "payDate": "2025-11-14T00:00:00.000Z",
+          "recordDate": "2025-11-08T00:00:00.000Z",
+          "divAmount": 3.88,
+          "divAmountListingCurrency": 3.88,
           "currencyIsoCode": "INR",
           "dividendTypeName": "No special code applies",
-          "divFreqTypeName": "Interim Payment",
+          "divFreqTypeName": "Other Dividend",
           "annualizedDividend": 23.01,
           "annualizedDividendListingCurrency": 23.01,
           "annualizedYield": 5.5204042613
@@ -171,6 +447,19 @@
           "exDate": "2025-08-05T00:00:00.000Z",
           "payDate": "2025-08-12T00:00:00.000Z",
           "recordDate": "2025-08-05T00:00:00.000Z",
+          "divAmount": 2.01,
+          "divAmountListingCurrency": 2.01,
+          "currencyIsoCode": "INR",
+          "dividendTypeName": "No special code applies",
+          "divFreqTypeName": "Interim Payment",
+          "annualizedDividend": 23.01,
+          "annualizedDividendListingCurrency": 23.01,
+          "annualizedYield": 5.5204042613
+        },
+        {
+          "exDate": "2025-08-05T00:00:00.000Z",
+          "payDate": "2025-08-12T00:00:00.000Z",
+          "recordDate": "2025-08-05T00:00:00.000Z",
           "divAmount": 3.61,
           "divAmountListingCurrency": 3.61,
           "currencyIsoCode": "INR",
@@ -184,11 +473,11 @@
           "exDate": "2025-05-02T00:00:00.000Z",
           "payDate": "2025-05-09T00:00:00.000Z",
           "recordDate": "2025-05-03T00:00:00.000Z",
-          "divAmount": 0.27,
-          "divAmountListingCurrency": 0.27,
+          "divAmount": 1.7,
+          "divAmountListingCurrency": 1.7,
           "currencyIsoCode": "INR",
-          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-          "divFreqTypeName": "Bonus Payment",
+          "dividendTypeName": "No special code applies",
+          "divFreqTypeName": "Interim Payment",
           "annualizedDividend": 21.33,
           "annualizedDividendListingCurrency": 21.33,
           "annualizedYield": 5.749185189
@@ -197,11 +486,11 @@
           "exDate": "2025-05-02T00:00:00.000Z",
           "payDate": "2025-05-09T00:00:00.000Z",
           "recordDate": "2025-05-03T00:00:00.000Z",
-          "divAmount": 1.7,
-          "divAmountListingCurrency": 1.7,
+          "divAmount": 0.27,
+          "divAmountListingCurrency": 0.27,
           "currencyIsoCode": "INR",
-          "dividendTypeName": "No special code applies",
-          "divFreqTypeName": "Interim Payment",
+          "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+          "divFreqTypeName": "Bonus Payment",
           "annualizedDividend": 21.33,
           "annualizedDividendListingCurrency": 21.33,
           "annualizedYield": 5.749185189
@@ -224,9 +513,9 @@
     },
     "dividend_yield_pct": 5.5204042613,
     "industry_benchmarks": {
-      "pe": 54.990838374,
-      "net_income_margin_1y": 0.4415609452,
-      "future_revenue_growth_3y": 0.1735244847
+      "pe": 55.014981366,
+      "net_income_margin_1y": 0.4424393139,
+      "future_revenue_growth_3y": 0.1746746805
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -240,10 +529,10 @@
     "pe_benchmark_source": {
       "provider": "sws_industry_api",
       "label": "SWS industry API",
-      "company_pe": 119.6,
+      "company_pe": 120.4,
       "company_pe_source": "sws_statement",
       "company_pe_source_label": "SWS visible statement",
-      "industry_pe": 54.990838374,
+      "industry_pe": 55.014981366,
       "industry_name": "Real Estate",
       "industry_code": "9622296",
       "sample_count": 5,
@@ -252,15 +541,15 @@
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 119.6,
+        "company_pe": 120.4,
         "industry_pe": 14.2,
         "industry_name": "Asian Office REITs",
-        "description": "EMBASSY is expensive based on its Price-To-Earnings Ratio (119.6x) compared to the Asian Office REITs industry average (14.2x).",
+        "description": "EMBASSY is expensive based on its Price-To-Earnings Ratio (120.4x) compared to the Asian Office REITs industry average (14.2x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 54.990838374,
+        "industry_pe": 55.014981366,
         "industry_code": "9622296",
         "type": "median_profitable",
         "count": 5,
@@ -272,68 +561,95 @@
         }
       },
       "internal_median": {
-        "industry_pe": 75.9,
-        "sample_count": 4,
+        "industry_pe": 55.1,
+        "sample_count": 5,
         "industry_code": "9622296",
         "industry_name": "Real Estate"
       },
       "sws_primary_industry": {
-        "industry_pe": 15.708321102,
+        "industry_pe": 15.582633056,
         "industry_name": "Real Estate",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 77.0246723260071
+        "company_pe": 120.26430738329911
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 427.17,
-        "fetched_at": "2026-05-31T22:43:29.259Z",
+        "value": 429.53,
+        "fetched_at": "2026-06-11T01:39:21.008Z",
+        "url": "https://simplywall.st/stocks/in/real-estate/nse-embassy/embassy-office-parks-reit-shares"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 479.5,
+        "fetched_at": "2026-06-11T01:39:21.008Z",
+        "url": "https://simplywall.st/stocks/in/real-estate/nse-embassy/embassy-office-parks-reit-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "2c2833c9-93b8-44c4-bb6a-bffb35a31419",
+        "narrative_type": null,
+        "published_at": "2026-06-03T22:06:31.729Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 11.633646078271607,
+        "fetched_at": "2026-06-11T01:39:21.008Z",
         "url": "https://simplywall.st/stocks/in/real-estate/nse-embassy/embassy-office-parks-reit-shares"
       },
       "multiples.pe": {
         "provider": "sws_statement",
-        "value": 119.6,
-        "fetched_at": "2026-05-31T22:43:29.259Z",
+        "value": 120.4,
+        "fetched_at": "2026-06-11T01:39:21.008Z",
         "url": "https://simplywall.st/stocks/in/real-estate/nse-embassy/embassy-office-parks-reit-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 54.990838374,
+        "value": 55.014981366,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.4415609452,
-        "fetched_at": "2026-05-31T22:43:29.259Z",
+        "value": 0.4424393139,
+        "fetched_at": "2026-06-11T01:39:21.008Z",
         "url": "https://simplywall.st/stocks/in/real-estate/nse-embassy/embassy-office-parks-reit-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 0.1735244847,
-        "fetched_at": "2026-05-31T22:43:29.259Z",
+        "value": 0.1746746805,
+        "fetched_at": "2026-06-11T01:39:21.008Z",
+        "url": "https://simplywall.st/stocks/in/real-estate/nse-embassy/embassy-office-parks-reit-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 380.81,
+          "high": 460.99
+        },
+        "fetched_at": "2026-06-11T01:39:21.008Z",
         "url": "https://simplywall.st/stocks/in/real-estate/nse-embassy/embassy-office-parks-reit-shares"
       }
     },
-    "earnings_growth_yoy_pct": -67.63855270383074,
+    "earnings_growth_yoy_pct": -78.85209302093146,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 8.740382982809765,
-    "latest_revenue": 45407820000,
-    "latest_net_income": 5256910000,
+    "revenue_growth_pct": 9.36956028508141,
+    "latest_revenue": 46758440000,
+    "latest_net_income": 3385450000,
     "latest_eps": null,
-    "most_recent_reported_date": "2026-04-26",
+    "most_recent_reported_date": "2026-06-03",
     "pb": null,
-    "ps": 8.917225495454307,
+    "ps": 8.707493223255524,
     "book_value": null,
     "face_value": null,
     "sector_pe": null,
     "roe_pct": null,
     "roa_pct": null,
     "roic_pct": null,
-    "net_margin_pct": 11.577102798592842,
+    "net_margin_pct": 7.240297152770708,
     "operating_margin_pct": null,
     "debt_to_equity_pct": null,
     "debt_to_asset_pct": null,
@@ -341,16 +657,16 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -2.1419408045450306,
-      "7D": -0.6304084860891364,
-      "1M": 0.018731414924264427,
-      "3M": 0.5034938710208793,
-      "6M": 0.08434666479229953,
-      "1Y": 9.758729669313194,
+      "1D": -0.09536214355492045,
+      "7D": -0.557947863129144,
+      "1M": 2.0115897971785426,
+      "3M": -0.352627305417014,
+      "6M": -2.757465305290803,
+      "1Y": 8.210308862800417,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 0,
+    "recent_news_count": 1,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -387,8 +703,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.9654,
-        "shares": 18629870,
+        "pct": 1.97421,
+        "shares": 18713403,
         "is_insider": null
       },
       {
@@ -417,8 +733,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.80631,
-        "shares": 7642941,
+        "pct": 0.8144,
+        "shares": 7719638,
         "is_insider": null
       },
       {
@@ -427,18 +743,18 @@
         "is_insider": null
       },
       {
-        "pct": 0.7163,
-        "shares": 6789753,
+        "pct": 0.72735,
+        "shares": 6894505,
         "is_insider": null
       },
       {
-        "pct": 0.66076,
-        "shares": 6263289,
+        "pct": 0.66082,
+        "shares": 6263829,
         "is_insider": null
       },
       {
-        "pct": 0.48292,
-        "shares": 4577563,
+        "pct": 0.48222,
+        "shares": 4570975,
         "is_insider": null
       },
       {
@@ -477,19 +793,6 @@
         "exDate": "2026-02-11T00:00:00.000Z",
         "payDate": "2026-02-18T00:00:00.000Z",
         "recordDate": "2026-02-11T00:00:00.000Z",
-        "divAmount": 5.1,
-        "divAmountListingCurrency": 5.1,
-        "currencyIsoCode": "INR",
-        "dividendTypeName": "No special code applies",
-        "divFreqTypeName": "Other Dividend",
-        "annualizedDividend": 23.01,
-        "annualizedDividendListingCurrency": 23.01,
-        "annualizedYield": 5.5204042613
-      },
-      {
-        "exDate": "2026-02-11T00:00:00.000Z",
-        "payDate": "2026-02-18T00:00:00.000Z",
-        "recordDate": "2026-02-11T00:00:00.000Z",
         "divAmount": 0.71,
         "divAmountListingCurrency": 0.71,
         "currencyIsoCode": "INR",
@@ -513,14 +816,14 @@
         "annualizedYield": 5.5204042613
       },
       {
-        "exDate": "2025-11-07T00:00:00.000Z",
-        "payDate": "2025-11-14T00:00:00.000Z",
-        "recordDate": "2025-11-08T00:00:00.000Z",
-        "divAmount": 0.66,
-        "divAmountListingCurrency": 0.66,
+        "exDate": "2026-02-11T00:00:00.000Z",
+        "payDate": "2026-02-18T00:00:00.000Z",
+        "recordDate": "2026-02-11T00:00:00.000Z",
+        "divAmount": 5.1,
+        "divAmountListingCurrency": 5.1,
         "currencyIsoCode": "INR",
-        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-        "divFreqTypeName": "Bonus Payment",
+        "dividendTypeName": "No special code applies",
+        "divFreqTypeName": "Other Dividend",
         "annualizedDividend": 23.01,
         "annualizedDividendListingCurrency": 23.01,
         "annualizedYield": 5.5204042613
@@ -529,11 +832,11 @@
         "exDate": "2025-11-07T00:00:00.000Z",
         "payDate": "2025-11-14T00:00:00.000Z",
         "recordDate": "2025-11-08T00:00:00.000Z",
-        "divAmount": 3.88,
-        "divAmountListingCurrency": 3.88,
+        "divAmount": 0.66,
+        "divAmountListingCurrency": 0.66,
         "currencyIsoCode": "INR",
-        "dividendTypeName": "No special code applies",
-        "divFreqTypeName": "Other Dividend",
+        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+        "divFreqTypeName": "Bonus Payment",
         "annualizedDividend": 23.01,
         "annualizedDividendListingCurrency": 23.01,
         "annualizedYield": 5.5204042613
@@ -552,14 +855,14 @@
         "annualizedYield": 5.5204042613
       },
       {
-        "exDate": "2025-08-05T00:00:00.000Z",
-        "payDate": "2025-08-12T00:00:00.000Z",
-        "recordDate": "2025-08-05T00:00:00.000Z",
-        "divAmount": 2.01,
-        "divAmountListingCurrency": 2.01,
+        "exDate": "2025-11-07T00:00:00.000Z",
+        "payDate": "2025-11-14T00:00:00.000Z",
+        "recordDate": "2025-11-08T00:00:00.000Z",
+        "divAmount": 3.88,
+        "divAmountListingCurrency": 3.88,
         "currencyIsoCode": "INR",
         "dividendTypeName": "No special code applies",
-        "divFreqTypeName": "Interim Payment",
+        "divFreqTypeName": "Other Dividend",
         "annualizedDividend": 23.01,
         "annualizedDividendListingCurrency": 23.01,
         "annualizedYield": 5.5204042613
@@ -581,6 +884,19 @@
         "exDate": "2025-08-05T00:00:00.000Z",
         "payDate": "2025-08-12T00:00:00.000Z",
         "recordDate": "2025-08-05T00:00:00.000Z",
+        "divAmount": 2.01,
+        "divAmountListingCurrency": 2.01,
+        "currencyIsoCode": "INR",
+        "dividendTypeName": "No special code applies",
+        "divFreqTypeName": "Interim Payment",
+        "annualizedDividend": 23.01,
+        "annualizedDividendListingCurrency": 23.01,
+        "annualizedYield": 5.5204042613
+      },
+      {
+        "exDate": "2025-08-05T00:00:00.000Z",
+        "payDate": "2025-08-12T00:00:00.000Z",
+        "recordDate": "2025-08-05T00:00:00.000Z",
         "divAmount": 3.61,
         "divAmountListingCurrency": 3.61,
         "currencyIsoCode": "INR",
@@ -594,11 +910,11 @@
         "exDate": "2025-05-02T00:00:00.000Z",
         "payDate": "2025-05-09T00:00:00.000Z",
         "recordDate": "2025-05-03T00:00:00.000Z",
-        "divAmount": 0.27,
-        "divAmountListingCurrency": 0.27,
+        "divAmount": 1.7,
+        "divAmountListingCurrency": 1.7,
         "currencyIsoCode": "INR",
-        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
-        "divFreqTypeName": "Bonus Payment",
+        "dividendTypeName": "No special code applies",
+        "divFreqTypeName": "Interim Payment",
         "annualizedDividend": 21.33,
         "annualizedDividendListingCurrency": 21.33,
         "annualizedYield": 5.749185189
@@ -607,11 +923,11 @@
         "exDate": "2025-05-02T00:00:00.000Z",
         "payDate": "2025-05-09T00:00:00.000Z",
         "recordDate": "2025-05-03T00:00:00.000Z",
-        "divAmount": 1.7,
-        "divAmountListingCurrency": 1.7,
+        "divAmount": 0.27,
+        "divAmountListingCurrency": 0.27,
         "currencyIsoCode": "INR",
-        "dividendTypeName": "No special code applies",
-        "divFreqTypeName": "Interim Payment",
+        "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
+        "divFreqTypeName": "Bonus Payment",
         "annualizedDividend": 21.33,
         "annualizedDividendListingCurrency": 21.33,
         "annualizedYield": 5.749185189
@@ -633,44 +949,44 @@
     "payment_count": 80
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-04-26",
+    "most_recent_reported_date": "2026-06-03",
     "latest_year": 2026,
-    "latest_revenue": 45407820000,
-    "latest_net_income": 5256910000,
+    "latest_revenue": 46758440000,
+    "latest_net_income": 3385450000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 8.740382982809765,
-    "earnings_growth_pct": -67.63855270383074,
-    "net_margin_pct": 11.577102798592842,
+    "revenue_growth_pct": 9.36956028508141,
+    "earnings_growth_pct": -78.85209302093146,
+    "net_margin_pct": 7.240297152770708,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 45407820000,
-        "netIncome": 5256910000,
+        "revenue": 46758440000,
+        "netIncome": 3385450000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 41758010000,
-        "netIncome": 16244360000,
+        "revenue": 42752700000,
+        "netIncome": 16008440000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 38658540000,
-        "netIncome": 9640280000,
+        "revenue": 38807320000,
+        "netIncome": 9087510000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 35620120000,
-        "netIncome": 5059580000,
+        "revenue": 36696800000,
+        "netIncome": 5611580000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 30766480000,
-        "netIncome": 8883850000,
+        "revenue": 31703310000,
+        "netIncome": 8623180000,
         "eps": null
       }
     ]
@@ -684,6 +1000,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "4c7ef4c9-3136-4cde-b536-f1e7a0e9518d",
+      "type": "narrative-update",
+      "date": "2026-06-03T22:06:31.000Z",
+      "title": "EMBASSY: Planned Refinancing And FY2027 Distribution Outlook Will Support Future Payouts",
+      "body": "Analysts have trimmed the price target on Embassy Office Parks REIT slightly from ₹481.35 to ₹479.50, citing updated assumptions around the discount rate, revenue growth, profit margin and future P/E as key inputs to their revised view. What's in the News Embassy Office Parks REIT issued earnings guidance for FY2027, indicating expected NOI in the range of ₹41,500 million to ₹43,500 million.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/real-estate/nse-embassy/embassy-office-parks-reit-shares/1m6usfy8-shrinking-margins-and-overvaluation-will-haunt-indian-offices-ugsa/updates/22-analysts-have-trimmed-the-price-target-on-embassy-office-par",
+      "raw_subtype": "narrative-update"
+    },
     {
       "id": "c7a946dd-1647-4080-a508-7ca4a73359b9",
       "type": "brief",
@@ -862,16 +1188,6 @@
       "body": "Analysts have nudged their price target on Embassy Office Parks REIT slightly higher by roughly ₹4 to about ₹457 per unit. This reflects marginally lower discount rates and a modestly improved view of its long term valuation multiples, despite slightly softer growth and margin assumptions.",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/real-estate/nse-embassy/embassy-office-parks-reit-shares/1m6usfy8-shrinking-margins-and-overvaluation-will-haunt-indian-offices-ugsa/updates/13-analysts-have-nudged-their-price-target-on-embassy-office-pa",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "155aa05a-31b6-4ff6-a40f-4cfa60b6fead",
-      "type": "narrative-update",
-      "date": "2025-12-06T02:03:42.000Z",
-      "title": "EMBASSY: Upcoming Acquisition And Steady Distributions Will Support Future Returns",
-      "body": "Narrative Update Analysts have nudged their price target for Embassy Office Parks REIT slightly higher to approximately ₹453 per unit from about ₹452, reflecting modestly improved profit margin expectations that more than offset slightly softer growth and valuation assumptions. What's in the News Entered definitive agreements to acquire a 0.3 msf Grade A office property in Embassy GolfLinks Business Park, fully leased to a leading global investment firm, for an enterprise value of about INR 8,520 million.",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/real-estate/nse-embassy/embassy-office-parks-reit-shares/1m6usfy8-shrinking-margins-and-overvaluation-will-haunt-indian-offices-ugsa/updates/12-narrative-update-analysts-have-nudged-their-price-target-for",
       "raw_subtype": "narrative-update"
     }
   ],

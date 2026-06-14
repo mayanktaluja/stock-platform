@@ -3,7 +3,7 @@
   "name": "Nandan Denim Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/nse-ndl/nandan-denim-shares",
-  "parsed_at": "2026-05-31T21:08:37.339Z",
+  "parsed_at": "2026-06-11T00:12:36.742Z",
   "company_id": "27B3CE89-1F3B-4858-B0DB-EBE0ECEA36CA",
   "classification_status": "Active",
   "groww_source": {
@@ -19,15 +19,15 @@
       "valuation": 4,
       "future": 0,
       "past": 3,
-      "financial_health": 6,
+      "financial_health": 5,
       "dividends": 0,
       "future_growth": 0,
       "past_performance": 3,
       "value": 4,
-      "health": 6,
+      "health": 5,
       "dividend": 0
     },
-    "snowflake_total": 13,
+    "snowflake_total": 12,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 9,
@@ -77,22 +77,308 @@
         }
       ]
     },
-    "current_price_inr": 2.62,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 2.54,
     "market_cap_inr": 3791100000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 1.8,
       "high": 4.42
     },
-    "fair_value_inr": 4.548769,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 73.61713740458015,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "9120ba69-0008-47bc-9f94-b5cb2b758216",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 10.96,
       "ps": 0.11,
@@ -109,7 +395,7 @@
       "pe_source_url": "https://groww.in/stocks/nandan-denim-ltd"
     },
     "rewards": [
-      "Trading at 42.4% below our estimate of its fair value",
+      "Trading at 44.2% below our estimate of its fair value",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
       "Trading at good value vs. industry average Price-To-Earnings ratio"
     ],
@@ -155,8 +441,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 54.8035163823525,
-      "net_income_margin_1y": 0.05921870449,
-      "future_revenue_growth_3y": 0.4160609582,
+      "net_income_margin_1y": 0.05901661834,
+      "future_revenue_growth_3y": 0.418253061,
       "sector_pe": 54.8035163823525
     },
     "industry_benchmarks_meta": {
@@ -191,18 +477,18 @@
         "url": "https://groww.in/stocks/nandan-denim-ltd"
       },
       "sws_statement": {
-        "company_pe": 11.4,
-        "industry_pe": 18,
+        "company_pe": 11.2,
+        "industry_pe": 18.9,
         "industry_name": "Indian Luxury",
-        "description": "NDL is good value based on its Price-To-Earnings Ratio (11.4x) compared to the Indian Luxury industry average (18x).",
+        "description": "NDL is good value based on its Price-To-Earnings Ratio (11.2x) compared to the Indian Luxury industry average (18.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 18.199713239,
+        "industry_pe": 18.902190904,
         "industry_code": "4130000",
         "type": "median_profitable",
-        "count": 294,
+        "count": 296,
         "source": {
           "type": "country",
           "country": "IN",
@@ -211,8 +497,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.1,
-        "sample_count": 290,
+        "industry_pe": 17.95,
+        "sample_count": 294,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
       },
@@ -224,8 +510,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 2.62,
-        "fetched_at": "2026-05-31T21:08:37.339Z",
+        "value": 2.54,
+        "fetched_at": "2026-06-11T00:12:36.742Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-ndl/nandan-denim-shares"
       },
       "market_cap_inr": {
@@ -272,14 +558,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.05921870449,
-        "fetched_at": "2026-05-31T21:08:37.339Z",
+        "value": 0.05901661834,
+        "fetched_at": "2026-06-11T00:12:36.742Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-ndl/nandan-denim-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.4160609582,
-        "fetched_at": "2026-05-31T21:08:37.339Z",
+        "value": 0.418253061,
+        "fetched_at": "2026-06-11T00:12:36.742Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-ndl/nandan-denim-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -411,16 +697,16 @@
     "quick_ratio": 1.3486626293212214,
     "cash_ratio": 0.05639666919000757,
     "returns_pct": {
-      "1D": -0.7575757575757582,
-      "7D": 0,
-      "1M": -8.391608391608383,
-      "3M": -1.872659176029956,
-      "6M": -15.755627009646295,
-      "1Y": -36.407766990291265,
+      "1D": -0.7812500000000007,
+      "7D": -1.1673151750972686,
+      "1M": -8.960573476702509,
+      "3M": 2.0080321285140488,
+      "6M": -14.765100671140937,
+      "1Y": -36.02015113350126,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -728,6 +1014,16 @@
   ],
   "news": [
     {
+      "id": "88e5891f-c12e-44a1-a5a9-8b0110514ecc",
+      "type": "article",
+      "date": "2026-06-05T01:13:49.000Z",
+      "title": "Nandan Denim's (NSE:NDL) Soft Earnings Don't Show The Whole Picture",
+      "body": "Soft earnings didn't appear to concern Nandan Denim Limited's ( NSE:NDL ) shareholders over the last week. We think...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/consumer-durables/nse-ndl/nandan-denim-shares/news/nandan-denims-nsendl-soft-earnings-dont-show-the-whole-pictu",
+      "raw_subtype": "article"
+    },
+    {
       "id": "5f2997ed-f655-4ff6-bb5f-ec4cdc94a2cc",
       "type": "brief",
       "date": "2026-05-29T11:46:27.000Z",
@@ -826,16 +1122,6 @@
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/stocks/in/consumer-durables/nse-ndl/nandan-denim-shares/news/these-4-measures-indicate-that-nandan-denim-nsendl-is-using-2",
       "raw_subtype": "article"
-    },
-    {
-      "id": "a6c504ec-b22b-4e4f-82a8-6a2dc09cfa99",
-      "type": "brief",
-      "date": "2025-12-08T17:41:51.000Z",
-      "title": "Now 22% undervalued after recent price drop",
-      "body": "Over the last 90 days, the stock has fallen 15% to ₹2.97. The fair value is estimated to be ₹3.81, however this is not to be taken as a buy recommendation but rather should be used as a guide only. Revenue has grown by 23% over the last 3 years. Earnings per share has grown by 37%.",
-      "keyDevTypeId": null,
-      "source_url": null,
-      "raw_subtype": "BriefActivity"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/NDL.json"

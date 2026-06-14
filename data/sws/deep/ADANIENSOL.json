@@ -3,7 +3,7 @@
   "name": "Adani Energy Solutions Limited",
   "sector": "Utilities",
   "sws_url": "https://simplywall.st/stocks/in/utilities/nse-adaniensol/adani-energy-solutions-shares",
-  "parsed_at": "2026-05-31T20:56:06.001Z",
+  "parsed_at": "2026-06-10T23:54:05.138Z",
   "company_id": "5A77CDEA-2C28-406B-8D31-85C47080ECF0",
   "classification_status": "Active",
   "groww_source": {
@@ -17,17 +17,17 @@
   "overview": {
     "snowflake": {
       "valuation": 0,
-      "future": 4,
+      "future": 3,
       "past": 5,
       "financial_health": 3,
       "dividends": 0,
-      "future_growth": 4,
+      "future_growth": 3,
       "past_performance": 5,
       "value": 0,
       "health": 3,
       "dividend": 0
     },
-    "snowflake_total": 12,
+    "snowflake_total": 11,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 5,
@@ -76,22 +76,308 @@
         }
       ]
     },
-    "current_price_inr": 1513.3,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 1535.6,
     "market_cap_inr": 1849855100000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "mega8",
     "shares_outstanding": 1201282642,
     "fifty_two_week": {
       "low": 744.9,
       "high": 1558.8
     },
-    "fair_value_inr": 1665,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": 0.561925,
       "max": 1665,
-      "count": 24
+      "count": 23
     },
-    "upside_pct": 10.024449877750614,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "AnalystHighTarget",
+      "owner_classification": null,
+      "narrative_id": "424dd9bf-08be-4848-8f5f-8700b56b0ccf",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 77.3,
       "ps": 6.71,
@@ -108,7 +394,7 @@
       "pe_source_url": "https://groww.in/stocks/adani-transmission-ltd"
     },
     "rewards": [
-      "Earnings are forecast to grow 20.64% per year",
+      "Earnings are forecast to grow 18.86% per year",
       "Earnings grew by 115.3% over the past year"
     ],
     "risks": [
@@ -125,8 +411,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 27.571490272138643,
-      "net_income_margin_1y": 0.1209423191,
-      "future_revenue_growth_3y": 5.427136977,
+      "net_income_margin_1y": 0.1212166852,
+      "future_revenue_growth_3y": 4.632223946,
       "sector_pe": 27.571490272138643
     },
     "industry_benchmarks_meta": {
@@ -161,15 +447,15 @@
         "url": "https://groww.in/stocks/adani-transmission-ltd"
       },
       "sws_statement": {
-        "company_pe": 79.6,
-        "industry_pe": 15.7,
+        "company_pe": 83.1,
+        "industry_pe": 14.9,
         "industry_name": "Asian Electric Utilities",
-        "description": "ADANIENSOL is expensive based on its Price-To-Earnings Ratio (79.6x) compared to the Asian Electric Utilities industry average (15.7x).",
+        "description": "ADANIENSOL is expensive based on its Price-To-Earnings Ratio (83.1x) compared to the Asian Electric Utilities industry average (14.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 35.870067449,
+        "industry_pe": 34.475854676,
         "industry_code": "9520000",
         "type": "median_profitable",
         "count": 11,
@@ -181,25 +467,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 36.15,
+        "industry_pe": 36.1,
         "sample_count": 12,
         "industry_code": "9520000",
         "industry_name": "Utilities"
       },
       "sws_primary_industry": {
-        "industry_pe": 15.980260868,
+        "industry_pe": 15.472304367,
         "industry_name": "Utilities",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 79.64377501111044
+        "company_pe": 80.81740626912124
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1513.3,
-        "fetched_at": "2026-05-31T20:56:06.001Z",
+        "value": 1535.6,
+        "fetched_at": "2026-06-10T23:54:05.138Z",
         "url": "https://simplywall.st/stocks/in/utilities/nse-adaniensol/adani-energy-solutions-shares"
       },
       "market_cap_inr": {
@@ -246,14 +532,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.1209423191,
-        "fetched_at": "2026-05-31T20:56:06.001Z",
+        "value": 0.1212166852,
+        "fetched_at": "2026-06-10T23:54:05.138Z",
         "url": "https://simplywall.st/stocks/in/utilities/nse-adaniensol/adani-energy-solutions-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 5.427136977,
-        "fetched_at": "2026-05-31T20:56:06.001Z",
+        "value": 4.632223946,
+        "fetched_at": "2026-06-10T23:54:05.138Z",
         "url": "https://simplywall.st/stocks/in/utilities/nse-adaniensol/adani-energy-solutions-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -385,24 +671,24 @@
     "quick_ratio": 1.110708209355262,
     "cash_ratio": 0.25555279329391933,
     "returns_pct": {
-      "1D": -1.7401467437179376,
-      "7D": 10.629431976021628,
-      "1M": 6.709445404223803,
-      "3M": 49.602095793584105,
-      "6M": 52.15926801065809,
-      "1Y": 72.97822483854374,
+      "1D": -2.7608915906788334,
+      "7D": 2.8464268970598083,
+      "1M": 14.56281706953147,
+      "3M": 52.88729589804858,
+      "6M": 51.84416098091565,
+      "1Y": 67.73347897323866,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 6,
+    "recent_news_count": 8,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
   "ownership": {
     "top_holders": [
       {
-        "pct": 51.06497,
-        "shares": 613434660,
+        "pct": 50.08269,
+        "shares": 601634660,
         "is_insider": null
       },
       {
@@ -461,13 +747,18 @@
         "is_insider": null
       },
       {
+        "pct": 0.98228,
+        "shares": 11800000,
+        "is_insider": null
+      },
+      {
         "pct": 0.87827,
         "shares": 10550464,
         "is_insider": null
       },
       {
-        "pct": 0.48607,
-        "shares": 5839089,
+        "pct": 0.40477,
+        "shares": 4862418,
         "is_insider": null
       },
       {
@@ -493,11 +784,6 @@
       {
         "pct": 0.2378,
         "shares": 2856654,
-        "is_insider": null
-      },
-      {
-        "pct": 0.2098,
-        "shares": 2520298,
         "is_insider": null
       }
     ],
@@ -743,6 +1029,36 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "3e770bdb-95db-45fb-b6e8-8459fa4c8af3",
+      "type": "narrative-update",
+      "date": "2026-06-05T06:07:34.000Z",
+      "title": "ADANIENSOL: Mumbai HVDC Expansion And Smart Meter Bid Will Shape Balanced Outlook",
+      "body": "Analysts have lifted their price target on Adani Energy Solutions from ₹1,129 to ₹1,417.88, citing updated assumptions around discount rates, revenue growth, profit margins, and a higher future P/E multiple. What's in the News Adani Energy Solutions is among four shortlisted bidders in the final leg of the proposed sale of smart meter platform IntelliSmart Infrastructure, with the equity value for IntelliSmart cited at about $400 million (₹37,000 million), according to ET.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/utilities/nse-adaniensol/adani-energy-solutions-shares/ij5mb4a5-new-subsidiaries-and-market-expansion-will-drive-broader-regional-reach/updates/19-analysts-have-lifted-their-price-target-on-adani-energy-solu",
+      "raw_subtype": "narrative-update"
+    },
+    {
+      "id": "044dd50f-d6d1-427b-ae7a-ec91755f0717",
+      "type": "event",
+      "date": "2026-05-31T14:09:00.000Z",
+      "title": "Adani Energy Solutions Limited to Report Q3, 2027 Results on Jan 19, 2027",
+      "body": "Adani Energy Solutions Limited announced that they will report Q3, 2027 results on Jan 19, 2027",
+      "keyDevTypeId": "55",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
+    {
+      "id": "63a84706-8a1c-44af-b08c-796723882886",
+      "type": "event",
+      "date": "2026-05-31T14:09:00.000Z",
+      "title": "Adani Energy Solutions Limited to Report Q4, 2027 Results on Apr 27, 2027",
+      "body": "Adani Energy Solutions Limited announced that they will report Q4, 2027 results on Apr 27, 2027",
+      "keyDevTypeId": "55",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
     {
       "id": "6bc53a86-77fd-43ce-95be-b692d61cd2ac",
       "type": "event",
@@ -1012,26 +1328,6 @@
       "keyDevTypeId": "55",
       "source_url": null,
       "raw_subtype": "EventActivity"
-    },
-    {
-      "id": "319b035e-6616-414b-87cd-9b611b978c51",
-      "type": "narrative-update",
-      "date": "2025-12-26T18:06:14.000Z",
-      "title": "ADANIENSOL: Future Profit Margin Expansion Will Support Stronger Risk Reward Profile",
-      "body": "Analysts have raised their price target on Adani Energy Solutions to ₹1,290 per share, highlighting upgraded expectations for revenue growth, a significantly stronger profit margin outlook, and a lower projected future P E multiple, which together support a more favorable risk return profile. What's in the News Diamond Power Infrastructure received a letter of intent from Adani Energy Solutions to supply 7,668 km of AL 59 Zebra conductor for the Khavda transmission project, an order valued at about INR 2,760 crore including tax, to be executed by November 23, 2026 (company announcement).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/utilities/nse-adaniensol/adani-energy-solutions-shares/7m4nuhlb-indias-urbanization-and-renewables-will-drive-smart-grid-transformation-hwm5/updates/2-analysts-have-raised-their-price-target-on-adani-energy-solu",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "ad4b9665-9a5d-4dba-86ce-c7516a833fae",
-      "type": "narrative-update",
-      "date": "2025-12-12T15:05:00.000Z",
-      "title": "ADANIENSOL: Renewable Energy Contracts Will Drive Future Expansion And Re Rating Potential",
-      "body": "Analysts have maintained their fair value estimate for Adani Energy Solutions at ₹1,161.60 per share, reflecting unchanged assumptions on discount rate, revenue growth, profit margin and future P/E as they await clearer catalysts for a rerating. What's in the News Diamond Power Infrastructure received a letter of intent from Adani Energy Solutions to supply 7,668 km of AL 59 Zebra conductor for the Khavda Project, a contract valued at about INR 2,760.6 crore including tax, with execution targeted by November 23, 2026 (company announcement) Adani Group outlined that its first large scale Battery Energy Storage Systems project, of 1,126 MW / 3,530 MWh, will initially be implemented by Adani Green Energy under the integrated utility platform, with future roles for Adani Energy Solutions and A",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/utilities/nse-adaniensol/adani-energy-solutions-shares/ij5mb4a5-new-subsidiaries-and-market-expansion-will-drive-broader-regional-reach/updates/15-analysts-have-maintained-their-fair-value-estimate-for-adani",
-      "raw_subtype": "narrative-update"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/ADANIENSOL.json"

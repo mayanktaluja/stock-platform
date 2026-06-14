@@ -3,7 +3,7 @@
   "name": "Sky Gold and Diamonds Limited",
   "sector": "Consumer Durables",
   "sws_url": "https://simplywall.st/stocks/in/consumer-durables/nse-skygold/sky-gold-and-diamonds-shares",
-  "parsed_at": "2026-05-31T22:22:14.267Z",
+  "parsed_at": "2026-06-11T01:25:37.296Z",
   "company_id": "53FE6C2A-843E-497A-9D1C-FCDFB127122A",
   "classification_status": "Active",
   "groww_source": {
@@ -70,22 +70,308 @@
         }
       ]
     },
-    "current_price_inr": 521,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 502.6,
     "market_cap_inr": 75307400000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 246.05,
       "high": 549.9
     },
-    "fair_value_inr": 598.079494,
+    "fair_value_inr": 597.452202,
     "fair_value_range_inr": {
-      "min": 598.079494,
-      "max": 598.079494,
-      "count": 2
+      "min": 597.452202,
+      "max": 597.452202,
+      "count": 3
     },
-    "upside_pct": 14.79452859884836,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "284d9cc5-511d-46c2-b08d-0d3683d99a30",
+      "narrative_type": null,
+      "published_at": "2024-07-25T13:12:25.939Z"
+    },
+    "upside_pct": 18.872304417031444,
     "multiples": {
       "pe": 32.85,
       "ps": 1.39,
@@ -148,8 +434,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 46.96311998779303,
-      "net_income_margin_1y": 0.05921870449,
-      "future_revenue_growth_3y": 0.4160609582,
+      "net_income_margin_1y": 0.05901661834,
+      "future_revenue_growth_3y": 0.4189534718,
       "sector_pe": 46.96311998779303
     },
     "industry_benchmarks_meta": {
@@ -184,18 +470,18 @@
         "url": "https://groww.in/stocks/sky-gold-ltd"
       },
       "sws_statement": {
-        "company_pe": 29.3,
-        "industry_pe": 18.2,
+        "company_pe": 28.3,
+        "industry_pe": 19.3,
         "industry_name": "Indian Luxury",
-        "description": "SKYGOLD is expensive based on its Price-To-Earnings Ratio (29.3x) compared to the Indian Luxury industry average (18.2x).",
+        "description": "SKYGOLD is expensive based on its Price-To-Earnings Ratio (28.3x) compared to the Indian Luxury industry average (19.3x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 18.199713239,
+        "industry_pe": 19.295215828,
         "industry_code": "4130000",
         "type": "median_profitable",
-        "count": 294,
+        "count": 296,
         "source": {
           "type": "country",
           "country": "IN",
@@ -204,8 +490,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 17.1,
-        "sample_count": 290,
+        "industry_pe": 17.95,
+        "sample_count": 294,
         "industry_code": "4130000",
         "industry_name": "Consumer Durables"
       },
@@ -217,8 +503,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 521,
-        "fetched_at": "2026-05-31T22:22:14.267Z",
+        "value": 502.6,
+        "fetched_at": "2026-06-11T01:25:37.296Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-skygold/sky-gold-and-diamonds-shares"
       },
       "market_cap_inr": {
@@ -226,6 +512,24 @@
         "value": 75307400000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/sky-gold-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 597.452202,
+        "fetched_at": "2026-06-11T01:25:37.296Z",
+        "url": "https://simplywall.st/stocks/in/consumer-durables/nse-skygold/sky-gold-and-diamonds-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "284d9cc5-511d-46c2-b08d-0d3683d99a30",
+        "narrative_type": null,
+        "published_at": "2024-07-25T13:12:25.939Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 18.872304417031444,
+        "fetched_at": "2026-06-11T01:25:37.296Z",
+        "url": "https://simplywall.st/stocks/in/consumer-durables/nse-skygold/sky-gold-and-diamonds-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -265,14 +569,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.05921870449,
-        "fetched_at": "2026-05-31T22:22:14.267Z",
+        "value": 0.05901661834,
+        "fetched_at": "2026-06-11T01:25:37.296Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-skygold/sky-gold-and-diamonds-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.4160609582,
-        "fetched_at": "2026-05-31T22:22:14.267Z",
+        "value": 0.4189534718,
+        "fetched_at": "2026-06-11T01:25:37.296Z",
         "url": "https://simplywall.st/stocks/in/consumer-durables/nse-skygold/sky-gold-and-diamonds-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -404,16 +708,16 @@
     "quick_ratio": 0.9205981397464078,
     "cash_ratio": 0.254934869468236,
     "returns_pct": {
-      "1D": 7.058460906195423,
-      "7D": 10.862857750824558,
-      "1M": 13.619016464943842,
-      "3M": 44.181541441815405,
-      "6M": 57.35427363334339,
-      "1Y": 32.41835048926166,
+      "1D": -2.0368385147646295,
+      "7D": -10.767865068797155,
+      "1M": -0.514647664291363,
+      "3M": 44.79976951887064,
+      "6M": 55.57963163596966,
+      "1Y": 34.763373106314525,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 5,
+    "recent_news_count": 7,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -515,8 +819,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.02607,
-        "shares": 40380,
+        "pct": 0.02549,
+        "shares": 39476,
         "is_insider": null
       }
     ],
@@ -789,6 +1093,46 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "609d5caa-2965-478d-b1ef-4e3df6b1da18",
+      "type": "event",
+      "date": "2026-06-09T07:02:00.000Z",
+      "title": "Sky Gold and Diamonds Limited Announces Appointment of Akash Talesara as Chief Executive Officer, Effective June 9, 2026",
+      "body": "The board of directors of Sky Gold and Diamonds Limited at its meeting held on June 9, 2026, considered and approved the appointment of Mr. Akash Talesara as the Chief Executive Officer (CEO) of the Company with effect from June 9, 2026, based on the recommendations of the Nomination and Remuneration Committee and the Audit Committee of the Company. A highly accomplished business leader with over two decades of experience in the gems and jewellery industry, with expertise spanning exports, diamond jewellery sales, merchandising, business development, and market expansion. Throughout his career, he has successfully built and scaled businesses by combining deep industry knowledge with a strong commercial and customer focused approach. A graduate of NIFT with advanced management education fro",
+      "keyDevTypeId": "101",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
+    {
+      "id": "2b546607-b88d-4d07-af96-9d031400c96d",
+      "type": "article",
+      "date": "2026-06-04T01:52:12.000Z",
+      "title": "Sky Gold and Diamonds' (NSE:SKYGOLD) Earnings Are Of Questionable Quality",
+      "body": "Unsurprisingly, Sky Gold and Diamonds Limited's ( NSE:SKYGOLD ) stock price was strong on the back of its healthy...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/consumer-durables/nse-skygold/sky-gold-and-diamonds-shares/news/sky-gold-and-diamonds-nseskygold-earnings-are-of-questionabl",
+      "raw_subtype": "article"
+    },
+    {
+      "id": "277c9fda-22b5-4098-a223-e67206336d27",
+      "type": "brief",
+      "date": "2026-06-03T11:33:32.000Z",
+      "title": "Investor sentiment improves as stock rises 16%",
+      "body": "After last week's 16% share price gain to ₹563, the stock trades at a forward P/E ratio of 23x. Average forward P/E is 23x in the Luxury industry in India. Total returns to shareholders of 1,548% over the past three years.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "3090bbeb-c367-4ebc-9cfc-3278c3ed1c03",
+      "type": "article",
+      "date": "2026-06-01T02:36:48.000Z",
+      "title": "Sky Gold and Diamonds Limited (NSE:SKYGOLD) Just Reported And Analysts Have Been Lifting Their Price Targets",
+      "body": "Shareholders of Sky Gold and Diamonds Limited ( NSE:SKYGOLD ) will be pleased this week, given that the stock price is...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/consumer-durables/nse-skygold/sky-gold-and-diamonds-shares/news/sky-gold-and-diamonds-limited-nseskygold-just-reported-and-a",
+      "raw_subtype": "article"
+    },
     {
       "id": "cf6777a0-97ca-4295-b06f-df23669364de",
       "type": "brief",

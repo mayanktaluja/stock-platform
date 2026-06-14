@@ -3,7 +3,7 @@
   "name": "Cohance Lifesciences Limited",
   "sector": "Pharmaceuticals & Biotech",
   "sws_url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-cohance/cohance-lifesciences-shares",
-  "parsed_at": "2026-05-31T22:22:48.408Z",
+  "parsed_at": "2026-06-11T01:18:08.860Z",
   "company_id": "ADF84358-C646-456E-A583-CAA0E526EEB9",
   "classification_status": "Active",
   "groww_source": {
@@ -70,22 +70,308 @@
         }
       ]
     },
-    "current_price_inr": 431.5,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_1_YEAR_DECLINING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_GROWING"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 430.5,
     "market_cap_inr": 164063900000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": "medium5",
     "shares_outstanding": 382567140,
     "fifty_two_week": {
       "low": 266.7,
       "high": 1121.15
     },
-    "fair_value_inr": 477.66667,
+    "fair_value_inr": 516.77778,
     "fair_value_range_inr": {
       "min": 328.103466,
       "max": 516.77778,
       "count": 13
     },
-    "upside_pct": 10.699112398609504,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "4bf05208-beee-448a-9f1f-0dae5e2bab12",
+      "narrative_type": null,
+      "published_at": "2026-06-04T13:06:15.643Z"
+    },
+    "upside_pct": 20.04129616724739,
     "multiples": {
       "pe": 109.4,
       "ps": 7.23,
@@ -110,23 +396,10 @@
     ],
     "dividend": {
       "yield_pct": 0,
-      "payout_pct": 126.17649736147757,
+      "payout_pct": 42.69007866986554,
       "annualized_dividend": 2,
       "listing_currency": "INR",
       "recent_payments": [
-        {
-          "exDate": "2022-09-09T00:00:00.000Z",
-          "payDate": "2022-10-02T00:00:00.000Z",
-          "recordDate": "2022-09-12T00:00:00.000Z",
-          "divAmount": 1,
-          "divAmountListingCurrency": 1,
-          "currencyIsoCode": "INR",
-          "dividendTypeName": "No special code applies",
-          "divFreqTypeName": "Interim Payment",
-          "annualizedDividend": 2,
-          "annualizedDividendListingCurrency": 2,
-          "annualizedYield": 0.4067173341
-        },
         {
           "exDate": "2022-09-09T00:00:00.000Z",
           "payDate": "2022-10-02T00:00:00.000Z",
@@ -136,6 +409,19 @@
           "currencyIsoCode": "INR",
           "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
           "divFreqTypeName": "Bonus Payment",
+          "annualizedDividend": 2,
+          "annualizedDividendListingCurrency": 2,
+          "annualizedYield": 0.4067173341
+        },
+        {
+          "exDate": "2022-09-09T00:00:00.000Z",
+          "payDate": "2022-10-02T00:00:00.000Z",
+          "recordDate": "2022-09-12T00:00:00.000Z",
+          "divAmount": 1,
+          "divAmountListingCurrency": 1,
+          "currencyIsoCode": "INR",
+          "dividendTypeName": "No special code applies",
+          "divFreqTypeName": "Interim Payment",
           "annualizedDividend": 2,
           "annualizedDividendListingCurrency": 2,
           "annualizedYield": 0.4067173341
@@ -224,8 +510,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 34.294011798524444,
-      "net_income_margin_1y": 0.1517834297,
-      "future_revenue_growth_3y": 2.756126798,
+      "net_income_margin_1y": 0.1516710327,
+      "future_revenue_growth_3y": 2.535577209,
       "sector_pe": 34.294011798524444
     },
     "industry_benchmarks_meta": {
@@ -260,15 +546,15 @@
         "url": "https://groww.in/stocks/suven-pharmaceuticals-ltd"
       },
       "sws_statement": {
-        "company_pe": 92.1,
-        "industry_pe": 29,
+        "company_pe": 92.2,
+        "industry_pe": 28.8,
         "industry_name": "Indian Pharmaceuticals",
-        "description": "COHANCE is expensive based on its Price-To-Earnings Ratio (92.1x) compared to the Indian Pharmaceuticals industry average (29x).",
+        "description": "COHANCE is expensive based on its Price-To-Earnings Ratio (92.2x) compared to the Indian Pharmaceuticals industry average (28.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 29.045511308,
+        "industry_pe": 28.787047453,
         "industry_code": "6120000",
         "type": "median_profitable",
         "count": 152,
@@ -280,25 +566,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 28.1,
-        "sample_count": 151,
+        "industry_pe": 28.15,
+        "sample_count": 152,
         "industry_code": "6120000",
         "industry_name": "Pharmaceuticals & Biotech"
       },
       "sws_primary_industry": {
-        "industry_pe": 23.933255082,
+        "industry_pe": 23.572522071,
         "industry_name": "Pharmaceuticals & Biotech",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 272.2257930573879
+        "company_pe": 91.89039433688558
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 431.5,
-        "fetched_at": "2026-05-31T22:22:48.408Z",
+        "value": 430.5,
+        "fetched_at": "2026-06-11T01:18:08.860Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-cohance/cohance-lifesciences-shares"
       },
       "market_cap_inr": {
@@ -306,6 +592,24 @@
         "value": 164063900000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/suven-pharmaceuticals-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 516.77778,
+        "fetched_at": "2026-06-11T01:18:08.860Z",
+        "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-cohance/cohance-lifesciences-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "4bf05208-beee-448a-9f1f-0dae5e2bab12",
+        "narrative_type": null,
+        "published_at": "2026-06-04T13:06:15.643Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 20.04129616724739,
+        "fetched_at": "2026-06-11T01:18:08.860Z",
+        "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-cohance/cohance-lifesciences-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -345,14 +649,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.1517834297,
-        "fetched_at": "2026-05-31T22:22:48.408Z",
+        "value": 0.1516710327,
+        "fetched_at": "2026-06-11T01:18:08.860Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-cohance/cohance-lifesciences-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 2.756126798,
-        "fetched_at": "2026-05-31T22:22:48.408Z",
+        "value": 2.535577209,
+        "fetched_at": "2026-06-11T01:18:08.860Z",
         "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-cohance/cohance-lifesciences-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -461,13 +765,13 @@
         "url": "https://groww.in/stocks/suven-pharmaceuticals-ltd"
       }
     },
-    "earnings_growth_yoy_pct": -77.36215328330907,
+    "earnings_growth_yoy_pct": -25.747783577761208,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": -9.907480084837756,
-    "latest_revenue": 10789300000,
-    "latest_net_income": 606400000,
+    "revenue_growth_pct": 80.21385276570729,
+    "latest_revenue": 22685500000,
+    "latest_net_income": 1792300000,
     "latest_eps": 3.92,
-    "most_recent_reported_date": "2026-05-04",
+    "most_recent_reported_date": "2026-06-04",
     "pb": 4.19,
     "ps": 7.23,
     "book_value": 102.237916,
@@ -484,16 +788,16 @@
     "quick_ratio": 1.9104701747867416,
     "cash_ratio": 0.0923629495456164,
     "returns_pct": {
-      "1D": 0.641399416909621,
-      "7D": 3.0940150519651146,
-      "1M": -7.710405304245538,
-      "3M": 39.21600258106147,
-      "6M": -23.54712969525159,
-      "1Y": -57.799511002444994,
+      "1D": -0.3241491085899461,
+      "7D": 1.3418079096045172,
+      "1M": -10.115878484184151,
+      "3M": 48.78175220321409,
+      "6M": -19.652855543113095,
+      "1Y": -57.048787788087395,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 6,
+    "recent_news_count": 2,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -525,8 +829,8 @@
         "is_insider": null
       },
       {
-        "pct": 3.0262,
-        "shares": 11577245,
+        "pct": 3.02627,
+        "shares": 11577521,
         "is_insider": null
       },
       {
@@ -580,8 +884,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.64353,
-        "shares": 2461927,
+        "pct": 0.65553,
+        "shares": 2507832,
         "is_insider": null
       },
       {
@@ -612,23 +916,10 @@
   },
   "dividend": {
     "yield_pct": 0,
-    "payout_pct": 126.17649736147757,
+    "payout_pct": 42.69007866986554,
     "annualized_dividend": 2,
     "listing_currency": "INR",
     "recent_payments": [
-      {
-        "exDate": "2022-09-09T00:00:00.000Z",
-        "payDate": "2022-10-02T00:00:00.000Z",
-        "recordDate": "2022-09-12T00:00:00.000Z",
-        "divAmount": 1,
-        "divAmountListingCurrency": 1,
-        "currencyIsoCode": "INR",
-        "dividendTypeName": "No special code applies",
-        "divFreqTypeName": "Interim Payment",
-        "annualizedDividend": 2,
-        "annualizedDividendListingCurrency": 2,
-        "annualizedYield": 0.4067173341
-      },
       {
         "exDate": "2022-09-09T00:00:00.000Z",
         "payDate": "2022-10-02T00:00:00.000Z",
@@ -638,6 +929,19 @@
         "currencyIsoCode": "INR",
         "dividendTypeName": "Includes extra, special, participating dividends, arrears, and liquidations",
         "divFreqTypeName": "Bonus Payment",
+        "annualizedDividend": 2,
+        "annualizedDividendListingCurrency": 2,
+        "annualizedYield": 0.4067173341
+      },
+      {
+        "exDate": "2022-09-09T00:00:00.000Z",
+        "payDate": "2022-10-02T00:00:00.000Z",
+        "recordDate": "2022-09-12T00:00:00.000Z",
+        "divAmount": 1,
+        "divAmountListingCurrency": 1,
+        "currencyIsoCode": "INR",
+        "dividendTypeName": "No special code applies",
+        "divFreqTypeName": "Interim Payment",
         "annualizedDividend": 2,
         "annualizedDividendListingCurrency": 2,
         "annualizedYield": 0.4067173341
@@ -724,44 +1028,44 @@
     "payment_count": 8
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-04",
+    "most_recent_reported_date": "2026-06-04",
     "latest_year": 2026,
-    "latest_revenue": 10789300000,
-    "latest_net_income": 606400000,
+    "latest_revenue": 22685500000,
+    "latest_net_income": 1792300000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": -9.907480084837756,
-    "earnings_growth_pct": -77.36215328330907,
-    "net_margin_pct": 5.620383157387412,
+    "revenue_growth_pct": 80.21385276570729,
+    "earnings_growth_pct": -25.747783577761208,
+    "net_margin_pct": 7.900641378854334,
     "yearly_history": [
       {
         "year": 2026,
-        "revenue": 10789300000,
-        "netIncome": 606400000,
+        "revenue": 22685500000,
+        "netIncome": 1792300000,
         "eps": null
       },
       {
         "year": 2025,
-        "revenue": 11975800000,
-        "netIncome": 2678700000,
+        "revenue": 12588100000,
+        "netIncome": 2413800000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 10513500000,
-        "netIncome": 3002800000,
+        "revenue": 9344937000,
+        "netIncome": 2404505000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 13403288000,
-        "netIncome": 4112899999.9999995,
+        "revenue": 13490798000,
+        "netIncome": 4243381000.0000005,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 13202221000,
-        "netIncome": 4538049000,
+        "revenue": 13952199000,
+        "netIncome": 4562639000,
         "eps": null
       }
     ]
@@ -947,6 +1251,16 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "74f73e81-86d6-40bb-ba63-ef909458bbc4",
+      "type": "narrative-update",
+      "date": "2026-06-04T13:06:15.000Z",
+      "title": "COHANCE: Leadership Transition Into Complex Pharma Platforms Will Shape Future Potential",
+      "body": "Analysts have lifted their price target for Cohance Lifesciences from ₹477.67 to ₹516.78, reflecting updated views on fair value, discount rate, revenue growth, profit margin and future P/E assumptions. What's in the News Board meeting scheduled for May 12, 2026, to consider and approve audited standalone and consolidated financial results for the quarter and year ended March 31, 2026, and to review policies on material event determination and disclosures under SEBI listing regulations.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/pharmaceuticals-biotech/nse-cohance/cohance-lifesciences-shares/z147x29q-cohance-new-facility-expansions-will-drive-future-opportunity-and-margins/updates/27-analysts-have-lifted-their-price-target-for-cohance-lifescie",
+      "raw_subtype": "narrative-update"
+    },
     {
       "id": "bfdab389-8427-4c75-ac53-4b90b9565328",
       "type": "brief",
@@ -1186,16 +1500,6 @@
       "keyDevTypeId": "55",
       "source_url": null,
       "raw_subtype": "EventActivity"
-    },
-    {
-      "id": "bfd37991-e4cb-4237-9fbe-05ccbadcebd0",
-      "type": "narrative-update",
-      "date": "2025-12-15T23:12:53.000Z",
-      "title": "COHANCE: Leadership Transition And US Subsidiary Funding Will Support Ambitious 2030 Revenue Goal",
-      "body": "Analysts have maintained their price target for Cohance Lifesciences at ₹801.11, citing only marginal tweaks to revenue growth and profit margin assumptions that were not sufficient to change their overall valuation framework. What's in the News The board will consider up to USD 10 million fund infusion into US subsidiary NJ Bio Inc through compulsorily convertible preferred stock at the December 2, 2025 meeting (company filing) Management reiterates its long-term ambition with revenue guidance targeting USD 1 billion (about INR 85 billion) by 2030 (company guidance) The board has approved the resignation of Managing Director Dr V Prasada Raju, effective October 28, 2025, with an ongoing advisory role to support the leadership transition (board resolution) A board meeting is scheduled on N",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/pharmaceuticals-biotech/nse-cohance/cohance-lifesciences-shares/z147x29q-cohance-new-facility-expansions-will-drive-future-opportunity-and-margins/updates/17-analysts-have-maintained-their-price-target-for-cohance-life",
-      "raw_subtype": "narrative-update"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/COHANCE.json"

@@ -3,7 +3,7 @@
   "name": "Mangalore Refinery and Petrochemicals Limited",
   "sector": "Energy",
   "sws_url": "https://simplywall.st/stocks/in/energy/nse-mrpl/mangalore-refinery-and-petrochemicals-shares",
-  "parsed_at": "2026-05-31T21:03:41.155Z",
+  "parsed_at": "2026-06-11T00:05:51.757Z",
   "company_id": "0A8DCF5E-04F6-47EF-A816-43824FBA9E32",
   "classification_status": "Active",
   "groww_source": {
@@ -70,22 +70,308 @@
         }
       ]
     },
-    "current_price_inr": 144.96,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SAME_PB"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 163.62,
     "market_cap_inr": 263853700000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 120.4,
       "high": 212.31
     },
-    "fair_value_inr": 179.135934,
+    "fair_value_inr": 179.021883,
     "fair_value_range_inr": {
-      "min": 179.135934,
-      "max": 549.978081,
+      "min": 179.021883,
+      "max": 565.09222,
       "count": 4
     },
-    "upside_pct": 23.576113410596015,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "5f57736b-3bd9-44ee-bd31-775bf712ae78",
+      "narrative_type": null,
+      "published_at": "2024-07-13T02:08:42.846Z"
+    },
+    "upside_pct": 9.413203153648697,
     "multiples": {
       "pe": 13.71,
       "ps": 0.3,
@@ -106,7 +392,7 @@
       "Earnings are forecast to grow 52.58% per year",
       "Earnings grew by 3324.2% over the past year",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
-      "Trading at 73.6% below our estimate of its fair value"
+      "Trading at 71% below our estimate of its fair value"
     ],
     "risks": [
       "Debt is not well covered by [[operating cash flow]]"
@@ -201,8 +487,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 13.906516649220263,
-      "net_income_margin_1y": 0.07549999144,
-      "future_revenue_growth_3y": 0.2160825588,
+      "net_income_margin_1y": 0.07466756967,
+      "future_revenue_growth_3y": 0.2181620994,
       "sector_pe": 13.906516649220263
     },
     "industry_benchmarks_meta": {
@@ -237,15 +523,15 @@
         "url": "https://groww.in/stocks/mangalore-refinery-petrochemicals-ltd"
       },
       "sws_statement": {
-        "company_pe": 13.2,
-        "industry_pe": 19.2,
+        "company_pe": 14.9,
+        "industry_pe": 18.7,
         "industry_name": "Indian Oil and Gas",
-        "description": "MRPL is good value based on its Price-To-Earnings Ratio (13.2x) compared to the Indian Oil and Gas industry average (19.2x).",
+        "description": "MRPL is good value based on its Price-To-Earnings Ratio (14.9x) compared to the Indian Oil and Gas industry average (18.7x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 19.197746836,
+        "industry_pe": 19.35170582,
         "industry_code": "1030000",
         "type": "median_profitable",
         "count": 34,
@@ -257,8 +543,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 14.9,
-        "sample_count": 31,
+        "industry_pe": 15.55,
+        "sample_count": 32,
         "industry_code": "1030000",
         "industry_name": "Energy"
       },
@@ -270,8 +556,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 144.96,
-        "fetched_at": "2026-05-31T21:03:41.155Z",
+        "value": 163.62,
+        "fetched_at": "2026-06-11T00:05:51.757Z",
         "url": "https://simplywall.st/stocks/in/energy/nse-mrpl/mangalore-refinery-and-petrochemicals-shares"
       },
       "market_cap_inr": {
@@ -279,6 +565,24 @@
         "value": 263853700000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/mangalore-refinery-petrochemicals-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 179.021883,
+        "fetched_at": "2026-06-11T00:05:51.757Z",
+        "url": "https://simplywall.st/stocks/in/energy/nse-mrpl/mangalore-refinery-and-petrochemicals-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "5f57736b-3bd9-44ee-bd31-775bf712ae78",
+        "narrative_type": null,
+        "published_at": "2024-07-13T02:08:42.846Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 9.413203153648697,
+        "fetched_at": "2026-06-11T00:05:51.757Z",
+        "url": "https://simplywall.st/stocks/in/energy/nse-mrpl/mangalore-refinery-and-petrochemicals-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -318,14 +622,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.07549999144,
-        "fetched_at": "2026-05-31T21:03:41.155Z",
+        "value": 0.07466756967,
+        "fetched_at": "2026-06-11T00:05:51.757Z",
         "url": "https://simplywall.st/stocks/in/energy/nse-mrpl/mangalore-refinery-and-petrochemicals-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.2160825588,
-        "fetched_at": "2026-05-31T21:03:41.155Z",
+        "value": 0.2181620994,
+        "fetched_at": "2026-06-11T00:05:51.757Z",
         "url": "https://simplywall.st/stocks/in/energy/nse-mrpl/mangalore-refinery-and-petrochemicals-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -457,12 +761,12 @@
     "quick_ratio": 0.3850358802735799,
     "cash_ratio": 0.03210924262805782,
     "returns_pct": {
-      "1D": -3.623429293265068,
-      "7D": -2.698348771647189,
-      "1M": -16.34349030470914,
-      "3M": -26.285278413424866,
-      "6M": -8.287991901809436,
-      "1Y": 1.0174216027874619,
+      "1D": 2.045652987401772,
+      "7D": 6.136481577581739,
+      "1M": 2.0520177134659714,
+      "3M": -14.531968240702046,
+      "6M": 9.848942598187323,
+      "1Y": 12.145305003427003,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -513,13 +817,13 @@
         "is_insider": null
       },
       {
-        "pct": 0.07122,
-        "shares": 1248212,
+        "pct": 0.06319,
+        "shares": 1107490,
         "is_insider": null
       },
       {
-        "pct": 0.03059,
-        "shares": 536200,
+        "pct": 0.03052,
+        "shares": 534832,
         "is_insider": null
       },
       {
@@ -543,8 +847,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.01689,
-        "shares": 295935,
+        "pct": 0.0169,
+        "shares": 296233,
         "is_insider": null
       },
       {
@@ -986,16 +1290,6 @@
       "keyDevTypeId": "55",
       "source_url": null,
       "raw_subtype": "EventActivity"
-    },
-    {
-      "id": "0e404001-1771-4fae-8e20-49da46195f7c",
-      "type": "article",
-      "date": "2025-12-06T02:01:34.000Z",
-      "title": "An Intrinsic Calculation For Mangalore Refinery and Petrochemicals Limited (NSE:MRPL) Suggests It's 44% Undervalued",
-      "body": "Key Insights Using the 2 Stage Free Cash Flow to Equity, Mangalore Refinery and Petrochemicals fair value estimate is...",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/stocks/in/energy/nse-mrpl/mangalore-refinery-and-petrochemicals-shares/news/an-intrinsic-calculation-for-mangalore-refinery-and-petroche",
-      "raw_subtype": "article"
     }
   ],
   "_api_raw_path": "data/sws/deep-api/MRPL.json"

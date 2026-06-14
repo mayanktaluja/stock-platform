@@ -3,7 +3,7 @@
   "name": "Bondada Engineering Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/bse-543971/bondada-engineering-shares",
-  "parsed_at": "2026-05-31T20:23:39.431Z",
+  "parsed_at": "2026-06-10T23:22:03.609Z",
   "company_id": "3FFC210F-F42F-4D90-ACD1-4D264F54E4D3",
   "classification_status": "Active",
   "groww_source": null,
@@ -69,21 +69,310 @@
         }
       ]
     },
-    "current_price_inr": 330.1,
-    "market_cap_inr": 36837012015.694786,
-    "market_cap_usd": 120714180851.549,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 318.05,
+    "market_cap_inr": 35492310425.90647,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
-    "fifty_two_week": null,
-    "fair_value_inr": 95.233586,
+    "fifty_two_week": {
+      "low": 221.4,
+      "high": 488.75
+    },
+    "fair_value_inr": null,
     "fair_value_range_inr": {
-      "min": 95.233586,
+      "min": 96.040296,
       "max": 173.57,
       "count": 2
     },
-    "upside_pct": -71.15007997576492,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "3255f04f-7f40-4d74-8b11-9b31869c44c4",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
-      "pe": 18.1,
+      "pe": 17.7,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -92,19 +381,19 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": "2026-05-31T20:23:39.431Z",
+      "pe_as_of": "2026-06-10T23:22:03.609Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://simplywall.st/stocks/in/capital-goods/bse-543971/bondada-engineering-shares"
     },
     "rewards": [
-      "Price-To-Earnings ratio (18.1x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (17.7x) is below the Indian market (22.9x)",
       "Earnings grew by 81.9% over the past year"
     ],
     "risks": [
       "Highly volatile share price over past 3 months"
     ],
     "dividend": {
-      "yield_pct": 0.0288144745,
+      "yield_pct": 0.0289096245,
       "payout_pct": null,
       "annualized_dividend": 0.1,
       "listing_currency": "INR",
@@ -120,7 +409,7 @@
           "divFreqTypeName": "Annual",
           "annualizedDividend": 0.1,
           "annualizedDividendListingCurrency": 0.1,
-          "annualizedYield": 0.0288144745
+          "annualizedYield": 0.0289096245
         },
         {
           "exDate": "2024-07-26T00:00:00.000Z",
@@ -138,11 +427,11 @@
       ],
       "payment_count": 2
     },
-    "dividend_yield_pct": 0.0288144745,
+    "dividend_yield_pct": 0.0289096245,
     "industry_benchmarks": {
-      "pe": 15.073268522,
-      "net_income_margin_1y": 0.06405545837,
-      "future_revenue_growth_3y": 0.4628660854
+      "pe": 14.393596444,
+      "net_income_margin_1y": 0.06358528991,
+      "future_revenue_growth_3y": 0.4761643462
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -156,30 +445,30 @@
     "pe_benchmark_source": {
       "provider": "sws_industry_api",
       "label": "SWS industry API",
-      "company_pe": 18.1,
+      "company_pe": 17.7,
       "company_pe_source": "sws_statement",
       "company_pe_source_label": "SWS visible statement",
-      "industry_pe": 15.073268522,
+      "industry_pe": 14.393596444,
       "industry_name": "Capital Goods",
       "industry_code": "3040000",
-      "sample_count": 188,
+      "sample_count": 189,
       "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 18.1,
-        "industry_pe": 15.1,
+        "company_pe": 17.7,
+        "industry_pe": 14.4,
         "industry_name": "Indian Construction",
-        "description": "543971 is expensive based on its Price-To-Earnings Ratio (18.1x) compared to the Indian Construction industry average (15.1x).",
+        "description": "543971 is expensive based on its Price-To-Earnings Ratio (17.7x) compared to the Indian Construction industry average (14.4x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 15.073268522,
+        "industry_pe": 14.393596444,
         "industry_code": "3040000",
         "type": "median_profitable",
-        "count": 188,
+        "count": 189,
         "source": {
           "type": "country",
           "country": "IN",
@@ -188,8 +477,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.1,
-        "sample_count": 184,
+        "industry_pe": 13.8,
+        "sample_count": 187,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -201,32 +490,41 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 330.1,
-        "fetched_at": "2026-05-31T20:23:39.431Z",
+        "value": 318.05,
+        "fetched_at": "2026-06-10T23:22:03.609Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-543971/bondada-engineering-shares"
       },
       "multiples.pe": {
         "provider": "sws_statement",
-        "value": 18.1,
-        "fetched_at": "2026-05-31T20:23:39.431Z",
+        "value": 17.7,
+        "fetched_at": "2026-06-10T23:22:03.609Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-543971/bondada-engineering-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 15.073268522,
+        "value": 14.393596444,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.06405545837,
-        "fetched_at": "2026-05-31T20:23:39.431Z",
+        "value": 0.06358528991,
+        "fetched_at": "2026-06-10T23:22:03.609Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-543971/bondada-engineering-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.4628660854,
-        "fetched_at": "2026-05-31T20:23:39.431Z",
+        "value": 0.4761643462,
+        "fetched_at": "2026-06-10T23:22:03.609Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/bse-543971/bondada-engineering-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 221.4,
+          "high": 488.75
+        },
+        "fetched_at": "2026-06-10T23:22:03.609Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/bse-543971/bondada-engineering-shares"
       }
     },
@@ -253,12 +551,12 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -1.1084481725584148,
-      "7D": -5.102774184274831,
-      "1M": -5.954415954415948,
-      "3M": 3.3985904463586603,
-      "6M": -12.031978680879407,
-      "1Y": -32.14799588900308,
+      "1D": -1.2726990532360598,
+      "7D": 0.6965331644768049,
+      "1M": -7.34158776402039,
+      "3M": 12.325622461592808,
+      "6M": -14.982624966586478,
+      "1Y": -31.30669546436285,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -320,7 +618,7 @@
     "groww_period": null
   },
   "dividend": {
-    "yield_pct": 0.0288144745,
+    "yield_pct": 0.0289096245,
     "payout_pct": null,
     "annualized_dividend": 0.1,
     "listing_currency": "INR",
@@ -336,7 +634,7 @@
         "divFreqTypeName": "Annual",
         "annualizedDividend": 0.1,
         "annualizedDividendListingCurrency": 0.1,
-        "annualizedYield": 0.0288144745
+        "annualizedYield": 0.0289096245
       },
       {
         "exDate": "2024-07-26T00:00:00.000Z",

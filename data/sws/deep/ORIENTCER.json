@@ -3,7 +3,7 @@
   "name": "Orient Ceratech Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-orientcer/orient-ceratech-shares",
-  "parsed_at": "2026-05-31T21:20:18.124Z",
+  "parsed_at": "2026-06-11T00:24:11.868Z",
   "company_id": "DFDAA51E-BC8D-4970-A512-49D494203FEE",
   "classification_status": "Active",
   "groww_source": {
@@ -20,14 +20,14 @@
       "future": 0,
       "past": 5,
       "financial_health": 5,
-      "dividends": 3,
+      "dividends": 4,
       "future_growth": 0,
       "past_performance": 5,
       "value": 3,
       "health": 5,
-      "dividend": 3
+      "dividend": 4
     },
-    "snowflake_total": 16,
+    "snowflake_total": 17,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 7,
@@ -76,22 +76,308 @@
         }
       ]
     },
-    "current_price_inr": 41.5,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SAME_PE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_INCREASED_OVER_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_COVERED_15_TO_25"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 38.19,
     "market_cap_inr": 5004500000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 34,
       "high": 56.64
     },
-    "fair_value_inr": 249.449251,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": 501.0825325301205,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "322f261c-d0ba-4753-8eec-d936e634ac2a",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 25.51,
       "ps": 1.29,
@@ -108,9 +394,10 @@
       "pe_source_url": "https://groww.in/stocks/orient-abrasives-ltd"
     },
     "rewards": [
+      "Trading at 85% below our estimate of its fair value",
       "Earnings grew by 120.2% over the past year",
-      "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Trading at 83.4% below our estimate of its fair value"
+      "Trading at good value vs. industry average Price-To-Earnings ratio",
+      "Trading at good value vs. peer average Price-To-Earnings ratio"
     ],
     "risks": [
       "Does not have a meaningful market cap (₹5B)",
@@ -133,7 +420,7 @@
           "divFreqTypeName": "Annual",
           "annualizedDividend": 0.25,
           "annualizedDividendListingCurrency": 0.25,
-          "annualizedYield": 0.6227584341
+          "annualizedYield": 0.6228791208
         },
         {
           "exDate": "2024-09-23T00:00:00.000Z",
@@ -259,7 +546,7 @@
     "industry_benchmarks": {
       "pe": 52.58587225614787,
       "net_income_margin_1y": 0.07144101492,
-      "future_revenue_growth_3y": 0.451968346,
+      "future_revenue_growth_3y": 0.4829948519,
       "sector_pe": 52.58587225614787
     },
     "industry_benchmarks_meta": {
@@ -294,18 +581,18 @@
         "url": "https://groww.in/stocks/orient-abrasives-ltd"
       },
       "sws_statement": {
-        "company_pe": 22.8,
-        "industry_pe": 22.3,
+        "company_pe": 20.8,
+        "industry_pe": 20.8,
         "industry_name": "Indian Metals and Mining",
-        "description": "ORIENTCER is expensive based on its Price-To-Earnings Ratio (22.8x) compared to the Indian Metals and Mining industry average (22.3x).",
+        "description": "ORIENTCER is good value based on its Price-To-Earnings Ratio (20.8x) compared to the Indian Metals and Mining industry average (20.8x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 21.899662552,
+        "industry_pe": 20.837327412,
         "industry_code": "2050000",
         "type": "median_profitable",
-        "count": 192,
+        "count": 193,
         "source": {
           "type": "country",
           "country": "IN",
@@ -314,8 +601,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 20.05,
-        "sample_count": 196,
+        "industry_pe": 19.2,
+        "sample_count": 197,
         "industry_code": "2050000",
         "industry_name": "Materials"
       },
@@ -327,8 +614,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 41.5,
-        "fetched_at": "2026-05-31T21:20:18.124Z",
+        "value": 38.19,
+        "fetched_at": "2026-06-11T00:24:11.868Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-orientcer/orient-ceratech-shares"
       },
       "market_cap_inr": {
@@ -376,13 +663,13 @@
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.07144101492,
-        "fetched_at": "2026-05-31T21:20:18.124Z",
+        "fetched_at": "2026-06-11T00:24:11.868Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-orientcer/orient-ceratech-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.451968346,
-        "fetched_at": "2026-05-31T21:20:18.124Z",
+        "value": 0.4829948519,
+        "fetched_at": "2026-06-11T00:24:11.868Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-orientcer/orient-ceratech-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -514,12 +801,12 @@
     "quick_ratio": 1.5374132492113564,
     "cash_ratio": 0.11697160883280756,
     "returns_pct": {
-      "1D": -1.518747033697201,
-      "7D": 6.056733963710701,
-      "1M": 2.8245787908820628,
-      "3M": 7.485107485107487,
-      "6M": -0.8600095556617282,
-      "1Y": 13.109839193240672,
+      "1D": 0.315208825847117,
+      "7D": -4.357625845229156,
+      "1M": -7.731336071514866,
+      "3M": 0.367936925098556,
+      "6M": -9.54523922311701,
+      "1Y": 3.7771739130434803,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -617,7 +904,7 @@
         "divFreqTypeName": "Annual",
         "annualizedDividend": 0.25,
         "annualizedDividendListingCurrency": 0.25,
-        "annualizedYield": 0.6227584341
+        "annualizedYield": 0.6228791208
       },
       {
         "exDate": "2024-09-23T00:00:00.000Z",

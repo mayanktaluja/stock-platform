@@ -3,7 +3,7 @@
   "name": "Adani Total Gas Limited",
   "sector": "Utilities",
   "sws_url": "https://simplywall.st/stocks/in/utilities/nse-atgl/adani-total-gas-shares",
-  "parsed_at": "2026-05-31T21:20:38.751Z",
+  "parsed_at": "2026-06-11T00:15:49.325Z",
   "company_id": "76479DFF-E0D3-44F5-AE84-D541B042272B",
   "classification_status": "Active",
   "groww_source": {
@@ -19,15 +19,15 @@
       "valuation": 0,
       "future": 0,
       "past": 3,
-      "financial_health": 3,
+      "financial_health": 2,
       "dividends": 0,
       "future_growth": 0,
       "past_performance": 3,
       "value": 0,
-      "health": 3,
+      "health": 2,
       "dividend": 0
     },
-    "snowflake_total": 6,
+    "snowflake_total": 5,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 7,
@@ -76,22 +76,308 @@
         }
       ]
     },
-    "current_price_inr": 773.3,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_WILL_NOT_PAY_A_NOTABLE_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 728.4,
     "market_cap_inr": 888756500000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 462.8,
       "high": 830
     },
-    "fair_value_inr": 9.013975,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": 9.013975,
       "max": 904.21,
       "count": 5
     },
-    "upside_pct": -98.83434954092849,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "a9630301-6b0c-4c05-8ba1-9683e7a14fd2",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 135.59,
       "ps": 15.09,
@@ -111,6 +397,7 @@
       "Earnings grew by 0.2% over the past year"
     ],
     "risks": [
+      "Has a high level of debt",
       "Highly volatile share price over past 3 months"
     ],
     "dividend": {
@@ -216,8 +503,8 @@
     "dividend_yield_pct": 0.03,
     "industry_benchmarks": {
       "pe": 18.88956298261687,
-      "net_income_margin_1y": 0.0794828148,
-      "future_revenue_growth_3y": 0.09760093938,
+      "net_income_margin_1y": 0.07995267457,
+      "future_revenue_growth_3y": 0.3171304155,
       "sector_pe": 18.88956298261687
     },
     "industry_benchmarks_meta": {
@@ -252,15 +539,15 @@
         "url": "https://groww.in/stocks/adani-gas-ltd"
       },
       "sws_statement": {
-        "company_pe": 129.7,
-        "industry_pe": 14.3,
+        "company_pe": 123.1,
+        "industry_pe": 13.9,
         "industry_name": "Asian Gas Utilities",
-        "description": "ATGL is expensive based on its Price-To-Earnings Ratio (129.7x) compared to the Asian Gas Utilities industry average (14.3x).",
+        "description": "ATGL is expensive based on its Price-To-Earnings Ratio (123.1x) compared to the Asian Gas Utilities industry average (13.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 14.441519215,
+        "industry_pe": 14.450703744,
         "industry_code": "9530000",
         "type": "median_profitable",
         "count": 8,
@@ -272,7 +559,7 @@
         }
       },
       "internal_median": {
-        "industry_pe": 14.350000000000001,
+        "industry_pe": 14.45,
         "sample_count": 8,
         "industry_code": "9530000",
         "industry_name": "Utilities"
@@ -285,8 +572,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 773.3,
-        "fetched_at": "2026-05-31T21:20:38.751Z",
+        "value": 728.4,
+        "fetched_at": "2026-06-11T00:15:49.325Z",
         "url": "https://simplywall.st/stocks/in/utilities/nse-atgl/adani-total-gas-shares"
       },
       "market_cap_inr": {
@@ -333,14 +620,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.0794828148,
-        "fetched_at": "2026-05-31T21:20:38.751Z",
+        "value": 0.07995267457,
+        "fetched_at": "2026-06-11T00:15:49.325Z",
         "url": "https://simplywall.st/stocks/in/utilities/nse-atgl/adani-total-gas-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.09760093938,
-        "fetched_at": "2026-05-31T21:20:38.751Z",
+        "value": 0.3171304155,
+        "fetched_at": "2026-06-11T00:15:49.325Z",
         "url": "https://simplywall.st/stocks/in/utilities/nse-atgl/adani-total-gas-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -472,16 +759,16 @@
     "quick_ratio": 0.5881429941988183,
     "cash_ratio": 0.22634920065633155,
     "returns_pct": {
-      "1D": -4.359656174633604,
-      "7D": 18.458946078431374,
-      "1M": 17.710632468224354,
-      "3M": 51.03515624999999,
-      "6M": 27.47053490480507,
-      "1Y": 12.015644238429772,
+      "1D": -3.157614837465931,
+      "7D": 1.5050167224080204,
+      "1M": 17.38920225624496,
+      "3M": 19.881500987491762,
+      "6M": 22.688226376958045,
+      "1Y": 4.415137614678892,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 3,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -523,8 +810,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.05727,
-        "shares": 629839,
+        "pct": 0.05711,
+        "shares": 628139,
         "is_insider": null
       },
       {
@@ -583,8 +870,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.0093,
-        "shares": 102290,
+        "pct": 0.00951,
+        "shares": 104602,
         "is_insider": null
       }
     ],
@@ -925,6 +1212,26 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "6d48f49f-5337-4306-a26c-7a992e81bbea",
+      "type": "brief",
+      "date": "2026-06-07T23:17:09.000Z",
+      "title": "New minor risk - Financial position",
+      "body": "The company has a high level of debt. Net debt to equity ratio: 46% This is considered a minor risk. Having a high level of debt increases the company's balance sheet risk. The company has a higher interest repayment burden, leading to the need to allocate a greater amount of its earnings towards servicing the debt, potentially limiting growth options or shareholder distributions. It can also increase the risk of bankruptcy if business conditions deteriorate enough that the company can no longer meet its debt obligations. Currently, the following risks have been identified for the company: Major Risk Share price has been highly volatile over the past 3 months (10% average weekly change). Minor Risk High level of debt (46% net debt to equity).",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "65344d40-fad0-4a36-b7d2-2811269bdb30",
+      "type": "brief",
+      "date": "2026-06-05T11:27:26.000Z",
+      "title": "Upcoming dividend of ₹0.25 per share",
+      "body": "Eligible shareholders must have bought the stock before 12 June 2026. Payment date: 25 July 2026. Payout ratio is a comfortable 4.2% and this is well supported by cash flows. The company last paid an ordinary dividend in May 2019. The average dividend yield among industry peers is 2.0%.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "cd60c626-ab33-455b-81ac-83f30d23d26f",
       "type": "brief",

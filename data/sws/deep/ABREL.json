@@ -3,7 +3,7 @@
   "name": "Aditya Birla Real Estate Limited",
   "sector": "Diversified Financials",
   "sws_url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-abrel/aditya-birla-real-estate-shares",
-  "parsed_at": "2026-05-31T20:54:51.019Z",
+  "parsed_at": "2026-06-10T23:52:54.171Z",
   "company_id": "73B66076-85C0-4232-9EEC-73C3871232A3",
   "classification_status": "Active",
   "groww_source": {
@@ -71,22 +71,308 @@
         }
       ]
     },
-    "current_price_inr": 1243.8,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_LOW"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_EXPECTED_TO_BECOME_PROFITABLE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_EXPECTED_TO_BECOME_PROFITABLE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_EXPECTED_TO_BECOME_PROFITABLE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_INCREASING_LOSSES"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNPROFITABLE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NOT_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DIVIDENDS_FALLEN"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_LOSS_MAKING"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_FCF"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 1194.3,
     "market_cap_inr": 139943500000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 1080.1,
       "high": 2537.9
     },
-    "fair_value_inr": 1903.465436,
+    "fair_value_inr": 1896.590337,
     "fair_value_range_inr": {
-      "min": 783.958494,
-      "max": 1903.465436,
+      "min": 795.62109,
+      "max": 1896.590337,
       "count": 9
     },
-    "upside_pct": 53.036294902717486,
+    "fair_value_source_detail": {
+      "method": "default_narrative_analyst_price_target",
+      "owner_name": "AnalystPriceTarget",
+      "owner_classification": null,
+      "narrative_id": "4ca63e64-2fc6-498c-9c9e-a5bc34c0bcdf",
+      "narrative_type": null,
+      "published_at": "2024-07-13T02:06:45.977Z"
+    },
+    "upside_pct": 58.80351142928914,
     "multiples": {
       "pe": null,
       "ps": 34.66,
@@ -104,7 +390,7 @@
     },
     "rewards": [
       "Earnings are forecast to grow 99.94% per year",
-      "Analysts in good agreement that stock price will rise by 53%"
+      "Analysts in good agreement that stock price will rise by 55.5%"
     ],
     "risks": [
       "Debt is not well covered by [[operating cash flow]]"
@@ -252,7 +538,7 @@
     "industry_benchmarks": {
       "pe": 31.86659331376836,
       "net_income_margin_1y": 0.1326471542,
-      "future_revenue_growth_3y": 1.380478339,
+      "future_revenue_growth_3y": 1.388878486,
       "sector_pe": 31.86659331376836
     },
     "industry_benchmarks_meta": {
@@ -288,14 +574,14 @@
       },
       "sws_statement": {
         "company_pe": null,
-        "industry_pe": 4.8,
+        "industry_pe": 4.5,
         "industry_name": "Indian Real Estate",
-        "description": "ABREL is expensive based on its Price-To-Sales Ratio (34x) compared to the Indian Real Estate industry average (4.8x).",
+        "description": "ABREL is expensive based on its Price-To-Sales Ratio (33.4x) compared to the Indian Real Estate industry average (4.5x).",
         "title": "Price-To-Sales vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 24.853140749,
+        "industry_pe": 25.378248006,
         "industry_code": "7310000",
         "type": "median_profitable",
         "count": 149,
@@ -307,8 +593,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 23.2,
-        "sample_count": 144,
+        "industry_pe": 22.95,
+        "sample_count": 142,
         "industry_code": "7310000",
         "industry_name": "Diversified Financials"
       },
@@ -320,8 +606,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 1243.8,
-        "fetched_at": "2026-05-31T20:54:51.019Z",
+        "value": 1194.3,
+        "fetched_at": "2026-06-10T23:52:54.171Z",
         "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-abrel/aditya-birla-real-estate-shares"
       },
       "market_cap_inr": {
@@ -329,6 +615,24 @@
         "value": 139943500000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/century-textiles-industries-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 1896.590337,
+        "fetched_at": "2026-06-10T23:52:54.171Z",
+        "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-abrel/aditya-birla-real-estate-shares",
+        "method": "default_narrative_analyst_price_target",
+        "owner_name": "AnalystPriceTarget",
+        "owner_classification": null,
+        "narrative_id": "4ca63e64-2fc6-498c-9c9e-a5bc34c0bcdf",
+        "narrative_type": null,
+        "published_at": "2024-07-13T02:06:45.977Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 58.80351142928914,
+        "fetched_at": "2026-06-10T23:52:54.171Z",
+        "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-abrel/aditya-birla-real-estate-shares"
       },
       "multiples.pb": {
         "provider": "groww_refinitiv",
@@ -363,13 +667,13 @@
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
         "value": 0.1326471542,
-        "fetched_at": "2026-05-31T20:54:51.019Z",
+        "fetched_at": "2026-06-10T23:52:54.171Z",
         "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-abrel/aditya-birla-real-estate-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 1.380478339,
-        "fetched_at": "2026-05-31T20:54:51.019Z",
+        "value": 1.388878486,
+        "fetched_at": "2026-06-10T23:52:54.171Z",
         "url": "https://simplywall.st/stocks/in/real-estate-management-and-development/nse-abrel/aditya-birla-real-estate-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -495,12 +799,12 @@
     "quick_ratio": 0.5545743491092142,
     "cash_ratio": 0.11770774690259381,
     "returns_pct": {
-      "1D": -0.7183908045977011,
-      "7D": -0.4721133071937338,
-      "1M": -19.775541795665642,
-      "3M": -3.5963416524569904,
-      "6M": -29.87144790257104,
-      "1Y": -42.918770078017445,
+      "1D": -2.010173941581884,
+      "7D": -4.821485495696526,
+      "1M": -13.330914368650221,
+      "3M": 0.37821482602118006,
+      "6M": -28.655913978494624,
+      "1Y": -51.163361275812726,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -581,8 +885,8 @@
         "is_insider": null
       },
       {
-        "pct": 1.01,
-        "shares": 1128283,
+        "pct": 0.97595,
+        "shares": 1090239,
         "is_insider": null
       },
       {
@@ -1029,16 +1333,6 @@
       "title": "Aditya Birla Real Estate Limited to Report Q3, 2026 Results on Jan 28, 2026",
       "body": "Aditya Birla Real Estate Limited announced that they will report Q3, 2026 results at 9:15 AM, Indian Standard Time on Jan 28, 2026",
       "keyDevTypeId": "55",
-      "source_url": null,
-      "raw_subtype": "EventActivity"
-    },
-    {
-      "id": "7221855d-74b4-4804-b563-eb184070757e",
-      "type": "event",
-      "date": "2025-12-04T00:00:00.000Z",
-      "title": "Frontier Warehousing Limited signed a Share Purchase Agreement to acquire 42.80% stake in Kesoram Industries Limited (NSEI:KESORAMIND) from group of shareholders for approximately INR 530 million.",
-      "body": "Frontier Warehousing Limited signed a Share Purchase Agreement to acquire 42.80% stake in Kesoram Industries Limited (NSEI:KESORAMIND) from group of shareholders for approximately INR 530 million on December 4, 2025. Under the terms of the acquisition, INR 4 in cash per share will be paid by Frontier Warehousing Limited. In a separate agreement, Frontier Warehousing Limited proposed to acquire 26% stake in Kesoram Industries Limited. Upon completion, Manav Investment & Trading Company Limited, Pilani Investment and Industries Corporation Limited, Aditya Birla Real Estate Limited, Birla Education Trust, Birla Educational Institution, Birla Group Holdings Private Limited, Birla Institute Of Technology & Science Company, Prakash Educational Society and Padmavati Investment Ltd. will no longer",
-      "keyDevTypeId": "80",
       "source_url": null,
       "raw_subtype": "EventActivity"
     }

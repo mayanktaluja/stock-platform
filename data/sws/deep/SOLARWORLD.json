@@ -3,7 +3,7 @@
   "name": "Solarworld Energy Solutions Limited",
   "sector": "Capital Goods",
   "sws_url": "https://simplywall.st/stocks/in/capital-goods/nse-solarworld/solarworld-energy-solutions-shares",
-  "parsed_at": "2026-05-31T22:26:22.178Z",
+  "parsed_at": "2026-06-11T01:29:26.307Z",
   "company_id": "176836B7-7AE6-44D9-B08A-FDE20AA52658",
   "classification_status": "Active",
   "groww_source": {
@@ -16,18 +16,18 @@
   },
   "overview": {
     "snowflake": {
-      "valuation": 0,
+      "valuation": 2,
       "future": 0,
       "past": 3,
       "financial_health": 4,
       "dividends": 0,
       "future_growth": 0,
       "past_performance": 3,
-      "value": 0,
+      "value": 2,
       "health": 4,
       "dividend": 0
     },
-    "snowflake_total": 7,
+    "snowflake_total": 9,
     "snowflake_data_quality": {
       "insufficient": true,
       "insufficient_count": 13,
@@ -78,22 +78,308 @@
         }
       ]
     },
-    "current_price_inr": 209.75,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_NEGATIVE_NET_DEBT"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 186.96,
     "market_cap_inr": 18114600000,
-    "market_cap_usd": 120714180851.549,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
     "fifty_two_week": {
       "low": 139.19,
       "high": 388.5
     },
-    "fair_value_inr": 0.556813,
+    "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
-    "upside_pct": -99.73453492252682,
+    "fair_value_source_detail": {
+      "method": "non_consensus_default_narrative",
+      "owner_name": "Future Cash Flow Value",
+      "owner_classification": "DCF",
+      "narrative_id": "6a01d08b-752a-4dd8-93ed-a9a53ac063e5",
+      "narrative_type": null,
+      "published_at": null
+    },
+    "upside_pct": null,
     "multiples": {
       "pe": 15.04,
       "ps": 1.32,
@@ -110,8 +396,10 @@
       "pe_source_url": "https://groww.in/stocks/solarworld-energy-solutions-ltd"
     },
     "rewards": [
-      "Price-To-Earnings ratio (15.1x) is below the Indian market (23.4x)",
-      "Earnings grew by 56.4% over the past year"
+      "Trading at good value vs. peer average Price-To-Earnings ratio",
+      "Price-To-Earnings ratio (13.5x) is below the Indian market (23.2x)",
+      "Earnings grew by 56.4% over the past year",
+      "Trading at good value vs. industry average Price-To-Earnings ratio"
     ],
     "risks": [
       "Highly volatile share price over past 3 months",
@@ -129,8 +417,8 @@
     "dividend_yield_pct": 0,
     "industry_benchmarks": {
       "pe": 25.77691897654584,
-      "net_income_margin_1y": 0.06405545837,
-      "future_revenue_growth_3y": 0.4628660854,
+      "net_income_margin_1y": 0.06358528991,
+      "future_revenue_growth_3y": 0.4770711206,
       "sector_pe": 25.77691897654584
     },
     "industry_benchmarks_meta": {
@@ -165,18 +453,18 @@
         "url": "https://groww.in/stocks/solarworld-energy-solutions-ltd"
       },
       "sws_statement": {
-        "company_pe": 15.1,
-        "industry_pe": 15.1,
+        "company_pe": 13.5,
+        "industry_pe": 14.5,
         "industry_name": "Indian Construction",
-        "description": "SOLARWORLD is expensive based on its Price-To-Earnings Ratio (15.1x) compared to the Indian Construction industry average (15.1x).",
+        "description": "SOLARWORLD is good value based on its Price-To-Earnings Ratio (13.5x) compared to the Indian Construction industry average (14.5x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 15.073268522,
+        "industry_pe": 14.536772712,
         "industry_code": "3040000",
         "type": "median_profitable",
-        "count": 188,
+        "count": 189,
         "source": {
           "type": "country",
           "country": "IN",
@@ -185,8 +473,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 15.1,
-        "sample_count": 184,
+        "industry_pe": 13.8,
+        "sample_count": 187,
         "industry_code": "3040000",
         "industry_name": "Capital Goods"
       },
@@ -198,8 +486,8 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 209.75,
-        "fetched_at": "2026-05-31T22:26:22.178Z",
+        "value": 186.96,
+        "fetched_at": "2026-06-11T01:29:26.307Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-solarworld/solarworld-energy-solutions-shares"
       },
       "market_cap_inr": {
@@ -246,14 +534,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.06405545837,
-        "fetched_at": "2026-05-31T22:26:22.178Z",
+        "value": 0.06358528991,
+        "fetched_at": "2026-06-11T01:29:26.307Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-solarworld/solarworld-energy-solutions-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.4628660854,
-        "fetched_at": "2026-05-31T22:26:22.178Z",
+        "value": 0.4770711206,
+        "fetched_at": "2026-06-11T01:29:26.307Z",
         "url": "https://simplywall.st/stocks/in/capital-goods/nse-solarworld/solarworld-energy-solutions-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -385,16 +673,16 @@
     "quick_ratio": 1.7448875453758603,
     "cash_ratio": 0.7388934103269645,
     "returns_pct": {
-      "1D": 0.28208070376745237,
-      "7D": -5.116258029494256,
-      "1M": 4.5978157881613715,
-      "3M": 7.531016097610991,
-      "6M": -30.222887558216904,
-      "1Y": -35.16228748068006,
+      "1D": -1.5585509688289698,
+      "7D": -5.699586401694736,
+      "1M": -14.898265738085477,
+      "3M": 14.034766697163784,
+      "6M": -34.93648860274926,
+      "1Y": -42.207109737248835,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 4,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
@@ -448,6 +736,11 @@
       {
         "pct": 1.31048,
         "shares": 1135846,
+        "is_insider": null
+      },
+      {
+        "pct": 0.81845,
+        "shares": 709380,
         "is_insider": null
       },
       {
@@ -663,6 +956,26 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "a4ed47df-37c9-47c2-a82c-dd6357465e71",
+      "type": "article",
+      "date": "2026-06-03T02:31:12.000Z",
+      "title": "Solarworld Energy Solutions' (NSE:SOLARWORLD) Profits May Not Reveal Underlying Issues",
+      "body": "The market shrugged off Solarworld Energy Solutions Limited's ( NSE:SOLARWORLD ) solid earnings report. Our analysis...",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/stocks/in/capital-goods/nse-solarworld/solarworld-energy-solutions-shares/news/solarworld-energy-solutions-nsesolarworld-profits-may-not-re",
+      "raw_subtype": "article"
+    },
+    {
+      "id": "1f2b3067-2eb7-42c4-9e58-9971b4f876ec",
+      "type": "brief",
+      "date": "2026-06-01T07:53:33.000Z",
+      "title": "High number of new directors",
+      "body": "There are 6 new directors who have joined the board in the last 3 years. Additional Non-Executive Independent Director Subhash Changoiwala was the last director to join the board, commencing their role in 2026. The company’s lack of board continuity is considered a risk according to the Simply Wall St Risk Model.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "dcfc2c54-f311-4b3f-95d7-13e72091bb58",
       "type": "brief",

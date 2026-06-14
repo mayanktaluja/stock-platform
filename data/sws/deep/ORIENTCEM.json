@@ -3,7 +3,7 @@
   "name": "Orient Cement Limited",
   "sector": "Materials",
   "sws_url": "https://simplywall.st/stocks/in/materials/nse-orientcem/orient-cement-shares",
-  "parsed_at": "2026-05-31T21:20:13.797Z",
+  "parsed_at": "2026-06-11T00:24:08.042Z",
   "company_id": "C7130EC5-58CE-415D-8B7C-6EDEA938D099",
   "classification_status": "Active",
   "groww_source": {
@@ -28,10 +28,288 @@
       "dividend": 2
     },
     "snowflake_total": 14,
-    "current_price_inr": 141.55,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DECLINE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SAME_PB"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DECLINE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DECLINE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DECLINE"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_GROWTH_BUT_NOT_HIGH"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_WELL_COVERED"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_IMPROVED"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DIVIDENDS_FALLEN"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_SIGNIFICANT_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_UNSTABLE_X_YEARS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_DIVIDENDS_THOROUGHLY_COVERED_BY_EARNINGS"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_PAYING_DIVIDEND_BUT_FCF_NEGATIVE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_TOP_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 130.84,
     "market_cap_inr": 29514300000,
-    "market_cap_usd": 120714180851.549,
-    "market_cap_band": "small3",
+    "market_cap_usd": 120753634221.641,
+    "market_cap_band": "micro2",
     "shares_outstanding": 205459873,
     "fifty_two_week": {
       "low": 122.32,
@@ -39,11 +317,19 @@
     },
     "fair_value_inr": 188,
     "fair_value_range_inr": {
-      "min": 24.09274,
+      "min": 24.870524,
       "max": 227.91,
       "count": 7
     },
-    "upside_pct": 32.81525962557399,
+    "fair_value_source_detail": {
+      "method": "default_narrative_consensus",
+      "owner_name": "AnalystConsensusTarget",
+      "owner_classification": null,
+      "narrative_id": "63ac68f2-6556-4dcc-a5ed-ea8d69b7c7ac",
+      "narrative_type": null,
+      "published_at": "2026-06-07T08:05:36.508Z"
+    },
+    "upside_pct": 43.68694588810761,
     "multiples": {
       "pe": 8.74,
       "ps": 1.06,
@@ -63,12 +349,12 @@
       "Trading below our calculated fair Price-To-Earnings ratio",
       "Trading at good value vs. industry average Price-To-Earnings ratio",
       "Trading at good value vs. peer average Price-To-Earnings ratio",
-      "Price-To-Earnings ratio (8.6x) is below the Indian market (23.4x)",
+      "Price-To-Earnings ratio (8.1x) is below the Indian market (22.9x)",
       "Earnings grew by 270.1% over the past year"
     ],
     "risks": [
       "Earnings are forecast to decline by an average of 10.1% per year for the next 3 years",
-      "Dividend of 0.35% is not well covered by free cash flows",
+      "Dividend of 0.37% is not well covered by free cash flows",
       "High level of [[non-cash earnings]]"
     ],
     "dividend": {
@@ -239,8 +525,8 @@
     "dividend_yield_pct": 0.35,
     "industry_benchmarks": {
       "pe": 38.542872507857936,
-      "net_income_margin_1y": 0.09487982097,
-      "future_revenue_growth_3y": 34.387188816,
+      "net_income_margin_1y": 0.09486136614,
+      "future_revenue_growth_3y": 32.656569349,
       "sector_pe": 38.542872507857936
     },
     "industry_benchmarks_meta": {
@@ -275,15 +561,15 @@
         "url": "https://groww.in/stocks/orient-cement-ltd"
       },
       "sws_statement": {
-        "company_pe": 8.6,
-        "industry_pe": 26.9,
+        "company_pe": 8.1,
+        "industry_pe": 28.9,
         "industry_name": "Indian Basic Materials",
-        "description": "ORIENTCEM is good value based on its Price-To-Earnings Ratio (8.6x) compared to the Indian Basic Materials industry average (26.9x).",
+        "description": "ORIENTCEM is good value based on its Price-To-Earnings Ratio (8.1x) compared to the Indian Basic Materials industry average (28.9x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 28.763403424,
+        "industry_pe": 28.917195291,
         "industry_code": "2030000",
         "type": "median_profitable",
         "count": 47,
@@ -295,25 +581,25 @@
         }
       },
       "internal_median": {
-        "industry_pe": 28.1,
-        "sample_count": 47,
+        "industry_pe": 28.65,
+        "sample_count": 46,
         "industry_code": "2030000",
         "industry_name": "Materials"
       },
       "sws_primary_industry": {
-        "industry_pe": 19.26596559,
+        "industry_pe": 18.498719492,
         "industry_name": "Materials",
         "source_path": "CompanyNarrativesWithHistogram.narratives[0].node.company.primaryIndustry.industryAverages.pe"
       },
       "sws_computed": {
-        "company_pe": 8.612390330294911
+        "company_pe": 7.9607569820966875
       }
     },
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 141.55,
-        "fetched_at": "2026-05-31T21:20:13.797Z",
+        "value": 130.84,
+        "fetched_at": "2026-06-11T00:24:08.042Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-orientcem/orient-cement-shares"
       },
       "market_cap_inr": {
@@ -321,6 +607,24 @@
         "value": 29514300000,
         "fetched_at": "2026-05-29T19:07:38.146Z",
         "url": "https://groww.in/stocks/orient-cement-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 188,
+        "fetched_at": "2026-06-11T00:24:08.042Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-orientcem/orient-cement-shares",
+        "method": "default_narrative_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "63ac68f2-6556-4dcc-a5ed-ea8d69b7c7ac",
+        "narrative_type": null,
+        "published_at": "2026-06-07T08:05:36.508Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 43.68694588810761,
+        "fetched_at": "2026-06-11T00:24:08.042Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-orientcem/orient-cement-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
@@ -360,14 +664,14 @@
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_primary_industry",
-        "value": 0.09487982097,
-        "fetched_at": "2026-05-31T21:20:13.797Z",
+        "value": 0.09486136614,
+        "fetched_at": "2026-06-11T00:24:08.042Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-orientcem/orient-cement-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_primary_industry",
-        "value": 34.387188816,
-        "fetched_at": "2026-05-31T21:20:13.797Z",
+        "value": 32.656569349,
+        "fetched_at": "2026-06-11T00:24:08.042Z",
         "url": "https://simplywall.st/stocks/in/materials/nse-orientcem/orient-cement-shares"
       },
       "industry_benchmarks.sector_pe": {
@@ -476,13 +780,13 @@
         "url": "https://groww.in/stocks/orient-cement-ltd"
       }
     },
-    "earnings_growth_yoy_pct": 270.08155938206875,
+    "earnings_growth_yoy_pct": 29.926142585286534,
     "forward_earnings_growth_pct": null,
-    "revenue_growth_pct": 3.1116638869340707,
+    "revenue_growth_pct": -2.98425034750283,
     "latest_revenue": 27931235000,
     "latest_net_income": 3376861000,
     "latest_eps": 16.44,
-    "most_recent_reported_date": "2026-05-08",
+    "most_recent_reported_date": "2026-06-06",
     "pb": 1.38,
     "ps": 1.06,
     "book_value": 104.4425832,
@@ -499,12 +803,12 @@
     "quick_ratio": 1.5904807811916903,
     "cash_ratio": 0.029683418335613884,
     "returns_pct": {
-      "1D": -1.3520105930726862,
-      "7D": 3.775659824046925,
-      "1M": -4.215726079307071,
-      "3M": -8.155982351414478,
-      "6M": -14.877623428949416,
-      "1Y": -59.40636650415829,
+      "1D": -1.948441247002394,
+      "7D": -3.1603878321367844,
+      "1M": -5.078351712130005,
+      "3M": -6.522826319925695,
+      "6M": -20.966475385080038,
+      "1Y": -58.47008411363276,
       "5Y": null
     },
     "next_earnings_date": null,
@@ -585,8 +889,8 @@
         "is_insider": null
       },
       {
-        "pct": 0.88072,
-        "shares": 1809521,
+        "pct": 0.87736,
+        "shares": 1802617,
         "is_insider": null
       },
       {
@@ -600,6 +904,11 @@
         "is_insider": null
       },
       {
+        "pct": 0.10743,
+        "shares": 220727,
+        "is_insider": null
+      },
+      {
         "pct": 0.09954,
         "shares": 204513,
         "is_insider": null
@@ -607,11 +916,6 @@
       {
         "pct": 0.07253,
         "shares": 149025,
-        "is_insider": null
-      },
-      {
-        "pct": 0.03426,
-        "shares": 70387,
         "is_insider": null
       }
     ],
@@ -791,14 +1095,14 @@
     "payment_count": 14
   },
   "fiscal": {
-    "most_recent_reported_date": "2026-05-08",
+    "most_recent_reported_date": "2026-06-06",
     "latest_year": 2026,
     "latest_revenue": 27931235000,
     "latest_net_income": 3376861000,
     "latest_gross_profit": null,
     "latest_eps": null,
-    "revenue_growth_pct": 3.1116638869340707,
-    "earnings_growth_pct": 270.08155938206875,
+    "revenue_growth_pct": -2.98425034750283,
+    "earnings_growth_pct": 29.926142585286534,
     "net_margin_pct": 12.089909379230814,
     "yearly_history": [
       {
@@ -809,26 +1113,26 @@
       },
       {
         "year": 2025,
-        "revenue": 27088337000,
-        "netIncome": 912464000,
+        "revenue": 28790413000,
+        "netIncome": 2599062000,
         "eps": null
       },
       {
         "year": 2024,
-        "revenue": 31850898000,
-        "netIncome": 1748527000,
+        "revenue": 30561806000,
+        "netIncome": 1745297000,
         "eps": null
       },
       {
         "year": 2023,
-        "revenue": 29375456000,
-        "netIncome": 1228151000,
+        "revenue": 30487842000,
+        "netIncome": 1224315000,
         "eps": null
       },
       {
         "year": 2022,
-        "revenue": 27254166000,
-        "netIncome": 2632508000,
+        "revenue": 27484539000,
+        "netIncome": 2112100000,
         "eps": null
       }
     ]
@@ -997,6 +1301,26 @@
     "NSEI"
   ],
   "news": [
+    {
+      "id": "fbb69ad6-5632-4a6a-80b4-a8bcf33deae3",
+      "type": "narrative-update",
+      "date": "2026-06-07T08:05:36.000Z",
+      "title": "ORIENTCEM: Upcoming Board Meeting And Dividend Decision Will Highlight Undervalued Potential",
+      "body": "Orient Cement's latest narrative update keeps the fair value unchanged at ₹188.0, with analysts pointing to only small adjustments in the discount rate, revenue growth, profit margin and future P/E assumptions rather than a shift in the overall price view. What's in the News A board meeting is scheduled for April 28, 2026, to consider and approve audited financial results for the quarter and year ended March 31, 2026.",
+      "keyDevTypeId": null,
+      "source_url": "https://simplywall.st/community/narratives/in/materials/nse-orientcem/orient-cement-shares/gtt8aq2z-orientcem-digitalization-and-expansion-will-drive-market-potential-in-the-coming-years/updates/14-orient-cements-latest-narrative-update-keeps-the-fair-value",
+      "raw_subtype": "narrative-update"
+    },
+    {
+      "id": "7ad8a5dd-98a8-4a27-aad1-06ff3d3a37c2",
+      "type": "brief",
+      "date": "2026-06-05T11:42:40.000Z",
+      "title": "Upcoming dividend of ₹0.50 per share",
+      "body": "Eligible shareholders must have bought the stock before 12 June 2026. Payment date: 26 July 2026. Payout ratio is a comfortable 3.0% but the company is not cash flow positive. Trailing yield: 0.4%. Lower than top quartile of Indian dividend payers (1.5%). Lower than average of industry peers (0.6%).",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
     {
       "id": "dc67a421-8873-49d7-a77f-53c43bda5276",
       "type": "narrative-update",
@@ -1205,16 +1529,6 @@
       "body": "Analysts have maintained their fair value estimate for Orient Cement at ₹257.5 per share, reflecting largely unchanged expectations for revenue growth, profit margins, and valuation multiples despite minor adjustments to model assumptions. What's in the News Board meeting scheduled for November 1, 2025, to review and approve unaudited financial results for the quarter and half year ended September 30, 2025 (company filing).",
       "keyDevTypeId": null,
       "source_url": "https://simplywall.st/community/narratives/in/materials/nse-orientcem/orient-cement-shares/gtt8aq2z-orientcem-digitalization-and-expansion-will-drive-market-potential-in-the-coming-years/updates/5-analysts-have-maintained-their-fair-value-estimate-for-orien",
-      "raw_subtype": "narrative-update"
-    },
-    {
-      "id": "35b618e4-b92d-432c-b5e3-a0c2c2e81174",
-      "type": "narrative-update",
-      "date": "2025-12-07T05:01:35.000Z",
-      "title": "ORIENTCEM: Upcoming Results Meeting Will Signal Upside Potential For Shares",
-      "body": "Analysts have reaffirmed their price target for Orient Cement at ₹257.50, reflecting only marginal model tweaks to the discount rate, revenue growth, profit margin, and future valuation multiples, without a change to the headline valuation. What's in the News A board meeting is scheduled on November 1, 2025 to consider and approve the unaudited financial results for the quarter and half year ended September 30, 2025 (company filing).",
-      "keyDevTypeId": null,
-      "source_url": "https://simplywall.st/community/narratives/in/materials/nse-orientcem/orient-cement-shares/gtt8aq2z-orientcem-digitalization-and-expansion-will-drive-market-potential-in-the-coming-years/updates/4-analysts-have-reaffirmed-their-price-target-for-orient-cemen",
       "raw_subtype": "narrative-update"
     }
   ],

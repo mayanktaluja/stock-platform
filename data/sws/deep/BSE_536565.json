@@ -3,7 +3,7 @@
   "name": "Novelix Pharmaceuticals Limited",
   "sector": "Healthcare",
   "sws_url": "https://simplywall.st/stocks/in/healthcare/bse-536565/novelix-pharmaceuticals-shares",
-  "parsed_at": "2026-05-31T22:02:04.578Z",
+  "parsed_at": "2026-06-11T00:56:09.718Z",
   "company_id": "181F5E3B-7A30-49EC-ABBD-3FE76EB6E704",
   "classification_status": "Active",
   "groww_source": null,
@@ -70,21 +70,310 @@
         }
       ]
     },
-    "current_price_inr": 56,
-    "market_cap_inr": 1116360118.9924822,
-    "market_cap_usd": 120714180851.549,
+    "snowflake_check_matrix": {
+      "version": "sws-visible-snowflake-checks-v1",
+      "checked_count": 30,
+      "captured_count": 30,
+      "health_check_set": "Health",
+      "checks": [
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPEG",
+          "title": "PEG Ratio",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnDCF",
+          "title": "Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToMarket",
+          "title": "PE vs Market",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedBasedOnPB",
+          "title": "PB vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_SAME_PB"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsUndervaluedOnPERelativeToPeers",
+          "title": "PE vs Industry",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_OVERVALUED"
+        },
+        {
+          "pillar": "Value",
+          "name": "IsHighlyUndervaluedBasedOnDCF",
+          "title": "Significantly Below Future Cash Flow Value",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsReturnOnEquityForecastAboveBenchmark",
+          "title": "Future ROE",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthHigh",
+          "title": "High Growth Earnings",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedAnnualProfitGrowthAboveMarket",
+          "title": "Earnings vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthHigh",
+          "title": "High Growth Revenue",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedProfitGrowthAboveRiskFreeRate",
+          "title": "Earnings vs Savings Rate",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Future",
+          "name": "IsExpectedRevenueGrowthAboveMarket",
+          "title": "Revenue vs Market",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasProfitGrowthAccelerated",
+          "title": "Accelerating Growth",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasPastNetProfitMarginImprovedOverLastYear",
+          "title": "Growing Profit Margin",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasGrownProfitsOverPast5Years",
+          "title": "Earnings Trend",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_BECAME_PROFITABLE"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsGrowingFasterThanIndustry",
+          "title": "Earnings vs Industry",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Past",
+          "name": "HasHighQualityPastEarnings",
+          "title": "Quality Earnings",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_ACCRUALS"
+        },
+        {
+          "pillar": "Past",
+          "name": "IsReturnOnEquityAboveThreshold",
+          "title": "High ROE",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsInterestCoveredByProfit",
+          "title": "Interest Coverage",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_EARNS_NET_INTEREST"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtLevelAppropriate",
+          "title": "Debt Level",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE_UNDER_40"
+        },
+        {
+          "pillar": "Health",
+          "name": "HasDebtReducedOverTime",
+          "title": "Reducing Debt",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreShortTermLiabilitiesCovered",
+          "title": "Short Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Health",
+          "name": "IsDebtCoveredByCashflow",
+          "title": "Debt Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NEGATIVE_CASHFLOW"
+        },
+        {
+          "pillar": "Health",
+          "name": "AreLongTermLiabilitiesCovered",
+          "title": "Long Term Liabilities",
+          "result": "pass",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_TRUE"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendGrowing",
+          "title": "Growing Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendSignificant",
+          "title": "Notable Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendStable",
+          "title": "Stable Dividend",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCovered",
+          "title": "Earnings Coverage",
+          "result": "no_data",
+          "available": false,
+          "insufficient": true,
+          "outcome_name": "OUTCOME_NULL"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendCoveredByFreeCashFlow",
+          "title": "Cash Flow Coverage",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_DOES_NOT_PAY_A_DIVIDEND"
+        },
+        {
+          "pillar": "Dividends",
+          "name": "IsDividendYieldTopTier",
+          "title": "High Dividend",
+          "result": "fail",
+          "available": true,
+          "insufficient": false,
+          "outcome_name": "OUTCOME_FALSE_NO_DIVIDEND"
+        }
+      ]
+    },
+    "current_price_inr": 76.14,
+    "market_cap_inr": 1605411869.931542,
+    "market_cap_usd": 120753634221.641,
     "market_cap_band": null,
     "shares_outstanding": null,
-    "fifty_two_week": null,
+    "fifty_two_week": {
+      "low": 29.33,
+      "high": 76.14
+    },
     "fair_value_inr": null,
     "fair_value_range_inr": {
       "min": null,
       "max": null,
       "count": 0
     },
+    "fair_value_source_detail": {
+      "method": "missing_consensus_narrative",
+      "owner_name": null,
+      "owner_classification": null,
+      "narrative_id": null,
+      "narrative_type": null,
+      "published_at": null
+    },
     "upside_pct": null,
     "multiples": {
-      "pe": 43.7,
+      "pe": 57.4,
       "ps": null,
       "pb": null,
       "ev_ebitda": null
@@ -93,7 +382,7 @@
       "pe_source": "sws_statement",
       "pe_source_label": "SWS visible statement",
       "pe_source_text": null,
-      "pe_as_of": "2026-05-31T22:02:04.578Z",
+      "pe_as_of": "2026-06-11T00:56:09.718Z",
       "pe_basis": "trailing_ttm",
       "pe_source_url": "https://simplywall.st/stocks/in/healthcare/bse-536565/novelix-pharmaceuticals-shares"
     },
@@ -115,9 +404,9 @@
     },
     "dividend_yield_pct": null,
     "industry_benchmarks": {
-      "pe": 37.439100813,
-      "net_income_margin_1y": 0.1249783351,
-      "future_revenue_growth_3y": 0.8191622289
+      "pe": 39.956076252,
+      "net_income_margin_1y": 0.1248504866,
+      "future_revenue_growth_3y": 0.8308858435
     },
     "industry_benchmarks_meta": {
       "pe_source": "sws_industry_api",
@@ -131,30 +420,30 @@
     "pe_benchmark_source": {
       "provider": "sws_industry_api",
       "label": "SWS industry API",
-      "company_pe": 43.7,
+      "company_pe": 57.4,
       "company_pe_source": "sws_statement",
       "company_pe_source_label": "SWS visible statement",
-      "industry_pe": 37.439100813,
+      "industry_pe": 39.956076252,
       "industry_name": "Healthcare",
       "industry_code": "6030000",
-      "sample_count": 80,
+      "sample_count": 79,
       "statistic": "median_profitable"
     },
     "pe_benchmark_audit": {
       "groww_refinitiv": null,
       "sws_statement": {
-        "company_pe": 43.7,
-        "industry_pe": 37.4,
+        "company_pe": 57.4,
+        "industry_pe": 40,
         "industry_name": "Indian Healthcare",
-        "description": "536565 is expensive based on its Price-To-Earnings Ratio (43.7x) compared to the Indian Healthcare industry average (37.4x).",
+        "description": "536565 is expensive based on its Price-To-Earnings Ratio (57.4x) compared to the Indian Healthcare industry average (40x).",
         "title": "Price-To-Earnings vs Industry",
         "name": "IsGoodValueComparingPreferredMultipleToIndustry"
       },
       "sws_industry_api": {
-        "industry_pe": 37.439100813,
+        "industry_pe": 39.956076252,
         "industry_code": "6030000",
         "type": "median_profitable",
-        "count": 80,
+        "count": 79,
         "source": {
           "type": "country",
           "country": "IN",
@@ -163,8 +452,8 @@
         }
       },
       "internal_median": {
-        "industry_pe": 35.1,
-        "sample_count": 75,
+        "industry_pe": 33.650000000000006,
+        "sample_count": 74,
         "industry_code": "6030000",
         "industry_name": "Healthcare"
       },
@@ -176,32 +465,41 @@
     "source_map": {
       "current_price_inr": {
         "provider": "sws_price",
-        "value": 56,
-        "fetched_at": "2026-05-31T22:02:04.578Z",
+        "value": 76.14,
+        "fetched_at": "2026-06-11T00:56:09.718Z",
         "url": "https://simplywall.st/stocks/in/healthcare/bse-536565/novelix-pharmaceuticals-shares"
       },
       "multiples.pe": {
         "provider": "sws_statement",
-        "value": 43.7,
-        "fetched_at": "2026-05-31T22:02:04.578Z",
+        "value": 57.4,
+        "fetched_at": "2026-06-11T00:56:09.718Z",
         "url": "https://simplywall.st/stocks/in/healthcare/bse-536565/novelix-pharmaceuticals-shares"
       },
       "industry_benchmarks.pe": {
         "provider": "sws_industry_api",
-        "value": 37.439100813,
+        "value": 39.956076252,
         "fetched_at": null,
         "url": null
       },
       "industry_benchmarks.net_income_margin_1y": {
         "provider": "sws_industry_api",
-        "value": 0.1249783351,
-        "fetched_at": "2026-05-31T22:02:04.578Z",
+        "value": 0.1248504866,
+        "fetched_at": "2026-06-11T00:56:09.718Z",
         "url": "https://simplywall.st/stocks/in/healthcare/bse-536565/novelix-pharmaceuticals-shares"
       },
       "industry_benchmarks.future_revenue_growth_3y": {
         "provider": "sws_industry_api",
-        "value": 0.8191622289,
-        "fetched_at": "2026-05-31T22:02:04.578Z",
+        "value": 0.8308858435,
+        "fetched_at": "2026-06-11T00:56:09.718Z",
+        "url": "https://simplywall.st/stocks/in/healthcare/bse-536565/novelix-pharmaceuticals-shares"
+      },
+      "fifty_two_week": {
+        "provider": "sws_price_history",
+        "value": {
+          "low": 29.33,
+          "high": 76.14
+        },
+        "fetched_at": "2026-06-11T00:56:09.718Z",
         "url": "https://simplywall.st/stocks/in/healthcare/bse-536565/novelix-pharmaceuticals-shares"
       }
     },
@@ -228,98 +526,103 @@
     "quick_ratio": null,
     "cash_ratio": null,
     "returns_pct": {
-      "1D": -1.9950997549877503,
-      "7D": 5.461393596986815,
-      "1M": 0.08936550491509768,
-      "3M": -7.39209525384488,
-      "6M": -6.682219630061653,
-      "1Y": 100.42949176807443,
+      "1D": 0.3162055335968312,
+      "7D": 40.06622516556292,
+      "1M": 38.78964637258476,
+      "3M": 34.38051535474763,
+      "6M": 30.84722460903936,
+      "1Y": 159.59768155472213,
       "5Y": null
     },
     "next_earnings_date": null,
-    "recent_news_count": 2,
+    "recent_news_count": 4,
     "last_quarter_result": null,
     "recent_analyst_revisions": null
   },
   "ownership": {
     "top_holders": [
       {
-        "pct": 35.62578,
-        "shares": 7102000,
+        "pct": 37.47688,
+        "shares": 7902000,
         "is_insider": null
       },
       {
-        "pct": 9.17983,
+        "pct": 10.10544,
+        "shares": 2130733,
+        "is_insider": null
+      },
+      {
+        "pct": 8.67916,
         "shares": 1830000,
         "is_insider": null
       },
       {
-        "pct": 7.87927,
-        "shares": 1570733,
-        "is_insider": null
-      },
-      {
-        "pct": 4.85578,
+        "pct": 4.59094,
         "shares": 968000,
         "is_insider": null
       },
       {
-        "pct": 4.34913,
+        "pct": 4.11193,
         "shares": 867000,
         "is_insider": null
       },
       {
-        "pct": 3.63682,
+        "pct": 3.79417,
+        "shares": 800000,
+        "is_insider": null
+      },
+      {
+        "pct": 3.43846,
         "shares": 725000,
         "is_insider": null
       },
       {
-        "pct": 3.2606,
-        "shares": 650000,
-        "is_insider": null
-      },
-      {
-        "pct": 2.63356,
+        "pct": 2.48992,
         "shares": 525000,
         "is_insider": null
       },
       {
-        "pct": 1.75571,
-        "shares": 350000,
+        "pct": 1.89708,
+        "shares": 400000,
         "is_insider": null
       },
       {
-        "pct": 1.37509,
+        "pct": 1.30009,
         "shares": 274125,
         "is_insider": null
       },
       {
-        "pct": 1.3544,
+        "pct": 1.28053,
         "shares": 270000,
         "is_insider": null
       },
       {
-        "pct": 1.25408,
+        "pct": 1.18568,
         "shares": 250000,
         "is_insider": null
       },
       {
-        "pct": 1.17645,
+        "pct": 1.11229,
         "shares": 234526,
         "is_insider": null
       },
       {
-        "pct": 0.6772,
+        "pct": 0.64027,
         "shares": 135000,
         "is_insider": null
       },
       {
-        "pct": 0.62704,
+        "pct": 0.59284,
         "shares": 125000,
         "is_insider": null
       },
       {
-        "pct": 0.12541,
+        "pct": 0.47427,
+        "shares": 100000,
+        "is_insider": null
+      },
+      {
+        "pct": 0.11857,
         "shares": 25000,
         "is_insider": null
       }
@@ -352,6 +655,26 @@
     "BSE"
   ],
   "news": [
+    {
+      "id": "f7245600-507e-4cc8-9466-ea4aba9a0142",
+      "type": "brief",
+      "date": "2026-06-05T11:52:43.000Z",
+      "title": "Investor sentiment improves as stock rises 17%",
+      "body": "After last week's 17% share price gain to ₹65.50, the stock trades at a trailing P/E ratio of 51.1x. Average trailing P/E is 41x in the Healthcare industry in India. Total returns to shareholders of 555% over the past three years.",
+      "keyDevTypeId": null,
+      "source_url": null,
+      "raw_subtype": "BriefActivity"
+    },
+    {
+      "id": "7d805d87-e270-45ab-a116-c0f60a16ea7a",
+      "type": "event",
+      "date": "2026-06-04T00:00:00.000Z",
+      "title": "Novelix Pharmaceuticals Limited announced that it expects to receive INR 68.4 million in funding",
+      "body": "Novelix Pharmaceuticals Limited announced private placement to issue 1,200,000 equity shares at an issue price of INR 57 for gross proceeds of INR 68,400,000 on June 4, 2026. The transaction includes participation from Sakshi Malani for 150,000 shares, Peddi Sridhar for 100,000 shares, Palakurthi Rakesh for 100,000 shares, Rahul Innani for 100,000 shares, Suman Rajiv Bihani for 50,000 shares, Vedant Rajiv Bihani for 50,000 shares, Prakash Gadla for 50,000 shares, K Varsha for r 50,000 shares, Vijaya Suresh Nimbale for 25,000 shares, Prasanth Sowmithry Brundavanam for 25,000 shares, T Praveen Kumar for 115,000 shares, Alladi Praveen for 50,000 shares, Gangadhar Kathuri for 10,000 shares, Rajendhar Belide for 100,000 shares, Belide Vijayalakshmi for  100,000 shares, Venkataramana Manusani fo",
+      "keyDevTypeId": "83",
+      "source_url": null,
+      "raw_subtype": "EventActivity"
+    },
     {
       "id": "14bdf790-35ed-4a48-a604-0bc04a70cfc6",
       "type": "brief",
@@ -439,16 +762,6 @@
       "title": "Novelix Pharmaceuticals Limited Confirms Appointment of Sridevi Belide as Non-Executive Non-Independent Director",
       "body": "Novelix Pharmaceuticals Limited announced at extra ordinary general meeting held on January 9, 2026, the shareholders confirmed appointment of additional Director Ms. Sridevi Belide as a Non-Executive Non-Independent Director of the Company. Ms. Sridevi Belide is a medical professional holding a Bachelor of Medicine and Bachelor of Surgery (MBBS) degree, bringing her expertise in healthcare and scientific understanding to corporate leadership. As a director, she\ncontributes strategic insights in areas related to healthcare management, quality standards, and corporate governance.",
       "keyDevTypeId": "16",
-      "source_url": null,
-      "raw_subtype": "EventActivity"
-    },
-    {
-      "id": "cf785bcc-307c-4fbe-b969-42c02e239576",
-      "type": "event",
-      "date": "2025-12-11T00:00:00.000Z",
-      "title": "Novelix Pharmaceuticals Limited announced that it expects to receive INR 150 million in funding",
-      "body": "Novelix Pharmaceuticals Limited announced a private placement to issue 2,500,000 equity shares at a price of INR 60 per share for aggregate gross proceeds of INR 150,000,000 December 11, 2025. The transaction has been approved by the board of directors and is subject to the approval of the shareholders meeting scheduled o be held on January 9, 2025. The transaction will include participation from 40 investors including PAVANI VUPPARAPALLI for 325,000 equity shares, VENKATARAMANA REDDY MALLELA for 330,000 equity shares, M SHAHNAZ for 100,000 shares and other individual investors.",
-      "keyDevTypeId": "83",
       "source_url": null,
       "raw_subtype": "EventActivity"
     }
