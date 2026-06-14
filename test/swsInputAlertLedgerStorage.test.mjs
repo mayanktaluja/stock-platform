@@ -29,6 +29,17 @@ try {
   assert.equal(await storage.hasEvent("s1", { type: "EMAIL_SENT", run_id: "r1", digest: "d1" }), true);
   assert.equal(await storage.hasEmailSentForRun("s1", "r1"), true);
 
+  await storage.appendEvents("s1", [{
+    type: "EMAIL_SENT",
+    run_id: "r2",
+    digest: "d2",
+    transition_keys: ["transition-a", "transition-b"],
+    at: new Date().toISOString(),
+  }]);
+  const recent = await storage.recentTransitionKeys("s1", 14 * 24 * 60 * 60 * 1000);
+  assert.equal(recent.has("transition-a"), true);
+  assert.equal(recent.has("transition-b"), true);
+
   const failedFirst = await storage.appendEvents("s2", [{ type: "EMAIL_FAILED", run_id: "r1", digest: "d1", email: "reader@example.com", reason: "resend_error" }]);
   const failedSecond = await storage.appendEvents("s2", [{ type: "EMAIL_FAILED", run_id: "r1", digest: "d1", email: "reader@example.com", reason: "resend_error" }]);
   assert.equal(failedFirst.appended, 1);

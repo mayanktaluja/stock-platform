@@ -10,6 +10,9 @@ test.describe("Portfolio Analyzer — SWS input alerts", () => {
         contentType: "application/json",
         body: JSON.stringify({
           prefs: { inApp: true, email: false },
+          schema_version: 2,
+          confirmation_policy: "two_consecutive_full_runs",
+          artifact_email_eligible: true,
           run_id: "run-e2e",
           suppressed_count: 0,
           alerts: [{

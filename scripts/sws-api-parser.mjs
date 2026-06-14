@@ -164,22 +164,79 @@ function extractSharesOutstanding(api) {
   return edges[0]?.node?.company?.data?.marketCap?.shares_outstanding ?? null;
 }
 
+function isAnalystConsensusNarrative(narrative, option = {}) {
+  const fields = [
+    narrative?.owner?.displayName,
+    narrative?.owner?.classification,
+    narrative?.type,
+    option?.type,
+  ].map((v) => String(v || "").trim().toLowerCase());
+  return fields.some((v) => v === "analystconsensustarget" || v === "analyst_consensus_target");
+}
+
+function latestNarrativeFairValue(narrative) {
+  const latest = narrative?.latestPublishedUpdate;
+  const latestFv = latest?.valuation?.fairValue;
+  if (typeof latestFv === "number" && latestFv > 0) {
+    return {
+      fair_value_inr: latestFv,
+      published_at: latest?.publishedAt || null,
+    };
+  }
+  const valuations = Array.isArray(narrative?.valuations) ? narrative.valuations : [];
+  const sorted = valuations
+    .filter((v) => typeof v?.fairValue === "number" && v.fairValue > 0)
+    .sort((a, b) => Date.parse(b.publishedAt || 0) - Date.parse(a.publishedAt || 0));
+  if (!sorted.length) return null;
+  return {
+    fair_value_inr: sorted[0].fairValue,
+    published_at: sorted[0].publishedAt || null,
+  };
+}
+
+function fairValueResult(narrative, option, method) {
+  const fv = latestNarrativeFairValue(narrative);
+  if (!fv) return null;
+  return {
+    ...fv,
+    source_method: method,
+    owner_name: narrative?.owner?.displayName || null,
+    owner_classification: narrative?.owner?.classification || null,
+    narrative_id: narrative?.id || null,
+    narrative_type: narrative?.type || option?.type || null,
+  };
+}
+
 function extractAnalystFairValue(api) {
-  // SWS exposes "AnalystConsensusTarget" as the default narrative on the
-  // valuation tab. The latest published update's valuation.fairValue is THE
-  // analyst-consensus number we want. SWS also offers `npvPerShare` (DCF
-  // intrinsic) but the user is SEBI-aligned and analyst-consensus is the
-  // canonical FV in Indian market context.
+  // `defaultNarrative` can point at arbitrary community narratives and has
+  // flipped between min/max-ish values in production. Only the explicit
+  // AnalystConsensusTarget narrative is allowed into alertable fair value.
+  const historyOptions = api?.graphql?.NarrativeValuationHistory?.company?.valuationOptions;
+  if (Array.isArray(historyOptions)) {
+    for (const option of historyOptions) {
+      const narrative = option?.narrative;
+      if (!isAnalystConsensusNarrative(narrative, option)) continue;
+      const result = fairValueResult(narrative, option, "narrative_history_consensus");
+      if (result) return result;
+    }
+  }
+
   const nv = api?.graphql?.getNarrativeValuation?.Company;
-  if (!nv) return null;
-  const ownerName = nv?.defaultNarrative?.owner?.displayName;
-  // Prefer the AnalystConsensusTarget narrative's fairValue.
-  const fv = nv?.defaultNarrative?.latestPublishedUpdate?.valuation?.fairValue;
-  if (typeof fv === "number" && fv > 0) return fv;
-  // Fallback to npvPerShare (DCF intrinsic) if narrative FV is missing.
-  const npv = nv?.analysisValue?.npvPerShare;
-  if (typeof npv === "number" && npv > 0) return npv;
-  return null;
+  const defaultNarrative = nv?.defaultNarrative;
+  if (isAnalystConsensusNarrative(defaultNarrative)) {
+    const result = fairValueResult(defaultNarrative, null, "default_narrative_consensus");
+    if (result) return result;
+  }
+
+  return {
+    fair_value_inr: null,
+    published_at: null,
+    source_method: defaultNarrative ? "non_consensus_default_narrative" : "missing_consensus_narrative",
+    owner_name: defaultNarrative?.owner?.displayName || null,
+    owner_classification: defaultNarrative?.owner?.classification || null,
+    narrative_id: defaultNarrative?.id || null,
+    narrative_type: defaultNarrative?.type || null,
+  };
 }
 
 function extractFairValueRange(api) {
@@ -848,11 +905,13 @@ function growwFinite(entry, key, { min = -Infinity, max = Infinity, inclusiveMin
 }
 
 function setSource(sourceMap, key, provider, value, meta = {}) {
+  const { fetched_at, url, ...extra } = meta || {};
   sourceMap[key] = {
     provider,
     value,
-    fetched_at: meta.fetched_at || null,
-    url: meta.url || null,
+    fetched_at: fetched_at || null,
+    url: url || null,
+    ...extra,
   };
 }
 
@@ -1215,7 +1274,8 @@ export function parseStock(api, opts = {}) {
   const sfTotal = snowflakeTotal(sf);
   const snowflakeDataQuality = extractSnowflakeDataQuality(api);
   const snowflakeCheckMatrix = extractSnowflakeCheckMatrix(api);
-  const fv = extractAnalystFairValue(api);
+  const fvResult = extractAnalystFairValue(api);
+  const fv = fvResult?.fair_value_inr ?? null;
   const fvRange = extractFairValueRange(api);
   const { rewards, risks } = extractRewardsRisks(api);
   const fiscal = extractFiscalData(api);
@@ -1257,7 +1317,15 @@ export function parseStock(api, opts = {}) {
     fetched_at: api.fetchedAt || null,
     url: api.canonicalUrl ? `https://simplywall.st${api.canonicalUrl}` : null,
   };
-  if (fv != null) setSource(sourceMap, "fair_value_inr", "sws_analyst_fair_value", fv, swsMeta);
+  if (fv != null) setSource(sourceMap, "fair_value_inr", "sws_analyst_fair_value", fv, {
+    ...swsMeta,
+    method: fvResult?.source_method || null,
+    owner_name: fvResult?.owner_name || null,
+    owner_classification: fvResult?.owner_classification || null,
+    narrative_id: fvResult?.narrative_id || null,
+    narrative_type: fvResult?.narrative_type || null,
+    published_at: fvResult?.published_at || null,
+  });
   if (upsidePct != null) setSource(sourceMap, "upside_pct", "computed_from_sws_fv_price", upsidePct, swsMeta);
   const peResolution = resolvePeBenchmark({
     ticker: tickerKey,
@@ -1383,6 +1451,14 @@ export function parseStock(api, opts = {}) {
       fifty_two_week: fiftyTwoWeek,
       fair_value_inr: fv,
       fair_value_range_inr: fvRange,
+      fair_value_source_detail: fvResult ? {
+        method: fvResult.source_method || null,
+        owner_name: fvResult.owner_name || null,
+        owner_classification: fvResult.owner_classification || null,
+        narrative_id: fvResult.narrative_id || null,
+        narrative_type: fvResult.narrative_type || null,
+        published_at: fvResult.published_at || null,
+      } : null,
       upside_pct: upsidePct,
       multiples,
       multiples_meta: {

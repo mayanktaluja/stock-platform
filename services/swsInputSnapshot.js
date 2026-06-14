@@ -4,6 +4,10 @@ import path from "node:path";
 
 export const INPUT_SIGNATURE_SCHEMA_VERSION = 1;
 export const FUNDAMENTAL_CHANGES_SCHEMA_VERSION = 1;
+export const CONFIRMED_FUNDAMENTAL_CHANGES_SCHEMA_VERSION = 2;
+export const INPUT_ALERT_STATE_SCHEMA_VERSION = 2;
+export const INPUT_ALERT_CONFIRMATION_POLICY = "two_consecutive_full_runs";
+export const INPUT_ALERT_REQUIRED_CONFIRMATIONS = 2;
 
 const PILLAR_KEYS = [
   "value",
@@ -35,6 +39,27 @@ const FISCAL_FIELDS = [
   "latest_period",
   "latest_period_end",
 ];
+
+const SIGNAL_PILLAR_FIELDS = [
+  "value",
+  "future",
+  "past",
+  "health",
+  "dividend",
+];
+
+const SIGNAL_PILLAR_ALIASES = {
+  value: "value",
+  valuation: "value",
+  future: "future",
+  future_growth: "future",
+  past: "past",
+  past_performance: "past",
+  health: "health",
+  financial_health: "health",
+  dividend: "dividend",
+  dividends: "dividend",
+};
 
 function stableNormalize(value) {
   if (Array.isArray(value)) {
@@ -228,6 +253,85 @@ function pushChange(changes, field, previous, current, severity = "medium") {
   changes.push({ field, previous, current, severity });
 }
 
+function valueHash(value) {
+  return stableHash(value, 32);
+}
+
+export function canonicalSwsInputSignalField(field) {
+  const raw = String(field || "");
+  if (raw === "fair_value.fair_value_inr" || raw === "fair_value.upside_band") return raw;
+  if (!raw.startsWith("snowflake.")) return null;
+  const pillar = SIGNAL_PILLAR_ALIASES[raw.slice("snowflake.".length)];
+  return pillar ? `snowflake.${pillar}` : null;
+}
+
+function canonicalSignalChange(change) {
+  const field = canonicalSwsInputSignalField(change?.field);
+  if (!field) return null;
+  return field === change.field ? change : { ...change, field };
+}
+
+function signalValuesFromSignature(sig) {
+  const values = {};
+  const pillars = sig?.inputs?.snowflake?.pillars || {};
+  for (const pillar of SIGNAL_PILLAR_FIELDS) {
+    const value = pillars[pillar] ?? pillars[Object.keys(SIGNAL_PILLAR_ALIASES).find((k) => SIGNAL_PILLAR_ALIASES[k] === pillar && pillars[k] !== undefined)];
+    values[`snowflake.${pillar}`] = value ?? null;
+  }
+  values["fair_value.fair_value_inr"] = sig?.inputs?.fair_value?.fair_value_inr ?? null;
+  values["fair_value.upside_band"] = sig?.diagnostics?.upside_band ?? null;
+  return values;
+}
+
+function signalStateKey(ticker, field) {
+  return `${canonicalSwsTicker(ticker)}|${field}`;
+}
+
+function emptyConfirmedState({ generatedAt, runId } = {}) {
+  return {
+    schema_version: INPUT_ALERT_STATE_SCHEMA_VERSION,
+    confirmation_policy: INPUT_ALERT_CONFIRMATION_POLICY,
+    generated_at: generatedAt || new Date().toISOString(),
+    run_id: runId || null,
+    entries: {},
+  };
+}
+
+export function isConfirmedInputAlertState(state) {
+  return state?.schema_version === INPUT_ALERT_STATE_SCHEMA_VERSION &&
+    state?.confirmation_policy === INPUT_ALERT_CONFIRMATION_POLICY &&
+    state?.entries && typeof state.entries === "object";
+}
+
+export function isSwsInputArtifactEmailEligible(artifact) {
+  return artifact?.schema_version === CONFIRMED_FUNDAMENTAL_CHANGES_SCHEMA_VERSION &&
+    artifact?.confirmation_policy === INPUT_ALERT_CONFIRMATION_POLICY &&
+    artifact?.artifact_email_eligible === true;
+}
+
+function seedStateFromCurrent(currentSnapshot, generatedAt) {
+  const state = emptyConfirmedState({ generatedAt, runId: currentSnapshot?.run_id || null });
+  for (const [ticker, sig] of Object.entries(currentSnapshot?.signatures || {})) {
+    const canonicalTicker = canonicalSwsTicker(ticker);
+    for (const [field, value] of Object.entries(signalValuesFromSignature(sig))) {
+      const key = signalStateKey(canonicalTicker, field);
+      state.entries[key] = {
+        ticker: canonicalTicker,
+        field,
+        confirmed_value: value,
+        confirmed_hash: valueHash(value),
+        pending_value: null,
+        pending_hash: null,
+        pending_count: 0,
+        pending_since_run_id: null,
+        last_seen_run_id: currentSnapshot?.run_id || null,
+        updated_at: generatedAt,
+      };
+    }
+  }
+  return state;
+}
+
 function diffSignatures(previous, current) {
   const changes = [];
   const p = previous?.inputs || {};
@@ -316,5 +420,180 @@ export function diffInputSignatures(previousSnapshot, currentSnapshot, generated
     previous_run_id: previousSnapshot?.run_id || null,
     change_count: changes.length,
     changes,
+  };
+}
+
+export function buildConfirmedInputDiff({
+  previousSnapshot = null,
+  currentSnapshot = null,
+  previousState = null,
+  generatedAt = new Date().toISOString(),
+} = {}) {
+  const seeded = !isConfirmedInputAlertState(previousState);
+  const rawDiff = diffInputSignatures(previousSnapshot, currentSnapshot, generatedAt);
+  if (seeded) {
+    const nextState = seedStateFromCurrent(currentSnapshot, generatedAt);
+    return {
+      diff: {
+        schema_version: CONFIRMED_FUNDAMENTAL_CHANGES_SCHEMA_VERSION,
+        confirmation_policy: INPUT_ALERT_CONFIRMATION_POLICY,
+        artifact_email_eligible: true,
+        state_seeded: true,
+        generated_at: generatedAt,
+        run_id: currentSnapshot?.run_id || generatedAt,
+        previous_run_id: previousSnapshot?.run_id || null,
+        raw_change_count: rawDiff.change_count || 0,
+        change_count: 0,
+        pending_count: 0,
+        suppressed_unconfirmed_count: 0,
+        changes: [],
+      },
+      state: nextState,
+      rawDiff,
+    };
+  }
+
+  const nextState = {
+    ...emptyConfirmedState({ generatedAt, runId: currentSnapshot?.run_id || null }),
+    entries: { ...(previousState.entries || {}) },
+  };
+  const changes = [];
+  let pendingCount = 0;
+  let suppressedUnconfirmedCount = 0;
+  const rawSignalChangesByKey = new Map();
+
+  for (const alert of rawDiff.changes || []) {
+    const ticker = canonicalSwsTicker(alert?.ticker);
+    for (const rawChange of alert?.changes || []) {
+      const change = canonicalSignalChange(rawChange);
+      if (!change) continue;
+      rawSignalChangesByKey.set(signalStateKey(ticker, change.field), { alert, change });
+    }
+  }
+
+  for (const [ticker, sig] of Object.entries(currentSnapshot?.signatures || {})) {
+    const canonicalTicker = canonicalSwsTicker(ticker);
+    for (const [field, currentValue] of Object.entries(signalValuesFromSignature(sig))) {
+      const key = signalStateKey(canonicalTicker, field);
+      const currentHash = valueHash(currentValue);
+      const existing = nextState.entries[key] || {
+        ticker: canonicalTicker,
+        field,
+        confirmed_value: currentValue,
+        confirmed_hash: currentHash,
+        pending_value: null,
+        pending_hash: null,
+        pending_count: 0,
+        pending_since_run_id: null,
+      };
+      const rawSignal = rawSignalChangesByKey.get(key);
+
+      if (!existing.confirmed_hash) {
+        existing.confirmed_hash = valueHash(existing.confirmed_value);
+      }
+
+      if (currentHash === existing.confirmed_hash) {
+        nextState.entries[key] = {
+          ...existing,
+          pending_value: null,
+          pending_hash: null,
+          pending_count: 0,
+          pending_since_run_id: null,
+          last_seen_run_id: currentSnapshot?.run_id || null,
+          updated_at: generatedAt,
+        };
+        continue;
+      }
+
+      const nextPendingCount = existing.pending_hash === currentHash
+        ? Number(existing.pending_count || 0) + 1
+        : 1;
+
+      if (nextPendingCount >= INPUT_ALERT_REQUIRED_CONFIRMATIONS) {
+        const previousValue = existing.confirmed_value ?? null;
+        const confirmedChange = {
+          field,
+          previous: previousValue,
+          current: currentValue,
+          severity: rawSignal?.change?.severity || "medium",
+        };
+        changes.push({
+          ticker: canonicalTicker,
+          name: sig.name || rawSignal?.alert?.name || canonicalTicker,
+          sector: sig.sector || rawSignal?.alert?.sector || null,
+          severity: confirmedChange.severity === "high" ? "high" : "medium",
+          change_hash: stableHash({ ticker: canonicalTicker, field, previous: previousValue, current: currentValue }),
+          changes: [confirmedChange],
+        });
+        nextState.entries[key] = {
+          ticker: canonicalTicker,
+          field,
+          confirmed_value: currentValue,
+          confirmed_hash: currentHash,
+          pending_value: null,
+          pending_hash: null,
+          pending_count: 0,
+          pending_since_run_id: null,
+          last_seen_run_id: currentSnapshot?.run_id || null,
+          updated_at: generatedAt,
+        };
+      } else {
+        suppressedUnconfirmedCount++;
+        pendingCount++;
+        nextState.entries[key] = {
+          ...existing,
+          ticker: canonicalTicker,
+          field,
+          pending_value: currentValue,
+          pending_hash: currentHash,
+          pending_count: nextPendingCount,
+          pending_since_run_id: existing.pending_hash === currentHash
+            ? existing.pending_since_run_id || currentSnapshot?.run_id || null
+            : currentSnapshot?.run_id || null,
+          last_seen_run_id: currentSnapshot?.run_id || null,
+          updated_at: generatedAt,
+        };
+      }
+    }
+  }
+
+  const mergedByTicker = [];
+  const byTicker = new Map();
+  for (const change of changes) {
+    if (!byTicker.has(change.ticker)) {
+      byTicker.set(change.ticker, {
+        ticker: change.ticker,
+        name: change.name,
+        sector: change.sector,
+        severity: "medium",
+        changes: [],
+      });
+      mergedByTicker.push(byTicker.get(change.ticker));
+    }
+    const row = byTicker.get(change.ticker);
+    row.changes.push(...change.changes);
+    if (change.severity === "high") row.severity = "high";
+  }
+  for (const row of mergedByTicker) {
+    row.change_hash = stableHash({ ticker: row.ticker, changes: row.changes });
+  }
+
+  return {
+    diff: {
+      schema_version: CONFIRMED_FUNDAMENTAL_CHANGES_SCHEMA_VERSION,
+      confirmation_policy: INPUT_ALERT_CONFIRMATION_POLICY,
+      artifact_email_eligible: true,
+      state_seeded: false,
+      generated_at: generatedAt,
+      run_id: currentSnapshot?.run_id || generatedAt,
+      previous_run_id: previousSnapshot?.run_id || null,
+      raw_change_count: rawDiff.change_count || 0,
+      change_count: mergedByTicker.length,
+      pending_count: pendingCount,
+      suppressed_unconfirmed_count: suppressedUnconfirmedCount,
+      changes: mergedByTicker,
+    },
+    state: nextState,
+    rawDiff,
   };
 }

@@ -122,6 +122,7 @@ for (const f of [
   "data/sws/universe-meta.json",
   "data/sws/_sanity/_latest.json",
   "data/sws/alerts/input-signatures-latest.json",
+  "data/sws/alerts/input-alert-confirmation-state.json",
   "data/sws/alerts/fundamental-changes-latest.json",
   "data/coverage/bse_equity_active.json",
   "data/risk-lab/picks-adjusted-latest.json",
@@ -483,6 +484,7 @@ assert(
 assert(
   "sws-refresh-api.sh auto-PR stages SWS input alert artifacts",
   /git add .*data\/sws\/alerts\/input-signatures-latest\.json/.test(refreshApi) &&
+    /git add .*data\/sws\/alerts\/input-alert-confirmation-state\.json/.test(refreshApi) &&
     /git add .*data\/sws\/alerts\/fundamental-changes-latest\.json/.test(refreshApi),
   null,
 );

@@ -106,6 +106,59 @@ function baseApi({
 
 console.log("\nsws-api-parser Groww/Refinitiv P/E overlay\n");
 
+check("AnalystConsensusTarget valuation history beats unstable non-consensus default narrative", () => {
+  const api = baseApi();
+  api.graphql.getNarrativeValuation.Company.defaultNarrative = {
+    id: "community-default",
+    owner: { displayName: "Community Analyst", classification: "community" },
+    latestPublishedUpdate: {
+      publishedAt: "2026-06-12T00:00:00.000Z",
+      valuation: { fairValue: 418.45 },
+    },
+  };
+  api.graphql.NarrativeValuationHistory = {
+    company: {
+      valuationOptions: [{
+        type: "AnalystConsensusTarget",
+        narrative: {
+          id: "consensus-narrative",
+          owner: { displayName: "AnalystConsensusTarget", classification: "system" },
+          latestPublishedUpdate: {
+            publishedAt: "2026-06-13T00:00:00.000Z",
+            valuation: { fairValue: 750 },
+          },
+        },
+      }],
+    },
+  };
+  const parsed = parseStock(api, { growwPeMap: new Map(), internalIndustryPeMap: new Map() });
+  assert.equal(parsed.overview.fair_value_inr, 750);
+  assert.equal(parsed.overview.fair_value_source_detail.method, "narrative_history_consensus");
+  assert.equal(parsed.overview.fair_value_source_detail.owner_name, "AnalystConsensusTarget");
+  assert.equal(parsed.overview.source_map.fair_value_inr.method, "narrative_history_consensus");
+});
+
+check("Non-consensus default narrative is not treated as alertable fair value", () => {
+  const api = baseApi();
+  api.graphql.getNarrativeValuation.Company.defaultNarrative = {
+    id: "community-default",
+    owner: { displayName: "Community Analyst", classification: "community" },
+    latestPublishedUpdate: {
+      publishedAt: "2026-06-12T00:00:00.000Z",
+      valuation: { fairValue: 418.45 },
+    },
+  };
+  api.graphql.NarrativeValuationHistory = {
+    company: { valuationOptions: [] },
+  };
+  api.graphql.getNarrativeValuation.Company.analysisValue = { npvPerShare: 999 };
+  const parsed = parseStock(api, { growwPeMap: new Map(), internalIndustryPeMap: new Map() });
+  assert.equal(parsed.overview.fair_value_inr, null);
+  assert.equal(parsed.overview.upside_pct, null);
+  assert.equal(parsed.overview.fair_value_source_detail.method, "non_consensus_default_narrative");
+  assert.equal(parsed.overview.source_map.fair_value_inr, undefined);
+});
+
 check("Groww P/E is canonical over stale SWS primaryIndustry benchmark", () => {
   const parsed = parseStock(baseApi(), {
     growwPeMap: new Map([["JSLL", {

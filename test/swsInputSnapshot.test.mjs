@@ -7,8 +7,10 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import {
+  buildConfirmedInputDiff,
   buildInputSignatures,
   diffInputSignatures,
+  isSwsInputArtifactEmailEligible,
   stableHash,
 } from "../services/swsInputSnapshot.js";
 
@@ -102,6 +104,82 @@ try {
   assert.ok(diff.changes[0].changes.some((c) => c.field === "v4_score"), "derived score diagnostic is attached when stable inputs changed");
 
   assert.equal(stableHash(["A", "B"]), stableHash(["B", "A"]), "array order is stable-hashed");
+
+  const seeded = buildConfirmedInputDiff({
+    previousSnapshot: null,
+    currentSnapshot: first,
+    previousState: null,
+    generatedAt: "2026-06-08T00:05:00.000Z",
+  });
+  assert.equal(seeded.diff.schema_version, 2);
+  assert.equal(seeded.diff.confirmation_policy, "two_consecutive_full_runs");
+  assert.equal(seeded.diff.state_seeded, true);
+  assert.equal(seeded.diff.change_count, 0, "first v2 run seeds state without alerting");
+  assert.equal(isSwsInputArtifactEmailEligible(seeded.diff), true);
+  assert.equal(isSwsInputArtifactEmailEligible(diffInputSignatures(null, first)), false, "legacy v1 artifacts are not email-eligible");
+
+  writeFixture({ fairValue: 150, price: 100 });
+  const bFirst = buildInputSignatures({
+    scoredUniversePath: scoredPath,
+    deepDir,
+    lastRefreshPath,
+    generatedAt: "2026-06-08T00:06:00.000Z",
+    runId: "run-b-1",
+  });
+  const pending = buildConfirmedInputDiff({
+    previousSnapshot: first,
+    currentSnapshot: bFirst,
+    previousState: seeded.state,
+    generatedAt: "2026-06-08T00:06:30.000Z",
+  });
+  assert.equal(pending.diff.change_count, 0, "A -> B first observation is pending");
+  assert.ok(pending.diff.pending_count >= 1);
+
+  const bSecond = buildInputSignatures({
+    scoredUniversePath: scoredPath,
+    deepDir,
+    lastRefreshPath,
+    generatedAt: "2026-06-08T00:07:00.000Z",
+    runId: "run-b-2",
+  });
+  const confirmed = buildConfirmedInputDiff({
+    previousSnapshot: bFirst,
+    currentSnapshot: bSecond,
+    previousState: pending.state,
+    generatedAt: "2026-06-08T00:07:30.000Z",
+  });
+  assert.equal(confirmed.diff.change_count, 1, "B repeated on next full run confirms alert");
+  assert.ok(
+    confirmed.diff.changes[0].changes.some((c) => c.field === "fair_value.fair_value_inr" && c.previous === 120 && c.current === 150),
+  );
+
+  const flapSeed = buildConfirmedInputDiff({
+    previousSnapshot: null,
+    currentSnapshot: first,
+    previousState: null,
+    generatedAt: "2026-06-08T00:08:00.000Z",
+  });
+  const flapPending = buildConfirmedInputDiff({
+    previousSnapshot: first,
+    currentSnapshot: bFirst,
+    previousState: flapSeed.state,
+    generatedAt: "2026-06-08T00:08:30.000Z",
+  });
+  const backToA = buildConfirmedInputDiff({
+    previousSnapshot: bFirst,
+    currentSnapshot: first,
+    previousState: flapPending.state,
+    generatedAt: "2026-06-08T00:09:00.000Z",
+  });
+  assert.equal(backToA.diff.change_count, 0, "B -> A clears pending without alert");
+  const bAgain = buildConfirmedInputDiff({
+    previousSnapshot: first,
+    currentSnapshot: bFirst,
+    previousState: backToA.state,
+    generatedAt: "2026-06-08T00:09:30.000Z",
+  });
+  assert.equal(bAgain.diff.change_count, 0, "B after a one-run reversal is pending again, not a repeat alert");
+
   console.log("swsInputSnapshot tests passed");
 } finally {
   fs.rmSync(root, { recursive: true, force: true });

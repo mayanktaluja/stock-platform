@@ -11,6 +11,7 @@
 
 import assert from "node:assert/strict";
 import {
+  buildSwsInputAlertTransitionKeys,
   classifySwsInputAlertImpact,
   classifySwsInputChangeImpact,
   formatAlertChangeSummary,
@@ -20,6 +21,7 @@ import {
   buildSwsInputAlertEmail,
   canonicalizeHoldingTicker,
   digestPortfolioChanges,
+  filterAlertsByTransitionKeys,
   filterSignalChanges,
   formatAlertStockLabel,
   isMaterialFairValueChange,
@@ -320,5 +322,10 @@ assert.equal(
   "Future growth changed from 4 to 3",
 );
 assert.equal(formatAlertFieldLabel("fair_value.fair_value_inr"), "Fair value");
+
+const transitionKeys = buildSwsInputAlertTransitionKeys(analyzerFirst.alerts);
+assert.equal(transitionKeys.length, 1);
+assert.deepEqual(filterAlertsByTransitionKeys(analyzerFirst.alerts, new Set(transitionKeys)), []);
+assert.equal(filterAlertsByTransitionKeys(analyzerFirst.alerts, new Set()).length, 1);
 
 console.log("swsPortfolioInputAlerts tests passed");

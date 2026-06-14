@@ -5653,8 +5653,11 @@ import { getPortfolioStorage } from "./portfolioStorage.js";
 import { getAnalyzerStorage } from "./analyzerStorage.js";
 import { getSwsInputAlertLedgerStorage } from "./swsInputAlertLedgerStorage.js";
 import {
+  buildSwsInputAlertTransitionKeys,
   buildPortfolioSwsInputAlerts,
   buildSwsInputAlertEmail,
+  digestPortfolioChanges,
+  filterAlertsByTransitionKeys,
   canonicalizeHoldingTicker,
   loadMarketWideSwsInputChanges,
   normalizeSwsInputAlert,
@@ -5707,6 +5710,7 @@ function sleep(ms) {
 const SWS_INPUT_ALERT_ARTIFACT = path.join(__dirname, "data", "sws", "alerts", "fundamental-changes-latest.json");
 const SWS_INPUT_ALERT_APP_URL = "https://starbhai-stock-platform.vercel.app/";
 const SWS_INPUT_ALERT_ACTION_STATE_EVENT = "PORTFOLIO_ACTION_STATE";
+const SWS_INPUT_ALERT_TRANSITION_COOLDOWN_MS = 14 * 24 * 60 * 60 * 1000;
 
 function boolEnv(name) {
   return ["1", "true", "yes", "on"].includes(String(process.env[name] || "").trim().toLowerCase());
@@ -6056,7 +6060,44 @@ app.all("/api/cron/sws-input-alerts/send", express.json(), async (req, res) => {
         artifact_present: !market.artifact_missing,
         run_id: market.run_id || null,
         generated_at: market.generated_at || null,
+        schema_version: market.schema_version || null,
+        confirmation_policy: market.confirmation_policy || null,
+        artifact_email_eligible: market.artifact_email_eligible === true,
+        raw_change_count: market.raw_change_count || 0,
+        pending_count: market.pending_count || 0,
+        suppressed_unconfirmed_count: market.suppressed_unconfirmed_count || 0,
+        state_seeded: market.state_seeded === true,
         market_change_count: Array.isArray(market.alerts) ? market.alerts.length : 0,
+      });
+    }
+    if (market.artifact_email_eligible !== true) {
+      return res.json({
+        ok: true,
+        enabled: true,
+        dry_run: boolEnv("SWS_INPUT_ALERTS_DRY_RUN"),
+        reason: market.artifact_missing ? "artifact-missing" : "artifact-not-email-eligible",
+        artifact_email_eligible: false,
+        schema_version: market.schema_version || null,
+        confirmation_policy: market.confirmation_policy || null,
+        raw_change_count: market.raw_change_count || 0,
+        pending_count: market.pending_count || 0,
+        suppressed_unconfirmed_count: market.suppressed_unconfirmed_count || 0,
+        state_seeded: market.state_seeded === true,
+        run_id: market.run_id || null,
+        market_change_count: 0,
+        recipient_count: 0,
+        counts: {
+          eligible: 0,
+          sent: 0,
+          failed: 0,
+          deduped: 0,
+          dry_run: 0,
+          no_holdings: 0,
+          no_alerts: 0,
+          skipped: 0,
+          transition_suppressed: 0,
+        },
+        results: [],
       });
     }
     const userStore = getUserStorage();
@@ -6097,6 +6138,7 @@ app.all("/api/cron/sws-input-alerts/send", express.json(), async (req, res) => {
       no_holdings: 0,
       no_alerts: 0,
       skipped: 0,
+      transition_suppressed: 0,
     };
 
     for (const user of users) {
@@ -6129,6 +6171,20 @@ app.all("/api/cron/sws-input-alerts/send", express.json(), async (req, res) => {
           counts.no_alerts++;
           continue;
         }
+        const recentTransitionKeys = typeof ledger.recentTransitionKeys === "function"
+          ? await ledger.recentTransitionKeys(user.sub, SWS_INPUT_ALERT_TRANSITION_COOLDOWN_MS)
+          : new Set();
+        const cooledAlerts = filterAlertsByTransitionKeys(portfolio.alerts, recentTransitionKeys);
+        const suppressedTransitionCount = Math.max(0, portfolio.alerts.length - cooledAlerts.length);
+        if (suppressedTransitionCount > 0) counts.transition_suppressed += suppressedTransitionCount;
+        portfolio = { ...portfolio, alerts: cooledAlerts, digest: digestPortfolioChanges(cooledAlerts) };
+        if (!portfolio.alerts.length) {
+          if (!dryRun && actionStateEvent) await ledger.appendEvents(user.sub, [actionStateEvent]);
+          counts.no_alerts++;
+          results.push({ sub: user.sub, email, skipped: true, reason: "transition_cooldown", suppressed_transition_count: suppressedTransitionCount });
+          continue;
+        }
+        const transitionKeys = buildSwsInputAlertTransitionKeys(portfolio.alerts);
         if (!portfolio.run_id || !portfolio.digest) {
           counts.failed++;
           results.push({
@@ -6177,6 +6233,7 @@ app.all("/api/cron/sws-input-alerts/send", express.json(), async (req, res) => {
             provider: sendResult.provider || activeMailProvider,
             resend_id: sendResult.id || null,
             message_id: sendResult.id || null,
+            transition_keys: transitionKeys,
           }, actionStateEvent].filter(Boolean));
           counts.sent++;
         } else if (dryRun || sendResult.dry_run) {
@@ -6214,6 +6271,7 @@ app.all("/api/cron/sws-input-alerts/send", express.json(), async (req, res) => {
           error: sendResult.error || null,
           provider: sendResult.provider || activeMailProvider,
           ok: sendResult.ok,
+          suppressed_transition_count: suppressedTransitionCount,
           ...(sendResult.dry_run && sendResult.payload ? { payload: sendResult.payload } : {}),
         });
         if (!dryRun && activeMailProvider === "gmail" && gmailDelayMs > 0) await sleep(gmailDelayMs);
@@ -6252,6 +6310,13 @@ app.all("/api/cron/sws-input-alerts/send", express.json(), async (req, res) => {
       dry_run: dryRun,
       partial_failure: partialFailure,
       run_id: market.run_id,
+      artifact_email_eligible: market.artifact_email_eligible === true,
+      schema_version: market.schema_version || null,
+      confirmation_policy: market.confirmation_policy || null,
+      raw_change_count: market.raw_change_count || 0,
+      pending_count: market.pending_count || 0,
+      suppressed_unconfirmed_count: market.suppressed_unconfirmed_count || 0,
+      state_seeded: market.state_seeded === true,
       market_change_count: market.alerts.length,
       recipient_count: counts.sent + counts.dry_run,
       counts,

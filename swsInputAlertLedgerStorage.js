@@ -43,6 +43,21 @@ function prepareEvent(sub, event) {
   };
 }
 
+function recentTransitionKeysFromEntry(entry, withinMs, now = Date.now()) {
+  const keys = new Set();
+  const windowMs = Number(withinMs);
+  if (!Number.isFinite(windowMs) || windowMs <= 0) return keys;
+  for (const event of entry?.events || []) {
+    if (event?.type !== "EMAIL_SENT") continue;
+    const atMs = Date.parse(event.at || "");
+    if (!Number.isFinite(atMs) || now - atMs > windowMs) continue;
+    for (const key of Array.isArray(event.transition_keys) ? event.transition_keys : []) {
+      if (key) keys.add(String(key));
+    }
+  }
+  return keys;
+}
+
 class FileSwsInputAlertLedgerStorage {
   constructor() { this.name = "file"; }
 
@@ -102,6 +117,11 @@ class FileSwsInputAlertLedgerStorage {
     }
     return null;
   }
+
+  async recentTransitionKeys(sub, withinMs) {
+    const entry = await this.read(sub);
+    return recentTransitionKeysFromEntry(entry, withinMs);
+  }
 }
 
 class KVSwsInputAlertLedgerStorage {
@@ -159,6 +179,11 @@ class KVSwsInputAlertLedgerStorage {
       }
     }
     return null;
+  }
+
+  async recentTransitionKeys(sub, withinMs) {
+    const entry = await this.read(sub);
+    return recentTransitionKeysFromEntry(entry, withinMs);
   }
 }
 

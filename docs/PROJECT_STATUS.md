@@ -1,6 +1,6 @@
 # PROJECT_STATUS.md — stock-platform
 
-**Last updated: 2026-06-13**
+**Last updated: 2026-06-14**
 
 Living snapshot of where the project is right now. Update this file whenever
 you ship a meaningful PR or change direction. The point is that a fresh AI
@@ -46,6 +46,12 @@ experimental surface area and nightly refresh load.
   factor-level drilldown evidence.
 
 ### Portfolio SWS input alert rollout (June 2026)
+- **This PR** — SWS input-change emails now require confirmed v2 alert
+  artifacts before delivery. The parser rejects unstable non-consensus default
+  narrative fair values unless an explicit `AnalystConsensusTarget` source is
+  present, the nightly diff writes a two-consecutive-full-run confirmation
+  state, the cron refuses legacy/unconfirmed artifacts, and the alert ledger
+  adds a 14-day semantic transition cooldown.
 - **This PR** — SWS portfolio input-change emails now prepend a Portfolio
   Analyzer reduction-review block when an alert-affected holding newly enters a
   confirmed reduction/exit from the analyzer construction plan. The cron reuses
