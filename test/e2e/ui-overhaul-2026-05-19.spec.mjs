@@ -24,14 +24,60 @@ async function mainTabRailMetrics(page) {
       const r = el.getBoundingClientRect();
       return { left: r.left, right: r.right, width: r.width };
     };
+    const maxScrollLeft = Math.max(0, (rail?.scrollWidth || 0) - (rail?.clientWidth || 0));
+    const railRectForTargets = rail?.getBoundingClientRect();
+    const snapTargets = [0, maxScrollLeft, ...Array.from(rail?.querySelectorAll(".tab") || []).map((tab) =>
+      Math.min(maxScrollLeft, Math.max(0, tab.getBoundingClientRect().left - railRectForTargets.left + (rail?.scrollLeft || 0))),
+    )]
+      .filter((target) => Number.isFinite(target))
+      .sort((a, b) => a - b)
+      .reduce((targets, target) => {
+        const previous = targets[targets.length - 1];
+        if (previous === undefined || Math.abs(previous - target) > 3) targets.push(target);
+        return targets;
+      }, []);
+    const scrollLeft = rail?.scrollLeft || 0;
+    const nearestSnapDistance = snapTargets.reduce(
+      (nearest, target) => Math.min(nearest, Math.abs(target - scrollLeft)),
+      Number.POSITIVE_INFINITY,
+    );
+    const railBox = rail?.getBoundingClientRect();
+    const visibleTabs = Array.from(rail?.querySelectorAll(".tab") || []).map((tab) => {
+      const r = tab.getBoundingClientRect();
+      return { id: tab.id, left: r.left, right: r.right };
+    });
+    const clippedLeft = visibleTabs.filter((tab) =>
+      railBox && tab.left < railBox.left - 1 && tab.right > railBox.left + 1,
+    );
+    const clippedRight = visibleTabs.filter((tab) =>
+      railBox && tab.left < railBox.right - 1 && tab.right > railBox.right + 1,
+    );
+    const leftMaskOpacity = Number.parseFloat(getComputedStyle(shell, "::before").opacity || "0");
+    const rightMaskOpacity = Number.parseFloat(getComputedStyle(shell, "::after").opacity || "0");
     return {
       shellOverflow: shell?.getAttribute("data-scroll-overflow") || "",
+      shellAtStart: shell?.getAttribute("data-scroll-at-start") || "",
       shellAtEnd: shell?.getAttribute("data-scroll-at-end") || "",
+      shellLeftClipped: shell?.getAttribute("data-scroll-left-clipped") || "",
+      shellRightClipped: shell?.getAttribute("data-scroll-right-clipped") || "",
       railOverflow: rail?.getAttribute("data-scroll-overflow") || "",
-      scrollLeft: rail?.scrollLeft || 0,
+      scrollLeft,
       clientWidth: rail?.clientWidth || 0,
+      scrollWidth: rail?.scrollWidth || 0,
+      snapTargets,
+      nearestSnapDistance,
+      snapped: nearestSnapDistance <= 1,
+      leftMaskOpacity,
+      rightMaskOpacity,
+      clippedLeft,
+      clippedRight,
+      unmaskedHardCut:
+        (clippedLeft.length > 0 && leftMaskOpacity < 0.5) ||
+        (clippedRight.length > 0 && rightMaskOpacity < 0.5),
       leftHidden: Boolean(left?.hidden),
       rightHidden: Boolean(right?.hidden),
+      leftDisabled: Boolean(left?.disabled),
+      rightDisabled: Boolean(right?.disabled),
       leftVisibleState: left?.getAttribute("data-scroll-control-visible") || "",
       rightVisibleState: right?.getAttribute("data-scroll-control-visible") || "",
       leftBox: box(left),
@@ -228,10 +274,13 @@ test.describe("UI/UX overhaul 2026-05-19", () => {
 
     const before = await rail.evaluate((el) => el.scrollLeft);
     await right.click();
-    await expect.poll(() => rail.evaluate((el) => el.scrollLeft), {
-      message: "right rail button should scroll the tablist",
-    }).toBeGreaterThan(before);
-    const afterScrollMetrics = await mainTabRailMetrics(page);
+    const afterScrollMetrics = await expect.poll(() => mainTabRailMetrics(page), {
+      message: "right rail button should snap the tablist to a stable target",
+    }).toMatchObject({
+      snapped: true,
+      unmaskedHardCut: false,
+    }).then(() => mainTabRailMetrics(page));
+    expect(afterScrollMetrics.scrollLeft).toBeGreaterThan(before);
     expect(afterScrollMetrics.clientWidth).toBe(beforeMetrics.clientWidth);
     expect(afterScrollMetrics.leftBox?.width).toBe(beforeMetrics.leftBox?.width);
     expect(afterScrollMetrics.rightBox?.width).toBe(beforeMetrics.rightBox?.width);
@@ -239,6 +288,32 @@ test.describe("UI/UX overhaul 2026-05-19", () => {
     expect(afterScrollMetrics.railOverflow).toBe(
       afterScrollMetrics.shellAtEnd === "true" ? "false" : "true",
     );
+    if (afterScrollMetrics.clippedLeft.length > 0) {
+      expect(afterScrollMetrics.leftMaskOpacity).toBeGreaterThan(0.5);
+    } else {
+      expect(afterScrollMetrics.leftMaskOpacity).toBeLessThan(0.5);
+    }
+
+    for (let i = 0; i < 6; i += 1) {
+      const metrics = await mainTabRailMetrics(page);
+      if (metrics.rightDisabled) break;
+      await right.click();
+      await expect.poll(() => mainTabRailMetrics(page)).toMatchObject({
+        snapped: true,
+        unmaskedHardCut: false,
+      });
+    }
+    const endMetrics = await mainTabRailMetrics(page);
+    expect(endMetrics.snapped).toBe(true);
+    expect(endMetrics.unmaskedHardCut).toBe(false);
+    if (endMetrics.clippedLeft.length > 0) {
+      expect(endMetrics.leftMaskOpacity).toBeGreaterThan(0.5);
+      expect(endMetrics.shellLeftClipped).toBe("true");
+    }
+    if (endMetrics.shellAtEnd === "true") {
+      expect(endMetrics.clippedRight).toHaveLength(0);
+      expect(endMetrics.rightMaskOpacity).toBeLessThan(0.5);
+    }
 
     await page.locator("#picksTabBtn").focus();
     await page.keyboard.press("End");
@@ -254,6 +329,7 @@ test.describe("UI/UX overhaul 2026-05-19", () => {
     await page.setViewportSize({ width: 1200, height: 800 });
     for (const [tab, activeId] of [
       ["picks", "picksTabBtn"],
+      ["analyzer", "analyzerTabBtn"],
       ["sectorOutlook", "sectorOutlookTabBtn"],
       ["track", "trackTabBtn"],
     ]) {

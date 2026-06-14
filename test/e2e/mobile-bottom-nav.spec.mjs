@@ -31,6 +31,22 @@ test.describe("PR #10 mobile bottom-nav", () => {
     const before = await rail.evaluate((el) => el.scrollLeft);
     await right.click();
     await expect.poll(() => rail.evaluate((el) => el.scrollLeft)).toBeGreaterThan(before);
+    await expect.poll(() => rail.evaluate((el) => {
+      const maxScrollLeft = Math.max(0, el.scrollWidth - el.clientWidth);
+      const railRect = el.getBoundingClientRect();
+      const targets = [0, maxScrollLeft, ...Array.from(el.querySelectorAll(".tab")).map((tab) =>
+        Math.min(maxScrollLeft, Math.max(0, tab.getBoundingClientRect().left - railRect.left + el.scrollLeft)),
+      )];
+      return targets.some((target) => Math.abs(target - el.scrollLeft) <= 1);
+    })).toBe(true);
+    await page.evaluate(() => { void window.switchTab("sectorOutlook"); });
+    await expect.poll(() => page.evaluate(() => {
+      const railEl = document.querySelector("#mainTabs");
+      const active = document.querySelector("#mainTabs .tab.active");
+      const railRect = railEl?.getBoundingClientRect();
+      const activeRect = active?.getBoundingClientRect();
+      return Boolean(railRect && activeRect && activeRect.left >= railRect.left - 1 && activeRect.right <= railRect.right + 1);
+    })).toBe(true);
     await expect(page.locator(".bottom-nav")).toBeVisible();
   });
 
