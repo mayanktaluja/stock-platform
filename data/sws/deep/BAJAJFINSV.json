@@ -315,21 +315,21 @@
       "low": 1597,
       "high": 2195
     },
-    "fair_value_inr": null,
+    "fair_value_inr": 2226.69231,
     "fair_value_range_inr": {
       "min": 962.715145,
       "max": 2226.69231,
       "count": 30
     },
     "fair_value_source_detail": {
-      "method": "non_consensus_default_narrative",
-      "owner_name": "AnalystLowTarget",
+      "method": "narrative_histogram_consensus",
+      "owner_name": "AnalystConsensusTarget",
       "owner_classification": null,
-      "narrative_id": "0f1b5fcf-9288-45d2-9be9-0e8729c53a1a",
-      "narrative_type": null,
-      "published_at": null
+      "narrative_id": "4a5696f8-d715-4362-a3f4-ee1a268a9449",
+      "narrative_type": "AI",
+      "published_at": "2026-03-17T10:04:32.016Z"
     },
-    "upside_pct": null,
+    "upside_pct": 33.79956195168849,
     "multiples": {
       "pe": 13.54,
       "ps": 1.81,
@@ -565,6 +565,25 @@
         "value": 2663395200000,
         "fetched_at": "2026-06-11T22:42:15.049Z",
         "url": "https://groww.in/stocks/bajaj-finserv-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 2226.69231,
+        "fetched_at": "2026-06-11T00:20:27.071Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-bajajfinsv/bajaj-finserv-shares",
+        "method": "narrative_histogram_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "4a5696f8-d715-4362-a3f4-ee1a268a9449",
+        "company_id": "8c80d66d-f9a2-45a9-a946-bfd338afbde8",
+        "narrative_type": "AI",
+        "published_at": "2026-03-17T10:04:32.016Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 33.79956195168849,
+        "fetched_at": "2026-06-11T00:20:27.071Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-bajajfinsv/bajaj-finserv-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",

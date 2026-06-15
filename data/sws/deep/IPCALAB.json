@@ -315,21 +315,21 @@
       "low": 1251.6,
       "high": 1678.3
     },
-    "fair_value_inr": null,
+    "fair_value_inr": 1655.33333,
     "fair_value_range_inr": {
       "min": 1071.51224,
       "max": 1655.33333,
       "count": 6
     },
     "fair_value_source_detail": {
-      "method": "non_consensus_default_narrative",
-      "owner_name": "AnalystLowTarget",
+      "method": "narrative_histogram_consensus",
+      "owner_name": "AnalystConsensusTarget",
       "owner_classification": null,
-      "narrative_id": "48586982-ad05-42c4-9594-3254e6a8d995",
-      "narrative_type": null,
-      "published_at": null
+      "narrative_id": "4a889625-0b34-49a7-9f4f-fd116040ec18",
+      "narrative_type": "AI",
+      "published_at": "2026-04-05T04:16:28.577Z"
     },
-    "upside_pct": null,
+    "upside_pct": 1.5417329162065934,
     "multiples": {
       "pe": 35.02,
       "ps": 4.3,
@@ -591,6 +591,25 @@
         "value": 414616100000,
         "fetched_at": "2026-06-11T22:42:15.049Z",
         "url": "https://groww.in/stocks/ipca-laboratories-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 1655.33333,
+        "fetched_at": "2026-06-10T23:15:37.592Z",
+        "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-ipcalab/ipca-laboratories-shares",
+        "method": "narrative_histogram_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "4a889625-0b34-49a7-9f4f-fd116040ec18",
+        "company_id": "dc7648bc-d3a0-4337-889c-b4d330897c4f",
+        "narrative_type": "AI",
+        "published_at": "2026-04-05T04:16:28.577Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 1.5417329162065934,
+        "fetched_at": "2026-06-10T23:15:37.592Z",
+        "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-ipcalab/ipca-laboratories-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",

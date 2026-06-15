@@ -308,21 +308,21 @@
       "low": 2040.2,
       "high": 4403.3
     },
-    "fair_value_inr": null,
+    "fair_value_inr": 3186.04762,
     "fair_value_range_inr": {
       "min": 1344.002032,
       "max": 4500,
       "count": 83
     },
     "fair_value_source_detail": {
-      "method": "non_consensus_default_narrative",
-      "owner_name": "AnalystLowTarget",
+      "method": "narrative_histogram_consensus",
+      "owner_name": "AnalystConsensusTarget",
       "owner_classification": null,
-      "narrative_id": "a98ac96d-2d28-466f-b588-6ae6a7b7d74a",
-      "narrative_type": null,
-      "published_at": null
+      "narrative_id": "5e837308-41c6-414b-943b-e659ab3eb585",
+      "narrative_type": "AI",
+      "published_at": "2026-04-19T10:07:58.977Z"
     },
-    "upside_pct": null,
+    "upside_pct": -18.91977045425627,
     "multiples": {
       "pe": 64.3,
       "ps": 31.27834279301361,
@@ -575,6 +575,25 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 3929.5,
+        "fetched_at": "2026-06-11T00:35:06.517Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-bse/bse-shares"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 3186.04762,
+        "fetched_at": "2026-06-11T00:35:06.517Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-bse/bse-shares",
+        "method": "narrative_histogram_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "5e837308-41c6-414b-943b-e659ab3eb585",
+        "company_id": "bda7a1a5-0d3e-4cd5-aef1-82d3bad808c8",
+        "narrative_type": "AI",
+        "published_at": "2026-04-19T10:07:58.977Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": -18.91977045425627,
         "fetched_at": "2026-06-11T00:35:06.517Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-bse/bse-shares"
       },

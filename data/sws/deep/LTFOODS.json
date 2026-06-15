@@ -315,21 +315,21 @@
       "low": 333.15,
       "high": 518.55
     },
-    "fair_value_inr": null,
+    "fair_value_inr": 451,
     "fair_value_range_inr": {
       "min": 451,
       "max": 955.127229,
       "count": 22
     },
     "fair_value_source_detail": {
-      "method": "non_consensus_default_narrative",
-      "owner_name": "AnalystHighTarget",
+      "method": "narrative_histogram_consensus",
+      "owner_name": "AnalystConsensusTarget",
       "owner_classification": null,
-      "narrative_id": "b864e845-7426-400e-9a37-90a5309c48b8",
-      "narrative_type": null,
-      "published_at": null
+      "narrative_id": "644449e9-38d5-42f5-8880-5efd49a97927",
+      "narrative_type": "AI",
+      "published_at": "2026-02-21T14:06:38.263Z"
     },
-    "upside_pct": null,
+    "upside_pct": 22.587659690133197,
     "multiples": {
       "pe": 20.44,
       "ps": 1.19,
@@ -605,6 +605,25 @@
         "value": 127823800000,
         "fetched_at": "2026-06-11T22:42:15.049Z",
         "url": "https://groww.in/stocks/lt-foods-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 451,
+        "fetched_at": "2026-06-10T23:47:19.305Z",
+        "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-ltfoods/lt-foods-shares",
+        "method": "narrative_histogram_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "644449e9-38d5-42f5-8880-5efd49a97927",
+        "company_id": "04dbc372-faed-4fb1-8e98-5cf18606ad90",
+        "narrative_type": "AI",
+        "published_at": "2026-02-21T14:06:38.263Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 22.587659690133197,
+        "fetched_at": "2026-06-10T23:47:19.305Z",
+        "url": "https://simplywall.st/stocks/in/food-beverage-tobacco/nse-ltfoods/lt-foods-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",

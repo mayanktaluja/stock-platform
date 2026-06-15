@@ -362,21 +362,21 @@
       "low": 513.3,
       "high": 799.71
     },
-    "fair_value_inr": null,
+    "fair_value_inr": 761.14286,
     "fair_value_range_inr": {
       "min": 339.618667,
       "max": 779.55556,
       "count": 12
     },
     "fair_value_source_detail": {
-      "method": "non_consensus_default_narrative",
-      "owner_name": "AnalystHighTarget",
+      "method": "narrative_histogram_consensus",
+      "owner_name": "AnalystConsensusTarget",
       "owner_classification": null,
-      "narrative_id": "27a42381-38e4-4812-8d67-4d5ba6e5f981",
-      "narrative_type": null,
-      "published_at": null
+      "narrative_id": "713d2d80-dcd7-4393-a234-ca458873fb76",
+      "narrative_type": "AI",
+      "published_at": "2026-03-04T05:05:49.564Z"
     },
-    "upside_pct": null,
+    "upside_pct": 19.676550314465416,
     "multiples": {
       "pe": 415.46,
       "ps": 3.73,
@@ -494,6 +494,25 @@
         "value": 94903900000,
         "fetched_at": "2026-06-11T22:42:15.049Z",
         "url": "https://groww.in/stocks/healthcare-global-enterprises-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 761.14286,
+        "fetched_at": "2026-06-11T02:10:55.978Z",
+        "url": "https://simplywall.st/stocks/in/healthcare/nse-hcg/healthcare-global-enterprises-shares",
+        "method": "narrative_histogram_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "713d2d80-dcd7-4393-a234-ca458873fb76",
+        "company_id": "9d21255e-a17c-4388-9240-4e428b77b28b",
+        "narrative_type": "AI",
+        "published_at": "2026-03-04T05:05:49.564Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 19.676550314465416,
+        "fetched_at": "2026-06-11T02:10:55.978Z",
+        "url": "https://simplywall.st/stocks/in/healthcare/nse-hcg/healthcare-global-enterprises-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",

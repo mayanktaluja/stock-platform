@@ -352,21 +352,21 @@
       "low": 304.05,
       "high": 427.7
     },
-    "fair_value_inr": null,
+    "fair_value_inr": 450,
     "fair_value_range_inr": {
       "min": 320.117475,
       "max": 500,
       "count": 110
     },
     "fair_value_source_detail": {
-      "method": "non_consensus_default_narrative",
-      "owner_name": "AnalystHighTarget",
+      "method": "narrative_histogram_consensus",
+      "owner_name": "AnalystConsensusTarget",
       "owner_classification": null,
-      "narrative_id": "19d289bf-b125-463c-b932-16836dc87337",
-      "narrative_type": null,
-      "published_at": null
+      "narrative_id": "e3396c2e-5763-4f80-9b37-9f9ec30ffc2b",
+      "narrative_type": "AI",
+      "published_at": "2026-04-18T13:05:55.004Z"
     },
-    "upside_pct": null,
+    "upside_pct": 29.013761467889903,
     "multiples": {
       "pe": 5.62,
       "ps": 1.55,
@@ -644,6 +644,25 @@
         "value": 917283600000,
         "fetched_at": "2026-06-11T22:42:15.049Z",
         "url": "https://groww.in/stocks/rec-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 450,
+        "fetched_at": "2026-06-11T00:50:21.904Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-recltd/rec-shares",
+        "method": "narrative_histogram_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "e3396c2e-5763-4f80-9b37-9f9ec30ffc2b",
+        "company_id": "7d6c591c-e80a-4bfd-b2e1-ea998b98478d",
+        "narrative_type": "AI",
+        "published_at": "2026-04-18T13:05:55.004Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 29.013761467889903,
+        "fetched_at": "2026-06-11T00:50:21.904Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-recltd/rec-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",

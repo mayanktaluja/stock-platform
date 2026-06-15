@@ -315,21 +315,21 @@
       "low": 966.7,
       "high": 2075
     },
-    "fair_value_inr": null,
+    "fair_value_inr": 1756.25,
     "fair_value_range_inr": {
       "min": 447.564296,
       "max": 2310.51158,
       "count": 10
     },
     "fair_value_source_detail": {
-      "method": "non_consensus_default_narrative",
-      "owner_name": "AnalystLowTarget",
+      "method": "narrative_histogram_consensus",
+      "owner_name": "AnalystConsensusTarget",
       "owner_classification": null,
-      "narrative_id": "5ec52276-ad7c-445c-9b7d-94b966fb6549",
-      "narrative_type": null,
-      "published_at": null
+      "narrative_id": "74951a4b-8d72-4f82-b31f-68189a124ef5",
+      "narrative_type": "AI",
+      "published_at": "2026-03-25T22:04:36.377Z"
     },
-    "upside_pct": null,
+    "upside_pct": -11.980654538164686,
     "multiples": {
       "pe": 189.16,
       "ps": 6.16,
@@ -537,6 +537,25 @@
         "value": 54385500000,
         "fetched_at": "2026-06-11T22:42:15.049Z",
         "url": "https://groww.in/stocks/neogen-chemicals-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 1756.25,
+        "fetched_at": "2026-06-11T00:13:26.053Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-neogen/neogen-chemicals-shares",
+        "method": "narrative_histogram_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "74951a4b-8d72-4f82-b31f-68189a124ef5",
+        "company_id": "77500dd7-3c75-4ae4-9b1f-5c520c3312c9",
+        "narrative_type": "AI",
+        "published_at": "2026-03-25T22:04:36.377Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": -11.980654538164686,
+        "fetched_at": "2026-06-11T00:13:26.053Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-neogen/neogen-chemicals-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",

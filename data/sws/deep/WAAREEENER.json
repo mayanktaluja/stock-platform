@@ -315,21 +315,21 @@
       "low": 2403,
       "high": 3865
     },
-    "fair_value_inr": null,
+    "fair_value_inr": 3505.5,
     "fair_value_range_inr": {
       "min": 1056.01,
       "max": 22000,
       "count": 34
     },
     "fair_value_source_detail": {
-      "method": "non_consensus_default_narrative",
-      "owner_name": "AnalystHighTarget",
+      "method": "narrative_histogram_consensus",
+      "owner_name": "AnalystConsensusTarget",
       "owner_classification": null,
-      "narrative_id": "3439b03d-9838-403a-9d28-c2d96a53a1d8",
-      "narrative_type": null,
-      "published_at": null
+      "narrative_id": "2bbd7763-c5de-466d-9afd-5f9d26b9ec4d",
+      "narrative_type": "AI",
+      "published_at": "2026-04-03T10:04:48.383Z"
     },
-    "upside_pct": null,
+    "upside_pct": 16.183879093199,
     "multiples": {
       "pe": 22.37,
       "ps": 3.3,
@@ -460,6 +460,25 @@
         "value": 868764600000,
         "fetched_at": "2026-06-11T22:42:15.049Z",
         "url": "https://groww.in/stocks/waaree-energies-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 3505.5,
+        "fetched_at": "2026-06-11T02:20:11.649Z",
+        "url": "https://simplywall.st/stocks/in/semiconductors/nse-waareeener/waaree-energies-shares",
+        "method": "narrative_histogram_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "2bbd7763-c5de-466d-9afd-5f9d26b9ec4d",
+        "company_id": "996c23cc-90b1-4493-adbc-4d4f9e8cdbdb",
+        "narrative_type": "AI",
+        "published_at": "2026-04-03T10:04:48.383Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 16.183879093199,
+        "fetched_at": "2026-06-11T02:20:11.649Z",
+        "url": "https://simplywall.st/stocks/in/semiconductors/nse-waareeener/waaree-energies-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",

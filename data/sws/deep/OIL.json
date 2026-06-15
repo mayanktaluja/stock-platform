@@ -315,21 +315,21 @@
       "low": 384.6,
       "high": 531
     },
-    "fair_value_inr": null,
+    "fair_value_inr": 493.55556,
     "fair_value_range_inr": {
       "min": 493.55556,
       "max": 704.456751,
       "count": 41
     },
     "fair_value_source_detail": {
-      "method": "non_consensus_default_narrative",
-      "owner_name": "AnalystHighTarget",
+      "method": "narrative_histogram_consensus",
+      "owner_name": "AnalystConsensusTarget",
       "owner_classification": null,
-      "narrative_id": "5bf249ec-2654-4f14-8e9c-00d0f870ad10",
-      "narrative_type": null,
-      "published_at": null
+      "narrative_id": "f14b25b9-190e-4930-a179-4f7ee6682cb0",
+      "narrative_type": "AI",
+      "published_at": "2026-03-19T18:08:40.498Z"
     },
-    "upside_pct": null,
+    "upside_pct": 15.49211653211653,
     "multiples": {
       "pe": 9.21,
       "ps": 2.28,
@@ -607,6 +607,25 @@
         "value": 695293500000,
         "fetched_at": "2026-06-11T22:42:15.049Z",
         "url": "https://groww.in/stocks/oil-india-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 493.55556,
+        "fetched_at": "2026-06-11T00:21:57.064Z",
+        "url": "https://simplywall.st/stocks/in/energy/nse-oil/oil-india-shares",
+        "method": "narrative_histogram_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "f14b25b9-190e-4930-a179-4f7ee6682cb0",
+        "company_id": "8710a506-77c0-4e27-9b55-19ba62c6d152",
+        "narrative_type": "AI",
+        "published_at": "2026-03-19T18:08:40.498Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 15.49211653211653,
+        "fetched_at": "2026-06-11T00:21:57.064Z",
+        "url": "https://simplywall.st/stocks/in/energy/nse-oil/oil-india-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",

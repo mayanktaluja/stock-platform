@@ -315,21 +315,21 @@
       "low": 414,
       "high": 620.2
     },
-    "fair_value_inr": null,
+    "fair_value_inr": 592.42857,
     "fair_value_range_inr": {
       "min": 354.902408,
       "max": 848.39,
       "count": 22
     },
     "fair_value_source_detail": {
-      "method": "non_consensus_default_narrative",
-      "owner_name": "max_profit",
+      "method": "narrative_histogram_consensus",
+      "owner_name": "AnalystConsensusTarget",
       "owner_classification": null,
-      "narrative_id": "b5598fef-1617-4fca-a962-1ab564da12c1",
-      "narrative_type": null,
-      "published_at": null
+      "narrative_id": "fc2af0b6-e0d1-44fa-9da5-6fbdf0c6e6f7",
+      "narrative_type": "AI",
+      "published_at": "2026-06-02T17:04:26.775Z"
     },
-    "upside_pct": null,
+    "upside_pct": 14.258162005785927,
     "multiples": {
       "pe": 31.14,
       "ps": 3.59,
@@ -460,6 +460,25 @@
         "value": 124925000000,
         "fetched_at": "2026-06-11T22:42:15.049Z",
         "url": "https://groww.in/stocks/indegene-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 592.42857,
+        "fetched_at": "2026-06-10T23:09:20.548Z",
+        "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-indgn/indegene-shares",
+        "method": "narrative_histogram_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "fc2af0b6-e0d1-44fa-9da5-6fbdf0c6e6f7",
+        "company_id": "14fcf2e7-1d0d-439d-95e6-0ae1ec7eaa9f",
+        "narrative_type": "AI",
+        "published_at": "2026-06-02T17:04:26.775Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 14.258162005785927,
+        "fetched_at": "2026-06-10T23:09:20.548Z",
+        "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-indgn/indegene-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",

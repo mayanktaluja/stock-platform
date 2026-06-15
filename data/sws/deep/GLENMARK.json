@@ -315,21 +315,21 @@
       "low": 1589,
       "high": 2474
     },
-    "fair_value_inr": null,
+    "fair_value_inr": 2129.5,
     "fair_value_range_inr": {
       "min": 1216.446563,
       "max": 2735,
       "count": 15
     },
     "fair_value_source_detail": {
-      "method": "non_consensus_default_narrative",
-      "owner_name": "AnalystHighTarget",
+      "method": "narrative_histogram_consensus",
+      "owner_name": "AnalystConsensusTarget",
       "owner_classification": null,
-      "narrative_id": "dba4d60b-dca3-4936-81e9-6b486b5168ce",
-      "narrative_type": null,
-      "published_at": null
+      "narrative_id": "7709c654-145a-41a7-975e-0874b6c3ded5",
+      "narrative_type": "AI",
+      "published_at": "2026-01-06T09:08:58.491Z"
     },
-    "upside_pct": null,
+    "upside_pct": -0.6948330535347925,
     "multiples": {
       "pe": 44.43,
       "ps": 3.73,
@@ -590,6 +590,25 @@
         "value": 605066800000,
         "fetched_at": "2026-06-11T22:42:15.049Z",
         "url": "https://groww.in/stocks/glenmark-pharmaceuticals-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 2129.5,
+        "fetched_at": "2026-06-11T01:57:09.778Z",
+        "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-glenmark/glenmark-pharmaceuticals-shares",
+        "method": "narrative_histogram_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "7709c654-145a-41a7-975e-0874b6c3ded5",
+        "company_id": "9e747414-d2af-4905-a926-b38b07430859",
+        "narrative_type": "AI",
+        "published_at": "2026-01-06T09:08:58.491Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": -0.6948330535347925,
+        "fetched_at": "2026-06-11T01:57:09.778Z",
+        "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-glenmark/glenmark-pharmaceuticals-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",

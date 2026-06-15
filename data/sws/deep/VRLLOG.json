@@ -315,21 +315,21 @@
       "low": 225,
       "high": 324.5
     },
-    "fair_value_inr": null,
+    "fair_value_inr": 337.85714,
     "fair_value_range_inr": {
       "min": 303.339876,
       "max": 6479.2,
       "count": 7
     },
     "fair_value_source_detail": {
-      "method": "non_consensus_default_narrative",
-      "owner_name": "AnalystLowTarget",
+      "method": "narrative_histogram_consensus",
+      "owner_name": "AnalystConsensusTarget",
       "owner_classification": null,
-      "narrative_id": "dfc786ba-979e-4c56-8381-2d5e719c5cb3",
-      "narrative_type": null,
-      "published_at": null
+      "narrative_id": "cc1bfba4-d426-4b85-aa7a-e37782e9bffb",
+      "narrative_type": "AI",
+      "published_at": "2025-08-15T05:45:42.896Z"
     },
-    "upside_pct": null,
+    "upside_pct": 44.11241255758404,
     "multiples": {
       "pe": 17.3,
       "ps": 1.31,
@@ -593,6 +593,25 @@
         "value": 40979000000,
         "fetched_at": "2026-06-11T22:42:15.049Z",
         "url": "https://groww.in/stocks/vrl-logistics-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 337.85714,
+        "fetched_at": "2026-06-11T02:19:39.551Z",
+        "url": "https://simplywall.st/stocks/in/transportation/nse-vrllog/vrl-logistics-shares",
+        "method": "narrative_histogram_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "cc1bfba4-d426-4b85-aa7a-e37782e9bffb",
+        "company_id": "bc7aaa52-5a1f-42a2-b309-49c52028c5dd",
+        "narrative_type": "AI",
+        "published_at": "2025-08-15T05:45:42.896Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 44.11241255758404,
+        "fetched_at": "2026-06-11T02:19:39.551Z",
+        "url": "https://simplywall.st/stocks/in/transportation/nse-vrllog/vrl-logistics-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",

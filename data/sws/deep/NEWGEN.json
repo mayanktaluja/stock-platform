@@ -315,21 +315,21 @@
       "low": 401.05,
       "high": 1267.8
     },
-    "fair_value_inr": null,
+    "fair_value_inr": 845,
     "fair_value_range_inr": {
       "min": 283.540604,
       "max": 1119.58124,
       "count": 42
     },
     "fair_value_source_detail": {
-      "method": "non_consensus_default_narrative",
-      "owner_name": "AnalystHighTarget",
+      "method": "narrative_histogram_consensus",
+      "owner_name": "AnalystConsensusTarget",
       "owner_classification": null,
-      "narrative_id": "895a5098-9519-4e7e-b8e2-28b12b113e8d",
-      "narrative_type": null,
-      "published_at": null
+      "narrative_id": "bdfc24d8-c733-4828-9d23-9a7b818d9a57",
+      "narrative_type": "AI",
+      "published_at": "2026-03-06T21:07:18.338Z"
     },
-    "upside_pct": null,
+    "upside_pct": 79.3674379112715,
     "multiples": {
       "pe": 22.35,
       "ps": 4.41,
@@ -553,6 +553,25 @@
         "value": 67179200000,
         "fetched_at": "2026-06-11T22:42:15.049Z",
         "url": "https://groww.in/stocks/newgen-software-technologies-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 845,
+        "fetched_at": "2026-06-11T00:14:10.260Z",
+        "url": "https://simplywall.st/stocks/in/software/nse-newgen/newgen-software-technologies-shares",
+        "method": "narrative_histogram_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "bdfc24d8-c733-4828-9d23-9a7b818d9a57",
+        "company_id": "5a139325-245a-4669-a434-fd285edcefba",
+        "narrative_type": "AI",
+        "published_at": "2026-03-06T21:07:18.338Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 79.3674379112715,
+        "fetched_at": "2026-06-11T00:14:10.260Z",
+        "url": "https://simplywall.st/stocks/in/software/nse-newgen/newgen-software-technologies-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",

@@ -315,21 +315,21 @@
       "low": 755.55,
       "high": 1297
     },
-    "fair_value_inr": null,
+    "fair_value_inr": 1260.5,
     "fair_value_range_inr": {
       "min": 1260.5,
       "max": 1440,
       "count": 14
     },
     "fair_value_source_detail": {
-      "method": "non_consensus_default_narrative",
-      "owner_name": "AnalystHighTarget",
+      "method": "narrative_histogram_consensus",
+      "owner_name": "AnalystConsensusTarget",
       "owner_classification": null,
-      "narrative_id": "8800cc6a-d14a-420b-9d67-b47e1c446dce",
-      "narrative_type": null,
-      "published_at": null
+      "narrative_id": "def7a73a-2091-42e9-8854-1bd7596532d3",
+      "narrative_type": "AI",
+      "published_at": "2026-04-21T21:14:38.021Z"
     },
-    "upside_pct": null,
+    "upside_pct": 39.61344630891067,
     "multiples": {
       "pe": 12.01,
       "ps": 1.52,
@@ -609,6 +609,25 @@
         "value": 81762300000,
         "fetched_at": "2026-06-11T22:42:15.049Z",
         "url": "https://groww.in/stocks/sharda-cropchem-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 1260.5,
+        "fetched_at": "2026-06-11T01:16:05.717Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-shardacrop/sharda-cropchem-shares",
+        "method": "narrative_histogram_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "def7a73a-2091-42e9-8854-1bd7596532d3",
+        "company_id": "9c54e8f1-66ab-41cd-aea9-de8afc3b5740",
+        "narrative_type": "AI",
+        "published_at": "2026-04-21T21:14:38.021Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 39.61344630891067,
+        "fetched_at": "2026-06-11T01:16:05.717Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-shardacrop/sharda-cropchem-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",

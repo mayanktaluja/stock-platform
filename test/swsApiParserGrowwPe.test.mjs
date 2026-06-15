@@ -211,6 +211,78 @@ check("mismatched valuation history is rejected even when it looks like AnalystP
   assert.equal(parsed.overview.source_map.fair_value_inr, undefined);
 });
 
+check("matched histogram AnalystConsensusTarget beats default AnalystHighTarget", () => {
+  const api = baseApi({ priceData: [{ date: "2026-06-10", close: 100 }] });
+  api.graphql.getNarrativeValuation.Company.defaultNarrative = {
+    id: "default-high-target",
+    companyId: BASE_COMPANY_ID,
+    owner: { displayName: "AnalystHighTarget", classification: null },
+    latestPublishedUpdate: {
+      publishedAt: "2026-06-10T00:00:00.000Z",
+      valuation: { fairValue: 450 },
+    },
+  };
+  api.graphql.CompanyNarrativesWithHistogram.narratives.edges = [
+    {
+      node: {
+        id: "default-high-target",
+        companyId: BASE_COMPANY_ID.toLowerCase(),
+        owner: { displayName: "AnalystHighTarget", classification: null },
+        latestPublishedUpdate: { valuation: { fairValue: 450 } },
+      },
+    },
+    {
+      node: {
+        id: "matched-consensus-target",
+        companyId: BASE_COMPANY_ID.toLowerCase(),
+        owner: { displayName: "AnalystConsensusTarget", classification: null },
+        latestPublishedUpdate: {
+          publishedAt: "2026-06-11T00:00:00.000Z",
+          valuation: { fairValue: 386.3 },
+        },
+      },
+    },
+  ];
+  const parsed = parseStock(api, { growwPeMap: new Map(), growwStockMap: new Map(), internalIndustryPeMap: new Map() });
+  assert.equal(parsed.overview.fair_value_inr, 386.3);
+  assert.equal(Number(parsed.overview.upside_pct.toFixed(1)), 286.3);
+  assert.equal(parsed.overview.fair_value_source_detail.method, "narrative_histogram_consensus");
+  assert.equal(parsed.overview.source_map.fair_value_inr.narrative_id, "matched-consensus-target");
+});
+
+check("histogram AnalystHighTarget/AnalystLowTarget remain rejected without consensus", () => {
+  const api = baseApi({ priceData: [{ date: "2026-06-10", close: 100 }] });
+  api.graphql.getNarrativeValuation.Company.defaultNarrative = {
+    id: "default-high-target",
+    companyId: BASE_COMPANY_ID,
+    owner: { displayName: "AnalystHighTarget", classification: null },
+    latestPublishedUpdate: { valuation: { fairValue: 450 } },
+  };
+  api.graphql.CompanyNarrativesWithHistogram.narratives.edges = [
+    {
+      node: {
+        id: "matched-high-target",
+        companyId: BASE_COMPANY_ID,
+        owner: { displayName: "AnalystHighTarget", classification: null },
+        latestPublishedUpdate: { valuation: { fairValue: 450 } },
+      },
+    },
+    {
+      node: {
+        id: "matched-low-target",
+        companyId: BASE_COMPANY_ID,
+        owner: { displayName: "AnalystLowTarget", classification: null },
+        latestPublishedUpdate: { valuation: { fairValue: 300 } },
+      },
+    },
+  ];
+  const parsed = parseStock(api, { growwPeMap: new Map(), growwStockMap: new Map(), internalIndustryPeMap: new Map() });
+  assert.equal(parsed.overview.fair_value_inr, null);
+  assert.equal(parsed.overview.upside_pct, null);
+  assert.equal(parsed.overview.fair_value_source_detail.method, "non_consensus_default_narrative");
+  assert.equal(parsed.overview.source_map.fair_value_inr, undefined);
+});
+
 check("default AnalystPriceTarget narrative is trusted for MANORAMA-style fair value", () => {
   const api = baseApi({
     ticker: "MANORAMA",

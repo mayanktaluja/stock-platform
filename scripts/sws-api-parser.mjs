@@ -226,6 +226,18 @@ function fairValueResult(narrative, option, method) {
   };
 }
 
+function trustedMatchedFairValue(narrative, option, expectedCompanyId, methodPrefix) {
+  if (!isNarrativeForCompany(narrative, expectedCompanyId)) return null;
+  const isConsensus = isAnalystConsensusNarrative(narrative, option);
+  const isPriceTarget = isAnalystPriceTargetNarrative(narrative);
+  if (!isConsensus && !isPriceTarget) return null;
+  return fairValueResult(
+    narrative,
+    option,
+    isConsensus ? `${methodPrefix}_consensus` : `${methodPrefix}_analyst_price_target`,
+  );
+}
+
 function extractAnalystFairValue(api) {
   // `defaultNarrative` can point at arbitrary community narratives and has
   // flipped between min/max-ish values in production. Only explicit SWS
@@ -240,13 +252,19 @@ function extractAnalystFairValue(api) {
         if (narrative?.companyId) mismatchedHistoryCount++;
         continue;
       }
-      const isConsensus = isAnalystConsensusNarrative(narrative, option);
-      const isPriceTarget = isAnalystPriceTargetNarrative(narrative);
-      if (!isConsensus && !isPriceTarget) continue;
-      const result = fairValueResult(
-        narrative,
-        option,
-        isConsensus ? "narrative_history_consensus" : "narrative_history_analyst_price_target",
+      const result = trustedMatchedFairValue(narrative, option, expectedCompanyId, "narrative_history");
+      if (result) return result;
+    }
+  }
+
+  const histogramEdges = api?.graphql?.CompanyNarrativesWithHistogram?.narratives?.edges;
+  if (Array.isArray(histogramEdges)) {
+    for (const edge of histogramEdges) {
+      const result = trustedMatchedFairValue(
+        edge?.node,
+        null,
+        expectedCompanyId,
+        "narrative_histogram",
       );
       if (result) return result;
     }

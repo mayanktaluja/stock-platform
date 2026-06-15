@@ -315,21 +315,21 @@
       "low": 515,
       "high": 894.4
     },
-    "fair_value_inr": null,
+    "fair_value_inr": 867.25,
     "fair_value_range_inr": {
       "min": 682,
       "max": 1756.224788,
       "count": 29
     },
     "fair_value_source_detail": {
-      "method": "non_consensus_default_narrative",
-      "owner_name": "AnalystLowTarget",
+      "method": "narrative_histogram_consensus",
+      "owner_name": "AnalystConsensusTarget",
       "owner_classification": null,
-      "narrative_id": "6bfd5c8b-4655-48c5-95b5-05fff691a154",
-      "narrative_type": null,
-      "published_at": null
+      "narrative_id": "2cabb675-211a-4e6a-9add-a1617979ff6f",
+      "narrative_type": "AI",
+      "published_at": "2026-06-02T17:07:15.066Z"
     },
-    "upside_pct": null,
+    "upside_pct": 62.163425579655964,
     "multiples": {
       "pe": 17.12,
       "ps": 2.29,
@@ -503,6 +503,25 @@
         "value": 17366000000,
         "fetched_at": "2026-06-11T22:42:15.049Z",
         "url": "https://groww.in/stocks/krsnaa-diagnostics-ltd-643"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 867.25,
+        "fetched_at": "2026-06-10T23:39:42.027Z",
+        "url": "https://simplywall.st/stocks/in/healthcare/nse-krsnaa/krsnaa-diagnostics-shares",
+        "method": "narrative_histogram_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "2cabb675-211a-4e6a-9add-a1617979ff6f",
+        "company_id": "82a16d4b-3583-44b9-a1f6-10a025386e55",
+        "narrative_type": "AI",
+        "published_at": "2026-06-02T17:07:15.066Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 62.163425579655964,
+        "fetched_at": "2026-06-10T23:39:42.027Z",
+        "url": "https://simplywall.st/stocks/in/healthcare/nse-krsnaa/krsnaa-diagnostics-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",

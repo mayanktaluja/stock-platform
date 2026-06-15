@@ -362,21 +362,21 @@
       "low": 125.1,
       "high": 314.5
     },
-    "fair_value_inr": null,
+    "fair_value_inr": 253,
     "fair_value_range_inr": {
       "min": 188.763644,
       "max": 339,
       "count": 28
     },
     "fair_value_source_detail": {
-      "method": "non_consensus_default_narrative",
-      "owner_name": "AnalystLowTarget",
+      "method": "narrative_histogram_consensus",
+      "owner_name": "AnalystConsensusTarget",
       "owner_classification": null,
-      "narrative_id": "421419ee-2b0c-46df-a191-67f27ba4edf4",
-      "narrative_type": null,
-      "published_at": null
+      "narrative_id": "a7b116d3-402f-46fe-b4e0-55827e71b018",
+      "narrative_type": "AI",
+      "published_at": "2026-02-21T01:07:25.511Z"
     },
-    "upside_pct": null,
+    "upside_pct": 39.516929524649825,
     "multiples": {
       "pe": 14.69,
       "ps": 0.42,
@@ -496,6 +496,25 @@
         "value": 12158700000,
         "fetched_at": "2026-06-11T22:42:15.049Z",
         "url": "https://groww.in/stocks/updater-services-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 253,
+        "fetched_at": "2026-06-11T02:00:47.233Z",
+        "url": "https://simplywall.st/stocks/in/commercial-services/nse-uds/updater-services-shares",
+        "method": "narrative_histogram_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "a7b116d3-402f-46fe-b4e0-55827e71b018",
+        "company_id": "eea71c34-6fbb-4c57-8739-f366205772f8",
+        "narrative_type": "AI",
+        "published_at": "2026-02-21T01:07:25.511Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 39.516929524649825,
+        "fetched_at": "2026-06-11T02:00:47.233Z",
+        "url": "https://simplywall.st/stocks/in/commercial-services/nse-uds/updater-services-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",

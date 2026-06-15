@@ -362,21 +362,21 @@
       "low": 777.3,
       "high": 1688.5
     },
-    "fair_value_inr": null,
+    "fair_value_inr": 1119,
     "fair_value_range_inr": {
       "min": 505.426918,
       "max": 1722,
       "count": 17
     },
     "fair_value_source_detail": {
-      "method": "non_consensus_default_narrative",
-      "owner_name": "AnalystLowTarget",
+      "method": "narrative_histogram_consensus",
+      "owner_name": "AnalystConsensusTarget",
       "owner_classification": null,
-      "narrative_id": "c79e754e-35cc-4652-ba34-377336ae13ee",
-      "narrative_type": null,
-      "published_at": null
+      "narrative_id": "7b854c4c-d71d-4b25-854f-07f5a9caba88",
+      "narrative_type": "AI",
+      "published_at": "2026-05-09T06:04:02.298Z"
     },
-    "upside_pct": null,
+    "upside_pct": -26.982055464926592,
     "multiples": {
       "pe": 90.31,
       "ps": 6.83,
@@ -490,6 +490,25 @@
         "value": 101994800000,
         "fetched_at": "2026-06-11T22:42:15.049Z",
         "url": "https://groww.in/stocks/avalon-technologies-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 1119,
+        "fetched_at": "2026-06-11T00:18:13.503Z",
+        "url": "https://simplywall.st/stocks/in/tech/nse-avalon/avalon-technologies-shares",
+        "method": "narrative_histogram_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "7b854c4c-d71d-4b25-854f-07f5a9caba88",
+        "company_id": "10749b87-5b4b-404e-88eb-fd36961b4f27",
+        "narrative_type": "AI",
+        "published_at": "2026-05-09T06:04:02.298Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": -26.982055464926592,
+        "fetched_at": "2026-06-11T00:18:13.503Z",
+        "url": "https://simplywall.st/stocks/in/tech/nse-avalon/avalon-technologies-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",

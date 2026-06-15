@@ -357,21 +357,21 @@
       "low": 5400.5,
       "high": 8974
     },
-    "fair_value_inr": null,
+    "fair_value_inr": 8422.76,
     "fair_value_range_inr": {
       "min": 3572.534704,
       "max": 8422.76,
       "count": 16
     },
     "fair_value_source_detail": {
-      "method": "non_consensus_default_narrative",
-      "owner_name": "AnalystLowTarget",
+      "method": "narrative_histogram_consensus",
+      "owner_name": "AnalystConsensusTarget",
       "owner_classification": null,
-      "narrative_id": "60d5d0a8-cd30-484c-b7d3-0285dca8b62c",
-      "narrative_type": null,
-      "published_at": null
+      "narrative_id": "01fc0a3e-7586-498c-bdde-9ebd114048e1",
+      "narrative_type": "AI",
+      "published_at": "2026-05-03T05:09:05.765Z"
     },
-    "upside_pct": null,
+    "upside_pct": 10.4624262295082,
     "multiples": {
       "pe": 118.74,
       "ps": 2.24,
@@ -515,6 +515,25 @@
         "value": 268893800000,
         "fetched_at": "2026-06-11T22:42:15.049Z",
         "url": "https://groww.in/stocks/amber-enterprises-india-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 8422.76,
+        "fetched_at": "2026-06-11T00:04:50.006Z",
+        "url": "https://simplywall.st/stocks/in/consumer-durables/nse-amber/amber-enterprises-india-shares",
+        "method": "narrative_histogram_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "01fc0a3e-7586-498c-bdde-9ebd114048e1",
+        "company_id": "ff855b7a-f9a1-4176-84ad-1cfdec9386fb",
+        "narrative_type": "AI",
+        "published_at": "2026-05-03T05:09:05.765Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 10.4624262295082,
+        "fetched_at": "2026-06-11T00:04:50.006Z",
+        "url": "https://simplywall.st/stocks/in/consumer-durables/nse-amber/amber-enterprises-india-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
