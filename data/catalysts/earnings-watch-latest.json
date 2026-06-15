@@ -1,17 +1,17 @@
 {
   "schema_version": "earnings-watch-v4",
-  "built_at": "2026-06-14T01:47:10.969Z",
-  "upstream_fetched_at": "2026-06-13T19:00:17.569Z",
+  "built_at": "2026-06-15T02:06:33.438Z",
+  "upstream_fetched_at": "2026-06-14T19:15:27.956Z",
   "upstream_event_count": 20,
   "window_days": 60,
-  "today_iso": "2026-06-14",
+  "today_iso": "2026-06-15",
   "event_count": 6,
   "events": [
     {
       "symbol": "SRPL",
       "company": "Shree Ram Proteins Limited",
       "event_iso_date": "2026-06-15",
-      "days_until": 1,
+      "days_until": 0,
       "fiscal_quarter": "Q4 FY26",
       "fiscal_quarter_meta": {
         "quarter": "Q4",
@@ -67,9 +67,9 @@
           "quarters_count": 2
         },
         "picks_universe": {
-          "v4_score_100": 36.3,
+          "v4_score_100": 35.5,
           "v4_verdict": "WATCH",
-          "v3_score_100": 36.3,
+          "v3_score_100": 35.5,
           "v3_verdict": "WATCH",
           "composite_verdict": "WATCH",
           "categories": [
@@ -78,7 +78,7 @@
           ]
         },
         "v4": {
-          "v4_score_100": 36.3,
+          "v4_score_100": 35.5,
           "v4_verdict": "WATCH",
           "source": "upcoming",
           "breakdown": {
@@ -86,20 +86,20 @@
             "pts_future": 0,
             "pts_valuation": 12,
             "pts_past": 0,
-            "pts_fv_total": 6.9,
-            "fv_imputed": false,
-            "fv_industry_imputed": false,
-            "fv_industry_average_pts": null,
-            "fv_industry_average_count": null,
-            "fv_industry_average_key": null,
-            "fv_industry_average_label": null,
+            "pts_fv_total": 5.7,
+            "fv_imputed": true,
+            "fv_industry_imputed": true,
+            "fv_industry_average_pts": 5.7,
+            "fv_industry_average_count": 18,
+            "fv_industry_average_key": "industry_code:5120000",
+            "fv_industry_average_label": "Food, Beverage & Tobacco",
             "fv_max_inflation_haircut": false,
-            "fv_subsignals_present": 1,
-            "fv_benchmark_used": true,
-            "pts_fv_upside_effective": 6.9,
+            "fv_subsignals_present": 0,
+            "fv_benchmark_used": false,
+            "pts_fv_upside_effective": null,
             "pts_fv_pe_effective": null,
-            "fv_upside_relative_pts": 6.9,
-            "fv_upside_rz": 0.39,
+            "fv_upside_relative_pts": null,
+            "fv_upside_rz": null,
             "fv_pe_ratio": null,
             "fv_pe_bucket": null,
             "fv_pe_source": "sws_industry_api",
@@ -109,7 +109,7 @@
             "fv_pe_industry_pe": 18.474,
             "fv_pe_fetched_at": null,
             "fv_pe_source_url": null,
-            "pts_mom_1y": 2.2,
+            "pts_mom_1y": 2.6,
             "pts_mom_3m": 0.2,
             "pts_mom_1m": 0.3,
             "momentum_imputed": false,
@@ -160,23 +160,12 @@
           }
         },
         "announcements": {
-          "count_30d": 0,
-          "top_classifications": [],
-          "materiality_score_top3": 0,
-          "top3": [],
-          "recent_for_ui": []
+          "top3": []
         },
         "deals_7d": null,
         "sws_upcoming_earnings": {
-          "v3_verdict": "WATCH",
           "composite_verdict": "WATCH",
-          "v3_score_100": 36.3,
-          "snowflake_total": 8,
-          "fair_value_inr": 0.533532,
-          "current_price_inr": 0.39,
-          "upside_pct": 36.8,
           "one_line": "+36.8% to fair value · snow 8/30",
-          "data_completeness_pct": 69,
           "counter_thesis": {
             "verdict_bias": "neutral",
             "text": "4 flagged risks weigh against any optimistic read.",
@@ -185,29 +174,7 @@
               "V4 score moves into TOP_PICK (≥59) or AVOID (<28) on next refresh"
             ]
           },
-          "last_quarter_result": null,
-          "recent_analyst_revisions": [],
-          "sws_audit_trail": {
-            "scoring_version": "sws-v4-100pt-2026-05",
-            "inputs_used": {
-              "snowflake_total": 8,
-              "upside_pct": 36.80307692307692,
-              "returns_1y": -27.77777777777778,
-              "returns_3m": -23.52941176470588,
-              "returns_1m": -11.36363636363636,
-              "risks_count": 4,
-              "surveillance": null,
-              "market_cap_inr": null
-            },
-            "imputations": {
-              "fv_imputed": false,
-              "momentum_imputed": false
-            },
-            "categories_assigned": [
-              "upcoming_earnings",
-              "avoid"
-            ]
-          }
+          "current_price_inr": 0.39
         },
         "llm_signal": {
           "bias": "lean_miss",
@@ -310,7 +277,17 @@
             "why": "no recent bulk/block deals"
           }
         ],
-        "predictor_version": "earnings-predict-v3-2026-05"
+        "predictor_version": "earnings-predict-v3-2026-05",
+        "freeze": {
+          "frozen": true,
+          "source": "display_snapshot",
+          "archive_today_iso": "2026-06-14"
+        }
+      },
+      "prediction_freeze": {
+        "frozen": true,
+        "source": "display_snapshot",
+        "archive_today_iso": "2026-06-14"
       },
       "price_band": {
         "anchored": true,
@@ -440,7 +417,7 @@
       "symbol": "ANSALAPI",
       "company": "Ansal Properties & Infrastructure Limited",
       "event_iso_date": "2026-06-17",
-      "days_until": 3,
+      "days_until": 2,
       "fiscal_quarter": "Q4 FY26",
       "fiscal_quarter_meta": {
         "quarter": "Q4",
@@ -478,12 +455,12 @@
           "ps": 0.07,
           "ev_ebitda": 75.46
         },
-        "upside_pct": 375.09,
+        "upside_pct": null,
         "momentum": {
           "ret_1m_pct": -20.14,
           "ret_3m_pct": -5.01,
           "ret_6m_pct": -1.45,
-          "ret_1y_pct": -18.42,
+          "ret_1y_pct": -19.19,
           "sector_avg_1m_pct": -0.42,
           "sector_sample_size": 862,
           "sector_volatility_1m_pct": null,
@@ -496,9 +473,9 @@
           "revenue_yoy_pct": null
         },
         "picks_universe": {
-          "v4_score_100": 18.4,
+          "v4_score_100": 15.7,
           "v4_verdict": "AVOID",
-          "v3_score_100": 18.4,
+          "v3_score_100": 15.7,
           "v3_verdict": "AVOID",
           "composite_verdict": "AVOID",
           "categories": [
@@ -507,7 +484,7 @@
           ]
         },
         "v4": {
-          "v4_score_100": 18.4,
+          "v4_score_100": 15.7,
           "v4_verdict": "AVOID",
           "source": "upcoming",
           "breakdown": {
@@ -515,30 +492,30 @@
             "pts_future": 0,
             "pts_valuation": 6,
             "pts_past": 0,
-            "pts_fv_total": 8.5,
-            "fv_imputed": false,
-            "fv_industry_imputed": false,
-            "fv_industry_average_pts": null,
-            "fv_industry_average_count": null,
-            "fv_industry_average_key": null,
-            "fv_industry_average_label": null,
+            "pts_fv_total": 5.9,
+            "fv_imputed": true,
+            "fv_industry_imputed": true,
+            "fv_industry_average_pts": 5.9,
+            "fv_industry_average_count": 15,
+            "fv_industry_average_key": "industry_code:7310000",
+            "fv_industry_average_label": "Diversified Financials",
             "fv_max_inflation_haircut": false,
-            "fv_subsignals_present": 1,
-            "fv_benchmark_used": true,
-            "pts_fv_upside_effective": 8.5,
+            "fv_subsignals_present": 0,
+            "fv_benchmark_used": false,
+            "pts_fv_upside_effective": null,
             "pts_fv_pe_effective": null,
-            "fv_upside_relative_pts": 8.5,
-            "fv_upside_rz": 1.059,
+            "fv_upside_relative_pts": null,
+            "fv_upside_rz": null,
             "fv_pe_ratio": null,
             "fv_pe_bucket": null,
             "fv_pe_source": "groww_refinitiv",
             "fv_pe_source_label": "Groww/Refinitiv",
             "fv_pe_industry_name": "Real Estate",
             "fv_pe_company_pe": null,
-            "fv_pe_industry_pe": 30.319,
-            "fv_pe_fetched_at": "2026-06-13T22:20:54.026Z",
+            "fv_pe_industry_pe": 31.327,
+            "fv_pe_fetched_at": "2026-06-14T22:37:45.607Z",
             "fv_pe_source_url": "https://groww.in/stocks/ansal-properties-infrastructure-ltd",
-            "pts_mom_1y": 3.1,
+            "pts_mom_1y": 3,
             "pts_mom_3m": 0.7,
             "pts_mom_1m": 0.1,
             "momentum_imputed": false,
@@ -548,7 +525,7 @@
           }
         },
         "v3": {
-          "v3_score_100": 18.4,
+          "v3_score_100": 15.7,
           "v3_verdict": "AVOID",
           "source": "upcoming",
           "breakdown": {
@@ -556,30 +533,30 @@
             "pts_future": 0,
             "pts_valuation": 6,
             "pts_past": 0,
-            "pts_fv_total": 8.5,
-            "fv_imputed": false,
-            "fv_industry_imputed": false,
-            "fv_industry_average_pts": null,
-            "fv_industry_average_count": null,
-            "fv_industry_average_key": null,
-            "fv_industry_average_label": null,
+            "pts_fv_total": 5.9,
+            "fv_imputed": true,
+            "fv_industry_imputed": true,
+            "fv_industry_average_pts": 5.9,
+            "fv_industry_average_count": 15,
+            "fv_industry_average_key": "industry_code:7310000",
+            "fv_industry_average_label": "Diversified Financials",
             "fv_max_inflation_haircut": false,
-            "fv_subsignals_present": 1,
-            "fv_benchmark_used": true,
-            "pts_fv_upside_effective": 8.5,
+            "fv_subsignals_present": 0,
+            "fv_benchmark_used": false,
+            "pts_fv_upside_effective": null,
             "pts_fv_pe_effective": null,
-            "fv_upside_relative_pts": 8.5,
-            "fv_upside_rz": 1.059,
+            "fv_upside_relative_pts": null,
+            "fv_upside_rz": null,
             "fv_pe_ratio": null,
             "fv_pe_bucket": null,
             "fv_pe_source": "groww_refinitiv",
             "fv_pe_source_label": "Groww/Refinitiv",
             "fv_pe_industry_name": "Real Estate",
             "fv_pe_company_pe": null,
-            "fv_pe_industry_pe": 30.319,
-            "fv_pe_fetched_at": "2026-06-13T22:20:54.026Z",
+            "fv_pe_industry_pe": 31.327,
+            "fv_pe_fetched_at": "2026-06-14T22:37:45.607Z",
             "fv_pe_source_url": "https://groww.in/stocks/ansal-properties-infrastructure-ltd",
-            "pts_mom_1y": 3.1,
+            "pts_mom_1y": 3,
             "pts_mom_3m": 0.7,
             "pts_mom_1m": 0.1,
             "momentum_imputed": false,
@@ -599,16 +576,16 @@
         "sws_upcoming_earnings": {
           "v3_verdict": "AVOID",
           "composite_verdict": "AVOID",
-          "v3_score_100": 18.4,
+          "v3_score_100": 15.7,
           "snowflake_total": 2,
-          "fair_value_inr": 16.200521,
+          "fair_value_inr": null,
           "current_price_inr": 3.41,
-          "upside_pct": 375.1,
-          "one_line": "+375.1% to fair value · snow 2/30",
-          "data_completeness_pct": 92,
+          "upside_pct": null,
+          "one_line": "snow 2/30",
+          "data_completeness_pct": 85,
           "counter_thesis": {
             "verdict_bias": "bearish",
-            "text": "+375.1% to SWS FV — discount may price the negatives in.",
+            "text": "No strong opposing signal in the layer outputs — single-source view; verify thesis independently before acting.",
             "falsification_trigger": [
               "next quarterly result beats consensus by ≥ 10%",
               "a new analyst PT is raised by ≥ 15%",
@@ -621,8 +598,8 @@
             "scoring_version": "sws-v4-100pt-2026-05",
             "inputs_used": {
               "snowflake_total": 2,
-              "upside_pct": 375.0885923753665,
-              "returns_1y": -18.421052631578938,
+              "upside_pct": null,
+              "returns_1y": -19.194312796208525,
               "returns_3m": -5.013927576601664,
               "returns_1m": -20.140515222482424,
               "risks_count": 3,
@@ -630,7 +607,7 @@
               "market_cap_inr": 536800000
             },
             "imputations": {
-              "fv_imputed": false,
+              "fv_imputed": true,
               "momentum_imputed": false
             },
             "categories_assigned": [
@@ -647,16 +624,16 @@
           "classifier_provider": "heuristic",
           "model_id": "heuristic-v2",
           "signal_version": "earnings-llm-v2-2026-05",
-          "generated_at": "2026-06-13T03:49:10.384Z"
+          "generated_at": "2026-06-15T02:06:41.469Z"
         }
       },
       "prediction": {
         "verdict": "MISS",
-        "confidence_pct": 54,
-        "score_100": 30.5,
+        "confidence_pct": 55,
+        "score_100": 28.7,
         "score_breakdown": {
           "v3_future_past": -18,
-          "v3_valuation": 1.7,
+          "v3_valuation": -0.1,
           "v3_overlay": 0,
           "runup": 5,
           "sector_momentum": -0.2,
@@ -669,9 +646,9 @@
           "missing_data_components": [
             "announcements"
           ],
-          "raw_sum": -19.5,
+          "raw_sum": -21.3,
           "sws_quality": -18,
-          "fv_upside": 1.7,
+          "fv_upside": -0.1,
           "threshold_version": "v3-2026-05",
           "threshold_source": "empirical",
           "miss_cut": 34,
@@ -683,8 +660,7 @@
           "missing-data caution: announcements unavailable (-2 pts, HIGH)"
         ],
         "reasons_against": [
-          "lagging sector (-19.7% vs sector — room to surprise)",
-          "V4 valuation: 8.5/12 FV-composite (discount → BEAT setup)"
+          "lagging sector (-19.7% vs sector — room to surprise)"
         ],
         "components_by_impact": [
           {
@@ -708,14 +684,14 @@
             "why": "missing-data caution: announcements unavailable (-2 pts, HIGH)"
           },
           {
-            "name": "v3_valuation",
-            "pts": 1.7,
-            "why": "V4 valuation: 8.5/12 FV-composite (discount → BEAT setup)"
-          },
-          {
             "name": "sector_momentum",
             "pts": -0.2,
             "why": "sector Diversified Financials -0.4% over 1M"
+          },
+          {
+            "name": "v3_valuation",
+            "pts": -0.1,
+            "why": "V4 valuation: fair-value imputed (no FV anchor)"
           },
           {
             "name": "v3_overlay",
@@ -750,25 +726,25 @@
         "basis": "anchored ₹3.41 · vol≈10.1% · conf×0.6",
         "current_price_inr": 3.41,
         "bull": {
-          "pct": 5.9,
-          "price_inr": 3.61
+          "pct": 5.1,
+          "price_inr": 3.59
         },
         "base": {
-          "pct": 0.3,
-          "price_inr": 3.42
+          "pct": -0.9,
+          "price_inr": 3.38
         },
         "bear": {
-          "pct": -5.4,
-          "price_inr": 3.23
+          "pct": -6.9,
+          "price_inr": 3.17
         },
         "version": "earnings-bands-v1-2026-05"
       },
       "rationale": {
-        "headline": "MISS expected (54% conf) — ANSALAPI Q4 FY26 in 3d.",
+        "headline": "MISS expected (55% conf) — ANSALAPI Q4 FY26 in 2d.",
         "paragraphs": [
-          "ANSALAPI reports Q4 FY26 in 3d. Our model expects the result to MISS, with 54% confidence (V1 cap is 65% — see methodology). Strongest input: V4 future 0/20 · past 0/16 (AVOID); reinforced by LLM (heuristic): 3 SWS-vetted reward bullet(s) on file.",
-          "Component breakdown (31/100 composite): pulling toward MISS: V4 future 0/20 · past 0/16 (AVOID); LLM (heuristic): 3 SWS-vetted reward bullet(s) on file; missing-data caution: announcements unavailable (-2 pts, HIGH). Opposing signal: lagging sector (-19.7% vs sector — room to surprise). Sector Diversified Financials momentum acts as the prevailing tide; treat any single-stock thesis as conditional on it not flipping mid-week.",
-          "1-day post-result band: Bull ₹3.61 (+5.9%) · Base ₹3.42 · Bear ₹3.23 (-5.4%). Magnitudes are confidence-scaled and capped at ±15%. Earnings are binary events — size positions to survive a Bear-case print, not to maximise the Bull case."
+          "ANSALAPI reports Q4 FY26 in 2d. Our model expects the result to MISS, with 55% confidence (V1 cap is 65% — see methodology). Strongest input: V4 future 0/20 · past 0/16 (AVOID); reinforced by LLM (heuristic): 3 SWS-vetted reward bullet(s) on file.",
+          "Component breakdown (29/100 composite): pulling toward MISS: V4 future 0/20 · past 0/16 (AVOID); LLM (heuristic): 3 SWS-vetted reward bullet(s) on file; missing-data caution: announcements unavailable (-2 pts, HIGH). Opposing signal: lagging sector (-19.7% vs sector — room to surprise). Sector Diversified Financials momentum acts as the prevailing tide; treat any single-stock thesis as conditional on it not flipping mid-week.",
+          "1-day post-result band: Bull ₹3.59 (+5.1%) · Base ₹3.38 · Bear ₹3.17 (-6.9%). Magnitudes are confidence-scaled and capped at ±15%. Earnings are binary events — size positions to survive a Bear-case print, not to maximise the Bull case."
         ],
         "falsification_triggers": [
           "next quarterly result beats consensus by ≥ 10%",
@@ -875,7 +851,7 @@
       "symbol": "ANIKINDS",
       "company": "Anik Industries Limited",
       "event_iso_date": "2026-06-18",
-      "days_until": 4,
+      "days_until": 3,
       "fiscal_quarter": "Q4 FY26",
       "fiscal_quarter_meta": {
         "quarter": "Q4",
@@ -910,7 +886,7 @@
         "multiples": {
           "pe": 70.49,
           "pb": 0.31,
-          "ps": 0.64,
+          "ps": 0.65,
           "ev_ebitda": 71.21
         },
         "upside_pct": null,
@@ -918,7 +894,7 @@
           "ret_1m_pct": 0.77,
           "ret_3m_pct": 7.69,
           "ret_6m_pct": -21.97,
-          "ret_1y_pct": -59.86,
+          "ret_1y_pct": -59.15,
           "sector_avg_1m_pct": -0.19,
           "sector_sample_size": 948,
           "sector_volatility_1m_pct": null,
@@ -933,9 +909,9 @@
           "quarters_count": 6
         },
         "picks_universe": {
-          "v4_score_100": 32.6,
+          "v4_score_100": 31.7,
           "v4_verdict": "WATCH",
-          "v3_score_100": 32.6,
+          "v3_score_100": 31.7,
           "v3_verdict": "WATCH",
           "composite_verdict": "WATCH",
           "categories": [
@@ -943,7 +919,7 @@
           ]
         },
         "v4": {
-          "v4_score_100": 32.6,
+          "v4_score_100": 31.7,
           "v4_verdict": "WATCH",
           "source": "upcoming",
           "breakdown": {
@@ -951,12 +927,12 @@
             "pts_future": 0,
             "pts_valuation": 0,
             "pts_past": 5.3,
-            "pts_fv_total": 5.8,
+            "pts_fv_total": 4.9,
             "fv_imputed": true,
             "fv_industry_imputed": true,
-            "fv_industry_average_pts": 5.8,
-            "fv_industry_average_count": 137,
-            "fv_industry_average_key": "industry_code:3080000",
+            "fv_industry_average_pts": 4.9,
+            "fv_industry_average_count": 83,
+            "fv_industry_average_key": "sector:Capital Goods",
             "fv_industry_average_label": "Capital Goods",
             "fv_max_inflation_haircut": false,
             "fv_subsignals_present": 1,
@@ -965,14 +941,14 @@
             "pts_fv_pe_effective": null,
             "fv_upside_relative_pts": null,
             "fv_upside_rz": null,
-            "fv_pe_ratio": 1.199,
+            "fv_pe_ratio": 1.191,
             "fv_pe_bucket": "inline",
             "fv_pe_source": "groww_refinitiv",
             "fv_pe_source_label": "Groww/Refinitiv",
             "fv_pe_industry_name": "Distributors",
             "fv_pe_company_pe": 70.49,
-            "fv_pe_industry_pe": 58.8,
-            "fv_pe_fetched_at": "2026-06-13T22:20:54.026Z",
+            "fv_pe_industry_pe": 59.207,
+            "fv_pe_fetched_at": "2026-06-14T22:37:45.607Z",
             "fv_pe_source_url": "https://groww.in/stocks/anik-industries-ltd",
             "pts_mom_1y": 0.3,
             "pts_mom_3m": 1.6,
@@ -984,7 +960,7 @@
           }
         },
         "v3": {
-          "v3_score_100": 32.6,
+          "v3_score_100": 31.7,
           "v3_verdict": "WATCH",
           "source": "upcoming",
           "breakdown": {
@@ -992,12 +968,12 @@
             "pts_future": 0,
             "pts_valuation": 0,
             "pts_past": 5.3,
-            "pts_fv_total": 5.8,
+            "pts_fv_total": 4.9,
             "fv_imputed": true,
             "fv_industry_imputed": true,
-            "fv_industry_average_pts": 5.8,
-            "fv_industry_average_count": 137,
-            "fv_industry_average_key": "industry_code:3080000",
+            "fv_industry_average_pts": 4.9,
+            "fv_industry_average_count": 83,
+            "fv_industry_average_key": "sector:Capital Goods",
             "fv_industry_average_label": "Capital Goods",
             "fv_max_inflation_haircut": false,
             "fv_subsignals_present": 1,
@@ -1006,14 +982,14 @@
             "pts_fv_pe_effective": null,
             "fv_upside_relative_pts": null,
             "fv_upside_rz": null,
-            "fv_pe_ratio": 1.199,
+            "fv_pe_ratio": 1.191,
             "fv_pe_bucket": "inline",
             "fv_pe_source": "groww_refinitiv",
             "fv_pe_source_label": "Groww/Refinitiv",
             "fv_pe_industry_name": "Distributors",
             "fv_pe_company_pe": 70.49,
-            "fv_pe_industry_pe": 58.8,
-            "fv_pe_fetched_at": "2026-06-13T22:20:54.026Z",
+            "fv_pe_industry_pe": 59.207,
+            "fv_pe_fetched_at": "2026-06-14T22:37:45.607Z",
             "fv_pe_source_url": "https://groww.in/stocks/anik-industries-ltd",
             "pts_mom_1y": 0.3,
             "pts_mom_3m": 1.6,
@@ -1035,7 +1011,7 @@
         "sws_upcoming_earnings": {
           "v3_verdict": "WATCH",
           "composite_verdict": "WATCH",
-          "v3_score_100": 32.6,
+          "v3_score_100": 31.7,
           "snowflake_total": 7,
           "fair_value_inr": null,
           "current_price_inr": 42.98,
@@ -1057,7 +1033,7 @@
             "inputs_used": {
               "snowflake_total": 7,
               "upside_pct": null,
-              "returns_1y": -59.85803679835622,
+              "returns_1y": -59.14836992681304,
               "returns_3m": 7.692307692307694,
               "returns_1m": 0.7737397420867487,
               "risks_count": 2,
@@ -1086,11 +1062,11 @@
       },
       "prediction": {
         "verdict": "INLINE",
-        "confidence_pct": 55,
-        "score_100": 41.9,
+        "confidence_pct": 54,
+        "score_100": 41.3,
         "score_breakdown": {
           "v3_future_past": -15,
-          "v3_valuation": -0.1,
+          "v3_valuation": -0.7,
           "v3_overlay": 0,
           "runup": 0,
           "sector_momentum": -0.1,
@@ -1103,9 +1079,9 @@
           "missing_data_components": [
             "announcements"
           ],
-          "raw_sum": -8.1,
+          "raw_sum": -8.7,
           "sws_quality": -15,
-          "fv_upside": -0.1,
+          "fv_upside": -0.7,
           "threshold_version": "v3-2026-05",
           "threshold_source": "empirical",
           "miss_cut": 34,
@@ -1135,7 +1111,7 @@
           },
           {
             "name": "v3_valuation",
-            "pts": -0.1,
+            "pts": -0.7,
             "why": "V4 valuation: fair-value imputed (no FV anchor)"
           },
           {
@@ -1181,25 +1157,25 @@
         "basis": "anchored ₹42.98 · vol≈2.5% · conf×0.6",
         "current_price_inr": 42.98,
         "bull": {
-          "pct": 1.5,
-          "price_inr": 43.62
+          "pct": 1.4,
+          "price_inr": 43.58
         },
         "base": {
           "pct": 0,
           "price_inr": 42.98
         },
         "bear": {
-          "pct": -1.5,
-          "price_inr": 42.34
+          "pct": -1.4,
+          "price_inr": 42.38
         },
         "version": "earnings-bands-v1-2026-05"
       },
       "rationale": {
-        "headline": "INLINE expected (55% conf) — ANIKINDS Q4 FY26 in 4d.",
+        "headline": "INLINE expected (54% conf) — ANIKINDS Q4 FY26 in 3d.",
         "paragraphs": [
-          "ANIKINDS reports Q4 FY26 in 4d. Our model expects the result to land INLINE, with 55% confidence (V1 cap is 65% — see methodology). Strongest input: missing-data caution: announcements unavailable (-2 pts, HIGH); reinforced by V4 valuation: fair-value imputed (no FV anchor).",
-          "Component breakdown (42/100 composite): pulling toward INLINE: missing-data caution: announcements unavailable (-2 pts, HIGH); V4 valuation: fair-value imputed (no FV anchor); sector Capital Goods -0.2% over 1M. No strong opposing signal — INLINE reflects balanced inputs, not absent ones. Sector Capital Goods momentum acts as the prevailing tide; treat any single-stock thesis as conditional on it not flipping mid-week.",
-          "1-day post-result band: Bull ₹43.62 (+1.5%) · Base ₹42.98 · Bear ₹42.34 (-1.5%). Magnitudes are confidence-scaled and capped at ±15%. Earnings are binary events — size positions to survive a Bear-case print, not to maximise the Bull case."
+          "ANIKINDS reports Q4 FY26 in 3d. Our model expects the result to land INLINE, with 54% confidence (V1 cap is 65% — see methodology). Strongest input: missing-data caution: announcements unavailable (-2 pts, HIGH); reinforced by V4 valuation: fair-value imputed (no FV anchor).",
+          "Component breakdown (41/100 composite): pulling toward INLINE: missing-data caution: announcements unavailable (-2 pts, HIGH); V4 valuation: fair-value imputed (no FV anchor); sector Capital Goods -0.2% over 1M. No strong opposing signal — INLINE reflects balanced inputs, not absent ones. Sector Capital Goods momentum acts as the prevailing tide; treat any single-stock thesis as conditional on it not flipping mid-week.",
+          "1-day post-result band: Bull ₹43.58 (+1.4%) · Base ₹42.98 · Bear ₹42.38 (-1.4%). Magnitudes are confidence-scaled and capped at ±15%. Earnings are binary events — size positions to survive a Bear-case print, not to maximise the Bull case."
         ],
         "falsification_triggers": [
           "a material catalyst lands in the next 30 days (PT raise / beat / surveillance change)",
@@ -1304,7 +1280,7 @@
       "symbol": "INDIACEM",
       "company": "The India Cements Limited",
       "event_iso_date": "2026-07-18",
-      "days_until": 34,
+      "days_until": 33,
       "fiscal_quarter": "Q1 FY27",
       "fiscal_quarter_meta": {
         "quarter": "Q1",
@@ -1333,19 +1309,19 @@
         "sector": "Materials",
         "market_cap_inr": 121836100000,
         "market_cap_band": "medium5",
-        "snowflake_total": 7,
+        "snowflake_total": 6,
         "multiples": {
           "pe": 378.11,
           "pb": 2.53,
-          "ps": 2.66,
+          "ps": 2.72,
           "ev_ebitda": 31.76
         },
-        "upside_pct": 11.93,
+        "upside_pct": null,
         "momentum": {
           "ret_1m_pct": -0.84,
           "ret_3m_pct": 10.95,
           "ret_6m_pct": -5.08,
-          "ret_1y_pct": 18.05,
+          "ret_1y_pct": 16.98,
           "sector_avg_1m_pct": -0.43,
           "sector_sample_size": 865,
           "sector_volatility_1m_pct": null,
@@ -1360,9 +1336,9 @@
           "quarters_count": 6
         },
         "picks_universe": {
-          "v4_score_100": 36.9,
+          "v4_score_100": 35.8,
           "v4_verdict": "WATCH",
-          "v3_score_100": 36.9,
+          "v3_score_100": 35.8,
           "v3_verdict": "WATCH",
           "composite_verdict": "WATCH",
           "categories": [
@@ -1370,36 +1346,36 @@
           ]
         },
         "v4": {
-          "v4_score_100": 36.9,
+          "v4_score_100": 35.8,
           "v4_verdict": "WATCH",
           "source": "upcoming",
           "breakdown": {
             "pts_health": 11,
-            "pts_future": 13.3,
+            "pts_future": 10,
             "pts_valuation": 0,
             "pts_past": 0,
-            "pts_fv_total": 4.1,
-            "fv_imputed": false,
-            "fv_industry_imputed": false,
-            "fv_industry_average_pts": null,
-            "fv_industry_average_count": null,
-            "fv_industry_average_key": null,
-            "fv_industry_average_label": null,
+            "pts_fv_total": 6.4,
+            "fv_imputed": true,
+            "fv_industry_imputed": true,
+            "fv_industry_average_pts": 6.4,
+            "fv_industry_average_count": 8,
+            "fv_industry_average_key": "industry_code:2030000",
+            "fv_industry_average_label": "Materials",
             "fv_max_inflation_haircut": false,
-            "fv_subsignals_present": 2,
-            "fv_benchmark_used": true,
-            "pts_fv_upside_effective": 4.1,
-            "pts_fv_pe_effective": 0,
-            "fv_upside_relative_pts": 6.2,
-            "fv_upside_rz": 0.077,
-            "fv_pe_ratio": 12.332,
+            "fv_subsignals_present": 1,
+            "fv_benchmark_used": false,
+            "pts_fv_upside_effective": null,
+            "pts_fv_pe_effective": null,
+            "fv_upside_relative_pts": null,
+            "fv_upside_rz": null,
+            "fv_pe_ratio": 11.993,
             "fv_pe_bucket": "expensive",
             "fv_pe_source": "groww_refinitiv",
             "fv_pe_source_label": "Groww/Refinitiv",
             "fv_pe_industry_name": "Cement",
             "fv_pe_company_pe": 378.113,
-            "fv_pe_industry_pe": 30.661,
-            "fv_pe_fetched_at": "2026-06-13T22:20:54.026Z",
+            "fv_pe_industry_pe": 31.527,
+            "fv_pe_fetched_at": "2026-06-14T22:37:45.607Z",
             "fv_pe_source_url": "https://groww.in/stocks/the-india-cements-ltd",
             "pts_mom_1y": 5.5,
             "pts_mom_3m": 1.8,
@@ -1411,36 +1387,36 @@
           }
         },
         "v3": {
-          "v3_score_100": 36.9,
+          "v3_score_100": 35.8,
           "v3_verdict": "WATCH",
           "source": "upcoming",
           "breakdown": {
             "pts_health": 11,
-            "pts_future": 13.3,
+            "pts_future": 10,
             "pts_valuation": 0,
             "pts_past": 0,
-            "pts_fv_total": 4.1,
-            "fv_imputed": false,
-            "fv_industry_imputed": false,
-            "fv_industry_average_pts": null,
-            "fv_industry_average_count": null,
-            "fv_industry_average_key": null,
-            "fv_industry_average_label": null,
+            "pts_fv_total": 6.4,
+            "fv_imputed": true,
+            "fv_industry_imputed": true,
+            "fv_industry_average_pts": 6.4,
+            "fv_industry_average_count": 8,
+            "fv_industry_average_key": "industry_code:2030000",
+            "fv_industry_average_label": "Materials",
             "fv_max_inflation_haircut": false,
-            "fv_subsignals_present": 2,
-            "fv_benchmark_used": true,
-            "pts_fv_upside_effective": 4.1,
-            "pts_fv_pe_effective": 0,
-            "fv_upside_relative_pts": 6.2,
-            "fv_upside_rz": 0.077,
-            "fv_pe_ratio": 12.332,
+            "fv_subsignals_present": 1,
+            "fv_benchmark_used": false,
+            "pts_fv_upside_effective": null,
+            "pts_fv_pe_effective": null,
+            "fv_upside_relative_pts": null,
+            "fv_upside_rz": null,
+            "fv_pe_ratio": 11.993,
             "fv_pe_bucket": "expensive",
             "fv_pe_source": "groww_refinitiv",
             "fv_pe_source_label": "Groww/Refinitiv",
             "fv_pe_industry_name": "Cement",
             "fv_pe_company_pe": 378.113,
-            "fv_pe_industry_pe": 30.661,
-            "fv_pe_fetched_at": "2026-06-13T22:20:54.026Z",
+            "fv_pe_industry_pe": 31.527,
+            "fv_pe_fetched_at": "2026-06-14T22:37:45.607Z",
             "fv_pe_source_url": "https://groww.in/stocks/the-india-cements-ltd",
             "pts_mom_1y": 5.5,
             "pts_mom_3m": 1.8,
@@ -1462,13 +1438,13 @@
         "sws_upcoming_earnings": {
           "v3_verdict": "WATCH",
           "composite_verdict": "WATCH",
-          "v3_score_100": 36.9,
-          "snowflake_total": 7,
-          "fair_value_inr": 440,
+          "v3_score_100": 35.8,
+          "snowflake_total": 6,
+          "fair_value_inr": null,
           "current_price_inr": 393.1,
-          "upside_pct": 11.9,
-          "one_line": "P/E 378.1x · +11.9% to fair value · snow 7/30",
-          "data_completeness_pct": 100,
+          "upside_pct": null,
+          "one_line": "P/E 378.1x · snow 6/30",
+          "data_completeness_pct": 92,
           "counter_thesis": {
             "verdict_bias": "neutral",
             "text": "No strong opposing signal in the layer outputs — single-source view; verify thesis independently before acting.",
@@ -1482,9 +1458,9 @@
           "sws_audit_trail": {
             "scoring_version": "sws-v4-100pt-2026-05",
             "inputs_used": {
-              "snowflake_total": 7,
-              "upside_pct": 11.930806410582543,
-              "returns_1y": 18.048048048048056,
+              "snowflake_total": 6,
+              "upside_pct": null,
+              "returns_1y": 16.976640380895702,
               "returns_3m": 10.951171323736949,
               "returns_1m": -0.8449993694034472,
               "risks_count": 1,
@@ -1492,7 +1468,7 @@
               "market_cap_inr": 121836100000
             },
             "imputations": {
-              "fv_imputed": false,
+              "fv_imputed": true,
               "momentum_imputed": false
             },
             "categories_assigned": [
@@ -1508,16 +1484,16 @@
           "classifier_provider": "heuristic",
           "model_id": "heuristic-v2",
           "signal_version": "earnings-llm-v2-2026-05",
-          "generated_at": "2026-06-13T03:49:10.384Z"
+          "generated_at": "2026-06-15T02:06:41.469Z"
         }
       },
       "prediction": {
         "verdict": "BEAT",
-        "confidence_pct": 55,
-        "score_100": 61.3,
+        "confidence_pct": 54,
+        "score_100": 60.1,
         "score_breakdown": {
-          "v3_future_past": -3,
-          "v3_valuation": -2.5,
+          "v3_future_past": -7,
+          "v3_valuation": 0.3,
           "v3_overlay": 0,
           "runup": 0,
           "sector_momentum": -0.2,
@@ -1530,9 +1506,9 @@
           "missing_data_components": [
             "announcements"
           ],
-          "raw_sum": 11.3,
-          "sws_quality": -3,
-          "fv_upside": -2.5,
+          "raw_sum": 10.1,
+          "sws_quality": -7,
+          "fv_upside": 0.3,
           "threshold_version": "v3-2026-05",
           "threshold_source": "empirical",
           "miss_cut": 34,
@@ -1540,12 +1516,13 @@
         },
         "reasons_top": [
           "EPS YoY +308.5%",
-          "last quarter beat"
+          "last quarter beat",
+          "V4 valuation: fair-value imputed (no FV anchor)"
         ],
         "reasons_against": [
-          "V4 future 13/20 · past 0/16 (WATCH)",
-          "V4 valuation: 4.1/12 FV-composite (rich → fade risk)",
-          "missing-data caution: announcements unavailable (-2 pts, HIGH)"
+          "V4 future 10/20 · past 0/16 (WATCH)",
+          "missing-data caution: announcements unavailable (-2 pts, HIGH)",
+          "sector Materials -0.4% over 1M"
         ],
         "components_by_impact": [
           {
@@ -1554,24 +1531,24 @@
             "why": "EPS YoY +308.5%"
           },
           {
+            "name": "v3_future_past",
+            "pts": -7,
+            "why": "V4 future 10/20 · past 0/16 (WATCH)"
+          },
+          {
             "name": "last_quarter_echo",
             "pts": 4,
             "why": "last quarter beat"
           },
           {
-            "name": "v3_future_past",
-            "pts": -3,
-            "why": "V4 future 13/20 · past 0/16 (WATCH)"
-          },
-          {
-            "name": "v3_valuation",
-            "pts": -2.5,
-            "why": "V4 valuation: 4.1/12 FV-composite (rich → fade risk)"
-          },
-          {
             "name": "missing_data_penalty",
             "pts": -2,
             "why": "missing-data caution: announcements unavailable (-2 pts, HIGH)"
+          },
+          {
+            "name": "v3_valuation",
+            "pts": 0.3,
+            "why": "V4 valuation: fair-value imputed (no FV anchor)"
           },
           {
             "name": "sector_momentum",
@@ -1611,25 +1588,25 @@
         "basis": "anchored ₹393.1 · vol≈2.5% · conf×0.6",
         "current_price_inr": 393.1,
         "bull": {
-          "pct": 2.7,
-          "price_inr": 403.66
+          "pct": 2.2,
+          "price_inr": 401.91
         },
         "base": {
-          "pct": 1.2,
-          "price_inr": 397.76
+          "pct": 0.8,
+          "price_inr": 396.4
         },
         "bear": {
-          "pct": -0.3,
-          "price_inr": 391.87
+          "pct": -0.6,
+          "price_inr": 390.9
         },
         "version": "earnings-bands-v1-2026-05"
       },
       "rationale": {
-        "headline": "BEAT expected (55% conf) — INDIACEM Q1 FY27 in 34d.",
+        "headline": "BEAT expected (54% conf) — INDIACEM Q1 FY27 in 33d.",
         "paragraphs": [
-          "INDIACEM reports Q1 FY27 in 34d. Our model expects the result to BEAT, with 55% confidence (V1 cap is 65% — see methodology). Strongest input: EPS YoY +308.5%; reinforced by last quarter beat.",
-          "Component breakdown (61/100 composite): pulling toward BEAT: EPS YoY +308.5%; last quarter beat. Opposing signal: V4 future 13/20 · past 0/16 (WATCH). Sector Materials momentum acts as the prevailing tide; treat any single-stock thesis as conditional on it not flipping mid-week.",
-          "1-day post-result band: Bull ₹403.66 (+2.7%) · Base ₹397.76 · Bear ₹391.87 (-0.3%). Magnitudes are confidence-scaled and capped at ±15%. Earnings are binary events — size positions to survive a Bear-case print, not to maximise the Bull case."
+          "INDIACEM reports Q1 FY27 in 33d. Our model expects the result to BEAT, with 54% confidence (V1 cap is 65% — see methodology). Strongest input: EPS YoY +308.5%; reinforced by last quarter beat.",
+          "Component breakdown (60/100 composite): pulling toward BEAT: EPS YoY +308.5%; last quarter beat; V4 valuation: fair-value imputed (no FV anchor). Opposing signal: V4 future 10/20 · past 0/16 (WATCH). Sector Materials momentum acts as the prevailing tide; treat any single-stock thesis as conditional on it not flipping mid-week.",
+          "1-day post-result band: Bull ₹401.91 (+2.2%) · Base ₹396.4 · Bear ₹390.9 (-0.6%). Magnitudes are confidence-scaled and capped at ±15%. Earnings are binary events — size positions to survive a Bear-case print, not to maximise the Bull case."
         ],
         "falsification_triggers": [
           "a material catalyst lands in the next 30 days (PT raise / beat / surveillance change)",
@@ -1735,7 +1712,7 @@
       "symbol": "ULTRACEMCO",
       "company": "UltraTech Cement Limited",
       "event_iso_date": "2026-07-20",
-      "days_until": 36,
+      "days_until": 35,
       "fiscal_quarter": "Q1 FY27",
       "fiscal_quarter_meta": {
         "quarter": "Q1",
@@ -1768,7 +1745,7 @@
         "multiples": {
           "pe": 39.98,
           "pb": 4.27,
-          "ps": 3.61,
+          "ps": 3.7,
           "ev_ebitda": 27.4
         },
         "upside_pct": 22.67,
@@ -1776,7 +1753,7 @@
           "ret_1m_pct": -3.94,
           "ret_3m_pct": 4.72,
           "ret_6m_pct": -5.17,
-          "ret_1y_pct": -0.95,
+          "ret_1y_pct": -3.29,
           "sector_avg_1m_pct": -0.43,
           "sector_sample_size": 865,
           "sector_volatility_1m_pct": null,
@@ -1791,9 +1768,9 @@
           "quarters_count": 6
         },
         "picks_universe": {
-          "v4_score_100": 46.2,
+          "v4_score_100": 45.8,
           "v4_verdict": "ACCEPTABLE",
-          "v3_score_100": 46.2,
+          "v3_score_100": 45.8,
           "v3_verdict": "ACCEPTABLE",
           "composite_verdict": "ACCEPTABLE",
           "categories": [
@@ -1802,7 +1779,7 @@
           ]
         },
         "v4": {
-          "v4_score_100": 46.2,
+          "v4_score_100": 45.8,
           "v4_verdict": "ACCEPTABLE",
           "source": "upcoming",
           "breakdown": {
@@ -1810,7 +1787,7 @@
             "pts_future": 6.7,
             "pts_valuation": 3,
             "pts_past": 10.7,
-            "pts_fv_total": 4.4,
+            "pts_fv_total": 4.2,
             "fv_imputed": false,
             "fv_industry_imputed": false,
             "fv_industry_average_pts": null,
@@ -1820,20 +1797,20 @@
             "fv_max_inflation_haircut": false,
             "fv_subsignals_present": 2,
             "fv_benchmark_used": true,
-            "pts_fv_upside_effective": 4.4,
+            "pts_fv_upside_effective": 4.2,
             "pts_fv_pe_effective": 0,
-            "fv_upside_relative_pts": 6.6,
-            "fv_upside_rz": 0.254,
-            "fv_pe_ratio": 1.304,
+            "fv_upside_relative_pts": 6.3,
+            "fv_upside_rz": 0.136,
+            "fv_pe_ratio": 1.268,
             "fv_pe_bucket": "expensive",
             "fv_pe_source": "groww_refinitiv",
             "fv_pe_source_label": "Groww/Refinitiv",
             "fv_pe_industry_name": "Cement",
             "fv_pe_company_pe": 39.98,
-            "fv_pe_industry_pe": 30.661,
-            "fv_pe_fetched_at": "2026-06-13T22:20:54.026Z",
+            "fv_pe_industry_pe": 31.527,
+            "fv_pe_fetched_at": "2026-06-14T22:37:45.607Z",
             "fv_pe_source_url": "https://groww.in/stocks/ultratech-cement-ltd",
-            "pts_mom_1y": 4.6,
+            "pts_mom_1y": 4.4,
             "pts_mom_3m": 1.4,
             "pts_mom_1m": 0.8,
             "momentum_imputed": false,
@@ -1843,7 +1820,7 @@
           }
         },
         "v3": {
-          "v3_score_100": 46.2,
+          "v3_score_100": 45.8,
           "v3_verdict": "ACCEPTABLE",
           "source": "upcoming",
           "breakdown": {
@@ -1851,7 +1828,7 @@
             "pts_future": 6.7,
             "pts_valuation": 3,
             "pts_past": 10.7,
-            "pts_fv_total": 4.4,
+            "pts_fv_total": 4.2,
             "fv_imputed": false,
             "fv_industry_imputed": false,
             "fv_industry_average_pts": null,
@@ -1861,20 +1838,20 @@
             "fv_max_inflation_haircut": false,
             "fv_subsignals_present": 2,
             "fv_benchmark_used": true,
-            "pts_fv_upside_effective": 4.4,
+            "pts_fv_upside_effective": 4.2,
             "pts_fv_pe_effective": 0,
-            "fv_upside_relative_pts": 6.6,
-            "fv_upside_rz": 0.254,
-            "fv_pe_ratio": 1.304,
+            "fv_upside_relative_pts": 6.3,
+            "fv_upside_rz": 0.136,
+            "fv_pe_ratio": 1.268,
             "fv_pe_bucket": "expensive",
             "fv_pe_source": "groww_refinitiv",
             "fv_pe_source_label": "Groww/Refinitiv",
             "fv_pe_industry_name": "Cement",
             "fv_pe_company_pe": 39.98,
-            "fv_pe_industry_pe": 30.661,
-            "fv_pe_fetched_at": "2026-06-13T22:20:54.026Z",
+            "fv_pe_industry_pe": 31.527,
+            "fv_pe_fetched_at": "2026-06-14T22:37:45.607Z",
             "fv_pe_source_url": "https://groww.in/stocks/ultratech-cement-ltd",
-            "pts_mom_1y": 4.6,
+            "pts_mom_1y": 4.4,
             "pts_mom_3m": 1.4,
             "pts_mom_1m": 0.8,
             "momentum_imputed": false,
@@ -1894,7 +1871,7 @@
         "sws_upcoming_earnings": {
           "v3_verdict": "ACCEPTABLE",
           "composite_verdict": "ACCEPTABLE",
-          "v3_score_100": 46.2,
+          "v3_score_100": 45.8,
           "snowflake_total": 16,
           "fair_value_inr": 13636.78947,
           "current_price_inr": 11117,
@@ -1916,7 +1893,7 @@
             "inputs_used": {
               "snowflake_total": 16,
               "upside_pct": 22.6660922011334,
-              "returns_1y": -0.9533143264433356,
+              "returns_1y": -3.288386254893432,
               "returns_3m": 4.719291635267521,
               "returns_1m": -3.9402056510844203,
               "risks_count": 0,
@@ -1947,10 +1924,10 @@
       "prediction": {
         "verdict": "BEAT",
         "confidence_pct": 56,
-        "score_100": 61.9,
+        "score_100": 61.6,
         "score_breakdown": {
           "v3_future_past": -1.9,
-          "v3_valuation": -2.1,
+          "v3_valuation": -2.4,
           "v3_overlay": 0,
           "runup": 0,
           "sector_momentum": -0.2,
@@ -1963,9 +1940,9 @@
           "missing_data_components": [
             "announcements"
           ],
-          "raw_sum": 11.9,
+          "raw_sum": 11.6,
           "sws_quality": -1.9,
-          "fv_upside": -2.1,
+          "fv_upside": -2.4,
           "threshold_version": "v3-2026-05",
           "threshold_source": "empirical",
           "miss_cut": 34,
@@ -1977,7 +1954,7 @@
           "last quarter beat"
         ],
         "reasons_against": [
-          "V4 valuation: 4.4/12 FV-composite (rich → fade risk)",
+          "V4 valuation: 4.2/12 FV-composite (rich → fade risk)",
           "missing-data caution: announcements unavailable (-2 pts, HIGH)",
           "V4 future 7/20 · past 11/16 (ACCEPTABLE)"
         ],
@@ -1999,8 +1976,8 @@
           },
           {
             "name": "v3_valuation",
-            "pts": -2.1,
-            "why": "V4 valuation: 4.4/12 FV-composite (rich → fade risk)"
+            "pts": -2.4,
+            "why": "V4 valuation: 4.2/12 FV-composite (rich → fade risk)"
           },
           {
             "name": "missing_data_penalty",
@@ -2059,10 +2036,10 @@
         "version": "earnings-bands-v1-2026-05"
       },
       "rationale": {
-        "headline": "BEAT expected (56% conf) — ULTRACEMCO Q1 FY27 in 36d.",
+        "headline": "BEAT expected (56% conf) — ULTRACEMCO Q1 FY27 in 35d.",
         "paragraphs": [
-          "ULTRACEMCO reports Q1 FY27 in 36d. Our model expects the result to BEAT, with 56% confidence (V1 cap is 65% — see methodology). Strongest input: EPS YoY +20.2%; reinforced by LLM (heuristic): 4 SWS-vetted reward bullet(s) on file.",
-          "Component breakdown (62/100 composite): pulling toward BEAT: EPS YoY +20.2%; LLM (heuristic): 4 SWS-vetted reward bullet(s) on file; last quarter beat. Opposing signal: V4 valuation: 4.4/12 FV-composite (rich → fade risk). Sector Materials momentum acts as the prevailing tide; treat any single-stock thesis as conditional on it not flipping mid-week.",
+          "ULTRACEMCO reports Q1 FY27 in 35d. Our model expects the result to BEAT, with 56% confidence (V1 cap is 65% — see methodology). Strongest input: EPS YoY +20.2%; reinforced by LLM (heuristic): 4 SWS-vetted reward bullet(s) on file.",
+          "Component breakdown (62/100 composite): pulling toward BEAT: EPS YoY +20.2%; LLM (heuristic): 4 SWS-vetted reward bullet(s) on file; last quarter beat. Opposing signal: V4 valuation: 4.2/12 FV-composite (rich → fade risk). Sector Materials momentum acts as the prevailing tide; treat any single-stock thesis as conditional on it not flipping mid-week.",
           "1-day post-result band: Bull ₹11466.11 (+3.1%) · Base ₹11288.24 · Bear ₹11110.37 (-0.1%). Magnitudes are confidence-scaled and capped at ±15%. Earnings are binary events — size positions to survive a Bear-case print, not to maximise the Bull case."
         ],
         "falsification_triggers": [
@@ -2169,7 +2146,7 @@
       "symbol": "COFORGE",
       "company": "Coforge Limited",
       "event_iso_date": "2026-07-27",
-      "days_until": 43,
+      "days_until": 42,
       "fiscal_quarter": "Q1 FY27",
       "fiscal_quarter_meta": {
         "quarter": "Q1",
@@ -2202,7 +2179,7 @@
         "multiples": {
           "pe": 33.7,
           "pb": 2.21,
-          "ps": 3.65,
+          "ps": 3.58,
           "ev_ebitda": 29.69
         },
         "upside_pct": 20.31,
@@ -2210,7 +2187,7 @@
           "ret_1m_pct": 5.4,
           "ret_3m_pct": 25.47,
           "ret_6m_pct": -26.14,
-          "ret_1y_pct": -23.73,
+          "ret_1y_pct": -25.27,
           "sector_avg_1m_pct": -1.59,
           "sector_sample_size": 262,
           "sector_volatility_1m_pct": null,
@@ -2225,9 +2202,9 @@
           "quarters_count": 6
         },
         "picks_universe": {
-          "v4_score_100": 55.9,
+          "v4_score_100": 55.3,
           "v4_verdict": "STRONG",
-          "v3_score_100": 55.9,
+          "v3_score_100": 55.3,
           "v3_verdict": "STRONG",
           "composite_verdict": "STRONG",
           "categories": [
@@ -2237,7 +2214,7 @@
           ]
         },
         "v4": {
-          "v4_score_100": 55.9,
+          "v4_score_100": 55.3,
           "v4_verdict": "STRONG",
           "source": "upcoming",
           "breakdown": {
@@ -2245,7 +2222,7 @@
             "pts_future": 13.3,
             "pts_valuation": 0,
             "pts_past": 13.3,
-            "pts_fv_total": 4.4,
+            "pts_fv_total": 4,
             "fv_imputed": false,
             "fv_industry_imputed": false,
             "fv_industry_average_pts": null,
@@ -2255,20 +2232,20 @@
             "fv_max_inflation_haircut": false,
             "fv_subsignals_present": 2,
             "fv_benchmark_used": true,
-            "pts_fv_upside_effective": 4.4,
+            "pts_fv_upside_effective": 4,
             "pts_fv_pe_effective": 0,
-            "fv_upside_relative_pts": 6.5,
-            "fv_upside_rz": 0.223,
-            "fv_pe_ratio": 1.85,
+            "fv_upside_relative_pts": 6.1,
+            "fv_upside_rz": 0.031,
+            "fv_pe_ratio": 1.836,
             "fv_pe_bucket": "expensive",
             "fv_pe_source": "groww_refinitiv",
             "fv_pe_source_label": "Groww/Refinitiv",
             "fv_pe_industry_name": "Information Technology",
             "fv_pe_company_pe": 33.7,
-            "fv_pe_industry_pe": 18.216,
-            "fv_pe_fetched_at": "2026-06-13T22:20:54.026Z",
+            "fv_pe_industry_pe": 18.353,
+            "fv_pe_fetched_at": "2026-06-14T22:37:45.607Z",
             "fv_pe_source_url": "https://groww.in/stocks/niit-technologies-ltd",
-            "pts_mom_1y": 2.6,
+            "pts_mom_1y": 2.4,
             "pts_mom_3m": 2.4,
             "pts_mom_1m": 1.5,
             "momentum_imputed": false,
@@ -2278,7 +2255,7 @@
           }
         },
         "v3": {
-          "v3_score_100": 55.9,
+          "v3_score_100": 55.3,
           "v3_verdict": "STRONG",
           "source": "upcoming",
           "breakdown": {
@@ -2286,7 +2263,7 @@
             "pts_future": 13.3,
             "pts_valuation": 0,
             "pts_past": 13.3,
-            "pts_fv_total": 4.4,
+            "pts_fv_total": 4,
             "fv_imputed": false,
             "fv_industry_imputed": false,
             "fv_industry_average_pts": null,
@@ -2296,20 +2273,20 @@
             "fv_max_inflation_haircut": false,
             "fv_subsignals_present": 2,
             "fv_benchmark_used": true,
-            "pts_fv_upside_effective": 4.4,
+            "pts_fv_upside_effective": 4,
             "pts_fv_pe_effective": 0,
-            "fv_upside_relative_pts": 6.5,
-            "fv_upside_rz": 0.223,
-            "fv_pe_ratio": 1.85,
+            "fv_upside_relative_pts": 6.1,
+            "fv_upside_rz": 0.031,
+            "fv_pe_ratio": 1.836,
             "fv_pe_bucket": "expensive",
             "fv_pe_source": "groww_refinitiv",
             "fv_pe_source_label": "Groww/Refinitiv",
             "fv_pe_industry_name": "Information Technology",
             "fv_pe_company_pe": 33.7,
-            "fv_pe_industry_pe": 18.216,
-            "fv_pe_fetched_at": "2026-06-13T22:20:54.026Z",
+            "fv_pe_industry_pe": 18.353,
+            "fv_pe_fetched_at": "2026-06-14T22:37:45.607Z",
             "fv_pe_source_url": "https://groww.in/stocks/niit-technologies-ltd",
-            "pts_mom_1y": 2.6,
+            "pts_mom_1y": 2.4,
             "pts_mom_3m": 2.4,
             "pts_mom_1m": 1.5,
             "momentum_imputed": false,
@@ -2373,7 +2350,7 @@
         "sws_upcoming_earnings": {
           "v3_verdict": "STRONG",
           "composite_verdict": "STRONG",
-          "v3_score_100": 55.9,
+          "v3_score_100": 55.3,
           "snowflake_total": 18,
           "fair_value_inr": 1644.85294,
           "current_price_inr": 1367.2,
@@ -2396,7 +2373,7 @@
             "inputs_used": {
               "snowflake_total": 18,
               "upside_pct": 20.30814365125804,
-              "returns_1y": -23.726638772663875,
+              "returns_1y": -25.269199234763594,
               "returns_3m": 25.46572451133339,
               "returns_1m": 5.404363580294514,
               "risks_count": 2,
@@ -2428,10 +2405,10 @@
       "prediction": {
         "verdict": "BEAT",
         "confidence_pct": 65,
-        "score_100": 86,
+        "score_100": 85.4,
         "score_breakdown": {
           "v3_future_past": 8.9,
-          "v3_valuation": -2.1,
+          "v3_valuation": -2.7,
           "v3_overlay": 0,
           "runup": 8,
           "sector_momentum": -0.8,
@@ -2442,9 +2419,9 @@
           "llm_signal": -4,
           "missing_data_penalty": 0,
           "missing_data_components": [],
-          "raw_sum": 36,
+          "raw_sum": 35.4,
           "sws_quality": 8.9,
-          "fv_upside": -2.1,
+          "fv_upside": -2.7,
           "threshold_version": "v3-2026-05",
           "threshold_source": "empirical",
           "miss_cut": 34,
@@ -2457,7 +2434,7 @@
         ],
         "reasons_against": [
           "LLM (gemini): Analysts have significantly adjusted price targets downwards, citing updated assumptions on revenue growth and profit margins.",
-          "V4 valuation: 4.4/12 FV-composite (rich → fade risk)",
+          "V4 valuation: 4/12 FV-composite (rich → fade risk)",
           "sector Software -1.6% over 1M"
         ],
         "components_by_impact": [
@@ -2493,8 +2470,8 @@
           },
           {
             "name": "v3_valuation",
-            "pts": -2.1,
-            "why": "V4 valuation: 4.4/12 FV-composite (rich → fade risk)"
+            "pts": -2.7,
+            "why": "V4 valuation: 4/12 FV-composite (rich → fade risk)"
           },
           {
             "name": "sector_momentum",
@@ -2538,10 +2515,10 @@
         "version": "earnings-bands-v1-2026-05"
       },
       "rationale": {
-        "headline": "BEAT expected (65% conf) — COFORGE Q1 FY27 in 43d.",
+        "headline": "BEAT expected (65% conf) — COFORGE Q1 FY27 in 42d.",
         "paragraphs": [
-          "COFORGE reports Q1 FY27 in 43d. Our model expects the result to BEAT, with 65% confidence (V1 cap is 65% — see methodology). Strongest input: EPS YoY +134.2%; reinforced by V4 future 13/20 · past 13/16 (STRONG).",
-          "Component breakdown (86/100 composite): pulling toward BEAT: EPS YoY +134.2%; V4 future 13/20 · past 13/16 (STRONG); smooth runup (+7.0% vs sector — informed flow). Opposing signal: LLM (gemini): Analysts have significantly adjusted price targets downwards, citing updated assumptions on revenue growth and profit margins.. Sector Software momentum acts as the prevailing tide; treat any single-stock thesis as conditional on it not flipping mid-week. Recent corporate filing flagged: MA_DEAL.",
+          "COFORGE reports Q1 FY27 in 42d. Our model expects the result to BEAT, with 65% confidence (V1 cap is 65% — see methodology). Strongest input: EPS YoY +134.2%; reinforced by V4 future 13/20 · past 13/16 (STRONG).",
+          "Component breakdown (85/100 composite): pulling toward BEAT: EPS YoY +134.2%; V4 future 13/20 · past 13/16 (STRONG); smooth runup (+7.0% vs sector — informed flow). Opposing signal: LLM (gemini): Analysts have significantly adjusted price targets downwards, citing updated assumptions on revenue growth and profit margins.. Sector Software momentum acts as the prevailing tide; treat any single-stock thesis as conditional on it not flipping mid-week. Recent corporate filing flagged: MA_DEAL.",
           "1-day post-result band: Bull ₹1435.73 (+5%) · Base ₹1398.82 · Bear ₹1361.9 (-0.4%). Magnitudes are confidence-scaled and capped at ±15%. Earnings are binary events — size positions to survive a Bear-case print, not to maximise the Bull case."
         ],
         "falsification_triggers": [
@@ -2652,7 +2629,7 @@
       "company": "Omkar Speciality Chemicals",
       "fiscal_quarter": "Q4 FY26",
       "event_iso_date": "2026-06-12",
-      "days_until": -2,
+      "days_until": -3,
       "sector": "Materials",
       "predicted_verdict": "MISS",
       "confidence_pct": 64,
@@ -2671,7 +2648,7 @@
       "company": "Hindustan Oil Exploration Company Limited",
       "fiscal_quarter": "Q4 FY26",
       "event_iso_date": "2026-06-11",
-      "days_until": -3,
+      "days_until": -4,
       "sector": "Energy",
       "predicted_verdict": "MISS",
       "confidence_pct": 65,
@@ -2690,7 +2667,7 @@
       "company": "Brightcom Group",
       "fiscal_quarter": "Q4 FY26",
       "event_iso_date": "2026-06-07",
-      "days_until": -7,
+      "days_until": -8,
       "sector": "Media",
       "predicted_verdict": "INLINE",
       "confidence_pct": 52,
@@ -2709,7 +2686,7 @@
       "company": "Udayshivakumar Infra",
       "fiscal_quarter": "Q4 FY26",
       "event_iso_date": "2026-06-06",
-      "days_until": -8,
+      "days_until": -9,
       "sector": "Capital Goods",
       "predicted_verdict": "MISS",
       "confidence_pct": 65,
@@ -2728,7 +2705,7 @@
       "company": "Sarveshwar Foods Limited",
       "fiscal_quarter": "Q4 FY26",
       "event_iso_date": "2026-06-05",
-      "days_until": -9,
+      "days_until": -10,
       "sector": "Food, Beverage & Tobacco",
       "predicted_verdict": "INLINE",
       "confidence_pct": 52,
@@ -2747,7 +2724,7 @@
       "company": null,
       "fiscal_quarter": "Q4 FY26",
       "event_iso_date": "2026-06-05",
-      "days_until": -9,
+      "days_until": -10,
       "sector": null,
       "predicted_verdict": "INSUFFICIENT_DATA",
       "confidence_pct": null,
@@ -2766,7 +2743,7 @@
       "company": null,
       "fiscal_quarter": "Q4 FY26",
       "event_iso_date": "2026-06-02",
-      "days_until": -12,
+      "days_until": -13,
       "sector": null,
       "predicted_verdict": "INSUFFICIENT_DATA",
       "confidence_pct": null,
@@ -2785,7 +2762,7 @@
       "company": "Libas Consumer Products Limited",
       "fiscal_quarter": "Q4 FY26",
       "event_iso_date": "2026-06-01",
-      "days_until": -13,
+      "days_until": -14,
       "sector": "Consumer Durables",
       "predicted_verdict": "INLINE",
       "confidence_pct": 52,

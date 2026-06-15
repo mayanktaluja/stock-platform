@@ -1,19 +1,19 @@
 {
   "schema_version": "macro-thesis-v1",
-  "generated_at": "2026-06-14T02:02:46.085Z",
+  "generated_at": "2026-06-15T02:22:09.600Z",
   "regime": {
     "regime": "CALM",
     "severity": 1,
     "confidence": 0.8,
     "label": "Calm",
-    "generated_at": "2026-06-13T08:44:08.288Z",
+    "generated_at": "2026-06-14T16:36:34.590Z",
     "days_in_state": 0,
     "stale": false,
-    "reasoning": "No major market-moving news",
+    "reasoning": "Mixed headlines, no dominant trend",
     "key_events": [
-      "Oil nears two-month lows on reports of imminent US-Iran peace deal (Economic Times)",
-      "European shares rally as Middle East peace hopes drag oil prices lower (Economic Times)",
-      "Falling crude oil price sends tyre, paint, oil marketing and airline companies soaring in relief rally (Economic Times)"
+      "FPI exodus continues, Rs 62,800 cr pulled out from equities in first fortnight of June (Economic Times)",
+      "Mcap of eight of top-10 most valued firms surges by Rs 1.90 lakh cr; ICICI Bank shines (Economic Times)",
+      "Inflation data, US Fed rate decision likely to drive markets this week (Business Standard)"
     ],
     "classifier_provider": "groq",
     "source_health": {
@@ -40,37 +40,32 @@
     },
     "sector_impacts": [
       {
-        "sector": "Energy",
-        "impact": -1,
-        "reason": "Lower oil prices"
+        "sector": "Banking",
+        "impact": 1,
+        "reason": "RBI's FCNR(B) and ECB swap window"
       },
       {
-        "sector": "Aviation",
-        "impact": 2,
-        "reason": "Relief rally due to lower oil prices"
-      },
-      {
-        "sector": "Oil & Gas",
+        "sector": "IT Services",
         "impact": -1,
-        "reason": "Lower oil prices"
+        "reason": "AI euphoria to end"
       }
     ]
   },
-  "catalyst_proximity_days": 4,
+  "catalyst_proximity_days": 3,
   "upcoming_catalysts": [
     {
       "date": "2026-06-18",
       "kind": "FOMC",
       "label": "US FOMC Meeting — June 2026",
       "severity_potential": 3,
-      "days_until": 4
+      "days_until": 3
     },
     {
       "date": "2026-07-05",
       "kind": "OPEC",
       "label": "OPEC+ Ministerial Meeting",
       "severity_potential": 2,
-      "days_until": 21
+      "days_until": 20
     }
   ],
   "position_cap_pct": 10,
@@ -161,7 +156,7 @@
   "indeterminate": false,
   "audit": {
     "thesis_schema": "macro-thesis-v1",
-    "regime_generated_at": "2026-06-13T08:44:08.288Z",
+    "regime_generated_at": "2026-06-14T16:36:34.590Z",
     "regime_classifier": "groq",
     "scenario_engine_version": "scenario-prob-v1"
   }

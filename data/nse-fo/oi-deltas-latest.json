@@ -1,7 +1,7 @@
 {
   "schemaVersion": "fo-screener-v1",
   "asOf": "2026-06-12",
-  "fetchedAt": "2026-06-13T19:27:18.180Z",
+  "fetchedAt": "2026-06-14T19:42:29.575Z",
   "urlUsed": "https://nsearchives.nseindia.com/content/fo/BhavCopy_NSE_FO_0_0_0_20260612_F_0000.csv.zip",
   "methodology": "OI aggregated across all stock-futures expiries (avoids rollover-Thursday phantoms); Δ vs prior session = ChngInOpnIntrst / (OI − ChngInOpnIntrst). Volume confirmation: today's vol vs 20-session mean. Decoupling co-flag: |OI Δ| ≥ 20% with |price Δ| < 0.5%. Score 0–100 = scaled OI move × volume confirmation × decouple boost × direction consistency. Educational content only.",
   "stats": {
@@ -13,7 +13,7 @@
     "broaderCount": 15,
     "historyPointsAppended": 216,
     "historyRestoredFromKV": 0,
-    "walkedBack": 0
+    "walkedBack": 1
   },
   "sections": {
     "inBook": [],
@@ -35,25 +35,6 @@
         "signal": "long_buildup",
         "decoupled": false,
         "score": 13,
-        "interpretation": "Bulls adding fresh longs — OI up with price."
-      },
-      {
-        "underlying": "TVSMOTOR",
-        "instrumentType": "STF",
-        "expiryCount": 3,
-        "nearMonthExpiry": "2026-06-30",
-        "nearMonthSettle": 3332.3,
-        "underlyingPrice": 3312.8,
-        "oiTotal": 12513375,
-        "oiChangeTotal": 655725,
-        "volumeTotal": 9668,
-        "oiDeltaPct": 5.529974320375454,
-        "priceDeltaPct": 0.8748562087546192,
-        "volumeRatio": null,
-        "volumeBucket": "unknown",
-        "signal": "long_buildup",
-        "decoupled": false,
-        "score": 7,
         "interpretation": "Bulls adding fresh longs — OI up with price."
       },
       {
@@ -302,6 +283,25 @@
         "decoupled": false,
         "score": 4,
         "interpretation": "Shorts covering — OI falling as price recovers."
+      },
+      {
+        "underlying": "POLYCAB",
+        "instrumentType": "STF",
+        "expiryCount": 3,
+        "nearMonthExpiry": "2026-06-30",
+        "nearMonthSettle": 9555,
+        "underlyingPrice": 9554,
+        "oiTotal": 2026375,
+        "oiChangeTotal": 60125,
+        "volumeTotal": 2742,
+        "oiDeltaPct": 3.0578512396694215,
+        "priceDeltaPct": 2.094240837696335,
+        "volumeRatio": null,
+        "volumeBucket": "unknown",
+        "signal": "long_buildup",
+        "decoupled": false,
+        "score": 4,
+        "interpretation": "Bulls adding fresh longs — OI up with price."
       }
     ],
     "broader": [
@@ -412,6 +412,25 @@
         "volumeTotal": 3064,
         "oiDeltaPct": 5.4599795888613505,
         "priceDeltaPct": 3.130812151270924,
+        "volumeRatio": null,
+        "volumeBucket": "unknown",
+        "signal": "long_buildup",
+        "decoupled": false,
+        "score": 7,
+        "interpretation": "Bulls adding fresh longs — OI up with price."
+      },
+      {
+        "underlying": "TVSMOTOR",
+        "instrumentType": "STF",
+        "expiryCount": 3,
+        "nearMonthExpiry": "2026-06-30",
+        "nearMonthSettle": 3332.3,
+        "underlyingPrice": 3312.8,
+        "oiTotal": 12513375,
+        "oiChangeTotal": 655725,
+        "volumeTotal": 9668,
+        "oiDeltaPct": 5.529974320375454,
+        "priceDeltaPct": 0.8748562087546192,
         "volumeRatio": null,
         "volumeBucket": "unknown",
         "signal": "long_buildup",
@@ -569,25 +588,6 @@
         "signal": "long_buildup",
         "decoupled": false,
         "score": 5,
-        "interpretation": "Bulls adding fresh longs — OI up with price."
-      },
-      {
-        "underlying": "PNBHOUSING",
-        "instrumentType": "STF",
-        "expiryCount": 3,
-        "nearMonthExpiry": "2026-06-30",
-        "nearMonthSettle": 995.5,
-        "underlyingPrice": 989.9,
-        "oiTotal": 10446150,
-        "oiChangeTotal": 321100,
-        "volumeTotal": 2829,
-        "oiDeltaPct": 3.171342363741413,
-        "priceDeltaPct": 3.8710350584307203,
-        "volumeRatio": null,
-        "volumeBucket": "unknown",
-        "signal": "long_buildup",
-        "decoupled": false,
-        "score": 4,
         "interpretation": "Bulls adding fresh longs — OI up with price."
       }
     ]
