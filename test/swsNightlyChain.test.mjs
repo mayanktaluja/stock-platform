@@ -493,6 +493,27 @@ assert(
   !/git add .*data\/sws\/groww-stock-latest\.json/.test(refreshApi),
   null,
 );
+assert(
+  "sws-nightly.sh detects conflicted PR auto-merge state instead of waiting blindly",
+  /pr_merge_state_summary\(\)/.test(nightly) &&
+    /mergeable=CONFLICTING\|mergeStateStatus=DIRTY/.test(nightly),
+  null,
+);
+assert(
+  "sws-nightly.sh republishes conflicted generated-data PRs on latest origin/main",
+  /republish_conflicted_pr_on_latest_main\(\)/.test(nightly) &&
+    /git worktree add -B "\$\{recovery_branch\}" "\$\{tmpdir\}" origin\/main/.test(nightly) &&
+    /checkout "origin\/\$\{source_branch\}" -- "\$\{path\}"/.test(nightly) &&
+    /Superseded by \$\{recovery_pr_url\}/.test(nightly),
+  null,
+);
+assert(
+  "sws-nightly.sh does not send success when PRs remain unmerged after timeout",
+  /SWS nightly — PR open but unmerged/.test(nightly) &&
+    /Production data is NOT confirmed fresh/.test(nightly) &&
+    /exit 8/.test(nightly),
+  null,
+);
 
 console.log(`\n  ${pass} passed, ${fail} failed\n`);
 process.exit(fail === 0 ? 0 : 1);
