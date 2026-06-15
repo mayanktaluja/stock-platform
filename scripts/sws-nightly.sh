@@ -1802,6 +1802,16 @@ republish_conflicted_pr_on_latest_main() {
     git -C "${tmpdir}" checkout "origin/${source_branch}" -- reports/sws-picks 2>/dev/null || true
   fi
 
+  local recovery_gate_out recovery_gate_rc
+  recovery_gate_out="$(cd "${tmpdir}" && node scripts/sws-sanity-gate.mjs 2>&1)"
+  recovery_gate_rc=$?
+  printf '%s\n' "${recovery_gate_out}" | sed 's/^/[recovery-gate] /'
+  if [ "${recovery_gate_rc}" -ne 0 ]; then
+    echo "[nightly] republish sanity gate failed — refusing to push recovery branch"
+    cleanup_republish_worktree
+    return 1
+  fi
+
   local add_paths=()
   for path in "${recovery_paths[@]}"; do
     if [ -e "${tmpdir}/${path%/}" ]; then

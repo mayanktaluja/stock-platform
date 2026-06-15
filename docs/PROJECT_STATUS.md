@@ -1,6 +1,6 @@
 # PROJECT_STATUS.md — stock-platform
 
-**Last updated: 2026-06-14**
+**Last updated: 2026-06-15**
 
 Living snapshot of where the project is right now. Update this file whenever
 you ship a meaningful PR or change direction. The point is that a fresh AI
@@ -32,6 +32,16 @@ Compounder Lab and Earnings Edge were retired in June 2026 to remove unused
 experimental surface area and nightly refresh load.
 
 ## Recently shipped (themed, newest first — rolling ~4–6 week window; `git log` is the archive)
+
+### SWS fair-value recovery hardening (June 2026)
+- **This PR** — India SWS fair values were restored after a sparse generated
+  artifact republish dropped Top 30 coverage. The API client now sends the
+  correct `companyId` variable to `NarrativeValuationHistory`, the parser only
+  trusts matched-company analyst target narratives, the sanity gate blocks
+  sharp FV coverage regressions, and conflicted nightly recovery PRs must pass
+  that same gate before pushing replacement generated data. The refreshed India
+  artifact restores Top 30 FV coverage to 28/30 and full-universe SWS raw-FV
+  coverage to 841/5575.
 
 ### Sector Outlook trust-first redesign (June 2026)
 - **This PR** — Sector Outlook now ranks sectors by a numeric 0–100 trust score

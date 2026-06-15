@@ -15,6 +15,7 @@ import { getRegion } from "../scripts/sws-regions.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, "..");
+const BASE_COMPANY_ID = "11111111-1111-1111-1111-111111111111";
 
 let pass = 0, fail = 0;
 function check(name, fn) {
@@ -74,7 +75,7 @@ function baseApi({
     graphql: {
       CompanySummary: {
         Company: {
-          id: "11111111-1111-1111-1111-111111111111",
+          id: BASE_COMPANY_ID,
           classificationStatus: "PRIMARY",
           data: { info: { ticker_symbol: ticker, name: ticker } },
           score: { value: 4, future: 4, past: 4, health: 4, dividend: 4 },
@@ -111,6 +112,12 @@ function baseApi({
 
 console.log("\nsws-api-parser Groww/Refinitiv P/E overlay\n");
 
+check("SWS API client passes companyId to NarrativeValuationHistory", () => {
+  const clientSrc = fs.readFileSync(path.join(REPO_ROOT, "scripts/sws-api-client.mjs"), "utf8");
+  assert.match(clientSrc, /NarrativeValuationHistory:\s*\{\s*companyId\s*\}/);
+  assert.doesNotMatch(clientSrc, /NarrativeValuationHistory:\s*\{\s*id:\s*companyId\s*\}/);
+});
+
 check("AnalystConsensusTarget valuation history beats unstable non-consensus default narrative", () => {
   const api = baseApi();
   api.graphql.getNarrativeValuation.Company.defaultNarrative = {
@@ -127,6 +134,7 @@ check("AnalystConsensusTarget valuation history beats unstable non-consensus def
         type: "AnalystConsensusTarget",
         narrative: {
           id: "consensus-narrative",
+          companyId: BASE_COMPANY_ID,
           owner: { displayName: "AnalystConsensusTarget", classification: "system" },
           latestPublishedUpdate: {
             publishedAt: "2026-06-13T00:00:00.000Z",
@@ -141,6 +149,66 @@ check("AnalystConsensusTarget valuation history beats unstable non-consensus def
   assert.equal(parsed.overview.fair_value_source_detail.method, "narrative_history_consensus");
   assert.equal(parsed.overview.fair_value_source_detail.owner_name, "AnalystConsensusTarget");
   assert.equal(parsed.overview.source_map.fair_value_inr.method, "narrative_history_consensus");
+});
+
+check("matched AnalystPriceTarget valuation history is trusted", () => {
+  const api = baseApi({ priceData: [{ date: "2026-06-10", close: 100 }] });
+  api.graphql.getNarrativeValuation.Company.defaultNarrative = {
+    id: "community-default",
+    owner: { displayName: "Community Analyst", classification: "community" },
+    latestPublishedUpdate: { valuation: { fairValue: 418.45 } },
+  };
+  api.graphql.NarrativeValuationHistory = {
+    company: {
+      valuationOptions: [{
+        type: "ANALYSTS",
+        narrative: {
+          id: "matched-analyst-target",
+          companyId: BASE_COMPANY_ID,
+          owner: { displayName: "AnalystPriceTarget", classification: null },
+          latestPublishedUpdate: {
+            publishedAt: "2026-06-13T00:00:00.000Z",
+            valuation: { fairValue: 150 },
+          },
+        },
+      }],
+    },
+  };
+  const parsed = parseStock(api, { growwPeMap: new Map(), growwStockMap: new Map(), internalIndustryPeMap: new Map() });
+  assert.equal(parsed.overview.fair_value_inr, 150);
+  assert.equal(Number(parsed.overview.upside_pct.toFixed(1)), 50);
+  assert.equal(parsed.overview.fair_value_source_detail.method, "narrative_history_analyst_price_target");
+  assert.equal(parsed.overview.source_map.fair_value_inr.company_id, BASE_COMPANY_ID);
+});
+
+check("mismatched valuation history is rejected even when it looks like AnalystPriceTarget", () => {
+  const api = baseApi({ priceData: [{ date: "2026-06-10", close: 100 }] });
+  api.graphql.getNarrativeValuation.Company.defaultNarrative = {
+    id: "community-default",
+    owner: { displayName: "Community Analyst", classification: "community" },
+    latestPublishedUpdate: { valuation: { fairValue: 418.45 } },
+  };
+  api.graphql.NarrativeValuationHistory = {
+    company: {
+      valuationOptions: [{
+        type: "ANALYSTS",
+        narrative: {
+          id: "sample-company-analyst-target",
+          companyId: "00bbeeda-992e-40f0-90dd-dd33576eff05",
+          owner: { displayName: "AnalystPriceTarget", classification: null },
+          latestPublishedUpdate: {
+            publishedAt: "2026-06-13T00:00:00.000Z",
+            valuation: { fairValue: 1039.79487 },
+          },
+        },
+      }],
+    },
+  };
+  const parsed = parseStock(api, { growwPeMap: new Map(), growwStockMap: new Map(), internalIndustryPeMap: new Map() });
+  assert.equal(parsed.overview.fair_value_inr, null);
+  assert.equal(parsed.overview.upside_pct, null);
+  assert.equal(parsed.overview.fair_value_source_detail.method, "non_consensus_default_narrative");
+  assert.equal(parsed.overview.source_map.fair_value_inr, undefined);
 });
 
 check("default AnalystPriceTarget narrative is trusted for MANORAMA-style fair value", () => {

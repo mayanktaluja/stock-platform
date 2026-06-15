@@ -508,6 +508,16 @@ assert(
   null,
 );
 assert(
+  "sws-nightly.sh runs sanity gate inside recovery worktree before republish push",
+  /republish_conflicted_pr_on_latest_main\(\)[\s\S]*?cd "\$\{tmpdir\}" && node scripts\/sws-sanity-gate\.mjs[\s\S]*?git -C "\$\{tmpdir\}" push -u origin "\$\{recovery_branch\}"/.test(nightly),
+  null,
+);
+assert(
+  "sws-nightly.sh aborts conflict recovery when recovery sanity gate fails",
+  /recovery_gate_rc=\$\?[\s\S]*?if \[ "\$\{recovery_gate_rc\}" -ne 0 \]; then[\s\S]*?cleanup_republish_worktree[\s\S]*?return 1/.test(nightly),
+  null,
+);
+assert(
   "sws-nightly.sh does not send success when PRs remain unmerged after timeout",
   /SWS nightly — PR open but unmerged/.test(nightly) &&
     /Production data is NOT confirmed fresh/.test(nightly) &&

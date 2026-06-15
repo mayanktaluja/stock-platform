@@ -30,6 +30,8 @@ import {
   GROWW_STOCK_WARN_COVERAGE_PCT,
   GROWW_STOCK_BLOCK_COVERAGE_PCT,
   GROWW_STOCK_STALE_GRACE_DAYS,
+  MIN_TOP30_FV_COUNT,
+  MAX_FV_COVERAGE_DROP_PCT,
 } from "../scripts/sws-sanity-gate.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -75,12 +77,23 @@ function buildFixture(ageHours, opts = {}) {
   const nowMs = Date.now();
   const scannedAtMs = nowMs - ageHours * 3600 * 1000;
   const scannedAt = new Date(scannedAtMs).toISOString();
+  const top30FvCount = opts.top30FvCount ?? 0;
+  const top30 = Array.from({ length: 30 }, (_, i) => {
+    const hasFv = i < top30FvCount;
+    return {
+      ticker: `TOP${i}`,
+      v4_score_100: 90 - i,
+      fair_value_inr: hasFv ? 100 + i : null,
+      fair_value_source: hasFv ? "sws_raw_fv" : "missing",
+      fv_reconcile_reason: hasFv ? "ok" : "source_fv_missing",
+    };
+  });
   writeFileSync(
     join(root, "picks-latest.json"),
     JSON.stringify({
       scanned_at: scannedAt,
       sections: {
-        top_ranked_30_v3: [],
+        top_ranked_30_v3: top30,
         best_to_buy_now: [],
         upcoming_earnings: [],
       },
@@ -158,7 +171,30 @@ function buildFixture(ageHours, opts = {}) {
   }
 
   writeFileSync(join(root, "universe.json"), "[]");
-  writeFileSync(join(root, "sws-scored-universe.json"), "[]");
+  const scoredOpt = opts.scoredUniverse || { total: 0, rawFvCount: 0, fairValueCount: 0 };
+  const scoredRows = Array.from({ length: scoredOpt.total || 0 }, (_, i) => {
+    const raw = i < (scoredOpt.rawFvCount || 0);
+    const finite = raw || i < (scoredOpt.fairValueCount || 0);
+    return {
+      ticker: `S${i}`,
+      fair_value_inr: finite ? 100 + i : null,
+      fair_value_source: raw ? "sws_raw_fv" : (finite ? "quoted_upside_no_fv" : "missing"),
+    };
+  });
+  writeFileSync(join(root, "sws-scored-universe.json"), JSON.stringify({ stocks: scoredRows }));
+  if (opts.fvCoverageBaseline) {
+    const b = opts.fvCoverageBaseline;
+    const baselineRows = Array.from({ length: b.total || 0 }, (_, i) => {
+      const raw = i < (b.rawFvCount || 0);
+      const finite = raw || i < (b.fairValueCount || 0);
+      return {
+        ticker: `B${i}`,
+        fair_value_inr: finite ? 100 + i : null,
+        fair_value_source: raw ? "sws_raw_fv" : (finite ? "quoted_upside_no_fv" : "missing"),
+      };
+    });
+    writeFileSync(join(root, "fv-baseline.json"), JSON.stringify({ stocks: baselineRows }));
+  }
   const nseCalOpt = opts.nseCalendar === undefined
     ? { eventCount: 80, rawEventCount: 200, windowDays: 60 }
     : opts.nseCalendar;
@@ -184,7 +220,12 @@ function runGateAndGetFindings(ageHours, opts = {}) {
   const root = buildFixture(ageHours, opts);
   try {
     const result = spawnSync("node", [GATE_SCRIPT], {
-      env: { ...process.env, SWS_SANITY_ROOT: root, SWS_RUN_ID: "" },
+      env: {
+        ...process.env,
+        SWS_SANITY_ROOT: root,
+        SWS_RUN_ID: "",
+        ...(opts.fvCoverageBaseline ? { SWS_SANITY_FV_BASELINE_PATH: join(root, "fv-baseline.json") } : {}),
+      },
       encoding: "utf-8",
     });
     if (result.error) throw result.error;
@@ -192,10 +233,13 @@ function runGateAndGetFindings(ageHours, opts = {}) {
     const report = JSON.parse(readFileSync(reportPath, "utf-8"));
     const l1 = report.layers.L1_run_integrity?.checks || [];
     const l2 = report.layers.L2_coverage_audit?.checks || [];
+    const l6 = report.layers.L6_picks_coherence?.checks || [];
     return {
       picksRecent: l1.find((c) => c.name === "picks_recent"),
       consistency: l1.find((c) => c.name === "picks_matches_last_refresh"),
       upcomingEarnings: l1.find((c) => c.name === "section_upcoming_earnings"),
+      top30Fv: l1.find((c) => c.name === "top30_fv_coverage_floor"),
+      fvCoverage: l6.find((c) => c.name === "fv_coverage_regression_floor"),
       growwWarn: l2.find((c) => c.name === "groww_pe_coverage_warn"),
       growwBlock: l2.find((c) => c.name === "groww_pe_coverage_block_floor"),
       growwGrace: l2.find((c) => c.name === "groww_pe_cache_grace_age"),
@@ -406,6 +450,64 @@ assert(
     GROWW_STOCK_BLOCK_COVERAGE_PCT,
     GROWW_STOCK_STALE_GRACE_DAYS,
   },
+);
+
+// ============================================================================
+// FV coverage regression gate
+// ============================================================================
+
+console.log("\nSWS fair-value coverage gate\n");
+
+assert(
+  "FV coverage thresholds exported",
+  MIN_TOP30_FV_COUNT === 24 && MAX_FV_COVERAGE_DROP_PCT === 20,
+  { MIN_TOP30_FV_COUNT, MAX_FV_COVERAGE_DROP_PCT },
+);
+
+const sparseTop30 = runGateAndGetFindings(1.0, { top30FvCount: 23 }).top30Fv;
+assert(
+  "top30 with 23 finite fair values fails BLOCK",
+  sparseTop30 && sparseTop30.ok === false && sparseTop30.severity === "BLOCK",
+  sparseTop30,
+);
+
+const healthyTop30 = runGateAndGetFindings(1.0, { top30FvCount: 24 }).top30Fv;
+assert(
+  "top30 with 24 finite fair values passes",
+  healthyTop30 && healthyTop30.ok === true,
+  healthyTop30,
+);
+
+const fvRegressed = runGateAndGetFindings(1.0, {
+  top30FvCount: 24,
+  scoredUniverse: { total: 100, rawFvCount: 39, fairValueCount: 39 },
+  fvCoverageBaseline: { total: 100, rawFvCount: 50, fairValueCount: 50 },
+}).fvCoverage;
+assert(
+  "full-universe FV coverage blocks when current falls more than 20% below baseline",
+  fvRegressed && fvRegressed.ok === false && fvRegressed.severity === "BLOCK",
+  fvRegressed,
+);
+
+const fvWithinFloor = runGateAndGetFindings(1.0, {
+  top30FvCount: 24,
+  scoredUniverse: { total: 100, rawFvCount: 40, fairValueCount: 40 },
+  fvCoverageBaseline: { total: 100, rawFvCount: 50, fairValueCount: 50 },
+}).fvCoverage;
+assert(
+  "full-universe FV coverage passes at the 20% drop floor",
+  fvWithinFloor && fvWithinFloor.ok === true,
+  fvWithinFloor,
+);
+
+const fvNoBaseline = runGateAndGetFindings(1.0, {
+  top30FvCount: 24,
+  scoredUniverse: { total: 100, rawFvCount: 5, fairValueCount: 5 },
+}).fvCoverage;
+assert(
+  "missing FV baseline warns but does not block",
+  fvNoBaseline && fvNoBaseline.ok === false && fvNoBaseline.severity === "WARN",
+  fvNoBaseline,
 );
 
 const growwStockBelowWarn = runGateAndGetFindings(1.0, {

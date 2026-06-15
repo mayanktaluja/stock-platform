@@ -34,6 +34,7 @@
 import {
   readFileSync, existsSync, readdirSync, writeFileSync, mkdirSync, copyFileSync,
 } from "fs";
+import { spawnSync } from "child_process";
 import path from "path";
 import { evaluateSwsPriceFreshness } from "./sws-price-freshness-gate.mjs";
 
@@ -134,6 +135,8 @@ const MIN_BEST_TO_BUY_NOW    = 20;
 // join collapse) drop count to 0-5, comfortably below the 25 BLOCK floor.
 const MIN_UPCOMING_EARNINGS         = 25;   // BLOCK — collapse detector
 const MIN_UPCOMING_EARNINGS_STRONG  = 50;   // WARN  — preserves prior visibility
+export const MIN_TOP30_FV_COUNT = 24;        // BLOCK — catches AnalystPriceTarget/FV extraction collapse
+export const MAX_FV_COVERAGE_DROP_PCT = 20;  // BLOCK — current FV coverage cannot fall >20% vs committed baseline
 
 // ---------------------------- severities -------------------------------
 
@@ -151,6 +154,43 @@ function record(layer, name, severity, ok, detail = {}) {
 function readJson(file) {
   if (!existsSync(file)) return null;
   try { return JSON.parse(readFileSync(file, "utf-8")); }
+  catch { return null; }
+}
+
+function rowsFromScored(scored) {
+  return Array.isArray(scored) ? scored : (scored?.stocks || scored?.universe || []);
+}
+
+function hasFiniteFv(row) {
+  return typeof row?.fair_value_inr === "number" && Number.isFinite(row.fair_value_inr) && row.fair_value_inr > 0;
+}
+
+function hasRawSwsFv(row) {
+  if (!hasFiniteFv(row)) return false;
+  if (row?.fair_value_source === "sws_raw_fv") return true;
+  return row?.fair_value_source == null;
+}
+
+function fvCoverageStats(rows) {
+  const arr = Array.isArray(rows) ? rows : [];
+  const count = arr.filter(hasRawSwsFv).length;
+  return {
+    total: arr.length,
+    count,
+    pct: arr.length ? Math.round((count / arr.length) * 1000) / 10 : 0,
+  };
+}
+
+function loadBaselineScoredUniverse() {
+  const envPath = process.env.SWS_SANITY_FV_BASELINE_PATH;
+  if (envPath) return readJson(envPath);
+  if (path.normalize(ROOT) !== path.normalize("data/sws")) return null;
+  const result = spawnSync("git", ["show", "HEAD:data/sws/sws-scored-universe.json"], {
+    encoding: "utf-8",
+    maxBuffer: 20 * 1024 * 1024,
+  });
+  if (result.status !== 0 || !result.stdout) return null;
+  try { return JSON.parse(result.stdout); }
   catch { return null; }
 }
 
@@ -386,6 +426,18 @@ function layer1(lr, picks) {
   record(layer, "section_top30", BLOCK,
     (top30Section?.length ?? 0) === 30,
     { count: top30Section?.length });
+  const top30FvCount = top30Section.filter(hasFiniteFv).length;
+  record(layer, "top30_fv_coverage_floor", BLOCK,
+    top30FvCount >= MIN_TOP30_FV_COUNT,
+    {
+      count: top30FvCount,
+      total: top30Section.length,
+      threshold: MIN_TOP30_FV_COUNT,
+      missing_sample: top30Section
+        .filter((it) => !hasFiniteFv(it))
+        .slice(0, 10)
+        .map((it) => it.ticker),
+    });
   record(layer, "section_best_to_buy_now", BLOCK,
     (sec.best_to_buy_now?.length ?? 0) >= MIN_BEST_TO_BUY_NOW,
     { count: sec.best_to_buy_now?.length, threshold: MIN_BEST_TO_BUY_NOW });
@@ -685,8 +737,33 @@ function layer6(picks, scored, insaneOffenders) {
   }
   record(layer, "picks_present", BLOCK, true);
 
-  const scoredArr = Array.isArray(scored) ? scored : (scored?.stocks || scored?.universe || []);
+  const scoredArr = rowsFromScored(scored);
   const scoredTickers = new Set(scoredArr.map(s => s.ticker));
+  const currentFv = fvCoverageStats(scoredArr);
+  const baselineRows = rowsFromScored(loadBaselineScoredUniverse());
+  const baselineFv = fvCoverageStats(baselineRows);
+  if (baselineFv.count > 0) {
+    const floor = Math.floor(baselineFv.count * (1 - MAX_FV_COVERAGE_DROP_PCT / 100));
+    record(layer, "fv_coverage_regression_floor", BLOCK,
+      currentFv.count >= floor,
+      {
+        current_count: currentFv.count,
+        current_total: currentFv.total,
+        current_pct: currentFv.pct,
+        baseline_count: baselineFv.count,
+        baseline_total: baselineFv.total,
+        baseline_pct: baselineFv.pct,
+        max_drop_pct: MAX_FV_COVERAGE_DROP_PCT,
+        floor,
+      });
+  } else {
+    record(layer, "fv_coverage_regression_floor", WARN, false, {
+      reason: "baseline unavailable",
+      current_count: currentFv.count,
+      current_total: currentFv.total,
+      current_pct: currentFv.pct,
+    });
+  }
 
   const allPicksTickers = new Set();
   const picksMissingFromScored = [];
