@@ -146,8 +146,16 @@ telemetry.emit("page_load", { ua: navigator.userAgent.slice(0, 200) });
 // keeps its own (older) inline wiring untouched.
 function wireMenu(trigger, dropdown, wrapper) {
   if (!trigger || !dropdown || !wrapper) return { open() {}, close() {} };
-  const close = () => { dropdown.hidden = true; trigger.setAttribute("aria-expanded", "false"); };
-  const open = () => { dropdown.hidden = false; trigger.setAttribute("aria-expanded", "true"); };
+  const close = () => {
+    dropdown.hidden = true;
+    trigger.setAttribute("aria-expanded", "false");
+    trigger.classList.remove("is-active");
+  };
+  const open = () => {
+    dropdown.hidden = false;
+    trigger.setAttribute("aria-expanded", "true");
+    trigger.classList.add("is-active");
+  };
   trigger.addEventListener("click", (e) => {
     e.stopPropagation();
     if (dropdown.hidden) open(); else close();
@@ -3061,7 +3069,6 @@ function syncLabsActive(tab) {
   });
   const trigger = document.getElementById("labsMenuBtn");
   if (!trigger) return;
-  trigger.classList.toggle("is-active", !!activeItem);
   syncPlatformThemeToggle();
 }
 window.syncLabsActive = syncLabsActive;

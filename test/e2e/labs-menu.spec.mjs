@@ -45,6 +45,7 @@ async function openPlatformMenu(page) {
   await expect(button).toHaveAttribute("aria-haspopup", "menu");
   await button.click();
   await expect(button).toHaveAttribute("aria-expanded", "true");
+  await expect(button).toHaveClass(/is-active/);
   await expect(page.locator("#labsMenuDropdown")).toBeVisible();
 }
 
@@ -55,6 +56,7 @@ test.describe("Platform sections menu", () => {
     await expect(page.locator("#densityToggleBtn")).toHaveCount(0);
     await expect(page.locator("#labsMenuBtn")).toHaveAccessibleName("Platform menu");
     await expect(page.locator("#labsMenuBtn")).not.toContainText("Platform");
+    await expect(page.locator("#labsMenuBtn")).not.toHaveClass(/is-active/);
 
     await openPlatformMenu(page);
     for (const label of PUBLIC_MENU_LABELS) {
@@ -102,10 +104,12 @@ test.describe("Platform sections menu", () => {
     await page.keyboard.press("Escape");
     await expect(page.locator("#labsMenuDropdown")).toBeHidden();
     await expect(page.locator("#labsMenuBtn")).toHaveAttribute("aria-expanded", "false");
+    await expect(page.locator("#labsMenuBtn")).not.toHaveClass(/is-active/);
 
     await openPlatformMenu(page);
     await page.locator("#main").click({ position: { x: 20, y: 20 } });
     await expect(page.locator("#labsMenuDropdown")).toBeHidden();
     await expect(page.locator("#labsMenuBtn")).toHaveAttribute("aria-expanded", "false");
+    await expect(page.locator("#labsMenuBtn")).not.toHaveClass(/is-active/);
   });
 });
