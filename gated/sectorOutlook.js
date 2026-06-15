@@ -118,7 +118,7 @@
             <span style="font-size:10px; font-weight:700; letter-spacing:0.06em; color:var(--purple-bright); background:rgba(167,139,250,0.12); border:1px solid rgba(167,139,250,0.35); padding:2px 8px; border-radius:8px; margin-left:10px; vertical-align:middle;">EXPERIMENTAL</span>
           </h2>
           <p style="font-size:12px; color:var(--text-muted); margin-top:3px; max-width:760px; line-height:1.55;">
-            Indicative outlook for ~20 canonical Indian-equity sectors over two horizons (3–12 months, 12–24 months). Bottom-up news themes aggregated from SWS deep briefs, cross-checked against the current macro regime. Sector-level only — no specific stock recommendations.
+            Indicative outlook for the same ${escapeHtml(doc.audit?.sector_count || (doc.sectors || []).length)} SWS sector labels used by India Market over two horizons (3-12 months, 12-24 months). Bottom-up news themes aggregated from SWS deep briefs, cross-checked against the current macro regime. Sector-level only - no specific stock recommendations.
           </p>
         </div>
       </div>
@@ -128,6 +128,24 @@
             <div style="font-size:22px; font-weight:600; color:${t.color}; font-variant-numeric:tabular-nums;">${escapeHtml(t.value)}</div>
             <div style="font-size:11px; color:var(--text-muted); margin-top:3px;">${escapeHtml(t.label)}${t.termId ? infoIcon(t.termId) : ""}</div>
           </div>`).join("")}
+      </div>`;
+  }
+
+  function renderRuntimeAudit(doc) {
+    const audit = doc.runtime_audit || {};
+    if (!audit.stale && !audit.macro_mismatch) return "";
+    const bits = [];
+    if (audit.stale) {
+      const age = Number.isFinite(Number(audit.age_hours)) ? `${Number(audit.age_hours).toFixed(1)}h old` : "age unknown";
+      bits.push(`Outlook is stale (${age}; threshold ${escapeHtml(audit.stale_threshold_hours || 36)}h).`);
+    }
+    if (audit.macro_mismatch) {
+      bits.push(`Generated under ${escapeHtml(audit.outlook_regime || "unknown macro")}, current macro is ${escapeHtml(audit.current_regime || "unknown")}.`);
+    }
+    return `
+      <div style="margin:-10px 0 18px 0; padding:12px 14px; border:1px solid rgba(251,146,60,0.35); background:rgba(251,146,60,0.08); color:var(--text-secondary); border-radius:8px; font-size:12px; line-height:1.5;">
+        <strong style="color:#fb923c;">Refresh warning.</strong>
+        ${bits.join(" ")} Treat sector labels as directional context only until the next Sector Outlook refresh.
       </div>`;
   }
 
@@ -256,8 +274,8 @@
         <summary style="font-size:13px; font-weight:600; cursor:pointer; color:var(--text-primary);">Methodology · How we compute this</summary>
         <div style="font-size:12px; color:var(--text-secondary); line-height:1.7; padding-top:12px; max-width:800px;">
           <p><strong>Inputs.</strong> Per-stock news arrays from SWS deep briefs (data/sws/deep/&lt;TICKER&gt;.json:news[]), with the current macro regime classification (data/macroRegime.json) as the cross-check signal.</p>
-          <p><strong>Bottom-up.</strong> Every SWS news item is classified into one of 8 themes (Capacity/Capex, M&amp;A, Order Wins, Regulatory Event, Margin Move, Earnings Move, Strategic/Geopolitical, Neutral) plus a directional sign and intensity. A deterministic keyword classifier produces the first pass; an LLM refines the ambiguous items within a 365-day recency window. Each sector aggregates its news across three rolling windows (30d / 90d / 365d) into a market-cap-weighted signal, with a 15% single-issuer breadth cap so no one ticker can dominate. Multi-sector conglomerates (e.g. Reliance) route news to a single sector via body keywords (petrochemical → Oil &amp; Gas, Jio → Telecom, JioMart → Retail) when the keyword matches, otherwise fractionally across the relevant sectors.</p>
-          <p><strong>Top-down.</strong> Indian regulator + global wire RSS headlines (RBI, SEBI, Reuters, Bloomberg, Moneycontrol, Economic Times, etc.) are classified into one of 9 macro regimes with per-sector impact scores. The Sector Outlook reads only the CURRENT regime (v1 deliberately doesn&apos;t smooth across history).</p>
+          <p><strong>Bottom-up.</strong> Every SWS news item is classified into one of 8 themes (Capacity/Capex, M&amp;A, Order Wins, Regulatory Event, Margin Move, Earnings Move, Strategic/Geopolitical, Neutral) plus a directional sign and intensity. A deterministic keyword classifier produces the first pass; an LLM refines the ambiguous items within a 365-day recency window. Each India Market sector aggregates its news across three rolling windows (30d / 90d / 365d) into a market-cap-weighted signal, with a 15% single-issuer breadth cap so no one ticker can dominate. Macro-bucket consumers can still use conglomerate routing, but this tab preserves the user-visible India Market sector label.</p>
+          <p><strong>Top-down.</strong> Indian regulator + global wire RSS headlines (RBI, SEBI, Reuters, Bloomberg, Moneycontrol, Economic Times, etc.) are classified into one of 9 macro regimes with per-sector impact scores. Sector rows keep the same labels as India Market; the macro cross-check normalizes those labels to broader macro buckets. The Sector Outlook reads only the CURRENT regime (v1 deliberately doesn&apos;t smooth across history).</p>
           <p><strong>Trust model.</strong> Rows are ranked by a 0–100 trust score before outlook direction. The score blends evidence volume, breadth, 30/90/365-day stability, macro/external agreement, classifier confidence, available sector-index confirmation, and freshness. Missing macro or index context is marked UNCORROBORATED; true opposite-sign evidence is marked DIVERGENT and reduces trust.</p>
           <p><strong>What v1 does NOT do.</strong> No formal walk-forward backtest. No named stock recommendations within a sector. No 24-36 month horizon. The macro regime history is too thin for honest analog signal at multi-year scales — that&apos;s a v2 scope decision.</p>
           ${caveats.length ? `<div style="margin-top:14px; padding:12px 14px; background:rgba(167,139,250,0.06); border:1px solid rgba(167,139,250,0.22); border-radius:6px; font-size:11px;"><strong style="color:var(--purple-bright);">Important caveats:</strong><ul style="margin:6px 0 0 0; padding-left:20px;">${caveats.map((c) => `<li>${escapeHtml(c)}</li>`).join("")}</ul></div>` : ""}
@@ -296,6 +314,7 @@
     const h = horizon || "3_12m";
     rootEl.innerHTML =
       renderHeader(doc) +
+      renderRuntimeAudit(doc) +
       renderHorizonTabs(h) +
       renderMatrix(doc, h) +
       renderMethodologySection(doc) +

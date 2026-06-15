@@ -4764,7 +4764,26 @@ app.get("/api/sector-outlook/latest", (req, res) => {
   }
   try {
     const parsed = JSON.parse(fs.readFileSync(SECTOR_OUTLOOK_PATH, "utf-8"));
-    return res.json(parsed);
+    const macro = readJsonSafe(path.join(__dirname, "data", "macroRegime.json"));
+    const generatedAt = parsed.generated_at || null;
+    const ageHours = generatedAt
+      ? (Date.now() - new Date(generatedAt).getTime()) / (3600 * 1000)
+      : null;
+    const outlookRegime = parsed.regime_at_generation?.regime || null;
+    const currentRegime = macro?.regime || null;
+    return res.json({
+      ...parsed,
+      runtime_audit: {
+        age_hours: Number.isFinite(ageHours) ? ageHours : null,
+        stale: !Number.isFinite(ageHours) || ageHours > 36,
+        stale_threshold_hours: 36,
+        outlook_regime: outlookRegime,
+        current_regime: currentRegime,
+        macro_mismatch: !!(outlookRegime && currentRegime && outlookRegime !== currentRegime),
+        current_macro_generated_at: macro?.generatedAt || null,
+        current_macro_confidence: macro?.confidence ?? null,
+      },
+    });
   } catch (err) {
     console.warn(`[sector-outlook] failed to read latest: ${err.message}`);
     return res.status(500).json({ error: "failed to load sector-outlook-latest" });

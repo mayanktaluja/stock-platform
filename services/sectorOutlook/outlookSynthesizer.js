@@ -29,6 +29,7 @@
  *   LOW  — trust_score < 45
  */
 
+import { normalizeSector } from "../../macroRegime.js";
 import { THEME_LABELS } from "./themeTaxonomy.js";
 
 const HORIZON_BLENDS = Object.freeze({
@@ -107,11 +108,40 @@ function topDownForSector(macroRegime, sector) {
   if (!macroRegime || !Array.isArray(macroRegime.sectorImpacts)) {
     return { score: 0, reason: null, regime: macroRegime?.regime || null, status: "UNCORROBORATED" };
   }
-  const entry = macroRegime.sectorImpacts.find((s) => s.sector === sector);
+  const canonicalSector = normalizeSector(sector) || sector;
+  const entry = macroRegime.sectorImpacts.find((s) => (
+    s.sector === sector ||
+    s.sector === canonicalSector ||
+    (normalizeSector(s.sector) || s.sector) === canonicalSector
+  ));
   if (!entry) return { score: 0, reason: null, regime: macroRegime.regime, status: "UNCORROBORATED" };
   // Normalize impact (-3..+3) to score in [-1, +1] for math symmetry.
   const score = clamp(Number(entry.impact || 0) / 3, -1, 1);
   return { score, reason: entry.reason || null, regime: macroRegime.regime, status: score === 0 ? "UNCORROBORATED" : "AVAILABLE" };
+}
+
+function emptyWindowSummary() {
+  return {
+    theme_distribution: Object.fromEntries(THEME_LABELS.map((t) => [t, 0])),
+    signed_index: 0,
+    breadth_pct: 0,
+    catalyst_proximity_count: 0,
+    evidence_top5: [],
+    n_tickers: 0,
+    n_news: 0,
+  };
+}
+
+function emptySectorAggregate(sector) {
+  return {
+    sector,
+    n_tickers_total: 0,
+    windows: {
+      "30d": emptyWindowSummary(),
+      "90d": emptyWindowSummary(),
+      "365d": emptyWindowSummary(),
+    },
+  };
 }
 
 function classifyCrossCheck(bottomUp, topDown) {
@@ -331,6 +361,10 @@ export function synthesizeSectorAtHorizon(sectorAggregate, macroRegime, horizon,
  */
 export function synthesizeAll(aggregatorResult, macroRegime, opts = {}) {
   const sectors = aggregatorResult?.sectors || {};
+  const sectorUniverse = Array.isArray(opts.sectorUniverse)
+    ? opts.sectorUniverse.map((s) => String(s).trim()).filter(Boolean)
+    : [];
+  const sectorNames = [...new Set([...sectorUniverse, ...Object.keys(sectors)])];
   const result = {
     schema_version: "sector-outlook-v1",
     generated_at: new Date().toISOString(),
@@ -349,7 +383,9 @@ export function synthesizeAll(aggregatorResult, macroRegime, opts = {}) {
       trust_model_version: "sector-outlook-trust-v1",
       orphaned_tickers: aggregatorResult?.orphaned_tickers || 0,
       total_entries: aggregatorResult?.total_entries || 0,
-      sector_count: Object.keys(sectors).length,
+      observed_sector_count: Object.keys(sectors).length,
+      sector_universe_count: sectorUniverse.length,
+      sector_count: sectorNames.length,
       external_context_schema: opts.externalContext?.schema_version || null,
       macro_headlines: opts.externalContext?.macro_headlines || null,
       sector_price_available: Object.keys(opts.externalContext?.sector_price?.sectors || {}).length,
@@ -360,11 +396,13 @@ export function synthesizeAll(aggregatorResult, macroRegime, opts = {}) {
       "Bottom-up theme aggregation is heuristic-first with LLM refinement only for ambiguous, recent items. Heuristic patterns may miss novel SWS news templates.",
       "Trust score ranks sectors by evidence quality, breadth, stability, macro/external agreement, classifier confidence, available sector-index confirmation, and freshness.",
       "Missing macro or sector-index context is treated as uncorroborated, not as a hard failure. True opposite-sign evidence reduces trust.",
-      "Conglomerate news is routed by body keywords or stored snippets (e.g., Reliance petrochemical → Oil & Gas); fallback to fractional weighting when no keyword matches.",
+      "Sector rows use the same raw SWS sector labels shown in India Market. Macro cross-checks normalize those labels to broader macro buckets, so closely related display sectors can share the same top-down macro read.",
+      "Top-down cross-check uses the CURRENT macro regime only; v1 does not smooth across recent regime history.",
     ],
   };
 
-  for (const [sectorName, agg] of Object.entries(sectors)) {
+  for (const sectorName of sectorNames) {
+    const agg = sectors[sectorName] || emptySectorAggregate(sectorName);
     const horizons = {};
     for (const h of HORIZONS) {
       horizons[h] = synthesizeSectorAtHorizon(agg, macroRegime, h, opts);

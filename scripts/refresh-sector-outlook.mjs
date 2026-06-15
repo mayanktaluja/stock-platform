@@ -62,6 +62,20 @@ function flattenPicksByTicker(picksDoc) {
   return out;
 }
 
+function collectPicksSectors(picksDoc) {
+  const sectors = new Set();
+  if (!picksDoc?.sections) return [];
+  for (const section of Object.values(picksDoc.sections)) {
+    if (!Array.isArray(section)) continue;
+    for (const row of section) {
+      if (typeof row?.sector === "string" && row.sector.trim()) {
+        sectors.add(row.sector.trim());
+      }
+    }
+  }
+  return [...sectors].sort((a, b) => a.localeCompare(b));
+}
+
 function loadClassifiedEntries(picksByTicker) {
   if (!fs.existsSync(CLASSIFIED_DIR)) return [];
   const entries = [];
@@ -117,6 +131,7 @@ async function main() {
   }
 
   const picksByTicker = flattenPicksByTicker(picks);
+  const sectorUniverse = collectPicksSectors(picks);
   const { entries, stale_tickers } = loadClassifiedEntries(picksByTicker);
 
   console.log(`[refresh-sector-outlook] entries=${entries.length} stale_tickers=${stale_tickers}`);
@@ -127,7 +142,10 @@ async function main() {
     process.exit(1);
   }
 
-  const aggregator = aggregateAllSectors(entries);
+  const aggregator = aggregateAllSectors(entries, {
+    preserveSourceSector: true,
+    sectorUniverse,
+  });
   console.log(`[refresh-sector-outlook] aggregator: ${Object.keys(aggregator.sectors).length} sectors · orphaned=${aggregator.orphaned_tickers}`);
   const orphanRate = aggregator.total_entries > 0 ? aggregator.orphaned_tickers / aggregator.total_entries : 0;
   if (orphanRate > 0.15) {
@@ -135,7 +153,7 @@ async function main() {
   }
 
   const externalContext = loadSectorOutlookExternalContext(ROOT);
-  const outlook = synthesizeAll(aggregator, macroRegime, { externalContext });
+  const outlook = synthesizeAll(aggregator, macroRegime, { externalContext, sectorUniverse });
   outlook.audit.stale_tickers = stale_tickers;
   outlook.audit.elapsed_ms = Date.now() - t0;
 

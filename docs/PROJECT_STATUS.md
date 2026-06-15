@@ -44,6 +44,12 @@ experimental surface area and nightly refresh load.
   coverage to 841/5575.
 
 ### Sector Outlook trust-first redesign (June 2026)
+- **This PR** — Sector Outlook now preserves the same 24 raw SWS sector labels
+  shown in the India Market sector filter, while normalizing those labels only
+  for macro cross-check lookup. The refresh script fills the full India sector
+  universe, the generated payload records observed vs universe sector counts,
+  and `/api/sector-outlook/latest` adds a runtime stale/macro-mismatch audit so
+  the tab can warn instead of silently serving an outdated regime read.
 - **This PR** — Sector Outlook now ranks sectors by a numeric 0–100 trust score
   before outlook direction. The trust model blends evidence volume, sector
   breadth, 30/90/365-day signal stability, macro/external agreement, retained

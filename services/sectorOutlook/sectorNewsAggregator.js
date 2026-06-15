@@ -117,7 +117,13 @@ const CONGLOMERATE_BODY_ROUTES = Object.freeze({
  *   weights sum to 1 across all returned entries
  *   empty array if the ticker's sector is unclassifiable
  */
-export function routeNewsToSectors(ticker, sourceSector, newsItem) {
+export function routeNewsToSectors(ticker, sourceSector, newsItem, opts = {}) {
+  if (opts.preserveSourceSector && typeof sourceSector === "string" && sourceSector.trim()) {
+    const sector = sourceSector.trim();
+    const universe = opts.sectorUniverse instanceof Set ? opts.sectorUniverse : null;
+    if (!universe || universe.has(sector)) return [{ sector, weight: 1.0 }];
+  }
+
   const sectorsRaw = resolveSectorsForTicker(ticker, sourceSector);
   // Resolve to canonical names
   let candidates = [];
@@ -323,7 +329,7 @@ function distributeEntryToSectors(entry, opts) {
   const confidenceFloor = Number.isFinite(opts.confidenceFloor) ? opts.confidenceFloor : 0;
   if (Number(entry.confidence) < confidenceFloor) return [];
 
-  const routes = routeNewsToSectors(entry.ticker, entry.sourceSector, entry);
+  const routes = routeNewsToSectors(entry.ticker, entry.sourceSector, entry, opts);
   if (routes.length === 0) return [];
 
   return routes.map((r) => ({
@@ -365,6 +371,10 @@ export function aggregateAllSectors(entries, opts = {}) {
     return { sectors: {}, orphaned_tickers: 0, total_entries: 0 };
   }
   const nowMs = Number.isFinite(opts.nowMs) ? opts.nowMs : Date.now();
+  const sectorUniverse = Array.isArray(opts.sectorUniverse)
+    ? new Set(opts.sectorUniverse.map((s) => String(s).trim()).filter(Boolean))
+    : null;
+  const routingOpts = { ...opts, sectorUniverse };
   const orphanedTickers = new Set();
   // Per-sector buckets keyed by window
   const buckets = new Map();
@@ -372,7 +382,7 @@ export function aggregateAllSectors(entries, opts = {}) {
   const sectorTickers = new Map();
 
   for (const e of entries) {
-    const distributed = distributeEntryToSectors(e, opts);
+    const distributed = distributeEntryToSectors(e, routingOpts);
     if (distributed.length === 0) {
       orphanedTickers.add(e.ticker);
       continue;

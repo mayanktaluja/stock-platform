@@ -40,12 +40,41 @@ test.describe("Sector Outlook tab (v1)", () => {
     expect(body).toHaveProperty("regime_at_generation");
     expect(body).toHaveProperty("sectors");
     expect(Array.isArray(body.sectors)).toBe(true);
+    expect(body).toHaveProperty("runtime_audit");
+    expect(typeof body.runtime_audit.stale).toBe("boolean");
+    expect(typeof body.runtime_audit.macro_mismatch).toBe("boolean");
     expect(body).toHaveProperty("gate_met");
     // v1 deliberately ships with gate_met=false (no backtest)
     expect(body.gate_met).toBe(false);
     expect(body).toHaveProperty("caveats");
     expect(Array.isArray(body.caveats)).toBe(true);
     expect(body.caveats.length).toBeGreaterThan(0);
+  });
+
+  test("sector rows include every India Market sector", async ({ request }) => {
+    const [outlookRes, picksRes] = await Promise.all([
+      request.get("/api/sector-outlook/latest"),
+      request.get("/api/sws-picks-summary"),
+    ]);
+    if (outlookRes.status() === 503) test.skip(true, "outlook-latest.json not yet generated");
+    if (picksRes.status() === 404) test.skip(true, "picks-latest.json not generated");
+    expect(outlookRes.ok()).toBe(true);
+    expect(picksRes.ok()).toBe(true);
+    const outlook = await outlookRes.json();
+    const picks = await picksRes.json();
+    const indiaSectors = new Set();
+    for (const section of Object.values(picks.sections || {})) {
+      if (!Array.isArray(section)) continue;
+      for (const row of section) {
+        if (typeof row?.sector === "string" && row.sector.trim()) {
+          indiaSectors.add(row.sector.trim());
+        }
+      }
+    }
+    const outlookSectors = new Set((outlook.sectors || []).map((s) => s.sector));
+    for (const sector of indiaSectors) {
+      expect(outlookSectors.has(sector), `missing Sector Outlook row for India Market sector ${sector}`).toBe(true);
+    }
   });
 
   test("each sector exposes both horizons + outlook_label + confidence", async ({ request }) => {

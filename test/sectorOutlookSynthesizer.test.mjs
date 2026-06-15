@@ -264,6 +264,34 @@ console.log("synthesizer: synthesizeAll output shape");
   assert("sectors sorted by trust descending", trusts.every((v, i, arr) => i === 0 || arr[i - 1] >= v), trusts);
 }
 
+console.log("synthesizer: fills India Market sector universe");
+{
+  const aggregatorResult = {
+    sectors: {
+      Banks: buildAggregate("Banks", {
+        "30d": { signed_index: 0.2, breadth_pct: 0.4, n_news: 8 },
+        "90d": { signed_index: 0.2, breadth_pct: 0.4, n_news: 8 },
+        "365d": { signed_index: 0.2, breadth_pct: 0.4, n_news: 8 },
+      }),
+    },
+    orphaned_tickers: 0,
+    total_entries: 8,
+  };
+  const out = synthesizeAll(
+    aggregatorResult,
+    { regime: "RATE_CUT", sectorImpacts: [{ sector: "Banking", impact: 2, reason: "lower rates aid credit growth" }] },
+    { sectorUniverse: ["Banks", "Materials"] },
+  );
+  const names = out.sectors.map((s) => s.sector).sort();
+  assert("raw SWS sector universe is present", JSON.stringify(names) === '["Banks","Materials"]', names);
+  assert("audit.sector_count includes filled sector", out.audit.sector_count === 2, out.audit);
+  assert("audit.observed_sector_count tracks evidence sectors", out.audit.observed_sector_count === 1, out.audit);
+  const banks = out.sectors.find((s) => s.sector === "Banks");
+  const materials = out.sectors.find((s) => s.sector === "Materials");
+  assert("Banks top-down maps to Banking macro bucket", banks.horizons["3_12m"].top_down.score > 0, banks.horizons["3_12m"]);
+  assert("missing Materials row gets neutral bottom-up", materials.horizons["3_12m"].bottom_up.n_news === 0, materials.horizons["3_12m"]);
+}
+
 // ─── conservative-language audit: caveats avoid "predict" ────────────
 console.log("synthesizer: caveats use SEBI-conservative language");
 {
