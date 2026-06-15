@@ -20,12 +20,55 @@ case "${1:-}" in
   --pr)    MODE="pr-only" ;;
 esac
 
+process_cwd() {
+  local pid="$1"
+  lsof -Fn -a -p "${pid}" -d cwd 2>/dev/null | sed -n 's/^n//p' | head -1
+}
+
+active_data_dir() {
+  local pattern pid cwd
+  for pattern in \
+    'sws-api-scrape\.mjs[[:space:]]+[123]' \
+    'scripts/sws-refresh-api\.sh' \
+    'scripts/sws-nightly\.sh'; do
+    while read -r pid; do
+      [ -n "${pid}" ] || continue
+      cwd="$(process_cwd "${pid}")"
+      if [ -n "${cwd}" ] && [ -d "${cwd}/data/sws" ]; then
+        printf '%s|pid=%s\n' "${cwd}" "${pid}"
+        return 0
+      fi
+    done < <(
+      ps -ax -o pid=,command= | \
+        awk -v re="${pattern}" '$0 ~ re && $0 !~ /sws-status/ {print $1}'
+    )
+  done
+
+  printf '%s|primary checkout\n' "${REPO_DIR}"
+}
+
+DATA_SOURCE="$(active_data_dir)"
+DATA_DIR="${DATA_SOURCE%%|*}"
+DATA_REASON="${DATA_SOURCE#*|}"
+
+data_path() {
+  printf '%s/%s\n' "${DATA_DIR}" "$1"
+}
+
 show() {
   clear 2>/dev/null
 
   echo "============================================================"
   echo "  SWS pipeline status — $(date '+%Y-%m-%d %H:%M:%S %Z')"
   echo "============================================================"
+
+  echo
+  echo "── status source ──"
+  if [ "${DATA_DIR}" = "${REPO_DIR}" ]; then
+    echo "  data dir: ${DATA_DIR} (${DATA_REASON})"
+  else
+    echo "  data dir: ${DATA_DIR} (${DATA_REASON}; live isolated worktree)"
+  fi
 
   # ─── 1. launchd job ───
   echo
@@ -50,8 +93,9 @@ show() {
   # ─── 3. Pipeline lock ───
   echo
   echo "── pipeline lock ──"
-  if [ -f data/sws/pipeline.lock ]; then
-    echo "  🔒 HELD: $(cat data/sws/pipeline.lock | tr -d '\n' | sed 's/{//;s/}//')"
+  LOCK_FILE="$(data_path "data/sws/pipeline.lock")"
+  if [ -f "${LOCK_FILE}" ]; then
+    echo "  🔒 HELD: $(cat "${LOCK_FILE}" | tr -d '\n' | sed 's/{//;s/}//')"
   else
     echo "  unlocked"
   fi
@@ -60,7 +104,7 @@ show() {
   echo
   echo "── shard progress (file-based) ──"
   for s in 1 2 3; do
-    LOG="data/sws/refresh-api-shard-$s.log"
+    LOG="$(data_path "data/sws/refresh-api-shard-$s.log")"
     if [ -f "$LOG" ]; then
       DONE=$(grep -c '"event":"stock_done"' "$LOG" 2>/dev/null)
       ERRS=$(grep -c '"event":"stock_error"' "$LOG" 2>/dev/null)
@@ -74,10 +118,11 @@ show() {
   # ─── 5. Last finished run summary ───
   echo
   echo "── last finished run (JSON layer) ──"
-  if [ -f data/sws/last-refresh.json ]; then
+  LAST_REFRESH="$(data_path "data/sws/last-refresh.json")"
+  if [ -f "${LAST_REFRESH}" ]; then
     node --input-type=module -e '
       import {readFileSync} from "fs";
-      const lr = JSON.parse(readFileSync("data/sws/last-refresh.json","utf-8"));
+      const lr = JSON.parse(readFileSync(process.argv[1],"utf-8"));
       const sc = lr.sections_count || {};
       const ago = lr.finished_at ? Math.round((Date.now() - new Date(lr.finished_at).getTime())/60000) : null;
       console.log(`  finished:    ${lr.finished_at} (${ago}m ago)`);
@@ -90,9 +135,9 @@ show() {
         const summary = keys.map(k => `${k}=${sc[k]}`).join(", ");
         console.log(`  sections:    ${summary}`);
       }
-    ' 2>/dev/null
+    ' "${LAST_REFRESH}" 2>/dev/null
   else
-    echo "  (data/sws/last-refresh.json missing)"
+    echo "  (${LAST_REFRESH} missing)"
   fi
 
   # ─── 6. Phase 5 reminder ───
@@ -116,8 +161,9 @@ show() {
   # ─── 7. Most recent nightly log lines ───
   echo
   echo "── nightly log (last 6 lines) ──"
-  if [ -f data/sws/sws-nightly.log ]; then
-    tail -6 data/sws/sws-nightly.log | sed 's/^/  /'
+  NIGHTLY_LOG="$(data_path "data/sws/sws-nightly.log")"
+  if [ -f "${NIGHTLY_LOG}" ]; then
+    tail -6 "${NIGHTLY_LOG}" | sed 's/^/  /'
   else
     echo "  (no nightly log yet — first run hasn't fired)"
   fi
@@ -148,10 +194,10 @@ show() {
 
   echo
   echo "── log file paths (tail -f any of these) ──"
-  echo "  data/sws/sws-nightly.log         — orchestrator"
-  echo "  data/sws/refresh-api.log         — wrapper (scrape→parse→score→PDF)"
-  echo "  data/sws/refresh-api-shard-{1,2,3}.log — live shard scrapers"
-  echo "  data/sws/launchd-stdout.log      — what launchd captured"
+  echo "  ${DATA_DIR}/data/sws/sws-nightly.log         — orchestrator"
+  echo "  ${DATA_DIR}/data/sws/refresh-api.log         — wrapper (scrape→parse→score→PDF)"
+  echo "  ${DATA_DIR}/data/sws/refresh-api-shard-{1,2,3}.log — live shard scrapers"
+  echo "  ${DATA_DIR}/data/sws/launchd-stdout.log      — what launchd captured"
 }
 
 case "$MODE" in
@@ -173,9 +219,9 @@ case "$MODE" in
     fi
     ;;
   live)
-    echo "Tailing live shard + refresh logs. Ctrl+C to stop."
+    echo "Tailing live shard + refresh logs from ${DATA_DIR}. Ctrl+C to stop."
     sleep 1
-    tail -f data/sws/refresh-api.log data/sws/refresh-api-shard-{1,2,3}.log 2>/dev/null
+    tail -f "${DATA_DIR}/data/sws/refresh-api.log" "${DATA_DIR}"/data/sws/refresh-api-shard-{1,2,3}.log 2>/dev/null
     ;;
   watch)
     while true; do
