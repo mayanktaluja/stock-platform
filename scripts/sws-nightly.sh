@@ -1708,6 +1708,179 @@ wait_for_pr_merged() {
   return 1
 }
 
+pr_merge_state_summary() {
+  local pr_url="$1"
+  gh pr view "${pr_url}" --json state,mergedAt,mergeable,mergeStateStatus,statusCheckRollup,url \
+    --jq '"state=\(.state) mergedAt=\(.mergedAt // "-") mergeable=\(.mergeable // "-") mergeStateStatus=\(.mergeStateStatus // "-") checks=\([.statusCheckRollup[]? | .state // .conclusion // .status // "-"] | join(","))"' \
+    2>/dev/null || echo "state=UNKNOWN mergedAt=- mergeable=- mergeStateStatus=- checks=-"
+}
+
+pr_is_conflicted() {
+  local pr_url="$1"
+  local state
+  state="$(pr_merge_state_summary "${pr_url}")"
+  printf '%s\n' "${state}" | grep -Eq 'mergeable=CONFLICTING|mergeStateStatus=DIRTY'
+}
+
+republish_conflicted_pr_on_latest_main() {
+  local old_pr_url="$1"
+  local source_branch="$2"
+  local recovery_branch="${source_branch}-rebase-$(date +%H%M%S)"
+  local tmpdir
+  tmpdir="$(mktemp -d "${TMPDIR:-/tmp}/sws-republish.XXXXXX")" || return 1
+
+  cleanup_republish_worktree() {
+    git worktree remove --force "${tmpdir}" >/dev/null 2>&1 || true
+    rm -rf "${tmpdir}" >/dev/null 2>&1 || true
+  }
+
+  echo "[nightly] PR is conflicted; republishing generated artifacts on latest origin/main as ${recovery_branch}"
+  if ! git fetch origin main "${source_branch}" 2>&1 | sed 's/^/[git] /'; then
+    echo "[nightly] republish fetch failed"
+    cleanup_republish_worktree
+    return 1
+  fi
+
+  git branch -D "${recovery_branch}" >/dev/null 2>&1 || true
+  if ! git worktree add -B "${recovery_branch}" "${tmpdir}" origin/main 2>&1 | sed 's/^/[git] /'; then
+    echo "[nightly] republish worktree add failed"
+    cleanup_republish_worktree
+    return 1
+  fi
+
+  if [ -d "${REPO_DIR}/node_modules" ]; then
+    ln -sfn "${REPO_DIR}/node_modules" "${tmpdir}/node_modules" 2>/dev/null || true
+  fi
+
+  local recovery_paths=(
+    data/sws/deep.tar.gz
+    data/sws/picks-latest.json
+    data/sws/last-refresh.json
+    data/sws/sws-scored-universe.json
+    data/sws/v4-universe-stats.json
+    data/sws/v3-universe-stats.json
+    data/sws/_sanity/_latest.json
+    data/sws/alerts/input-signatures-latest.json
+    data/sws/alerts/input-alert-confirmation-state.json
+    data/sws/alerts/fundamental-changes-latest.json
+    data/sws/groww-stock-failed.json
+    data/sws/groww-pe-latest.json
+    data/sws/groww-pe-failed.json
+    data/sws/universe.json
+    data/sws/universe-meta.json
+    data/sws/nse-event-calendar.json
+    data/sws/chronos-forecast-latest.json
+    data/sws/chronos-forecast-health.json
+    data/sws/nightly-timings-latest.json
+    data/sws-us/deep-us.tar.gz
+    data/sws-kr/deep-kr.tar.gz
+    data/sws-tw/deep-tw.tar.gz
+    data/sectorOutlook/outlook-latest.json
+    data/coverage/bse_equity_active.json
+    data/risk-lab/picks-adjusted-latest.json
+    data/risk-lab/quality-flags-latest.json
+    data/risk-lab/macro-thesis-latest.json
+    data/strategy/multibagger-scores-latest.json
+    data/strategy/catalyst-slate-latest.json
+    data/strategy/multibagger-health-latest.json
+    data/strategy/multibagger-portfolio.json
+    data/nse-index-constituents.json
+    data/catalysts/
+    data/nse-fo/oi-deltas-latest.json
+    data/macroCalendar.json
+    fundamentals.json
+    surveillance.json
+    governance.json
+    fundamentalsHistory.json
+  )
+
+  local path
+  for path in "${recovery_paths[@]}"; do
+    git -C "${tmpdir}" checkout "origin/${source_branch}" -- "${path}" 2>/dev/null || true
+  done
+  if git -C "${tmpdir}" ls-tree -r --name-only "origin/${source_branch}" reports/sws-picks 2>/dev/null | grep -q '\.pdf$'; then
+    git -C "${tmpdir}" checkout "origin/${source_branch}" -- reports/sws-picks 2>/dev/null || true
+  fi
+
+  local add_paths=()
+  for path in "${recovery_paths[@]}"; do
+    if [ -e "${tmpdir}/${path%/}" ]; then
+      add_paths+=("${path}")
+    fi
+  done
+  if [ -d "${tmpdir}/reports/sws-picks" ]; then
+    add_paths+=("reports/sws-picks")
+  fi
+
+  if [ "${#add_paths[@]}" -eq 0 ]; then
+    echo "[nightly] republish found no generated artifacts to stage"
+    cleanup_republish_worktree
+    return 1
+  fi
+
+  git -C "${tmpdir}" add -- "${add_paths[@]}"
+  if git -C "${tmpdir}" diff --cached --quiet --exit-code; then
+    echo "[nightly] republish found no changes versus latest origin/main"
+    cleanup_republish_worktree
+    return 1
+  fi
+
+  if ! git -C "${tmpdir}" commit -m "chore(sws): republish ${RUN_LABEL} on latest main
+
+${COMMIT_BODY}
+
+Republished automatically because ${old_pr_url} became conflicted after main advanced while the long-running nightly was waiting for auto-merge.
+
+Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>" 2>&1 | sed 's/^/[git] /'; then
+    echo "[nightly] republish commit failed"
+    cleanup_republish_worktree
+    return 1
+  fi
+
+  if ! git -C "${tmpdir}" push -u origin "${recovery_branch}" 2>&1 | sed 's/^/[git] /'; then
+    echo "[nightly] republish push failed"
+    cleanup_republish_worktree
+    return 1
+  fi
+
+  local recovery_output recovery_pr_url
+  recovery_output="$(cd "${tmpdir}" && gh pr create \
+    --base main \
+    --head "${recovery_branch}" \
+    --title "chore(sws): republish ${RUN_LABEL} on latest main" \
+    --body "Automated recovery for ${old_pr_url}.
+
+The original SWS auto-refresh PR became conflicted after main advanced while the long-running nightly waited for auto-merge. This replacement branch is based on current origin/main and copies only the generated artifact allow-list from ${source_branch}.
+
+${COMMIT_BODY}
+
+Auto-generated by \`scripts/sws-nightly.sh\` conflict recovery." 2>&1)"
+  recovery_pr_url="$(printf '%s\n' "${recovery_output}" | grep -oE 'https://github\.com/[^[:space:]]+/pull/[0-9]+' | tail -1)"
+  if [ -z "${recovery_pr_url}" ]; then
+    echo "[nightly] republish gh pr create failed: ${recovery_output}"
+    cleanup_republish_worktree
+    return 1
+  fi
+
+  echo "[nightly] recovery PR created: ${recovery_pr_url}"
+  gh pr close "${old_pr_url}" --comment "Superseded by ${recovery_pr_url}, rebuilt on latest origin/main after this generated-data PR became conflicted." 2>&1 | sed 's/^/[gh] /' || true
+
+  BRANCH="${recovery_branch}"
+  PR_URL="${recovery_pr_url}"
+
+  if ! gh pr merge "${PR_URL}" --squash --auto 2>&1 | sed 's/^/[gh] /'; then
+    echo "[nightly] recovery --auto failed, attempting immediate squash-merge..."
+    gh pr merge "${PR_URL}" --squash 2>&1 | sed 's/^/[gh] /' || {
+      echo "[nightly] recovery merge failed"
+      cleanup_republish_worktree
+      return 1
+    }
+  fi
+
+  cleanup_republish_worktree
+  return 0
+}
+
 trigger_input_alerts_after_deploy() {
   local expected_run_id
   expected_run_id=$(node --input-type=module -e '
@@ -1765,14 +1938,38 @@ if [ "${AUTO_MERGE}" = "1" ]; then
 
 $(tail -30 ${LOG})"
       [ -n "${SWS_NIGHTLY_STABLE_COPY:-}" ] && rm -f "${SWS_NIGHTLY_STABLE_COPY}" 2>/dev/null || true
-      trap - EXIT  # warning, but commit/push succeeded — don't fire Slack failure trap
-      exit 0
+      exit 8
     }
   fi
   if wait_for_pr_merged "${PR_URL}"; then
     trigger_input_alerts_after_deploy
   else
-    ALERT_TRIGGER_NOTE="Alert trigger skipped: PR did not merge before the nightly merge wait timeout; scheduled Vercel cron remains the retry safety net."
+    PR_STATE="$(pr_merge_state_summary "${PR_URL}")"
+    echo "[nightly] PR state after merge wait timeout: ${PR_STATE}"
+    if pr_is_conflicted "${PR_URL}" && republish_conflicted_pr_on_latest_main "${PR_URL}" "${BRANCH}"; then
+      if wait_for_pr_merged "${PR_URL}"; then
+        trigger_input_alerts_after_deploy
+      else
+        PR_STATE="$(pr_merge_state_summary "${PR_URL}")"
+        send_mail "🚨 SWS nightly — recovery PR still unmerged" "Recovery PR ${PR_URL} was created after the original PR conflicted, but it did not merge before timeout.
+
+State:
+${PR_STATE}
+
+Production data is NOT confirmed fresh. Manual merge required."
+        [ -n "${SWS_NIGHTLY_STABLE_COPY:-}" ] && rm -f "${SWS_NIGHTLY_STABLE_COPY}" 2>/dev/null || true
+        exit 8
+      fi
+    else
+      send_mail "🚨 SWS nightly — PR open but unmerged" "PR ${PR_URL} did not merge within the nightly wait timeout.
+
+State:
+${PR_STATE}
+
+Production data is NOT confirmed fresh. Manual review/merge required."
+      [ -n "${SWS_NIGHTLY_STABLE_COPY:-}" ] && rm -f "${SWS_NIGHTLY_STABLE_COPY}" 2>/dev/null || true
+      exit 8
+    fi
   fi
 else
   echo "[nightly] AUTO_MERGE=0 — leaving PR open for manual review"
