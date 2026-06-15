@@ -4354,7 +4354,7 @@ function rsiLabel(rsi) {
 const TRACK_TYPE_LABELS = {
   // SWS picks — primary source of truth, snapshotted on every pipeline run
   sws_top30_v3: "SWS · Top 30 (v4)",
-  sws_best_buynow: "SWS · Best to Buy Now",
+  sws_best_buynow: "SWS · Best Stocks to Buy Now",
   sws_deep_value: "SWS · Deep Value",
   sws_growing_sector_value: "SWS · Growing Sector Value",
   sws_quality_growth: "SWS · Quality Growth",
@@ -11432,7 +11432,8 @@ function renderHoldingCardV2(h, defaultOpen) {
 // ==================== SWS PICKS ====================
 
 // Section order. top_ranked_30 leads (multi-factor score, broadest universe);
-// best_to_buy_now follows (legacy curated cut). Per-category sections after.
+// best_to_buy_now follows as the stricter Best Stocks to Buy Now compatibility key.
+// Per-category sections after.
 // Sections with zero items hide automatically — see renderPicks.
 //
 // term_id wires each section header to a glossary tooltip explaining the
@@ -11440,7 +11441,7 @@ function renderHoldingCardV2(h, defaultOpen) {
 // subtitles that used to live here). emoji + chip_label feed the chip-nav.
 const PICKS_SECTIONS = [
   { key: "top_ranked_30_v4", term_id: "section_top_ranked_30", emoji: "⭐", label: "⭐ Top 30 — V4 Score", chip_label: "Top 30", subtitle: "Universe-wide top 30 by V4 composite score — start every session here." },
-  { key: "best_to_buy_now", term_id: "section_best_to_buy_now", emoji: "🎯", label: "🎯 Best Stocks to Buy Now", chip_label: "Buy Now", subtitle: "Tighter cut: high score + Snowflake ≥ 18 + clean of major risks. Use for fresh capital today." },
+  { key: "best_to_buy_now", term_id: "section_best_to_buy_now", emoji: "🎯", label: "🎯 Best Stocks to Buy Now", chip_label: "Buy Now", subtitle: "Fresh-buy shortlist with clean FV, positive sane upside, fresh data, liquidity, and no ASM/GSM flags." },
   { key: "deep_value", term_id: "section_deep_value", emoji: "💎", label: "💎 Deep Value", chip_label: "Deep Value", subtitle: "Quality + cheap. TOP_PICK names trading at ≥ 20% discount to consensus FV." },
   { key: "growing_sector_value", term_id: "section_growing_sector_value", emoji: "📈", label: "📈 Growing Sector Value Stocks", chip_label: "Sector Value", subtitle: "HIGH-confidence SWS fair value upside ≥ 25%, positive sector context, and Future Growth ≥ 4/6; may show a labelled ≥ 3/6 fallback only when strict candidates are absent.", show_when_empty: true },
   { key: "snowflake_gap_lab", term_id: "section_snowflake_gap_lab", emoji: "🧪", label: "🧪 Snowflake Gap Lab", chip_label: "Gap Lab", subtitle: "Experimental screen for SWS data gaps. Canonical V4 remains the source of record.", show_when_empty: true },
@@ -11469,6 +11470,57 @@ const PICKS_INLINE_CAP = {
   off_section_search: 24,
 };
 const PICKS_INLINE_DEFAULT_CAP = 12;
+
+const PICKS_GROUP_MODE_LS_KEY = "swsPicksGroupMode_v1";
+const PICKS_SORT_LS_KEY = "swsPicksSort_v1";
+const PICKS_GROUPS = {
+  actionable: {
+    label: "Actionable Ideas",
+    subtitle: "Fresh capital and ranked shortlist sections. Best Stocks to Buy Now is the strict buy-now gate; other sections may still carry caution badges.",
+  },
+  research: {
+    label: "Research / Watch",
+    subtitle: "Exploratory screens, catalysts, and watch-only lists that need more context before fresh capital.",
+  },
+};
+const PICKS_SECTION_GROUP = {
+  top_ranked_30_v4: "actionable",
+  best_to_buy_now: "actionable",
+  deep_value: "actionable",
+  growing_sector_value: "actionable",
+  quality_growth: "actionable",
+  best_fundamentals: "actionable",
+  midterm: "actionable",
+  dividend_aristocrats: "actionable",
+  smallcap_gems: "actionable",
+  snowflake_gap_lab: "research",
+  insider_buying: "research",
+  upcoming_earnings: "research",
+  off_section_search: "research",
+};
+const PICKS_SORT_OPTIONS = new Set(["rank", "upside", "mcap", "freshness", "earnings"]);
+
+function loadPicksGroupMode() {
+  try {
+    const raw = localStorage.getItem(PICKS_GROUP_MODE_LS_KEY);
+    return raw === "flat" ? "flat" : "grouped";
+  } catch {
+    return "grouped";
+  }
+}
+
+function loadPicksSortMode() {
+  try {
+    const raw = localStorage.getItem(PICKS_SORT_LS_KEY);
+    return PICKS_SORT_OPTIONS.has(raw) ? raw : "rank";
+  } catch {
+    return "rank";
+  }
+}
+
+let picksGroupMode = loadPicksGroupMode();
+let picksSortMode = loadPicksSortMode();
+let picksCredibilityTimer = null;
 
 function swsSectionItems(sections, key) {
   if (!sections) return [];
@@ -11674,6 +11726,26 @@ function onPicksSectorChange(value) {
   ensureFilterUniverseLoaded();
 }
 
+function onPicksGroupModeChange(value) {
+  picksGroupMode = value === "flat" ? "flat" : "grouped";
+  try { localStorage.setItem(PICKS_GROUP_MODE_LS_KEY, picksGroupMode); } catch {}
+  if (currentPicksData) renderPicks(currentPicksData);
+}
+
+function onPicksSortModeChange(value) {
+  picksSortMode = PICKS_SORT_OPTIONS.has(value) ? value : "rank";
+  try { localStorage.setItem(PICKS_SORT_LS_KEY, picksSortMode); } catch {}
+  if (currentPicksData) renderPicks(currentPicksData);
+}
+
+function schedulePicksCredibilityBanner() {
+  if (picksCredibilityTimer != null) clearTimeout(picksCredibilityTimer);
+  picksCredibilityTimer = setTimeout(() => {
+    picksCredibilityTimer = null;
+    loadPicksCredibilityBanner();
+  }, 350);
+}
+
 // Off-section matches now surface on any active filter (not just search), so
 // when a filter narrows the view we need the lazy /api/sws-universe payload
 // loaded too. Mirrors the search-input pattern in onPicksSearchInput.
@@ -11762,6 +11834,43 @@ function pickMatchesSearch(it, q) {
   return hay.includes(q);
 }
 
+function hydratePicksViewControls() {
+  const groupSel = document.getElementById("picksGroupMode");
+  if (groupSel) groupSel.value = picksGroupMode;
+  const sortSel = document.getElementById("picksSortMode");
+  if (sortSel) sortSel.value = picksSortMode;
+}
+
+function pickSortNumber(v, fallback = -Infinity) {
+  return typeof v === "number" && Number.isFinite(v) ? v : fallback;
+}
+
+function pickFreshnessTime(it) {
+  const t = it?.data_freshness_at ? new Date(it.data_freshness_at).getTime() : NaN;
+  return Number.isFinite(t) ? t : -Infinity;
+}
+
+function pickEarningsTime(it) {
+  const t = it?.next_earnings_date ? new Date(it.next_earnings_date + "T00:00:00Z").getTime() : NaN;
+  return Number.isFinite(t) ? t : Infinity;
+}
+
+function sortPicksSectionItems(sectionKey, items) {
+  if (!Array.isArray(items) || picksSortMode === "rank") return items;
+  const tie = (a, b) => String(a?.ticker || "").localeCompare(String(b?.ticker || ""));
+  const sorted = [...items];
+  if (picksSortMode === "upside") {
+    sorted.sort((a, b) => pickSortNumber(b?.upside_pct) - pickSortNumber(a?.upside_pct) || tie(a, b));
+  } else if (picksSortMode === "mcap") {
+    sorted.sort((a, b) => pickSortNumber(b?.market_cap_inr) - pickSortNumber(a?.market_cap_inr) || tie(a, b));
+  } else if (picksSortMode === "freshness") {
+    sorted.sort((a, b) => pickFreshnessTime(b) - pickFreshnessTime(a) || tie(a, b));
+  } else if (picksSortMode === "earnings") {
+    sorted.sort((a, b) => pickEarningsTime(a) - pickEarningsTime(b) || tie(a, b));
+  }
+  return sorted;
+}
+
 // Builds the freshness banner shown under the India Market header. Surfaces
 // (a) the last full-pipeline-finish stamp from last-refresh.json,
 // (b) live "refresh in progress" indicator if any shard last_run_at is recent,
@@ -11814,6 +11923,7 @@ async function loadPicks() {
   // disabled while the response is in flight. The real availability flag from
   // the response is applied after fetch (see further down in this function).
   hydratePicksFilterDropdowns(true);
+  hydratePicksViewControls();
   setPicksLoadingBanner(true);
   containerEl.innerHTML = buildSkeleton("pick-card", 9);
 
@@ -11826,9 +11936,7 @@ async function loadPicks() {
       return;
     }
     const data = await res.json();
-    currentPicksMacroRegime = await fetch("/api/macro/regime")
-      .then((r) => r.ok ? r.json() : null)
-      .catch(() => null);
+    currentPicksMacroRegime = null;
     currentPicksData = data;
     // Disable Large/Mid/Small dropdown options if the server says the
     // constituent JSON isn't loaded (e.g. fresh deploy before first refresh).
@@ -11837,6 +11945,7 @@ async function loadPicks() {
     // don't shrink as the user changes the universe filter.
     populatePicksSectorOptions(data?.sections);
     renderPicks(data);
+    schedulePicksCredibilityBanner();
     metaEl.innerHTML = renderPicksMetaBanner(data);
     pollPicksStatusIfNeeded(data);
     // If the user's persisted filter is non-default, off-section matches will
@@ -12035,6 +12144,22 @@ function renderPicksChipNav(visibleSections, collapsedState) {
     </div>`;
 }
 
+function picksGroupKeyForSection(sectionKey) {
+  return PICKS_SECTION_GROUP[sectionKey] || "research";
+}
+
+function renderPicksGroupHeader(groupKey, count) {
+  const group = PICKS_GROUPS[groupKey];
+  if (!group || picksGroupMode !== "grouped") return "";
+  return `<div class="sws-pick-group-header" data-picks-group="${groupKey}">
+    <div>
+      <div class="sws-pick-group-title">${escapeHtml(group.label)}</div>
+      <div class="sws-pick-group-subtitle">${escapeHtml(group.subtitle)}</div>
+    </div>
+    <span class="sws-pick-group-count">${count}</span>
+  </div>`;
+}
+
 function humanMacroRegimeLabel(regime) {
   const raw = String(regime || "").trim().toUpperCase();
   if (raw === "GLOBAL_RISK_OFF") return "Global Risk-Off";
@@ -12088,16 +12213,17 @@ function renderPicks(data) {
     for (const it of rawItems) {
       if (it && it.ticker) totalTickers.add(it.ticker);
     }
-    const items = rawItems
-      .filter((it) => matchesUniverse(it, picksFilters.universe))
-      .filter((it) => matchesSector(it, picksFilters.sector))
-      .filter((it) => pickMatchesSearch(it, picksSearchQuery));
-    const showEmptySection = section.show_when_empty && rawItems.length === 0 && showDefaultEmptySections;
-    if (items.length === 0 && !showEmptySection) continue;
-    visibleSections.push({ section, items, audit: getPicksSectionAudit(data, section.key) });
-    totalShown += items.length;
-    for (const it of items) if (it && it.ticker) shownTickers.add(it.ticker);
-  }
+	    const items = rawItems
+	      .filter((it) => matchesUniverse(it, picksFilters.universe))
+	      .filter((it) => matchesSector(it, picksFilters.sector))
+	      .filter((it) => pickMatchesSearch(it, picksSearchQuery));
+	    const sortedItems = sortPicksSectionItems(section.key, items);
+	    const showEmptySection = section.show_when_empty && rawItems.length === 0 && showDefaultEmptySections;
+	    if (sortedItems.length === 0 && !showEmptySection) continue;
+	    visibleSections.push({ section, items: sortedItems, audit: getPicksSectionAudit(data, section.key) });
+	    totalShown += sortedItems.length;
+	    for (const it of sortedItems) if (it && it.ticker) shownTickers.add(it.ticker);
+	  }
 
   // Off-section matches: when search OR any filter is active and the
   // scored-universe index has loaded, surface any matching stock that ISN'T
@@ -12131,9 +12257,15 @@ function renderPicks(data) {
     }
   }
 
-  updatePicksFilterSummary(shownTickers.size, totalTickers.size);
+	  updatePicksFilterSummary(shownTickers.size, totalTickers.size);
+	  const groupOrder = { actionable: 0, research: 1 };
+	  const visibleSectionsForRender = picksGroupMode === "grouped"
+	    ? [...visibleSections].sort((a, b) =>
+	        (groupOrder[picksGroupKeyForSection(a.section.key)] ?? 9) - (groupOrder[picksGroupKeyForSection(b.section.key)] ?? 9)
+	      )
+	    : visibleSections;
 
-  if (!totalShown && visibleSections.length === 0) {
+	  if (!totalShown && visibleSections.length === 0) {
     const uniLabel = ({
       all: "all stocks",
       nifty100: "the Nifty 100 universe",
@@ -12156,10 +12288,10 @@ function renderPicks(data) {
     }
     containerEl.innerHTML = renderPicksSearchStatus(0, 0) + `<div style="padding:24px;color:var(--text-muted);">${msg}</div>`;
     return;
-  }
+	  }
 
-  const statusHtml = renderPicksSearchStatus(totalShown, offSectionCount);
-  const chipNav = renderPicksChipNav(visibleSections, collapsedState);
+	  const statusHtml = renderPicksSearchStatus(totalShown, offSectionCount);
+	  const chipNav = renderPicksChipNav(visibleSectionsForRender, collapsedState);
 
   // Same force-expand logic as the chip-nav: an active search query overrides
   // persistent collapse state so matches are immediately visible.
@@ -12168,8 +12300,19 @@ function renderPicks(data) {
   // were just wiped by the upcoming innerHTML assignment, so nothing can
   // consume them and they'd otherwise leak across re-renders.
   picksChunkBuffers.clear();
-  const sectionsHtml = visibleSections.map(({ section, items, audit }) => {
-    const defaultCap = PICKS_INLINE_CAP[section.key] ?? PICKS_INLINE_DEFAULT_CAP;
+	  let priorGroupKey = null;
+	  const groupCounts = visibleSectionsForRender.reduce((acc, row) => {
+	    const key = picksGroupKeyForSection(row.section.key);
+	    acc[key] = (acc[key] || 0) + 1;
+	    return acc;
+	  }, {});
+	  const sectionsHtml = visibleSectionsForRender.map(({ section, items, audit }) => {
+	    const groupKey = picksGroupKeyForSection(section.key);
+	    const groupHeader = picksGroupMode === "grouped" && groupKey !== priorGroupKey
+	      ? renderPicksGroupHeader(groupKey, groupCounts[groupKey] || 0)
+	      : "";
+	    priorGroupKey = groupKey;
+	    const defaultCap = PICKS_INLINE_CAP[section.key] ?? PICKS_INLINE_DEFAULT_CAP;
     const expanded = picksExpandedSections.has(section.key);
     const cap = expanded ? items.length : defaultCap;
     const sliced = items.slice(0, cap);
@@ -12195,8 +12338,8 @@ function renderPicks(data) {
     const sentinelHtml = useChunked
       ? `<div class="sws-pick-chunk-sentinel" data-section-key="${section.key}" data-rendered="${firstChunkEnd}" aria-hidden="true"></div>`
       : "";
-    return `
-      <div class="dashboard-section sws-pick-section${isCollapsed ? " collapsed" : ""}${isHero ? " sws-pick-section-hero" : ""}${useChunked ? " sws-pick-section-uncapped" : ""}" data-section-key="${section.key}">
+	    return `${groupHeader}
+	      <div class="dashboard-section sws-pick-section${isCollapsed ? " collapsed" : ""}${isHero ? " sws-pick-section-hero" : ""}${useChunked ? " sws-pick-section-uncapped" : ""}" data-section-key="${section.key}">
         <div class="section-header" onclick="togglePicksSection(this, event)" role="button" tabindex="0"
              onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePicksSection(this);}">
           <div class="section-header-left">
@@ -12456,9 +12599,33 @@ function renderPickCard(s, sectionKey, rank = null) {
   const gapLabBadge = gapLab && Number.isFinite(Number(gapLab.shadow_v4_score_100))
     ? `<span class="sws-gap-lab-badge" title="${escapeHtml(gapLab.caveat || "Experimental shadow V4. For review, not a recommendation. Canonical V4 remains the source of record.")}">Lab V4 ${Number(gapLab.shadow_v4_score_100).toFixed(1)}${Number.isFinite(Number(gapLab.score_delta)) ? ` (+${Number(gapLab.score_delta).toFixed(1)})` : ""}</span>`
     : "";
-  const statusBadges = renderPickStatusBadges(s, sectionKey);
-  const rankBadge = rank ? `<span class="sws-pick-rank">${rank}</span>` : "";
-  const fresh = pickFreshnessPill(s.data_freshness_at);
+	  const statusBadges = renderPickStatusBadges(s, sectionKey);
+	  const rankBadge = rank ? `<span class="sws-pick-rank">${rank}</span>` : "";
+	  const fresh = pickFreshnessPill(s.data_freshness_at);
+	  const entryBand = s.entry_band && typeof s.entry_band === "object" ? s.entry_band : null;
+	  const entryReasons = Array.isArray(entryBand?.reasons) ? entryBand.reasons : [];
+	  const entryReasonText = entryReasons.map((r) => r?.message).filter(Boolean).join(" ");
+	  const entryStateLabel = {
+	    BUY_ZONE: "Buy zone",
+	    STAGGER_ONLY: "Stagger",
+	    NO_BUY_ABOVE: "Wait",
+	    UNAVAILABLE: "Entry n/a",
+	  }[entryBand?.entry_state] || null;
+	  const entryBadge = entryStateLabel
+	    ? `<span class="sws-entry-badge sws-entry-badge--${String(entryBand.entry_state || "UNAVAILABLE").toLowerCase()}" title="${escapeHtml(entryReasonText || "Entry band derived from SWS fair value and current price.")}">${escapeHtml(entryStateLabel)}</span>`
+	    : "";
+	  const noBuyBadge = entryBand?.no_buy_above_inr != null
+	    ? `<span class="sws-entry-badge sws-entry-badge--cap" title="No-buy-above price is 90% of SWS fair value.">No-buy &gt; ${fmtInr(entryBand.no_buy_above_inr)}</span>`
+	    : "";
+	  const fvWarningBadge = entryReasons.some((r) => ["fv_outlier", "fv_low_confidence", "upside_outlier"].includes(r?.code))
+	    ? `<span class="sws-entry-badge sws-entry-badge--warn" title="${escapeHtml(entryReasonText || "Fair-value warning")}">FV caution</span>`
+	    : "";
+	  const staleEntryBadge = entryReasons.some((r) => ["data_stale", "freshness_missing"].includes(r?.code))
+	    ? `<span class="sws-entry-badge sws-entry-badge--warn" title="${escapeHtml(entryReasonText || "Freshness warning")}">Stale</span>`
+	    : "";
+	  const entryRow = entryBand
+	    ? `<div class="sws-pick-entry-row">${entryBadge}${noBuyBadge}${fvWarningBadge}${staleEntryBadge}</div>`
+	    : "";
 
   let extraRow = "";
   if (sectionKey === "upcoming_earnings" && s.next_earnings_date) {
@@ -12491,7 +12658,7 @@ function renderPickCard(s, sectionKey, rank = null) {
         <div class="sws-pick-card-id">
           ${rankBadge}
           <div class="sws-pick-card-id-text">
-            <div class="sws-pick-card-ticker">${s.ticker}${survBadge}${coverageBadge}${fundBadge}${sectorTailwindBadge}${macroFallbackBadge}${futureBadge}${fv30Badge}${gapLabBadge}${statusBadges}${s.sector ? `<span class="sws-pick-card-sector">${escapeHtml(s.sector)}</span>` : ""}</div>
+	            <div class="sws-pick-card-ticker">${s.ticker}${survBadge}${coverageBadge}${fundBadge}${sectorTailwindBadge}${macroFallbackBadge}${futureBadge}${fv30Badge}${gapLabBadge}${entryBadge}${fvWarningBadge}${staleEntryBadge}${statusBadges}${s.sector ? `<span class="sws-pick-card-sector">${escapeHtml(s.sector)}</span>` : ""}</div>
             <div class="sws-pick-card-name">${s.name || ""}${fresh}</div>
           </div>
         </div>
@@ -12511,8 +12678,9 @@ function renderPickCard(s, sectionKey, rank = null) {
         <div class="sws-pick-stat" style="color:${upsideColor};">${upside}${infoIcon("upside_pct")}${valBandChip ? " " + valBandChip : ""}</div>
         <div class="sws-pick-stat sws-pick-stat-snow"><span class="sws-pick-stat-label">Snow${infoIcon("snowflake_score")}</span> ${sn}/30</div>
       </div>
-      <div class="sws-pick-card-narrative">${(s.narrative && s.narrative.card_one_line) || s.one_line || ""}</div>
-      ${gapLabBadge ? `<div class="sws-gap-lab-card-note"><span>Experimental data-gap screen. Canonical V4 stays ${score}.</span></div>` : ""}
+	      <div class="sws-pick-card-narrative">${(s.narrative && s.narrative.card_one_line) || s.one_line || ""}</div>
+	      ${entryRow}
+	      ${gapLabBadge ? `<div class="sws-gap-lab-card-note"><span>Experimental data-gap screen. Canonical V4 stays ${score}.</span></div>` : ""}
       ${extraRow}
       ${s.sws_url ? `<div class="sws-pick-card-link"><a href="${s.sws_url}" target="_blank" rel="noopener" onclick="event.stopPropagation();">Open on SWS →</a></div>` : ""}
     </div>`;

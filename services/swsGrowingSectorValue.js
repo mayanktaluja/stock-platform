@@ -1,6 +1,7 @@
 import { reconcileFairValue } from "./fvReconciliation.js";
 import { normalizeSector } from "../macroRegime.js";
 import { resolveSectorsForTicker } from "./riskLab/macro/sectorOverrides.js";
+import { compareIndiaSectionRank } from "./swsIndiaSectionPolicy.js";
 
 const MIN_MCAP_INR = 5_000_000_000;
 const MIN_V4_SCORE = 47;
@@ -384,12 +385,13 @@ function buildMacroFallbackSection(scoredStocks, opts, outlookIndex) {
   }
   const futureGate = applyFutureGrowthGate(selected);
 
-  const items = futureGate.candidates
-    .sort((a, b) =>
-      (b.stock.v4_score_100 || 0) - (a.stock.v4_score_100 || 0) ||
-      (reconcileFairValue(b.stock.overview || {}).upside_pct || 0) - (reconcileFairValue(a.stock.overview || {}).upside_pct || 0) ||
-      (b.fallback.impact.impact || 0) - (a.fallback.impact.impact || 0)
-    )
+	  const items = futureGate.candidates
+	    .sort((a, b) =>
+	      (b.stock.v4_score_100 || 0) - (a.stock.v4_score_100 || 0) ||
+	      (reconcileFairValue(b.stock.overview || {}).upside_pct || 0) - (reconcileFairValue(a.stock.overview || {}).upside_pct || 0) ||
+	      (b.fallback.impact.impact || 0) - (a.fallback.impact.impact || 0) ||
+	      compareIndiaSectionRank(a.stock, b.stock)
+	    )
     .slice(0, opts.limit || 100)
     .map(({ stock, fallback }) => enrichMacroFallbackCard(opts.pickCardFields(stock), fallback, opts.macroRegime || null));
 
@@ -425,21 +427,25 @@ export function buildGrowingSectorValueSection(scoredStocks, opts = {}) {
   if (typeof pickCardFields !== "function") {
     throw new Error("buildGrowingSectorValueSection requires opts.pickCardFields");
   }
-  const outlookIndex = indexSectorOutlook(opts.sectorOutlook || null, opts);
-  if (!outlookIndex.ok) {
-    const fallback = buildMacroFallbackSection(scoredStocks, opts, outlookIndex);
-    if (fallback) return fallback;
-    return {
-      items: [],
-      audit: {
+	  const outlookIndex = indexSectorOutlook(opts.sectorOutlook || null, opts);
+	  if (!outlookIndex.ok) {
+	    const fallback = buildMacroFallbackSection(scoredStocks, opts, outlookIndex);
+	    if (fallback) return fallback;
+	    const macroIndex = indexPositiveMacroImpacts(opts.macroRegime || null, opts);
+	    return {
+	      items: [],
+	      audit: {
         available: false,
         reason: outlookIndex.reason,
         generated_at: outlookIndex.generated_at || null,
         age_hours: outlookIndex.age_hours,
-        current_regime: outlookIndex.current_regime || opts.macroRegime?.regime || null,
-        outlook_regime: outlookIndex.outlook_regime || opts.sectorOutlook?.regime_at_generation?.regime || null,
-        ...failClosedWarning(outlookIndex.reason, {
-          current_regime: outlookIndex.current_regime || opts.macroRegime?.regime || null,
+	        current_regime: outlookIndex.current_regime || opts.macroRegime?.regime || null,
+	        outlook_regime: outlookIndex.outlook_regime || opts.sectorOutlook?.regime_at_generation?.regime || null,
+	        macro_fallback_reason: macroIndex.reason,
+	        macro_generated_at: macroIndex.generated_at || macroGeneratedAt(opts.macroRegime || null),
+	        macro_age_hours: macroIndex.age_hours,
+	        ...failClosedWarning(outlookIndex.reason, {
+	          current_regime: outlookIndex.current_regime || opts.macroRegime?.regime || null,
           outlook_regime: outlookIndex.outlook_regime || opts.sectorOutlook?.regime_at_generation?.regime || null,
         }),
         base_eligible_count: 0,
@@ -480,12 +486,13 @@ export function buildGrowingSectorValueSection(scoredStocks, opts = {}) {
     };
   }
 
-  const items = futureGate.candidates
-    .sort((a, b) =>
-      (b.stock.v4_score_100 || 0) - (a.stock.v4_score_100 || 0) ||
-      (reconcileFairValue(b.stock.overview || {}).upside_pct || 0) - (reconcileFairValue(a.stock.overview || {}).upside_pct || 0) ||
-      (b.tailwind.horizon.composite || 0) - (a.tailwind.horizon.composite || 0)
-    )
+	  const items = futureGate.candidates
+	    .sort((a, b) =>
+	      (b.stock.v4_score_100 || 0) - (a.stock.v4_score_100 || 0) ||
+	      (reconcileFairValue(b.stock.overview || {}).upside_pct || 0) - (reconcileFairValue(a.stock.overview || {}).upside_pct || 0) ||
+	      (b.tailwind.horizon.composite || 0) - (a.tailwind.horizon.composite || 0) ||
+	      compareIndiaSectionRank(a.stock, b.stock)
+	    )
     .slice(0, opts.limit || 100)
     .map(({ stock, tailwind }) => enrichCard(pickCardFields(stock), tailwind));
 

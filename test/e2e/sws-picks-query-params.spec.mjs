@@ -28,7 +28,7 @@ test.describe("/api/sws-picks query params", () => {
     expect(body._meta.limit).toBe(3);
   });
 
-  test("?category=KEY returns only the named section", async ({ request }) => {
+	  test("?category=KEY returns only the named section", async ({ request }) => {
     const baseline = await request.get("/api/sws-picks");
     if (baseline.status() === 404) return;
     const baseBody = await baseline.json();
@@ -42,8 +42,19 @@ test.describe("/api/sws-picks query params", () => {
     expect(filtered.status()).toBe(200);
     const fBody = await filtered.json();
     expect(Object.keys(fBody.sections)).toEqual([someSection]);
-    expect(fBody._meta.category).toBe(someSection);
-  });
+	    expect(fBody._meta.category).toBe(someSection);
+	  });
+
+	  test("?category=best_to_buy_now keeps the Best Stocks to Buy Now compatibility key", async ({ request }) => {
+	    const filtered = await request.get("/api/sws-picks?category=best_to_buy_now");
+	    if (filtered.status() === 404) return;
+	    expect(filtered.status()).toBe(200);
+	    const body = await filtered.json();
+	    expect(Object.keys(body.sections || {})).toEqual(
+	      body.sections?.best_to_buy_now ? ["best_to_buy_now"] : [],
+	    );
+	    expect(body._meta?.category).toBe("best_to_buy_now");
+	  });
 
   test("unknown ?category returns empty sections (not 4xx)", async ({ request }) => {
     const r = await request.get("/api/sws-picks?category=__nonexistent__");

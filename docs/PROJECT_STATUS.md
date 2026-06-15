@@ -33,6 +33,18 @@ experimental surface area and nightly refresh load.
 
 ## Recently shipped (themed, newest first — rolling ~4–6 week window; `git log` is the archive)
 
+### India Market actionability upgrade (June 2026)
+- **This PR** — India Market keeps the legacy `best_to_buy_now` API/storage key
+  but presents it as Best Stocks to Buy Now with a stricter fresh-buy policy
+  layered outside V4 scoring. Refresh scoring now emits entry-band metadata, FV
+  sanity warnings, liquidity/freshness/ASM-GSM gates, and deterministic section
+  tie-breaks while preserving existing section query params and Track Record
+  identifiers such as `sws_best_buynow`.
+- The UI now groups India sections into Actionable Ideas and Research / Watch
+  by default, with a Flat Sections toggle, per-section sort modes, entry-state
+  badges, no-buy-above levels, and stale/FV warning badges. Growing Sector Value
+  records clearer macro-fallback audit state when Sector Outlook data is stale.
+
 ### SWS fair-value recovery hardening (June 2026)
 - **This PR** — India SWS fair values were restored after a sparse generated
   artifact republish dropped Top 30 coverage. The API client now sends the

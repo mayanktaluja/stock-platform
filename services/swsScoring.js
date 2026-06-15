@@ -19,6 +19,13 @@ import {
 } from "./fvReconciliation.js";
 import { buildGrowingSectorValueSection } from "./swsGrowingSectorValue.js";
 import { buildSnowflakeGapLabSection } from "./swsSnowflakeGapLab.js";
+import {
+  buildActionableTodayAudit,
+  buildEntryBand,
+  compareIndiaSectionRank,
+  isActionableTodayCandidate,
+  swsFundamentalsSubtotal,
+} from "./swsIndiaSectionPolicy.js";
 
 export const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
 export const num = (v, fallback = 0) => (typeof v === "number" && Number.isFinite(v) ? v : fallback);
@@ -522,9 +529,10 @@ export function pickCardFields(stock) {
     // that would reverse it. Always emitted (never null).
     counter_thesis: buildPickCounterThesis(stock),
     // Per-pick audit blob — slim, self-contained, ~250 bytes.
-    audit_trail: buildPickAuditTrail(stock),
-  };
-}
+	    audit_trail: buildPickAuditTrail(stock),
+	    entry_band: buildEntryBand(stock),
+	  };
+	}
 
 export function buildLeaderboard(scoredStocks, opts = {}) {
   // PR 2.5 — single canonical v3 sort (was previously: v1 composite for the
@@ -536,20 +544,20 @@ export function buildLeaderboard(scoredStocks, opts = {}) {
   // PR 2.7 — drop pure-numeric BSE codes (e.g. "538992") at the universe
   // boundary so they never appear in any section.
   const isPureBSEcode = (t) => typeof t === "string" && /^\d+$/.test(t);
-  const ordered = [...scoredStocks]
-    .filter((s) => !isPureBSEcode(s.ticker))
-    .sort((a, b) => (b.v4_score_100 || 0) - (a.v4_score_100 || 0));
+	  const ordered = [...scoredStocks]
+	    .filter((s) => !isPureBSEcode(s.ticker))
+	    .sort(compareIndiaSectionRank);
 
-  const bestToBuy = ordered
-    .filter((s) => (s.overview?.risks?.length ?? 0) === 0 && (s.overview?.snowflake_total ?? 0) >= 18)
-    .slice(0, 25)
-    .map(pickCardFields);
+	  const bestToBuy = ordered
+	    .filter((s) => isActionableTodayCandidate(s, { now: opts.now }))
+	    .slice(0, 25)
+	    .map(pickCardFields);
 
-  const cat = (key) => ordered.filter((s) => (s.categories || []).includes(key)).map(pickCardFields);
+	  const cat = (key) => ordered.filter((s) => (s.categories || []).includes(key)).map(pickCardFields);
 
-  const upcoming = ordered
-    .filter((s) => (s.categories || []).includes("upcoming_earnings"))
-    .sort((a, b) => (a.overview?.next_earnings_date || "9999").localeCompare(b.overview?.next_earnings_date || "9999"))
+	  const upcoming = ordered
+	    .filter((s) => (s.categories || []).includes("upcoming_earnings"))
+	    .sort((a, b) => (a.overview?.next_earnings_date || "9999").localeCompare(b.overview?.next_earnings_date || "9999") || compareIndiaSectionRank(a, b))
     .map((s) => {
       const c = pickCardFields(s);
       const d = s.overview?.next_earnings_date;
@@ -572,16 +580,10 @@ export function buildLeaderboard(scoredStocks, opts = {}) {
   // line exactly: 5 SWS pillars + AnalystConsensus FV upside (max 74 label,
   // theoretical max 86 when FV upside is at +12). Same hygiene gate as Top
   // 30. Ship 100 so the UI can expand past the inline cap of 30.
-  const fundamentalsSum = (s) => {
-    const b = s.v4_breakdown || {};
-    // V4 pillar block (76: Health+Future+Valuation+Past, no dividend) + FV composite (12) = 88.
-    return (b.pts_health || 0) + (b.pts_future || 0) + (b.pts_valuation || 0)
-         + (b.pts_past || 0) + (b.pts_fv_total || 0);
-  };
-  const bestFundamentals = [...scoredStocks]
-    .filter((s) => !isPureBSEcode(s.ticker))
-    .filter(hygiene)
-    .sort((a, b) => fundamentalsSum(b) - fundamentalsSum(a))
+	  const bestFundamentals = [...scoredStocks]
+	    .filter((s) => !isPureBSEcode(s.ticker))
+	    .filter(hygiene)
+	    .sort((a, b) => swsFundamentalsSubtotal(b) - swsFundamentalsSubtotal(a) || compareIndiaSectionRank(a, b))
     .slice(0, 100)
     .map(pickCardFields);
 
@@ -617,9 +619,10 @@ export function buildLeaderboard(scoredStocks, opts = {}) {
   };
   Object.defineProperty(sections, "__section_audit", {
     value: {
-      growing_sector_value: growingSectorValue.audit,
-      snowflake_gap_lab: snowflakeGapLab.audit,
-    },
+	      growing_sector_value: growingSectorValue.audit,
+	      snowflake_gap_lab: snowflakeGapLab.audit,
+	      best_to_buy_now: buildActionableTodayAudit(ordered, bestToBuy, { now: opts.now }),
+	    },
     enumerable: false,
   });
   return sections;

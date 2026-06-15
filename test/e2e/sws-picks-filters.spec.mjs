@@ -25,7 +25,7 @@ test.describe("SWS Picks · Universe + Sector filters", () => {
   // very state the persistence/migration specs rely on — so it's deliberately
   // absent here.
 
-  test("default load: both dropdowns rendered, summary shows N of M", async ({ page }) => {
+	  test("default load: both dropdowns rendered, summary shows N of M", async ({ page }) => {
     await gotoApp(page, { tab: "picks" });
     await waitForPicksLoaded(page);
 
@@ -39,8 +39,82 @@ test.describe("SWS Picks · Universe + Sector filters", () => {
 
     await expect(universe).toHaveValue("all");
     await expect(sector).toHaveValue("all");
-    await expect(summary).toHaveText(/Showing\s+\d[\d,]*\s+of\s+\d[\d,]*\s+stocks/, { timeout: 5_000 });
-  });
+	    await expect(summary).toHaveText(/Showing\s+\d[\d,]*\s+of\s+\d[\d,]*\s+stocks/, { timeout: 5_000 });
+	  });
+
+	  test("grouped buy-now/research view and section sort controls render", async ({ page }) => {
+	    await page.route("**/api/sws-picks**", async (route) => {
+	      const pathname = new URL(route.request().url()).pathname;
+	      if (!pathname.endsWith("/api/sws-picks") && !pathname.endsWith("/api/sws-picks-summary")) {
+	        await route.fallback();
+	        return;
+	      }
+	      const entryBand = {
+	        version: "sws-entry-band-v1-2026-06",
+	        available: true,
+	        entry_state: "BUY_ZONE",
+	        fresh_buy_eligible: true,
+	        current_price_inr: 100,
+	        fair_value_inr: 140,
+	        upside_pct: 40,
+	        buy_zone_low_inr: 105,
+	        buy_zone_high_inr: 119,
+	        no_buy_above_inr: 126,
+	        pullback_below_inr: 119,
+	        reasons: [],
+	      };
+	      const row = (ticker, upside, mcap = 1e11) => ({
+	        ticker,
+	        name: `${ticker} Ltd`,
+	        sector: "Industrials",
+	        current_price_inr: 100,
+	        fair_value_inr: 100 + upside,
+	        upside_pct: upside,
+	        market_cap_inr: mcap,
+	        valuation_band: "DISCOUNT",
+	        fair_value_confidence: "HIGH",
+	        v4_score_100: 62,
+	        v4_verdict: "STRONG",
+	        score: 62,
+	        snowflake_total: 22,
+	        one_line: "Test row",
+	        data_freshness_at: "2026-06-15T06:00:00.000Z",
+	      });
+	      await route.fulfill({
+	        contentType: "application/json",
+	        body: JSON.stringify({
+	          schema_version: "picks-latest-v4",
+	          scoring_version: "test",
+	          scanned_at: "2026-06-15T06:00:00.000Z",
+	          indexConstituentsAvailable: false,
+	          sections: {
+	            top_ranked_30_v4: [row("LOWUP", 10), row("HIGHUP", 50)],
+	            best_to_buy_now: [{ ...row("ACTION", 40), entry_band: entryBand }],
+	            snowflake_gap_lab: [{
+	              ...row("RESEARCH", 35),
+	              snowflake_gap_lab: { shadow_v4_score_100: 65, score_delta: 10 },
+	            }],
+	          },
+	        }),
+	      });
+	    });
+
+	    await gotoApp(page, { tab: "picks" });
+	    await waitForPicksLoaded(page);
+
+	    await expect(page.locator("#picksGroupMode")).toHaveValue("grouped");
+	    await expect(page.locator("#picksSortMode")).toHaveValue("rank");
+	    await expect(page.locator('.sws-pick-group-header[data-picks-group="actionable"]')).toContainText(/Actionable Ideas/);
+	    await expect(page.locator('.sws-pick-group-header[data-picks-group="research"]')).toContainText(/Research \/ Watch/);
+	    await expect(page.locator('.sws-pick-section[data-section-key="best_to_buy_now"]')).toContainText(/Best Stocks to Buy Now/);
+	    await expect(page.locator('.sws-pick-section[data-section-key="best_to_buy_now"]')).toContainText(/No-buy/);
+
+	    await page.selectOption("#picksSortMode", "upside");
+	    await expect(page.locator('.sws-pick-section[data-section-key="top_ranked_30_v4"] .sws-pick-card-ticker').first()).toContainText("HIGHUP");
+
+	    await page.selectOption("#picksGroupMode", "flat");
+	    await expect(page.locator(".sws-pick-group-header")).toHaveCount(0);
+	  });
 
   test("sector dropdown is populated from the response (>1 option)", async ({ page }) => {
     await gotoApp(page, { tab: "picks" });

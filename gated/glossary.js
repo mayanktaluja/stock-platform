@@ -540,12 +540,12 @@ window.GLOSSARY = {
     full: "Pure ranking — the top 30 by composite score across the entire scanned universe, gated to ≥ 50% data coverage on every input (no thin-data inflations) and market cap ≥ ₹500cr (no micro-caps where the underlying SWS data is sparse). This is the section to start every session with — the universe-wide best of class.",
   },
 
-  section_best_to_buy_now: {
-    term: "Best Stocks to Buy Now",
-    category: "verdict",
-    short: "Top by composite score with no major risks + Snowflake ≥ 18/30.",
-    full: "Tighter cut than Top-30 — adds a Snowflake floor (18/30 = solid pillar coverage) and explicitly excludes any stock with a major risk flag (high payout, declining revenue, ASM/GSM stage 3+). The Top-30 may include 'great score but watch the leverage' names; this list aims for 'safe to initiate today'. Use this for fresh capital deployment.",
-  },
+	  section_best_to_buy_now: {
+	    term: "Best Stocks to Buy Now",
+	    category: "verdict",
+	    short: "Fresh-buy shortlist with clean FV, sane upside, fresh data, liquidity, and no ASM/GSM.",
+	    full: "Strict fresh-capital section that keeps the legacy best_to_buy_now key for compatibility. A stock must clear V4 and Snowflake floors, market cap ≥ ₹500cr, fresh deep-scrape data, high-confidence SWS fair value, positive sane upside, and an entry band below the no-buy-above cap. ASM/GSM surveillance and FV outliers are excluded here, while broader research sections may still show them with caution badges.",
+	  },
 
   section_deep_value: {
     term: "Deep Value (section)",

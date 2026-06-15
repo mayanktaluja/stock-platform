@@ -94,7 +94,7 @@ function buildFixture(ageHours, opts = {}) {
       scanned_at: scannedAt,
       sections: {
         top_ranked_30_v3: top30,
-        best_to_buy_now: [],
+        best_to_buy_now: Array.from({ length: opts.bestToBuyCount ?? 0 }, (_, i) => ({ ticker: `BUY${i}` })),
         upcoming_earnings: [],
       },
     }),
@@ -240,6 +240,8 @@ function runGateAndGetFindings(ageHours, opts = {}) {
       upcomingEarnings: l1.find((c) => c.name === "section_upcoming_earnings"),
       top30Fv: l1.find((c) => c.name === "top30_fv_coverage_floor"),
       fvCoverage: l6.find((c) => c.name === "fv_coverage_regression_floor"),
+      actionableBlock: l1.find((c) => c.name === "section_actionable_today_minimum"),
+      actionableWarn: l1.find((c) => c.name === "section_actionable_today_depth"),
       growwWarn: l2.find((c) => c.name === "groww_pe_coverage_warn"),
       growwBlock: l2.find((c) => c.name === "groww_pe_coverage_block_floor"),
       growwGrace: l2.find((c) => c.name === "groww_pe_cache_grace_age"),
@@ -342,6 +344,32 @@ assert(
   "happy path: severity BLOCK (active check)",
   happy && happy.severity === "BLOCK",
   happy,
+);
+
+console.log("\nBest Stocks to Buy Now sanity thresholds\n");
+
+const actionableThin = runGateAndGetFindings(1.0, { bestToBuyCount: 4 });
+assert(
+  "Best Stocks to Buy Now count below 5 → BLOCK",
+  actionableThin.actionableBlock && actionableThin.actionableBlock.ok === false && actionableThin.actionableBlock.severity === "BLOCK",
+  actionableThin.actionableBlock,
+);
+const actionableWarn = runGateAndGetFindings(1.0, { bestToBuyCount: 10 });
+assert(
+  "Best Stocks to Buy Now 10 rows clears BLOCK floor",
+  actionableWarn.actionableBlock && actionableWarn.actionableBlock.ok === true,
+  actionableWarn.actionableBlock,
+);
+assert(
+  "Best Stocks to Buy Now 10 rows still WARNs below 15-row depth",
+  actionableWarn.actionableWarn && actionableWarn.actionableWarn.ok === false && actionableWarn.actionableWarn.severity === "WARN",
+  actionableWarn.actionableWarn,
+);
+const actionableHealthy = runGateAndGetFindings(1.0, { bestToBuyCount: 15 });
+assert(
+  "Best Stocks to Buy Now 15 rows clears WARN depth",
+  actionableHealthy.actionableWarn && actionableHealthy.actionableWarn.ok === true,
+  actionableHealthy.actionableWarn,
 );
 
 // ---------------------------------------------------------------- assert 6

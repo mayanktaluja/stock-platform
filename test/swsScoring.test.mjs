@@ -39,6 +39,10 @@ import {
   buildLeaderboard,
   scoreStock,
 } from "../services/swsScoring.js";
+import {
+  ENTRY_BAND_VERSION,
+  buildEntryBand,
+} from "../services/swsIndiaSectionPolicy.js";
 
 import assert from "node:assert/strict";
 
@@ -420,6 +424,76 @@ check("upcoming_earnings sorted ascending by next_earnings_date", () => {
   const order = lb.upcoming_earnings.map((c) => c.ticker);
   assert.deepEqual(order.slice(0, 2), ["SOON", "FAR"]);
   assert.ok(lb.upcoming_earnings[0].days_until <= lb.upcoming_earnings[1].days_until);
+});
+
+console.log("\nBest Stocks to Buy Now entry-band policy\n");
+
+check("pickCardFields emits entry_band without changing V4 score", () => {
+  const s = mkScored({
+    ticker: "ENTRY",
+    parsed_at: new Date().toISOString(),
+    overview: {
+      current_price_inr: 100,
+      fair_value_inr: 140,
+      market_cap_inr: 1e12,
+      snowflake_total: 24,
+      snowflake: { financial_health: 5, future: 5, valuation: 4, past: 4, dividends: 3 },
+      returns_pct: { "1Y": 12, "3M": 6, "1M": 2 },
+    },
+  });
+  const card = pickCardFields(s);
+  assert.equal(card.entry_band.version, ENTRY_BAND_VERSION);
+  assert.equal(card.entry_band.entry_state, "BUY_ZONE");
+  assert.equal(card.entry_band.fresh_buy_eligible, true);
+  assert.equal(card.v4_score_100, s.v4_score_100);
+});
+
+check("best_to_buy_now key now contains only fresh-buy eligible rows", () => {
+  const good = mkScored({
+    ticker: "GOOD",
+    parsed_at: new Date().toISOString(),
+    overview: {
+      current_price_inr: 100,
+      fair_value_inr: 140,
+      market_cap_inr: 1e12,
+      snowflake_total: 24,
+      snowflake: { financial_health: 5, future: 5, valuation: 4, past: 4, dividends: 3 },
+      returns_pct: { "1Y": 12, "3M": 6, "1M": 2 },
+    },
+  });
+  const wait = mkScored({
+    ticker: "WAIT",
+    parsed_at: new Date().toISOString(),
+    overview: {
+      current_price_inr: 130,
+      fair_value_inr: 140,
+      market_cap_inr: 1e12,
+      snowflake_total: 24,
+      snowflake: { financial_health: 5, future: 5, valuation: 4, past: 4, dividends: 3 },
+      returns_pct: { "1Y": 12, "3M": 6, "1M": 2 },
+    },
+  });
+  const lb = buildLeaderboard([wait, good]);
+  assert.deepEqual(lb.best_to_buy_now.map((c) => c.ticker), ["GOOD"]);
+  assert.equal(lb.__section_audit.best_to_buy_now.policy_version, ENTRY_BAND_VERSION);
+});
+
+check("buildEntryBand returns FV caution instead of throwing on missing FV", () => {
+  const band = buildEntryBand({
+    ticker: "NOFV",
+    parsed_at: new Date().toISOString(),
+    v4_score_100: 62,
+    overview: {
+      current_price_inr: 100,
+      fair_value_inr: null,
+      upside_pct: 30,
+      market_cap_inr: 1e12,
+      snowflake_total: 24,
+    },
+  });
+  assert.equal(band.entry_state, "UNAVAILABLE");
+  assert.equal(band.fresh_buy_eligible, false);
+  assert.ok(band.reasons.some((r) => r.code === "fair_value_missing"));
 });
 
 console.log(`\n${pass} passed, ${fail} failed\n`);
