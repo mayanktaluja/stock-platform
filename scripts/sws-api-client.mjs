@@ -368,7 +368,7 @@ export async function fetchStockData(client, { ticker, canonicalUrl }) {
     getCompanyTimeSeries: { id: companyId },
     getCompanyDividends: { id: companyId },
     getCompanyPeers: { id: companyId },
-    NarrativeValuationHistory: { id: companyId },
+    NarrativeValuationHistory: { companyId },
   };
   const queries = loadQueries();
   const remainingOps = TARGET_OPERATIONS.filter(

@@ -183,6 +183,15 @@ function isAnalystPriceTargetNarrative(narrative) {
   return fields.some((v) => v === "analystpricetarget" || v === "analyst_price_target");
 }
 
+function sameCompanyId(a, b) {
+  if (!a || !b) return false;
+  return String(a).trim().toLowerCase() === String(b).trim().toLowerCase();
+}
+
+function isNarrativeForCompany(narrative, expectedCompanyId) {
+  return sameCompanyId(narrative?.companyId, expectedCompanyId);
+}
+
 function latestNarrativeFairValue(narrative) {
   const latest = narrative?.latestPublishedUpdate;
   const latestFv = latest?.valuation?.fairValue;
@@ -212,6 +221,7 @@ function fairValueResult(narrative, option, method) {
     owner_name: narrative?.owner?.displayName || null,
     owner_classification: narrative?.owner?.classification || null,
     narrative_id: narrative?.id || null,
+    company_id: narrative?.companyId || null,
     narrative_type: narrative?.type || option?.type || null,
   };
 }
@@ -220,12 +230,24 @@ function extractAnalystFairValue(api) {
   // `defaultNarrative` can point at arbitrary community narratives and has
   // flipped between min/max-ish values in production. Only explicit SWS
   // analyst-target narratives are allowed into alertable fair value.
+  const expectedCompanyId = api?.graphql?.CompanySummary?.Company?.id || api?.companyId || null;
+  let mismatchedHistoryCount = 0;
   const historyOptions = api?.graphql?.NarrativeValuationHistory?.company?.valuationOptions;
   if (Array.isArray(historyOptions)) {
     for (const option of historyOptions) {
       const narrative = option?.narrative;
-      if (!isAnalystConsensusNarrative(narrative, option)) continue;
-      const result = fairValueResult(narrative, option, "narrative_history_consensus");
+      if (!isNarrativeForCompany(narrative, expectedCompanyId)) {
+        if (narrative?.companyId) mismatchedHistoryCount++;
+        continue;
+      }
+      const isConsensus = isAnalystConsensusNarrative(narrative, option);
+      const isPriceTarget = isAnalystPriceTargetNarrative(narrative);
+      if (!isConsensus && !isPriceTarget) continue;
+      const result = fairValueResult(
+        narrative,
+        option,
+        isConsensus ? "narrative_history_consensus" : "narrative_history_analyst_price_target",
+      );
       if (result) return result;
     }
   }
@@ -244,10 +266,13 @@ function extractAnalystFairValue(api) {
   return {
     fair_value_inr: null,
     published_at: null,
-    source_method: defaultNarrative ? "non_consensus_default_narrative" : "missing_consensus_narrative",
+    source_method: mismatchedHistoryCount > 0 && !defaultNarrative
+      ? "mismatched_history_narrative"
+      : defaultNarrative ? "non_consensus_default_narrative" : "missing_consensus_narrative",
     owner_name: defaultNarrative?.owner?.displayName || null,
     owner_classification: defaultNarrative?.owner?.classification || null,
     narrative_id: defaultNarrative?.id || null,
+    company_id: defaultNarrative?.companyId || null,
     narrative_type: defaultNarrative?.type || null,
   };
 }
@@ -1336,6 +1361,7 @@ export function parseStock(api, opts = {}) {
     owner_name: fvResult?.owner_name || null,
     owner_classification: fvResult?.owner_classification || null,
     narrative_id: fvResult?.narrative_id || null,
+    company_id: fvResult?.company_id || null,
     narrative_type: fvResult?.narrative_type || null,
     published_at: fvResult?.published_at || null,
   });
