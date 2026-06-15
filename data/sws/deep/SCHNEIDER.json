@@ -362,21 +362,21 @@
       "low": 571.85,
       "high": 1417.8
     },
-    "fair_value_inr": null,
+    "fair_value_inr": 950,
     "fair_value_range_inr": {
       "min": 211.055016,
       "max": 1219.28,
       "count": 11
     },
     "fair_value_source_detail": {
-      "method": "non_consensus_default_narrative",
-      "owner_name": "AnalystHighTarget",
+      "method": "narrative_histogram_consensus",
+      "owner_name": "AnalystConsensusTarget",
       "owner_classification": null,
-      "narrative_id": "f5702ff0-0ea3-4a13-b070-5619a92a8e24",
-      "narrative_type": null,
-      "published_at": null
+      "narrative_id": "36353b65-8cf2-423e-8935-49d9d49715ef",
+      "narrative_type": "AI",
+      "published_at": "2026-01-07T10:03:15.032Z"
     },
-    "upside_pct": null,
+    "upside_pct": -12.272601348231607,
     "multiples": {
       "pe": 121.71,
       "ps": 9.08,
@@ -489,6 +489,25 @@
         "value": 258706200000,
         "fetched_at": "2026-06-11T22:42:15.049Z",
         "url": "https://groww.in/stocks/schneider-electric-infrastructure-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 950,
+        "fetched_at": "2026-06-11T01:10:33.730Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-schneider/schneider-electric-infrastructure-shares",
+        "method": "narrative_histogram_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "36353b65-8cf2-423e-8935-49d9d49715ef",
+        "company_id": "fd5545dc-3a48-4cb7-93b8-80f40dabbb5d",
+        "narrative_type": "AI",
+        "published_at": "2026-01-07T10:03:15.032Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": -12.272601348231607,
+        "fetched_at": "2026-06-11T01:10:33.730Z",
+        "url": "https://simplywall.st/stocks/in/capital-goods/nse-schneider/schneider-electric-infrastructure-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",

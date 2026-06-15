@@ -315,21 +315,21 @@
       "low": 70.14,
       "high": 127.5
     },
-    "fair_value_inr": null,
+    "fair_value_inr": 122,
     "fair_value_range_inr": {
       "min": 7.959902,
       "max": 122,
       "count": 24
     },
     "fair_value_source_detail": {
-      "method": "non_consensus_default_narrative",
-      "owner_name": "AnalystHighTarget",
+      "method": "narrative_histogram_consensus",
+      "owner_name": "AnalystConsensusTarget",
       "owner_classification": null,
-      "narrative_id": "a498ae76-a86a-4327-b972-96dd4ed302e8",
-      "narrative_type": null,
-      "published_at": null
+      "narrative_id": "90ba3d49-bcff-4a7f-b373-62b5dddd004a",
+      "narrative_type": "AI",
+      "published_at": "2025-09-06T10:10:13.881Z"
     },
-    "upside_pct": null,
+    "upside_pct": 40.391254315304934,
     "multiples": {
       "pe": 23.21,
       "ps": 0.42,
@@ -563,6 +563,25 @@
         "value": 17676500000,
         "fetched_at": "2026-06-11T22:42:15.049Z",
         "url": "https://groww.in/stocks/hitech-pipes-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 122,
+        "fetched_at": "2026-06-11T02:15:45.583Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-hitech/hi-tech-pipes-shares",
+        "method": "narrative_histogram_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "90ba3d49-bcff-4a7f-b373-62b5dddd004a",
+        "company_id": "bf07b538-b381-4701-b5a7-a90c95f17370",
+        "narrative_type": "AI",
+        "published_at": "2025-09-06T10:10:13.881Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 40.391254315304934,
+        "fetched_at": "2026-06-11T02:15:45.583Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-hitech/hi-tech-pipes-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",

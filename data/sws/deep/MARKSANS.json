@@ -315,21 +315,21 @@
       "low": 155,
       "high": 270.7
     },
-    "fair_value_inr": null,
+    "fair_value_inr": 266,
     "fair_value_range_inr": {
       "min": 218.320262,
       "max": 266,
       "count": 31
     },
     "fair_value_source_detail": {
-      "method": "non_consensus_default_narrative",
-      "owner_name": "AnalystLowTarget",
+      "method": "narrative_histogram_consensus",
+      "owner_name": "AnalystConsensusTarget",
       "owner_classification": null,
-      "narrative_id": "6afb9a7c-4ce6-4bfb-8727-e7c9e1048a39",
-      "narrative_type": null,
-      "published_at": null
+      "narrative_id": "a2abf42e-1430-42f6-b9d7-35cec3f6e5cc",
+      "narrative_type": "AI",
+      "published_at": "2026-06-04T12:08:00.220Z"
     },
-    "upside_pct": null,
+    "upside_pct": 7.727199092823592,
     "multiples": {
       "pe": 26.65,
       "ps": 3.88,
@@ -580,6 +580,25 @@
         "value": 111931400000,
         "fetched_at": "2026-06-11T22:42:15.049Z",
         "url": "https://groww.in/stocks/marksans-pharma-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 266,
+        "fetched_at": "2026-06-10T23:54:46.940Z",
+        "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-marksans/marksans-pharma-shares",
+        "method": "narrative_histogram_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "a2abf42e-1430-42f6-b9d7-35cec3f6e5cc",
+        "company_id": "58a64dd1-c19e-495b-a013-a123bca4f00d",
+        "narrative_type": "AI",
+        "published_at": "2026-06-04T12:08:00.220Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 7.727199092823592,
+        "fetched_at": "2026-06-10T23:54:46.940Z",
+        "url": "https://simplywall.st/stocks/in/pharmaceuticals-biotech/nse-marksans/marksans-pharma-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",

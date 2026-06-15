@@ -315,21 +315,21 @@
       "low": 708.05,
       "high": 1345.9
     },
-    "fair_value_inr": null,
+    "fair_value_inr": 1224.22222,
     "fair_value_range_inr": {
       "min": 562.961901,
       "max": 1440,
       "count": 15
     },
     "fair_value_source_detail": {
-      "method": "non_consensus_default_narrative",
-      "owner_name": "AnalystHighTarget",
+      "method": "narrative_histogram_consensus",
+      "owner_name": "AnalystConsensusTarget",
       "owner_classification": null,
-      "narrative_id": "35ca913f-ac2a-47e8-b696-e612016da6d0",
-      "narrative_type": null,
-      "published_at": null
+      "narrative_id": "846b0fe6-f5ec-4cab-95a1-f74595e7bba7",
+      "narrative_type": "AI",
+      "published_at": "2025-09-05T10:13:54.959Z"
     },
-    "upside_pct": null,
+    "upside_pct": 25.36195996108752,
     "multiples": {
       "pe": 31.53,
       "ps": 3.31,
@@ -498,6 +498,25 @@
         "value": 46536200000,
         "fetched_at": "2026-06-11T22:42:15.049Z",
         "url": "https://groww.in/stocks/indigo-paints-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 1224.22222,
+        "fetched_at": "2026-06-10T23:10:13.735Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-indigopnts/indigo-paints-shares",
+        "method": "narrative_histogram_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "846b0fe6-f5ec-4cab-95a1-f74595e7bba7",
+        "company_id": "b1dd477b-430a-4c09-b733-f5d0f7fd54a8",
+        "narrative_type": "AI",
+        "published_at": "2025-09-05T10:13:54.959Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 25.36195996108752,
+        "fetched_at": "2026-06-10T23:10:13.735Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-indigopnts/indigo-paints-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",

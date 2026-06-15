@@ -315,21 +315,21 @@
       "low": 400.2,
       "high": 900
     },
-    "fair_value_inr": null,
+    "fair_value_inr": 801.66667,
     "fair_value_range_inr": {
       "min": 350.349118,
       "max": 801.66667,
       "count": 10
     },
     "fair_value_source_detail": {
-      "method": "non_consensus_default_narrative",
-      "owner_name": "AnalystLowTarget",
+      "method": "narrative_histogram_consensus",
+      "owner_name": "AnalystConsensusTarget",
       "owner_classification": null,
-      "narrative_id": "5f0e7929-a96c-4f0b-b8d8-392324920f41",
-      "narrative_type": null,
-      "published_at": null
+      "narrative_id": "37c4988e-8506-43d4-a4d2-74ef9774d0af",
+      "narrative_type": "AI",
+      "published_at": "2025-12-16T16:05:24.399Z"
     },
-    "upside_pct": null,
+    "upside_pct": 55.52753322339701,
     "multiples": {
       "pe": 22.66,
       "ps": 2.3,
@@ -474,6 +474,25 @@
         "value": 315528700000,
         "fetched_at": "2026-06-11T22:42:15.049Z",
         "url": "https://groww.in/stocks/hexaware-technologies-limited"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 801.66667,
+        "fetched_at": "2026-06-11T02:12:32.006Z",
+        "url": "https://simplywall.st/stocks/in/software/nse-hext/hexaware-technologies-shares",
+        "method": "narrative_histogram_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "37c4988e-8506-43d4-a4d2-74ef9774d0af",
+        "company_id": "8cd8a1bb-7fb0-408d-acac-b00268596484",
+        "narrative_type": "AI",
+        "published_at": "2025-12-16T16:05:24.399Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 55.52753322339701,
+        "fetched_at": "2026-06-11T02:12:32.006Z",
+        "url": "https://simplywall.st/stocks/in/software/nse-hext/hexaware-technologies-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",

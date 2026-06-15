@@ -308,21 +308,21 @@
       "low": 1119.4,
       "high": 1804.9
     },
-    "fair_value_inr": null,
+    "fair_value_inr": 1532.57143,
     "fair_value_range_inr": {
       "min": 354.882042,
       "max": 1660,
       "count": 90
     },
     "fair_value_source_detail": {
-      "method": "non_consensus_default_narrative",
-      "owner_name": "AnalystLowTarget",
+      "method": "narrative_histogram_consensus",
+      "owner_name": "AnalystConsensusTarget",
       "owner_classification": null,
-      "narrative_id": "87a30cb3-0e35-454c-b6b3-3073d55f9b1a",
-      "narrative_type": null,
-      "published_at": null
+      "narrative_id": "e03133c3-d744-4c92-9c2c-9df4c2fb1042",
+      "narrative_type": "AI",
+      "published_at": "2025-12-24T02:03:17.024Z"
     },
-    "upside_pct": null,
+    "upside_pct": 27.618571904405016,
     "multiples": {
       "pe": 55,
       "ps": 20.26556741878633,
@@ -535,6 +535,25 @@
       "current_price_inr": {
         "provider": "sws_price",
         "value": 1200.9,
+        "fetched_at": "2026-06-11T01:10:19.589Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-cdsl/central-depository-services-india-shares"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 1532.57143,
+        "fetched_at": "2026-06-11T01:10:19.589Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-cdsl/central-depository-services-india-shares",
+        "method": "narrative_histogram_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "e03133c3-d744-4c92-9c2c-9df4c2fb1042",
+        "company_id": "3c25e58e-5305-416e-b185-d2dc98a568b5",
+        "narrative_type": "AI",
+        "published_at": "2025-12-24T02:03:17.024Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 27.618571904405016,
         "fetched_at": "2026-06-11T01:10:19.589Z",
         "url": "https://simplywall.st/stocks/in/diversified-financials/nse-cdsl/central-depository-services-india-shares"
       },

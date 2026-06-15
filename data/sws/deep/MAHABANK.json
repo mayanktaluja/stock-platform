@@ -358,21 +358,21 @@
       "low": 51.71,
       "high": 85.9
     },
-    "fair_value_inr": null,
+    "fair_value_inr": 83.33333,
     "fair_value_range_inr": {
       "min": 55.96,
       "max": 113.502015,
       "count": 33
     },
     "fair_value_source_detail": {
-      "method": "non_consensus_default_narrative",
-      "owner_name": "AnalystHighTarget",
+      "method": "narrative_histogram_consensus",
+      "owner_name": "AnalystConsensusTarget",
       "owner_classification": null,
-      "narrative_id": "38bdc6c4-80cb-427e-ab37-03f54bdc0a83",
-      "narrative_type": null,
-      "published_at": null
+      "narrative_id": "28930bef-1780-40a7-b2c3-4e2bc429264c",
+      "narrative_type": "AI",
+      "published_at": "2026-06-01T06:04:12.283Z"
     },
-    "upside_pct": null,
+    "upside_pct": -1.0057852221430306,
     "multiples": {
       "pe": 9.23,
       "ps": 1.97,
@@ -556,6 +556,25 @@
         "value": 647321300000,
         "fetched_at": "2026-06-11T22:42:15.049Z",
         "url": "https://groww.in/stocks/bank-of-maharashtra"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 83.33333,
+        "fetched_at": "2026-06-10T23:49:42.382Z",
+        "url": "https://simplywall.st/stocks/in/banks/nse-mahabank/bank-of-maharashtra-shares",
+        "method": "narrative_histogram_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "28930bef-1780-40a7-b2c3-4e2bc429264c",
+        "company_id": "cfac8e42-4427-4818-ab91-9ed6de5bab03",
+        "narrative_type": "AI",
+        "published_at": "2026-06-01T06:04:12.283Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": -1.0057852221430306,
+        "fetched_at": "2026-06-10T23:49:42.382Z",
+        "url": "https://simplywall.st/stocks/in/banks/nse-mahabank/bank-of-maharashtra-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",

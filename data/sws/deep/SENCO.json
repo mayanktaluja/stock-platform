@@ -315,21 +315,21 @@
       "low": 276,
       "high": 404.85
     },
-    "fair_value_inr": null,
+    "fair_value_inr": 474,
     "fair_value_range_inr": {
       "min": 355,
       "max": 651,
       "count": 29
     },
     "fair_value_source_detail": {
-      "method": "non_consensus_default_narrative",
-      "owner_name": "AnalystLowTarget",
+      "method": "narrative_histogram_consensus",
+      "owner_name": "AnalystConsensusTarget",
       "owner_classification": null,
-      "narrative_id": "2901e03b-35a8-4c14-b7ad-78da6c619c06",
-      "narrative_type": null,
-      "published_at": null
+      "narrative_id": "41aecae8-c498-4673-9272-26736331577d",
+      "narrative_type": "AI",
+      "published_at": "2026-02-07T01:07:15.603Z"
     },
-    "upside_pct": null,
+    "upside_pct": 43.54936402180497,
     "multiples": {
       "pe": 9.44,
       "ps": 0.67,
@@ -505,6 +505,25 @@
         "value": 54206000000,
         "fetched_at": "2026-06-11T22:42:15.049Z",
         "url": "https://groww.in/stocks/senco-gold-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 474,
+        "fetched_at": "2026-06-11T01:12:10.591Z",
+        "url": "https://simplywall.st/stocks/in/retail/nse-senco/senco-gold-shares",
+        "method": "narrative_histogram_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "41aecae8-c498-4673-9272-26736331577d",
+        "company_id": "7d88bc28-7839-41d7-b1fb-f8e0138651f3",
+        "narrative_type": "AI",
+        "published_at": "2026-02-07T01:07:15.603Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 43.54936402180497,
+        "fetched_at": "2026-06-11T01:12:10.591Z",
+        "url": "https://simplywall.st/stocks/in/retail/nse-senco/senco-gold-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",

@@ -362,21 +362,21 @@
       "low": 1251.3,
       "high": 2185.9
     },
-    "fair_value_inr": null,
+    "fair_value_inr": 2036.66667,
     "fair_value_range_inr": {
       "min": 990.014498,
       "max": 2280,
       "count": 33
     },
     "fair_value_source_detail": {
-      "method": "non_consensus_default_narrative",
-      "owner_name": "AnalystLowTarget",
+      "method": "narrative_histogram_consensus",
+      "owner_name": "AnalystConsensusTarget",
       "owner_classification": null,
-      "narrative_id": "e9996386-830e-4822-b3d9-c94633b5d517",
-      "narrative_type": null,
-      "published_at": null
+      "narrative_id": "f106f6f2-e86a-4570-891e-c1fc115e2f08",
+      "narrative_type": "AI",
+      "published_at": "2025-12-24T05:04:59.897Z"
     },
-    "upside_pct": null,
+    "upside_pct": 39.2973579098557,
     "multiples": {
       "pe": 45.23,
       "ps": 7.81,
@@ -492,6 +492,25 @@
         "value": 205752800000,
         "fetched_at": "2026-06-11T22:42:15.049Z",
         "url": "https://groww.in/stocks/affle-india-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 2036.66667,
+        "fetched_at": "2026-06-10T23:57:25.067Z",
+        "url": "https://simplywall.st/stocks/in/media/nse-affle/affle-3i-shares",
+        "method": "narrative_histogram_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "f106f6f2-e86a-4570-891e-c1fc115e2f08",
+        "company_id": "e36c5699-b756-421a-9438-8f6a3054937c",
+        "narrative_type": "AI",
+        "published_at": "2025-12-24T05:04:59.897Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 39.2973579098557,
+        "fetched_at": "2026-06-10T23:57:25.067Z",
+        "url": "https://simplywall.st/stocks/in/media/nse-affle/affle-3i-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",

@@ -352,21 +352,21 @@
       "low": 169.12,
       "high": 278.4
     },
-    "fair_value_inr": null,
+    "fair_value_inr": 239.5,
     "fair_value_range_inr": {
       "min": 164.85,
       "max": 274.66667,
       "count": 22
     },
     "fair_value_source_detail": {
-      "method": "non_consensus_default_narrative",
-      "owner_name": "AnalystLowTarget",
+      "method": "narrative_histogram_consensus",
+      "owner_name": "AnalystConsensusTarget",
       "owner_classification": null,
-      "narrative_id": "102bfe24-5457-4256-838c-d6af96bfb7ba",
-      "narrative_type": null,
-      "published_at": null
+      "narrative_id": "86fe9e07-81d4-4b5b-83c9-7d07b16246fd",
+      "narrative_type": "AI",
+      "published_at": "2025-05-01T04:57:04.605Z"
     },
-    "upside_pct": null,
+    "upside_pct": -9.673769564397503,
     "multiples": {
       "pe": 7.66,
       "ps": 0.99,
@@ -604,6 +604,25 @@
         "value": 100466200000,
         "fetched_at": "2026-06-11T22:42:15.049Z",
         "url": "https://groww.in/stocks/the-karnataka-bank-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 239.5,
+        "fetched_at": "2026-06-10T23:40:26.598Z",
+        "url": "https://simplywall.st/stocks/in/banks/nse-ktkbank/karnataka-bank-shares",
+        "method": "narrative_histogram_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "86fe9e07-81d4-4b5b-83c9-7d07b16246fd",
+        "company_id": "92380082-95ad-4468-9252-ab30986a4001",
+        "narrative_type": "AI",
+        "published_at": "2025-05-01T04:57:04.605Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": -9.673769564397503,
+        "fetched_at": "2026-06-10T23:40:26.598Z",
+        "url": "https://simplywall.st/stocks/in/banks/nse-ktkbank/karnataka-bank-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",

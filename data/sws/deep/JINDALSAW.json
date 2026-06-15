@@ -315,21 +315,21 @@
       "low": 153,
       "high": 267.5
     },
-    "fair_value_inr": null,
+    "fair_value_inr": 314,
     "fair_value_range_inr": {
       "min": 43.951263,
       "max": 314,
       "count": 35
     },
     "fair_value_source_detail": {
-      "method": "non_consensus_default_narrative",
-      "owner_name": "AnalystLowTarget",
+      "method": "narrative_histogram_consensus",
+      "owner_name": "AnalystConsensusTarget",
       "owner_classification": null,
-      "narrative_id": "d163b860-7930-4ea3-a825-5c4d61dbf0c5",
-      "narrative_type": null,
-      "published_at": null
+      "narrative_id": "d884ab2b-57f8-4ef8-b20c-a18080b22edb",
+      "narrative_type": "AI",
+      "published_at": "2026-06-06T04:13:57.462Z"
     },
-    "upside_pct": null,
+    "upside_pct": 39.456386569550546,
     "multiples": {
       "pe": 15.54,
       "ps": 0.86,
@@ -581,6 +581,25 @@
         "value": 143825400000,
         "fetched_at": "2026-06-11T22:42:15.049Z",
         "url": "https://groww.in/stocks/jindal-saw-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 314,
+        "fetched_at": "2026-06-10T23:21:10.568Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-jindalsaw/jindal-saw-shares",
+        "method": "narrative_histogram_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "d884ab2b-57f8-4ef8-b20c-a18080b22edb",
+        "company_id": "0dfc86da-2fc4-4b2e-a2f2-9242cf1c00f0",
+        "narrative_type": "AI",
+        "published_at": "2026-06-06T04:13:57.462Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 39.456386569550546,
+        "fetched_at": "2026-06-10T23:21:10.568Z",
+        "url": "https://simplywall.st/stocks/in/materials/nse-jindalsaw/jindal-saw-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",

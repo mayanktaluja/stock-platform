@@ -315,21 +315,21 @@
       "low": 2121,
       "high": 3098
     },
-    "fair_value_inr": null,
+    "fair_value_inr": 2832,
     "fair_value_range_inr": {
       "min": 1025.753479,
       "max": 3300,
       "count": 4
     },
     "fair_value_source_detail": {
-      "method": "non_consensus_default_narrative",
-      "owner_name": "AnalystHighTarget",
+      "method": "narrative_histogram_consensus",
+      "owner_name": "AnalystConsensusTarget",
       "owner_classification": null,
-      "narrative_id": "6c3689d0-8464-4962-99d4-9ca41f415f6f",
-      "narrative_type": null,
-      "published_at": null
+      "narrative_id": "bf6b3fbd-b805-4206-b0f8-f29f95c09059",
+      "narrative_type": "AI",
+      "published_at": "2026-02-07T21:04:56.878Z"
     },
-    "upside_pct": null,
+    "upside_pct": 4.025859535703788,
     "multiples": {
       "pe": 50.72,
       "ps": 8.22,
@@ -496,6 +496,25 @@
         "value": 112636500000,
         "fetched_at": "2026-06-11T22:42:15.049Z",
         "url": "https://groww.in/stocks/prudent-corporate-advisory-services-ltd"
+      },
+      "fair_value_inr": {
+        "provider": "sws_analyst_fair_value",
+        "value": 2832,
+        "fetched_at": "2026-06-11T00:42:44.973Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-prudent/prudent-advisory-services-shares",
+        "method": "narrative_histogram_consensus",
+        "owner_name": "AnalystConsensusTarget",
+        "owner_classification": null,
+        "narrative_id": "bf6b3fbd-b805-4206-b0f8-f29f95c09059",
+        "company_id": "e12155ee-e51e-4daa-a468-77d3ca6c3237",
+        "narrative_type": "AI",
+        "published_at": "2026-02-07T21:04:56.878Z"
+      },
+      "upside_pct": {
+        "provider": "computed_from_sws_fv_price",
+        "value": 4.025859535703788,
+        "fetched_at": "2026-06-11T00:42:44.973Z",
+        "url": "https://simplywall.st/stocks/in/diversified-financials/nse-prudent/prudent-advisory-services-shares"
       },
       "multiples.pe": {
         "provider": "groww_refinitiv",
