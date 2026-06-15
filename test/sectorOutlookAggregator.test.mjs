@@ -27,6 +27,14 @@ console.log("aggregator: routeNewsToSectors single-sector");
   // SWS "Materials" → null in normalizeSector → unclassifiable
   const out2 = routeNewsToSectors("IMFA", "Materials", { title: "Test", body: "" });
   assert("Materials → unclassifiable (empty)", out2.length === 0, out2);
+
+  const display = routeNewsToSectors(
+    "IMFA",
+    "Materials",
+    { title: "Test", body: "" },
+    { preserveSourceSector: true, sectorUniverse: new Set(["Materials"]) },
+  );
+  assert("preserveSourceSector keeps India Market label", display.length === 1 && display[0].sector === "Materials", display);
 }
 
 // ─── routeNewsToSectors: RELIANCE body routing (THE KEY TEST) ────────
