@@ -187,7 +187,7 @@ test.describe("India Market credibility banner and section alpha", () => {
               sampleStatus: "latest_available",
               benchmarkReturnPct: 3.1,
               bestSection: {
-                label: "SWS - Best to Buy Now",
+                label: "SWS - Best Stocks to Buy Now",
                 cohortLabel: "top 5",
                 requestedCohortSize: 5,
                 actualCohortSize: 5,
@@ -576,7 +576,7 @@ test.describe("India Market credibility banner and section alpha", () => {
           cohorts: [3, 5, 10, 20],
           generatedAt: "2026-06-10T00:00:00.000Z",
           bestOverall: {
-            window: "30d", sampleStatus: "latest_available", label: "SWS - Best to Buy Now",
+            window: "30d", sampleStatus: "latest_available", label: "SWS - Best Stocks to Buy Now",
             cohortLabel: "top 3", requestedCohortSize: 3, actualCohortSize: 3,
             eligibleForBanner: true, hindsight: false, alphaPct: 6.8, sectionReturnPct: 3.1,
             benchmarkReturnPct: -3.7, outperformed: true,
@@ -588,12 +588,12 @@ test.describe("India Market credibility banner and section alpha", () => {
               window: "3m", label: "3m", enabled: true, sampleStatus: "latest_available",
               benchmarkReturnPct: -4, fromDate: "2026-03-11", toDate: "2026-06-10",
               bestSection: {
-                label: "SWS - Best to Buy Now", cohortLabel: "top 3", requestedCohortSize: 3, actualCohortSize: 3,
+                label: "SWS - Best Stocks to Buy Now", cohortLabel: "top 3", requestedCohortSize: 3, actualCohortSize: 3,
                 eligibleForBanner: false, hindsight: true, alphaPct: 28, sectionReturnPct: 24,
                 benchmarkReturnPct: -4, outperformed: false, status: "latest_available",
               },
               sections: [{
-                type: "sws_best_buynow", sectionKey: "best_to_buy_now", label: "SWS - Best to Buy Now",
+                type: "sws_best_buynow", sectionKey: "best_to_buy_now", label: "SWS - Best Stocks to Buy Now",
                 side: "LONG", requestedCohortSize: 3, actualCohortSize: 3, cohortLabel: "top 3",
                 eligibleForBanner: false, hindsight: true, sampleSize: 3, coveragePct: 100,
                 sectionReturnPct: 24, benchmarkReturnPct: -4, alphaPct: 28, outperformed: false,

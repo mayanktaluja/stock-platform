@@ -372,7 +372,7 @@ console.log("trackRecord/sectionPerformance.js regression\n");
       snapshotAt: "2026-05-25T10:00:00.000Z",
       sectionKey: "best_to_buy_now",
       type: "sws_best_buynow",
-      label: "SWS - Best to Buy Now",
+      label: "SWS - Best Stocks to Buy Now",
       side: "LONG",
       top_n: 10,
       constituents: storedConstituents("BUY", 10, 5),

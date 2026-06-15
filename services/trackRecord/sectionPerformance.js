@@ -64,7 +64,7 @@ export const SWS_SECTION_PERFORMANCE_REGISTRY = {
   best_to_buy_now: {
     sectionKey: "best_to_buy_now",
     type: "sws_best_buynow",
-    label: "SWS - Best to Buy Now",
+    label: "SWS - Best Stocks to Buy Now",
     side: "LONG",
   },
   deep_value: {

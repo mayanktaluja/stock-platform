@@ -144,7 +144,7 @@ export function latestTopForType(allTrades, type, n = 10) {
 // shape, and label all live next to each other.
 export const SECTION_LABELS = {
   sws_top30_v3: "SWS — Top 30 (v3)",
-  sws_best_buynow: "SWS — Best to Buy Now",
+  sws_best_buynow: "SWS — Best Stocks to Buy Now",
   sws_deep_value: "SWS — Deep Value",
   sws_growing_sector_value: "SWS — Growing Sector Value",
   sws_quality_growth: "SWS — Quality Growth",

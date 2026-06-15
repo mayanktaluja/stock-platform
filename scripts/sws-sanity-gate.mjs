@@ -126,7 +126,8 @@ const UUID_REGEX = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}
 
 // L6
 const TOP_PICK_MIN_SCORE     = 60;
-const MIN_BEST_TO_BUY_NOW    = 20;
+const MIN_ACTIONABLE_TODAY_BLOCK = 5;
+const MIN_ACTIONABLE_TODAY_WARN  = 15;
 // Threshold split — same pattern as MIN_SCORED_COUNT / MIN_NEWS_POPULATED /
 // MIN_REWARDS_POPULATED above. NSE only publishes earnings dates ~2-3 weeks
 // ahead, so the 0-75d categorisation window in services/swsScoring.js is
@@ -438,9 +439,13 @@ function layer1(lr, picks) {
         .slice(0, 10)
         .map((it) => it.ticker),
     });
-  record(layer, "section_best_to_buy_now", BLOCK,
-    (sec.best_to_buy_now?.length ?? 0) >= MIN_BEST_TO_BUY_NOW,
-    { count: sec.best_to_buy_now?.length, threshold: MIN_BEST_TO_BUY_NOW });
+  const actionableTodayCount = sec.best_to_buy_now?.length ?? 0;
+  record(layer, "section_actionable_today_minimum", BLOCK,
+    actionableTodayCount >= MIN_ACTIONABLE_TODAY_BLOCK,
+    { count: actionableTodayCount, threshold: MIN_ACTIONABLE_TODAY_BLOCK });
+  record(layer, "section_actionable_today_depth", WARN,
+    actionableTodayCount >= MIN_ACTIONABLE_TODAY_WARN,
+    { count: actionableTodayCount, threshold: MIN_ACTIONABLE_TODAY_WARN });
   const nseCalendar = nseCalendarStats();
   const calendarSparseButValid =
     nseCalendar.present &&
