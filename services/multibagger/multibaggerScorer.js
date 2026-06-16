@@ -18,6 +18,7 @@ import { tagStoryStock } from "./storyStockTagger.js";
 import { computeSectorTailwind } from "./sectorTailwindMap.js";
 import { evaluatePledge } from "./pledgeGate.js";
 import { evaluateLiquidity, deriveAdvFromSws } from "./liquidityGate.js";
+import { computeQualityFactorV2 } from "./qualityFactorV2.js";
 
 const SCORE_MAX = 100;
 const HEALTH_FLOOR = 3;
@@ -195,6 +196,7 @@ export function scoreCandidate({
   const story = tagStoryStock(overview);
   const c_forward = forwardGrowthPts(overview.rewards);
   const c_story_bonus = story.score_bonus;
+  const quality_factor_v2 = computeQualityFactorV2({ overview, yearly_history, news });
 
   // Penalties (subtractive)
   const p_surveillance = surveillancePenalty(v4_breakdown.surveillance);
@@ -203,8 +205,13 @@ export function scoreCandidate({
 
   // Raw composite
   let score = c_mcap + c_future + c_valuation + c_fv_upside + c_inflection
-            + c_tailwind + c_momentum + c_liquidity_bonus + c_health + c_forward
-            + c_story_bonus + p_surveillance + p_completeness + p_miss_streak;
+    + c_tailwind + c_momentum + c_liquidity_bonus + c_health + c_forward
+    + c_story_bonus + p_surveillance + p_completeness + p_miss_streak;
+  let qualityCapApplied = false;
+  if (!quality_factor_v2.quality_gate_pass && c_story_bonus > 0 && c_inflection <= 0 && score >= VERDICT_BANDS.FIVEX_CANDIDATE && (score - c_story_bonus) < VERDICT_BANDS.FIVEX_CANDIDATE) {
+    score = VERDICT_BANDS.FIVEX_CANDIDATE - 0.1;
+    qualityCapApplied = true;
+  }
 
   // Health floor — zombies (health < 3) capped at 50 even with strong other signals
   const healthRaw = overview.snowflake?.financial_health ?? overview.snowflake?.health;
@@ -270,7 +277,9 @@ export function scoreCandidate({
       pledge,
       adv_inr_30d,
       health_cap_applied: healthCapApplied,
+      quality_cap_applied: qualityCapApplied,
     },
+    quality_factor_v2,
   };
 }
 
