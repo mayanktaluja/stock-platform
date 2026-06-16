@@ -3907,17 +3907,21 @@ async function loadMarketNews(opts = {}) {
   const container = document.getElementById("newsContainer");
 
   try {
-    // Four endpoints feed the slim Market Intelligence tab: digest, macro regime, verdict, heatmap
-    const [newsRes, macroRes, verdictRes, heatmapRes] = await Promise.all([
+    // Five endpoints feed the Market Intelligence tab: digest, macro regime, verdict, heatmap, catalysts
+    const [newsRes, macroRes, verdictRes, heatmapRes, catalystsRes] = await Promise.all([
       fetch("/api/news/market"),
       fetch("/api/macro/regime").catch(() => null),
       fetch("/api/market-verdict").catch(() => null),
       fetch("/api/sector-heatmap").catch(() => null),
+      fetch("/api/catalysts/today").catch(() => null),
     ]);
     const data = await newsRes.json();
     const macroRegime = macroRes && macroRes.ok ? await macroRes.json().catch(() => null) : null;
     const verdict = verdictRes && verdictRes.ok ? await verdictRes.json().catch(() => null) : null;
     const heatmap = heatmapRes && heatmapRes.ok ? await heatmapRes.json().catch(() => null) : null;
+    const catalysts = catalystsRes && catalystsRes.ok
+      ? await catalystsRes.json().catch(() => null)
+      : { status: "unavailable", message: "Catalyst context unavailable." };
 
     if (data.error) {
       container.innerHTML = `<div class="empty-state"><div class="empty-icon">&#9888;</div><div class="empty-text">${escapeHtml(data.error)}</div></div>`;
@@ -3929,7 +3933,7 @@ async function loadMarketNews(opts = {}) {
     const updatedEl = document.getElementById("newsLastUpdated");
     if (updatedEl) updatedEl.textContent = `Updated: ${new Date(data.lastUpdated).toLocaleTimeString("en-IN")}`;
 
-    renderNewsPage(_newsDigest, verdict, heatmap, macroRegime);
+    renderNewsPage(_newsDigest, verdict, heatmap, macroRegime, catalysts);
   } catch (err) {
     container.innerHTML = `<div class="empty-state"><div class="empty-icon">&#9888;</div><div class="empty-text">Failed to load news. Try again.</div></div>`;
   } finally {
@@ -3938,54 +3942,140 @@ async function loadMarketNews(opts = {}) {
   }
 }
 
-function renderNewsPage(digest, verdict, heatmap, macroRegime) {
+function marketStateMeta(state) {
+  const normalized = String(state || "MIXED").toUpperCase();
+  if (normalized === "CONSTRUCTIVE") return { label: "Constructive backdrop", color: "var(--green)", bg: "rgba(52,211,153,0.1)", border: "rgba(52,211,153,0.3)", icon: "&#9650;" };
+  if (normalized === "RISK_OFF") return { label: "Risk-off backdrop", color: "var(--red)", bg: "rgba(248,113,113,0.1)", border: "rgba(248,113,113,0.3)", icon: "&#9660;" };
+  if (normalized === "INSUFFICIENT_EVIDENCE") return { label: "Insufficient evidence", color: "var(--yellow)", bg: "rgba(251,191,36,0.1)", border: "rgba(251,191,36,0.3)", icon: "&#9679;" };
+  return { label: "Mixed evidence", color: "var(--yellow)", bg: "rgba(251,191,36,0.1)", border: "rgba(251,191,36,0.3)", icon: "&#9679;" };
+}
+
+function renderSourceQualityChips(sourceQuality) {
+  const entries = Object.entries(sourceQuality || {});
+  if (!entries.length) return "";
+  return `
+    <div data-testid="market-verdict-source-quality" style="display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 0;">
+      ${entries.map(([key, q]) => {
+        const label = key === "flow" ? "FII/DII" : key.charAt(0).toUpperCase() + key.slice(1);
+        const status = !q?.available ? "Unavailable" : q.stale ? "Stale" : q.usable ? "Fresh" : "Partial";
+        const color = status === "Fresh" ? "var(--green)" : status === "Unavailable" || status === "Stale" ? "var(--yellow)" : "var(--text-secondary)";
+        const age = q?.ageHours != null ? ` · ${Number(q.ageHours).toFixed(1)}h` : "";
+        return `<span style="padding:4px 8px;border-radius:6px;background:rgba(255,255,255,0.04);border:1px solid ${color}33;color:${color};font-size:11px;">${escapeHtml(label)}: ${escapeHtml(status)}${escapeHtml(age)}</span>`;
+      }).join("")}
+    </div>`;
+}
+
+function renderDecisionBasis(decisionBasis) {
+  if (!decisionBasis || typeof decisionBasis !== "object") return "";
+  const row = (label, items, testid) => Array.isArray(items) && items.length
+    ? `<div data-testid="${testid}" style="font-size:12px;color:var(--text-secondary);line-height:1.5;"><strong style="color:var(--text-primary);">${label}:</strong> ${items.slice(0, 4).map(escapeHtml).join(" · ")}</div>`
+    : "";
+  return `
+    <div data-testid="market-verdict-decision-basis" style="display:flex;flex-direction:column;gap:4px;margin-top:12px;padding:10px 12px;border-radius:8px;background:rgba(255,255,255,0.03);border:1px solid var(--border);">
+      ${row("Why this state", decisionBasis.drivers, "market-verdict-drivers")}
+      ${row("Missing or blocked", [...(decisionBasis.missing || []), ...(decisionBasis.blockers || [])], "market-verdict-blockers")}
+      ${row("Would downgrade", decisionBasis.downgradeTriggers, "market-verdict-downgrades")}
+    </div>`;
+}
+
+function renderMarketVerdictCard(verdict) {
+  if (!verdict || !Array.isArray(verdict.signals)) {
+    return `
+      <div data-testid="market-verdict-unavailable" style="background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.25);border-radius:var(--card-radius);padding:16px 20px;margin-bottom:24px;">
+        <div style="font-size:13px;color:var(--yellow);font-weight:700;">Market backdrop unavailable</div>
+        <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;">Do not infer a buying backdrop from headlines or heatmap alone.</div>
+      </div>`;
+  }
+  const meta = marketStateMeta(verdict.marketState);
+  const signalRows = verdict.signals.map((s) => {
+    const sc = s.signal === "green" ? "var(--green)" : s.signal === "red" ? "var(--red)" : s.signal === "neutral" ? "var(--text-muted)" : "var(--yellow)";
+    const sBg = s.signal === "green" ? "rgba(52,211,153,0.06)" : s.signal === "red" ? "rgba(248,113,113,0.06)" : "rgba(255,255,255,0.02)";
+    return `
+      <div data-testid="market-verdict-signal-row" style="display:grid;grid-template-columns:auto 1fr;gap:12px;padding:10px 14px;border-radius:8px;background:${sBg};border:1px solid ${sc}22;">
+        <div style="font-size:18px;">${escapeHtml(s.icon || "-")}</div>
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;gap:12px;">
+            <span style="font-size:12px;font-weight:700;color:var(--text-primary);">${escapeHtml(s.name)}</span>
+            <span style="font-size:11px;font-family:'JetBrains Mono',monospace;color:${sc};font-weight:700;text-align:right;">${escapeHtml(s.value)}</span>
+          </div>
+          <div style="font-size:12px;color:var(--text-secondary);line-height:1.4;">${escapeHtml(s.action)}</div>
+        </div>
+      </div>`;
+  }).join("");
+
+  return `
+    <div data-testid="market-verdict-card" style="background:${meta.bg};border:1px solid ${meta.border};border-radius:var(--card-radius);padding:20px 24px;margin-bottom:24px;">
+      <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;">
+        <span style="font-size:24px;color:${meta.color};">${meta.icon}</span>
+        <div>
+          <div data-testid="market-state-label" style="font-size:20px;font-weight:800;color:${meta.color};letter-spacing:-0.3px;">${escapeHtml(meta.label)}</div>
+          <div style="font-size:13px;color:var(--text-secondary);margin-top:2px;">${escapeHtml(verdict.verdictAction || "")}</div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">Market backdrop is context only. Stock-level valuation, entry bands, risk, and portfolio fit still decide action.</div>
+        </div>
+      </div>
+      ${renderSourceQualityChips(verdict.sourceQuality)}
+      ${renderDecisionBasis(verdict.decisionBasis)}
+      <div style="display:flex;flex-direction:column;gap:6px;margin-top:12px;">
+        ${signalRows}
+      </div>
+      <div data-testid="market-verdict-score-line" style="margin-top:12px;font-size:10px;color:var(--text-muted);text-align:right;">${verdict.signals.length}-signal context · Legacy: ${escapeHtml(verdict.verdict || "N/A")} · Score: ${Number(verdict.score ?? 0)}</div>
+    </div>`;
+}
+
+function renderUpcomingCatalysts(catalysts) {
+  if (!catalysts) return "";
+  const sections = catalysts.sections || {};
+  const groups = [
+    ["inBook", "In portfolio"],
+    ["inPicks", "In India picks"],
+    ["broader", "Broader market"],
+    ["macro", "Macro calendar"],
+  ];
+  const rows = [];
+  for (const [key, label] of groups) {
+    for (const item of (sections[key] || []).slice(0, 3)) {
+      const title = item.title || item.company || item.ticker || item.categoryLabel || "Catalyst";
+      const detail = item.purpose || item.category || item.notes || item.country || "";
+      rows.push({ label, date: item.date || "", title, detail });
+    }
+  }
+  const statusMessage = catalysts.status === "warming"
+    ? catalysts.message || "Catalyst context is warming."
+    : catalysts.status === "unavailable"
+      ? catalysts.message || "Catalyst context unavailable."
+      : null;
+  return `
+    <div data-testid="market-catalysts-card" style="background:rgba(255,255,255,0.035);border:1px solid var(--border);border-radius:var(--card-radius);padding:18px 22px;margin-bottom:24px;">
+      <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap;margin-bottom:12px;">
+        <div>
+          <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);font-weight:700;margin-bottom:5px;">Upcoming Catalysts</div>
+          <div style="font-size:16px;font-weight:800;color:var(--text-primary);">Context only, no action implied</div>
+        </div>
+        ${catalysts.stats ? `<span style="font-size:11px;color:var(--text-muted);">${Number(catalysts.stats.corpInWindow || 0)} corporate · ${Number(catalysts.stats.macroInWindow || 0)} macro</span>` : ""}
+      </div>
+      ${statusMessage ? `<div style="font-size:12px;color:var(--yellow);">${escapeHtml(statusMessage)}</div>` : rows.length ? `
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          ${rows.slice(0, 8).map((r) => `
+            <div style="display:grid;grid-template-columns:90px 120px 1fr;gap:10px;align-items:start;font-size:12px;color:var(--text-secondary);">
+              <span style="font-family:'JetBrains Mono',monospace;color:var(--text-muted);">${escapeHtml(r.date)}</span>
+              <span style="color:var(--cyan);font-weight:700;">${escapeHtml(r.label)}</span>
+              <span><strong style="color:var(--text-primary);">${escapeHtml(r.title)}</strong>${r.detail ? ` · ${escapeHtml(r.detail)}` : ""}</span>
+            </div>`).join("")}
+        </div>
+      ` : `<div style="font-size:12px;color:var(--text-muted);">No near-term catalysts in the current window.</div>`}
+    </div>`;
+}
+
+function renderNewsPage(digest, verdict, heatmap, macroRegime, catalysts) {
   const container = document.getElementById("newsContainer");
 
   let html = "";
 
   html += renderMacroRegimeCard(macroRegime);
+  html += renderMarketVerdictCard(verdict);
+  html += renderUpcomingCatalysts(catalysts);
 
-  // ── Today's Verdict (5-signal dashboard) ──
-  if (verdict && verdict.signals) {
-    const vc = verdict.verdictColor === "green" ? "var(--green)" : verdict.verdictColor === "red" ? "var(--red)" : "var(--yellow)";
-    const vBg = verdict.verdictColor === "green" ? "rgba(52,211,153,0.1)" : verdict.verdictColor === "red" ? "rgba(248,113,113,0.1)" : "rgba(251,191,36,0.1)";
-    const vBorder = verdict.verdictColor === "green" ? "rgba(52,211,153,0.3)" : verdict.verdictColor === "red" ? "rgba(248,113,113,0.3)" : "rgba(251,191,36,0.3)";
-    const verdictIcon = verdict.verdictColor === "green" ? "&#9650;" : verdict.verdictColor === "red" ? "&#9660;" : "&#9679;";
-
-    const signalRows = verdict.signals.map((s) => {
-      const sc = s.signal === "green" ? "var(--green)" : s.signal === "red" ? "var(--red)" : s.signal === "neutral" ? "var(--text-muted)" : "var(--yellow)";
-      const sBg = s.signal === "green" ? "rgba(52,211,153,0.06)" : s.signal === "red" ? "rgba(248,113,113,0.06)" : "rgba(255,255,255,0.02)";
-      return `
-        <div style="display:grid;grid-template-columns:auto 1fr;gap:12px;padding:10px 14px;border-radius:8px;background:${sBg};border:1px solid ${sc}22;">
-          <div style="font-size:18px;">${s.icon}</div>
-          <div>
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
-              <span style="font-size:12px;font-weight:700;color:var(--text-primary);">${escapeHtml(s.name)}</span>
-              <span style="font-size:11px;font-family:'JetBrains Mono',monospace;color:${sc};font-weight:700;">${escapeHtml(s.value)}</span>
-            </div>
-            <div style="font-size:12px;color:var(--text-secondary);line-height:1.4;">${escapeHtml(s.action)}</div>
-          </div>
-        </div>`;
-    }).join("");
-
-    html += `
-      <div style="background:${vBg};border:1px solid ${vBorder};border-radius:var(--card-radius);padding:20px 24px;margin-bottom:24px;">
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
-          <span style="font-size:24px;color:${vc};">${verdictIcon}</span>
-          <div>
-            <div style="font-size:20px;font-weight:800;color:${vc};letter-spacing:-0.3px;">${escapeHtml(verdict.verdict)}</div>
-            <div style="font-size:13px;color:var(--text-secondary);margin-top:2px;">${escapeHtml(verdict.verdictAction)}</div>
-          </div>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:6px;">
-          ${signalRows}
-        </div>
-        <div style="margin-top:12px;font-size:10px;color:var(--text-muted);text-align:right;">5-signal composite · Score: ${verdict.score}</div>
-      </div>
-    `;
-  }
-
-  // ── AI Market Digest (the morning briefing) ──
+  // ── Market Digest (the morning briefing) ──
   if (digest) {
     const moodColor = digest.marketMood === "bullish" ? "var(--green)" : digest.marketMood === "bearish" ? "var(--red)" : "var(--yellow)";
     const moodBg = digest.marketMood === "bullish" ? "rgba(52,211,153,0.08)" : digest.marketMood === "bearish" ? "rgba(248,113,113,0.08)" : "rgba(251,191,36,0.08)";

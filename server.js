@@ -144,6 +144,7 @@ import {
 } from "./services/foBhavcopyFetcher.js";
 import { loadFoScreenerFromKV } from "./services/foKvStore.js";
 import { buildCatalystsPayload } from "./services/catalystsService.js";
+import { buildMarketVerdict } from "./services/marketVerdict.js";
 import {
   loadEarningsSnapshot,
   loadEarningsStats,
@@ -3304,11 +3305,11 @@ app.get("/api/earnings/:symbol", async (req, res) => {
 /**
  * GET /api/market-verdict
  *
- * Combines all 5 signals into a single "is today a good day to buy?" verdict.
- * Reads from existing cached data (macro regime, sector heatmap, scan results)
- * so it's fast (~50ms) and doesn't make any new external calls.
+ * Builds a conservative market-backdrop verdict from cached/file-backed data.
+ * The pure scoring engine lives in services/marketVerdict.js; this route only
+ * assembles inputs and preserves the legacy response fields for clients.
  *
- * Returns: { verdict, signals[], overallScore, actionText }
+ * Returns legacy fields plus additive marketState/sourceQuality/basis fields.
  */
 const verdictCache = new NodeCache({ stdTTL: 120, checkperiod: 30 });
 
@@ -3324,8 +3325,9 @@ async function readMacroRegimeForMarketVerdict() {
   }
 
   // Keep /api/market-verdict file-backed and fast. Live classification belongs
-  // to /api/macro/regime?refresh=1 or the local refresh pipeline.
-  return defaultCalmRegime();
+  // to /api/macro/regime?refresh=1 or the local refresh pipeline. Missing
+  // macro must remain missing; defaulting to CALM would overstate confidence.
+  return null;
 }
 
 app.get("/api/market-verdict", async (req, res) => {
@@ -3333,141 +3335,34 @@ app.get("/api/market-verdict", async (req, res) => {
     const cached = verdictCache.get("verdict");
     if (cached) return res.json(cached);
 
-    const signals = [];
-    let score = 0; // -10 to +10 scale
-
-    // Signal 1: Macro Regime
-    const regime = await readMacroRegimeForMarketVerdict();
-    const regimeId = regime.regime || "CALM";
-    const severity = regime.severity || 1;
-    let regimeSignal, regimeAction;
-
-    if (regimeId === "CALM") {
-      regimeSignal = "green"; regimeAction = "Safe to deploy capital. No macro headwinds."; score += 3;
-    } else if (regimeId === "RATE_CUT" || regimeId === "WAR_DE_ESCALATION" || regimeId === "POLICY_STIMULUS") {
-      regimeSignal = "green"; regimeAction = "Favorable environment. Risk-on rotation likely."; score += 4;
-    } else if (regimeId === "OIL_SHOCK" && severity >= 4) {
-      regimeSignal = "red"; regimeAction = "High oil = inflation risk. Be selective, favor energy longs only."; score -= 4;
-    } else if (regimeId === "WAR_ESCALATION" && severity >= 4) {
-      regimeSignal = "red"; regimeAction = "Conflict escalation. Trim risk assets. Favor defence, pharma."; score -= 5;
-    } else if (regimeId === "GLOBAL_RISK_OFF") {
-      regimeSignal = "red"; regimeAction = "Global selloff. Move to defensives."; score -= 4;
-    } else if (regimeId === "RATE_HIKE") {
-      regimeSignal = "yellow"; regimeAction = "Tightening cycle. Avoid rate-sensitive sectors."; score -= 2;
-    } else {
-      regimeSignal = "yellow"; regimeAction = "Mixed signals. Be selective."; score -= 1;
+    let inputOverride = null;
+    if (typeof app.locals.__marketVerdictInputProvider === "function") {
+      inputOverride = await app.locals.__marketVerdictInputProvider();
     }
+    const hasOverride = (key) => inputOverride && Object.prototype.hasOwnProperty.call(inputOverride, key);
 
-    signals.push({
-      name: "Macro Regime",
-      signal: regimeSignal,
-      value: `${regimeId.replace(/_/g, " ")} · Severity ${severity}/5`,
-      action: regimeAction,
-      icon: regimeSignal === "green" ? "✅" : regimeSignal === "red" ? "🔴" : "⚠️",
-    });
+    const heatmap = hasOverride("heatmap") ? inputOverride.heatmap : sectorHeatmapCache.get("heatmap") ?? null;
+    const marketBreadth = hasOverride("marketBreadth") ? inputOverride.marketBreadth : (heatmap?.marketBreadth ? {
+      ...heatmap.marketBreadth,
+      lastUpdated: heatmap.lastUpdated || null,
+      source: "sectorHeatmapCache",
+    } : null);
 
-    // Signal 2: Market Breadth (from heatmap cache or live)
-    let breadthSignal = "yellow", breadthAction = "Mixed breadth.";
-    let advancing = 0, declining = 0;
-    try {
-      const heatmap = sectorHeatmapCache.get("heatmap");
-      if (heatmap?.marketBreadth) {
-        advancing = heatmap.marketBreadth.advancing || 0;
-        declining = heatmap.marketBreadth.declining || 0;
-      } else {
-        // Quick fetch if not cached
-        const stocks = getNifty100().slice(0, 30); // sample 30 for speed
-        const quotes = await Promise.all(stocks.map((s) => fetchQuote(s.symbol).catch(() => null)));
-        advancing = quotes.filter((q) => q && (q.regularMarketChangePercent || 0) > 0).length;
-        declining = quotes.filter((q) => q && (q.regularMarketChangePercent || 0) < 0).length;
-      }
-      const total = advancing + declining || 1;
-      const ratio = (advancing / total) * 100;
-      if (ratio >= 70) { breadthSignal = "green"; breadthAction = `Strong buying — ${ratio.toFixed(0)}% stocks advancing.`; score += 3; }
-      else if (ratio >= 55) { breadthSignal = "green"; breadthAction = `More stocks up than down (${ratio.toFixed(0)}%). Mild buying day.`; score += 1; }
-      else if (ratio >= 45) { breadthSignal = "yellow"; breadthAction = `Mixed — no clear direction (${ratio.toFixed(0)}% advancing).`; score += 0; }
-      else if (ratio >= 30) { breadthSignal = "yellow"; breadthAction = `More stocks falling (${ratio.toFixed(0)}% advancing). Trim weak positions.`; score -= 2; }
-      else { breadthSignal = "red"; breadthAction = `Risk-off — ${(100 - ratio).toFixed(0)}% stocks declining. Protect capital.`; score -= 4; }
-    } catch { /* silent */ }
-
-    signals.push({
-      name: "Market Breadth",
-      signal: breadthSignal,
-      value: `${advancing}↑ ${declining}↓`,
-      action: breadthAction,
-      icon: breadthSignal === "green" ? "📈" : breadthSignal === "red" ? "📉" : "📊",
-    });
-
-    // Signal 4: Regime Transition
-    let transSignal = "neutral", transAction = "No recent regime shift.";
-    if (lastRegimeTransition && lastRegimeTransition.signal) {
-      const sig = lastRegimeTransition.signal;
-      if (sig.action.includes("BUY")) { transSignal = "green"; transAction = `Regime shifted → ${sig.action}. ${sig.summary?.slice(0, 80)}`; score += 3; }
-      else if (sig.action.includes("SELL") || sig.action.includes("TRIM")) { transSignal = "red"; transAction = `Regime shifted → ${sig.action}. ${sig.summary?.slice(0, 80)}`; score -= 3; }
-      else { transSignal = "yellow"; transAction = `Regime shifted. ${sig.summary?.slice(0, 80)}`; }
-    }
-
-    signals.push({
-      name: "Regime Transition",
-      signal: transSignal,
-      value: lastRegimeTransition ? `${lastRegimeTransition.from} → ${lastRegimeTransition.to}` : "Stable",
-      action: transAction,
-      icon: transSignal === "green" ? "⚡" : transSignal === "red" ? "⚡" : "—",
-    });
-
-    // Signal 5: Track Record trust
-    let trustSignal = "yellow", trustAction = "Moderate confidence.";
+    let trackedPickCount = 0;
     try {
       const trades = await readAllTrades();
       const withReturns = trades.filter((t) => t.returns?.beatsNifty != null || t.niftyAtSnapshot);
-      const total = withReturns.length;
-      // Approximate beats-nifty from recent data
-      if (total >= 30) {
-        // Use the track performance endpoint logic would be too heavy here,
-        // so just check the total count for trust calibration
-        trustSignal = "green"; trustAction = `${total}+ picks tracked. Signal has proven edge.`; score += 1;
-      } else if (total >= 10) {
-        trustSignal = "yellow"; trustAction = `${total} picks tracked. Still calibrating — early data.`;
-      } else {
-        trustSignal = "yellow"; trustAction = "< 10 picks tracked. Very early — treat signals as suggestions."; score -= 1;
-      }
+      trackedPickCount = withReturns.length;
     } catch { /* silent */ }
 
-    signals.push({
-      name: "Signal Maturity",
-      signal: trustSignal,
-      value: trustSignal === "green" ? "Proven" : "Calibrating",
-      action: trustAction,
-      icon: trustSignal === "green" ? "✅" : "🔄",
+    const response = buildMarketVerdict({
+      regime: hasOverride("regime") ? inputOverride.regime : await readMacroRegimeForMarketVerdict(),
+      marketBreadth,
+      fiiDii: hasOverride("fiiDii") ? inputOverride.fiiDii : fiiDiiCache.get("fii_dii") ?? null,
+      transition: hasOverride("transition") ? inputOverride.transition : lastRegimeTransition ?? null,
+      trackedPickCount: hasOverride("trackedPickCount") ? inputOverride.trackedPickCount : trackedPickCount,
+      catalysts: hasOverride("catalysts") ? inputOverride.catalysts : null,
     });
-
-    // Compute overall verdict
-    let verdict, verdictColor, verdictAction;
-    if (score >= 6) {
-      verdict = "STRONG BUY DAY"; verdictColor = "green";
-      verdictAction = "Multiple signals align bullish. Deploy capital with confidence.";
-    } else if (score >= 3) {
-      verdict = "BUY DAY"; verdictColor = "green";
-      verdictAction = "Environment is favorable. Follow the Buy Now picks.";
-    } else if (score >= 0) {
-      verdict = "SELECTIVE"; verdictColor = "yellow";
-      verdictAction = "Mixed signals. Only buy DEEP VALUE picks with strict stop-losses.";
-    } else if (score >= -3) {
-      verdict = "CAUTIOUS"; verdictColor = "yellow";
-      verdictAction = "More headwinds than tailwinds. Trim weak positions. Hold cash.";
-    } else {
-      verdict = "STAY OUT"; verdictColor = "red";
-      verdictAction = "Not a buying day. Protect capital. Wait for regime shift.";
-    }
-
-    const response = {
-      verdict,
-      verdictColor,
-      verdictAction,
-      score,
-      signals,
-      generatedAt: new Date().toISOString(),
-    };
 
     verdictCache.set("verdict", response);
     res.json(response);
@@ -3476,6 +3371,8 @@ app.get("/api/market-verdict", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+app.locals.__clearMarketVerdictCache = () => verdictCache.del("verdict");
 
 /**
  * GET /api/sector-heatmap
