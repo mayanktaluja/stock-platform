@@ -1,6 +1,6 @@
 # PROJECT_STATUS.md — stock-platform
 
-**Last updated: 2026-06-15**
+**Last updated: 2026-06-17**
 
 Living snapshot of where the project is right now. Update this file whenever
 you ship a meaningful PR or change direction. The point is that a fresh AI
@@ -32,6 +32,18 @@ Compounder Lab and Earnings Edge were retired in June 2026 to remove unused
 experimental surface area and nightly refresh load.
 
 ## Recently shipped (themed, newest first — rolling ~4–6 week window; `git log` is the archive)
+
+### Market Intelligence backdrop safety (June 2026)
+- **This PR** — Market Intelligence now treats the market verdict as a
+  conservative backdrop read rather than a deterministic buy-day command. The
+  `/api/market-verdict` route delegates to a pure `buildMarketVerdict()` engine,
+  preserves legacy fields, and adds `marketState`, `sourceQuality`,
+  `decisionBasis`, and component diagnostics. `CALM` is neutral, stale or
+  missing macro becomes insufficient evidence, breadth uses only cached heatmap
+  data, and hard gates cap severe macro/FII pressure before any score can turn
+  green. The UI now leads with Constructive/Mixed/Risk-off/Insufficient labels,
+  explains missing or stale inputs, removes overconfident copy, and shows
+  upcoming catalysts as context only.
 
 ### India Market actionability upgrade (June 2026)
 - **This PR** — India Market keeps the legacy `best_to_buy_now` API/storage key
