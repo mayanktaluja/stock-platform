@@ -132,6 +132,21 @@
     }[verdict] || "var(--text-muted)";
   }
 
+  function fmtAgeHours(n) {
+    if (!Number.isFinite(Number(n))) return "unknown age";
+    const v = Number(n);
+    if (v < 1) return "<1h old";
+    return `${v.toFixed(v >= 10 ? 0 : 1)}h old`;
+  }
+
+  function openRiskLabTicker(ticker) {
+    const safeTicker = String(ticker || "").trim();
+    if (!safeTicker) return;
+    if (typeof window.openStockDetailModal === "function") {
+      window.openStockDetailModal(safeTicker, "risk-lab");
+    }
+  }
+
   // Verdict ladder mirrors services/swsScoring.js:375-381.
   function verdictRank(v) {
     return { TOP_PICK: 5, STRONG: 4, ACCEPTABLE: 3, WATCH: 2, AVOID: 1 }[v] ?? 0;
@@ -329,6 +344,100 @@
         statChip("Quality vetoed", s.quality_vetoed_count, "var(--red-bright)", "lab_quality_vetoed"),
         statChip("Low quality", s.low_quality_count, "var(--red-bright)", "lab_low_quality"),
       ),
+    );
+  }
+
+  function renderDegradedBanner(payload) {
+    const state = payload.risk_lab_state || {};
+    if (!state.degraded) return null;
+    const issues = Array.isArray(state.issues) ? state.issues : [];
+    const audit = state.audit || {};
+    const artifacts = audit.artifacts || {};
+    const highCount = issues.filter((i) => i.severity === "high").length;
+    const issueText = highCount > 0
+      ? `${highCount} high-priority freshness issue${highCount === 1 ? "" : "s"}`
+      : `${issues.length} freshness/consistency issue${issues.length === 1 ? "" : "s"}`;
+    const detailParts = [
+      artifacts.picks_adjusted?.age_hours != null ? `Risk Lab ${fmtAgeHours(artifacts.picks_adjusted.age_hours)}` : null,
+      artifacts.current_sws_picks?.scanned_at ? `SWS picks ${fmtAgeHours(artifacts.current_sws_picks.age_hours)}` : null,
+      artifacts.current_macro_regime?.generated_at ? `Macro ${fmtAgeHours(artifacts.current_macro_regime.age_hours)}` : null,
+    ].filter(Boolean);
+
+    return el("div", {
+      "data-testid": "risk-lab-degraded-banner",
+      role: "status",
+      style: {
+        padding: "12px 14px",
+        marginBottom: "16px",
+        border: "1px solid rgba(251,191,36,0.45)",
+        borderRadius: "8px",
+        background: "rgba(251,191,36,0.08)",
+        color: "#fbbf24",
+        fontSize: "12px",
+        lineHeight: "1.45",
+      },
+    },
+      el("div", { style: { fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: "700", marginBottom: "4px" } },
+        "Risk Lab degraded - experimental not promoted"),
+      el("div", null, `${issueText}. Treat this view as shadow-only until the action queue clears.`),
+      detailParts.length
+        ? el("div", { style: { marginTop: "5px", color: "var(--text-muted)", fontSize: "11px" } }, detailParts.join(" · "))
+        : null,
+    );
+  }
+
+  function renderActionQueue(payload) {
+    const queue = payload.action_queue || payload.risk_lab_state?.action_queue || [];
+    if (!Array.isArray(queue) || queue.length === 0) return null;
+    const degraded = payload.risk_lab_state?.degraded === true;
+    return el("div", {
+      "data-testid": "risk-lab-action-queue",
+      style: {
+        marginBottom: "14px",
+        padding: "12px 14px",
+        border: "1px solid var(--border)",
+        borderRadius: "8px",
+        background: "var(--bg-card)",
+      },
+    },
+      el("div", {
+        style: {
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          gap: "10px",
+          marginBottom: "10px",
+        },
+      },
+        el("div", { style: { fontSize: "11px", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: "700" } },
+          "Action queue"),
+        el("div", {
+          "data-testid": "risk-lab-promotion-state",
+          style: {
+            fontSize: "10px",
+            color: degraded ? "#fbbf24" : "#86efac",
+            border: `1px solid ${degraded ? "rgba(251,191,36,0.4)" : "rgba(134,239,172,0.35)"}`,
+            borderRadius: "999px",
+            padding: "2px 8px",
+            whiteSpace: "nowrap",
+          },
+        }, payload.risk_lab_state?.promotion_state || "experimental_shadow"),
+      ),
+      ...queue.slice(0, 5).map((item, idx) => el("div", {
+        "data-testid": "risk-lab-action-item",
+        style: {
+          display: "grid",
+          gridTemplateColumns: "28px minmax(160px, 240px) 1fr",
+          gap: "10px",
+          alignItems: "start",
+          padding: idx === 0 ? "0 0 8px" : "8px 0",
+          borderTop: idx === 0 ? "none" : "1px solid var(--border-soft, var(--border))",
+        },
+      },
+        el("div", { style: { color: idx === 0 && degraded ? "#f87171" : "#93c5fd", fontWeight: "700", fontSize: "12px" } }, `P${item.priority ?? idx + 1}`),
+        el("div", { style: { color: "var(--text-primary)", fontSize: "12px", fontWeight: "600" } }, item.label || item.code || "Review Risk Lab"),
+        el("div", { style: { color: "var(--text-muted)", fontSize: "11px", lineHeight: "1.4" } }, item.detail || ""),
+      )),
     );
   }
 
@@ -944,6 +1053,9 @@
       "div",
       {
         "data-testid": "risk-lab-row",
+        role: "button",
+        tabindex: "0",
+        title: s.ticker ? `Open ${s.ticker} detail` : "Open stock detail",
         style: {
           display: "grid",
           gridTemplateColumns: "100px 120px 80px 80px 100px 1fr",
@@ -952,6 +1064,14 @@
           borderBottom: "1px solid rgba(255,255,255,0.04)",
           fontSize: "12px",
           alignItems: "center",
+          cursor: "pointer",
+        },
+        onClick: () => openRiskLabTicker(s.ticker),
+        onKeydown: (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            openRiskLabTicker(s.ticker);
+          }
         },
       },
       el("div", { style: { fontWeight: "600" } }, s.ticker || "?"),
@@ -1033,6 +1153,8 @@
       : null;
     root.innerHTML = "";
     root.appendChild(renderBanner(_cache));
+    const degradedBanner = renderDegradedBanner(_cache);
+    if (degradedBanner) root.appendChild(degradedBanner);
     root.appendChild(renderCaseStudy(_cache));
     root.appendChild(renderLensTabs());
     if (_activeLens === "thesis") {
@@ -1044,6 +1166,8 @@
         root.appendChild(renderMacroThesis(_thesisCache));
       }
     } else {
+      const actionQueue = renderActionQueue(_cache);
+      if (actionQueue) root.appendChild(actionQueue);
       root.appendChild(renderTable(_cache));
     }
     root.appendChild(renderUserToggle());

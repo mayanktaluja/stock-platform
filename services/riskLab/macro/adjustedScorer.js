@@ -22,6 +22,7 @@
 
 import { mergeLabImpacts } from "./sectorTemplates.js";
 import { resolveSectorsForTicker, hasOverride } from "./sectorOverrides.js";
+import { normalizeSector } from "../../../macroRegime.js";
 
 const DEFAULT_STALE_HOURS = 12;
 const SEVERE_REGIME_THRESHOLD = 4;
@@ -34,17 +35,27 @@ function clamp(v, lo, hi) {
   return Math.max(lo, Math.min(hi, v));
 }
 
+function canonicalSector(raw) {
+  return normalizeSector(raw) || raw;
+}
+
+function canonicalSectors(raw) {
+  if (Array.isArray(raw)) return raw.map(canonicalSector).filter(Boolean);
+  return canonicalSector(raw);
+}
+
 /**
  * Compute lab macro delta for a single sector against the merged regime.
  * Returns { delta, impact, reason, sector } or { delta: 0, ... } for misses.
  */
 function deltaForSector(mergedImpacts, sector, regime) {
-  if (!sector || !Array.isArray(mergedImpacts) || mergedImpacts.length === 0) {
+  const canonical = canonicalSector(sector);
+  if (!canonical || !Array.isArray(mergedImpacts) || mergedImpacts.length === 0) {
     return { delta: 0, impact: 0, reason: null, sector: sector || null };
   }
-  const hit = mergedImpacts.find((s) => s.sector === sector);
+  const hit = mergedImpacts.find((s) => s.sector === canonical);
   if (!hit) {
-    return { delta: 0, impact: 0, reason: null, sector };
+    return { delta: 0, impact: 0, reason: null, sector: canonical };
   }
 
   const severity = Number(regime?.severity ?? 1) || 1;
@@ -61,8 +72,8 @@ function deltaForSector(mergedImpacts, sector, regime) {
   return {
     delta,
     impact,
-    reason: `${sector}: ${hit.reason || "lab template impact"}`,
-    sector,
+    reason: `${canonical}: ${hit.reason || "lab template impact"}`,
+    sector: canonical,
   };
 }
 
@@ -135,7 +146,7 @@ export function adjustedScoreForRow(row, regime, opts = {}) {
   }
 
   // Resolve sector(s) — overrides win
-  const resolved = resolveSectorsForTicker(ticker, row?.sector);
+  const resolved = canonicalSectors(resolveSectorsForTicker(ticker, row?.sector));
   if (!resolved) return base;
 
   const mergedImpacts = mergeLabImpacts(regime);
@@ -168,7 +179,7 @@ export function adjustedScoreForRow(row, regime, opts = {}) {
     sector_used: worst.sector,
     sector_overridden: hasOverride(ticker),
     lab_template_used: !!mergedImpacts.find(
-      (s) => s.sector === worst.sector && !regime.sectorImpacts?.some((rs) => rs.sector === worst.sector),
+      (s) => s.sector === worst.sector && !regime.sectorImpacts?.some((rs) => canonicalSector(rs.sector) === worst.sector),
     ),
   };
 }

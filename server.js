@@ -18,7 +18,7 @@ import cors from "cors";
 import helmet from "helmet";
 import { createBreaker } from "./services/externalApiBreaker.js";
 import { loadRiskLabViewMap, buildLabViewForEvent } from "./services/riskLab/earningsLabView.js";
-import { buildSizingDecision } from "./services/riskLab/positionSizing.js";
+import { LAB_PROMOTION_STATUS, buildSizingDecision } from "./services/riskLab/positionSizing.js";
 import { loadHitRateSummary } from "./services/earnings/hitRateSummary.js";
 import { narrateCandidate, buildStrategyExplainer } from "./services/multibagger/rationaleNarrator.js";
 
@@ -3085,8 +3085,36 @@ function readEarningsHealthSlim() {
       llm_heuristic_share_pct:
         typeof h?.llm_heuristic_share_pct === "number" ? h.llm_heuristic_share_pct : null,
       generated_at: h?.generated_at || null,
+      hit_rate_summary: h?.hit_rate_summary || null,
+      risk_lab_promotion_gate: h?.risk_lab_promotion_gate || null,
     };
   } catch { return null; }
+}
+
+function buildRiskLabSizingPromotionGate(health) {
+  const explicit = health?.risk_lab_promotion_gate;
+  if (explicit?.status === LAB_PROMOTION_STATUS.PROMOTED || explicit?.promoted === true) {
+    return { ...explicit, status: LAB_PROMOTION_STATUS.PROMOTED, promoted: true };
+  }
+  const hitRate = health?.hit_rate_summary || null;
+  const rolling = hitRate?.rolling_30 || null;
+  const threshold = hitRate?.catastrophic_alert_threshold_pct ?? 12;
+  const rate = rolling?.catastrophic_rate_pct;
+  const enoughHistory = Number(rolling?.window || 0) >= 30;
+  const catastrophicClear = typeof rate === "number" && rate <= threshold;
+  return {
+    status: LAB_PROMOTION_STATUS.NOT_PROMOTED,
+    promoted: false,
+    reason: explicit?.reason || (
+      !enoughHistory
+        ? "insufficient rolling-30 history for Risk Lab sizing promotion"
+        : catastrophicClear
+          ? "requires explicit multi-refresh promotion marker before lab sizing can affect events"
+          : `rolling-30 catastrophic rate ${rate}% exceeds ${threshold}% threshold`
+    ),
+    rolling_30: rolling,
+    catastrophic_alert_threshold_pct: threshold,
+  };
 }
 
 app.get("/api/earnings/upcoming", async (req, res) => {
@@ -3118,7 +3146,9 @@ app.get("/api/earnings/upcoming", async (req, res) => {
     // it (effective_confidence_pct = lab's number); otherwise it falls
     // back to the predictor's confidence_pct. Always additive — never
     // changes the baked playbook fields.
-    events = events.map((e) => ({ ...e, sizing: buildSizingDecision(e) }));
+    const health = readEarningsHealthSlim();
+    const labPromotionGate = buildRiskLabSizingPromotionGate(health);
+    events = events.map((e) => ({ ...e, sizing: buildSizingDecision(e, { labPromotionGate }) }));
     res.json({
       schema_version: snap.schema_version,
       built_at: snap.built_at,
@@ -3131,10 +3161,11 @@ app.get("/api/earnings/upcoming", async (req, res) => {
       recent_results: Array.isArray(snap.recent_results) ? snap.recent_results : [],
       past_window_days: snap.past_window_days ?? null,
       missing: snap._missing === true,
-      health: readEarningsHealthSlim(),
+      health,
       lab_enabled: labMap !== null,
       lab_regime: labMap?._regime || null,
       lab_generated_at: labMap?._generated_at || null,
+      lab_promotion_gate: labPromotionGate,
     });
   } catch (err) {
     console.error("[/api/earnings/upcoming] failed:", err);
@@ -4677,6 +4708,11 @@ app.get("/api/macro/override", (req, res) => {
 // platform.
 const RISK_LAB_PICKS_PATH = path.join(__dirname, "data", "risk-lab", "picks-adjusted-latest.json");
 const RISK_LAB_QUALITY_FLAGS_PATH = path.join(__dirname, "data", "risk-lab", "quality-flags-latest.json");
+const RISK_LAB_CURRENT_PICKS_PATH = path.join(__dirname, "data", "sws", "picks-latest.json");
+const RISK_LAB_CURRENT_MACRO_PATH = path.join(__dirname, "data", "macroRegime.json");
+const RISK_LAB_MAX_ARTIFACT_AGE_HOURS = Number(process.env.RISK_LAB_MAX_ARTIFACT_AGE_HOURS || 36);
+const RISK_LAB_SOURCE_DRIFT_MAX_HOURS = Number(process.env.RISK_LAB_SOURCE_DRIFT_MAX_HOURS || 6);
+const RISK_LAB_ARTIFACT_ALIGNMENT_MAX_MINUTES = Number(process.env.RISK_LAB_ARTIFACT_ALIGNMENT_MAX_MINUTES || 15);
 
 function isRiskLabEnabled() {
   // Runtime-read per request (per plan D5) so the kill-switch doesn't require
@@ -4698,10 +4734,223 @@ function readRiskLabPayload(filePath, label) {
   }
 }
 
+function riskLabTime(value) {
+  if (!value) return null;
+  const ts = new Date(value).getTime();
+  return Number.isFinite(ts) ? ts : null;
+}
+
+function riskLabHoursOld(value, now = Date.now()) {
+  const ts = riskLabTime(value);
+  if (ts === null) return null;
+  return Math.round(((now - ts) / (60 * 60 * 1000)) * 10) / 10;
+}
+
+function riskLabHoursBetween(later, earlier) {
+  const a = riskLabTime(later);
+  const b = riskLabTime(earlier);
+  if (a === null || b === null) return null;
+  return Math.round(((a - b) / (60 * 60 * 1000)) * 10) / 10;
+}
+
+function riskLabArtifactAudit(label, generatedAt, now) {
+  const ageHours = riskLabHoursOld(generatedAt, now);
+  return {
+    label,
+    generated_at: generatedAt || null,
+    age_hours: ageHours,
+    stale: ageHours === null || ageHours > RISK_LAB_MAX_ARTIFACT_AGE_HOURS,
+    stale_threshold_hours: RISK_LAB_MAX_ARTIFACT_AGE_HOURS,
+  };
+}
+
+function addRiskLabIssue(issues, severity, code, message, details = {}) {
+  issues.push({ severity, code, message, ...details });
+}
+
+function buildRiskLabActionQueue(issues) {
+  const byCode = new Map();
+  const queue = [];
+  const push = (priority, code, label, detail) => {
+    if (byCode.has(code)) return;
+    const item = { priority, code, label, detail };
+    byCode.set(code, item);
+    queue.push(item);
+  };
+
+  for (const issue of issues) {
+    if (issue.code === "current_sws_newer" || issue.code === "picks_stale") {
+      push(1, "refresh_risk_lab_from_current_picks", "Refresh Risk Lab from current SWS picks", "Re-run scripts/refresh-risk-lab.mjs after the latest SWS picks artifact is in place.");
+    } else if (issue.code === "current_macro_newer" || issue.code === "macro_thesis_stale") {
+      push(2, "refresh_macro_thesis", "Refresh Macro Thesis", "Rebuild macro-thesis-latest.json from the current macroRegime.json before using thesis branches.");
+    } else if (issue.code === "quality_missing" || issue.code === "quality_misaligned" || issue.code === "quality_count_mismatch") {
+      push(3, "rebuild_quality_flags", "Rebuild quality flags", "Regenerate quality-flags-latest.json so the flag list and picks overlay agree.");
+    } else if (issue.code === "macro_regime_mismatch" || issue.code === "macro_source_misaligned") {
+      push(4, "inspect_macro_consistency", "Inspect macro regime consistency", "Check that Risk Lab picks and Macro Thesis were built from the same regime snapshot.");
+    } else if (issue.code === "thesis_missing") {
+      push(5, "generate_macro_thesis", "Generate Macro Thesis", "Run the macro-thesis build step so the thesis lens is not stale or absent.");
+    }
+  }
+
+  if (!queue.length) {
+    push(9, "keep_shadow_mode", "Keep Risk Lab in shadow mode", "Artifacts look internally consistent, but the surface remains experimental until promoted deliberately.");
+  }
+
+  return queue.sort((a, b) => a.priority - b.priority);
+}
+
+function buildRiskLabRuntimeState({ picksPayload = null, qualityPayload = null, thesisPayload = null, qualityMissing = false, thesisMissing = false } = {}) {
+  const now = Date.now();
+  const issues = [];
+  const currentPicks = readJsonSafe(RISK_LAB_CURRENT_PICKS_PATH);
+  const currentMacro = readJsonSafe(RISK_LAB_CURRENT_MACRO_PATH);
+  const audit = {
+    checked_at: new Date(now).toISOString(),
+    thresholds: {
+      artifact_max_age_hours: RISK_LAB_MAX_ARTIFACT_AGE_HOURS,
+      source_drift_max_hours: RISK_LAB_SOURCE_DRIFT_MAX_HOURS,
+      artifact_alignment_max_minutes: RISK_LAB_ARTIFACT_ALIGNMENT_MAX_MINUTES,
+    },
+    artifacts: {
+      picks_adjusted: riskLabArtifactAudit("picks-adjusted-latest", picksPayload?.generated_at, now),
+      quality_flags: qualityPayload
+        ? riskLabArtifactAudit("quality-flags-latest", qualityPayload.generated_at, now)
+        : { label: "quality-flags-latest", generated_at: null, age_hours: null, stale: true, stale_threshold_hours: RISK_LAB_MAX_ARTIFACT_AGE_HOURS, missing: qualityMissing },
+      macro_thesis: thesisPayload
+        ? riskLabArtifactAudit("macro-thesis-latest", thesisPayload.generated_at, now)
+        : { label: "macro-thesis-latest", generated_at: null, age_hours: null, stale: true, stale_threshold_hours: RISK_LAB_MAX_ARTIFACT_AGE_HOURS, missing: thesisMissing },
+      current_sws_picks: {
+        label: "data/sws/picks-latest",
+        scanned_at: currentPicks?.scanned_at || null,
+        age_hours: riskLabHoursOld(currentPicks?.scanned_at, now),
+      },
+      current_macro_regime: {
+        label: "data/macroRegime",
+        generated_at: currentMacro?.generatedAt || null,
+        age_hours: riskLabHoursOld(currentMacro?.generatedAt, now),
+        regime: currentMacro?.regime || null,
+      },
+    },
+  };
+
+  if (audit.artifacts.picks_adjusted.stale) {
+    addRiskLabIssue(issues, "high", "picks_stale", "Risk Lab picks artifact is stale or missing a valid generated_at.", { age_hours: audit.artifacts.picks_adjusted.age_hours });
+  }
+  if (audit.artifacts.quality_flags.stale) {
+    addRiskLabIssue(issues, "medium", qualityMissing ? "quality_missing" : "quality_misaligned", "Quality flags artifact is stale, missing, or has no valid generated_at.", { age_hours: audit.artifacts.quality_flags.age_hours });
+  }
+  if (audit.artifacts.macro_thesis.stale) {
+    addRiskLabIssue(issues, "medium", thesisMissing ? "thesis_missing" : "macro_thesis_stale", "Macro Thesis artifact is stale, missing, or has no valid generated_at.", { age_hours: audit.artifacts.macro_thesis.age_hours });
+  }
+
+  const currentSwsDrift = riskLabHoursBetween(currentPicks?.scanned_at, picksPayload?.source_picks_scanned_at);
+  audit.current_sws_drift_hours = currentSwsDrift;
+  if (currentSwsDrift !== null && currentSwsDrift > RISK_LAB_SOURCE_DRIFT_MAX_HOURS) {
+    addRiskLabIssue(issues, "high", "current_sws_newer", "Current SWS picks are newer than the source snapshot used by Risk Lab.", {
+      drift_hours: currentSwsDrift,
+      risk_lab_source_picks_scanned_at: picksPayload?.source_picks_scanned_at || null,
+      current_sws_scanned_at: currentPicks?.scanned_at || null,
+    });
+  }
+
+  const currentMacroDrift = riskLabHoursBetween(currentMacro?.generatedAt, picksPayload?.source_regime_generated_at);
+  audit.current_macro_drift_hours = currentMacroDrift;
+  if (currentMacroDrift !== null && currentMacroDrift > RISK_LAB_SOURCE_DRIFT_MAX_HOURS) {
+    addRiskLabIssue(issues, "high", "current_macro_newer", "Current macro regime is newer than the source regime used by Risk Lab.", {
+      drift_hours: currentMacroDrift,
+      risk_lab_source_regime_generated_at: picksPayload?.source_regime_generated_at || null,
+      current_macro_generated_at: currentMacro?.generatedAt || null,
+    });
+  }
+
+  const qualityAlignmentMinutes = riskLabHoursBetween(qualityPayload?.generated_at, picksPayload?.generated_at);
+  audit.quality_alignment_minutes = qualityAlignmentMinutes === null ? null : Math.round(qualityAlignmentMinutes * 60 * 10) / 10;
+  if (qualityPayload && Math.abs(audit.quality_alignment_minutes || 0) > RISK_LAB_ARTIFACT_ALIGNMENT_MAX_MINUTES) {
+    addRiskLabIssue(issues, "medium", "quality_misaligned", "Quality flags were not generated with the same Risk Lab run as picks-adjusted.", {
+      alignment_minutes: audit.quality_alignment_minutes,
+    });
+  }
+
+  const flaggedInPicks = Array.isArray(picksPayload?.stocks)
+    ? picksPayload.stocks.filter((s) => (s.quality_flags?.length || 0) > 0 || s.quality_veto?.vetoed).length
+    : null;
+  const qualityCount = Array.isArray(qualityPayload?.stocks) ? qualityPayload.stocks.length : null;
+  audit.quality_flagged_in_picks = flaggedInPicks;
+  audit.quality_stocks_count = qualityCount;
+  if (qualityPayload && flaggedInPicks !== null && qualityCount !== null && flaggedInPicks !== qualityCount) {
+    addRiskLabIssue(issues, "medium", "quality_count_mismatch", "Quality flags count does not match the picks overlay count.", {
+      flagged_in_picks: flaggedInPicks,
+      quality_stocks_count: qualityCount,
+    });
+  }
+
+  const picksRegime = picksPayload?.regime?.regime || null;
+  const thesisRegime = thesisPayload?.regime?.regime || null;
+  audit.picks_regime = picksRegime;
+  audit.thesis_regime = thesisRegime;
+  if (picksRegime && thesisRegime && picksRegime !== thesisRegime) {
+    addRiskLabIssue(issues, "high", "macro_regime_mismatch", "Risk Lab picks and Macro Thesis were built from different regimes.", { picks_regime: picksRegime, thesis_regime: thesisRegime });
+  }
+
+  const thesisSourceAlignmentMinutes = riskLabHoursBetween(thesisPayload?.regime?.generated_at, picksPayload?.source_regime_generated_at);
+  audit.thesis_source_alignment_minutes = thesisSourceAlignmentMinutes === null ? null : Math.round(thesisSourceAlignmentMinutes * 60 * 10) / 10;
+  if (thesisPayload && Math.abs(audit.thesis_source_alignment_minutes || 0) > RISK_LAB_ARTIFACT_ALIGNMENT_MAX_MINUTES) {
+    addRiskLabIssue(issues, "medium", "macro_source_misaligned", "Macro Thesis regime source does not match Risk Lab's source regime timestamp.", {
+      alignment_minutes: audit.thesis_source_alignment_minutes,
+    });
+  }
+
+  const stale = issues.some((i) => /stale|newer|missing/.test(i.code));
+  const inconsistent = issues.some((i) => /mismatch|misaligned|count/.test(i.code));
+  const degraded = issues.length > 0;
+  const state = {
+    status: degraded ? "degraded" : "ok",
+    degraded,
+    stale,
+    inconsistent,
+    promotion_state: degraded ? "experimental_not_promoted" : "experimental_shadow",
+    promoted: false,
+    issues,
+    action_queue: buildRiskLabActionQueue(issues),
+    audit,
+  };
+  state.summary = degraded
+    ? `${issues.length} Risk Lab freshness/consistency issue${issues.length === 1 ? "" : "s"} detected.`
+    : "Risk Lab artifacts are fresh and internally consistent; still shadow-only.";
+  return state;
+}
+
+function readRiskLabOptionalPayload(filePath, label) {
+  const r = readRiskLabPayload(filePath, label);
+  return r.ok ? r.body : null;
+}
+
+function attachRiskLabRuntimeState(body, runtimeState) {
+  if (!body || typeof body !== "object") return body;
+  return {
+    ...body,
+    lab_status: runtimeState.status,
+    promotion_state: runtimeState.promotion_state,
+    risk_lab_state: runtimeState,
+    runtime_audit: runtimeState.audit,
+    action_queue: runtimeState.action_queue,
+  };
+}
+
 app.get("/api/risk-lab/picks-adjusted", (req, res) => {
   if (!isRiskLabEnabled()) return res.status(404).json({ error: "not found" });
   const r = readRiskLabPayload(RISK_LAB_PICKS_PATH, "picks-adjusted-latest");
-  return res.status(r.status).json(r.body);
+  if (!r.ok) return res.status(r.status).json(r.body);
+  const qualityPayload = readRiskLabOptionalPayload(RISK_LAB_QUALITY_FLAGS_PATH, "quality-flags-latest");
+  const thesisPayload = readRiskLabOptionalPayload(MACRO_THESIS_PATH, "macro-thesis-latest");
+  const runtimeState = buildRiskLabRuntimeState({
+    picksPayload: r.body,
+    qualityPayload,
+    thesisPayload,
+    qualityMissing: !qualityPayload,
+    thesisMissing: !thesisPayload,
+  });
+  return res.json(attachRiskLabRuntimeState(r.body, runtimeState));
 });
 
 app.get("/api/risk-lab/regime-context", (req, res) => {
@@ -4709,12 +4958,26 @@ app.get("/api/risk-lab/regime-context", (req, res) => {
   const r = readRiskLabPayload(RISK_LAB_PICKS_PATH, "picks-adjusted-latest");
   if (!r.ok) return res.status(r.status).json(r.body);
   const payload = r.body;
+  const qualityPayload = readRiskLabOptionalPayload(RISK_LAB_QUALITY_FLAGS_PATH, "quality-flags-latest");
+  const thesisPayload = readRiskLabOptionalPayload(MACRO_THESIS_PATH, "macro-thesis-latest");
+  const runtimeState = buildRiskLabRuntimeState({
+    picksPayload: payload,
+    qualityPayload,
+    thesisPayload,
+    qualityMissing: !qualityPayload,
+    thesisMissing: !thesisPayload,
+  });
   return res.json({
     schema_version: payload.schema_version,
     generated_at: payload.generated_at,
     source_regime_generated_at: payload.source_regime_generated_at,
     regime: payload.regime,
     summary: payload.summary,
+    lab_status: runtimeState.status,
+    promotion_state: runtimeState.promotion_state,
+    risk_lab_state: runtimeState,
+    runtime_audit: runtimeState.audit,
+    action_queue: runtimeState.action_queue,
   });
 });
 
@@ -4728,7 +4991,15 @@ app.get("/api/risk-lab/quality-flags/:ticker", (req, res) => {
   if (!stock) {
     return res.status(404).json({ error: `no quality flags found for ${ticker}` });
   }
-  return res.json(stock);
+  const picksPayload = readRiskLabOptionalPayload(RISK_LAB_PICKS_PATH, "picks-adjusted-latest");
+  const thesisPayload = readRiskLabOptionalPayload(MACRO_THESIS_PATH, "macro-thesis-latest");
+  const runtimeState = buildRiskLabRuntimeState({
+    picksPayload,
+    qualityPayload: r.body,
+    thesisPayload,
+    thesisMissing: !thesisPayload,
+  });
+  return res.json({ ...stock, risk_lab_state: runtimeState, runtime_audit: runtimeState.audit });
 });
 
 app.get("/api/risk-lab/quality-flags", (req, res) => {
@@ -4736,7 +5007,16 @@ app.get("/api/risk-lab/quality-flags", (req, res) => {
   // serve as-is (1.2MB for the current full payload).
   if (!isRiskLabEnabled()) return res.status(404).json({ error: "not found" });
   const r = readRiskLabPayload(RISK_LAB_QUALITY_FLAGS_PATH, "quality-flags-latest");
-  return res.status(r.status).json(r.body);
+  if (!r.ok) return res.status(r.status).json(r.body);
+  const picksPayload = readRiskLabOptionalPayload(RISK_LAB_PICKS_PATH, "picks-adjusted-latest");
+  const thesisPayload = readRiskLabOptionalPayload(MACRO_THESIS_PATH, "macro-thesis-latest");
+  const runtimeState = buildRiskLabRuntimeState({
+    picksPayload,
+    qualityPayload: r.body,
+    thesisPayload,
+    thesisMissing: !thesisPayload,
+  });
+  return res.json(attachRiskLabRuntimeState(r.body, runtimeState));
 });
 
 // PR B3 (Phase 2) — macro-thesis projection. Reads the file written by
@@ -4746,7 +5026,16 @@ const MACRO_THESIS_PATH = path.join(__dirname, "data", "risk-lab", "macro-thesis
 app.get("/api/risk-lab/macro-thesis", (req, res) => {
   if (!isRiskLabEnabled()) return res.status(404).json({ error: "not found" });
   const r = readRiskLabPayload(MACRO_THESIS_PATH, "macro-thesis-latest");
-  return res.status(r.status).json(r.body);
+  if (!r.ok) return res.status(r.status).json(r.body);
+  const picksPayload = readRiskLabOptionalPayload(RISK_LAB_PICKS_PATH, "picks-adjusted-latest");
+  const qualityPayload = readRiskLabOptionalPayload(RISK_LAB_QUALITY_FLAGS_PATH, "quality-flags-latest");
+  const runtimeState = buildRiskLabRuntimeState({
+    picksPayload,
+    qualityPayload,
+    thesisPayload: r.body,
+    qualityMissing: !qualityPayload,
+  });
+  return res.json(attachRiskLabRuntimeState(r.body, runtimeState));
 });
 
 // ──── /end Risk Lab ────

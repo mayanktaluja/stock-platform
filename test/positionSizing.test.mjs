@@ -1,7 +1,9 @@
 import { strict as assert } from "node:assert";
 import {
+  LAB_PROMOTION_STATUS,
   SIZING_TIERS,
   computeSizeMultiplier,
+  isLabSizingPromoted,
   resolveSizingTier,
   resolveCalibratedConfidence,
   buildSizingDecision,
@@ -67,12 +69,19 @@ test("resolveSizingTier returns null for non-numeric", () => {
 });
 
 // ───────── resolveCalibratedConfidence ─────────
-test("resolveCalibratedConfidence prefers lab_view.quality_adjusted_confidence", () => {
+test("resolveCalibratedConfidence prefers lab_view only when promotion gate is green", () => {
   const e = {
     prediction: { confidence_pct: 65 },
     lab_view: { quality_adjusted_confidence: 48 },
   };
-  assert.equal(resolveCalibratedConfidence(e), 48);
+  assert.equal(resolveCalibratedConfidence(e, { labPromotionGate: { promoted: true } }), 48);
+});
+test("resolveCalibratedConfidence ignores lab_view when promotion gate is not green", () => {
+  const e = {
+    prediction: { confidence_pct: 65 },
+    lab_view: { quality_adjusted_confidence: 48 },
+  };
+  assert.equal(resolveCalibratedConfidence(e), 65);
 });
 test("resolveCalibratedConfidence falls back to production confidence_pct", () => {
   const e = { prediction: { confidence_pct: 65 } };
@@ -86,19 +95,39 @@ test("resolveCalibratedConfidence returns null when nothing present", () => {
   assert.equal(resolveCalibratedConfidence({}), null);
   assert.equal(resolveCalibratedConfidence(null), null);
 });
+test("isLabSizingPromoted recognises explicit promoted gates only", () => {
+  assert.equal(isLabSizingPromoted({ promoted: true }), true);
+  assert.equal(isLabSizingPromoted({ status: LAB_PROMOTION_STATUS.PROMOTED }), true);
+  assert.equal(isLabSizingPromoted({ status: LAB_PROMOTION_STATUS.NOT_PROMOTED }), false);
+  assert.equal(isLabSizingPromoted(null), false);
+});
 
 // ───────── buildSizingDecision ─────────
-test("buildSizingDecision: KEC-style downgrade — 65% prod, 48% lab", () => {
+test("buildSizingDecision: KEC-style downgrade only after promotion gate clears", () => {
+  const e = {
+    prediction: { confidence_pct: 65 },
+    lab_view: { quality_adjusted_confidence: 48 },
+  };
+  const d = buildSizingDecision(e, { labPromotionGate: { status: LAB_PROMOTION_STATUS.PROMOTED } });
+  assert.equal(d.production_confidence_pct, 65);
+  assert.equal(d.calibrated_confidence_pct, 48);
+  assert.equal(d.effective_confidence_pct, 48);
+  assert.equal(d.multiplier, 0.6);
+  assert.equal(d.source, "lab_calibrated");
+  assert.equal(d.lab_promotion_status, LAB_PROMOTION_STATUS.PROMOTED);
+});
+test("buildSizingDecision: red promotion gate blocks lab-calibrated sizing", () => {
   const e = {
     prediction: { confidence_pct: 65 },
     lab_view: { quality_adjusted_confidence: 48 },
   };
   const d = buildSizingDecision(e);
   assert.equal(d.production_confidence_pct, 65);
-  assert.equal(d.calibrated_confidence_pct, 48);
-  assert.equal(d.effective_confidence_pct, 48);
-  assert.equal(d.multiplier, 0.6);
-  assert.equal(d.source, "lab_calibrated");
+  assert.equal(d.calibrated_confidence_pct, null);
+  assert.equal(d.effective_confidence_pct, 65);
+  assert.equal(d.multiplier, 1.0);
+  assert.equal(d.source, "production_only");
+  assert.equal(d.lab_promotion_status, LAB_PROMOTION_STATUS.NOT_PROMOTED);
 });
 test("buildSizingDecision: no lab → production confidence used", () => {
   const e = { prediction: { confidence_pct: 65 } };

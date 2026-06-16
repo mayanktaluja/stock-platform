@@ -144,6 +144,13 @@ export function buildLabHealth(payload, backtest = null) {
             backtest_original_hit_rate_pct: backtest.summary?.original?.hit_rate_pct,
             backtest_lab_hit_rate_pct: backtest.summary?.lab?.hit_rate_pct,
             backtest_diff_pp: backtest.summary?.hit_rate_diff_pct,
+            backtest_ab_meaningful: backtest.ab_status?.meaningful === true,
+            backtest_combined_catastrophic_improvement_count:
+              backtest.lenses?.combined?.catastrophic?.improvement_count ?? null,
+            backtest_combined_avoidance_precision_pct:
+              backtest.lenses?.combined?.flagged_avoidance?.precision_pct ?? null,
+            backtest_combined_avoidance_recall_pct:
+              backtest.lenses?.combined?.flagged_avoidance?.recall_pct ?? null,
             kec_class_count: backtest.kec_case_study?.count,
             anantraj_class_count: backtest.anantraj_case_study?.count,
           }

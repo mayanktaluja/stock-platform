@@ -22,6 +22,8 @@
  * production swsSectorFit.js / swsPortfolioAggregate.js behaviour.
  */
 
+import { normalizeSector } from "../../../macroRegime.js";
+
 export const LAB_TEMPLATE_ADDITIONS = {
   OIL_SHOCK: [
     { sector: "Real Estate", impact: -2, reason: "Oil-driven inflation tightens mortgage demand" },
@@ -92,6 +94,19 @@ export const LAB_TEMPLATE_ADDITIONS = {
  * is intentionally not a guard against that — adjustedScorer.js clamps
  * the resulting delta to [-5, +5] regardless of source.
  */
+
+function canonicalSector(raw) {
+  return normalizeSector(raw) || raw;
+}
+
+function canonicalEntry(entry) {
+  if (!entry || !entry.sector) return null;
+  return {
+    ...entry,
+    sector: canonicalSector(entry.sector),
+  };
+}
+
 export function mergeLabImpacts(regime) {
   if (!regime || typeof regime.regime !== "string") {
     return [];
@@ -105,11 +120,13 @@ export function mergeLabImpacts(regime) {
   const merged = new Map();
   // Lab additions first (baseline)
   for (const entry of additions) {
-    if (entry && entry.sector) merged.set(entry.sector, entry);
+    const canonical = canonicalEntry(entry);
+    if (canonical && canonical.sector) merged.set(canonical.sector, canonical);
   }
   // Then live, which overwrites on conflict (LLM's specific read wins)
   for (const entry of live) {
-    if (entry && entry.sector) merged.set(entry.sector, entry);
+    const canonical = canonicalEntry(entry);
+    if (canonical && canonical.sector) merged.set(canonical.sector, canonical);
   }
   return Array.from(merged.values());
 }

@@ -24,6 +24,10 @@ export const SIZING_TIERS = Object.freeze([
 ]);
 
 export const SIZING_SCHEMA_VERSION = "sizing-v1";
+export const LAB_PROMOTION_STATUS = Object.freeze({
+  PROMOTED: "promoted",
+  NOT_PROMOTED: "experimental_not_promoted",
+});
 
 export function computeSizeMultiplier(confidencePct) {
   if (typeof confidencePct !== "number" || !Number.isFinite(confidencePct)) return null;
@@ -47,9 +51,16 @@ export function resolveSizingTier(confidencePct) {
 // Lab's quality_adjusted_confidence when present (it accounts for quality
 // flags we know about), otherwise falls back to the production predictor's
 // confidence_pct. Returns null if neither is available.
-export function resolveCalibratedConfidence(event) {
+export function isLabSizingPromoted(gate = null) {
+  if (!gate || typeof gate !== "object") return false;
+  return gate.status === LAB_PROMOTION_STATUS.PROMOTED || gate.promoted === true;
+}
+
+export function resolveCalibratedConfidence(event, opts = {}) {
   if (!event) return null;
-  const labConf = event.lab_view?.quality_adjusted_confidence;
+  const labConf = isLabSizingPromoted(opts.labPromotionGate)
+    ? event.lab_view?.quality_adjusted_confidence
+    : null;
   if (typeof labConf === "number" && Number.isFinite(labConf)) return labConf;
   const prodConf = event.prediction?.confidence_pct;
   if (typeof prodConf === "number" && Number.isFinite(prodConf)) return prodConf;
@@ -59,10 +70,11 @@ export function resolveCalibratedConfidence(event) {
 // Combined: returns the full sizing decision object — what to display in
 // the UI and what to log to an audit trail. Returns null when there's
 // nothing to size on.
-export function buildSizingDecision(event) {
+export function buildSizingDecision(event, opts = {}) {
   if (!event) return null;
   const prodConf = typeof event.prediction?.confidence_pct === "number" ? event.prediction.confidence_pct : null;
-  const labConf = typeof event.lab_view?.quality_adjusted_confidence === "number"
+  const labPromoted = isLabSizingPromoted(opts.labPromotionGate);
+  const labConf = labPromoted && typeof event.lab_view?.quality_adjusted_confidence === "number"
     ? event.lab_view.quality_adjusted_confidence
     : null;
   const effective = labConf !== null ? labConf : prodConf;
@@ -78,14 +90,19 @@ export function buildSizingDecision(event) {
     tier_label: tier.label,
     tier_rationale: tier.rationale,
     source: labConf !== null ? "lab_calibrated" : "production_only",
+    lab_promotion_status: labPromoted
+      ? LAB_PROMOTION_STATUS.PROMOTED
+      : LAB_PROMOTION_STATUS.NOT_PROMOTED,
   };
 }
 
 export default {
   SIZING_TIERS,
   SIZING_SCHEMA_VERSION,
+  LAB_PROMOTION_STATUS,
   computeSizeMultiplier,
   resolveSizingTier,
+  isLabSizingPromoted,
   resolveCalibratedConfidence,
   buildSizingDecision,
 };

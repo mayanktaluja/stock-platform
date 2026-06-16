@@ -112,6 +112,10 @@ console.log("riskLabApi: testing default-enabled state");
     assert("picks-adjusted: schema_version v2", picks.schema_version === "risk-lab-picks-v2");
     assert("picks-adjusted: has stocks[]", Array.isArray(picks.stocks) && picks.stocks.length > 0);
     assert("picks-adjusted: has summary", picks.summary && typeof picks.summary.total_stocks === "number");
+    assert("picks-adjusted: exposes lab_status", ["ok", "degraded"].includes(picks.lab_status), picks.lab_status);
+    assert("picks-adjusted: exposes promotion state", typeof picks.promotion_state === "string" && picks.promotion_state.startsWith("experimental"), picks.promotion_state);
+    assert("picks-adjusted: exposes runtime audit", picks.runtime_audit && picks.runtime_audit.artifacts && picks.runtime_audit.thresholds);
+    assert("picks-adjusted: exposes action queue", Array.isArray(picks.action_queue) && picks.action_queue.length > 0);
 
     // /api/risk-lab/regime-context — projects summary + regime
     const ctxRes = await fetch(`http://localhost:${server.port}/api/risk-lab/regime-context`);
@@ -120,12 +124,14 @@ console.log("riskLabApi: testing default-enabled state");
     assert("regime-context: has regime", ctx.regime !== undefined);
     assert("regime-context: has summary", ctx.summary && typeof ctx.summary.total_stocks === "number");
     assert("regime-context: NO stocks (only context)", ctx.stocks === undefined);
+    assert("regime-context: exposes runtime audit", ctx.runtime_audit && ctx.risk_lab_state);
 
     // /api/risk-lab/quality-flags — bulk
     const flagsRes = await fetch(`http://localhost:${server.port}/api/risk-lab/quality-flags`);
     assert("quality-flags bulk: 200", flagsRes.status === 200);
     const flags = await flagsRes.json();
     assert("quality-flags bulk: array of stocks", Array.isArray(flags.stocks));
+    assert("quality-flags bulk: exposes runtime audit", flags.runtime_audit && flags.risk_lab_state);
 
     // /api/risk-lab/quality-flags/:ticker — single ticker
     if (flags.stocks.length > 0) {
@@ -135,11 +141,38 @@ console.log("riskLabApi: testing default-enabled state");
       const one = await oneRes.json();
       assert("quality-flags single: matches ticker", one.ticker === sampleTicker);
       assert("quality-flags single: has flags array", Array.isArray(one.flags));
+      assert("quality-flags single: exposes runtime audit", one.runtime_audit && one.risk_lab_state);
 
       // Lowercase / unknown ticker → 404
       const missRes = await fetch(`http://localhost:${server.port}/api/risk-lab/quality-flags/NOTATICKER`);
       assert("quality-flags single: 404 for unknown ticker", missRes.status === 404);
     }
+  } finally {
+    await safeKill(server);
+  }
+}
+
+console.log("riskLabApi: testing forced degraded state");
+{
+  let server;
+  try {
+    server = await bootServer({
+      RISK_LAB_MAX_ARTIFACT_AGE_HOURS: "0",
+      RISK_LAB_SOURCE_DRIFT_MAX_HOURS: "0",
+    });
+
+    const picksRes = await fetch(`http://localhost:${server.port}/api/risk-lab/picks-adjusted`);
+    assert("forced degraded: picks-adjusted 200", picksRes.status === 200, picksRes.status);
+    const picks = await picksRes.json();
+    assert("forced degraded: lab_status degraded", picks.lab_status === "degraded", picks.lab_status);
+    assert("forced degraded: promotion state experimental_not_promoted", picks.promotion_state === "experimental_not_promoted", picks.promotion_state);
+    assert("forced degraded: has issues", Array.isArray(picks.risk_lab_state?.issues) && picks.risk_lab_state.issues.length > 0);
+    assert("forced degraded: has prioritized action queue", Array.isArray(picks.action_queue) && picks.action_queue[0]?.priority === 1, picks.action_queue);
+
+    const thesisRes = await fetch(`http://localhost:${server.port}/api/risk-lab/macro-thesis`);
+    assert("forced degraded: macro-thesis 200", thesisRes.status === 200, thesisRes.status);
+    const thesis = await thesisRes.json();
+    assert("forced degraded: macro-thesis exposes same state", thesis.risk_lab_state?.promotion_state === "experimental_not_promoted", thesis.risk_lab_state?.promotion_state);
   } finally {
     await safeKill(server);
   }

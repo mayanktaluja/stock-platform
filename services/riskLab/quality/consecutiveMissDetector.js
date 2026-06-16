@@ -119,6 +119,7 @@ export function detectConsecutiveMiss(news, eventIsoDate, opts = {}) {
         date: item.date,
         url: item.url || null,
         pattern: check.pattern,
+        type: "consecutive_miss",
       });
     }
   }

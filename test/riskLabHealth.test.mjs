@@ -68,11 +68,21 @@ console.log("labHealth: case study positive → OK_WITH_NOTES");
   const h = buildLabHealth(makePayload(), {
     summary: { total_resolved: 50, original: { hit_rate_pct: 24 }, lab: { hit_rate_pct: 34 }, hit_rate_diff_pct: 10 },
     ab_status: { meaningful: true },
+    lenses: {
+      combined: {
+        catastrophic: { improvement_count: 4 },
+        flagged_avoidance: { precision_pct: 50, recall_pct: 40 },
+      },
+    },
     kec_case_study: { count: 5 },
     anantraj_case_study: { count: 0 },
   });
   assert("case_study_caught alert fires", h.alerts.some((a) => a.category === "case_study_caught"));
   assert("status OK_WITH_NOTES (positive info)", h.status === "OK_WITH_NOTES");
+  assert("summary carries AB meaningful flag", h.summary.backtest_ab_meaningful === true);
+  assert("summary carries catastrophic improvement", h.summary.backtest_combined_catastrophic_improvement_count === 4);
+  assert("summary carries avoidance precision", h.summary.backtest_combined_avoidance_precision_pct === 50);
+  assert("summary carries avoidance recall", h.summary.backtest_combined_avoidance_recall_pct === 40);
 }
 
 console.log("labHealth: case study regression → DEGRADED");

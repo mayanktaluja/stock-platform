@@ -105,6 +105,13 @@ console.log("riskLabMacroScorer: mergeLabImpacts");
   const mergedConflict = mergeLabImpacts(regimeConflict);
   const re = mergedConflict.find((s) => s.sector === "Real Estate");
   assert("live wins over lab for Real Estate", re && re.impact === -3);
+
+  const aliasConflict = makeRegime({
+    sectorImpacts: [{ sector: "Realty", impact: -3, reason: "LLM alias read" }],
+  });
+  const mergedAlias = mergeLabImpacts(aliasConflict);
+  const realty = mergedAlias.find((s) => s.sector === "Real Estate");
+  assert("live alias Realty normalizes before conflict", realty && realty.impact === -3, realty);
 }
 
 console.log("riskLabMacroScorer: sectorOverrides");
@@ -202,6 +209,13 @@ console.log("riskLabMacroScorer: adjustedScoreForRow — guards");
   // Pharma is not in OIL_SHOCK live or lab impacts → 0
   assert("Pharma under OIL_SHOCK → delta 0", pharmaUnderOilShock.macro_score_delta === 0);
 
+  const airlineAlias = adjustedScoreForRow(
+    { ticker: "AIRLINE1", v4_verdict: "TOP_PICK", v4_score_100: 60, sector: "Airlines" },
+    makeRegime(),
+  );
+  assert("Airlines alias → Aviation exact impact", airlineAlias.sector_used === "Aviation", airlineAlias.sector_used);
+  assert("Airlines alias gets OIL_SHOCK aviation delta", airlineAlias.macro_score_delta < 0, airlineAlias.macro_score_delta);
+
   // Null row → safe defaults
   const nullRow = adjustedScoreForRow(null, makeRegime());
   assert("null row → ticker null", nullRow.ticker === null);
@@ -235,6 +249,8 @@ console.log("riskLabMacroScorer: adjustedScoresForRows batch");
   assert("batch returns 3 results", results.length === 3);
   assert("batch preserves order — ANANTRAJ first", results[0].ticker === "ANANTRAJ");
   assert("batch result 0 has macro_score_delta", typeof results[0].macro_score_delta === "number");
+  assert("batch normalizes Realty → Real Estate", results[1].sector_used === "Real Estate", results[1].sector_used);
+  assert("batch normalizes Airlines → Aviation", results[2].sector_used === "Aviation", results[2].sector_used);
   // null input → empty array
   assert("null batch → []", adjustedScoresForRows(null, makeRegime()).length === 0);
 }
