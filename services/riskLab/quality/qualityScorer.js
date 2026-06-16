@@ -56,6 +56,13 @@ function deriveQualityVerdict(flagCount, hasRisks, hasNews) {
   return "LOW";
 }
 
+function effectiveFlagCount(flags) {
+  if (!Array.isArray(flags) || flags.length === 0) return 0;
+  const hardFlags = flags.filter((f) => f?.source !== "counter_thesis");
+  const counterThesisFlags = flags.filter((f) => f?.source === "counter_thesis");
+  return hardFlags.length + Math.min(counterThesisFlags.length, 1);
+}
+
 function deriveCombinedVerdict(qualityVerdict, originalVerdict) {
   if (!originalVerdict) return qualityVerdict;
   // Map qualityVerdict to label prefix
@@ -84,6 +91,7 @@ export function computeQualityScore(input, opts = {}) {
   const originalConfidence = input?.original_confidence ?? null;
 
   const flags = [];
+  const scorerDeltas = [];
 
   // Each scorer is independent and defensive — null inputs return zero-flag
   // shapes, never throw.
@@ -91,6 +99,7 @@ export function computeQualityScore(input, opts = {}) {
     ? detectConsecutiveMiss(input?.news, input.event_iso_date, opts)
     : { detected: false, penaltyPts: 0, evidence: [] };
   if (miss.detected) {
+    scorerDeltas.push(Number(miss.penaltyPts || 0));
     flags.push({
       type: "consecutive_miss",
       severity: miss.penaltyPts,
@@ -101,38 +110,44 @@ export function computeQualityScore(input, opts = {}) {
   }
 
   const imputation = computeImputationPenalty(input?.v4_breakdown, originalScore);
+  scorerDeltas.push(Number(imputation.pts || 0));
   for (const f of imputation.flags) {
     flags.push(f);
   }
 
   const riskText = classifyRiskText(input?.risks);
+  scorerDeltas.push(Number(riskText.pts || 0));
   for (const f of riskText.flags) {
     flags.push({ ...f, source: "sws_risks" });
   }
 
   const counterThesis = parseCounterThesis(input?.counter_thesis);
+  scorerDeltas.push(Number(counterThesis.pts || 0));
   for (const f of counterThesis.flags) {
     flags.push({ ...f, source: "counter_thesis" });
   }
 
   const sectorOverlay = applySectorQualityOverlay(input?.sector, input?.risks);
+  scorerDeltas.push(Number(sectorOverlay.pts || 0));
   for (const f of sectorOverlay.flags) {
     flags.push({ ...f, source: "sector_overlay" });
   }
 
-  // Cap combined delta to limit how much the lab can swing a score
-  const rawDelta = flags.reduce((acc, f) => acc + Number(f.severity || 0), 0);
+  // Cap combined delta to limit how much the lab can swing a score. Use
+  // each sub-scorer's capped pts output rather than raw flag sums.
+  const rawDelta = scorerDeltas.reduce((acc, pts) => acc + pts, 0);
   const delta = Math.max(rawDelta, DELTA_CAP);
 
   const adjustedScore = clamp(Number((originalScore + delta).toFixed(2)), 0, 100);
 
   const hasRisks = Array.isArray(input?.risks) && input.risks.length > 0;
   const hasNews = Array.isArray(input?.news) && input.news.length > 0;
-  const qualityVerdict = deriveQualityVerdict(flags.length, hasRisks, hasNews);
+  const qualityVerdict = deriveQualityVerdict(effectiveFlagCount(flags), hasRisks, hasNews);
 
   // Veto rule — applies only to TOP_PICK with heavy quality concerns
   const vetoed =
-    flags.length >= VETO_FLAG_THRESHOLD &&
+    flags.some((f) => f?.source !== "counter_thesis") &&
+    effectiveFlagCount(flags) >= VETO_FLAG_THRESHOLD &&
     delta <= VETO_DELTA_THRESHOLD &&
     originalVerdict === "TOP_PICK";
   const adjustedVerdict = vetoed ? "QUALITY_HOLD" : originalVerdict;
@@ -156,7 +171,7 @@ export function computeQualityScore(input, opts = {}) {
     combined_verdict: combinedVerdict,
     quality_veto: {
       vetoed,
-      reason: vetoed ? `${flags.length} quality flags + delta ${delta} ≤ ${VETO_DELTA_THRESHOLD}` : null,
+      reason: vetoed ? `${effectiveFlagCount(flags)} effective quality flags + delta ${delta} ≤ ${VETO_DELTA_THRESHOLD}` : null,
     },
   };
 }

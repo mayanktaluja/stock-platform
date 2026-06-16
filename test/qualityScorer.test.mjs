@@ -85,6 +85,50 @@ console.log("qualityScorer: TOP_PICK with 3+ flags + heavy delta → vetoed");
   assert("TOP_PICK + heavy quality: combined LOW_QUALITY_TOP_PICK", result.combined_verdict === "LOW_QUALITY_TOP_PICK");
 }
 
+console.log("qualityScorer: scorer caps and counter-thesis boilerplate");
+{
+  const capped = computeQualityScore({
+    ticker: "CAPTEST",
+    original_score: 70,
+    original_verdict: "STRONG",
+    v3_breakdown: { fv_imputed: false, momentum_imputed: false },
+    sector: "IT Services",
+    risks: [
+      "Interest payments are not well covered by earnings",
+      "Dividend is not well covered by free cash flows",
+      "Margin pressure is visible from wage inflation",
+      "Order book declining as execution risk rises",
+    ],
+    news: [{ title: "Routine update", date: "2026-04-01" }],
+  });
+  assert("riskText raw flags can exceed cap", capped.quality_flags.length >= 3, capped.quality_flags.length);
+  assert("riskText delta uses sub-scorer cap", capped.quality_score_delta === -4, capped.quality_score_delta);
+
+  const boilerplateOnly = computeQualityScore({
+    ticker: "BOILER",
+    original_score: 75,
+    original_verdict: "TOP_PICK",
+    v3_breakdown: { fv_imputed: false, momentum_imputed: false },
+    sector: "IT Services",
+    counter_thesis: {
+      verdict_bias: "bullish",
+      text: "",
+      falsification_trigger: [
+        "next quarterly result misses estimates",
+        "a new India-risk overlay materialises (ASM/GSM, promoter pledge spike)",
+        "upside vs SWS FV compresses below 5%",
+      ],
+    },
+    risks: [],
+    news: [{ title: "Company announces investor presentation", date: "2026-04-01" }],
+  });
+  assert("counter_thesis-only keeps flags visible", boilerplateOnly.quality_flags.length === 3, boilerplateOnly.quality_flags.length);
+  assert("counter_thesis-only is not LOW", boilerplateOnly.quality_verdict !== "LOW", boilerplateOnly.quality_verdict);
+  assert("counter_thesis-only stays MEDIUM", boilerplateOnly.quality_verdict === "MEDIUM", boilerplateOnly.quality_verdict);
+  assert("counter_thesis-only does not QUALITY_HOLD", boilerplateOnly.quality_adjusted_verdict === "TOP_PICK", boilerplateOnly.quality_adjusted_verdict);
+  assert("counter_thesis-only not vetoed", boilerplateOnly.quality_veto.vetoed === false);
+}
+
 console.log("qualityScorer: clean stock (HIGH quality)");
 {
   const result = computeQualityScore({

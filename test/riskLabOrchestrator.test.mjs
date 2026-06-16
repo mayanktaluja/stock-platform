@@ -102,6 +102,7 @@ console.log("riskLabOrchestrator: runRiskLab end-to-end");
     const picksPath = path.join(tmp, "picks.json");
     const regimePath = path.join(tmp, "regime.json");
     const outPath = path.join(tmp, "out.json");
+    const qualityFlagsOutPath = path.join(tmp, "quality-flags.json");
 
     const picks = makePicksFixture([
       { ticker: "ANANTRAJ", sector: "Diversified Financials", v3_verdict: "TOP_PICK", v3_score_100: 64.8 },
@@ -109,10 +110,11 @@ console.log("riskLabOrchestrator: runRiskLab end-to-end");
     writeFileSync(picksPath, JSON.stringify(picks));
     writeFileSync(regimePath, JSON.stringify(makeRegimeFixture()));
 
-    const result = runRiskLab({ picksPath, regimePath, outPath });
+    const result = runRiskLab({ picksPath, regimePath, outPath, qualityFlagsOutPath });
     assert("end-to-end: returns payload", result.payload && result.payload.schema_version);
     assert("end-to-end: not dry-run", result.dryRun === false);
     assert("end-to-end: file written", existsSync(outPath));
+    assert("end-to-end: quality flags file written in tmp", existsSync(qualityFlagsOutPath));
 
     const written = JSON.parse(readFileSync(outPath, "utf-8"));
     assert("written file has 1 stock", written.stocks.length === 1);
@@ -120,13 +122,16 @@ console.log("riskLabOrchestrator: runRiskLab end-to-end");
 
     // Dry run doesn't write
     rmSync(outPath, { force: true });
-    runRiskLab({ picksPath, regimePath, outPath, dryRun: true });
+    rmSync(qualityFlagsOutPath, { force: true });
+    runRiskLab({ picksPath, regimePath, outPath, qualityFlagsOutPath, dryRun: true });
     assert("dry-run: no file written", !existsSync(outPath));
+    assert("dry-run: no quality flags file written", !existsSync(qualityFlagsOutPath));
 
     // Missing picks file → still produces empty output (no throw)
     rmSync(picksPath, { force: true });
     rmSync(outPath, { force: true });
-    const missingResult = runRiskLab({ picksPath, regimePath, outPath });
+    rmSync(qualityFlagsOutPath, { force: true });
+    const missingResult = runRiskLab({ picksPath, regimePath, outPath, qualityFlagsOutPath });
     assert("missing picks → empty stocks, no throw", missingResult.payload.stocks.length === 0);
   } finally {
     rmSync(tmp, { recursive: true, force: true });
