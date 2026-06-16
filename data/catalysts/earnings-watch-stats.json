@@ -1,24 +1,24 @@
 {
   "schema_version": "earnings-watch-stats-v4",
-  "built_at": "2026-06-15T02:06:33.438Z",
-  "today_iso": "2026-06-15",
+  "built_at": "2026-06-16T01:54:25.119Z",
+  "today_iso": "2026-06-16",
   "window_days": 60,
-  "upstream_event_count": 20,
-  "upstream_fetched_at": "2026-06-14T19:15:27.956Z",
-  "event_count": 6,
+  "upstream_event_count": 26,
+  "upstream_fetched_at": "2026-06-15T19:00:44.464Z",
+  "event_count": 7,
   "recent_results_count": 8,
   "past_window_days": 14,
   "bucket_by_days": {
-    "d0": 1,
+    "d0": 0,
     "d1to3": 2,
     "d4to7": 0,
-    "d8to14": 0,
+    "d8to14": 1,
     "d15to30": 0,
-    "d31to60": 3
+    "d31to60": 4
   },
   "signals": {
     "by_data_quality": {
-      "HIGH": 6,
+      "HIGH": 7,
       "MEDIUM": 0,
       "LOW": 0
     },
@@ -26,7 +26,7 @@
       "spike": 0,
       "smooth": 1,
       "lagging": 2,
-      "neutral": 3
+      "neutral": 4
     },
     "sector_count": 5,
     "top_sectors": [
@@ -35,8 +35,8 @@
         "count": 2
       },
       {
-        "sector": "Food, Beverage & Tobacco",
-        "count": 1
+        "sector": "Software",
+        "count": 2
       },
       {
         "sector": "Diversified Financials",
@@ -47,37 +47,37 @@
         "count": 1
       },
       {
-        "sector": "Software",
+        "sector": "Food, Beverage & Tobacco",
         "count": 1
       }
     ]
   },
   "predictions": {
     "by_verdict": {
-      "BEAT": 3,
+      "BEAT": 4,
       "INLINE": 2,
       "MISS": 1,
       "INSUFFICIENT_DATA": 0
     },
-    "avg_confidence_pct": 57,
+    "avg_confidence_pct": 56,
     "confidence_cap_pct": 65,
     "predictor_version": "earnings-predict-v3-2026-05"
   },
   "playbooks": {
-    "tradable_count": 6,
+    "tradable_count": 7,
     "by_highlighted_branch": {
       "RAISE": 3,
-      "MAINTAIN": 3,
+      "MAINTAIN": 4,
       "CUT": 0,
       "none": 0
     },
     "playbook_version": "earnings-playbook-v1-2026-05"
   },
   "llm_stats": {
-    "total": 6,
-    "classified": 6,
-    "cache_hits": 3,
-    "llm_calls": 0,
+    "total": 7,
+    "classified": 7,
+    "cache_hits": 2,
+    "llm_calls": 1,
     "heuristic": 3,
     "heuristic_cache_invalidations": 0,
     "cross_floor_invalidations": 0,
