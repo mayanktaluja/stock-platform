@@ -33,6 +33,24 @@ experimental surface area and nightly refresh load.
 
 ## Recently shipped (themed, newest first — rolling ~4–6 week window; `git log` is the archive)
 
+### 5x Lab trust and validation hardening (June 2026)
+- **This PR** — 5x Lab now separates research rank from entry actionability.
+  The API exposes snapshot status, age, validation gate, survivorship warning,
+  model-implied evidence labels, deterministic candidate limit/filter handling,
+  and tradability states (`TRADABLE_NOW`, `WAIT_FOR_VOLUME`, `SIZE_DOWN`,
+  `AVOID_ENTRY`). The UI shows stale/degraded/missing and unvalidated banners
+  before action copy, labels paper-book values as cash/snapshot-only when MTM is
+  unavailable, and keeps base-rate/drawdown/not-empirically-confirmed language
+  visible.
+- **This PR** — The 5x refresh pipeline writes immutable point-in-time snapshots
+  under `data/strategy/pit/<YYYY-MM-DD>.json`, and
+  `scripts/resolve-5x-outcomes.mjs` resolves outcomes only from PIT rows plus an
+  explicit outcome-input file. The resolver reports unresolved,
+  suspended/merged/delisted, and missing-price rows instead of silently dropping
+  failed names. A shadow `quality_factor_v2` now records cash-flow, balance
+  sheet, governance, and data-confidence evidence and prevents story/theme text
+  alone from lifting weak-quality names into the top tier.
+
 ### Market Intelligence backdrop safety (June 2026)
 - **This PR** — Market Intelligence now treats the market verdict as a
   conservative backdrop read rather than a deterministic buy-day command. The

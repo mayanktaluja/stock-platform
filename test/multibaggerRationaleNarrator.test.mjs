@@ -23,7 +23,7 @@ it("narrateCandidate returns why_picked / bear_case / target", () => {
   const r = narrateCandidate(lossToProfit);
   assert.ok(Array.isArray(r.why_picked) && r.why_picked.length > 0);
   assert.ok(Array.isArray(r.bear_case) && r.bear_case.length > 0);
-  assert.match(r.target_multiple_rationale, /5–10x/);
+  assert.match(r.target_multiple_rationale, /not empirically validated as a 5x forecast/);
 });
 
 it("loss-to-profit produces the strongest-signal phrase as #1 driver", () => {

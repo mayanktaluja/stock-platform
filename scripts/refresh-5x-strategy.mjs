@@ -30,6 +30,7 @@ import { buildCatalystSlate } from "../services/multibagger/catalystComposite.js
 import { buildHealthSummary, formatHealthOneLiner } from "../services/multibagger/multibaggerHealth.js";
 import { pillarsOpen } from "../services/multibagger/regimeGate.js";
 import { shouldSnapshotToday, writeSnapshot } from "../services/multibagger/multibaggerHistoryArchive.js";
+import { buildPitSnapshot } from "../services/multibagger/multibaggerPitSnapshot.js";
 import { evaluatePortfolioRisk } from "../services/multibagger/riskManager.js";
 import { markToMarket, readPortfolio } from "../services/paperTrade/multibaggerPortfolioService.js";
 
@@ -105,6 +106,16 @@ async function main() {
       position_size_inr: null,
       now_iso: new Date().toISOString(),
     });
+    verdict.entry_price_inr = overview.current_price_inr ?? overview.last_close_inr ?? null;
+    verdict.current_price_inr = overview.current_price_inr ?? null;
+    verdict.market_cap_inr = overview.market_cap_inr ?? null;
+    verdict.market_cap_band = overview.market_cap_band ?? null;
+    verdict.data_confidence = {
+      completeness_pct: row.data_completeness_pct ?? null,
+      has_deep_brief: !!deep,
+      has_entry_price: Number.isFinite(Number(verdict.entry_price_inr)),
+      has_adv: Number.isFinite(Number(verdict.diagnostics?.adv_inr_30d)),
+    };
     scored.push(verdict);
   }
 
@@ -123,6 +134,21 @@ async function main() {
     macro_regime: macroRegime?.regime || null,
   };
   atomicWriteJson("data/strategy/multibagger-scores-latest.json", summary);
+
+  const pit = buildPitSnapshot(scored, {
+    snapshot_iso: summary.built_at,
+    generated_by: "scripts/refresh-5x-strategy.mjs",
+    sources: {
+      picks_meta: { built_at: picks?.built_at || picks?.generated_at || picks?.today_iso || null, row_count: picks_rows.length },
+      macroRegime_meta: { generatedAt: macroRegime?.generatedAt || null, regime: macroRegime?.regime || null },
+      earnings_meta: { generated_at: earnings?.generated_at || earnings?.built_at || null },
+      dividends_meta: { generated_at: dividends?.generated_at || null },
+      bulkBlock_meta: { generated_at: bulkBlock?.generated_at || null },
+      announcements_meta: { generated_at: announcements?.generated_at || null },
+    },
+    include_raw_candidate: true,
+  });
+  atomicWriteJson(`data/strategy/pit/${TODAY}.json`, pit);
 
   // Catalyst slate
   const portfolio = readPortfolio();

@@ -56,7 +56,7 @@ function topDrivers(breakdown, n = 4) {
     .slice(0, n);
 }
 
-export function narrateCandidate(c) {
+export function narrateCandidate(c, { validated = false } = {}) {
   if (!c || typeof c !== "object") return null;
   const b = c.breakdown || {};
   const d = c.diagnostics || {};
@@ -95,9 +95,13 @@ export function narrateCandidate(c) {
   bear.push("Concentrated small-cap position — expect 40%+ drawdowns en route; the stop policy is what protects the book.");
 
   const target = c.verdict === "5X_CANDIDATE"
-    ? "Modeled as a 5–10x candidate over ~12 months (the rare tier that can carry the portfolio)."
+    ? (validated
+      ? "Validated top-tier asymmetric candidate; still requires entry, liquidity, and stop checks."
+      : "Model-implied top-tier asymmetric candidate; not empirically validated as a 5x forecast.")
     : c.verdict === "HIGH_CONVICTION"
-    ? "Modeled as a 3–5x candidate over ~12 months."
+    ? (validated
+      ? "Validated high-conviction asymmetric candidate; entry quality still decides sizing."
+      : "Model-implied high-conviction candidate; treat as research until validation and entry checks pass.")
     : c.verdict === "WATCH"
     ? "Watchlist — needs a stronger catalyst or a better entry before sizing up."
     : "Below the entry bar.";
@@ -135,7 +139,7 @@ const COMPONENT_LABELS = {
   momentum: "price momentum",
 };
 
-export function buildStrategyExplainer({ scores } = {}) {
+export function buildStrategyExplainer({ scores, validated = false } = {}) {
   const regime = scores?.macro_regime || "unknown";
   const fiveX = scores?.five_x_count ?? 0;
   const hc = scores?.high_conviction_count ?? 0;
@@ -149,7 +153,9 @@ export function buildStrategyExplainer({ scores } = {}) {
 
   return {
     schema_version: "multibagger-strategy-explainer-v1",
-    headline: `Targeting ₹1L → ₹5L net in 12 months. ${fiveX} of ${universe} stocks cleared the 5X bar today; ${hc} more are high-conviction.`,
+    headline: validated
+      ? `Evidence gate passed. ${fiveX} of ${universe} stocks cleared the top asymmetric bar today; ${hc} more are high-conviction.`
+      : `Unvalidated research screen. ${fiveX} of ${universe} stocks cleared the model-implied top asymmetric bar today; ${hc} more are high-conviction.`,
     how_stocks_are_picked: [
       "Every stock gets a 0–100 score summing 12 factors: earnings inflection (17), SWS future-growth (12) + valuation (10) pillars, fair-value upside (10), market-cap headroom (10), sector tailwind (17), momentum (10), liquidity, balance-sheet health, forecast growth, and a thematic-story bonus.",
       domLine,

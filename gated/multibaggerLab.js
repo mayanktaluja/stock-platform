@@ -35,6 +35,18 @@ function fmtPct(v) {
   return `${sign}${v.toFixed(1)}%`;
 }
 
+function fmtAgeHours(v) {
+  if (typeof v !== "number" || !Number.isFinite(v)) return "—";
+  if (v < 1) return `${Math.round(v * 60)}m`;
+  return `${v.toFixed(1)}h`;
+}
+
+function statusColor(status) {
+  return status === "ok" ? "var(--positive-text-emerald)"
+       : status === "stale" ? "var(--warn-text)"
+       : "var(--negative-text)";
+}
+
 async function loadMultibaggerLab() {
   const target = document.getElementById("multibaggerLabContent");
   if (!target) return;
@@ -62,6 +74,7 @@ function renderMultibaggerLab(data) {
   const target = document.getElementById("multibaggerLabContent");
   if (!target) return;
   const html = [
+    renderStatusBanner(data),
     renderTrajectorySection(data),
     renderStrategySection(data),
     renderActionsSection(data),
@@ -73,19 +86,45 @@ function renderMultibaggerLab(data) {
   target.innerHTML = html;
 }
 
+function renderStatusBanner(data) {
+  const snapshot = data.snapshot_status || {};
+  const status = typeof snapshot === "string" ? snapshot : (snapshot.state || "missing");
+  const builtAt = snapshot.built_at || data.built_at || null;
+  const ageH = typeof data.age_h === "number" ? data.age_h : snapshot.age_h;
+  const validation = data.validation_gate || {};
+  const gateMet = validation.gate_met === true;
+  const stale = status !== "ok";
+  const validationText = gateMet
+    ? "Evidence gate passed"
+    : "Evidence gate not met; rankings are model-implied research signals.";
+  const statusText = stale
+    ? `Snapshot status: ${status}. Built ${builtAt ? `${fmtAgeHours(ageH)} ago` : "not available"}.`
+    : `Snapshot current. Built ${fmtAgeHours(ageH)} ago.`;
+  return `
+    <section data-test="multibagger-status-banner" style="margin-bottom:16px; padding:12px 14px; border:1px solid ${statusColor(status)}; border-radius:8px; background:rgba(251,191,36,0.06); color:var(--text-secondary); font-size:12px; line-height:1.5;">
+      <strong style="color:${statusColor(status)};">${escapeHtml(statusText)}</strong>
+      <span style="display:block; margin-top:4px;">${escapeHtml(validationText)}</span>
+      ${data.survivorship_warning ? `<span style="display:block; margin-top:4px; color:var(--text-muted);">${escapeHtml(data.survivorship_warning)}</span>` : ""}
+    </section>
+  `;
+}
+
 function renderTrajectorySection(data) {
   const start = data.portfolio_summary?.starting_capital_inr ?? 100_000;
   const target = start * 5;
+  const mtm = data.portfolio_mtm;
   const cash = data.portfolio_summary?.cash_inr ?? start;
-  const value = cash; // best-effort until mtm is wired into the API
+  const value = typeof mtm?.portfolio_value_inr === "number" ? mtm.portfolio_value_inr : cash;
   const multiple = value / start;
   const pct = ((multiple - 1) * 100).toFixed(1);
+  const valueLabel = mtm ? "Paper-book value" : "Cash/snapshot value";
+  const valueNote = mtm ? `${pct}% from ₹1L start` : `${pct}% from ₹1L start · MTM unavailable`;
   return `
     <section data-section="trajectory" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:16px; padding:16px; background:rgba(167,139,250,0.04); border:1px solid rgba(167,139,250,0.20); border-radius:8px; margin-bottom:24px;">
       <div>
-        <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.08em;">Current value${infoIcon("mb_current_value")}</div>
+        <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.08em;">${escapeHtml(valueLabel)}${infoIcon("mb_current_value")}</div>
         <div data-test="multibagger-current-value" style="font-size:28px; font-weight:600;">${escapeHtml(fmtInr(value))}</div>
-        <div style="font-size:11px; color:var(--text-muted);">${pct}% from ₹1L start</div>
+        <div style="font-size:11px; color:var(--text-muted);">${escapeHtml(valueNote)}</div>
       </div>
       <div>
         <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.08em;">Target (net)${infoIcon("mb_target_net")}</div>
@@ -152,11 +191,30 @@ function renderStrategySection(data) {
 }
 
 function renderActionsSection(data) {
+  const actions = Array.isArray(data.actions?.actions) ? data.actions.actions : [];
+  const actionable = data.snapshot_status === "ok" && actions.length && actions.some((a) => a.type !== "NO_ACTION");
+  if (actionable) {
+    const rows = actions.map((a) => `
+      <li style="padding:8px 0; border-bottom:1px solid var(--bg-coal);">
+        <strong style="color:${a.priority === "critical" ? "var(--negative-text)" : "var(--text-primary)"};">${escapeHtml(a.headline)}</strong>
+        <div style="font-size:12px; color:var(--text-muted); margin-top:2px;">${escapeHtml(a.detail || "")}</div>
+      </li>
+    `).join("");
+    return `
+      <section data-section="actions" style="padding:16px; background:var(--bg-graphite); border-radius:8px; margin-bottom:24px;">
+        <h3 style="margin:0 0 12px; font-size:14px; font-weight:600;">Generated Actions</h3>
+        <ul style="list-style:none; margin:0; padding:0;" data-test="multibagger-actions-list">${rows}</ul>
+      </section>
+    `;
+  }
+  const reason = data.snapshot_status !== "ok"
+    ? "No action is shown because the 5x snapshot is missing, stale, or degraded."
+    : "No generated BUY/SELL/TRIM action is surfaced; treat the table below as research ranking, not an instruction.";
   return `
     <section data-section="actions" style="padding:16px; background:var(--bg-graphite); border-radius:8px; margin-bottom:24px;">
-      <h3 style="margin:0 0 12px; font-size:14px; font-weight:600;">Today's Action</h3>
+      <h3 style="margin:0 0 12px; font-size:14px; font-weight:600;">Actionability</h3>
       <div style="color:var(--text-muted); font-size:13px;" data-test="multibagger-action-empty">
-        No actions today. Pipeline contains ${data.verdicts?.five_x_count || 0} 5X_CANDIDATE and ${data.verdicts?.high_conviction_count || 0} HIGH_CONVICTION names. Open positions: ${data.portfolio_summary?.open_positions ?? 0}.
+        ${escapeHtml(reason)} Pipeline contains ${data.verdicts?.five_x_count || 0} top-tier research candidates and ${data.verdicts?.high_conviction_count || 0} high-conviction names. Open positions: ${data.portfolio_summary?.open_positions ?? 0}.
       </div>
     </section>
   `;
@@ -169,7 +227,7 @@ function renderPortfolioSection(data) {
       <section data-section="portfolio" style="margin-bottom:24px;">
         <h3 style="font-size:14px; font-weight:600; margin-bottom:8px;">Model portfolio</h3>
         <div data-test="multibagger-portfolio-empty" style="color:var(--text-muted); font-size:13px; padding:14px; background:var(--bg-graphite); border-radius:6px;">
-          No positions yet. Open ${data.portfolio_summary?.starting_capital_inr ? fmtInr(data.portfolio_summary.starting_capital_inr) : "₹1L"} cash; ready to deploy on the first BUY action.
+          No positions yet. Open ${data.portfolio_summary?.starting_capital_inr ? fmtInr(data.portfolio_summary.starting_capital_inr) : "₹1L"} cash; deployment waits for a generated action with tradability checks.
         </div>
       </section>
     `;
@@ -192,30 +250,33 @@ function renderPipelineSection(data) {
       </section>
     `;
   }
-  const rows = cands.slice(0, 20).map((c, i) => `
+  const rows = cands.slice(0, 20).map((c, i) => {
+    const entryState = c.tradability_state || c.entry_status || "WAIT_FOR_VOLUME";
+    return `
     <tr>
       <td style="padding:6px 8px; font-size:11px; color:var(--text-muted);">${i + 1}</td>
       <td style="padding:6px 8px; font-weight:500;">${escapeHtml(c.ticker)}</td>
       <td style="padding:6px 8px; color:var(--text-muted); font-size:12px;">${escapeHtml(c.sector || "—")}</td>
       <td style="padding:6px 8px; text-align:right; font-weight:500;">${(c.score_0_100 ?? 0).toFixed(1)}</td>
       <td style="padding:6px 8px; text-align:right; font-size:11px;">
-        <span data-test="verdict-pill" style="padding:2px 6px; border-radius:4px; background:${verdictColor(c.verdict)}; color:white;">${escapeHtml(c.verdict || "—")}</span>
+        <span data-test="verdict-pill" style="padding:2px 6px; border-radius:4px; background:${verdictColor(entryState)}; color:white;">${escapeHtml(entryState)}</span>
       </td>
     </tr>
     <tr data-test="candidate-rationale-row">
       <td colspan="5" style="padding:0 8px 10px;">${renderCandidateRationale(c)}</td>
     </tr>
-  `).join("");
+  `;
+  }).join("");
   return `
     <section data-section="pipeline" style="margin-bottom:24px;">
-      <h3 style="font-size:14px; font-weight:600; margin-bottom:8px;">5x Candidate pipeline (top ${Math.min(cands.length, 20)})</h3>
+      <h3 style="font-size:14px; font-weight:600; margin-bottom:8px;">Research pipeline (top ${Math.min(cands.length, 20)})</h3>
       <table data-test="multibagger-candidate-table" style="width:100%; border-collapse:collapse; font-size:12px;">
         <thead><tr style="border-bottom:1px solid var(--bg-graphite);">
           <th style="padding:6px 8px; text-align:left; font-weight:600; color:var(--text-muted);">#</th>
           <th style="padding:6px 8px; text-align:left; font-weight:600; color:var(--text-muted);">Ticker</th>
           <th style="padding:6px 8px; text-align:left; font-weight:600; color:var(--text-muted);">Sector</th>
-          <th style="padding:6px 8px; text-align:right; font-weight:600; color:var(--text-muted);">Score${infoIcon("mb_score")}</th>
-          <th style="padding:6px 8px; text-align:right; font-weight:600; color:var(--text-muted);">Verdict${infoIcon("mb_verdict")}</th>
+          <th style="padding:6px 8px; text-align:right; font-weight:600; color:var(--text-muted);">Research score${infoIcon("mb_score")}</th>
+          <th style="padding:6px 8px; text-align:right; font-weight:600; color:var(--text-muted);">Entry status${infoIcon("mb_verdict")}</th>
         </tr></thead>
         <tbody>${rows}</tbody>
       </table>
@@ -237,13 +298,18 @@ function renderCandidateRationale(c) {
         <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.06em; color:var(--negative-text); margin-bottom:2px;">Bear case${infoIcon("mb_bear_case")}</div>
         <ul style="margin:0 0 8px; padding-left:18px; color:var(--negative-text-soft); line-height:1.5;">${bear}</ul>
         <div style="font-size:11px; color:var(--text-muted); font-style:italic;">${escapeHtml(r.target_multiple_rationale || "")}${r.target_multiple_rationale ? infoIcon("mb_target_multiple") : ""}</div>
+        <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">Entry: ${escapeHtml(c.tradability_state || "WAIT_FOR_VOLUME")} · Evidence: ${escapeHtml(c.evidence_status || "UNVALIDATED")}</div>
       </div>
     </details>
   `;
 }
 
 function verdictColor(v) {
-  return v === "5X_CANDIDATE" ? "var(--purple-bright)"
+  return v === "TRADABLE_NOW" ? "var(--positive-text-emerald)"
+       : v === "WAIT_FOR_VOLUME" ? "var(--warn-text)"
+       : v === "SIZE_DOWN" ? "var(--purple-bright)"
+       : v === "AVOID_ENTRY" ? "var(--negative-text)"
+       : v === "5X_CANDIDATE" ? "var(--purple-bright)"
        : v === "HIGH_CONVICTION" ? "var(--positive-text-emerald)"
        : v === "WATCH" ? "var(--warn-text)"
        : v === "HARD_REJECT" ? "var(--negative-text)"
@@ -276,13 +342,16 @@ function renderCatalystSection(data) {
 
 function renderHealthSection(data) {
   const alerts = data.health?.alerts || [];
+  const metrics = data.health?.metrics || {};
+  const metricLine = `Candidates ${metrics.candidate_count ?? "—"} · HC+ ${metrics.high_conviction_count ?? "—"} · Drawdown ${metrics.portfolio_drawdown_pct ?? "—"}% · State ${metrics.portfolio_state || "UNKNOWN"}`;
   if (!alerts.length) {
-    return `<section data-section="health" data-test="multibagger-health-clean" style="font-size:11px; color:var(--text-muted);">Health: clean · no alerts.</section>`;
+    return `<section data-section="health" data-test="multibagger-health-clean" style="font-size:11px; color:var(--text-muted);">Health checks: no alerts from available checks · ${escapeHtml(metricLine)}</section>`;
   }
   const rows = alerts.map((a) => `<li style="font-size:11px; color:var(--warn-text);">${escapeHtml(a)}</li>`).join("");
   return `
     <section data-section="health" style="margin-top:8px;">
       <h3 style="font-size:11px; color:var(--text-muted); margin-bottom:6px;">Health alerts</h3>
+      <div style="font-size:11px; color:var(--text-muted); margin-bottom:6px;">${escapeHtml(metricLine)}</div>
       <ul style="list-style:disc; padding-left:18px; margin:0;">${rows}</ul>
     </section>
   `;

@@ -21,6 +21,10 @@ import { loadRiskLabViewMap, buildLabViewForEvent } from "./services/riskLab/ear
 import { LAB_PROMOTION_STATUS, buildSizingDecision } from "./services/riskLab/positionSizing.js";
 import { loadHitRateSummary } from "./services/earnings/hitRateSummary.js";
 import { narrateCandidate, buildStrategyExplainer } from "./services/multibagger/rationaleNarrator.js";
+import {
+  buildMultibaggerCandidatesView,
+  buildMultibaggerOverviewView,
+} from "./services/multibagger/multibaggerApiView.js";
 
 // External-API circuit breaker for /api/sector-heatmap (Yahoo Finance batch
 // quote). 3 consecutive failures → opens for 60s; serves stale cached
@@ -3193,38 +3197,21 @@ app.get("/api/multibagger/overview", async (req, res) => {
     const slate = loadMultibaggerJsonSafe("data/strategy/catalyst-slate-latest.json");
     const health = loadMultibaggerJsonSafe("data/strategy/multibagger-health-latest.json");
     const portfolio = loadMultibaggerJsonSafe("data/strategy/multibagger-portfolio.json");
-    res.json({
-      schema_version: "multibagger-overview-v1",
-      built_at: scores?.built_at || null,
-      universe_size: scores?.universe_size || null,
-      verdicts: {
-        five_x_count: scores?.five_x_count || 0,
-        high_conviction_count: scores?.high_conviction_count || 0,
-        watch_count: scores?.watch_count || 0,
-        hard_reject_count: scores?.hard_reject_count || 0,
-      },
-      macro_regime: scores?.macro_regime || null,
-      // Attach plain-English reasoning per candidate (why picked + bear
-      // case + target multiple), computed on the fly from the stored
-      // breakdown + diagnostics.
-      top_candidates: (scores?.top_50 || []).slice(0, 30).map((c) => ({
-        ...c,
-        rationale: narrateCandidate(c),
-      })),
-      strategy: scores ? buildStrategyExplainer({ scores }) : null,
-      catalyst_slate: slate?.slate || [],
-      health: {
-        alerts: health?.alerts || [],
-        metrics: health?.metrics || null,
-      },
-      portfolio_summary: portfolio ? {
-        starting_capital_inr: portfolio.starting_capital_inr,
-        cash_inr: portfolio.cash_inr,
-        open_positions: (portfolio.positions || []).length,
-        closed_positions: (portfolio.closed_positions || []).length,
-        snapshot_at: portfolio.snapshot_at,
-      } : null,
+    const backtest = loadMultibaggerJsonSafe("data/strategy/5x-backtest-latest.json");
+    const view = buildMultibaggerOverviewView({
+      scores,
+      slate,
+      health,
+      portfolio,
+      validation_gate: backtest?.validation_gate,
+      survivorship_warning: backtest?.survivorship_warning,
     });
+    view.top_candidates = view.top_candidates.map((c) => ({
+      ...c,
+      rationale: narrateCandidate(c, { validated: view.validation_gate.gate_met === true }),
+    }));
+    view.strategy = scores ? buildStrategyExplainer({ scores, validated: view.validation_gate.gate_met === true }) : null;
+    res.json(view);
   } catch (err) {
     console.error("[/api/multibagger/overview] failed:", err);
     res.status(500).json({ error: err.message });
@@ -3234,16 +3221,16 @@ app.get("/api/multibagger/overview", async (req, res) => {
 app.get("/api/multibagger/candidates", async (req, res) => {
   try {
     const scores = loadMultibaggerJsonSafe("data/strategy/multibagger-scores-latest.json");
-    if (!scores) return res.json({ candidates: [], built_at: null });
-    const verdictFilter = String(req.query.verdict || "").toUpperCase();
-    let candidates = scores.top_50 || [];
-    if (verdictFilter) candidates = candidates.filter((c) => c.verdict === verdictFilter);
-    res.json({
-      schema_version: scores.schema_version,
-      built_at: scores.built_at,
-      universe_size: scores.universe_size,
-      candidates: candidates.slice(0, Number(req.query.limit) || 30),
-    });
+    const health = loadMultibaggerJsonSafe("data/strategy/multibagger-health-latest.json");
+    const backtest = loadMultibaggerJsonSafe("data/strategy/5x-backtest-latest.json");
+    res.json(buildMultibaggerCandidatesView({
+      scores,
+      health,
+      validation_gate: backtest?.validation_gate,
+      survivorship_warning: backtest?.survivorship_warning,
+      verdict: req.query.verdict,
+      limit: req.query.limit,
+    }));
   } catch (err) {
     console.error("[/api/multibagger/candidates] failed:", err);
     res.status(500).json({ error: err.message });
