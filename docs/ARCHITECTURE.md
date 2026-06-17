@@ -288,7 +288,7 @@ mutation routes noted. Backing modules in the right column.
 | **Surveillance / Governance** | `GET /api/surveillance/{status,list}`, `/api/governance/{status,:symbol}` | `surveillance.js`, `governance.js` |
 | **F&O / OI** | `GET /api/fo/oi-screener` | `services/foScreener.js`, `services/foBhavcopyFetcher.js` |
 | **Health / admin** | `GET /api/health`, `/healthz` (public), `/api/admin/users[/:sub/portfolio.xlsx]`, `/api/admin/combined-shadow-diff` | file-age checks, `userStorage.js`, `services/combinedScore.js` |
-| **Cron / cache flush** | `GET /api/cron/{warm-caches,refresh-surveillance,refresh-governance,refresh-fo-oi,refresh-earnings}` | flush NodeCache only — **never** originate NSE traffic |
+| **Cron / diagnostics** | `GET /api/cron/{warm-caches,refresh-surveillance,refresh-governance,refresh-fo-oi,refresh-earnings}` | cache/admin refresh handlers; local nightly remains canonical for NSE-blocked surveillance data |
 | **Misc / legal** | `POST /api/telemetry`, `/legal/grievance`, `/legal/charter`, `/methodology`, `/api/disclosures/holdings` | inline handlers, `gated/*.html` |
 
 ---

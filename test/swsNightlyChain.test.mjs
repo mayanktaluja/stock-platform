@@ -2,10 +2,9 @@
  * Regression test for the step-3c auxiliary-refresh chain in
  * scripts/sws-nightly.sh.
  *
- * surveillance.json and governance.json were NOT in the nightly job — their
- * only refresh path was a Vercel cron that silently no-ops (NSE blocks Vercel
- * datacenter IPs), so both went stale in production. PR B wired them into
- * step 3c. This test guards that wiring: a future edit that drops the
+ * surveillance.json and governance.json were NOT originally in the nightly
+ * job; the old Vercel cron path silently no-ops under NSE datacenter blocking.
+ * This test guards the local-nightly wiring: a future edit that drops the
  * invocation, the governance→fundamentals ordering, the freshness gate, or
  * the commit-staging lists fails here instead of silently reintroducing the
  * staleness.
@@ -41,7 +40,18 @@ console.log("\nsws-nightly.sh step-3c chain — surveillance + governance wiring
 
 // Both refresh scripts must be invoked in the chain.
 assert("refresh-surveillance.mjs is invoked", /node scripts\/refresh-surveillance\.mjs/.test(nightly), null);
+assert("refresh-surveillance.mjs runs in strict mode", /node scripts\/refresh-surveillance\.mjs --strict/.test(nightly), null);
 assert("refresh-governance.mjs is invoked", /node scripts\/refresh-governance\.mjs/.test(nightly), null);
+
+const healthCriticalBlock = (nightly.match(/HEALTH_CRITICAL_FILES=\([\s\S]*?\)/) || [""])[0];
+assert("surveillance.json is publish-blocking in HEALTH_CRITICAL_FILES", healthCriticalBlock.includes("surveillance.json"), null);
+const lateSurveillanceIdx = nightly.indexOf("late surveillance freshness retry before health gate");
+const healthGateIdx = nightly.indexOf("node scripts/check-snapshot-health.mjs --strict --critical-only");
+assert(
+  "late surveillance retry runs immediately before the critical health gate",
+  lateSurveillanceIdx > -1 && healthGateIdx > lateSurveillanceIdx,
+  { lateSurveillanceIdx, healthGateIdx },
+);
 
 const catalystInvocations = nightly.match(/node scripts\/refresh-catalysts\.mjs/g) || [];
 const nseCorpInvocations = nightly.match(/node scripts\/refresh-nse-corporate\.mjs/g) || [];

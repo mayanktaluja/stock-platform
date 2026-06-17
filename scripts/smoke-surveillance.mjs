@@ -12,14 +12,17 @@
  *   • fetchedAt is a valid ISO timestamp
  *   • flagged is an object; every entry has a .NS key and list ∈ {ASM, GSM}
  *   • counts.ASM / counts.GSM are non-negative integers
+ *   • ASM and GSM endpoint fetches both completed
+ *   • NSE's raw GSM shape parses to GSM rows when the endpoint returns rows
+ *   • all-empty snapshots fail for local/nightly use
  *
  * buildSurveillance() is defensive — NSE fetch failures are caught and yield
- * an empty list, so this never throws. But an all-empty result on an Indian
- * IP is a strong signal of NSE schema drift or a session-cookie problem,
- * which this surfaces as a warning.
+ * an empty list. For smoke/nightly use, that is not publishable: an all-empty
+ * result usually means NSE schema drift or a session-cookie problem.
  */
 
-import { buildSurveillance } from "../surveillance.js";
+import { nseGet } from "../nse.js";
+import { buildSurveillance, _surveillanceParserForTests } from "../surveillance.js";
 
 async function main() {
   console.log("Smoke-testing NSE surveillance (ASM + GSM) fetch:\n");
@@ -39,12 +42,35 @@ async function main() {
   check("flagged is an object", !!snap.flagged && typeof snap.flagged === "object");
   check("counts.ASM is a non-negative integer", Number.isInteger(snap.counts?.ASM) && snap.counts.ASM >= 0);
   check("counts.GSM is a non-negative integer", Number.isInteger(snap.counts?.GSM) && snap.counts.GSM >= 0);
+  check("ASM endpoint fetch completed", snap.fetchStatus?.ASM === "ok");
+  check("GSM endpoint fetch completed", snap.fetchStatus?.GSM === "ok");
 
   const entries = Object.entries(snap.flagged || {});
+  check("snapshot is not all-empty", entries.length > 0);
+
   const badEntry = entries.find(
     ([sym, e]) => !sym.endsWith(".NS") || !["ASM", "GSM"].includes(e.list),
   );
   check("every flagged entry has a .NS key and list ∈ {ASM,GSM}", !badEntry);
+
+  let rawGsmRows = null;
+  let parsedGsmRows = null;
+  try {
+    const rawGsm = await nseGet("/api/reportGSM");
+    rawGsmRows = Array.isArray(rawGsm) ? rawGsm : Array.isArray(rawGsm?.data) ? rawGsm.data : [];
+    parsedGsmRows = _surveillanceParserForTests.parseGsmRows(rawGsm);
+  } catch (err) {
+    console.warn(`\n  GSM raw endpoint check failed: ${err.message}`);
+  }
+  check("raw GSM endpoint is readable for parser parity", rawGsmRows != null);
+  check(
+    "GSM parser emits rows when NSE returns GSM rows",
+    rawGsmRows == null || rawGsmRows.length === 0 || parsedGsmRows.length > 0,
+  );
+  check(
+    "snapshot keeps GSM rows when NSE returns GSM rows",
+    rawGsmRows == null || rawGsmRows.length === 0 || (snap.counts?.GSM || 0) > 0,
+  );
 
   console.log("\n──────────────");
   console.log(
@@ -53,10 +79,10 @@ async function main() {
   );
 
   if (entries.length === 0) {
-    console.warn(
-      "\n⚠  Zero stocks flagged. On an Indian IP this usually means NSE schema " +
+    console.error(
+      "\nZero stocks flagged. On an Indian IP this usually means NSE schema " +
         "drift or a session-cookie problem (nse.js:refreshCookies) — not genuinely " +
-        "zero surveillance. Verify before trusting a nightly that wrote an empty file.",
+        "zero surveillance. A nightly must not publish this snapshot.",
     );
   }
 
