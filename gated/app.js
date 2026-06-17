@@ -4385,6 +4385,10 @@ function escapeHtml(str) {
   return String(str).replace(/[&<>"']/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
 }
 
+function jsStringLiteral(value) {
+  return JSON.stringify(String(value == null ? "" : value));
+}
+
 function getRecClass(rec) {
   if (!rec) return "";
   const r = rec.toUpperCase();
@@ -5873,7 +5877,7 @@ function watchlistButton(symbol, name, sector) {
   // Tab and activate with Space/Enter. aria-pressed toggles between saved
   // and unsaved states; aria-label gives screen readers a proper verb.
   const label = isSaved ? `Remove ${name || symbol} from watchlist` : `Add ${name || symbol} to watchlist`;
-  return `<button type="button" class="watchlist-btn" data-watchlist-symbol="${symbol}" aria-pressed="${isSaved}" aria-label="${label}" onclick="event.stopPropagation(); toggleWatchlist('${symbol}', '${escapeHtml(name || '')}', '${escapeHtml(sector || '')}')" title="${isSaved ? 'Remove from watchlist' : 'Add to watchlist'}" style="cursor:pointer;background:transparent;border:none;padding:2px 4px;font-size:18px;color:${isSaved ? 'var(--gold)' : 'var(--text-muted)'};transition:color 0.15s;">${isSaved ? "★" : "☆"}</button>`;
+  return `<button type="button" class="watchlist-btn" data-watchlist-symbol="${escapeHtml(symbol)}" aria-pressed="${isSaved}" aria-label="${escapeHtml(label)}" onclick="event.stopPropagation(); toggleWatchlist(${jsStringLiteral(symbol)}, ${jsStringLiteral(name || "")}, ${jsStringLiteral(sector || "")})" title="${isSaved ? 'Remove from watchlist' : 'Add to watchlist'}" style="cursor:pointer;background:transparent;border:none;padding:2px 4px;font-size:18px;color:${isSaved ? 'var(--gold)' : 'var(--text-muted)'};transition:color 0.15s;">${isSaved ? "★" : "☆"}</button>`;
 }
 
 // PR W3 — chevron-driven inline row details. Swaps the sibling tr.hidden
@@ -5990,7 +5994,7 @@ async function loadWatchlist() {
       // PR W3 — Tier 2 details row. Lazy content is fine because <details>
       // doesn't render hidden children to the accessibility tree until open.
       const detailsRow = `
-        <tr class="wl-details-row" data-wl-details="${sym}" hidden>
+        <tr class="wl-details-row" data-wl-details="${escapeHtml(sym)}" hidden>
           <td colspan="6" style="padding:0;">
             <div style="padding:8px 14px 12px 52px; background:rgba(255,255,255,0.015); border-top:1px solid var(--border); font-size:12px; color:var(--text-secondary); display:flex; flex-direction:column; gap:6px;">
               <div><span class="tx-micro">Sector</span> &nbsp; ${escapeHtml(sectorForDetails)}</div>
@@ -6003,18 +6007,19 @@ async function loadWatchlist() {
       // Row chevron — toggles the sibling details row. Plain JS toggle so
       // we stay inside the static-SPA model.
       return `
-        <tr style="cursor:pointer;" onclick="openStockDetailModal('${sym}','watchlist')">
+        <tr style="cursor:pointer;" onclick="openStockDetailModal(${jsStringLiteral(sym)},'watchlist')">
           <td style="padding:6px 4px; width:36px;">${watchlistButton(sym, name, sector)}</td>
           <td class="wl-col-stock">
             <div style="font-weight:600;">${escapeHtml(sym)}</div>
             <div style="font-size:11px;color:var(--text-muted);max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(name)}</div>
+            <div data-testid="decision-state" style="font-size:10px;color:var(--info-text-soft);margin-top:3px;">Research only</div>
           </td>
           <td class="wl-col-verdict">${verdictCell}</td>
           <td class="wl-col-price" style="text-align:right;">${priceCell}</td>
           <td class="wl-col-day" style="text-align:right;">${dayChgCell}</td>
           <td class="wl-col-since" style="text-align:right;">${sinceAddedCell}</td>
           <td class="wl-col-chev" style="text-align:right; width:36px;">
-            <button type="button" class="wl-chevron" data-wl-toggle="${sym}" aria-expanded="false" aria-label="Show row details for ${escapeHtml(sym)}" onclick="event.stopPropagation(); window.toggleWatchlistRow('${sym}', this);" style="background:transparent; border:none; color:var(--text-muted); cursor:pointer; padding:4px 8px; font-size:14px; line-height:1; transition: transform var(--dur-quick) var(--ease-standard);">▶</button>
+            <button type="button" class="wl-chevron" data-wl-toggle="${escapeHtml(sym)}" aria-expanded="false" aria-label="Show row details for ${escapeHtml(sym)}" onclick="event.stopPropagation(); window.toggleWatchlistRow(${jsStringLiteral(sym)}, this);" style="background:transparent; border:none; color:var(--text-muted); cursor:pointer; padding:4px 8px; font-size:14px; line-height:1; transition: transform var(--dur-quick) var(--ease-standard);">▶</button>
           </td>
         </tr>
         ${detailsRow}`;
@@ -7007,6 +7012,13 @@ function swsHoldingRow(h) {
     return `<div style="font-size:10px; color:var(--text-muted); margin-top:3px;">notional ${inr(r)}</div>`;
   })();
   const intent = h.displayActionIntent || h.displayAction || h.action;
+  const decisionLabel = {
+    TOP_UP: "Actionable now",
+    BUY: "Actionable now",
+    KEEP: "Hold context",
+    TRIM: "Trim review",
+    SELL: "Exit review",
+  }[String(h.action || "").toUpperCase()] || "Context only";
   const postWeight = h.postTradeWeight != null && h.postTradeWeight !== h.positionWeight
     ? `<div style="font-size:10px; color:var(--text-muted); margin-top:3px;">target/post ${h.positionWeight ?? "—"}% → ${h.postTradeWeight}%</div>`
     : "";
@@ -7020,15 +7032,15 @@ function swsHoldingRow(h) {
   const capChip = h.marketCapBucket || sws.market_cap_bucket
     ? `<div style="font-size:10px; color:var(--text-muted); margin-top:3px;">${swsEscapeAttr(h.marketCapBucket || sws.market_cap_bucket)} cap</div>`
     : "";
-  return `<tr style="border-top:1px solid var(--border-graphite); cursor:pointer;" onclick="openStockDetailModal('${tk}','mf-overlap')">
+  return `<tr style="border-top:1px solid var(--border-graphite); cursor:pointer;" onclick="openStockDetailModal(${jsStringLiteral(tk)},'mf-overlap')">
     <td style="padding:10px 12px;">
-      <div style="font-weight:600;">${tk} ${swsSurveillanceChip(sws.surveillance)}</div>
+      <div style="font-weight:600;">${swsEscapeAttr(tk)} ${swsSurveillanceChip(sws.surveillance)}</div>
       <div style="font-size:11px; color:var(--text-muted);">${swsEscapeAttr(name)}${sws.sector ? " · " + swsEscapeAttr(sws.sector) : ""}</div>
     </td>
-    <td style="padding:10px 12px;">${swsActionBadge(h.action, intent)}${rupeesInline}${postWeight}${evidenceChip}${capChip}${blocked}</td>
+    <td style="padding:10px 12px;">${swsActionBadge(h.action, intent)} <span data-testid="decision-state" style="display:inline-block;margin-left:4px;font-size:10px;color:var(--info-text-soft);">${swsEscapeAttr(decisionLabel)}</span>${rupeesInline}${postWeight}${evidenceChip}${capChip}${blocked}</td>
     <td style="padding:10px 12px;">
       <div style="font-weight:600;">${v4}</div>
-      <div style="font-size:10px; color:var(--text-muted);">${verdict}</div>
+      <div style="font-size:10px; color:var(--text-muted);">${swsEscapeAttr(verdict)}</div>
     </td>
     <td style="padding:10px 12px;">${swsSnowflakeMini(sws.snowflake)}</td>
     <td style="padding:10px 12px;">
@@ -11565,8 +11577,8 @@ const PICKS_GROUP_MODE_LS_KEY = "swsPicksGroupMode_v1";
 const PICKS_SORT_LS_KEY = "swsPicksSort_v1";
 const PICKS_GROUPS = {
   actionable: {
-    label: "Actionable Ideas",
-    subtitle: "Fresh capital and ranked shortlist sections. Best Stocks to Buy Now is the strict buy-now gate; other sections may still carry caution badges.",
+    label: "Ranked ideas",
+    subtitle: "Ranked shortlist sections. Only Best Stocks to Buy Now rows with Actionable now or Stagger only are fresh-capital candidates.",
   },
   research: {
     label: "Research / Watch",
@@ -12696,13 +12708,14 @@ function renderPickCard(s, sectionKey, rank = null) {
 	  const entryReasons = Array.isArray(entryBand?.reasons) ? entryBand.reasons : [];
 	  const entryReasonText = entryReasons.map((r) => r?.message).filter(Boolean).join(" ");
 	  const entryStateLabel = {
-	    BUY_ZONE: "Buy zone",
-	    STAGGER_ONLY: "Stagger",
-	    NO_BUY_ABOVE: "Wait",
-	    UNAVAILABLE: "Entry n/a",
+	    BUY_ZONE: "Actionable now",
+	    STAGGER_ONLY: "Stagger only",
+	    NO_BUY_ABOVE: "Wait above no-buy",
+	    UNAVAILABLE: "Entry unavailable",
 	  }[entryBand?.entry_state] || null;
-	  const entryBadge = entryStateLabel
-	    ? `<span class="sws-entry-badge sws-entry-badge--${String(entryBand.entry_state || "UNAVAILABLE").toLowerCase()}" title="${escapeHtml(entryReasonText || "Entry band derived from SWS fair value and current price.")}">${escapeHtml(entryStateLabel)}</span>`
+	  const contractLabel = s.decision_contract?.label || entryStateLabel;
+	  const entryBadge = contractLabel
+	    ? `<span data-testid="decision-state" class="sws-entry-badge sws-entry-badge--${String(entryBand?.entry_state || "UNAVAILABLE").toLowerCase()}" title="${escapeHtml(s.decision_contract?.reason || entryReasonText || "Entry band derived from SWS fair value and current price.")}">${escapeHtml(contractLabel)}</span>`
 	    : "";
 	  const noBuyBadge = entryBand?.no_buy_above_inr != null
 	    ? `<span class="sws-entry-badge sws-entry-badge--cap" title="No-buy-above price is 90% of SWS fair value.">No-buy &gt; ${fmtInr(entryBand.no_buy_above_inr)}</span>`

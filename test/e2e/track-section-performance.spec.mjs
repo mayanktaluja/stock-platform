@@ -624,9 +624,10 @@ test.describe("India Market credibility banner and section alpha", () => {
     await panel.locator('button[data-window="3m"]').click();
     const row = panel.locator('[data-testid="track-section-performance-row"]').first();
     await expect(row).toBeVisible({ timeout: 10_000 });
-    await expect(row.locator('[data-testid="track-section-hindsight-badge"]')).toContainText(/HINDSIGHT/);
-    await expect(row).toContainText(/trailing, not held/i);
-  });
+	    await expect(row.locator('[data-testid="track-section-hindsight-badge"]')).toContainText(/HINDSIGHT/);
+	    await expect(row).toContainText(/trailing, not held/i);
+	    await expect(row).not.toContainText(/beat|outperform|shows .* alpha/i);
+	  });
 
   test("public Track Record APIs and UI exclude non-buy SWS buckets", async ({ page, request }) => {
     const retiredTypes = ["sws_upcoming_earnings", "sws_avoid"];

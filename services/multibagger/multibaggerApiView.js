@@ -1,4 +1,5 @@
 import { VALIDATION_GATE } from "./multibaggerBacktest.js";
+import { researchOnlyContract } from "../decisionContract.js";
 
 const DEFAULT_LIMIT = 30;
 const MIN_LIMIT = 1;
@@ -59,6 +60,25 @@ function validationGateOrDefault(validation_gate) {
     gate_met: validation_gate.gate_met === true,
     blocking_reasons: cloneArray(validation_gate.blocking_reasons),
     gate_spec: isPlainObject(validation_gate.gate_spec) ? { ...validation_gate.gate_spec } : { ...VALIDATION_GATE },
+  };
+}
+
+function buildRuntimeAudit({ scores = null, health = null, validation_gate = null } = {}) {
+  return {
+    scores_built_at: scores?.built_at || null,
+    scores_schema_version: scores?.schema_version || null,
+    health_generated_at: health?.generated_at || health?.built_at || null,
+    health_schema_version: health?.schema_version || null,
+    backtest_available: isPlainObject(validation_gate),
+  };
+}
+
+function buildBacktestGate(validation_gate, survivorship_warning) {
+  const available = isPlainObject(validation_gate);
+  return {
+    available,
+    validation_gate: validationGateOrDefault(validation_gate),
+    survivorship_warning: survivorship_warning || DEFAULT_SURVIVORSHIP_WARNING,
   };
 }
 
@@ -220,6 +240,7 @@ export function shapeMultibaggerCandidate(candidate, { validation_gate = null } 
     probability_label: validated ? "validated" : "model-implied",
     evidence_status: validated ? "VALIDATED" : "UNVALIDATED",
     model_label: validated ? "validated" : "model-implied/unvalidated",
+    decision_contract: researchOnlyContract("5x Lab candidate is research-only until validated and separately promoted."),
     ...tradability,
     entry_quality: entryQuality(candidate, tradability),
   };
@@ -239,6 +260,7 @@ export function buildMultibaggerCandidatesView({
   now_iso = null,
 } = {}) {
   const gate = validationGateOrDefault(validation_gate);
+  const decision_contract = researchOnlyContract("5x Lab is a research-only ranking; no portfolio action is promoted.");
   const filter = normalizeVerdictFilter(verdict);
   const resolvedLimit = clampCandidateLimit(limit);
   const snapshot_status = computeSnapshotStatus({ scores, health, now_iso });
@@ -254,6 +276,9 @@ export function buildMultibaggerCandidatesView({
     age_h: snapshot_status.age_h,
     universe_size: scores?.universe_size || null,
     snapshot_status,
+    runtime_audit: buildRuntimeAudit({ scores, health, validation_gate }),
+    backtest_gate: buildBacktestGate(validation_gate, survivorship_warning),
+    decision_contract,
     validation_gate: gate,
     survivorship_warning: survivorship_warning || DEFAULT_SURVIVORSHIP_WARNING,
     validation_label: gate.gate_met ? "validated" : "unvalidated",
@@ -274,6 +299,7 @@ export function buildMultibaggerOverviewView({
   now_iso = null,
 } = {}) {
   const gate = validationGateOrDefault(validation_gate);
+  const decision_contract = researchOnlyContract("5x Lab is a research-only ranking; no portfolio action is promoted.");
   const topCandidates = buildMultibaggerCandidatesView({
     scores,
     health,
@@ -289,6 +315,9 @@ export function buildMultibaggerOverviewView({
     age_h: topCandidates.snapshot_status.age_h,
     universe_size: scores?.universe_size || null,
     snapshot_status: topCandidates.snapshot_status,
+    runtime_audit: buildRuntimeAudit({ scores, health, validation_gate }),
+    backtest_gate: buildBacktestGate(validation_gate, survivorship_warning),
+    decision_contract,
     validation_gate: gate,
     survivorship_warning: survivorship_warning || DEFAULT_SURVIVORSHIP_WARNING,
     validation_label: gate.gate_met ? "validated" : "unvalidated",

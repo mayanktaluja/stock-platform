@@ -40,6 +40,7 @@ console.log("paperTrades performance regression\n");
   assert("empty aggregate keeps winRate null", perf.winRate === null, perf);
   assert("empty aggregate keeps avgAlpha null", perf.avgAlpha === null, perf);
   assert("empty aggregate keeps beatsNiftyRate null", perf.beatsNiftyRate === null, perf);
+  assert("empty aggregate exposes primary signed-alpha metric", perf.primary_success_metric === "signed_alpha" && perf.primary_success_rate_pct === null && perf.primary_sample_size === 0, perf);
 }
 
 // ──── 2. Closed rows compute realised returns without a live current price ────
@@ -62,6 +63,7 @@ console.log("paperTrades performance regression\n");
   assert("closed rows populate hit rate", perf.winRate === 50, perf);
   assert("closed rows populate avg alpha", perf.avgAlpha === 3, perf);
   assert("closed rows populate beat-Nifty rate", perf.beatsNiftyRate === 50, perf);
+  assert("closed rows use beat-Nifty as primary success rate", perf.primary_success_rate_pct === 50 && perf.primary_sample_size === 2, perf);
 }
 
 // ──── 3. Return-only rows populate hit rate but leave benchmark metrics null ────

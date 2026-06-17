@@ -2,12 +2,10 @@
 //
 // Verifies:
 //   1. /api/earnings/upcoming attaches a `sizing` object per event with the
-//      expected schema and source tag (lab_calibrated vs production_only)
+//      expected schema and keeps Risk Lab shadow-only
 //   2. The earnings-card UI renders a `[data-testid="sizing-pill"]` element
 //      whose `data-multiplier` matches the computed tier
-//   3. When a lab-calibrated downgrade is present (e.g. prod 65% → lab 48%),
-//      the pill shows the calibrated multiplier (0.6x), not the production
-//      one (1.0x), and is tagged data-source="lab_calibrated"
+//   3. The pill labels sizing as context only, not an executable size instruction.
 
 import { test, expect } from "@playwright/test";
 import { gotoApp } from "./helpers/app.mjs";
@@ -27,7 +25,8 @@ test.describe("Earnings Watch — position-size pill (PR A2)", () => {
     expect(s).toHaveProperty("effective_confidence_pct");
     expect(typeof s.multiplier).toBe("number");
     expect([1.0, 0.6, 0.3, 0.2]).toContain(s.multiplier);
-    expect(["lab_calibrated", "production_only"]).toContain(s.source);
+    expect(s.source).toBe("production_only");
+    expect(body.decision_contracts?.risk_lab?.promoted).toBe(false);
   });
 
   test("multiplier matches the canonical tier bands", async ({ request }) => {
@@ -44,13 +43,11 @@ test.describe("Earnings Watch — position-size pill (PR A2)", () => {
     }
   });
 
-  test("Earnings Watch card renders sizing-pill with the lab-calibrated multiplier", async ({ page, request }) => {
+  test("Earnings Watch card renders sizing context without lab-calibrated source", async ({ page, request }) => {
     const body = await (await request.get("/api/earnings/upcoming?days=60")).json();
     test.skip(body.missing === true, "preconditions missing");
-    const labCalibrated = (body.events || []).filter(
-      (e) => e.sizing?.source === "lab_calibrated",
-    );
-    test.skip(labCalibrated.length === 0, "no lab-calibrated cases in current snapshot — skip render check");
+    test.skip(!(body.events || []).some((e) => e.sizing), "no events have sizing in current snapshot");
+    expect((body.events || []).some((e) => e.sizing?.source === "lab_calibrated")).toBe(false);
 
     await gotoApp(page, { tab: "earnings" });
     await expect(page.locator(".earnings-card").first()).toBeVisible({ timeout: 15_000 });
@@ -58,8 +55,8 @@ test.describe("Earnings Watch — position-size pill (PR A2)", () => {
     const pillCount = await page.locator('[data-testid="sizing-pill"]').count();
     expect(pillCount).toBeGreaterThan(0);
 
-    // At least one pill should be lab-calibrated
+    await expect(page.locator('[data-testid="sizing-pill"]').first()).toContainText(/Context only/);
     const labPills = await page.locator('[data-testid="sizing-pill"][data-source="lab_calibrated"]').count();
-    expect(labPills).toBeGreaterThan(0);
+    expect(labPills).toBe(0);
   });
 });

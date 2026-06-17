@@ -114,6 +114,7 @@ console.log("riskLabApi: testing default-enabled state");
     assert("picks-adjusted: has summary", picks.summary && typeof picks.summary.total_stocks === "number");
     assert("picks-adjusted: exposes lab_status", ["ok", "degraded"].includes(picks.lab_status), picks.lab_status);
     assert("picks-adjusted: exposes promotion state", typeof picks.promotion_state === "string" && picks.promotion_state.startsWith("experimental"), picks.promotion_state);
+    assert("picks-adjusted: exposes shadow-only decision contract", picks.decision_contract?.promoted === false && picks.decision_contract?.state === "SHADOW_ONLY", picks.decision_contract);
     assert("picks-adjusted: exposes runtime audit", picks.runtime_audit && picks.runtime_audit.artifacts && picks.runtime_audit.thresholds);
     assert("picks-adjusted: exposes action queue", Array.isArray(picks.action_queue) && picks.action_queue.length > 0);
 

@@ -168,15 +168,17 @@ it("shapes candidates consistently and rounds score to one decimal", () => {
     "diagnostics",
     "validation_label",
     "probability_label",
-    "evidence_status",
-    "model_label",
-    "tradability_state",
+	    "evidence_status",
+	    "model_label",
+	    "decision_contract",
+	    "tradability_state",
     "entry_status",
     "tradability_reasons",
     "entry_quality",
   ]);
-  assert.equal(shaped.score_0_100, 72.8);
-  assert.equal(shaped.verdict_label, "5X CANDIDATE");
+	  assert.equal(shaped.score_0_100, 72.8);
+	  assert.equal(shaped.verdict_label, "5X CANDIDATE");
+	  assert.equal(shaped.decision_contract.state, "RESEARCH_ONLY");
 });
 
 it("derives tradability and entry state from diagnostics only", () => {

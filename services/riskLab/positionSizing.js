@@ -27,6 +27,7 @@ export const SIZING_SCHEMA_VERSION = "sizing-v1";
 export const LAB_PROMOTION_STATUS = Object.freeze({
   PROMOTED: "promoted",
   NOT_PROMOTED: "experimental_not_promoted",
+  SHADOW: "experimental_shadow",
 });
 
 export function computeSizeMultiplier(confidencePct) {
@@ -58,10 +59,6 @@ export function isLabSizingPromoted(gate = null) {
 
 export function resolveCalibratedConfidence(event, opts = {}) {
   if (!event) return null;
-  const labConf = isLabSizingPromoted(opts.labPromotionGate)
-    ? event.lab_view?.quality_adjusted_confidence
-    : null;
-  if (typeof labConf === "number" && Number.isFinite(labConf)) return labConf;
   const prodConf = event.prediction?.confidence_pct;
   if (typeof prodConf === "number" && Number.isFinite(prodConf)) return prodConf;
   return null;
@@ -73,26 +70,28 @@ export function resolveCalibratedConfidence(event, opts = {}) {
 export function buildSizingDecision(event, opts = {}) {
   if (!event) return null;
   const prodConf = typeof event.prediction?.confidence_pct === "number" ? event.prediction.confidence_pct : null;
-  const labPromoted = isLabSizingPromoted(opts.labPromotionGate);
-  const labConf = labPromoted && typeof event.lab_view?.quality_adjusted_confidence === "number"
+  const promotionGate = opts.labPromotionGate && typeof opts.labPromotionGate === "object" ? opts.labPromotionGate : {};
+  const legacyPromotionObserved = isLabSizingPromoted(promotionGate);
+  const labConf = typeof event.lab_view?.quality_adjusted_confidence === "number"
     ? event.lab_view.quality_adjusted_confidence
     : null;
-  const effective = labConf !== null ? labConf : prodConf;
+  const effective = prodConf;
   if (effective === null) return null;
   const tier = resolveSizingTier(effective);
   if (!tier) return null;
   return {
     schema_version: SIZING_SCHEMA_VERSION,
     production_confidence_pct: prodConf,
-    calibrated_confidence_pct: labConf,
+    calibrated_confidence_pct: null,
+    shadow_confidence_pct: labConf,
     effective_confidence_pct: effective,
     multiplier: tier.multiplier,
     tier_label: tier.label,
     tier_rationale: tier.rationale,
-    source: labConf !== null ? "lab_calibrated" : "production_only",
-    lab_promotion_status: labPromoted
-      ? LAB_PROMOTION_STATUS.PROMOTED
-      : LAB_PROMOTION_STATUS.NOT_PROMOTED,
+    source: "production_only",
+    lab_promoted: false,
+    lab_promotion_status: promotionGate.promotion_state || promotionGate.status || LAB_PROMOTION_STATUS.SHADOW,
+    legacy_promotion_observed: legacyPromotionObserved,
   };
 }
 

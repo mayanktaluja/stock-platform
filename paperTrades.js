@@ -313,6 +313,9 @@ export function aggregatePerformance(tradesWithReturns) {
       medianReturn: null,
       avgAlpha: null,
       beatsNiftyRate: null,
+      primary_success_metric: "signed_alpha",
+      primary_success_rate_pct: null,
+      primary_sample_size: 0,
       bestPick: null,
       worstPick: null,
     };
@@ -332,15 +335,19 @@ export function aggregatePerformance(tradesWithReturns) {
   const best = valid.reduce((a, b) => (a.returns.returnPct > b.returns.returnPct ? a : b));
   const worst = valid.reduce((a, b) => (a.returns.returnPct < b.returns.returnPct ? a : b));
 
+  const beatsNiftyRate = withAlpha.length > 0
+    ? parseFloat(((beatsCount / withAlpha.length) * 100).toFixed(1))
+    : null;
   return {
     total: valid.length,
     winRate: parseFloat(((wins / valid.length) * 100).toFixed(1)),
     avgReturn: parseFloat((returns.reduce((s, r) => s + r, 0) / returns.length).toFixed(2)),
     medianReturn: parseFloat(median.toFixed(2)),
     avgAlpha: withAlpha.length > 0 ? parseFloat((alphaSum / withAlpha.length).toFixed(2)) : null,
-    beatsNiftyRate: withAlpha.length > 0
-      ? parseFloat(((beatsCount / withAlpha.length) * 100).toFixed(1))
-      : null,
+    beatsNiftyRate,
+    primary_success_metric: "signed_alpha",
+    primary_success_rate_pct: beatsNiftyRate,
+    primary_sample_size: withAlpha.length,
     benchmarkSampleSize: withAlpha.length,
     bestPick: { symbol: best.symbol, name: best.name, returnPct: best.returns.returnPct },
     worstPick: { symbol: worst.symbol, name: worst.name, returnPct: worst.returns.returnPct },

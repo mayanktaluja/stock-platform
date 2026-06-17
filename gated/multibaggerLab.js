@@ -4,7 +4,7 @@
 //
 // Sections rendered (top → bottom):
 //   1. Trajectory tracker (gross + net curves, days elapsed)
-//   2. Today's Action card (1-3 actions)
+//   2. Research-only actionability state
 //   3. Model Portfolio (open positions with live PnL)
 //   4. 5x Candidate Pipeline (top 30 sorted by score)
 //   5. Catalyst Trades sub-table
@@ -102,6 +102,7 @@ function renderStatusBanner(data) {
     : `Snapshot current. Built ${fmtAgeHours(ageH)} ago.`;
   return `
     <section data-test="multibagger-status-banner" style="margin-bottom:16px; padding:12px 14px; border:1px solid ${statusColor(status)}; border-radius:8px; background:rgba(251,191,36,0.06); color:var(--text-secondary); font-size:12px; line-height:1.5;">
+      <span data-testid="decision-state" data-test="multibagger-decision-state" style="display:inline-flex; margin-bottom:6px; padding:2px 8px; border-radius:12px; border:1px solid rgba(96,165,250,0.32); background:rgba(96,165,250,0.10); color:var(--info-text-soft); font-weight:700; font-size:11px;">${escapeHtml(data.decision_contract?.label || "Research only")}</span>
       <strong style="color:${statusColor(status)};">${escapeHtml(statusText)}</strong>
       <span style="display:block; margin-top:4px;">${escapeHtml(validationText)}</span>
       ${data.survivorship_warning ? `<span style="display:block; margin-top:4px; color:var(--text-muted);">${escapeHtml(data.survivorship_warning)}</span>` : ""}
@@ -191,25 +192,11 @@ function renderStrategySection(data) {
 }
 
 function renderActionsSection(data) {
-  const actions = Array.isArray(data.actions?.actions) ? data.actions.actions : [];
-  const actionable = data.snapshot_status === "ok" && actions.length && actions.some((a) => a.type !== "NO_ACTION");
-  if (actionable) {
-    const rows = actions.map((a) => `
-      <li style="padding:8px 0; border-bottom:1px solid var(--bg-coal);">
-        <strong style="color:${a.priority === "critical" ? "var(--negative-text)" : "var(--text-primary)"};">${escapeHtml(a.headline)}</strong>
-        <div style="font-size:12px; color:var(--text-muted); margin-top:2px;">${escapeHtml(a.detail || "")}</div>
-      </li>
-    `).join("");
-    return `
-      <section data-section="actions" style="padding:16px; background:var(--bg-graphite); border-radius:8px; margin-bottom:24px;">
-        <h3 style="margin:0 0 12px; font-size:14px; font-weight:600;">Generated Actions</h3>
-        <ul style="list-style:none; margin:0; padding:0;" data-test="multibagger-actions-list">${rows}</ul>
-      </section>
-    `;
-  }
-  const reason = data.snapshot_status !== "ok"
-    ? "No action is shown because the 5x snapshot is missing, stale, or degraded."
-    : "No generated BUY/SELL/TRIM action is surfaced; treat the table below as research ranking, not an instruction.";
+  const snapshot = data.snapshot_status || {};
+  const status = typeof snapshot === "string" ? snapshot : (snapshot.state || "missing");
+  const reason = status !== "ok"
+    ? "No portfolio action is shown because the 5x snapshot is missing, stale, or degraded."
+    : "No portfolio action is promoted; treat the table below as a research ranking.";
   return `
     <section data-section="actions" style="padding:16px; background:var(--bg-graphite); border-radius:8px; margin-bottom:24px;">
       <h3 style="margin:0 0 12px; font-size:14px; font-weight:600;">Actionability</h3>
@@ -227,7 +214,7 @@ function renderPortfolioSection(data) {
       <section data-section="portfolio" style="margin-bottom:24px;">
         <h3 style="font-size:14px; font-weight:600; margin-bottom:8px;">Model portfolio</h3>
         <div data-test="multibagger-portfolio-empty" style="color:var(--text-muted); font-size:13px; padding:14px; background:var(--bg-graphite); border-radius:6px;">
-          No positions yet. Open ${data.portfolio_summary?.starting_capital_inr ? fmtInr(data.portfolio_summary.starting_capital_inr) : "₹1L"} cash; deployment waits for a generated action with tradability checks.
+          No positions yet. Open ${data.portfolio_summary?.starting_capital_inr ? fmtInr(data.portfolio_summary.starting_capital_inr) : "₹1L"} cash; this lab remains research-only until a separate promotion gate exists.
         </div>
       </section>
     `;

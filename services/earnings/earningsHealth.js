@@ -17,6 +17,7 @@
  */
 
 import { summarizeFromHistoryFiles } from "./hitRateSummary.js";
+import { checkTuningGate, selectResolvedForTuning } from "./weightTuner.js";
 
 export const HEALTH_SCHEMA_VERSION = "earnings-health-v1";
 
@@ -416,6 +417,33 @@ export function buildHealthSummary(args = {}) {
     current_resolved_note: currentResolvedNote,
     detail: backtestSnapshot ? backtestSnapshot.v1_gate || null : null,
   };
+  const tuningRows = selectResolvedForTuning(history);
+  const rawWeightTuningGate = checkTuningGate(tuningRows);
+  const weightTuningGate = { ...rawWeightTuningGate, gate_met: rawWeightTuningGate.met === true };
+  const decisionContracts = {
+    cap_lift: {
+      gate_met: gateMet,
+      state: gateMet ? "review_ready" : "insufficient_evidence",
+      reason: gateMet
+        ? "Confidence-cap review is eligible from the cap-lift backtest gate."
+        : "Confidence-cap review remains blocked by the cap-lift backtest gate.",
+      gate: capLiftGate,
+    },
+    weight_tuning: {
+      gate_met: weightTuningGate.gate_met === true,
+      state: weightTuningGate.gate_met === true ? "review_ready" : "insufficient_evidence",
+      reason: weightTuningGate.gate_met === true
+        ? "Weight tuning review is eligible from the separate tuning sample gate."
+        : "Weight tuning remains blocked by the separate tuning sample gate.",
+      gate: weightTuningGate,
+    },
+    risk_lab: {
+      status: "shadow_only",
+      promoted: false,
+      promotion_state: "experimental_shadow",
+      forbidden_effects: ["change_prediction", "change_effective_sizing"],
+    },
+  };
 
   // ── Alerts — anything a human should look at, surfaced for Slack ──
   const alerts = [];
@@ -465,7 +493,10 @@ export function buildHealthSummary(args = {}) {
     alerts.push(`Resolved-actuals count dropped ${priorResolved} → ${resolvedCount} — archive may have been corrupted or reverted`);
   }
   if (gateMet && !(priorHealth && priorHealth.cap_lift_gate && priorHealth.cap_lift_gate.state)) {
-    alerts.push(`Cap-lift gate just CLEARED — scripts/tune-earnings-weights.mjs and the confidence-cap lift are now actionable`);
+    alerts.push(`Cap-lift gate just CLEARED — confidence-cap review is now actionable`);
+  }
+  if (weightTuningGate.gate_met && !(priorHealth?.decision_contracts?.weight_tuning?.gate_met)) {
+    alerts.push(`Weight-tuning gate just CLEARED — scripts/tune-earnings-weights.mjs review is now actionable`);
   }
   if (Object.keys(predictorVersions).length > 1) {
     alerts.push(`Live snapshot mixes predictor versions: ${Object.keys(predictorVersions).sort().join(", ")}`);
@@ -552,6 +583,8 @@ export function buildHealthSummary(args = {}) {
     llm_heuristic_share_pct: Math.round(heuristicShare * 100),
     llm_stats: llmStats || null,
     cap_lift_gate: capLiftGate,
+    weight_tuning_gate: weightTuningGate,
+    decision_contracts: decisionContracts,
     archive_schema: schema,
     predictor_versions: predictorVersions,
     restatements,

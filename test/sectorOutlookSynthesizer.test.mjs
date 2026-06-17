@@ -70,7 +70,7 @@ console.log("synthesizer: outlook label thresholds");
   );
   assert("composite 0.3 → TAILWIND", t.outlook_label === "TAILWIND", t);
 
-  // composite 0.6 → STRONG_TAILWIND (when both bu + td > 0.5)
+  // Strong agreement without HIGH trust demotes to normal TAILWIND.
   const s = synthesizeSectorAtHorizon(
     buildAggregate("Pharma", {
       "30d": { signed_index: 0.8, breadth_pct: 0.5, n_news: 10 },
@@ -80,7 +80,23 @@ console.log("synthesizer: outlook label thresholds");
     { regime: "BOOM", sectorImpacts: [{ sector: "Pharma", impact: 3, reason: "x" }] },
     "3_12m",
   );
-  assert("strong both sides → STRONG_TAILWIND", s.outlook_label === "STRONG_TAILWIND", s);
+  assert("strong both sides with MED confidence → TAILWIND", s.outlook_label === "TAILWIND", s);
+
+  const shigh = synthesizeSectorAtHorizon(
+    buildAggregate("Pharma", {
+      "30d": { signed_index: 0.8, breadth_pct: 0.9, n_news: 50, n_tickers: 9, avg_confidence: 0.95 },
+      "90d": { signed_index: 0.8, breadth_pct: 0.9, n_news: 50, n_tickers: 9, avg_confidence: 0.95 },
+      "365d": { signed_index: 0.8, breadth_pct: 0.9, n_news: 50, n_tickers: 9, avg_confidence: 0.95 },
+    }),
+    {
+      regime: "BOOM",
+      generatedAt: new Date().toISOString(),
+      sectorImpacts: [{ sector: "Pharma", impact: 3, reason: "x" }],
+    },
+    "3_12m",
+    { externalContext: { sector_price: { sectors: { Pharma: { score: 0.8 } } } } },
+  );
+  assert("strong both sides with HIGH confidence → STRONG_TAILWIND", shigh.outlook_label === "STRONG_TAILWIND", shigh);
 
   // Negative composite → HEADWIND
   const h = synthesizeSectorAtHorizon(
@@ -104,7 +120,7 @@ console.log("synthesizer: outlook label thresholds");
     { regime: "CRASH", sectorImpacts: [{ sector: "Pharma", impact: -3, reason: "x" }] },
     "3_12m",
   );
-  assert("strong-neg both → STRONG_HEADWIND", sh.outlook_label === "STRONG_HEADWIND", sh);
+  assert("strong-neg both with MED confidence → HEADWIND", sh.outlook_label === "HEADWIND", sh);
 
   // Neutral both sides
   const n = synthesizeSectorAtHorizon(

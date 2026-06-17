@@ -25,6 +25,13 @@ import {
   buildMultibaggerCandidatesView,
   buildMultibaggerOverviewView,
 } from "./services/multibagger/multibaggerApiView.js";
+import {
+  DECISION_STATES,
+  PORTFOLIO_ACTIONS,
+  buildDecisionContract,
+  contextOnlyContract,
+  shadowOnlyContract,
+} from "./services/decisionContract.js";
 
 // External-API circuit breaker for /api/sector-heatmap (Yahoo Finance batch
 // quote). 3 consecutive failures → opens for 60s; serves stale cached
@@ -101,6 +108,7 @@ import {
   buildRiskOverlay,
   PICKS_SCORING_VERSION,
 } from "./services/swsScoring.js";
+import { buildEntryBand } from "./services/swsIndiaSectionPolicy.js";
 import { computeV4Score, verdictV4FromScore } from "./services/swsScoringV4.js";
 import { reconcileFairValue, withReconciledFairValue } from "./services/fvReconciliation.js";
 import { buildCalibration as buildTrackCalibration } from "./services/trackRecord/calibration.js";
@@ -3095,15 +3103,13 @@ function readEarningsHealthSlim() {
       generated_at: h?.generated_at || null,
       hit_rate_summary: h?.hit_rate_summary || null,
       risk_lab_promotion_gate: h?.risk_lab_promotion_gate || null,
+      decision_contracts: h?.decision_contracts || null,
     };
   } catch { return null; }
 }
 
 function buildRiskLabSizingPromotionGate(health) {
   const explicit = health?.risk_lab_promotion_gate;
-  if (explicit?.status === LAB_PROMOTION_STATUS.PROMOTED || explicit?.promoted === true) {
-    return { ...explicit, status: LAB_PROMOTION_STATUS.PROMOTED, promoted: true };
-  }
   const hitRate = health?.hit_rate_summary || null;
   const rolling = hitRate?.rolling_30 || null;
   const threshold = hitRate?.catastrophic_alert_threshold_pct ?? 12;
@@ -3112,7 +3118,10 @@ function buildRiskLabSizingPromotionGate(health) {
   const catastrophicClear = typeof rate === "number" && rate <= threshold;
   return {
     status: LAB_PROMOTION_STATUS.NOT_PROMOTED,
+    promotion_state: explicit?.promotion_state || LAB_PROMOTION_STATUS.SHADOW,
     promoted: false,
+    explicit_promotion_observed: explicit?.status === LAB_PROMOTION_STATUS.PROMOTED || explicit?.promoted === true,
+    decision_contract: shadowOnlyContract("Risk Lab sizing is shadow-only; production confidence remains authoritative."),
     reason: explicit?.reason || (
       !enoughHistory
         ? "insufficient rolling-30 history for Risk Lab sizing promotion"
@@ -3174,6 +3183,16 @@ app.get("/api/earnings/upcoming", async (req, res) => {
       lab_regime: labMap?._regime || null,
       lab_generated_at: labMap?._generated_at || null,
       lab_promotion_gate: labPromotionGate,
+      decision_contracts: {
+        ...(health?.decision_contracts || {}),
+        risk_lab: {
+          status: "shadow_only",
+          promotion_state: labPromotionGate.promotion_state || LAB_PROMOTION_STATUS.SHADOW,
+          promoted: false,
+          forbidden_effects: ["change_prediction", "change_effective_sizing"],
+          decision_contract: labPromotionGate.decision_contract,
+        },
+      },
     });
   } catch (err) {
     console.error("[/api/earnings/upcoming] failed:", err);
@@ -4797,6 +4816,7 @@ function buildRiskLabRuntimeState({ picksPayload = null, qualityPayload = null, 
     inconsistent,
     promotion_state: degraded ? "experimental_not_promoted" : "experimental_shadow",
     promoted: false,
+    decision_contract: shadowOnlyContract("Risk Lab remains shadow-only until a separate promotion PR enables it."),
     issues,
     action_queue: buildRiskLabActionQueue(issues),
     audit,
@@ -4818,6 +4838,7 @@ function attachRiskLabRuntimeState(body, runtimeState) {
     ...body,
     lab_status: runtimeState.status,
     promotion_state: runtimeState.promotion_state,
+    decision_contract: runtimeState.decision_contract,
     risk_lab_state: runtimeState,
     runtime_audit: runtimeState.audit,
     action_queue: runtimeState.action_queue,
@@ -4862,6 +4883,7 @@ app.get("/api/risk-lab/regime-context", (req, res) => {
     summary: payload.summary,
     lab_status: runtimeState.status,
     promotion_state: runtimeState.promotion_state,
+    decision_contract: runtimeState.decision_contract,
     risk_lab_state: runtimeState,
     runtime_audit: runtimeState.audit,
     action_queue: runtimeState.action_queue,
@@ -4886,7 +4908,7 @@ app.get("/api/risk-lab/quality-flags/:ticker", (req, res) => {
     thesisPayload,
     thesisMissing: !thesisPayload,
   });
-  return res.json({ ...stock, risk_lab_state: runtimeState, runtime_audit: runtimeState.audit });
+  return res.json({ ...stock, decision_contract: runtimeState.decision_contract, risk_lab_state: runtimeState, runtime_audit: runtimeState.audit });
 });
 
 app.get("/api/risk-lab/quality-flags", (req, res) => {
@@ -4947,9 +4969,10 @@ app.get("/api/sector-outlook/latest", (req, res) => {
       : null;
     const outlookRegime = parsed.regime_at_generation?.regime || null;
     const currentRegime = macro?.regime || null;
-    return res.json({
-      ...parsed,
-      runtime_audit: {
+	    return res.json({
+	      ...parsed,
+	      decision_contract: contextOnlyContract("Sector Outlook is context-only; use stock-level evidence before any action."),
+	      runtime_audit: {
         age_hours: Number.isFinite(ageHours) ? ageHours : null,
         stale: !Number.isFinite(ageHours) || ageHours > 36,
         stale_threshold_hours: 36,
@@ -5127,7 +5150,17 @@ function filterStoredSectionPerformancePayload(payload, { windows, cohorts }) {
     fromStoredSnapshot: true,
   };
   if (Array.isArray(payload.windows) && wantedWindows.size) {
-    out.windows = payload.windows.filter((w) => wantedWindows.has(w?.window));
+    out.windows = payload.windows
+      .filter((w) => wantedWindows.has(w?.window))
+      .map((w) => ({
+        ...w,
+        sections: Array.isArray(w.sections) && wantedCohorts.size
+          ? w.sections.filter((s) => wantedCohorts.has(Number(s?.requestedCohortSize)))
+          : w.sections,
+        bestSection: w.bestSection && wantedCohorts.size && !wantedCohorts.has(Number(w.bestSection.requestedCohortSize))
+          ? null
+          : w.bestSection,
+      }));
   }
   if (Array.isArray(payload.cohorts) && wantedCohorts.size) {
     out.cohorts = payload.cohorts.filter((c) => wantedCohorts.has(Number(c)));
@@ -5141,7 +5174,17 @@ function readStoredSectionPerformancePayload({ windows, cohorts }) {
   if (!fs.existsSync(SECTION_PERFORMANCE_LATEST_PATH)) return null;
   try {
     const payload = JSON.parse(fs.readFileSync(SECTION_PERFORMANCE_LATEST_PATH, "utf-8"));
-    return filterStoredSectionPerformancePayload(payload, { windows, cohorts });
+    const stat = fs.statSync(SECTION_PERFORMANCE_LATEST_PATH);
+    const sourceGeneratedAt = payload.sourceGeneratedAt || payload.generatedAt || payload.lastComputedAt || stat.mtime.toISOString();
+    const sourceAgeHours = (Date.now() - new Date(sourceGeneratedAt).getTime()) / 3_600_000;
+    return {
+      ...filterStoredSectionPerformancePayload(payload, { windows, cohorts }),
+      sourceGeneratedAt,
+      sourceDateKey: payload.sourceDateKey || payload.dateKey || null,
+      source_stale: !Number.isFinite(sourceAgeHours) || sourceAgeHours > 36,
+      source_age_hours: Number.isFinite(sourceAgeHours) ? Math.round(sourceAgeHours * 10) / 10 : null,
+      source_stale_threshold_hours: 36,
+    };
   } catch (err) {
     console.warn("[trackRecord:sectionPerformance] stored snapshot read failed:", err.message);
     return null;
@@ -5654,6 +5697,7 @@ app.get("/api/track/section-performance", async (req, res) => {
       windows: payload?.windows || windows,
       cohorts: payload?.cohorts || cohorts,
       lastComputedAt: payload?.lastComputedAt || new Date().toISOString(),
+      decision_contract: contextOnlyContract("Track Record is historical evidence; hindsight rows do not imply current action."),
     };
     trackCache.set(cacheKey, response);
     res.set("X-Cache", "MISS");
@@ -6590,8 +6634,10 @@ app.post("/api/watchlist/add", express.json(), async (req, res) => {
 app.post("/api/watchlist/remove", express.json(), async (req, res) => {
   const { symbol } = req.body || {};
   if (!symbol) return res.status(400).json({ error: "symbol required" });
+  const resolved = findBySymbol(symbol);
+  const canonicalSymbol = resolved?.symbol || symbol;
   const storage = getWatchlistStorage();
-  const result = await storage.remove(symbol);
+  const result = await storage.remove(canonicalSymbol);
   res.json({ ok: true, ...result });
 });
 
@@ -8770,6 +8816,83 @@ function applySwsPicksQuery(data, req) {
   if (category) data._meta = { ...(data._meta || {}), category };
 }
 
+function liftSwsSectionAudit(data, raw) {
+  if (!data || typeof data !== "object") return data;
+  const audit = raw?.section_audit || raw?.sections?.__section_audit || null;
+  if (audit && typeof audit === "object") data.section_audit = { ...audit };
+  return data;
+}
+
+function rowForEntryBand(row) {
+  const overview = {
+    ...(row?.overview || {}),
+    current_price_inr: row?.current_price_inr ?? row?.overview?.current_price_inr,
+    fair_value_inr: row?.fair_value_inr ?? row?.overview?.fair_value_inr,
+    upside_pct: row?.upside_pct ?? row?.overview?.upside_pct,
+    market_cap_inr: row?.market_cap_inr ?? row?.overview?.market_cap_inr,
+    snowflake_total: row?.snowflake_total ?? row?.overview?.snowflake_total,
+    parsed_at: row?.data_freshness_at || row?.parsed_at || row?.overview?.parsed_at,
+  };
+  return {
+    ...row,
+    parsed_at: row?.data_freshness_at || row?.parsed_at || overview.parsed_at,
+    overview,
+  };
+}
+
+function contractForEntryBand(entryBand) {
+  const state = entryBand?.entry_state || "UNAVAILABLE";
+  const reason = Array.isArray(entryBand?.reasons) && entryBand.reasons.length
+    ? entryBand.reasons.map((r) => r?.message).filter(Boolean).join(" ")
+    : "Entry band derived from fair value, freshness, liquidity, and surveillance gates.";
+  if (entryBand?.fresh_buy_eligible === true && state === "BUY_ZONE") {
+    return buildDecisionContract({
+      state: DECISION_STATES.ACTIONABLE_NOW,
+      portfolio_action: PORTFOLIO_ACTIONS.BUY,
+      promoted: true,
+      reason,
+    });
+  }
+  if (entryBand?.fresh_buy_eligible === true && state === "STAGGER_ONLY") {
+    return buildDecisionContract({
+      state: DECISION_STATES.STAGGER_ONLY,
+      portfolio_action: PORTFOLIO_ACTIONS.STAGGER,
+      promoted: true,
+      reason,
+    });
+  }
+  return buildDecisionContract({
+    state: DECISION_STATES.WAIT,
+    label: state === "NO_BUY_ABOVE" ? "Wait above no-buy" : "Entry unavailable",
+    portfolio_action: PORTFOLIO_ACTIONS.WAIT,
+    promoted: false,
+    reason,
+  });
+}
+
+function stampSwsDecisionContracts(data) {
+  if (!data?.sections || !Array.isArray(data.sections.best_to_buy_now)) return data;
+  data.sections.best_to_buy_now = data.sections.best_to_buy_now.map((row) => {
+    const entryBand = buildEntryBand(rowForEntryBand(row));
+    return {
+      ...row,
+      entry_band: entryBand,
+      fresh_buy_eligible: entryBand.fresh_buy_eligible === true,
+      decision_contract: contractForEntryBand(entryBand),
+    };
+  });
+  const audit = data.section_audit?.best_to_buy_now;
+  if (audit && typeof audit === "object") {
+    const freshCount = data.sections.best_to_buy_now.filter((row) => row?.fresh_buy_eligible === true).length;
+    audit.response_time_fresh_buy_count = freshCount;
+    if (data.sections.best_to_buy_now.length > 0 && freshCount === 0) {
+      audit.ui_warning_label = "No actionable-now rows";
+      audit.ui_warning_message = "Stored Buy Now rows no longer clear the response-time freshness and entry gates.";
+    }
+  }
+  return data;
+}
+
 function buildSwsScanStatusHint() {
   const now = Date.now();
   const progress = swsDal.getAllShardProgressApi();
@@ -8801,6 +8924,7 @@ function buildSwsPicksSummaryPayload(raw, req) {
       ? (() => { const { avoid, ...rest } = raw.sections; return normaliseTopRankedSections({ ...rest }); })()
       : raw.sections,
   };
+  liftSwsSectionAudit(data, raw);
   const missingDeepCounter = { count: 0, sample: [], failOpenSections: [] };
   if (data.sections) {
     const isPureBSEcode = (t) => typeof t === "string" && /^\d+$/.test(t);
@@ -8824,6 +8948,7 @@ function buildSwsPicksSummaryPayload(raw, req) {
   data.shard_progress_api = swsDal.getAllShardProgressApi();
   data.scan_status_hint = buildSwsScanStatusHint();
   data.indexConstituentsAvailable = NSE_INDEX_AVAILABLE;
+  stampSwsDecisionContracts(data);
   data._meta = {
     ...(data._meta || {}),
     summary_view: true,
@@ -8863,6 +8988,7 @@ app.get("/api/sws-picks", async (req, res) => {
       ? (() => { const { avoid, ...rest } = raw.sections; return normaliseTopRankedSections({ ...rest }); })()
       : raw.sections,
   };
+  liftSwsSectionAudit(data, raw);
   const limitRaw = req.query.limit;
   const limit = limitRaw != null
     ? Math.min(Math.max(parseInt(limitRaw, 10) || 0, 0), SWS_PICKS_MAX_LIMIT)
@@ -8923,6 +9049,7 @@ app.get("/api/sws-picks", async (req, res) => {
   data.shard_progress_api = swsDal.getAllShardProgressApi();
   data.scan_status_hint = buildSwsScanStatusHint();
   data.indexConstituentsAvailable = NSE_INDEX_AVAILABLE;
+  stampSwsDecisionContracts(data);
   data._meta = {
     ...(data._meta || {}),
     fv_drift_count: driftCounter.count,
