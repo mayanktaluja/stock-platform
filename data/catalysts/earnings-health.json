@@ -1,23 +1,23 @@
 {
   "schema_version": "earnings-health-v1",
-  "generated_at": "2026-06-16T02:06:02.160Z",
+  "generated_at": "2026-06-17T04:21:49.720Z",
   "resolved": {
     "count": 446,
     "delta_vs_prior": 0,
     "prior_count": 446
   },
   "llm_providers": {
-    "groq": 2,
-    "gemini": 0,
+    "groq": 0,
+    "gemini": 4,
     "heuristic": 5,
     "none": 0,
-    "total": 7
+    "total": 9
   },
   "llm_offline": false,
   "llm_heuristic_share_pct": 0,
   "llm_stats": {
-    "total": 7,
-    "classified": 7,
+    "total": 9,
+    "classified": 9,
     "cache_hits": 2,
     "llm_calls": 1,
     "heuristic": 3,
@@ -31,7 +31,7 @@
   "cap_lift_gate": {
     "state": false,
     "enough_data_to_lift_cap": false,
-    "days_in_current_state": 39,
+    "days_in_current_state": 40,
     "current_resolved": 0,
     "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (446 across all versions)",
     "detail": {
@@ -45,10 +45,10 @@
     }
   },
   "archive_schema": {
-    "earnings-history-v5": 26
+    "earnings-history-v5": 27
   },
   "predictor_versions": {
-    "earnings-predict-v3-2026-05": 7
+    "earnings-predict-v3-2026-05": 9
   },
   "restatements": {
     "count": 0,
@@ -69,10 +69,10 @@
   },
   "macro_regime": {
     "present": true,
-    "generated_at": "2026-06-15T14:30:32.085Z",
-    "age_hours": 12,
+    "generated_at": "2026-06-16T14:30:27.849Z",
+    "age_hours": 14,
     "classifier_provider": "groq",
-    "regime": "WAR_DE_ESCALATION",
+    "regime": "OIL_SHOCK",
     "stale": false,
     "alert": null
   },
@@ -81,27 +81,27 @@
     "runtime_24h": null,
     "alert": null
   },
-  "history_files": 26,
+  "history_files": 27,
   "hit_rate_summary": {
     "schema_version": "hit-rate-summary-v1",
-    "generated_at": "2026-06-16T02:06:02.330Z",
+    "generated_at": "2026-06-17T04:21:49.915Z",
     "resolved_count": 349,
-    "unresolved_count": 1324,
+    "unresolved_count": 1326,
     "strict": {
       "hit_rate_pct": 35,
-      "ci_low_pct": 29.8,
+      "ci_low_pct": 30.1,
       "ci_high_pct": 39.8,
       "sample_size": 349
     },
     "lenient": {
       "hit_rate_pct": 81.6,
       "ci_low_pct": 77.6,
-      "ci_high_pct": 85.9,
+      "ci_high_pct": 85.3,
       "sample_size": 348
     },
     "catastrophic": {
       "rate_pct": 18.4,
-      "ci_low_pct": 14.4,
+      "ci_low_pct": 14.7,
       "ci_high_pct": 22.4,
       "sample_size": 348
     },

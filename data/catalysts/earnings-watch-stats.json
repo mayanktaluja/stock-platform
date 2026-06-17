@@ -1,41 +1,45 @@
 {
   "schema_version": "earnings-watch-stats-v4",
-  "built_at": "2026-06-16T01:54:25.119Z",
-  "today_iso": "2026-06-16",
+  "built_at": "2026-06-17T04:10:11.985Z",
+  "today_iso": "2026-06-17",
   "window_days": 60,
-  "upstream_event_count": 26,
-  "upstream_fetched_at": "2026-06-15T19:00:44.464Z",
-  "event_count": 7,
-  "recent_results_count": 8,
+  "upstream_event_count": 33,
+  "upstream_fetched_at": "2026-06-16T19:00:28.710Z",
+  "event_count": 9,
+  "recent_results_count": 7,
   "past_window_days": 14,
   "bucket_by_days": {
-    "d0": 0,
-    "d1to3": 2,
+    "d0": 1,
+    "d1to3": 1,
     "d4to7": 0,
     "d8to14": 1,
-    "d15to30": 0,
+    "d15to30": 2,
     "d31to60": 4
   },
   "signals": {
     "by_data_quality": {
-      "HIGH": 7,
+      "HIGH": 9,
       "MEDIUM": 0,
       "LOW": 0
     },
     "by_pre_runup": {
-      "spike": 0,
-      "smooth": 1,
+      "spike": 1,
+      "smooth": 0,
       "lagging": 2,
-      "neutral": 4
+      "neutral": 6
     },
     "sector_count": 5,
     "top_sectors": [
       {
-        "sector": "Materials",
+        "sector": "Software",
+        "count": 3
+      },
+      {
+        "sector": "Food, Beverage & Tobacco",
         "count": 2
       },
       {
-        "sector": "Software",
+        "sector": "Materials",
         "count": 2
       },
       {
@@ -45,18 +49,14 @@
       {
         "sector": "Capital Goods",
         "count": 1
-      },
-      {
-        "sector": "Food, Beverage & Tobacco",
-        "count": 1
       }
     ]
   },
   "predictions": {
     "by_verdict": {
-      "BEAT": 4,
+      "BEAT": 5,
       "INLINE": 2,
-      "MISS": 1,
+      "MISS": 2,
       "INSUFFICIENT_DATA": 0
     },
     "avg_confidence_pct": 56,
@@ -64,18 +64,18 @@
     "predictor_version": "earnings-predict-v3-2026-05"
   },
   "playbooks": {
-    "tradable_count": 7,
+    "tradable_count": 9,
     "by_highlighted_branch": {
-      "RAISE": 3,
-      "MAINTAIN": 4,
-      "CUT": 0,
+      "RAISE": 2,
+      "MAINTAIN": 6,
+      "CUT": 1,
       "none": 0
     },
     "playbook_version": "earnings-playbook-v1-2026-05"
   },
   "llm_stats": {
-    "total": 7,
-    "classified": 7,
+    "total": 9,
+    "classified": 9,
     "cache_hits": 2,
     "llm_calls": 1,
     "heuristic": 3,
