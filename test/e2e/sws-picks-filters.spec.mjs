@@ -258,6 +258,67 @@ test.describe("SWS Picks · Universe + Sector filters", () => {
     await expect(section).toContainText(/FV 30%\+/i);
   });
 
+  test("Growing Sector Value explains sector mapping coverage gate", async ({ page }) => {
+    await page.route("**/api/sws-picks**", async (route) => {
+      const pathname = new URL(route.request().url()).pathname;
+      if (!pathname.endsWith("/api/sws-picks") && !pathname.endsWith("/api/sws-picks-summary")) {
+        await route.fallback();
+        return;
+      }
+      await route.fulfill({
+        contentType: "application/json",
+        body: JSON.stringify({
+          schema_version: "picks-latest-v3",
+          scoring_version: "test",
+          scanned_at: "2026-06-04T00:00:00.000Z",
+          indexConstituentsAvailable: false,
+          section_audit: {
+            growing_sector_value: {
+              available: false,
+              reason: "sector_mapping_coverage_below_floor",
+              base_eligible_count: 275,
+              mapped_count: 111,
+              selected_count: 26,
+              coverage_ratio: 0.404,
+              ui_warning_label: "Sector mapping coverage below floor · 40%",
+              ui_warning_message: "Candidates are withheld because only 111 of 275 base-eligible stocks mapped to Sector Outlook sectors (40%); the trust floor is 60%. Refresh/fix the Sector Outlook taxonomy before showing this section.",
+            },
+          },
+          sections: {
+            top_ranked_30_v3: [{
+              ticker: "TOP",
+              name: "Top Pick Ltd",
+              sector: "Software",
+              current_price_inr: 100,
+              fair_value_inr: 130,
+              upside_pct: 30,
+              v4_score_100: 70,
+              v4_verdict: "TOP_PICK",
+              score: 70,
+              snowflake_total: 24,
+              one_line: "Synthetic top pick for render readiness",
+            }],
+            best_to_buy_now: [],
+            deep_value: [],
+            growing_sector_value: [],
+            quality_growth: [],
+          },
+        }),
+      });
+    });
+
+    await gotoApp(page, { tab: "picks" });
+    await waitForPicksLoaded(page);
+
+    const chip = page.locator('.sws-pick-chip[data-section-key="growing_sector_value"]');
+    await expect(chip).toBeVisible();
+    await chip.click();
+    const section = page.locator('.sws-pick-section[data-section-key="growing_sector_value"]');
+    await expect(section.locator(".sws-pick-section-warning")).toContainText(/Sector mapping coverage below floor · 40%/);
+    await expect(section.locator(".sws-pick-section-empty")).toContainText(/only 111 of 275 base-eligible stocks/i);
+    await expect(section.locator(".sws-pick-section-empty")).toContainText(/trust floor is 60%/i);
+  });
+
   test("Snowflake Gap Lab renders as experimental and keeps canonical score primary", async ({ page }) => {
     await page.route("**/api/sws-picks**", async (route) => {
       const pathname = new URL(route.request().url()).pathname;

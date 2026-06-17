@@ -69,6 +69,14 @@ function readTimestamp(root, spec) {
   }
 }
 
+function readJson(root, relPath) {
+  try {
+    return JSON.parse(fs.readFileSync(path.join(root, relPath), "utf-8"));
+  } catch {
+    return null;
+  }
+}
+
 function ageHours(iso, nowMs) {
   if (!iso) return null;
   const ts = Date.parse(iso);
@@ -77,7 +85,7 @@ function ageHours(iso, nowMs) {
 }
 
 function assess(root, nowMs, criticalOnly) {
-  return SNAPSHOTS
+  const rows = SNAPSHOTS
     .filter((spec) => !criticalOnly || spec.critical)
     .map((spec) => {
       const generatedAt = readTimestamp(root, spec);
@@ -95,6 +103,37 @@ function assess(root, nowMs, criticalOnly) {
         stale,
       };
     });
+  rows.push(assessGrowingSectorValueGate(root));
+  return rows.filter((row) => !criticalOnly || row.critical);
+}
+
+function assessGrowingSectorValueGate(root) {
+  const relPath = "data/sws/picks-latest.json";
+  const parsed = readJson(root, relPath);
+  const audit = parsed?.section_audit?.growing_sector_value;
+  const items = parsed?.sections?.growing_sector_value;
+  const candidateCount = Number(audit?.future_growth_candidate_count || audit?.selected_count || 0);
+  const servedCount = Array.isArray(items) ? items.length : 0;
+  const failed =
+    audit?.reason === "sector_mapping_coverage_below_floor" &&
+    candidateCount > 0 &&
+    servedCount === 0;
+  return {
+    key: "growing_sector_value_gate",
+    label: "Growing Sector Value gate",
+    relPath,
+    field: "section_audit.growing_sector_value",
+    generatedAt: parsed?.scanned_at || null,
+    age_hours: null,
+    max_age_hours: null,
+    critical: true,
+    stale: failed,
+    reason: audit?.reason || (parsed ? "ok" : "picks_missing"),
+    detail: failed
+      ? `coverage ${Math.round(Number(audit.coverage_ratio || 0) * 100)}% ` +
+        `(${audit.mapped_count || 0}/${audit.base_eligible_count || 0}) withheld ${candidateCount} candidates`
+      : null,
+  };
 }
 
 const args = parseArgs(process.argv);
@@ -116,9 +155,11 @@ if (args.json) {
   for (const row of rows) {
     const age = row.age_hours == null ? "no data" : `${row.age_hours}h`;
     const status = row.stale ? "STALE" : "OK";
+    const maxAge = row.max_age_hours == null ? "n/a" : `${row.max_age_hours}h`;
     console.log(
       `[snapshot-health] ${status} ${row.key}: ${age} ` +
-      `(max ${row.max_age_hours}h, ${row.relPath}.${row.field}=${row.generatedAt || "null"})`,
+      `(max ${maxAge}, ${row.relPath}.${row.field}=${row.generatedAt || "null"})` +
+      (row.detail ? ` ${row.detail}` : ""),
     );
   }
   if (stale.length > 0) {
