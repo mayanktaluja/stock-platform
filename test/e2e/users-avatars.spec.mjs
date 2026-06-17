@@ -65,7 +65,7 @@ test.describe("Users-tab avatars — CSP + renderer regression", () => {
 
     // The renderer must wrap the <img> in a div with the placeholder
     // background (so a failed image reveals the placeholder, not whitespace).
-    expect(src).toMatch(/background:#1a2233;overflow:hidden;display:inline-block/);
+    expect(src).toMatch(/background:var\(--bg-graphite\);overflow:hidden;display:inline-block/);
 
     // The <img> must carry the onerror hide so broken URLs degrade
     // gracefully. Without this, the browser's broken-image glyph shows.

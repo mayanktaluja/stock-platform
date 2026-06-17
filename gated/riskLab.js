@@ -372,7 +372,7 @@
         border: "1px solid rgba(251,191,36,0.45)",
         borderRadius: "8px",
         background: "rgba(251,191,36,0.08)",
-        color: "#fbbf24",
+        color: "var(--warn-text)",
         fontSize: "12px",
         lineHeight: "1.45",
       },
@@ -415,7 +415,7 @@
           "data-testid": "risk-lab-promotion-state",
           style: {
             fontSize: "10px",
-            color: degraded ? "#fbbf24" : "#86efac",
+            color: degraded ? "var(--warn-text)" : "var(--positive-text-soft)",
             border: `1px solid ${degraded ? "rgba(251,191,36,0.4)" : "rgba(134,239,172,0.35)"}`,
             borderRadius: "999px",
             padding: "2px 8px",
@@ -434,7 +434,7 @@
           borderTop: idx === 0 ? "none" : "1px solid var(--border-soft, var(--border))",
         },
       },
-        el("div", { style: { color: idx === 0 && degraded ? "#f87171" : "#93c5fd", fontWeight: "700", fontSize: "12px" } }, `P${item.priority ?? idx + 1}`),
+        el("div", { style: { color: idx === 0 && degraded ? "var(--negative-text)" : "var(--info-text-soft)", fontWeight: "700", fontSize: "12px" } }, `P${item.priority ?? idx + 1}`),
         el("div", { style: { color: "var(--text-primary)", fontSize: "12px", fontWeight: "600" } }, item.label || item.code || "Review Risk Lab"),
         el("div", { style: { color: "var(--text-muted)", fontSize: "11px", lineHeight: "1.4" } }, item.detail || ""),
       )),
@@ -979,7 +979,29 @@
         }, _showAll ? `Collapse to first 100 (of ${filtered.length})` : `Show all ${filtered.length} matches`)
       : null;
 
-    return el("div", null, searchInput, header, ...rows, footer);
+    const tableWrap = el(
+      "div",
+      {
+        "data-testid": "risk-lab-table-wrap",
+        style: {
+          overflowX: "auto",
+          maxWidth: "100%",
+          WebkitOverflowScrolling: "touch",
+        },
+      },
+      el(
+        "div",
+        {
+          style: {
+            minWidth: "680px",
+          },
+        },
+        header,
+        ...rows,
+      ),
+    );
+
+    return el("div", null, searchInput, tableWrap, footer);
   }
 
   function renderRow(s) {

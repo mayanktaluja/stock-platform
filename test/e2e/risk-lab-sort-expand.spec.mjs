@@ -32,6 +32,36 @@ async function loadRiskLabAndCountFiltered(page, request) {
 }
 
 test.describe("Risk Lab — sort & expand", () => {
+  test("mobile layout contains fixed-grid rows without body horizontal overflow", async ({ page, request }) => {
+    const apiRes = await request.get("/api/risk-lab/picks-adjusted");
+    if (apiRes.status() === 404 || apiRes.status() === 503) {
+      test.skip(true, "Risk Lab disabled or picks-adjusted file not generated");
+    }
+    const body = await apiRes.json();
+    const filtered = (body.stocks || []).filter(
+      (s) => (s.quality_flags?.length || 0) > 0 || s.quality_veto?.vetoed,
+    );
+    if (filtered.length === 0) test.skip(true, "Quality lens has no rows in current snapshot");
+
+    await page.setViewportSize({ width: 375, height: 812 });
+    await gotoApp(page, { tab: "riskLab" });
+    await expect(page.getByTestId("risk-lab-table-wrap")).toBeVisible({ timeout: 15_000 });
+    await expect(page.getByTestId("risk-lab-row").first()).toBeVisible();
+
+    const metrics = await page.evaluate(() => ({
+      bodyOverflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+      wrapOverflow: (() => {
+        const el = document.querySelector('[data-testid="risk-lab-table-wrap"]');
+        return el ? el.scrollWidth > el.clientWidth : false;
+      })(),
+    }));
+    expect(metrics.bodyOverflow).toBeLessThanOrEqual(1);
+    expect(metrics.wrapOverflow).toBe(true);
+
+    await page.getByTestId("risk-lab-row").first().press("Enter");
+    await expect(page.locator("#swsModalBackdrop.open, #usModalBackdrop.open")).toBeVisible({ timeout: 10_000 });
+  });
+
   test("Show-all button expands beyond the 100 cap and collapses back", async ({ page, request }) => {
     const total = await loadRiskLabAndCountFiltered(page, request);
     const btn = page.getByTestId("risk-lab-show-all-btn");

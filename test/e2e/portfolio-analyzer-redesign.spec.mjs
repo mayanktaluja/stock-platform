@@ -60,6 +60,12 @@ test.describe("D2 analyzer redesign", () => {
   );
 
   test("report is token-driven and re-themes", async ({ page }) => {
+    await page.addInitScript(() => {
+      try {
+        localStorage.setItem("starbhaiTheme", "dark");
+        localStorage.removeItem("theme");
+      } catch {}
+    });
     await gotoApp(page, { tab: "analyzer" });
     await uploadAndWaitForReport(page, FIXTURE);
 
@@ -83,7 +89,10 @@ test.describe("D2 analyzer redesign", () => {
         getComputedStyle(el).getPropertyValue("--surface-navy").trim(),
       );
     const darkBg = await panelBg();
-    await page.evaluate(() => localStorage.setItem("theme", "light"));
+    await page.evaluate(() => {
+      localStorage.setItem("starbhaiTheme", "light");
+      localStorage.removeItem("theme");
+    });
     await page.reload();
     await gotoApp(page, { tab: "analyzer" });
     await uploadAndWaitForReport(page, FIXTURE);

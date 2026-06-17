@@ -103,11 +103,37 @@ test.describe("SWS Picks — FV-unavailable chip", () => {
 
     test.skip(!goodFvTicker, "no non-null-FV card in today's picks-latest.json");
 
-    const card = page.locator(`.sws-pick-card[data-ticker="${goodFvTicker}"]`).first();
-    await expect(card).toBeVisible();
-    await expect(card.locator(".sws-pick-fv-unavailable")).toHaveCount(0);
-    // FV cell shows a ₹ amount.
-    const fvCellText = await card.locator(".sws-pick-stat", { hasText: "FV" }).first().innerText();
-    expect(fvCellText).toMatch(/₹/);
+    await page.fill("#picksSearchInput", goodFvTicker);
+    await page.waitForFunction(
+      (t) => {
+        const cards = [...document.querySelectorAll(`.sws-pick-card[data-ticker="${t}"]`)];
+        return cards.some((card) => {
+          const stat = [...card.querySelectorAll(".sws-pick-stat")]
+            .find((el) => (el.textContent || "").includes("FV"));
+          return stat && (stat.textContent || "").includes("₹");
+        });
+      },
+      goodFvTicker,
+      { timeout: 5_000 },
+    );
+
+    const cards = page.locator(`.sws-pick-card[data-ticker="${goodFvTicker}"]`);
+    const count = await cards.count();
+    expect(count, `expected at least one card for ${goodFvTicker}`).toBeGreaterThan(0);
+
+    const fvStats = await cards.evaluateAll((nodes) => nodes.map((card) => {
+      const stat = [...card.querySelectorAll(".sws-pick-stat")]
+        .find((el) => (el.textContent || "").includes("FV"));
+      return {
+        text: stat?.textContent || "",
+        hasUnavailable: !!card.querySelector(".sws-pick-fv-unavailable"),
+      };
+    }));
+    const renderedFvStats = fvStats.filter((stat) => stat.text.includes("₹"));
+    expect(renderedFvStats.length, `expected rendered FV card for ${goodFvTicker}`).toBeGreaterThan(0);
+    for (const stat of renderedFvStats) {
+      expect(stat.hasUnavailable).toBe(false);
+      expect(stat.text).toMatch(/₹/);
+    }
   });
 });

@@ -215,6 +215,33 @@ test.describe("Sector Outlook tab (v1)", () => {
     await expect(drillRow.locator("text=Top-down macro")).toBeVisible();
   });
 
+  test("sector rows expand with keyboard and update aria-expanded", async ({ page, request }) => {
+    const apiRes = await request.get("/api/sector-outlook/latest");
+    if (apiRes.status() === 503) test.skip(true, "outlook-latest.json not generated");
+    const body = await apiRes.json();
+    if (body.sectors.length === 0) test.skip(true, "no sectors classified");
+
+    await gotoApp(page, { tab: "sectorOutlook" });
+    await expect(page.locator("h2:has-text('Sector Outlook')")).toBeVisible({ timeout: 15_000 });
+
+    const firstSector = (await renderedSectors(page))[0];
+    const row = page.locator(`tr[data-sector="${firstSector}"]`);
+    const drillRow = page.locator(`tr[data-drilldown-for="${firstSector}"]`);
+    await expect(row).toHaveAttribute("role", "button");
+    await expect(row).toHaveAttribute("tabindex", "0");
+    await expect(row).toHaveAttribute("aria-expanded", "false");
+    await expect(row).toHaveAttribute("aria-controls", /sector-outlook-drilldown-/);
+
+    await row.focus();
+    await page.keyboard.press("Enter");
+    await expect(drillRow).toBeVisible();
+    await expect(row).toHaveAttribute("aria-expanded", "true");
+
+    await page.keyboard.press(" ");
+    await expect(drillRow).toBeHidden();
+    await expect(row).toHaveAttribute("aria-expanded", "false");
+  });
+
   test("localStorage opt-out hides the tab", async ({ page }) => {
     await page.addInitScript(() => {
       try { localStorage.setItem("sectorOutlookEnabled_v1", "false"); } catch {}

@@ -83,6 +83,8 @@ test.describe("5x Lab — trajectory + overview", () => {
     const bannerText = await statusBanner.textContent();
     expect(bannerText).not.toMatch(/\[object Object\]/);
     expect(bannerText).toMatch(/Snapshot (current|status)|Evidence gate/i);
+    await expect(page.locator('[data-test="multibagger-pipeline-freshness"]')).toContainText(/research-only; does not upgrade India Market action/i);
+    await expect(page.locator('[data-test="multibagger-pipeline-freshness"]')).toContainText(/evidence gate/i);
     expect(await content.textContent()).not.toMatch(/BUY action|Today's Action|5X_CANDIDATE|HIGH_CONVICTION/);
   });
 

@@ -102,7 +102,7 @@ function renderStatusBanner(data) {
     : `Snapshot current. Built ${fmtAgeHours(ageH)} ago.`;
   return `
     <section data-test="multibagger-status-banner" style="margin-bottom:16px; padding:12px 14px; border:1px solid ${statusColor(status)}; border-radius:8px; background:rgba(251,191,36,0.06); color:var(--text-secondary); font-size:12px; line-height:1.5;">
-      <span data-testid="decision-state" data-test="multibagger-decision-state" style="display:inline-flex; margin-bottom:6px; padding:2px 8px; border-radius:12px; border:1px solid rgba(96,165,250,0.32); background:rgba(96,165,250,0.10); color:var(--info-text-soft); font-weight:700; font-size:11px;">${escapeHtml(data.decision_contract?.label || "Research only")}</span>
+      <span data-testid="decision-state" data-test="multibagger-decision-state" style="display:inline-flex; margin-bottom:6px; padding:2px 8px; border-radius:12px; border:1px solid rgba(96,165,250,0.32); background:rgba(96,165,250,0.10); color:var(--info-text-soft); font-weight:700; font-size:11px;">Research only</span>
       <strong style="color:${statusColor(status)};">${escapeHtml(statusText)}</strong>
       <span style="display:block; margin-top:4px;">${escapeHtml(validationText)}</span>
       ${data.survivorship_warning ? `<span style="display:block; margin-top:4px; color:var(--text-muted);">${escapeHtml(data.survivorship_warning)}</span>` : ""}
@@ -229,10 +229,26 @@ function renderPortfolioSection(data) {
 
 function renderPipelineSection(data) {
   const cands = data.top_candidates || [];
+  const snapshot = data.snapshot_status || {};
+  const status = typeof snapshot === "string" ? snapshot : (snapshot.state || "missing");
+  const builtAt = snapshot.built_at || data.built_at || data.generated_at || null;
+  const ageH = typeof data.age_h === "number" ? data.age_h : snapshot.age_h;
+  const validation = data.validation_gate || {};
+  const gateText = validation.gate_met === true
+    ? "evidence gate passed"
+    : "evidence gate not met";
+  const statusText = status === "ok" ? "snapshot current" : `snapshot ${status}`;
+  const sourceText = [
+    statusText,
+    builtAt ? `age ${fmtAgeHours(ageH)}` : "age unavailable",
+    gateText,
+    "research-only; does not upgrade India Market action",
+  ].join(" · ");
   if (!cands.length) {
     return `
       <section data-section="pipeline" style="margin-bottom:24px;">
         <h3 style="font-size:14px; font-weight:600; margin-bottom:8px;">5x Candidate pipeline</h3>
+        <div data-test="multibagger-pipeline-freshness" style="font-size:11px; color:var(--text-muted); margin:-2px 0 10px;">${escapeHtml(sourceText)}</div>
         <div style="color:var(--text-muted); font-size:13px;">No candidates available — refresh job may not have run.</div>
       </section>
     `;
@@ -240,7 +256,7 @@ function renderPipelineSection(data) {
   const rows = cands.slice(0, 20).map((c, i) => {
     const entryState = c.tradability_state || c.entry_status || "WAIT_FOR_VOLUME";
     return `
-    <tr>
+    <tr data-test="multibagger-candidate-row">
       <td style="padding:6px 8px; font-size:11px; color:var(--text-muted);">${i + 1}</td>
       <td style="padding:6px 8px; font-weight:500;">${escapeHtml(c.ticker)}</td>
       <td style="padding:6px 8px; color:var(--text-muted); font-size:12px;">${escapeHtml(c.sector || "—")}</td>
@@ -257,16 +273,19 @@ function renderPipelineSection(data) {
   return `
     <section data-section="pipeline" style="margin-bottom:24px;">
       <h3 style="font-size:14px; font-weight:600; margin-bottom:8px;">Research pipeline (top ${Math.min(cands.length, 20)})</h3>
-      <table data-test="multibagger-candidate-table" style="width:100%; border-collapse:collapse; font-size:12px;">
-        <thead><tr style="border-bottom:1px solid var(--bg-graphite);">
-          <th style="padding:6px 8px; text-align:left; font-weight:600; color:var(--text-muted);">#</th>
-          <th style="padding:6px 8px; text-align:left; font-weight:600; color:var(--text-muted);">Ticker</th>
-          <th style="padding:6px 8px; text-align:left; font-weight:600; color:var(--text-muted);">Sector</th>
-          <th style="padding:6px 8px; text-align:right; font-weight:600; color:var(--text-muted);">Research score${infoIcon("mb_score")}</th>
-          <th style="padding:6px 8px; text-align:right; font-weight:600; color:var(--text-muted);">Entry status${infoIcon("mb_verdict")}</th>
-        </tr></thead>
-        <tbody>${rows}</tbody>
-      </table>
+      <div data-test="multibagger-pipeline-freshness" style="font-size:11px; color:var(--text-muted); margin:-2px 0 10px;">${escapeHtml(sourceText)}</div>
+      <div data-test="multibagger-candidate-table-wrap" style="overflow-x:auto; max-width:100%; -webkit-overflow-scrolling:touch;">
+        <table data-test="multibagger-candidate-table" style="width:100%; min-width:620px; border-collapse:collapse; font-size:12px;">
+          <thead><tr style="border-bottom:1px solid var(--bg-graphite);">
+            <th style="padding:6px 8px; text-align:left; font-weight:600; color:var(--text-muted);">#</th>
+            <th style="padding:6px 8px; text-align:left; font-weight:600; color:var(--text-muted);">Ticker</th>
+            <th style="padding:6px 8px; text-align:left; font-weight:600; color:var(--text-muted);">Sector</th>
+            <th style="padding:6px 8px; text-align:right; font-weight:600; color:var(--text-muted);">Research score${infoIcon("mb_score")}</th>
+            <th style="padding:6px 8px; text-align:right; font-weight:600; color:var(--text-muted);">Entry status${infoIcon("mb_verdict")}</th>
+          </tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
     </section>
   `;
 }

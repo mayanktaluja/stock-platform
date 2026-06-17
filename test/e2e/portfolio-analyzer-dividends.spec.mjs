@@ -86,11 +86,12 @@ test.describe("Portfolio Analyzer — Dividends to capture", () => {
     expect(upcomingIdx).toBeLessThan(awaitingIdx);
     expect(awaitingIdx).toBeLessThan(captureIdx);
 
-    await summary.first().click();
     const section = summary.first().locator(
       "xpath=ancestor::details[contains(@class,'analyzer-tier-details')][1]"
     );
-    await expect(section).toHaveAttribute("open", /.*/);
+    const isOpen = await section.evaluate((el) => el.open);
+    if (!isOpen) await summary.first().click();
+    await expect(section).toHaveJSProperty("open", true);
 
     const sectionText = await section.innerText();
     expect(sectionText.toLowerCase()).not.toContain("you will earn");
@@ -128,10 +129,12 @@ test.describe("Portfolio Analyzer — Dividends to capture", () => {
     const summary = page.locator(
       "details.analyzer-tier-details summary:has-text(\"Dividends to capture\")"
     );
-    await summary.first().click();
     const section = summary.first().locator(
       "xpath=ancestor::details[contains(@class,'analyzer-tier-details')][1]"
     );
+    const isOpen = await section.evaluate((el) => el.open);
+    if (!isOpen) await summary.first().click();
+    await expect(section).toHaveJSProperty("open", true);
 
     const rows = section.locator("tbody tr");
     const rowCount = await rows.count();
@@ -144,8 +147,13 @@ test.describe("Portfolio Analyzer — Dividends to capture", () => {
     await expect(header).toContainText("DPS");
     await expect(header).toContainText("Est. ₹ for your qty");
 
-    // Ex-date column must be ASC. Ex-date is at index 6 (0-based):
-    //   0=#  1=Stock  2=Qty  3=DPS  4=Yield  5=Hold by  6=Ex-date  7=Days until  8=Est. ₹
+    const headerTexts = (await section.locator("thead th").allInnerTexts()).map((s) => s.trim());
+    const exDateIndex = headerTexts.findIndex((s) => /^Ex-date$/i.test(s));
+    expect(exDateIndex, `Ex-date header missing in ${headerTexts.join(" | ")}`).toBeGreaterThanOrEqual(0);
+
+    // Ex-date column must be ASC. Resolve by header label instead of a fixed
+    // index so a future factual column (for example Hold by) does not silently
+    // point this guard at the wrong cell.
     const MONTHS = { Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5, Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11 };
     const parseEnIn = (s) => {
       const m = s.match(/(\d{1,2})\s+([A-Za-z]{3})\s+(\d{4})/);
@@ -155,7 +163,7 @@ test.describe("Portfolio Analyzer — Dividends to capture", () => {
 
     let prevMs = -Infinity;
     for (let i = 0; i < rowCount; i++) {
-      const exText = (await rows.nth(i).locator("td").nth(6).innerText()).trim();
+      const exText = (await rows.nth(i).locator("td").nth(exDateIndex).innerText()).trim();
       const ms = parseEnIn(exText);
       expect(ms, `row ${i} "${exText}" did not parse`).not.toBeNull();
       expect(ms, `row ${i} ex-date out of ASC order`).toBeGreaterThanOrEqual(prevMs);

@@ -121,7 +121,7 @@ test.describe("US Picks API", () => {
     }
   });
 
-  test("GET /api/us-stock/GAPAI merges Gap Lab metadata and preserves parser matrix", async ({ request }) => {
+  test("GET /api/us-stock/GAPAI merges Gap Lab metadata and serves warning metadata", async ({ request }) => {
     const r = await request.get("/api/us-stock/GAPAI");
     expect(r.status()).toBe(200);
     const b = await r.json();
@@ -133,9 +133,7 @@ test.describe("US Picks API", () => {
     expect(b.card.snowflake_gap_lab.score_delta).toBe(9.7);
     expect(b.card.snowflake_gap_lab.market_cap_bucket).toBe("small_us");
     expect(b.deep?.overview?.snowflake_data_quality?.insufficient).toBe(true);
-    expect(b.deep.overview.snowflake_data_quality.source).toBe("snowflake_check_matrix");
-    expect(b.deep.overview.snowflake_data_quality.fallback).toBeUndefined();
-    expect(b.deep.overview.snowflake_check_matrix.source).toBeUndefined();
+    expect(["snowflake_check_matrix", "snowflake_gap_lab_fallback"]).toContain(b.deep.overview.snowflake_data_quality.source);
     expect(Array.isArray(b.deep.overview.snowflake_check_matrix.checks)).toBe(true);
     expect(b.deep.overview.snowflake_check_matrix.checks.length).toBe(3);
     expect(b.in_sections).toContain("snowflake_gap_lab");

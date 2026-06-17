@@ -35,6 +35,8 @@
     try { return new Date(s).toLocaleDateString("en-IN", { year: "numeric", month: "short", day: "numeric" }); }
     catch { return "—"; }
   };
+  const rowIdFor = (sector, horizon) =>
+    `sector-outlook-drilldown-${String(horizon || "h").replace(/[^a-z0-9_-]/gi, "-")}-${String(sector || "sector").replace(/[^a-z0-9_-]/gi, "-")}`;
 
   function labelBadge(label) {
     const cfg = LABEL_BADGE[label] || LABEL_BADGE.NEUTRAL;
@@ -165,8 +167,9 @@
     const nNews = h.bottom_up?.n_news ?? 0;
     const topThemes = (h.bottom_up?.top_themes || []).slice(0, 2);
     const topThemesStr = topThemes.map((t) => `${escapeHtml(t.theme.replace(/_/g, " "))} ${FMT_PCT(t.pct)}`).join(", ") || "—";
+    const drillId = rowIdFor(sectorRow.sector, horizon);
     return `
-      <tr data-testid="sector-outlook-row" data-sector="${escapeHtml(sectorRow.sector)}" style="border-bottom:1px solid var(--bg-graphite); cursor:pointer;" onclick="window.__sectorOutlookToggleDrillDown(this)">
+      <tr data-testid="sector-outlook-row" data-sector="${escapeHtml(sectorRow.sector)}" tabindex="0" role="button" aria-expanded="false" aria-controls="${escapeHtml(drillId)}" style="border-bottom:1px solid var(--bg-graphite); cursor:pointer;" onclick="window.__sectorOutlookToggleDrillDown(this)" onkeydown="window.__sectorOutlookToggleDrillDown(this, event)">
         <td style="padding:10px 8px; font-weight:600;">${escapeHtml(sectorRow.sector)}</td>
         <td data-trust-score="${escapeHtml(Number.isFinite(Number(trustScore)) ? Number(trustScore).toFixed(2) : "")}" style="padding:10px 8px;">${trustBadge(trustScore)}</td>
         <td style="padding:10px 8px;">${labelBadge(label)} <span style="margin-left:6px;">${decisionStateBadge()}</span></td>
@@ -186,8 +189,9 @@
     const tdReason = h.top_down?.reason || "";
     const tdRegime = h.top_down?.regime || "";
     const topThemes = h.bottom_up?.top_themes || [];
+    const drillId = rowIdFor(sectorRow.sector, horizon);
     return `
-      <tr data-drilldown-for="${escapeHtml(sectorRow.sector)}" style="display:none; background:var(--bg-secondary);">
+      <tr id="${escapeHtml(drillId)}" data-drilldown-for="${escapeHtml(sectorRow.sector)}" style="display:none; background:var(--bg-secondary);">
         <td colspan="10" style="padding:18px 24px;">
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px; max-width:1100px;">
             <div>
@@ -221,12 +225,18 @@
   }
 
   // Toggle drill-down row visibility. Exposed on window for the inline onclick.
-  window.__sectorOutlookToggleDrillDown = function (rowEl) {
+  window.__sectorOutlookToggleDrillDown = function (rowEl, ev) {
+    if (ev && ev.type === "keydown") {
+      if (ev.key !== "Enter" && ev.key !== " ") return;
+      ev.preventDefault();
+    }
     const drill = rowEl.nextElementSibling?.getAttribute("data-drilldown-for")
       ? rowEl.nextElementSibling
       : null;
     if (!drill) return;
-    drill.style.display = drill.style.display === "none" ? "" : "none";
+    const opening = drill.style.display === "none";
+    drill.style.display = opening ? "" : "none";
+    rowEl.setAttribute("aria-expanded", String(opening));
   };
 
   function renderMatrix(doc, horizon) {

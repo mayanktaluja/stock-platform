@@ -2356,7 +2356,7 @@
     #starbhaiTooltip.visible {
       opacity: 1;
       transform: translateY(0);
-      pointer-events: auto;
+      pointer-events: none;
     }
     #starbhaiTooltip .tip-header {
       display: flex;
@@ -3730,8 +3730,8 @@
       flex: 1 1 280px;
       min-width: 0;
     }
-    .sws-modal-section-chip {
-      display: inline-block;
+	    .sws-modal-section-chip {
+	      display: inline-block;
       padding: 3px 9px;
       font-size: 11px;
       font-weight: 600;
@@ -3756,11 +3756,85 @@
       color: var(--info-text);
       border-color: rgba(96,165,250,0.55);
     }
-    button.sws-modal-section-chip:focus-visible {
-      outline: none;
-      box-shadow: var(--focus-ring);
-    }
-    .sws-modal-section {
+	    button.sws-modal-section-chip:focus-visible {
+	      outline: none;
+	      box-shadow: var(--focus-ring);
+	    }
+	    .sws-modal-decision-summary {
+	      margin-top: 12px;
+	      padding: 12px 14px;
+	      border-radius: 8px;
+	      border: 1px solid rgba(148,163,184,0.22);
+	      background: rgba(15,23,42,0.36);
+	    }
+	    .sws-modal-decision-head {
+	      display: flex;
+	      align-items: flex-start;
+	      justify-content: space-between;
+	      gap: 10px;
+	      flex-wrap: wrap;
+	    }
+	    .sws-modal-decision-kicker {
+	      font-size: 10px;
+	      color: var(--text-muted);
+	      font-weight: 700;
+	      text-transform: uppercase;
+	      letter-spacing: 0.06em;
+	    }
+	    .sws-modal-decision-read {
+	      margin-top: 2px;
+	      color: var(--text-primary);
+	      font-size: 14px;
+	      font-weight: 650;
+	    }
+	    .sws-modal-decision-grid {
+	      display: grid;
+	      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+	      gap: 8px;
+	      margin-top: 10px;
+	    }
+	    .sws-modal-decision-grid div {
+	      padding: 8px 9px;
+	      border-radius: 6px;
+	      border: 1px solid rgba(255,255,255,0.07);
+	      background: rgba(255,255,255,0.03);
+	    }
+	    .sws-modal-decision-grid span {
+	      display: block;
+	      font-size: 10px;
+	      color: var(--text-muted);
+	      text-transform: uppercase;
+	      letter-spacing: 0.04em;
+	      margin-bottom: 3px;
+	    }
+	    .sws-modal-decision-grid strong {
+	      display: block;
+	      color: var(--text-secondary);
+	      font-size: 11px;
+	      line-height: 1.45;
+	      font-weight: 600;
+	    }
+	    .sws-modal-context-links {
+	      display: flex;
+	      flex-wrap: wrap;
+	      gap: 6px;
+	      margin-top: 10px;
+	    }
+	    .sws-context-link {
+	      padding: 4px 8px;
+	      border-radius: 6px;
+	      border: 1px solid rgba(96,165,250,0.28);
+	      background: rgba(96,165,250,0.08);
+	      color: var(--info-text-soft);
+	      font: inherit;
+	      font-size: 11px;
+	      cursor: pointer;
+	    }
+	    .sws-context-link:hover {
+	      border-color: rgba(96,165,250,0.48);
+	      color: var(--info-text);
+	    }
+	    .sws-modal-section {
       margin-top: 18px;
       padding-top: 14px;
       border-top: 1px solid var(--bg-graphite);
@@ -3953,9 +4027,57 @@
       margin-left: 6px;
       vertical-align: middle;
 	    }
-	    .sws-freshness-pill.stale { color: var(--negative-text-soft); border-color: rgba(239, 68, 68, 0.3); }
-	    .sws-pick-entry-row {
-	      display: flex;
+		    .sws-freshness-pill.stale { color: var(--negative-text-soft); border-color: rgba(239, 68, 68, 0.3); }
+		    .sws-today-shortlist {
+		      margin: 10px 0 14px;
+		      padding: 12px 14px;
+		      border: 1px solid rgba(96,165,250,0.24);
+		      border-radius: 8px;
+		      background: rgba(96,165,250,0.06);
+		    }
+		    .sws-today-shortlist-head {
+		      display: flex;
+		      align-items: flex-start;
+		      justify-content: space-between;
+		      gap: 10px;
+		      flex-wrap: wrap;
+		    }
+		    .sws-today-shortlist-kicker {
+		      font-size: 10px;
+		      color: var(--info-text-soft);
+		      font-weight: 700;
+		      text-transform: uppercase;
+		      letter-spacing: 0.05em;
+		    }
+		    .sws-today-shortlist-title {
+		      margin-top: 2px;
+		      font-size: 15px;
+		      color: var(--text-primary);
+		      font-weight: 650;
+		    }
+		    .sws-today-shortlist-copy {
+		      margin-top: 7px;
+		      font-size: 12px;
+		      color: var(--text-secondary);
+		    }
+		    .sws-today-shortlist-meta {
+		      display: flex;
+		      flex-wrap: wrap;
+		      gap: 6px;
+		      margin-top: 9px;
+		    }
+		    .sws-today-shortlist-meta span {
+		      display: inline-flex;
+		      padding: 3px 7px;
+		      border-radius: 6px;
+		      background: rgba(255,255,255,0.04);
+		      border: 1px solid rgba(255,255,255,0.08);
+		      color: var(--text-muted);
+		      font-size: 10px;
+		      line-height: 1.3;
+		    }
+		    .sws-pick-entry-row {
+		      display: flex;
 	      flex-wrap: wrap;
 	      gap: 6px;
 	      margin-top: 8px;
@@ -3976,9 +4098,14 @@
 	    .sws-pick-entry-row .sws-entry-badge { margin-left: 0; }
 	    .sws-entry-badge--buy_zone { color: var(--positive-text-soft); border-color: rgba(34,197,94,0.42); background: rgba(34,197,94,0.10); }
 	    .sws-entry-badge--stagger_only { color: var(--info-text); border-color: rgba(96,165,250,0.42); background: rgba(96,165,250,0.10); }
-	    .sws-entry-badge--no_buy_above,
-	    .sws-entry-badge--warn { color: var(--warning, #fbbf24); border-color: rgba(251,191,36,0.38); background: rgba(251,191,36,0.10); }
-	    .sws-entry-badge--cap,
+		    .sws-entry-badge--no_buy_above,
+		    .sws-entry-badge--warn { color: var(--warning, #fbbf24); border-color: rgba(251,191,36,0.38); background: rgba(251,191,36,0.10); }
+		    .sws-pick-card-top--wait .sws-entry-badge--no_buy_above {
+		      color: var(--negative-text-soft);
+		      border-color: rgba(248,113,113,0.50);
+		      background: rgba(248,113,113,0.12);
+		    }
+		    .sws-entry-badge--cap,
 	    .sws-entry-badge--unavailable { color: var(--text-muted); border-color: var(--border-soft, var(--bg-graphite)); background: rgba(255,255,255,0.03); }
 
 	    /* India Market — accordion-driven layout (replaces the wall-of-cards). Each
@@ -5064,7 +5191,7 @@
       <button type="button" class="scroll-rail-btn scroll-rail-btn-right" data-scroll-dir="right" aria-label="Scroll platform tabs right" hidden>&rsaquo;</button>
     </div>
 
-    <!-- 5x Lab Tab — multibagger strategy targeting ₹1L → ₹5L net in 12m. Read-only paper book; user executes via broker. -->
+    <!-- 5x Lab Tab — multibagger research surface targeting ₹1L → ₹5L net in 12m. Read-only paper book; no trades are placed. -->
     <div id="multibaggerLabTab" class="tab-content" role="tabpanel" aria-labelledby="multibaggerLabTabBtn" style="display:none;">
       <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px; flex-wrap:wrap; gap:12px; padding-bottom:16px; border-bottom:1px solid var(--bg-graphite);">
         <div>

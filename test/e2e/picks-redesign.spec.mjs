@@ -11,6 +11,12 @@ import { gotoApp, waitForPicksLoaded } from "./helpers/app.mjs";
 
 test.describe("D1 picks redesign", () => {
   test("contract selectors intact + cards re-theme", async ({ page }) => {
+    await page.addInitScript(() => {
+      try {
+        localStorage.setItem("starbhaiTheme", "dark");
+        localStorage.removeItem("theme");
+      } catch {}
+    });
     await gotoApp(page, { tab: "picks" });
     await waitForPicksLoaded(page);
 
@@ -25,7 +31,10 @@ test.describe("D1 picks redesign", () => {
     const cardBg = () =>
       card.evaluate((el) => getComputedStyle(el).backgroundColor);
     const darkBg = await cardBg();
-    await page.evaluate(() => localStorage.setItem("theme", "light"));
+    await page.evaluate(() => {
+      localStorage.setItem("starbhaiTheme", "light");
+      localStorage.removeItem("theme");
+    });
     await page.reload();
     await waitForPicksLoaded(page);
     const lightBg = await cardBg();

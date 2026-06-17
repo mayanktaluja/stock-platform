@@ -138,7 +138,9 @@ test.describe("Track Record SEBI 10/10 uplift", () => {
     const firstIcon = grid.locator(".info-icon").first();
     await expect(firstIcon).toBeVisible();
     // Tap-to-open uses the click delegate (works on both mouse + touch).
-    await firstIcon.click();
+    await firstIcon.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(150);
+    await firstIcon.dispatchEvent("click");
 
     const tooltip = page.locator("#starbhaiTooltip");
     await expect(tooltip).toHaveClass(/visible/, { timeout: 5_000 });
