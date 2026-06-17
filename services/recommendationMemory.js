@@ -661,8 +661,8 @@ export function detectMaterialChange({ candidate, executedEvent, direction }) {
     const newSurv = currentSurv?.list || null;
     const oldSurv = executedEvent.surveillanceAtExecution?.list || null;
     if (newSurv && !oldSurv) return `new_surveillance_${newSurv}`;
-    const newStage = Number(currentSurv?.stage) || 0;
-    const oldStage = Number(executedEvent.surveillanceAtExecution?.stage) || 0;
+    const newStage = Number(currentSurv?.stage_num) || Number(currentSurv?.stage) || 0;
+    const oldStage = Number(executedEvent.surveillanceAtExecution?.stage_num) || Number(executedEvent.surveillanceAtExecution?.stage) || 0;
     if (newSurv && newSurv === oldSurv && newStage > oldStage) {
       return `surveillance_stage_${oldStage}_to_${newStage}`;
     }
@@ -996,8 +996,12 @@ export function buildIssuedEvents({
       // can compare "current factor stack" vs "factor stack at execution"
       // without re-deriving from snapshots.
       convictionAtIssue: typeof h.conviction === "string" ? h.conviction : null,
-      surveillanceAtIssue: candidateSurveillance(h) && (candidateSurveillance(h).list || candidateSurveillance(h).stage)
-        ? { list: candidateSurveillance(h).list || null, stage: Number(candidateSurveillance(h).stage) || 0 }
+      surveillanceAtIssue: candidateSurveillance(h) && (candidateSurveillance(h).list || candidateSurveillance(h).stage || candidateSurveillance(h).stage_num)
+        ? {
+            list: candidateSurveillance(h).list || null,
+            stage: Number(candidateSurveillance(h).stage_num) || Number(candidateSurveillance(h).stage) || 0,
+            stage_num: Number(candidateSurveillance(h).stage_num) || Number(candidateSurveillance(h).stage) || 0,
+          }
         : null,
       // Non-null when the cooldown gate detected a material change since
       // the prior execution and let the candidate through. The UI keys off

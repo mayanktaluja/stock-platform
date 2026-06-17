@@ -37,8 +37,8 @@ assert.deepEqual(
 
 assert.deepEqual(
   schedulesFor("/api/cron/refresh-surveillance"),
-  ["30 22 * * 1-5"],
-  "refresh-surveillance should run on weekdays only",
+  [],
+  "refresh-surveillance must stay manual-only; local launchd nightly is the reliable NSE ASM/GSM writer",
 );
 
 assert.deepEqual(

@@ -26,10 +26,12 @@
  * the scorer / UI can check membership with a single map read.
  *
  * Refresh:
- *   • Local dev:  `node scripts/refresh-surveillance.mjs` → writes
- *                 surveillance.json on disk.
- *   • Production: Vercel cron hits /api/cron/refresh-surveillance daily;
- *                 writes to KV under `surveillance:snapshot`.
+ *   • Canonical: local launchd nightly runs
+ *                 `node scripts/refresh-surveillance.mjs --strict` from an
+ *                 Indian-IP machine and commits surveillance.json.
+ *   • Manual diagnostic: /api/cron/refresh-surveillance can still be hit by
+ *                 an admin/CRON_SECRET caller, but it is not scheduled on
+ *                 Vercel because NSE datacenter blocking makes it unreliable.
  *
  * Failure mode: ALWAYS defensive. A fetch failure never throws to the
  * caller — the getter returns the freshest last-known snapshot (KV or disk,
@@ -131,13 +133,63 @@ function preferredSnapshot(a, b) {
 
 // ==================== FETCHERS ====================
 
-/**
- * Fetch ASM list. NSE returns { longterm: {data}, shortterm: {data} }.
- * Each row typically has symbol, series, stage. Schema drift is possible,
- * so we pull fields defensively.
- */
-async function fetchASM() {
-  const data = await nseGet("/api/reportASM");
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function nseGetWithRetry(pathname, { attempts = 3, baseDelayMs = 750 } = {}) {
+  let lastErr = null;
+  for (let i = 0; i < attempts; i++) {
+    try {
+      const data = await nseGet(pathname);
+      if (data != null) return data;
+    } catch (err) {
+      lastErr = err;
+    }
+    if (i < attempts - 1) await sleep(baseDelayMs * (i + 1));
+  }
+  if (lastErr) throw lastErr;
+  return null;
+}
+
+function romanToNumber(raw) {
+  const s = String(raw || "").trim().toUpperCase();
+  if (!/^[IVXLCDM]+$/.test(s)) return null;
+  const values = { I: 1, V: 5, X: 10, L: 50, C: 100, D: 500, M: 1000 };
+  let total = 0;
+  for (let i = 0; i < s.length; i++) {
+    const current = values[s[i]] || 0;
+    const next = values[s[i + 1]] || 0;
+    total += current < next ? -current : current;
+  }
+  return total > 0 ? total : null;
+}
+
+function normalizeStage(raw) {
+  if (raw == null || raw === "") return { stage: null, stage_num: null };
+  const label = String(raw).trim();
+  const withoutPrefix = label.replace(/^stage\s+/i, "").trim();
+  const directNumber = Number(withoutPrefix);
+  if (Number.isFinite(directNumber)) {
+    return { stage: withoutPrefix, stage_num: directNumber, stage_label: label };
+  }
+  const roman = romanToNumber(withoutPrefix);
+  if (roman != null) {
+    return { stage: withoutPrefix.toUpperCase(), stage_num: roman, stage_label: label };
+  }
+  const token = withoutPrefix.match(/\b([IVXLCDM]+)\b/i)?.[1] || null;
+  const tokenRoman = token ? romanToNumber(token) : null;
+  if (tokenRoman != null) {
+    return { stage: token.toUpperCase(), stage_num: tokenRoman, stage_label: label };
+  }
+  const embeddedNumber = label.match(/\b(\d+)\b/)?.[1] || null;
+  if (embeddedNumber != null) {
+    return { stage: embeddedNumber, stage_num: Number(embeddedNumber), stage_label: label };
+  }
+  return { stage: label, stage_num: null, stage_label: label };
+}
+
+function parseAsmRows(data) {
   if (!data || typeof data !== "object") return [];
   const out = [];
   const timeframes = [
@@ -149,39 +201,56 @@ async function fetchASM() {
     for (const r of rows) {
       const sym = toNseKey(r.symbol || r.Symbol);
       if (!sym) continue;
+      const stage = normalizeStage(r.asmSurvIndicator || r.asmStage || r.stage || r.Stage);
       out.push({
         symbol: sym,
         list: "ASM",
-        stage: r.asmStage || r.stage || r.Stage || null,
+        ...stage,
         timeframe,
         series: r.series || r.Series || null,
+        source_time: r.asmTime || r.time || r.Time || null,
       });
     }
   }
   return out;
 }
 
-/**
- * Fetch GSM list. NSE shape: { data: [ { symbol, stage, series, ... } ] }.
- * GSM stages run I → VI; IV+ is where trading becomes highly constrained.
- */
-async function fetchGSM() {
-  const data = await nseGet("/api/reportGSM");
+function parseGsmRows(data) {
   if (!data || typeof data !== "object") return [];
-  const rows = Array.isArray(data.data) ? data.data : [];
+  const rows = Array.isArray(data) ? data : Array.isArray(data.data) ? data.data : [];
   const out = [];
   for (const r of rows) {
     const sym = toNseKey(r.symbol || r.Symbol);
     if (!sym) continue;
+    const stage = normalizeStage(r.gsmStage || r.stage || r.Stage);
     out.push({
       symbol: sym,
       list: "GSM",
-      stage: r.gsmStage || r.stage || r.Stage || null,
+      ...stage,
       timeframe: null,
       series: r.series || r.Series || null,
+      source_time: r.gsmTime || r.time || r.Time || null,
     });
   }
   return out;
+}
+
+/**
+ * Fetch ASM list. NSE returns { longterm: {data}, shortterm: {data} }.
+ * Each row typically has symbol, series, stage. Schema drift is possible,
+ * so we pull fields defensively.
+ */
+async function fetchASM() {
+  return parseAsmRows(await nseGetWithRetry("/api/reportASM"));
+}
+
+/**
+ * Fetch GSM list. NSE has returned both a top-level array and
+ * { data: [ { symbol, stage, series, ... } ] } across schema versions.
+ * GSM stages run I → VI; IV+ is where trading becomes highly constrained.
+ */
+async function fetchGSM() {
+  return parseGsmRows(await nseGetWithRetry("/api/reportGSM"));
 }
 
 // ==================== BUILD + LOAD ====================
@@ -195,16 +264,25 @@ async function fetchGSM() {
  * an outage, not zero surveillance).
  */
 export async function buildSurveillance() {
-  const [asm, gsm] = await Promise.all([
-    fetchASM().catch((e) => {
-      console.warn("[SURVEILLANCE] ASM fetch failed:", e.message);
-      return [];
-    }),
-    fetchGSM().catch((e) => {
-      console.warn("[SURVEILLANCE] GSM fetch failed:", e.message);
-      return [];
-    }),
+  const [asmResult, gsmResult] = await Promise.all([
+    fetchASM()
+      .then((rows) => ({ ok: true, rows, error: null }))
+      .catch((e) => {
+        console.warn("[SURVEILLANCE] ASM fetch failed:", e.message);
+        return { ok: false, rows: [], error: e.message };
+      }),
+    fetchGSM()
+      .then((rows) => ({ ok: true, rows, error: null }))
+      .catch((e) => {
+        console.warn("[SURVEILLANCE] GSM fetch failed:", e.message);
+        return { ok: false, rows: [], error: e.message };
+      }),
   ]);
+  const asm = asmResult.rows;
+  const gsm = gsmResult.rows;
+  const fetchErrors = {};
+  if (!asmResult.ok) fetchErrors.ASM = asmResult.error;
+  if (!gsmResult.ok) fetchErrors.GSM = gsmResult.error;
 
   const flagged = {};
   for (const row of [...asm, ...gsm]) {
@@ -232,6 +310,11 @@ export async function buildSurveillance() {
     source: "nse",
     flagged,
     counts: { ASM: asm.length, GSM: gsm.length },
+    fetchStatus: {
+      ASM: asmResult.ok ? "ok" : "failed",
+      GSM: gsmResult.ok ? "ok" : "failed",
+    },
+    fetchErrors: Object.keys(fetchErrors).length ? fetchErrors : undefined,
   };
 }
 
@@ -245,16 +328,24 @@ export async function saveSurveillance(snapshot) {
     const existingTotal = flaggedCount(existing);
     if (existingTotal > 0) {
       const priorDate = existing?.fetchedAt || "unknown";
+      const priorTime = snapshotTime(existing);
+      const priorAgeHours = priorTime == null
+        ? null
+        : +((Date.now() - priorTime) / 3_600_000).toFixed(1);
+      const stale = priorAgeHours == null || priorAgeHours > 36;
       console.warn(
         `[SURVEILLANCE] refusing to overwrite last-good snapshot with zero rows; ` +
         `preserving ${existingTotal} entries from ${priorDate}.`
       );
       return {
+        status: stale ? "preserved-stale" : "preserved-fresh",
         skipped: true,
         reason: "zero_rows_preserved_existing",
         fetched: 0,
         existingCount: existingTotal,
         priorDate,
+        priorAgeHours,
+        stale,
       };
     }
   }
@@ -264,12 +355,12 @@ export async function saveSurveillance(snapshot) {
     await kv.set(KV_SURVEILLANCE_KEY, snapshot);
     _cached = snapshot;
     _cachedSource = "kv";
-    return { target: "kv" };
+    return { status: "saved", target: "kv" };
   }
   writeFileSync(SURVEILLANCE_PATH, JSON.stringify(snapshot, null, 2));
   _cached = snapshot;
   _cachedSource = "disk";
-  return { target: "disk", path: SURVEILLANCE_PATH };
+  return { status: "saved", target: "disk", path: SURVEILLANCE_PATH };
 }
 
 /**
@@ -370,3 +461,9 @@ export function _setSurveillanceCacheForTests(snapshot, source = "test") {
   _cached = snapshot;
   _cachedSource = source;
 }
+
+export const _surveillanceParserForTests = {
+  normalizeStage,
+  parseAsmRows,
+  parseGsmRows,
+};

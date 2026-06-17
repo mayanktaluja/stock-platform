@@ -242,6 +242,12 @@ const CONVICTION_PENALTY = {
 
 const clamp01 = (x) => Math.max(0, Math.min(1, x));
 
+function surveillanceStageNumber(surveillance) {
+  const direct = Number(surveillance?.stage_num);
+  if (Number.isFinite(direct)) return direct;
+  return Number(surveillance?.stage) || 0;
+}
+
 /**
  * Compute the trim severity score (0..1) for a holding. Returns:
  *   { severity, components, rationale }
@@ -264,7 +270,7 @@ export function computeTrimSeverity({
   const pnl = Number.isFinite(pnlPercent) ? pnlPercent : 0;
   const rc = Number.isFinite(risks_count) ? risks_count : 0;
   const survList = surveillance?.list || null;
-  const survStage = Number(surveillance?.stage) || 0;
+  const survStage = surveillanceStageNumber(surveillance);
 
   const weaknessRaw = clamp01((50 - v3n) / 50);
   const concentrationRaw = clamp01(pw / 20);
@@ -530,7 +536,7 @@ export function computeTrimSeverityV4({
   const sw = Number.isFinite(sector_weight) ? sector_weight : 0;
   const rc = Number.isFinite(risks_count) ? risks_count : 0;
   const survList = surveillance?.list || null;
-  const survStage = Number(surveillance?.stage) || 0;
+  const survStage = surveillanceStageNumber(surveillance);
 
   const weaknessRaw         = pillarWeaknessRaw({ v3, pillars });
   const concentrationRaw    = clamp01(pw / 20);
@@ -698,7 +704,7 @@ export function deriveConvictionProxy({ v3, snow_total, surveillance, risks_coun
 
   if (surveillance) {
     if (surveillance.list === "GSM") {
-      const stage = Number(surveillance.stage) || 1;
+      const stage = surveillanceStageNumber(surveillance) || 1;
       // GSM-1 ~ -18, GSM-6 ~ -33 — heavier penalty for higher stages
       score -= 15 + stage * 3;
     } else if (surveillance.list === "ASM") {
@@ -738,7 +744,7 @@ export function pickTrimRung({ v3, position_weight, sector_weight, conviction, s
   const sw = Number.isFinite(sector_weight) ? sector_weight : 0;
   const surv = surveillance || null;
   const survList = surv?.list || null;
-  const survStage = Number(surv?.stage) || 0;
+  const survStage = surveillanceStageNumber(surv);
 
   // Tier 1 — EXIT-now (deepest-conviction sell): v3 below 8 OR
   // GSM-3+ surveillance regardless of v3.
@@ -892,7 +898,7 @@ export function promoteToLadderV2({
   const rc = Number.isFinite(risks_count) ? risks_count : 0;
   const pnl = Number.isFinite(pnlPercent) ? pnlPercent : 0;
   const survList = surveillance?.list || null;
-  const survStage = Number(surveillance?.stage) || 0;
+  const survStage = surveillanceStageNumber(surveillance);
 
   // ─── EXIT branch ───────────────────────────────────────────────
   // Legacy "EXIT" maps to either EXIT-now (severe regulatory red flag,
@@ -1015,7 +1021,7 @@ function _promoteV3({
 }) {
   const v3n = Number.isFinite(v3) ? v3 : 0;
   const survList = surveillance?.list || null;
-  const survStage = Number(surveillance?.stage) || 0;
+  const survStage = surveillanceStageNumber(surveillance);
   const gsmStage3Plus = survList === "GSM" && survStage >= 3;
 
   // ─── EXIT branch (forced exit from engine) ─────────────────────
@@ -1213,7 +1219,7 @@ function _promoteV4({
 }) {
   const v3n = Number.isFinite(v3) ? v3 : 0;
   const survList = surveillance?.list || null;
-  const survStage = Number(surveillance?.stage) || 0;
+  const survStage = surveillanceStageNumber(surveillance);
   const gsmStage3Plus = survList === "GSM" && survStage >= 3;
 
   // ─── EXIT branch (forced exit from engine) ─────────────────────

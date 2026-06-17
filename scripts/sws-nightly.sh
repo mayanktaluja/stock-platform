@@ -656,6 +656,7 @@ run_market_news_refresh() {
 
 HEALTH_CRITICAL_FILES=(
   fundamentals.json
+  surveillance.json
   fundamentalsHistory.json
   data/nse-fo/oi-deltas-latest.json
   data/catalysts/earnings-watch-latest.json
@@ -897,7 +898,7 @@ fi
 # Previously only the Vercel cron refreshed this, and that silently no-ops
 # (NSE blocks Vercel datacenter IPs) — so surveillance.json went stale in
 # prod. The local nightly is now the reliable refresh path.
-if with_timeout 300 node scripts/refresh-surveillance.mjs 2>&1 | sed 's/^/[surveillance] /'; then
+if with_timeout 300 node scripts/refresh-surveillance.mjs --strict 2>&1 | sed 's/^/[surveillance] /'; then
   aux_status "surveillance.json" "OK"
 else
   echo "[nightly] refresh-surveillance.mjs failed — non-fatal, continuing"
@@ -1114,6 +1115,18 @@ console.log(`[macro-thesis] wrote ${outputPath} regime=${thesis.regime?.regime |
 # than the growing_sector_value section that was just written.
 echo "[sws-nightly] sector outlook already refreshed inside sws-refresh-api.sh before final scoring"
 
+# Late surveillance retry: NSE ASM/GSM rows can publish after the 00:30
+# launchd fire, and the early aux branch can hit transient NSE throttling while
+# other NSE-heavy steps are running. Give the tiny two-call snapshot one final
+# chance immediately before the blocking publish health gate.
+echo "[nightly] late surveillance freshness retry before health gate..."
+if with_timeout 300 node scripts/refresh-surveillance.mjs --strict 2>&1 | sed 's/^/[surveillance-late] /'; then
+  aux_status "surveillance.json" "OK-late"
+else
+  echo "[nightly] late refresh-surveillance.mjs failed — health gate will decide publishability"
+  aux_status "surveillance.json" "FAILED-late"
+fi
+
 echo "[nightly] checking health-critical snapshot freshness..."
 HEALTH_GATE_OUT=$(node scripts/check-snapshot-health.mjs --strict --critical-only 2>&1)
 HEALTH_GATE_RC=$?
@@ -1121,9 +1134,9 @@ echo "${HEALTH_GATE_OUT}" | sed 's/^/[health-gate] /'
 if [ "${HEALTH_GATE_RC}" -ne 0 ]; then
   send_mail "🚨 SWS nightly — snapshot health gate failed" \
 "The nightly refresh completed its auxiliary chain, but health-critical
-snapshot inputs are still stale or missing at $(ts). The run stopped before
+snapshot inputs (fundamentals, surveillance, F&O, earnings) are still stale or missing at $(ts). The run stopped before
 sanity, commit, push, PR, and auto-merge so production does not get fresh
-SWS picks with stale fundamentals/F&O/earnings inputs.
+SWS picks with stale safety inputs.
 
 Health gate output:
 ${HEALTH_GATE_OUT}

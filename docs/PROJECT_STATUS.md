@@ -410,9 +410,10 @@ experimental surface area and nightly refresh load.
 - **This PR** — Free-tier CPU reduction: idle signed-in browser tabs no longer
   generate continuous minute-level Vercel Function traffic. `/api/market`
   serves public, cacheable, non-user market data; warm-cache crons are
-  manual-only and surveillance cron runs weekdays-only. Protected shell/app JS
-  remains auth-gated, with conservative static cache headers so private app
-  surfaces are not CDN-public.
+  manual-only; surveillance refresh is owned by local launchd nightly because
+  NSE blocks Vercel datacenter traffic. Protected shell/app JS remains
+  auth-gated, with conservative static cache headers so private app surfaces
+  are not CDN-public.
 - **This PR** — Permanent refresh shipping fix: successful full India/US/KR/TW
   SWS refreshes now auto-open generated-data PRs and auto-merge to `main`, while
   seed/capped runs and failed-shard runs are refused. US/KR/TW shortcuts ship

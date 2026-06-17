@@ -5,7 +5,7 @@
  * Mirrors the timestamp fields and thresholds used by /api/health/snapshots,
  * but runs without starting the Express server. The nightly uses
  * --strict --critical-only before publishing so fresh SWS cards cannot ship
- * while fundamentals, F&O, or Earnings Watch inputs remain stale.
+ * while fundamentals, surveillance, F&O, or Earnings Watch inputs remain stale.
  */
 
 import fs from "node:fs";
@@ -17,7 +17,7 @@ const DEFAULT_ROOT = path.resolve(__dirname, "..");
 
 const SNAPSHOTS = [
   { key: "fundamentals", label: "Fundamentals", relPath: "fundamentals.json", field: "generatedAt", maxAgeHours: 48, critical: true },
-  { key: "surveillance", label: "Surveillance (ASM/GSM)", relPath: "surveillance.json", field: "fetchedAt", maxAgeHours: 36, critical: false },
+  { key: "surveillance", label: "Surveillance (ASM/GSM)", relPath: "surveillance.json", field: "fetchedAt", maxAgeHours: 36, critical: true },
   { key: "governance", label: "Governance (shareholding)", relPath: "governance.json", field: "fetchedAt", maxAgeHours: 2400, critical: false },
   { key: "picks_latest", label: "SWS picks", relPath: "data/sws/picks-latest.json", field: "scanned_at", maxAgeHours: 48, critical: false },
   { key: "macro_regime", label: "Macro regime", relPath: "data/macroRegime.json", field: "generatedAt", maxAgeHours: 14, critical: false },

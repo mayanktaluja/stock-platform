@@ -118,6 +118,12 @@ const OLD_CONVICTION_PENALTY = {
 };
 const clamp01 = (x) => Math.max(0, Math.min(1, x));
 
+function surveillanceStageNumber(surveillance) {
+  const direct = Number(surveillance?.stage_num);
+  if (Number.isFinite(direct)) return direct;
+  return Number(surveillance?.stage) || 0;
+}
+
 function oldSeverityToTrimRung(severity, gsmStage3Plus = false) {
   if (gsmStage3Plus) return "EXIT-now";
   if (!Number.isFinite(severity) || severity < 0.15) return null;
@@ -136,7 +142,7 @@ function oldComputeTrimSeverity(input) {
   const pnl = Number.isFinite(input.pnlPercent) ? input.pnlPercent : 0;
   const rc = Number.isFinite(input.risks_count) ? input.risks_count : 0;
   const survList = input.surveillance?.list || null;
-  const survStage = Number(input.surveillance?.stage) || 0;
+  const survStage = surveillanceStageNumber(input.surveillance);
   const weaknessRaw = clamp01((50 - v3) / 50);
   const concentrationRaw = clamp01(pw / 20);
   const sectorOverweightRaw = clamp01(sw / 35);
@@ -170,7 +176,7 @@ function oldDeriveConvictionProxy({ v3, snow_total, surveillance, risks_count })
   let score = v3num * 0.6 + snowNorm * 0.4;
   if (surveillance) {
     if (surveillance.list === "GSM") {
-      const stage = Number(surveillance.stage) || 1;
+      const stage = surveillanceStageNumber(surveillance) || 1;
       score -= 15 + stage * 3;
     } else if (surveillance.list === "ASM") score -= 8;
   }
@@ -246,7 +252,7 @@ function oldEmulateAction(holding, sectorWeight, v3, snow_total, risks_count, su
       risks_count,
     });
     const survList = surveillance?.list || null;
-    const survStage = Number(surveillance?.stage) || 0;
+    const survStage = surveillanceStageNumber(surveillance);
     const gsmStage3Plus = survList === "GSM" && survStage >= 3;
     const rung = oldSeverityToTrimRung(severity, gsmStage3Plus) || "Reduction-25%";
     return { action: rung, severity, legacy: oldLegacy };

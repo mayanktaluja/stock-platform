@@ -48,6 +48,7 @@ const {
   saveSurveillance,
   _resetSurveillanceCacheForTests,
   _setSurveillanceCacheForTests,
+  _surveillanceParserForTests,
 } = await import("../surveillance.js");
 
 let pass = 0;
@@ -91,6 +92,83 @@ function seedDisk(snapshot) {
 }
 
 console.log("\nsurveillance snapshot resolution\n");
+
+await it("parses current NSE ASM shape with asmSurvIndicator and source time", () => {
+  const rows = _surveillanceParserForTests.parseAsmRows({
+    longterm: {
+      data: [
+        { symbol: "FOO", series: "EQ", asmSurvIndicator: "Stage I", asmTime: "17-Jun-2026" },
+      ],
+    },
+    shortterm: {
+      data: [
+        { Symbol: "BAR", Series: "BE", asmSurvIndicator: "Stage II", asmTime: "17-Jun-2026" },
+      ],
+    },
+  });
+
+  assert.equal(rows.length, 2);
+  assert.deepEqual(rows[0], {
+    symbol: "FOO.NS",
+    list: "ASM",
+    stage: "I",
+    stage_num: 1,
+    stage_label: "Stage I",
+    timeframe: "longterm",
+    series: "EQ",
+    source_time: "17-Jun-2026",
+  });
+  assert.equal(rows[1].symbol, "BAR.NS");
+  assert.equal(rows[1].stage, "II");
+  assert.equal(rows[1].stage_num, 2);
+  assert.equal(rows[1].timeframe, "shortterm");
+  assert.equal(rows[1].series, "BE");
+  assert.equal(rows[1].source_time, "17-Jun-2026");
+});
+
+await it("parses current NSE GSM top-level array shape", () => {
+  const rows = _surveillanceParserForTests.parseGsmRows([
+    { symbol: "ASIL", series: "EQ", gsmStage: "VI", gsmTime: "17-Jun-2026 08:08:02" },
+  ]);
+
+  assert.equal(rows.length, 1);
+  assert.deepEqual(rows[0], {
+    symbol: "ASIL.NS",
+    list: "GSM",
+    stage: "VI",
+    stage_num: 6,
+    stage_label: "VI",
+    timeframe: null,
+    series: "EQ",
+    source_time: "17-Jun-2026 08:08:02",
+  });
+});
+
+await it("keeps backward compatibility with legacy GSM { data: [...] } shape", () => {
+  const rows = _surveillanceParserForTests.parseGsmRows({
+    data: [{ Symbol: "OLD", Series: "BZ", Stage: "III", Time: "legacy-time" }],
+  });
+
+  assert.equal(rows.length, 1);
+  assert.equal(rows[0].symbol, "OLD.NS");
+  assert.equal(rows[0].stage, "III");
+  assert.equal(rows[0].stage_num, 3);
+  assert.equal(rows[0].series, "BZ");
+  assert.equal(rows[0].source_time, "legacy-time");
+});
+
+await it("normalizes numeric and Roman surveillance stages for GSM-3+ logic", () => {
+  assert.deepEqual(_surveillanceParserForTests.normalizeStage("Stage 3"), {
+    stage: "3",
+    stage_num: 3,
+    stage_label: "Stage 3",
+  });
+  assert.deepEqual(_surveillanceParserForTests.normalizeStage("LXII"), {
+    stage: "LXII",
+    stage_num: 62,
+    stage_label: "LXII",
+  });
+});
 
 await it("fresher disk snapshot beats stale KV/cache", () => {
   const disk = snap({ fetchedAt: "2026-05-25T01:00:00.000Z", symbols: ["FRESH.NS"] });

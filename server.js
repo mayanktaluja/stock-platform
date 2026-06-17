@@ -2484,8 +2484,11 @@ app.get("/api/cron/warm-caches", async (req, res) => {
 /**
  * GET /api/cron/refresh-surveillance
  *
- * Pulls the latest ASM + GSM surveillance lists from NSE and persists them
- * to Vercel KV (production) or surveillance.json (local dev).
+ * Manual/admin diagnostic endpoint for pulling the latest ASM + GSM
+ * surveillance lists from NSE and persisting them to Vercel KV (production)
+ * or surveillance.json (local dev). The scheduled canonical writer is the
+ * local launchd nightly on an Indian-IP machine; this route is deliberately
+ * not listed in vercel.json because NSE blocks Vercel datacenter traffic.
  *
  * Defensive behaviour:
  *   • If the fetch returns zero flagged stocks (likely NSE outage), we do
@@ -2493,9 +2496,9 @@ app.get("/api/cron/warm-caches", async (req, res) => {
  *     slightly stale warning banner than to silently clear all warnings.
  *   • Secret-gated via CRON_SECRET, same pattern as refresh-governance.
  *
- * Cadence: daily at 04:00 IST (set in vercel.json). NSE publishes both
- * lists once per trading day around 18:00 IST; a 04:00 run the next morning
- * picks up the previous session's update before the market opens.
+ * NSE publishes both lists once per trading day around 18:00 IST. The
+ * nightly also runs a late pre-health retry so delayed publication can still
+ * be picked up before fresh picks are committed.
  */
 app.get("/api/cron/refresh-surveillance", async (req, res) => {
   const cronSecret = process.env.CRON_SECRET;
@@ -2656,7 +2659,7 @@ app.get("/api/health/snapshots", (req, res) => {
       stale: fundAge == null || fundAge > 48,
     },
     surveillance: {
-      generatedAt: null, // surveillance.js doesn't surface the raw stamp; rely on its own status
+      generatedAt: survStatus.fetchedAt || null,
       age_hours: survStatus.age_hours,
       max_age_hours: 36,
       stale: !!survStatus.stale,

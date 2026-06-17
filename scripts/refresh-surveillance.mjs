@@ -15,18 +15,34 @@
 import { buildSurveillance, saveSurveillance } from "../surveillance.js";
 
 async function main() {
+  const strict = process.argv.includes("--strict") || process.env.SWS_SURVEILLANCE_STRICT === "1";
   console.log("Fetching NSE ASM + GSM lists...");
   const snap = await buildSurveillance();
+  const failedSources = Object.entries(snap.fetchStatus || {})
+    .filter(([, status]) => status !== "ok")
+    .map(([source]) => source);
+  if (strict && failedSources.length > 0) {
+    console.error(`Strict mode: ${failedSources.join(", ")} surveillance fetch failed; refusing to save partial snapshot.`);
+    if (snap.fetchErrors) console.error(JSON.stringify(snap.fetchErrors, null, 2));
+    process.exit(1);
+  }
 
   const result = await saveSurveillance(snap);
 
   const counts = snap.counts || { ASM: 0, GSM: 0 };
   const total = Object.keys(snap.flagged || {}).length;
   if (result.skipped) {
+    const status = result.status || "preserved-fresh";
     console.log(
-      `✓ Preserved existing snapshot (${result.existingCount} flagged from ${result.priorDate})`
+      `${result.stale ? "✗" : "✓"} Preserved existing snapshot ` +
+      `(${result.existingCount} flagged from ${result.priorDate}, ${result.priorAgeHours ?? "unknown"}h old)`
     );
     console.log(`  Reason: ${result.reason}`);
+    console.log(`  Status: ${status}`);
+    if (strict && result.stale) {
+      console.error("  Strict mode: preserved snapshot is stale; failing refresh.");
+      process.exit(1);
+    }
     return;
   }
 
@@ -41,6 +57,10 @@ async function main() {
     console.warn(
       "\n  ⚠  Zero flagged stocks — possible NSE outage. Not overwriting cache if one exists on next run should be verified."
     );
+    if (strict) {
+      console.error("  Strict mode: zero-row surveillance snapshot is not publishable.");
+      process.exit(1);
+    }
   }
 }
 
