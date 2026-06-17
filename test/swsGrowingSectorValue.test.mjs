@@ -122,6 +122,123 @@ check("selects HIGH-confidence FV names in tailwind sectors and adds display met
   assert.equal(result.audit.reason, "ok");
 });
 
+check("preserves fine-grained Semiconductors Sector Outlook rows before broad IT aliases", () => {
+  const result = buildGrowingSectorValueSection([
+    stock("CHIP", { sector: "Semiconductors", v4_score_100: 68 }),
+  ], {
+    pickCardFields: card,
+    sectorOutlook: {
+      generated_at: "2026-06-03T00:00:00.000Z",
+      regime_at_generation: { regime: "CALM" },
+      sectors: [
+        {
+          sector: "Information Technology",
+          horizons: {
+            "3_12m": {
+              outlook_label: "HEADWIND",
+              confidence: "MED",
+              composite: -0.2,
+              bottom_up: { score: -0.4, n_news: 20 },
+            },
+          },
+        },
+        {
+          sector: "Semiconductors",
+          horizons: {
+            "3_12m": {
+              outlook_label: "STRONG_TAILWIND",
+              confidence: "MED",
+              composite: 0.5,
+              bottom_up: { score: 1, n_news: 27 },
+              top_down: { reason: "Chip demand tailwind" },
+            },
+          },
+        },
+      ],
+    },
+    macroRegime: { regime: "CALM" },
+    now,
+  });
+  assert.equal(result.items.length, 1);
+  assert.equal(result.items[0].ticker, "CHIP");
+  assert.equal(result.items[0].sector_tailwind_sector, "Semiconductors");
+  assert.equal(result.items[0].sector_tailwind_label, "STRONG_TAILWIND");
+});
+
+check("prefers usable Retail row over lower-confidence Consumer Retailing duplicate", () => {
+  const result = buildGrowingSectorValueSection([
+    stock("RETAIL", { sector: "Retail", v4_score_100: 63 }),
+  ], {
+    pickCardFields: card,
+    sectorOutlook: {
+      generated_at: "2026-06-03T00:00:00.000Z",
+      regime_at_generation: { regime: "CALM" },
+      sectors: [
+        {
+          sector: "Consumer Retailing",
+          horizons: {
+            "3_12m": {
+              outlook_label: "TAILWIND",
+              confidence: "LOW",
+              composite: 0.36,
+              bottom_up: { score: 0.73, n_news: 29 },
+            },
+          },
+        },
+        {
+          sector: "Retail",
+          horizons: {
+            "3_12m": {
+              outlook_label: "TAILWIND",
+              confidence: "MED",
+              composite: 0.17,
+              bottom_up: { score: 0.34, n_news: 158 },
+              top_down: { reason: "Retail demand improving" },
+            },
+          },
+        },
+      ],
+    },
+    macroRegime: { regime: "CALM" },
+    now,
+  });
+  assert.equal(result.items.length, 1);
+  assert.equal(result.items[0].sector_tailwind_sector, "Retail");
+  assert.equal(result.items[0].sector_tailwind_confidence, "MED");
+});
+
+check("falls back to broad IT-style alias when no exact Tech row exists", () => {
+  const result = buildGrowingSectorValueSection([
+    stock("TECH", { sector: "Tech", v4_score_100: 61 }),
+    stock("SOFT", { sector: "Software", v4_score_100: 60 }),
+  ], {
+    pickCardFields: card,
+    sectorOutlook: {
+      generated_at: "2026-06-03T00:00:00.000Z",
+      regime_at_generation: { regime: "CALM" },
+      sectors: [
+        {
+          sector: "Information Technology",
+          horizons: {
+            "3_12m": {
+              outlook_label: "TAILWIND",
+              confidence: "MED",
+              composite: 0.25,
+              bottom_up: { score: 0.5, n_news: 40 },
+              top_down: { reason: "IT spending improving" },
+            },
+          },
+        },
+      ],
+    },
+    macroRegime: { regime: "CALM" },
+    now,
+  });
+  assert.deepEqual(result.items.map((x) => x.ticker), ["TECH", "SOFT"]);
+  assert.equal(result.items[0].sector_tailwind_sector, "Information Technology");
+  assert.equal(result.items[1].sector_tailwind_sector, "IT Services");
+});
+
 check("requires Future Growth >=4 in tailwind mode and does not relax when strict candidates exist", () => {
   const result = buildGrowingSectorValueSection([
     stock("STRICT", { future: 4, v4_score_100: 62 }),
@@ -321,6 +438,9 @@ check("withholds section when mapped sector coverage falls below floor", () => {
   });
   assert.equal(result.items.length, 0);
   assert.equal(result.audit.reason, "sector_mapping_coverage_below_floor");
+  assert.equal(result.audit.ui_warning_label, "Sector mapping coverage below floor · 33%");
+  assert.match(result.audit.ui_warning_message, /only 1 of 3 base-eligible stocks/);
+  assert.match(result.audit.ui_warning_message, /trust floor is 60%/);
 });
 
 console.log(`\n${pass} passed, ${fail} failed\n`);

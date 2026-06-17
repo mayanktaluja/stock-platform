@@ -78,3 +78,71 @@ test("check-snapshot-health reports missing critical fixtures as stale", () => {
   assert.match(res.stdout, /fundamentals.json.generatedAt=null/);
   assert.match(res.stdout, /surveillance.json.fetchedAt=null/);
 });
+
+test("check-snapshot-health blocks GSV coverage-gate regressions with candidates", () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "snapshot-health-gsv-"));
+  seedCritical(root, "2026-05-29T06:00:00.000Z");
+  writeJson(root, "data/sws/picks-latest.json", {
+    scanned_at: "2026-05-29T06:00:00.000Z",
+    section_audit: {
+      growing_sector_value: {
+        available: false,
+        reason: "sector_mapping_coverage_below_floor",
+        base_eligible_count: 275,
+        mapped_count: 111,
+        selected_count: 26,
+        future_growth_candidate_count: 47,
+        coverage_ratio: 0.404,
+      },
+    },
+    sections: {
+      growing_sector_value: [],
+    },
+  });
+
+  const res = spawnSync(process.execPath, [
+    SCRIPT,
+    "--root", root,
+    "--now", NOW,
+    "--strict",
+    "--critical-only",
+  ], { encoding: "utf-8" });
+
+  assert.equal(res.status, 1);
+  assert.match(res.stdout, /STALE growing_sector_value_gate:/);
+  assert.match(res.stdout, /coverage 40% \(111\/275\) withheld 47 candidates/);
+  assert.match(res.stdout, /staleKeys=growing_sector_value_gate/);
+});
+
+test("check-snapshot-health allows genuinely empty GSV coverage audits", () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "snapshot-health-gsv-empty-"));
+  seedCritical(root, "2026-05-29T06:00:00.000Z");
+  writeJson(root, "data/sws/picks-latest.json", {
+    scanned_at: "2026-05-29T06:00:00.000Z",
+    section_audit: {
+      growing_sector_value: {
+        available: false,
+        reason: "sector_mapping_coverage_below_floor",
+        base_eligible_count: 0,
+        mapped_count: 0,
+        selected_count: 0,
+        future_growth_candidate_count: 0,
+        coverage_ratio: 0,
+      },
+    },
+    sections: {
+      growing_sector_value: [],
+    },
+  });
+
+  const out = execFileSync(process.execPath, [
+    SCRIPT,
+    "--root", root,
+    "--now", NOW,
+    "--strict",
+    "--critical-only",
+  ], { encoding: "utf-8" });
+
+  assert.match(out, /OK growing_sector_value_gate:/);
+  assert.match(out, /all monitored snapshots fresh/);
+});

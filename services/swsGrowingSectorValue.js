@@ -51,6 +51,7 @@ const DIRECT_SECTOR_MAP = new Map(Object.entries({
   "Semiconductors": "Information Technology",
   "Services": "Services",
   "Software": "Information Technology",
+  "Tech": "Information Technology",
   "Technology": "Information Technology",
   "Telecom": "Telecom",
   "Transportation": "Transportation",
@@ -100,6 +101,32 @@ export function mapSwsSectorToOutlookSector(sector) {
   return raw;
 }
 
+function directOrSubstringSectorAlias(sector) {
+  const raw = String(sector || "").trim();
+  if (!raw) return null;
+  if (DIRECT_SECTOR_MAP.has(raw)) return DIRECT_SECTOR_MAP.get(raw);
+  for (const [pattern, mapped] of SUBSTRING_SECTOR_MAP) {
+    if (pattern.test(raw)) return mapped;
+  }
+  return null;
+}
+
+function addSectorKey(keys, value) {
+  const raw = String(value || "").trim();
+  if (raw) keys.add(raw);
+}
+
+function sectorKeyCandidates(sector) {
+  const raw = String(sector || "").trim();
+  if (!raw) return [];
+  const keys = new Set();
+  addSectorKey(keys, raw);
+  addSectorKey(keys, normalizeSector(raw));
+  addSectorKey(keys, mapSwsSectorToOutlookSector(raw));
+  addSectorKey(keys, directOrSubstringSectorAlias(raw));
+  return [...keys];
+}
+
 function candidateOutlookSectors(stock) {
   const resolved = resolveSectorsForTicker(stock?.ticker, stock?.sector);
   const sectors = Array.isArray(resolved) ? [...resolved] : [resolved];
@@ -109,7 +136,11 @@ function candidateOutlookSectors(stock) {
     // only for Defence; do not let peer-industry labels remap unrelated sectors.
     if (mapSwsSectorToOutlookSector(industryHint) === "Defence") sectors.push(industryHint);
   }
-  return [...new Set(sectors.map(mapSwsSectorToOutlookSector).filter(Boolean))];
+  const keys = new Set();
+  for (const sector of sectors) {
+    for (const key of sectorKeyCandidates(sector)) keys.add(key);
+  }
+  return [...keys];
 }
 
 function macroCompatible(sectorOutlook, macroRegime) {
@@ -148,6 +179,22 @@ function failClosedWarning(reason, details = {}) {
     };
   }
   return {};
+}
+
+function coverageWarning(audit) {
+  const base = audit?.base_eligible_count || 0;
+  const mapped = audit?.mapped_count || 0;
+  const pct = Number.isFinite(audit?.coverage_ratio)
+    ? Math.round(audit.coverage_ratio * 100)
+    : null;
+  const floorPct = Math.round(MIN_COVERAGE_RATIO * 100);
+  return {
+    ui_warning_label: `Sector mapping coverage below floor${pct != null ? ` · ${pct}%` : ""}`,
+    ui_warning_message:
+      `Candidates are withheld because only ${mapped} of ${base} base-eligible stocks ` +
+      `mapped to Sector Outlook sectors${pct != null ? ` (${pct}%)` : ""}; ` +
+      `the trust floor is ${floorPct}%. Refresh/fix the Sector Outlook taxonomy before showing this section.`,
+  };
 }
 
 function macroGeneratedAt(macroRegime) {
@@ -218,7 +265,13 @@ export function indexSectorOutlook(sectorOutlook, opts = {}) {
   }
   const bySector = new Map();
   for (const s of sectorOutlook.sectors) {
-    if (s?.sector) bySector.set(s.sector, s);
+    for (const key of sectorKeyCandidates(s?.sector)) {
+      const row = { ...s, source_sector: s.sector };
+      const existing = bySector.get(key);
+      if (!existing || compareSectorOutlookRows(row, existing) < 0) {
+        bySector.set(key, row);
+      }
+    }
   }
   return {
     ok: true,
@@ -227,6 +280,33 @@ export function indexSectorOutlook(sectorOutlook, opts = {}) {
     age_hours: Math.round(ageHours * 10) / 10,
     generated_at: sectorOutlook.generated_at || null,
   };
+}
+
+function outlookLabelRank(label) {
+  if (label === "STRONG_TAILWIND") return 2;
+  if (label === "TAILWIND") return 1;
+  return 0;
+}
+
+function confidenceRank(confidence) {
+  if (confidence === "HIGH") return 3;
+  if (confidence === "MED") return 2;
+  if (confidence === "LOW") return 1;
+  return 0;
+}
+
+function compareSectorOutlookRows(a, b) {
+  const ah = a?.horizons?.["3_12m"] || {};
+  const bh = b?.horizons?.["3_12m"] || {};
+  const checks = [
+    outlookLabelRank(bh.outlook_label) - outlookLabelRank(ah.outlook_label),
+    (bh.confidence === "LOW" ? 0 : 1) - (ah.confidence === "LOW" ? 0 : 1),
+    confidenceRank(bh.confidence) - confidenceRank(ah.confidence),
+    (Number(bh.composite) || 0) - (Number(ah.composite) || 0),
+    (Number(bh.bottom_up?.score) || 0) - (Number(ah.bottom_up?.score) || 0),
+    (Number(bh.bottom_up?.n_news) || 0) - (Number(ah.bottom_up?.n_news) || 0),
+  ];
+  return checks.find((v) => v !== 0) || 0;
 }
 
 function baseEligible(stock) {
@@ -482,7 +562,12 @@ export function buildGrowingSectorValueSection(scoredStocks, opts = {}) {
   if (base.length > 0 && coverageRatio < MIN_COVERAGE_RATIO) {
     return {
       items: [],
-      audit: { ...audit, available: false, reason: "sector_mapping_coverage_below_floor" },
+      audit: {
+        ...audit,
+        available: false,
+        reason: "sector_mapping_coverage_below_floor",
+        ...coverageWarning(audit),
+      },
     };
   }
 
