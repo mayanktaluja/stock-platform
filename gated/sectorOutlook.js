@@ -46,6 +46,10 @@
     return `<span style="display:inline-flex; align-items:center; gap:5px; font-size:11px; color:var(--text-muted);"><span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:${cfg.color};" aria-hidden="true"></span>${cfg.text}</span>`;
   }
 
+  function decisionStateBadge(label = "Context only") {
+    return `<span data-testid="decision-state" style="display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:700; color:var(--info-text-soft); background:rgba(96,165,250,0.10); border:1px solid rgba(96,165,250,0.28); padding:2px 8px; border-radius:12px;" title="Sector context only; stock-level evidence is still required.">${escapeHtml(label)}</span>`;
+  }
+
   function trustBadge(score) {
     const n = Number(score);
     const pct = Number.isFinite(n) ? Math.max(0, Math.min(100, n)) : 0;
@@ -162,10 +166,10 @@
     const topThemes = (h.bottom_up?.top_themes || []).slice(0, 2);
     const topThemesStr = topThemes.map((t) => `${escapeHtml(t.theme.replace(/_/g, " "))} ${FMT_PCT(t.pct)}`).join(", ") || "—";
     return `
-      <tr data-sector="${escapeHtml(sectorRow.sector)}" style="border-bottom:1px solid var(--bg-graphite); cursor:pointer;" onclick="window.__sectorOutlookToggleDrillDown(this)">
+      <tr data-testid="sector-outlook-row" data-sector="${escapeHtml(sectorRow.sector)}" style="border-bottom:1px solid var(--bg-graphite); cursor:pointer;" onclick="window.__sectorOutlookToggleDrillDown(this)">
         <td style="padding:10px 8px; font-weight:600;">${escapeHtml(sectorRow.sector)}</td>
         <td data-trust-score="${escapeHtml(Number.isFinite(Number(trustScore)) ? Number(trustScore).toFixed(2) : "")}" style="padding:10px 8px;">${trustBadge(trustScore)}</td>
-        <td style="padding:10px 8px;">${labelBadge(label)}</td>
+        <td style="padding:10px 8px;">${labelBadge(label)} <span style="margin-left:6px;">${decisionStateBadge()}</span></td>
         <td style="padding:10px 8px;">${confidenceDot(conf)}</td>
         <td style="padding:10px 8px; text-align:right; font-variant-numeric:tabular-nums; color:${composite > 0 ? "var(--positive-text-emerald)" : composite < 0 ? "var(--orange-bright)" : "var(--text-muted)"};">${FMT_NUM(composite, 2)}</td>
         <td style="padding:10px 8px; text-align:right; font-variant-numeric:tabular-nums; color:var(--text-muted);">${FMT_NUM(bottomUp, 2)}</td>
@@ -218,8 +222,9 @@
 
   // Toggle drill-down row visibility. Exposed on window for the inline onclick.
   window.__sectorOutlookToggleDrillDown = function (rowEl) {
-    const sector = rowEl.getAttribute("data-sector");
-    const drill = rowEl.parentElement.querySelector(`tr[data-drilldown-for="${sector}"]`);
+    const drill = rowEl.nextElementSibling?.getAttribute("data-drilldown-for")
+      ? rowEl.nextElementSibling
+      : null;
     if (!drill) return;
     drill.style.display = drill.style.display === "none" ? "" : "none";
   };
@@ -290,7 +295,7 @@
         <summary style="font-size:13px; font-weight:600; cursor:pointer; color:var(--text-primary);">Backtest status</summary>
         <div style="font-size:12px; color:var(--text-secondary); line-height:1.6; padding-top:12px; max-width:800px;">
           <p><strong>EXPERIMENTAL — no formal backtest gate in v1.</strong></p>
-          <p>The signal is indicative based on observed news themes + the current macro regime. v2 will add a walk-forward harness against NSE sector index returns (^CNXAUTO, ^CNXIT, ^CNXMETAL, etc.) at 90d and 365d horizons. The INVESTABLE badge will only fire once ≥80 resolved sector-quarters across ≥2 fiscal quarters show ≥55% directional hit-rate with Brier &lt; 0.22.</p>
+          <p>The signal is indicative based on observed news themes + the current macro regime. v2 will add a walk-forward harness against NSE sector index returns (^CNXAUTO, ^CNXIT, ^CNXMETAL, etc.) at 90d and 365d horizons. Any future promotion label requires ≥80 resolved sector-quarters across ≥2 fiscal quarters with ≥55% directional hit-rate and Brier &lt; 0.22.</p>
           <p style="color:var(--text-muted); font-size:11px; margin-top:14px;">Gate status: <strong>${doc.gate_met ? "MET" : "NOT MET (v1 — backtest deferred)"}</strong></p>
         </div>
       </details>`;

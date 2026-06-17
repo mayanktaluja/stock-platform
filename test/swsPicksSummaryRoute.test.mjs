@@ -35,5 +35,7 @@ const summarySource = `${summaryBuilder}\n${summaryRoute}`;
 assert.doesNotMatch(summarySource, /getSnapshotFvMapSafe|getSnapshotFvMap|filterPicksWithDeepDataFailOpen|getStockByTicker/);
 assert.match(summarySource, /scan_status_hint/);
 assert.match(summarySource, /summary_view/);
+assert.match(summarySource, /liftSwsSectionAudit/);
+assert.match(summarySource, /stampSwsDecisionContracts/);
 
 console.log("sws picks summary route skips deep/FV drift reads");

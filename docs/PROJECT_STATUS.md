@@ -33,6 +33,18 @@ experimental surface area and nightly refresh load.
 
 ## Recently shipped (themed, newest first — rolling ~4–6 week window; `git log` is the archive)
 
+### Decision-quality contracts (June 2026)
+- **This PR** — Non-US/KR/TW research surfaces now expose additive
+  `decision_contract` metadata so the UI can distinguish actionable,
+  stagger-only, wait, research-only, shadow-only, degraded, and hindsight
+  states without changing existing schema versions or V4 scoring. India Buy Now
+  is the only surface allowed to promote rows to `Actionable now`; Sector
+  Outlook and Watchlist show context/research-only states, Risk Lab remains
+  shadow-only, 5x Lab is research-only until its backtest gate is available,
+  Earnings sizing copy is context-only, Track Record exposes signed-alpha as
+  the primary hindsight metric, and Portfolio Analyzer labels execution context
+  beside KEEP/TRIM/SELL/TOP-UP rows.
+
 ### 5x Lab trust and validation hardening (June 2026)
 - **This PR** — 5x Lab now separates research rank from entry actionability.
   The API exposes snapshot status, age, validation gate, survivorship warning,

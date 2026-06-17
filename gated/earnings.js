@@ -1109,7 +1109,7 @@
             <div style="display:flex; gap:5px;">${branches.map(branchChip).join("")}</div>
             <div style="display:flex; gap:6px; align-items:center;">
               ${sizingPill}
-              <span style="font-size:10px; color:var(--text-muted); letter-spacing:0.04em; text-transform:uppercase;">trading angle</span>
+              <span data-testid="earnings-sizing-context" style="font-size:10px; color:var(--text-muted); letter-spacing:0.04em; text-transform:uppercase;">Sizing context</span>
             </div>
           </div>
           <div style="color:var(--text-slate-light);">
@@ -1158,10 +1158,10 @@
     } else if (effectivePct !== null && effectivePct !== undefined) {
       tipParts.push(`Confidence ${Math.round(effectivePct)}%`);
     }
-    tipParts.push("Multiplier × your normal per-trade size — decision support, not investment advice.");
+    tipParts.push("Context only; verdict unchanged; not a size instruction.");
     const tip = tipParts.join(" · ");
     const badge = source === "lab_calibrated" ? "⚖" : "";
-    return `<span data-testid="sizing-pill" data-multiplier="${mult}" data-source="${source}" title="${escHtml(tip)}" style="display:inline-flex; align-items:center; gap:4px; padding:2px 7px; border-radius:9px; font-size:10px; font-weight:700; background:${tone.bg}; color:${tone.color}; border:1px solid ${tone.border};">${badge ? `<span style="opacity:0.85;">${badge}</span>` : ""}<span>${escHtml(labelMult)} size</span></span>`;
+    return `<span data-testid="sizing-pill" data-multiplier="${mult}" data-source="${source}" title="${escHtml(tip)}" style="display:inline-flex; align-items:center; gap:4px; padding:2px 7px; border-radius:9px; font-size:10px; font-weight:700; background:${tone.bg}; color:${tone.color}; border:1px solid ${tone.border};">${badge ? `<span style="opacity:0.85;">${badge}</span>` : ""}<span>Context only</span></span>`;
   }
 
   function verdictBg(v) {

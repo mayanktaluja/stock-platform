@@ -27,6 +27,11 @@ test.describe("5x Lab — trajectory + overview", () => {
     expect(body.schema_version).toBe("multibagger-overview-v1");
     expect(body).toHaveProperty("snapshot_status");
     expect(body.snapshot_status).toHaveProperty("state");
+    expect(body).toHaveProperty("runtime_audit");
+    expect(body).toHaveProperty("backtest_gate");
+    expect(body).toHaveProperty("decision_contract");
+    expect(body.decision_contract.state).toBe("RESEARCH_ONLY");
+    expect(body.decision_contract.portfolio_action).toBe("NONE");
     expect(body).toHaveProperty("age_h");
     expect(body).toHaveProperty("validation_gate");
     expect(body).toHaveProperty("survivorship_warning");
@@ -74,9 +79,11 @@ test.describe("5x Lab — trajectory + overview", () => {
 
     const statusBanner = page.locator("[data-test='multibagger-status-banner']");
     await expect(statusBanner).toBeVisible({ timeout: 5000 });
+    await expect(page.locator('[data-test="multibagger-decision-state"]')).toHaveText(/Research only/i);
     const bannerText = await statusBanner.textContent();
     expect(bannerText).not.toMatch(/\[object Object\]/);
     expect(bannerText).toMatch(/Snapshot (current|status)|Evidence gate/i);
+    expect(await content.textContent()).not.toMatch(/BUY action|Today's Action|5X_CANDIDATE|HIGH_CONVICTION/);
   });
 
   test("honest footer with backtest-not-validated language is present", async ({ page }) => {

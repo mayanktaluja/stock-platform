@@ -104,7 +104,7 @@ test.describe("SWS Picks · Universe + Sector filters", () => {
 
 	    await expect(page.locator("#picksGroupMode")).toHaveValue("grouped");
 	    await expect(page.locator("#picksSortMode")).toHaveValue("rank");
-	    await expect(page.locator('.sws-pick-group-header[data-picks-group="actionable"]')).toContainText(/Actionable Ideas/);
+	    await expect(page.locator('.sws-pick-group-header[data-picks-group="actionable"]')).toContainText(/Ranked ideas/);
 	    await expect(page.locator('.sws-pick-group-header[data-picks-group="research"]')).toContainText(/Research \/ Watch/);
 	    await expect(page.locator('.sws-pick-section[data-section-key="best_to_buy_now"]')).toContainText(/Best Stocks to Buy Now/);
 	    await expect(page.locator('.sws-pick-section[data-section-key="best_to_buy_now"]')).toContainText(/No-buy/);

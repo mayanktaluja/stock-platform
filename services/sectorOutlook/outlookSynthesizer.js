@@ -159,10 +159,11 @@ function classifyCrossCheck(bottomUp, topDown) {
   return "PARTIAL";
 }
 
-function classifyOutlookLabel(composite) {
-  if (composite >= STRONG_TAILWIND_FLOOR) return "STRONG_TAILWIND";
+function classifyOutlookLabel(composite, { crossCheck = null, confidence = null } = {}) {
+  const strongAgreement = crossCheck === "STRONG" && confidence === "HIGH";
+  if (composite >= STRONG_TAILWIND_FLOOR) return strongAgreement ? "STRONG_TAILWIND" : "TAILWIND";
   if (composite >= TAILWIND_FLOOR) return "TAILWIND";
-  if (composite <= STRONG_HEADWIND_CEIL) return "STRONG_HEADWIND";
+  if (composite <= STRONG_HEADWIND_CEIL) return strongAgreement ? "STRONG_HEADWIND" : "HEADWIND";
   if (composite <= HEADWIND_CEIL) return "HEADWIND";
   return "NEUTRAL";
 }
@@ -304,7 +305,6 @@ export function synthesizeSectorAtHorizon(sectorAggregate, macroRegime, horizon,
   // design (we don't want a strongly-mixed signal to look like a
   // confident TAILWIND).
   const composite = clamp((bottomUp + td.score) / 2, -1, 1);
-  const outlook_label = classifyOutlookLabel(composite);
 
   // Breadth + evidence count from the 90d window (the middle window
   // best reflects what's been happening "lately").
@@ -322,6 +322,7 @@ export function synthesizeSectorAtHorizon(sectorAggregate, macroRegime, horizon,
     opts,
   });
   const confidence = classifyConfidenceFromTrust(trust.trustScore);
+  const outlook_label = classifyOutlookLabel(composite, { crossCheck, confidence });
 
   return {
     horizon,

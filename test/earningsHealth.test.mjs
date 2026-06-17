@@ -201,6 +201,9 @@ it("gate-just-cleared raises an alert", () => {
   const prior = { cap_lift_gate: { state: false, days_in_current_state: 3 } };
   const h = buildHealthSummary({ history: HISTORY, backtestSnapshot: { enough_data_to_lift_cap: true }, priorHealth: prior, watchEvents: WATCH_EVENTS, nowIso: NOW });
   assert.ok(h.alerts.some((a) => /just CLEARED/i.test(a)), JSON.stringify(h.alerts));
+  assert.ok(!h.alerts.some((a) => /tune-earnings-weights/i.test(a)), JSON.stringify(h.alerts));
+  assert.equal(h.decision_contracts.cap_lift.gate_met, true);
+  assert.equal(h.decision_contracts.weight_tuning.gate_met, false);
 });
 it("P1-9: 150 below-floor + 0 above-floor-heuristic + 20 LLM → NO heuristic-share alert", () => {
   // The V3 >= 50 floor in earningsLlmBatcher.js routes below-floor events
@@ -286,6 +289,9 @@ it("a clean pipeline has no alerts and healthy:true", () => {
   const h = buildHealthSummary({ history: clean, watchEvents: cleanWatch, backtestSnapshot: { enough_data_to_lift_cap: false }, nowIso: NOW });
   assert.deepEqual(h.alerts, []);
   assert.equal(h.healthy, true);
+  assert.equal(h.decision_contracts.cap_lift.gate_met, false);
+  assert.equal(h.decision_contracts.weight_tuning.gate_met, false);
+  assert.equal(h.decision_contracts.risk_lab.promoted, false);
 });
 
 console.log("[5] formatHealthOneLiner");
