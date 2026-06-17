@@ -125,6 +125,15 @@ test.describe("Stock detail modal (SWS)", () => {
     await expect(title).toBeVisible({ timeout: 15_000 });
     const titleText = (await title.innerText()).trim();
     expect(titleText.length, "#swsModalTitle must render ticker text").toBeGreaterThan(0);
+    const summary = page.getByTestId("sws-modal-decision-summary");
+    await expect(summary).toBeVisible({ timeout: 10_000 });
+    await expect(summary).toContainText(/Decision context/i);
+    await expect(summary).toContainText(/What must be true/i);
+    await expect(summary).toContainText(/What can break it/i);
+    await expect(summary).toContainText(/risk backdrop/i);
+    await expect(summary).toContainText(/sector context/i);
+    await expect(summary).toContainText(/your exposure context/i);
+    await expect(summary).not.toContainText(/confirmed by/i);
 
     // Hero section structural anchor — present whether the renderer took
     // the rich SWS path or the limited-data live-only fallback.

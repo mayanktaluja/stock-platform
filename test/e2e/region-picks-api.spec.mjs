@@ -35,7 +35,7 @@ for (const [code, cfg] of Object.entries(REGIONS)) {
       const b = await r.json();
       expect(b.region).toBe(cfg.region);
       expect(b.currency).toBe(cfg.currency);
-      expect(Array.isArray(b.sections.top_ranked_30_v3)).toBe(true);
+      expect(Array.isArray(b.sections.top_ranked_30_v4)).toBe(true);
       expect(b.sections.avoid).toBeUndefined();
       // KR/TW are dormant (no refresh cron) — the payload flags it so the UI can
       // render a "periodic snapshot, not a live feed" banner.
@@ -44,17 +44,17 @@ for (const [code, cfg] of Object.entries(REGIONS)) {
       expect(b.refresh_note.length).toBeGreaterThan(0);
     });
 
-    test(`GET /api/${code}-picks?limit=2&category=top_ranked_30_v3 paginates`, async ({ request }) => {
-      const r = await request.get(`/api/${code}-picks?limit=2&category=top_ranked_30_v3`);
+    test(`GET /api/${code}-picks?limit=2&category=top_ranked_30_v4 paginates`, async ({ request }) => {
+      const r = await request.get(`/api/${code}-picks?limit=2&category=top_ranked_30_v4`);
       expect(r.status()).toBe(200);
       const b = await r.json();
-      expect(Object.keys(b.sections)).toEqual(["top_ranked_30_v3"]);
-      expect(b.sections.top_ranked_30_v3.length).toBeLessThanOrEqual(2);
+      expect(Object.keys(b.sections)).toEqual(["top_ranked_30_v4"]);
+      expect(b.sections.top_ranked_30_v4.length).toBeLessThanOrEqual(2);
     });
 
     test(`GET /api/${code}-stock/:ticker → 200 dotted key + currency ${cfg.currency}`, async ({ request }) => {
       const picks = await (await request.get(`/api/${code}-picks`)).json();
-      const ticker = picks.sections.top_ranked_30_v3[0]?.ticker;
+      const ticker = picks.sections.top_ranked_30_v4[0]?.ticker;
       expect(ticker).toBeTruthy();
       expect(ticker).toMatch(/\.[A-Z]+$/); // dotted suffix carried end-to-end
       const s = await request.get(`/api/${code}-stock/${encodeURIComponent(ticker)}`);

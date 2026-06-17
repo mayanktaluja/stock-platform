@@ -94,7 +94,7 @@ for (const [code, cfg] of Object.entries(REGIONS)) {
       const text = (await container.locator(".sws-pick-card").allTextContents()).join("\n");
       expect(text).toContain(cfg.symbol);
       for (const bad of cfg.forbidden) expect(text).not.toContain(bad);
-      await expect(container.locator('.sws-pick-section[data-section-key="top_ranked_30_v3"]')).toBeVisible();
+      await expect(container.locator('.sws-pick-section[data-section-key="top_ranked_30_v4"]')).toBeVisible();
     });
 
     test("open to all signed-in users: tab renders without the admin flag", async ({ page }) => {
@@ -120,9 +120,13 @@ for (const [code, cfg] of Object.entries(REGIONS)) {
       expect(txt).toMatch(/Health/i);
       // PR2 parity: rich sections absent from the old simplified region modal —
       // proves KR/TW now render via the shared renderSwsModalCore.
-      expect(txt).toMatch(/Snowflake/i);
-      expect(txt).toMatch(/Score breakdown/i);
-      expect(txt).toMatch(/Total returns/i);
+	      expect(txt).toMatch(/Snowflake/i);
+	      expect(txt).toMatch(/Score breakdown/i);
+	      expect(txt).toMatch(/Decision context/i);
+	      expect(txt).toMatch(/risk backdrop/i);
+	      expect(txt).toMatch(/sector context/i);
+	      expect(txt).not.toMatch(/confirmed by/i);
+	      expect(txt).toMatch(/Total returns/i);
       expect(txt).toMatch(/Rewards\s*\(\d+\)/i);
       expect(txt).toMatch(/Risks\s*\(\d+\)/i);
       expect(txt).toMatch(/No SWS-flagged risks at last scan|Currently unprofitable|cash runway/i);
@@ -198,7 +202,7 @@ for (const [code, cfg] of Object.entries(REGIONS)) {
     test("collapsible sections: chip-nav + Expand/Collapse-all toggle the accordion", async ({ page }) => {
       await openRegionTab(page);
       await expect(page.locator(`#${dom}Container .sws-pick-chipnav`)).toBeVisible();
-      const hero = page.locator(`#${dom}Container .sws-pick-section[data-section-key="top_ranked_30_v3"]`);
+      const hero = page.locator(`#${dom}Container .sws-pick-section[data-section-key="top_ranked_30_v4"]`);
       await expect(hero).not.toHaveClass(/collapsed/); // hero open by default
       await page.locator(`#${dom}Container .sws-pick-chip-action`, { hasText: "Collapse all" }).click();
       await expect(hero).toHaveClass(/collapsed/);

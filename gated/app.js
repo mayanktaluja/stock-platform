@@ -932,6 +932,8 @@ function portfolioActionIdFromLabel(action) {
 }
 
 let _activeTooltipTermId = null;
+let _lastTooltipShownAt = 0;
+let _activeTooltipTriggerEl = null;
 
 // UI/UX overhaul 2026-05-19 — Phase 3 "alive" interactivity.
 // A scoped MutationObserver that watches elements carrying a `data-num`
@@ -1012,6 +1014,9 @@ function attachNumericFlash() {
 //
 // Trap is active whenever ANY of these is on screen:
 //   #swsModalBackdrop.open
+//   #usModalBackdrop.open
+//   #krModalBackdrop.open
+//   #twModalBackdrop.open
 //   #actionListModalBackdrop.open
 //   #shortcutsModal.open
 //
@@ -1020,6 +1025,9 @@ function attachNumericFlash() {
 function _activeDialogEl() {
   const candidates = [
     "#swsModalBackdrop.open",
+    "#usModalBackdrop.open",
+    "#krModalBackdrop.open",
+    "#twModalBackdrop.open",
     "#actionListModalBackdrop.open",
     "#shortcutsModal.open",
   ];
@@ -1060,6 +1068,22 @@ document.addEventListener("keydown", (e) => {
     first.focus();
   }
 });
+
+function focusDialogCloseButton(backdrop) {
+  if (!backdrop) return;
+  requestAnimationFrame(() => {
+    const closeBtn = backdrop.querySelector(".sws-modal-close");
+    if (closeBtn && typeof closeBtn.focus === "function") {
+      try { closeBtn.focus({ preventScroll: true }); } catch { try { closeBtn.focus(); } catch {} }
+    }
+  });
+}
+
+function restoreModalFocus(target) {
+  if (target && typeof target.focus === "function" && document.contains(target)) {
+    try { target.focus({ preventScroll: true }); } catch { try { target.focus(); } catch {} }
+  }
+}
 
 function attachGlossaryTooltips() {
   const tooltip = document.getElementById("starbhaiTooltip");
@@ -1118,11 +1142,7 @@ function attachGlossaryTooltips() {
     // For dynamic-body triggers (no termId), use a stable per-element key so
     // tap-to-toggle still works.
     const id = target.getAttribute("data-term-id") || "__dyn__";
-    if (_activeTooltipTermId === id) {
-      hideTooltip();
-    } else {
-      showTooltip(target, id);
-    }
+    showTooltip(target, id);
   });
 
   // Escape closes
@@ -1131,7 +1151,18 @@ function attachGlossaryTooltips() {
   });
 
   // Hide tooltip when scrolling (otherwise it floats out of place)
-  window.addEventListener("scroll", hideTooltip, { passive: true });
+  window.addEventListener("scroll", () => {
+    const now = typeof performance !== "undefined" ? performance.now() : Date.now();
+    if (now - _lastTooltipShownAt < 250) return;
+    if (_activeTooltipTriggerEl && document.contains(_activeTooltipTriggerEl)) {
+      const rect = _activeTooltipTriggerEl.getBoundingClientRect();
+      if (rect.bottom >= 0 && rect.top <= window.innerHeight) {
+        showTooltip(_activeTooltipTriggerEl, _activeTooltipTermId);
+        return;
+      }
+    }
+    hideTooltip();
+  }, { passive: true });
 }
 
 function showTooltip(triggerEl, termId) {
@@ -1181,6 +1212,8 @@ function showTooltip(triggerEl, termId) {
   tooltip.style.left = `${left}px`;
   tooltip.setAttribute("aria-hidden", "false");
   _activeTooltipTermId = termId;
+  _activeTooltipTriggerEl = triggerEl;
+  _lastTooltipShownAt = typeof performance !== "undefined" ? performance.now() : Date.now();
 }
 
 function hideTooltip() {
@@ -1189,6 +1222,7 @@ function hideTooltip() {
   tooltip.classList.remove("visible");
   tooltip.setAttribute("aria-hidden", "true");
   _activeTooltipTermId = null;
+  _activeTooltipTriggerEl = null;
 }
 
 function updateClock() {
@@ -4389,6 +4423,10 @@ function jsStringLiteral(value) {
   return JSON.stringify(String(value == null ? "" : value));
 }
 
+function jsHandlerAttr(code) {
+  return escapeHtml(code);
+}
+
 function getRecClass(rec) {
   if (!rec) return "";
   const r = rec.toUpperCase();
@@ -5835,7 +5873,12 @@ async function toggleWatchlist(symbol, name, sector) {
 
   let failureReason = null;
   try {
-    const res = await fetch(`/api/watchlist/${action}`, {
+    if (window.__sb_watchlistForceFailure) {
+      window.__sb_watchlistForcedFailureHit = (window.__sb_watchlistForcedFailureHit || 0) + 1;
+      await new Promise((resolve) => setTimeout(resolve, 600));
+      throw new Error("forced watchlist failure");
+    }
+    const res = await window.fetch(`/api/watchlist/${action}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ symbol, name, sector }),
@@ -5854,6 +5897,7 @@ async function toggleWatchlist(symbol, name, sector) {
   }
 
   if (failureReason) {
+    window.__sb_watchlistRollbackCount = (window.__sb_watchlistRollbackCount || 0) + 1;
     // ROLLBACK: restore Set + DOM stars to pre-click state.
     if (wasSaved) watchlist.add(symbol);
     else watchlist.delete(symbol);
@@ -5877,7 +5921,10 @@ function watchlistButton(symbol, name, sector) {
   // Tab and activate with Space/Enter. aria-pressed toggles between saved
   // and unsaved states; aria-label gives screen readers a proper verb.
   const label = isSaved ? `Remove ${name || symbol} from watchlist` : `Add ${name || symbol} to watchlist`;
-  return `<button type="button" class="watchlist-btn" data-watchlist-symbol="${escapeHtml(symbol)}" aria-pressed="${isSaved}" aria-label="${escapeHtml(label)}" onclick="event.stopPropagation(); toggleWatchlist(${jsStringLiteral(symbol)}, ${jsStringLiteral(name || "")}, ${jsStringLiteral(sector || "")})" title="${isSaved ? 'Remove from watchlist' : 'Add to watchlist'}" style="cursor:pointer;background:transparent;border:none;padding:2px 4px;font-size:18px;color:${isSaved ? 'var(--gold)' : 'var(--text-muted)'};transition:color 0.15s;">${isSaved ? "★" : "☆"}</button>`;
+  const onClick = jsHandlerAttr(
+    `event.stopPropagation(); toggleWatchlist(${jsStringLiteral(symbol)}, ${jsStringLiteral(name || "")}, ${jsStringLiteral(sector || "")})`,
+  );
+  return `<button type="button" class="watchlist-btn" data-watchlist-symbol="${escapeHtml(symbol)}" aria-pressed="${isSaved}" aria-label="${escapeHtml(label)}" onclick="${onClick}" title="${isSaved ? 'Remove from watchlist' : 'Add to watchlist'}" style="cursor:pointer;background:transparent;border:none;padding:2px 4px;font-size:18px;color:${isSaved ? 'var(--gold)' : 'var(--text-muted)'};transition:color 0.15s;">${isSaved ? "★" : "☆"}</button>`;
 }
 
 // PR W3 — chevron-driven inline row details. Swaps the sibling tr.hidden
@@ -6006,8 +6053,10 @@ async function loadWatchlist() {
 
       // Row chevron — toggles the sibling details row. Plain JS toggle so
       // we stay inside the static-SPA model.
+      const rowClick = jsHandlerAttr(`openStockDetailModal(${jsStringLiteral(sym)}, 'watchlist')`);
+      const chevClick = jsHandlerAttr(`event.stopPropagation(); window.toggleWatchlistRow(${jsStringLiteral(sym)}, this);`);
       return `
-        <tr style="cursor:pointer;" onclick="openStockDetailModal(${jsStringLiteral(sym)},'watchlist')">
+        <tr style="cursor:pointer;" onclick="${rowClick}">
           <td style="padding:6px 4px; width:36px;">${watchlistButton(sym, name, sector)}</td>
           <td class="wl-col-stock">
             <div style="font-weight:600;">${escapeHtml(sym)}</div>
@@ -6019,7 +6068,7 @@ async function loadWatchlist() {
           <td class="wl-col-day" style="text-align:right;">${dayChgCell}</td>
           <td class="wl-col-since" style="text-align:right;">${sinceAddedCell}</td>
           <td class="wl-col-chev" style="text-align:right; width:36px;">
-            <button type="button" class="wl-chevron" data-wl-toggle="${escapeHtml(sym)}" aria-expanded="false" aria-label="Show row details for ${escapeHtml(sym)}" onclick="event.stopPropagation(); window.toggleWatchlistRow(${jsStringLiteral(sym)}, this);" style="background:transparent; border:none; color:var(--text-muted); cursor:pointer; padding:4px 8px; font-size:14px; line-height:1; transition: transform var(--dur-quick) var(--ease-standard);">▶</button>
+            <button type="button" class="wl-chevron" data-wl-toggle="${escapeHtml(sym)}" aria-expanded="false" aria-label="Show row details for ${escapeHtml(sym)}" onclick="${chevClick}" style="background:transparent; border:none; color:var(--text-muted); cursor:pointer; padding:4px 8px; font-size:14px; line-height:1; transition: transform var(--dur-quick) var(--ease-standard);">▶</button>
           </td>
         </tr>
         ${detailsRow}`;
@@ -8509,7 +8558,7 @@ async function renderSwsInputAlertsPanel(root) {
           <button id="swsInputAlertEmailToggle" type="button" role="switch" aria-checked="${emailEnabled ? "true" : "false"}" style="display:inline-flex; align-items:center; gap:8px; min-height:30px; border:1px solid ${emailEnabled ? "rgba(250,204,21,0.55)" : "var(--border)"}; border-radius:999px; padding:4px 6px 4px 10px; background:${emailEnabled ? "rgba(250,204,21,0.10)" : "rgba(148,163,184,0.08)"}; color:var(--text-muted); cursor:pointer;">
             <span style="font-size:12px; font-weight:600; color:var(--text-primary);">Email alerts</span>
             <span data-sws-input-alert-switch-track style="position:relative; display:inline-block; width:34px; height:18px; border-radius:999px; background:${emailEnabled ? "var(--gold)" : "rgba(148,163,184,0.35)"};">
-              <span data-sws-input-alert-switch-thumb style="position:absolute; top:2px; left:${emailEnabled ? "18px" : "2px"}; width:14px; height:14px; border-radius:999px; background:#111827;"></span>
+              <span data-sws-input-alert-switch-thumb style="position:absolute; top:2px; left:${emailEnabled ? "18px" : "2px"}; width:14px; height:14px; border-radius:999px; background:var(--surface-ink);"></span>
             </span>
             <span data-sws-input-alert-switch-state style="min-width:18px; font-size:11px; font-weight:700; color:${emailEnabled ? "var(--gold)" : "var(--text-muted)"};">${emailEnabled ? "On" : "Off"}</span>
           </button>
@@ -11543,7 +11592,7 @@ function renderHoldingCardV2(h, defaultOpen) {
 // subtitles that used to live here). emoji + chip_label feed the chip-nav.
 const PICKS_SECTIONS = [
   { key: "top_ranked_30_v4", term_id: "section_top_ranked_30", emoji: "⭐", label: "⭐ Top 30 — V4 Score", chip_label: "Top 30", subtitle: "Universe-wide top 30 by V4 composite score — start every session here." },
-  { key: "best_to_buy_now", term_id: "section_best_to_buy_now", emoji: "🎯", label: "🎯 Best Stocks to Buy Now", chip_label: "Buy Now", subtitle: "Fresh-buy shortlist with clean FV, positive sane upside, fresh data, liquidity, and no ASM/GSM flags." },
+  { key: "best_to_buy_now", term_id: "section_best_to_buy_now", emoji: "🎯", label: "🎯 Today’s shortlist · Fresh-buy candidates", chip_label: "Fresh-buy", subtitle: "Fresh-buy shortlist with clean FV, positive sane upside, fresh data, liquidity, and no ASM/GSM flags." },
   { key: "deep_value", term_id: "section_deep_value", emoji: "💎", label: "💎 Deep Value", chip_label: "Deep Value", subtitle: "Quality + cheap. TOP_PICK names trading at ≥ 20% discount to consensus FV." },
   { key: "growing_sector_value", term_id: "section_growing_sector_value", emoji: "📈", label: "📈 Growing Sector Value Stocks", chip_label: "Sector Value", subtitle: "HIGH-confidence SWS fair value upside ≥ 25%, positive sector context, and Future Growth ≥ 4/6; may show a labelled ≥ 3/6 fallback only when strict candidates are absent.", show_when_empty: true },
   { key: "snowflake_gap_lab", term_id: "section_snowflake_gap_lab", emoji: "🧪", label: "🧪 Snowflake Gap Lab", chip_label: "Gap Lab", subtitle: "Experimental screen for SWS data gaps. Canonical V4 remains the source of record.", show_when_empty: true },
@@ -11578,7 +11627,7 @@ const PICKS_SORT_LS_KEY = "swsPicksSort_v1";
 const PICKS_GROUPS = {
   actionable: {
     label: "Ranked ideas",
-    subtitle: "Ranked shortlist sections. Only Best Stocks to Buy Now rows with Actionable now or Stagger only are fresh-capital candidates.",
+    subtitle: "Ranked shortlist sections. Only Today’s shortlist rows with Actionable now or Stagger only are fresh-capital candidates.",
   },
   research: {
     label: "Research / Watch",
@@ -12296,6 +12345,83 @@ function renderPicksSectionWarning(audit) {
   };
 }
 
+function entryBandStateLabel(entryBand) {
+  return {
+    BUY_ZONE: "Actionable now",
+    STAGGER_ONLY: "Stagger only",
+    NO_BUY_ABOVE: "Wait above no-buy",
+    UNAVAILABLE: "Entry unavailable",
+  }[entryBand?.entry_state] || null;
+}
+
+function entryBandReasonText(entryBand) {
+  const reasons = Array.isArray(entryBand?.reasons) ? entryBand.reasons : [];
+  return reasons.map((r) => r?.message).filter(Boolean).join(" ");
+}
+
+function renderTodayShortlistState(data) {
+  const raw = swsSectionItems(data?.sections, "best_to_buy_now");
+  const audit = getPicksSectionAudit(data, "best_to_buy_now") || {};
+  const distribution = {};
+  let eligible = 0;
+  let staleBlockers = 0;
+  let fvBlockers = 0;
+  const reasonCounts = new Map();
+
+  for (const row of raw) {
+    const entryBand = row?.entry_band && typeof row.entry_band === "object" ? row.entry_band : null;
+    const state = entryBand?.entry_state || "UNAVAILABLE";
+    distribution[state] = (distribution[state] || 0) + 1;
+    const reasons = Array.isArray(entryBand?.reasons) ? entryBand.reasons : [];
+    const codes = reasons.map((r) => r?.code).filter(Boolean);
+    if (entryBand?.fresh_buy_eligible === true || state === "BUY_ZONE" || state === "STAGGER_ONLY") eligible += 1;
+    if (codes.some((c) => c === "data_stale" || c === "freshness_missing")) staleBlockers += 1;
+    if (codes.some((c) => c === "fv_outlier" || c === "fv_low_confidence" || c === "upside_outlier")) fvBlockers += 1;
+    for (const reason of reasons) {
+      const label = reason?.message || reason?.code;
+      if (label) reasonCounts.set(label, (reasonCounts.get(label) || 0) + 1);
+    }
+  }
+
+  if (audit.available === false) {
+    const label = audit.ui_warning_label || (audit.reason ? audit.reason.replace(/_/g, " ") : "Withheld");
+    const message = audit.ui_warning_message || "Fresh-buy candidates are withheld until the data gate clears.";
+    reasonCounts.set(message, (reasonCounts.get(message) || 0) + 1);
+    if (Number.isFinite(Number(audit.selected_count))) eligible = Number(audit.selected_count);
+  }
+
+  const distText = Object.entries(distribution)
+    .map(([state, count]) => `${entryBandStateLabel({ entry_state: state }) || state.replace(/_/g, " ")} ${count}`)
+    .join(" · ") || "No entry-band rows";
+  const topReasons = [...reasonCounts.entries()]
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 2)
+    .map(([label, count]) => `${label}${count > 1 ? ` (${count})` : ""}`);
+  const emptyCopy = raw.length === 0
+    ? "No fresh-buy candidates in this snapshot."
+    : eligible === 0
+      ? "No fresh-buy candidates after entry, freshness, and FV checks."
+      : `${eligible} fresh-buy candidate${eligible === 1 ? "" : "s"} passed current entry checks.`;
+
+  return `
+    <div class="sws-today-shortlist" data-testid="today-shortlist-state" role="note" aria-label="Today shortlist state">
+      <div class="sws-today-shortlist-head">
+        <div>
+          <div class="sws-today-shortlist-kicker">Today’s shortlist</div>
+          <div class="sws-today-shortlist-title">Fresh-buy candidates: ${eligible}</div>
+        </div>
+        ${audit.available === false ? `<span class="sws-pick-section-warning">${escapeHtml(audit.ui_warning_label || "Gate withheld")}</span>` : ""}
+      </div>
+      <div class="sws-today-shortlist-copy">${escapeHtml(emptyCopy)}</div>
+      <div class="sws-today-shortlist-meta">
+        <span>${escapeHtml(distText)}</span>
+        <span>Stale blockers ${staleBlockers}</span>
+        <span>FV caution ${fvBlockers}</span>
+        ${topReasons.length ? `<span>Withheld: ${escapeHtml(topReasons.join(" · "))}</span>` : ""}
+      </div>
+    </div>`;
+}
+
 function renderPicks(data) {
   const containerEl = document.getElementById("picksContainer");
   const collapsedState = loadPicksCollapsedState();
@@ -12392,8 +12518,9 @@ function renderPicks(data) {
     return;
 	  }
 
-	  const statusHtml = renderPicksSearchStatus(totalShown, offSectionCount);
-	  const chipNav = renderPicksChipNav(visibleSectionsForRender, collapsedState);
+		  const statusHtml = renderPicksSearchStatus(totalShown, offSectionCount);
+		  const shortlistStateHtml = renderTodayShortlistState(data);
+		  const chipNav = renderPicksChipNav(visibleSectionsForRender, collapsedState);
 
   // Same force-expand logic as the chip-nav: an active search query overrides
   // persistent collapse state so matches are immediately visible.
@@ -12468,7 +12595,7 @@ function renderPicks(data) {
       </div>`;
   }).join("");
 
-  containerEl.innerHTML = statusHtml + chipNav + sectionsHtml;
+	  containerEl.innerHTML = statusHtml + shortlistStateHtml + chipNav + sectionsHtml;
   refreshScrollRails(containerEl);
   hydratePicksChunkSentinels(containerEl);
 }
@@ -12703,20 +12830,14 @@ function renderPickCard(s, sectionKey, rank = null) {
     : "";
 	  const statusBadges = renderPickStatusBadges(s, sectionKey);
 	  const rankBadge = rank ? `<span class="sws-pick-rank">${rank}</span>` : "";
-	  const fresh = pickFreshnessPill(s.data_freshness_at);
-	  const entryBand = s.entry_band && typeof s.entry_band === "object" ? s.entry_band : null;
-	  const entryReasons = Array.isArray(entryBand?.reasons) ? entryBand.reasons : [];
-	  const entryReasonText = entryReasons.map((r) => r?.message).filter(Boolean).join(" ");
-	  const entryStateLabel = {
-	    BUY_ZONE: "Actionable now",
-	    STAGGER_ONLY: "Stagger only",
-	    NO_BUY_ABOVE: "Wait above no-buy",
-	    UNAVAILABLE: "Entry unavailable",
-	  }[entryBand?.entry_state] || null;
-	  const contractLabel = s.decision_contract?.label || entryStateLabel;
-	  const entryBadge = contractLabel
-	    ? `<span data-testid="decision-state" class="sws-entry-badge sws-entry-badge--${String(entryBand?.entry_state || "UNAVAILABLE").toLowerCase()}" title="${escapeHtml(s.decision_contract?.reason || entryReasonText || "Entry band derived from SWS fair value and current price.")}">${escapeHtml(contractLabel)}</span>`
-	    : "";
+		  const fresh = pickFreshnessPill(s.data_freshness_at);
+		  const entryBand = s.entry_band && typeof s.entry_band === "object" ? s.entry_band : null;
+		  const entryReasons = Array.isArray(entryBand?.reasons) ? entryBand.reasons : [];
+		  const entryReasonText = entryBandReasonText(entryBand);
+		  const contractLabel = entryBandStateLabel(entryBand);
+		  const entryBadge = contractLabel
+		    ? `<span data-testid="decision-state" class="sws-entry-badge sws-entry-badge--${String(entryBand?.entry_state || "UNAVAILABLE").toLowerCase()}" title="${escapeHtml(entryReasonText || "Entry band derived from SWS fair value and current price.")}">${escapeHtml(contractLabel)}</span>`
+		    : "";
 	  const noBuyBadge = entryBand?.no_buy_above_inr != null
 	    ? `<span class="sws-entry-badge sws-entry-badge--cap" title="No-buy-above price is 90% of SWS fair value.">No-buy &gt; ${fmtInr(entryBand.no_buy_above_inr)}</span>`
 	    : "";
@@ -12757,7 +12878,7 @@ function renderPickCard(s, sectionKey, rank = null) {
          data-ticker="${safeTicker}"
          onclick="handlePickCardClick(event, '${safeTicker}')"
          onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openSwsModal('${safeTicker}');}">
-      <div class="sws-pick-card-top">
+	      <div class="sws-pick-card-top${entryBand?.entry_state === "NO_BUY_ABOVE" ? " sws-pick-card-top--wait" : ""}">
         <div class="sws-pick-card-id">
           ${rankBadge}
           <div class="sws-pick-card-id-text">
@@ -12799,7 +12920,7 @@ function renderPickCard(s, sectionKey, rank = null) {
 
 const US_PICKS_SECTIONS = [
   { key: "top_ranked_30_v4", emoji: "⭐", label: "⭐ Top 30 — V4 Score", chip_label: "Top 30", subtitle: "Universe-wide top 30 by V4 composite score — start every session here." },
-  { key: "best_to_buy_now", emoji: "🎯", label: "🎯 Best Stocks to Buy Now", chip_label: "Buy Now", subtitle: "Tighter cut: high score + Snowflake ≥ 18 + clean of major risks." },
+  { key: "best_to_buy_now", emoji: "🎯", label: "🎯 Today’s shortlist · Fresh-buy candidates", chip_label: "Fresh-buy", subtitle: "Tighter fresh-buy cut: high score + Snowflake ≥ 18 + clean of major risks." },
   { key: "deep_value", emoji: "💎", label: "💎 Deep Value", chip_label: "Deep Value", subtitle: "TOP_PICK names trading ≥ 20% below analyst-consensus fair value." },
   { key: "snowflake_gap_lab", emoji: "🧪", label: "🧪 Snowflake Gap Lab", chip_label: "Gap Lab", subtitle: "Experimental screen for SWS data gaps. Canonical V4 remains the source of record." },
   { key: "quality_growth", emoji: "🌱", label: "🌱 Quality Growth", chip_label: "Quality Growth", subtitle: "Compounders: fortress balance sheet + visible forward growth runway." },
@@ -12827,6 +12948,7 @@ let usPicksSearchTerm = "";
 let usPicksStatusPollTimer = null;
 let usPicksStatusPollStarted = false;
 let usModalTicker = null;
+let usModalLastFocus = null;
 const usPicksExpandedSections = new Set();
 const usPicksChunkBuffers = new Map();
 let usPicksChunkObserver = null;
@@ -13268,12 +13390,14 @@ async function pollUSScanStatus() {
 async function openUSModal(ticker) {
   ticker = String(ticker || "").toUpperCase();
   usModalTicker = ticker;
+  usModalLastFocus = document.activeElement;
   const backdrop = document.getElementById("usModalBackdrop");
   const body = document.getElementById("usModalBody");
   if (!backdrop || !body) return;
   body.innerHTML = buildLoading(`Loading ${escapeHtml(ticker)}…`);
   backdrop.classList.add("open");
   document.body.style.overflow = "hidden";
+  focusDialogCloseButton(backdrop);
   try {
     const res = await fetch(`/api/us-stock/${encodeURIComponent(ticker)}`);
     if (usModalTicker !== ticker) return;
@@ -13291,6 +13415,8 @@ function closeUSModal() {
   if (backdrop) backdrop.classList.remove("open");
   document.body.style.overflow = "";
   usModalTicker = null;
+  restoreModalFocus(usModalLastFocus);
+  usModalLastFocus = null;
 }
 function renderUSModal(data) {
   // Parity (PR2): delegate to the shared rich modal core. US opts — USD currency,
@@ -13321,7 +13447,7 @@ const REGION_PICKS_UI = {
 // Region-neutral subtitles — no "$50M"/"for US" leaks (native gates differ).
 const REGION_PICKS_SECTIONS = [
   { key: "top_ranked_30_v4", label: "⭐ Top 30 — V4 Score", subtitle: "Universe-wide top 30 by V4 composite score — start every session here." },
-  { key: "best_to_buy_now", label: "🎯 Best Stocks to Buy Now", subtitle: "Tighter cut: high score + Snowflake ≥ 18 + clean of major risks." },
+  { key: "best_to_buy_now", label: "🎯 Today’s shortlist · Fresh-buy candidates", subtitle: "Tighter fresh-buy cut: high score + Snowflake ≥ 18 + clean of major risks." },
   { key: "deep_value", label: "💎 Deep Value", subtitle: "TOP_PICK names trading ≥ 20% below analyst-consensus fair value." },
   { key: "quality_growth", label: "🌱 Quality Growth", subtitle: "Compounders: fortress balance sheet + visible forward growth runway." },
   { key: "best_fundamentals", label: "🧱 Best Fundamentals", subtitle: "Ranked by the 5 SWS pillars + analyst FV upside, above a liquid mcap floor." },
@@ -13333,8 +13459,8 @@ const REGION_PICKS_SECTIONS = [
 ];
 
 const regionPicksState = {
-  kr: { data: null, sector: "all", universe: "all", search: "", pollTimer: null, pollStarted: false, modalTicker: null },
-  tw: { data: null, sector: "all", universe: "all", search: "", pollTimer: null, pollStarted: false, modalTicker: null },
+  kr: { data: null, sector: "all", universe: "all", search: "", pollTimer: null, pollStarted: false, modalTicker: null, modalLastFocus: null },
+  tw: { data: null, sector: "all", universe: "all", search: "", pollTimer: null, pollStarted: false, modalTicker: null, modalLastFocus: null },
 };
 const _rp = (code) => regionPicksState[code];
 const _rpDom = (code) => code + "Picks"; // krPicks / twPicks element-id prefix
@@ -13585,13 +13711,17 @@ async function pollRegionScanStatus(code) {
 
 async function openRegionModal(code, ticker) {
   ticker = String(ticker || "").trim();
-  _rp(code).modalTicker = ticker;
+  const state = _rp(code);
+  if (!state) return;
+  state.modalTicker = ticker;
+  state.modalLastFocus = document.activeElement;
   const backdrop = document.getElementById(code + "ModalBackdrop");
   const body = document.getElementById(code + "ModalBody");
   if (!backdrop || !body) return;
   body.innerHTML = buildLoading(`Loading ${escapeHtml(ticker)}…`);
   backdrop.classList.add("open");
   document.body.style.overflow = "hidden";
+  focusDialogCloseButton(backdrop);
   try {
     const res = await fetch(`/api/${code}-stock/${encodeURIComponent(ticker)}`);
     if (_rp(code).modalTicker !== ticker) return;
@@ -13605,10 +13735,15 @@ async function openRegionModal(code, ticker) {
   }
 }
 function closeRegionModal(code) {
+  const state = _rp(code);
   const backdrop = document.getElementById(code + "ModalBackdrop");
   if (backdrop) backdrop.classList.remove("open");
   document.body.style.overflow = "";
-  _rp(code).modalTicker = null;
+  if (state) {
+    state.modalTicker = null;
+    restoreModalFocus(state.modalLastFocus);
+    state.modalLastFocus = null;
+  }
 }
 function renderRegionModal(code, data) {
   // Parity (PR2): delegate to the shared rich modal core. Region opts — native
@@ -13758,6 +13893,7 @@ async function openSwsModal(ticker) {
   body.innerHTML = `<div style="padding:60px 20px;text-align:center;color:var(--text-muted);"><div class="loading-spinner" style="margin:0 auto 12px;"></div>Loading ${ticker}…</div>`;
   backdrop.classList.add("open");
   document.body.style.overflow = "hidden";
+  focusDialogCloseButton(backdrop);
 
   try {
     await ensureWatchlistHydrated();
@@ -13806,6 +13942,8 @@ function closeSwsModal() {
   }
   swsModalLastFocus = null;
 }
+
+let actionListModalLastFocus = null;
 
 // Esc-to-close — bound once at module load.
 document.addEventListener("keydown", (e) => {
@@ -13863,6 +14001,7 @@ const ACTION_BUCKET_MATCHERS = {
 
 function openActionListModal(action) {
   if (!action) return;
+  actionListModalLastFocus = document.activeElement;
   const backdrop = document.getElementById("actionListModalBackdrop");
   const body = document.getElementById("actionListModalBody");
   if (!backdrop || !body) return;
@@ -13937,6 +14076,7 @@ function openActionListModal(action) {
 
   backdrop.classList.add("open");
   document.body.style.overflow = "hidden";
+  focusDialogCloseButton(backdrop);
 }
 
 function closeActionListModal() {
@@ -13948,6 +14088,8 @@ function closeActionListModal() {
   if (!swsBackdrop || !swsBackdrop.classList.contains("open")) {
     document.body.style.overflow = "";
   }
+  restoreModalFocus(actionListModalLastFocus);
+  actionListModalLastFocus = null;
 }
 
 // India modal opts — the renderSwsModal wrapper passes this so existing callers
@@ -13998,6 +14140,39 @@ function normaliseModalReturns(data, ov, card) {
   setFromBucket(data && data.returns_pct);
   setFromAudit(card && card.audit_trail);
   return out;
+}
+
+function isFreshSwsTimestamp(ts, maxAgeHours = 48) {
+  const ms = Date.parse(ts || "");
+  if (!Number.isFinite(ms)) return false;
+  return Date.now() - ms <= maxAgeHours * 60 * 60 * 1000;
+}
+
+function hasPriceShockBucket(bucket) {
+  if (!bucket || typeof bucket !== "object") return false;
+  const oneDay = Number(bucket["1D"]);
+  const sevenDay = Number(bucket["7D"]);
+  const oneMonth = Number(bucket["1M"]);
+  return (
+    (Number.isFinite(oneDay) && oneDay <= -10) ||
+    (Number.isFinite(sevenDay) && sevenDay <= -15) ||
+    (Number.isFinite(oneMonth) && oneMonth <= -20)
+  );
+}
+
+function renderSwsModalEventWarning(deep, card) {
+  const deepFresh = isFreshSwsTimestamp(deep?.parsed_at);
+  const cardFresh = isFreshSwsTimestamp(card?.data_freshness_at);
+  const deepShock = deepFresh && hasPriceShockBucket(deep?.overview?.returns_pct);
+  const cardShock = cardFresh && hasPriceShockBucket(card?.returns_pct);
+  if (!deepShock && !cardShock) return "";
+  const sourceText = cardShock && !deepShock ? "fresh card return buckets" : "fresh SWS return buckets";
+  return `
+    <div class="sws-modal-data-warning" data-testid="sws-modal-event-warning" role="note" aria-label="Fresh price-shock warning">
+      <strong>Fresh price shock:</strong>
+      <span>Fundamentals and V4 score are unchanged, but buying today has elevated price-discovery risk; consider waiting for confirmation before adding.</span>
+      <span class="warning-meta">${escapeHtml(sourceText)}</span>
+    </div>`;
 }
 
 // Region-parametrised modal core. India → renderSwsModal wrapper (INDIA_MODAL_OPTS,
@@ -14168,6 +14343,67 @@ function renderExperimentalForecastOverlay(forecast, currency = "INR") {
         <div style="font-size:11px;line-height:1.5;color:var(--text-secondary);margin-top:4px;">${escapeHtml(interpretation.read || "Treat this as timing and risk context only.")}</div>
       </div>
       <div style="font-size:10px;color:var(--text-muted);margin-top:8px;">Does not change Starbhai score or analyzer action.</div>
+	    </div>`;
+}
+
+function renderModalDecisionSummary(data, card_, opts, context) {
+  const entryBand = card_?.entry_band && typeof card_.entry_band === "object" ? card_.entry_band : null;
+  const entryLabel = entryBandStateLabel(entryBand) || "Entry not available";
+  const entryReason = entryBandReasonText(entryBand);
+  const memberships = Array.isArray(data.section_memberships || data.in_sections)
+    ? (data.section_memberships || data.in_sections)
+    : [];
+  const inBest = memberships.includes("best_to_buy_now");
+  const reasons = Array.isArray(entryBand?.reasons) ? entryBand.reasons : [];
+  const stale = reasons.some((r) => r?.code === "data_stale" || r?.code === "freshness_missing");
+  const fvCaution = reasons.some((r) => ["fv_outlier", "fv_low_confidence", "upside_outlier"].includes(r?.code));
+  const whatMust = [
+    inBest ? "In Today’s shortlist" : "Not in Today’s shortlist",
+    entryLabel,
+    context.valBand ? `Valuation ${String(context.valBand).replace(/_/g, " ")}` : null,
+    stale ? "freshness check blocked" : "freshness visible below",
+  ].filter(Boolean).join(" · ");
+  const canBreak = [
+    context.surveillance ? `NSE ${context.surveillance.list} surveillance` : null,
+    fvCaution ? "FV caution" : null,
+    context.risks?.length ? `${context.risks.length} SWS risk${context.risks.length === 1 ? "" : "s"}` : "No SWS-flagged risks",
+    context.experimentalForecast ? "experimental forecast context" : null,
+    context.gapLab ? "speculative Gap Lab overlay" : null,
+  ].filter(Boolean).join(" · ");
+  const freshText = context.parsedAt
+    ? `Deep brief parsed ${new Date(context.parsedAt).toLocaleString()}`
+    : "Deep-brief freshness unavailable";
+  const sourceText = context.quickStatsSourceText || "SWS snapshot";
+  const read = `${String(context.verdict || "—").replace(/_/g, " ")} V4 read${context.score ? ` · ${context.score}/100` : ""}`;
+  const closeModalExpr = opts.titleId === "usModalTitle"
+    ? "closeUSModal()"
+    : opts.titleId === "krModalTitle"
+      ? "closeRegionModal('kr')"
+      : opts.titleId === "twModalTitle"
+        ? "closeRegionModal('tw')"
+        : "closeSwsModal()";
+  const navButtons = [
+    ["riskLab", "risk backdrop"],
+    ["sectorOutlook", "sector context"],
+    ["news", "market backdrop"],
+    ["analyzer", "your exposure context"],
+    ["multibaggerLab", "speculative lab overlap"],
+  ].map(([tab, label]) => `<button type="button" class="sws-context-link" onclick="try{${closeModalExpr}}catch{};try{window.switchTab && window.switchTab('${tab}')}catch{}">${escapeHtml(label)}</button>`).join("");
+  return `
+    <div class="sws-modal-decision-summary" data-testid="sws-modal-decision-summary" role="note" aria-label="Decision context summary">
+      <div class="sws-modal-decision-head">
+        <div>
+          <div class="sws-modal-decision-kicker">Decision context</div>
+          <div class="sws-modal-decision-read">${escapeHtml(read)}</div>
+        </div>
+        <span data-testid="decision-state" class="sws-entry-badge sws-entry-badge--${String(entryBand?.entry_state || "UNAVAILABLE").toLowerCase()}" title="${escapeHtml(entryReason || "Entry band derived from current price and fair value.")}">${escapeHtml(entryLabel)}</span>
+      </div>
+      <div class="sws-modal-decision-grid">
+        <div><span>What must be true</span><strong>${escapeHtml(whatMust || "Section, valuation, and freshness checks must still hold.")}</strong></div>
+        <div><span>What can break it</span><strong>${escapeHtml(canBreak || "Downside not flagged in current snapshot.")}</strong></div>
+        <div><span>Freshness / source</span><strong>${escapeHtml(freshText)} · ${escapeHtml(sourceText)}</strong></div>
+      </div>
+      <div class="sws-modal-context-links" aria-label="Context-only links">${navButtons}</div>
     </div>`;
 }
 
@@ -14226,6 +14462,7 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
   const dataQualityBannerHtml = renderSnowflakeDataQualityBanner(ov.snowflake_data_quality, ov.snowflake_check_matrix);
   const snowflakeGapLabHtml = renderSnowflakeGapLabPanel(card_.snowflake_gap_lab);
   const experimentalForecastHtml = renderExperimentalForecastOverlay(data.experimental_forecast_overlay, cur);
+  const eventWarningHtml = renderSwsModalEventWarning(deep, card_);
 
   // Score breakdown bars — V4 only. If an older/slim artifact lacks the V4
   // component payload, suppress the section instead of showing stale V2 labels.
@@ -14655,7 +14892,19 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
       </div>`;
   })();
 
-  return `
+	  const decisionSummaryHtml = renderModalDecisionSummary(data, card_, opts, {
+	    score,
+	    verdict,
+	    valBand,
+	    surveillance: modalSurveillance,
+	    risks,
+	    parsedAt: deep && deep.parsed_at,
+	    quickStatsSourceText,
+	    experimentalForecast: !!experimentalForecastHtml,
+	    gapLab: !!snowflakeGapLabHtml,
+	  });
+
+	  return `
     <div class="sws-modal-hero">
       <div style="flex:1;min-width:0;">
         <h2 id="${opts.titleId || "swsModalTitle"}">${ticker} ${opts.watchlistSuffix ? watchlistButton(`${ticker}${opts.watchlistSuffix}`, card_.name || ticker, card_.sector || '') : ""}${survBadge}</h2>
@@ -14680,6 +14929,8 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
     </div>
 
     ${sectionsBannerHtml}
+    ${decisionSummaryHtml}
+    ${eventWarningHtml}
     ${dataQualityBannerHtml}
     ${snowflakeGapLabHtml}
 
@@ -15063,9 +15314,9 @@ window.addEventListener("popstate", async () => {
     // back/forward. (Deliberately no dedupe — the prior currentView comparison
     // was effectively always-true, and a stale-flag dedupe risks skipping a
     // real navigation.)
+    const targetTab = resolveTabId(state.tab || "picks");
+    await _origSwitchTab(targetTab);
     if (state.tab) {
-      const targetTab = resolveTabId(state.tab);
-      await _origSwitchTab(targetTab);
       if (state.tab !== targetTab && typeof history !== "undefined" && history.replaceState) {
         const symbolPart = state.symbol ? `&symbol=${encodeURIComponent(state.symbol)}` : "";
         history.replaceState(null, "", `${location.pathname}${location.search}#tab=${encodeURIComponent(targetTab)}${symbolPart}`);

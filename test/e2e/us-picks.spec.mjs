@@ -18,6 +18,15 @@ const REPO_ROOT = process.env.SWS_REPO_ROOT_OVERRIDE
   : path.join(__dirname, "..", "..");
 const PICKS_PATH = path.join(REPO_ROOT, "data", "sws-us", "picks-latest.json");
 const HAS_FIXTURE = fs.existsSync(PICKS_PATH);
+const GAP_LAB_CANARY = (() => {
+  if (!HAS_FIXTURE) return null;
+  try {
+    const picks = JSON.parse(fs.readFileSync(PICKS_PATH, "utf8"));
+    return (picks.sections?.snowflake_gap_lab || []).find((row) => row?.ticker && row?.snowflake_gap_lab) || null;
+  } catch {
+    return null;
+  }
+})();
 
 // The harness runs with AUTH_ENABLED=false, so the global gate is open and the
 // US read routes serve data. gotoApp boots into the picks tab; we then flip to
@@ -67,6 +76,7 @@ test.describe("US Picks tab", () => {
   });
 
   test("renders US Snowflake Gap Lab chip, card badge, modal panel, and search cap", async ({ page }) => {
+    test.skip(!GAP_LAB_CANARY, "no US Snowflake Gap Lab canary row with lab metadata");
     await openUSPicks(page);
     const container = page.locator("#usPicksContainer");
     const chip = container.locator('.sws-pick-chip[data-section-key="snowflake_gap_lab"]');
@@ -76,11 +86,14 @@ test.describe("US Picks tab", () => {
 
     const section = container.locator('.sws-pick-section[data-section-key="snowflake_gap_lab"]');
     await expect(section).toBeVisible();
-    const card = section.locator('.sws-pick-card[data-ticker="GAPAI"]');
+    const card = section.locator(`.sws-pick-card[data-ticker="${GAP_LAB_CANARY.ticker}"]`);
     await expect(card).toBeVisible();
-    await expect(card.locator(".sws-pick-card-score-num")).toContainText("45.9");
-    await expect(card.locator(".sws-gap-lab-badge")).toContainText("Lab V4 55.6 (+9.7)");
-    await expect(card.locator(".sws-gap-lab-card-note")).toContainText("Canonical V4 stays 45.9");
+    const canonicalScore = Number(GAP_LAB_CANARY.v4_score_100).toFixed(1);
+    const shadowScore = Number(GAP_LAB_CANARY.snowflake_gap_lab.shadow_v4_score_100).toFixed(1);
+    const delta = Number(GAP_LAB_CANARY.snowflake_gap_lab.score_delta).toFixed(1);
+    await expect(card.locator(".sws-pick-card-score-num")).toContainText(canonicalScore);
+    await expect(card.locator(".sws-gap-lab-badge")).toContainText(`Lab V4 ${shadowScore} (+${delta})`);
+    await expect(card.locator(".sws-gap-lab-card-note")).toContainText(`Canonical V4 stays ${canonicalScore}`);
 
     await card.click();
     const modal = page.locator("#usModalBackdrop");
@@ -119,6 +132,10 @@ test.describe("US Picks tab", () => {
     // PR2 parity: these sections were ABSENT from the old simplified US modal —
     // their presence proves the US tab now renders via the shared renderSwsModalCore.
     expect(txt).toMatch(/Score breakdown/i);
+    expect(txt).toMatch(/Decision context/i);
+    expect(txt).toMatch(/risk backdrop/i);
+    expect(txt).toMatch(/speculative lab overlap/i);
+    expect(txt).not.toMatch(/confirmed by/i);
     expect(txt).toMatch(/Pillars 76/i);
     expect(txt).toMatch(/FV composite 12/i);
     expect(txt).toMatch(/Momentum 12/i);

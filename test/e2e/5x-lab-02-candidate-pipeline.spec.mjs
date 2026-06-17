@@ -45,6 +45,28 @@ test.describe("5x Lab — candidate pipeline", () => {
     expect(rows).toBeGreaterThan(0);
   });
 
+  test("candidate table is contained on mobile", async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 });
+    await gotoApp(page);
+    await page.evaluate(() => window.switchTab && window.switchTab("multibaggerLab"));
+
+    const apiOk = await page.evaluate(async () => (await fetch("/api/multibagger/overview")).ok);
+    if (!apiOk) test.skip(true, "multibagger API unavailable");
+
+    const wrap = page.locator("[data-test='multibagger-candidate-table-wrap']");
+    await expect(wrap).toBeVisible({ timeout: 10000 });
+    await expect(page.locator("[data-test='multibagger-candidate-row']").first()).toBeVisible();
+    const metrics = await page.evaluate(() => {
+      const el = document.querySelector("[data-test='multibagger-candidate-table-wrap']");
+      return {
+        bodyOverflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+        wrapOverflow: el ? el.scrollWidth > el.clientWidth : false,
+      };
+    });
+    expect(metrics.bodyOverflow).toBeLessThanOrEqual(1);
+    expect(metrics.wrapOverflow).toBe(true);
+  });
+
   test("verdict pill colour distinguishes 5X_CANDIDATE from HIGH_CONVICTION", async ({ page }) => {
     await gotoApp(page);
     await page.evaluate(() => window.switchTab && window.switchTab("multibaggerLab"));
