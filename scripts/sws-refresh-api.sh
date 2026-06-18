@@ -411,7 +411,8 @@ fi
 
 echo "[refresh-api] building section-performance API snapshot..."
 if ! node scripts/build-section-performance-snapshot.mjs 2>&1 | tail -8 | sed 's/^/[section-perf] /'; then
-  echo "[section-perf] non-zero exit — continuing (section-performance snapshot is non-fatal)"
+  echo "[section-perf] FAILED — refusing to ship stale Track Record section alpha"
+  exit 8
 fi
 
 # ---------- 8.7. Inline sanity gate (pass 1) ----------
@@ -691,7 +692,7 @@ if [ "${SWS_AUTO_PR:-1}" != "0" ] \
   echo "[refresh-api] auto-PR: branching ${AUTO_BRANCH} from ${ORIGINAL_BRANCH}"
 
   if git checkout -b "${AUTO_BRANCH}" >/dev/null 2>&1; then
-    git add data/sws/picks-latest.json data/sws/last-refresh.json data/sws/v4-universe-stats.json data/sws/v3-universe-stats.json data/sws/sws-scored-universe.json data/sws/alerts/input-signatures-latest.json data/sws/alerts/input-alert-confirmation-state.json data/sws/alerts/fundamental-changes-latest.json data/sws/groww-stock-failed.json data/sws/groww-pe-latest.json data/sws/groww-pe-failed.json data/sws/chronos-forecast-latest.json data/sws/chronos-forecast-health.json 2>/dev/null
+    git add data/sws/picks-latest.json data/sws/last-refresh.json data/sws/v4-universe-stats.json data/sws/v3-universe-stats.json data/sws/sws-scored-universe.json data/sws/alerts/input-signatures-latest.json data/sws/alerts/input-alert-confirmation-state.json data/sws/alerts/fundamental-changes-latest.json data/sws/groww-stock-failed.json data/sws/groww-pe-latest.json data/sws/groww-pe-failed.json data/sws/chronos-forecast-latest.json data/sws/chronos-forecast-health.json data/track-record/section-performance-latest.json 2>/dev/null
     # Pack 5,517-file deep/ into a single tarball so Vercel can bundle it
     # without tripping its 15k source-file cap. swsDal's jsonBackend lazy-
     # extracts to /tmp on first read in a cold container. Pack BEFORE the

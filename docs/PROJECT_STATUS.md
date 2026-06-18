@@ -1,6 +1,6 @@
 # PROJECT_STATUS.md — stock-platform
 
-**Last updated: 2026-06-17**
+**Last updated: 2026-06-18**
 
 Living snapshot of where the project is right now. Update this file whenever
 you ship a meaningful PR or change direction. The point is that a fresh AI
@@ -32,6 +32,17 @@ Compounder Lab and Earnings Edge were retired in June 2026 to remove unused
 experimental surface area and nightly refresh load.
 
 ## Recently shipped (themed, newest first — rolling ~4–6 week window; `git log` is the archive)
+
+### Track Record freshness hardening (June 2026)
+- **This PR** — Track Record Section Alpha is now a first-class SWS publish
+  artifact. `data/track-record/section-performance-latest.json` is valid only
+  when its `sourceScannedAt` exactly matches `data/sws/picks-latest.json`
+  `scanned_at`; stale or missing stored snapshots are bypassed and rebuilt from
+  current picks as explicit transient fallback responses that are not cached.
+  Both India SWS publish paths rebuild, validate, detect, and stage the artifact
+  so Section Alpha moves with the accepted picks deployment. The Track Record UI
+  now shows source scan/computed metadata and only warns when the backend serves
+  degraded transient fallback.
 
 ### Decision-quality contracts (June 2026)
 - **This PR** — Non-US/KR/TW research surfaces now expose additive

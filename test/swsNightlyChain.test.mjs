@@ -127,6 +127,11 @@ for (const f of ["data/sws/chronos-forecast-latest.json", "data/sws/chronos-fore
   assert(`${f} is in the CHANGED_FILES check`, changedFilesBlock.includes(f), null);
   assert(`${f} is not in the sanity-fail DATA_FILES path`, !dataFilesBlock.includes(f), null);
 }
+for (const f of ["data/track-record/section-performance-latest.json"]) {
+  assert(`${f} is staged in the git add list`, gitAddBlock.includes(f), null);
+  assert(`${f} is in the CHANGED_FILES check`, changedFilesBlock.includes(f), null);
+  assert(`${f} is not in the sanity-fail DATA_FILES path`, !dataFilesBlock.includes(f), null);
+}
 for (const f of [
   "data/sws/universe.json",
   "data/sws/universe-meta.json",
@@ -499,9 +504,28 @@ assert(
   null,
 );
 assert(
+  "sws-refresh-api.sh makes section-performance snapshot publish-critical",
+  /building section-performance API snapshot/.test(refreshApi) &&
+    /refusing to ship stale Track Record section alpha/.test(refreshApi) &&
+    !/section-performance snapshot is non-fatal/.test(refreshApi),
+  null,
+);
+assert(
+  "sws-refresh-api.sh auto-PR stages section-performance snapshot",
+  /git add .*data\/track-record\/section-performance-latest\.json/.test(refreshApi),
+  null,
+);
+assert(
   "sws-refresh-api.sh auto-PR does not stage oversized Groww stock cache",
   !/git add .*data\/sws\/groww-stock-latest\.json/.test(refreshApi),
   null,
+);
+const sectionPerfBuildIdx = nightly.indexOf("rebuilding section-performance API snapshot for final SWS publish");
+const changedFilesIdx = nightly.indexOf("CHANGED_FILES=$(git status --short");
+assert(
+  "sws-nightly.sh rebuilds section-performance before final change detection",
+  sectionPerfBuildIdx > -1 && changedFilesIdx > sectionPerfBuildIdx,
+  { sectionPerfBuildIdx, changedFilesIdx },
 );
 assert(
   "sws-nightly.sh detects conflicted PR auto-merge state instead of waiting blindly",

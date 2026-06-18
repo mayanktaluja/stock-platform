@@ -1436,6 +1436,14 @@ warn_if_publish_late
 timing_record "local_publish_ready" "coverage_gap_analysis" "$(timing_start_epoch)" "ok" "0"
 finalize_timings
 
+echo "[nightly] rebuilding section-performance API snapshot for final SWS publish..."
+if ! node scripts/build-section-performance-snapshot.mjs 2>&1 | sed 's/^/[section-perf] /'; then
+  echo "[nightly] section-performance snapshot failed — refusing to ship stale Track Record section alpha"
+  send_mail "🚨 SWS nightly — section-performance snapshot failed" \
+"build-section-performance-snapshot.mjs failed at $(ts). The SWS picks data was not committed because Track Record Section Alpha could go stale."
+  exit 8
+fi
+
 # ---- 5. Commit + push ----
 
 # data/macroRegime.json deliberately excluded — single-writer rule per
@@ -1460,6 +1468,7 @@ CHANGED_FILES=$(git status --short \
   data/sws/chronos-forecast-latest.json \
   data/sws/chronos-forecast-health.json \
   data/sws/nightly-timings-latest.json \
+  data/track-record/section-performance-latest.json \
   data/sws-us/deep-us.tar.gz \
   data/sws-kr/deep-kr.tar.gz \
   data/sws-tw/deep-tw.tar.gz \
@@ -1534,6 +1543,7 @@ git add data/sws/deep.tar.gz \
         data/sws/chronos-forecast-latest.json \
         data/sws/chronos-forecast-health.json \
         data/sws/nightly-timings-latest.json \
+        data/track-record/section-performance-latest.json \
         data/sws-us/deep-us.tar.gz \
         data/sws-kr/deep-kr.tar.gz \
         data/sws-tw/deep-tw.tar.gz \
