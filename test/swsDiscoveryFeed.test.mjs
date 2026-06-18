@@ -17,11 +17,12 @@ function row(overrides) {
   };
 }
 
-function deep({ future = 0, returns = {}, news = [], dataQuality = null } = {}) {
+function deep({ future = 0, returns = {}, news = [], dataQuality = null, valuation = {} } = {}) {
   return {
     overview: {
       snowflake: { future, future_growth: future },
       returns_pct: returns,
+      ...valuation,
       ...(dataQuality ? { snowflake_data_quality: dataQuality } : {}),
     },
     news,
@@ -32,7 +33,7 @@ const feed = buildSwsDiscoveryFeed({
   generatedAt,
   scoredUniverse: {
     stocks: [
-      row({ ticker: "FINOPB", name: "Fino Payments Bank Limited", sector: "Banks", v4_score: 47.4, v4_verdict: "STRONG" }),
+      row({ ticker: "FINOPB", name: "Fino Payments Bank Limited", sector: "Banks", v4_score: 47.4, v4_verdict: "STRONG", upside_pct: 23.4 }),
       row({ ticker: "KRISHNADEF", name: "Krishna Defence and Allied Industries Limited", sector: "Capital Goods", v4_score: 61.9, v4_verdict: "TOP_PICK" }),
       row({ ticker: "WEAKTAPE", v4_score: 51, v4_verdict: "STRONG" }),
       row({ ticker: "ASMNAME", v4_score: 65, v4_verdict: "TOP_PICK", regulatory_flags: { surveillance: "ASM" } }),
@@ -49,6 +50,7 @@ const feed = buildSwsDiscoveryFeed({
     KRISHNADEF: deep({
       future: 0,
       returns: { "7D": 7.3, "3M": 13, "6M": 63.4, "1Y": 27.1 },
+      valuation: { current_price_inr: 1217.3, fair_value_range_inr: { min: 4537.69, max: 4537.69, count: 1 } },
       dataQuality: { affected_pillars: ["Future"], by_pillar: { Future: { insufficient: 6 } } },
       news: [
         { title: "Full year 2026 earnings released: EPS: ₹28.12 (vs ₹15.82 in FY 2025)", date: "2026-05-22T00:00:00.000Z" },
@@ -81,6 +83,9 @@ assert.ok(byTicker.get("FINOPB").caution_flags.includes("needs_tape_confirmation
 assert.ok(byTicker.has("KRISHNADEF"), "KRISHNADEF should appear in the discovery feed");
 assert.ok(byTicker.get("KRISHNADEF").lanes.some((lane) => lane.id === "momentum_news_confirmed"), "KRISHNADEF should land in Momentum + News");
 assert.ok(byTicker.get("KRISHNADEF").caution_flags.includes("future_data_unavailable"), "Future 0/6 with no-data should be cautioned, not treated as low growth");
+assert.equal(Math.round(byTicker.get("KRISHNADEF").upside_pct * 10) / 10, 272.8, "range-only SWS valuation should produce display upside");
+assert.equal(byTicker.get("KRISHNADEF").upside_display_only, true, "range-only upside should not masquerade as trusted FV");
+assert.ok(byTicker.get("KRISHNADEF").caution_flags.includes("fv_display_only_range"), "range-only upside should be caution-tagged");
 
 assert.ok(byTicker.get("WEAKTAPE").caution_flags.includes("news_headwind"), "negative-news/weak-tape names are caution-tagged");
 assert.ok(byTicker.get("ASMNAME").caution_flags.includes("surveillance_hard_caution"), "ASM names are hard-cautioned");
@@ -90,7 +95,13 @@ const email = buildDiscoveryFeedEmail(feed);
 assert.match(email.html, /Discovery Radar/);
 assert.match(email.html, /<table role="presentation"/);
 assert.match(email.html, /Off-section High Future/);
+assert.match(email.html, /<th style="padding:9px;">Upside<\/th>/);
+assert.match(email.html, /\+23\.4%/);
+assert.match(email.html, /Trusted FV/);
+assert.match(email.html, /SWS range/);
 assert.match(email.html, /Why surfaced/);
 assert.doesNotMatch(email.html, /\{"schema_version"/);
+assert.match(email.text, /FINOPB: V4 47\.4, Future 5\/6, Upside \+23\.4% \(Trusted FV\)/);
+assert.match(email.text, /KRISHNADEF: V4 61\.9, Future 0\/6, Upside \+272\.8% \(SWS range\)/);
 
 console.log("sws discovery feed classification and email formatting ok");
