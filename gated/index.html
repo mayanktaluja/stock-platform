@@ -5415,7 +5415,7 @@
               <button class="refresh-btn" type="button" data-window="5y" disabled aria-disabled="true" title="Waiting for 5 years of Track Record history" style="font-size:11px; opacity:0.48; cursor:not-allowed;">5y</button>
             </div>
             <div id="trackSectionPerformanceCohortTabs" style="display:flex; gap:6px; flex-wrap:wrap;" aria-label="Section alpha cohort">
-              <button class="refresh-btn" type="button" data-cohort="best" onclick="window.__trackSetSectionPerformanceCohort && window.__trackSetSectionPerformanceCohort('best')" style="font-size:11px;">Best</button>
+              <button class="refresh-btn" type="button" data-cohort="best" onclick="window.__trackSetSectionPerformanceCohort && window.__trackSetSectionPerformanceCohort('best')" style="font-size:11px;">Best cohort</button>
               <button class="refresh-btn" type="button" data-cohort="3" onclick="window.__trackSetSectionPerformanceCohort && window.__trackSetSectionPerformanceCohort('3')" style="font-size:11px;">Top 3</button>
               <button class="refresh-btn" type="button" data-cohort="5" onclick="window.__trackSetSectionPerformanceCohort && window.__trackSetSectionPerformanceCohort('5')" style="font-size:11px;">Top 5</button>
               <button class="refresh-btn" type="button" data-cohort="10" onclick="window.__trackSetSectionPerformanceCohort && window.__trackSetSectionPerformanceCohort('10')" style="font-size:11px;">Top 10</button>
@@ -5424,6 +5424,7 @@
           </div>
         </div>
         <div id="trackSectionPerformanceSummary" style="font-size:12px; color:var(--text-secondary); margin-bottom:10px;"></div>
+        <div id="trackSectionPerformanceFreshness"></div>
         <div id="trackSectionPerformanceDisclaimer"></div>
         <div style="font-size:11px; color:var(--text-muted); margin-bottom:10px;">Methodology: each daily SWS snapshot stores official top 3, 5, 10, and 20 cohorts per public recommendation section. The India Market spotlight may surface the strongest eligible cohort, labelled explicitly to avoid hidden cherry-picking.</div>
         <div id="trackSectionPerformanceGrid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:10px;">

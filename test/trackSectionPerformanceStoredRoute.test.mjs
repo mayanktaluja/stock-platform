@@ -17,6 +17,20 @@ const storedIdx = body.indexOf("readStoredSectionPerformancePayload");
 const importIdx = body.indexOf("loadSectionPerformanceModule");
 assert.ok(storedIdx >= 0, "section-performance read must check stored snapshot");
 assert.ok(importIdx >= 0, "section-performance read should retain compute fallback");
-assert.ok(storedIdx < importIdx, "stored snapshot must be checked before MFAPI-backed compute module");
+assert.ok(storedIdx > importIdx, "stored snapshot must be checked with the loaded freshness validator");
+assert.ok(body.includes("stored?.freshness?.isFresh"), "stored snapshot must be freshness-gated before the fast path");
+assert.ok(body.includes("buildLatestSamplePayloadFromPicks"), "stale stored snapshot must rebuild directly from current picks");
+assert.ok(body.includes("transient: true"), "stale stored snapshot fallback must be marked transient");
+assert.ok(body.includes("fromStoredSnapshot: false"), "stale stored snapshot fallback must not pretend to be stored");
+assert.ok(body.includes("transient_fallback"), "stale stored snapshot fallback must expose degraded metadata");
+assert.ok(body.includes("stored_snapshot_missing"), "missing stored snapshot must also use transient current-picks fallback");
 
-console.log("track section-performance stored snapshot is the read fast path");
+const routeStart = source.indexOf('app.get("/api/track/section-performance"');
+assert.notEqual(routeStart, -1, "section-performance route must exist");
+const routeEnd = source.indexOf('app.get("/api/track/sections"', routeStart);
+assert.ok(routeEnd > routeStart, "section-performance route body must be discoverable");
+const routeBody = source.slice(routeStart, routeEnd);
+assert.ok(routeBody.includes("picksScannedAt"), "route cache key must include current picks scanned_at");
+assert.ok(routeBody.includes("if (!response.transient) trackCache.set"), "transient fallback responses must not be cached");
+
+console.log("track section-performance stored snapshot is freshness-gated");

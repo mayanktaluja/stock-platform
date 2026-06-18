@@ -142,6 +142,37 @@ function dateKeyFromIso(iso) {
   return d.toISOString().slice(0, 10);
 }
 
+function parseTimestampMs(value) {
+  if (!value) return null;
+  const ms = new Date(value).getTime();
+  return Number.isFinite(ms) ? ms : null;
+}
+
+export function sectionPerformanceSnapshotFreshness(snapshot, picksData) {
+  const sourceScannedAt = snapshot?.sourceScannedAt || null;
+  const picksScannedAt = picksData?.scanned_at || null;
+  const generatedAt = snapshot?.generatedAt || snapshot?.lastComputedAt || snapshot?.sourceGeneratedAt || null;
+  const base = {
+    status: "stale",
+    isFresh: false,
+    sourceScannedAt,
+    picksScannedAt,
+    generatedAt,
+  };
+  if (!snapshot || typeof snapshot !== "object") return { ...base, reason: "missing_snapshot" };
+  if (!picksData || typeof picksData !== "object") return { ...base, reason: "missing_picks" };
+  if (!sourceScannedAt) return { ...base, reason: "missing_source_scanned_at" };
+  if (!picksScannedAt) return { ...base, reason: "missing_picks_scanned_at" };
+  if (sourceScannedAt !== picksScannedAt) return { ...base, reason: "source_scanned_at_mismatch" };
+
+  const generatedMs = parseTimestampMs(generatedAt);
+  const sourceMs = parseTimestampMs(sourceScannedAt);
+  if (generatedAt && generatedMs == null) return { ...base, reason: "invalid_generated_at" };
+  if (sourceMs == null) return { ...base, reason: "invalid_source_scanned_at" };
+  if (generatedMs != null && generatedMs < sourceMs) return { ...base, reason: "generated_before_source" };
+  return { ...base, status: "fresh", isFresh: true, reason: "source_scanned_at_match" };
+}
+
 function addDays(dateKey, n) {
   const d = new Date(`${dateKey}T00:00:00.000Z`);
   if (Number.isNaN(d.getTime())) return null;

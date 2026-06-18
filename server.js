@@ -5170,18 +5170,22 @@ function filterStoredSectionPerformancePayload(payload, { windows, cohorts }) {
   return out;
 }
 
-function readStoredSectionPerformancePayload({ windows, cohorts }) {
+function readStoredSectionPerformancePayload({ windows, cohorts, picksData, mod }) {
   if (!fs.existsSync(SECTION_PERFORMANCE_LATEST_PATH)) return null;
   try {
     const payload = JSON.parse(fs.readFileSync(SECTION_PERFORMANCE_LATEST_PATH, "utf-8"));
     const stat = fs.statSync(SECTION_PERFORMANCE_LATEST_PATH);
     const sourceGeneratedAt = payload.sourceGeneratedAt || payload.generatedAt || payload.lastComputedAt || stat.mtime.toISOString();
     const sourceAgeHours = (Date.now() - new Date(sourceGeneratedAt).getTime()) / 3_600_000;
+    const freshness = typeof mod?.sectionPerformanceSnapshotFreshness === "function"
+      ? mod.sectionPerformanceSnapshotFreshness(payload, picksData)
+      : { status: "stale", isFresh: false, reason: "freshness_validator_unavailable" };
     return {
       ...filterStoredSectionPerformancePayload(payload, { windows, cohorts }),
+      freshness,
       sourceGeneratedAt,
       sourceDateKey: payload.sourceDateKey || payload.dateKey || null,
-      source_stale: !Number.isFinite(sourceAgeHours) || sourceAgeHours > 36,
+      source_stale: !freshness.isFresh || !Number.isFinite(sourceAgeHours) || sourceAgeHours > 36,
       source_age_hours: Number.isFinite(sourceAgeHours) ? Math.round(sourceAgeHours * 10) / 10 : null,
       source_stale_threshold_hours: 36,
     };
@@ -5191,13 +5195,36 @@ function readStoredSectionPerformancePayload({ windows, cohorts }) {
   }
 }
 
-async function readSectionPerformanceSafe({ windows, cohorts }) {
-  const stored = readStoredSectionPerformancePayload({ windows, cohorts });
-  if (stored) return stored;
-
+async function readSectionPerformanceSafe({ windows, cohorts, picksData: suppliedPicksData = null }) {
+  const picksData = suppliedPicksData || readCurrentSwsPicksForSectionPerformance();
   const mod = await loadSectionPerformanceModule();
+  const stored = readStoredSectionPerformancePayload({ windows, cohorts, picksData, mod });
+  if (stored?.freshness?.isFresh === true) return stored;
+  if (picksData && typeof mod?.buildLatestSamplePayloadFromPicks === "function") {
+    const fallback = await mod.buildLatestSamplePayloadFromPicks(picksData, { windows, cohorts });
+    const fallbackReason = stored?.freshness?.reason || "stored_snapshot_missing";
+    return {
+      ...fallback,
+      transient: true,
+      fromStoredSnapshot: false,
+      fallbackReason,
+      storedSourceScannedAt: stored?.sourceScannedAt || stored?.freshness?.sourceScannedAt || null,
+      storedGeneratedAt: stored?.sourceGeneratedAt || stored?.generatedAt || null,
+      freshness: {
+        ...(stored?.freshness || {
+          sourceScannedAt: null,
+          picksScannedAt: picksData.scanned_at || null,
+          generatedAt: null,
+        }),
+        status: "transient_fallback",
+        isFresh: false,
+        reason: fallbackReason,
+      },
+    };
+  }
+
   const fn = mod?.getSectionPerformancePayload;
-  if (fn) return fn({ windows, cohorts, picksData: readCurrentSwsPicksForSectionPerformance() });
+  if (fn && !stored) return fn({ windows, cohorts, picksData });
 
   const storage = await loadSectionPerformanceStorageModule();
   const sectionPerformanceStore = storage?.getSectionPerformanceStorage?.();
@@ -5213,7 +5240,6 @@ async function readSectionPerformanceSafe({ windows, cohorts }) {
     };
   }
 
-  const picksData = readCurrentSwsPicksForSectionPerformance();
   if (mod?.buildDailySectionCohortRows && mod?.buildSectionPerformancePayload && picksData) {
     const rows = mod.buildDailySectionCohortRows(picksData, { snapshotAt: picksData.scanned_at, cohorts });
     return {
@@ -5686,12 +5712,14 @@ app.get("/api/track/section-performance", async (req, res) => {
   try {
     const windows = parseSectionPerformanceWindows(req.query.windows);
     const cohorts = parseSectionPerformanceCohorts(req.query.cohorts);
-    const cacheKey = `track_section_performance_${windows.join("_")}_${cohorts.join("_")}`;
+    const picksData = readCurrentSwsPicksForSectionPerformance();
+    const picksScannedAt = picksData?.scanned_at || "no_picks_scan";
+    const cacheKey = `track_section_performance_${windows.join("_")}_${cohorts.join("_")}_${picksScannedAt}`;
     if (!req.query.bust) {
       const cached = trackCache.get(cacheKey);
       if (cached) { res.set("X-Cache", "HIT"); return res.json(cached); }
     }
-    const payload = await readSectionPerformanceSafe({ windows, cohorts });
+    const payload = await readSectionPerformanceSafe({ windows, cohorts, picksData });
     const response = {
       ...payload,
       windows: payload?.windows || windows,
@@ -5699,8 +5727,9 @@ app.get("/api/track/section-performance", async (req, res) => {
       lastComputedAt: payload?.lastComputedAt || new Date().toISOString(),
       decision_contract: contextOnlyContract("Track Record is historical evidence; hindsight rows do not imply current action."),
     };
-    trackCache.set(cacheKey, response);
+    if (!response.transient) trackCache.set(cacheKey, response);
     res.set("X-Cache", "MISS");
+    if (response.transient) res.set("Cache-Control", "private, max-age=0, must-revalidate");
     res.json(response);
   } catch (err) {
     const status = err.statusCode || 500;

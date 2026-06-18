@@ -4,7 +4,10 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { buildLatestSamplePayloadFromPicks } from "../services/trackRecord/sectionPerformance.js";
+import {
+  buildLatestSamplePayloadFromPicks,
+  sectionPerformanceSnapshotFreshness,
+} from "../services/trackRecord/sectionPerformance.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -33,11 +36,18 @@ async function main() {
     windows: ["7d", "30d", "3m", "1y", "3y", "5y"],
     cohorts: [3, 5, 10, 20],
   });
-  writeAtomic(OUT_PATH, {
+  const output = {
     ...payload,
     generatedBy: "scripts/build-section-performance-snapshot.mjs",
     sourceScannedAt: picksData.scanned_at || null,
-  });
+  };
+  const freshness = sectionPerformanceSnapshotFreshness(output, picksData);
+  if (!freshness.isFresh) {
+    console.error(`[section-performance] refusing to write stale snapshot: ${freshness.reason}`);
+    console.error(`[section-performance] sourceScannedAt=${freshness.sourceScannedAt || "null"} picks.scanned_at=${freshness.picksScannedAt || "null"}`);
+    process.exit(3);
+  }
+  writeAtomic(OUT_PATH, { ...output, freshness });
   console.log(`[section-performance] wrote ${path.relative(ROOT, OUT_PATH)}`);
 }
 

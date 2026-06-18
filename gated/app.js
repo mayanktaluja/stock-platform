@@ -5505,6 +5505,38 @@ function _windowBenchmarkSummary(windowPayload) {
   return `shared benchmark: <strong style="color:var(--text-primary);">Nifty 50 ${_fmtSignedPct(windowPayload.benchmarkReturnPct)}</strong>`;
 }
 
+function _fmtSectionFreshnessDate(value) {
+  if (!value) return null;
+  const d = new Date(value);
+  if (Number.isNaN(d.getTime())) return null;
+  return d.toLocaleString("en-IN", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+    timeZone: "Asia/Kolkata",
+  });
+}
+
+function _renderSectionPerformanceFreshness(payload, windowPayload) {
+  const sourceScan = _fmtSectionFreshnessDate(payload?.sourceScannedAt || payload?.freshness?.sourceScannedAt);
+  const generated = _fmtSectionFreshnessDate(payload?.generatedAt || payload?.sourceGeneratedAt || payload?.lastComputedAt);
+  const through = windowPayload?.toDate || null;
+  const bits = [];
+  if (sourceScan) bits.push(`Source scan: ${sourceScan} IST`);
+  if (generated) bits.push(`Computed: ${generated} IST`);
+  if (through) bits.push(`${escapeHtml(windowPayload?.window || "window")} through: ${escapeHtml(through)}`);
+  const degraded = payload?.transient === true || payload?.freshness?.status === "transient_fallback";
+  if (!bits.length && !degraded) return "";
+  return `
+    <div data-testid="track-section-performance-freshness" style="border:1px solid ${degraded ? "rgba(251,191,36,0.35)" : "var(--border)"};background:${degraded ? "rgba(251,191,36,0.08)" : "rgba(148,163,184,0.06)"};border-radius:8px;padding:8px 10px;margin-bottom:10px;font-size:11px;line-height:1.45;color:var(--text-secondary);">
+      ${bits.length ? `<span>${bits.map(escapeHtml).join(" · ")}</span>` : ""}
+      ${degraded ? `<div data-testid="track-section-performance-degraded" style="margin-top:${bits.length ? "4px" : "0"};color:var(--gold);font-weight:750;">Degraded: stored Section Alpha snapshot was stale; rebuilt from current picks for this request.</div>` : ""}
+    </div>`;
+}
+
 function _credibilityBannerCopy(best, windowPayload, label) {
   const alpha = Number(best?.alphaPct);
   const hasPositiveAlpha = Number.isFinite(alpha) && alpha > 0 && best?.outperformed !== false;
@@ -5656,6 +5688,10 @@ function renderTrackSectionPerformance() {
   if (!grid) return;
   const payload = _trackSectionPerformanceCache;
   const windowPayload = _sectionPerformanceWindow(payload, _trackSectionPerformanceWindow);
+  const freshnessHost = document.getElementById("trackSectionPerformanceFreshness");
+  if (freshnessHost) {
+    freshnessHost.innerHTML = _renderSectionPerformanceFreshness(payload, windowPayload);
+  }
   // Panel-level honesty: whenever the panel is served in the illustrative
   // ("latest_available") basis, every window is the trailing return of TODAY's
   // top-ranked picks projected backward — survivorship-biased, not a realized

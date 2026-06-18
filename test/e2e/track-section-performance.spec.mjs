@@ -575,6 +575,17 @@ test.describe("India Market credibility banner and section alpha", () => {
           isHypothetical: true,
           cohorts: [3, 5, 10, 20],
           generatedAt: "2026-06-10T00:00:00.000Z",
+          sourceScannedAt: "2026-06-09T18:00:00.000Z",
+          transient: true,
+          fromStoredSnapshot: false,
+          fallbackReason: "source_scanned_at_mismatch",
+          freshness: {
+            status: "transient_fallback",
+            isFresh: false,
+            reason: "source_scanned_at_mismatch",
+            sourceScannedAt: "2026-06-02T18:00:00.000Z",
+            picksScannedAt: "2026-06-09T18:00:00.000Z",
+          },
           bestOverall: {
             window: "30d", sampleStatus: "latest_available", label: "SWS - Best Stocks to Buy Now",
             cohortLabel: "top 3", requestedCohortSize: 3, actualCohortSize: 3,
@@ -619,6 +630,10 @@ test.describe("India Market credibility banner and section alpha", () => {
     await expect(disclaimer).toBeVisible();
     await expect(disclaimer).toContainText(/Illustrative — not a realized track record/i);
     await expect(disclaimer).toContainText(/trailing returns of today's top-ranked picks/i);
+    const freshness = panel.locator('[data-testid="track-section-performance-freshness"]');
+    await expect(freshness).toContainText(/Source scan:/i);
+    await expect(freshness).toContainText(/Computed:/i);
+    await expect(freshness).toContainText(/Degraded: stored Section Alpha snapshot was stale/i);
 
     // Selecting the 3m (hindsight) window flags the backfill explicitly.
     await panel.locator('button[data-window="3m"]').click();
