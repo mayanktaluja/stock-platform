@@ -1,0 +1,750 @@
+{
+  "schema_version": "earnings-history-v5",
+  "refresh_iso": "2026-06-18T02:15:32.445Z",
+  "today_iso": "2026-06-18",
+  "event_count": 8,
+  "predictions": [
+    {
+      "symbol": "ANIKINDS",
+      "fiscal_quarter": "Q4 FY26",
+      "event_iso_date": "2026-06-18",
+      "days_until": 0,
+      "data_quality": "HIGH",
+      "predictor_version": "earnings-predict-v3-2026-05",
+      "playbook_version": "earnings-playbook-v1-2026-05",
+      "predicted_verdict": "INLINE",
+      "confidence_pct": 55,
+      "score_100": 42.2,
+      "price_at_snapshot_inr": 44.54,
+      "runup_signal": "neutral",
+      "sector": "Capital Goods",
+      "actual_verdict": null,
+      "actual_guidance_tone": null,
+      "actual_t1_close_inr": null,
+      "actual_t1_open_gap_pct": null,
+      "resolved_at_iso": null,
+      "actual_source": null,
+      "actual_evidence": null,
+      "actual_revised_iso": null,
+      "actual_history": [],
+      "backfilled": false,
+      "llm_signal": {
+        "bias": "neutral",
+        "confidence_delta_pct": 0,
+        "classifier_provider": "heuristic",
+        "model_id": "heuristic-v2"
+      },
+      "score_breakdown": {
+        "v3_future_past": -15,
+        "v3_valuation": -0.9,
+        "v3_overlay": 0,
+        "runup": 0,
+        "sector_momentum": 1,
+        "trajectory": 9.1,
+        "last_quarter_echo": 0,
+        "announcements": 0,
+        "deal_flow": 0,
+        "llm_signal": 0,
+        "missing_data_penalty": -2,
+        "missing_data_components": [
+          "announcements"
+        ],
+        "raw_sum": -7.8,
+        "sws_quality": -15,
+        "fv_upside": -0.9,
+        "threshold_version": "v3-2026-05",
+        "threshold_source": "empirical",
+        "miss_cut": 34,
+        "beat_cut": 56
+      },
+      "display_snapshot": {
+        "prediction": {
+          "verdict": "INLINE",
+          "confidence_pct": 55,
+          "score_100": 42.2,
+          "score_breakdown": {
+            "v3_future_past": -15,
+            "v3_valuation": -0.9,
+            "v3_overlay": 0,
+            "runup": 0,
+            "sector_momentum": 1,
+            "trajectory": 9.1,
+            "last_quarter_echo": 0,
+            "announcements": 0,
+            "deal_flow": 0,
+            "llm_signal": 0,
+            "missing_data_penalty": -2,
+            "missing_data_components": [
+              "announcements"
+            ],
+            "raw_sum": -7.8,
+            "sws_quality": -15,
+            "fv_upside": -0.9,
+            "threshold_version": "v3-2026-05",
+            "threshold_source": "empirical",
+            "miss_cut": 34,
+            "beat_cut": 56
+          },
+          "reasons_top": [
+            "missing-data caution: announcements unavailable (-2 pts, HIGH)",
+            "sector Capital Goods +2.1% over 1M",
+            "V4 valuation: fair-value imputed (no FV anchor)"
+          ],
+          "reasons_against": [],
+          "components_by_impact": [
+            {
+              "name": "v3_future_past",
+              "pts": -15,
+              "why": "V4 future 0/20 · past 5/16 (WATCH)"
+            },
+            {
+              "name": "trajectory",
+              "pts": 9.1,
+              "why": "EPS YoY +22.7%"
+            },
+            {
+              "name": "missing_data_penalty",
+              "pts": -2,
+              "why": "missing-data caution: announcements unavailable (-2 pts, HIGH)"
+            },
+            {
+              "name": "sector_momentum",
+              "pts": 1,
+              "why": "sector Capital Goods +2.1% over 1M"
+            },
+            {
+              "name": "v3_valuation",
+              "pts": -0.9,
+              "why": "V4 valuation: fair-value imputed (no FV anchor)"
+            },
+            {
+              "name": "v3_overlay",
+              "pts": 0,
+              "why": "no V4 risk flags"
+            },
+            {
+              "name": "runup",
+              "pts": 0,
+              "why": "neutral runup vs sector"
+            },
+            {
+              "name": "last_quarter_echo",
+              "pts": 0,
+              "why": "no last-quarter signal"
+            },
+            {
+              "name": "announcements",
+              "pts": 0,
+              "why": "no recent announcements"
+            },
+            {
+              "name": "deal_flow",
+              "pts": 0,
+              "why": "no recent bulk/block deals"
+            },
+            {
+              "name": "llm_signal",
+              "pts": 0,
+              "why": "LLM read: neutral (heuristic)"
+            }
+          ],
+          "predictor_version": "earnings-predict-v3-2026-05",
+          "freeze": {
+            "frozen": true,
+            "source": "display_snapshot",
+            "archive_today_iso": "2026-06-17"
+          }
+        },
+        "price_band": {
+          "anchored": true,
+          "basis": "anchored ₹44.54 · vol≈2.5% · conf×0.6",
+          "current_price_inr": 44.54,
+          "bull": {
+            "pct": 1.5,
+            "price_inr": 45.21
+          },
+          "base": {
+            "pct": 0,
+            "price_inr": 44.54
+          },
+          "bear": {
+            "pct": -1.5,
+            "price_inr": 43.87
+          },
+          "version": "earnings-bands-v1-2026-05"
+        },
+        "rationale": {
+          "headline": "INLINE expected (55% conf) — ANIKINDS Q4 FY26 tomorrow.",
+          "paragraphs": [
+            "ANIKINDS reports Q4 FY26 tomorrow. Our model expects the result to land INLINE, with 55% confidence (V1 cap is 65% — see methodology). Strongest input: missing-data caution: announcements unavailable (-2 pts, HIGH); reinforced by sector Capital Goods +2.1% over 1M.",
+            "Component breakdown (42/100 composite): pulling toward INLINE: missing-data caution: announcements unavailable (-2 pts, HIGH); sector Capital Goods +2.1% over 1M; V4 valuation: fair-value imputed (no FV anchor). No strong opposing signal — INLINE reflects balanced inputs, not absent ones. Sector Capital Goods momentum acts as the prevailing tide; treat any single-stock thesis as conditional on it not flipping mid-week.",
+            "1-day post-result band: Bull ₹45.21 (+1.5%) · Base ₹44.54 · Bear ₹43.87 (-1.5%). Magnitudes are confidence-scaled and capped at ±15%. Earnings are binary events — size positions to survive a Bear-case print, not to maximise the Bull case."
+          ],
+          "falsification_triggers": [
+            "a material catalyst lands in the next 30 days (PT raise / beat / surveillance change)",
+            "V4 score moves into TOP_PICK (≥59) or AVOID (<28) on next refresh"
+          ],
+          "version": "earnings-narrate-v1-2026-05"
+        },
+        "playbook": {
+          "mode": "preview",
+          "tradable": true,
+          "predicted_verdict": "INLINE",
+          "highlight_branch": "MAINTAIN",
+          "pre_runup_signal": "neutral",
+          "primary": {
+            "key": "INLINE_MAINTAIN",
+            "label": "Inline + Maintain (skip)",
+            "stance": "Skip — no edge; chop likely",
+            "time_horizon": "none",
+            "entry": "Stand aside",
+            "stoploss": "n/a",
+            "target": "n/a",
+            "rationale": "No catalyst either way. Stock often drifts down because the 'inline' result resolves uncertainty without new positive news. Not worth the screen time.",
+            "confidence": "MEDIUM",
+            "falsification": [
+              "Surprise sector tailwind in the days following",
+              "Block-deal flow reveals an institutional buyer post-print"
+            ],
+            "leans": "skip"
+          },
+          "branches": [
+            {
+              "guidance": "RAISE",
+              "plan": {
+                "key": "INLINE_RAISE",
+                "label": "Inline + Raise (underrated bullish)",
+                "stance": "Buy — best 2–3 day swing in the matrix",
+                "time_horizon": "swing_3d",
+                "entry": "Buy at T+1 close OR on T+1 morning pullback to opening 30-min low",
+                "stoploss": "Below T+1 opening 30-min low",
+                "target": "+3–5% over T+2 to T+3; analysts re-rate on the forward bump",
+                "rationale": "Market underreacts because the headline is 'inline' — boring. Forward guidance bump is the real signal; analyst PTs follow. Cleanest cell for a 2–3 day hold.",
+                "confidence": "HIGH",
+                "falsification": [
+                  "Guidance bump is one-time / FY-restatement, not organic",
+                  "Sector reverses"
+                ],
+                "leans": "long"
+              },
+              "is_highlighted": false
+            },
+            {
+              "guidance": "MAINTAIN",
+              "plan": {
+                "key": "INLINE_MAINTAIN",
+                "label": "Inline + Maintain (skip)",
+                "stance": "Skip — no edge; chop likely",
+                "time_horizon": "none",
+                "entry": "Stand aside",
+                "stoploss": "n/a",
+                "target": "n/a",
+                "rationale": "No catalyst either way. Stock often drifts down because the 'inline' result resolves uncertainty without new positive news. Not worth the screen time.",
+                "confidence": "MEDIUM",
+                "falsification": [
+                  "Surprise sector tailwind in the days following",
+                  "Block-deal flow reveals an institutional buyer post-print"
+                ],
+                "leans": "skip"
+              },
+              "is_highlighted": true
+            },
+            {
+              "guidance": "CUT",
+              "plan": {
+                "key": "INLINE_CUT",
+                "label": "Inline + Cut (strong negative drift)",
+                "stance": "Short or stay flat — 5–10 day downside drift",
+                "time_horizon": "swing_5d",
+                "entry": "Short on T+1 bounce to VWAP, OR enter on T+2 if T+1 closes red",
+                "stoploss": "Above T+1 high; 2.5% above entry as backstop",
+                "target": "-4–6% over T+2 to T+5",
+                "rationale": "Forward downgrade is the real signal; the 'inline' headline buys the stock 24–48h before the analyst-PT cuts hit. This is the post-earnings drift in negative form.",
+                "confidence": "HIGH",
+                "falsification": [
+                  "Macro tailwind (rate cut, oil crash) shifts the sector",
+                  "Activist or strategic announcement during the drift window"
+                ],
+                "leans": "short_or_skip"
+              },
+              "is_highlighted": false
+            }
+          ],
+          "headline": "Predicted INLINE. Three guidance scenarios mapped — pick the branch after concall.",
+          "position_size_multiplier": 0.6,
+          "position_size_tier": {
+            "label": "Reduced size",
+            "min_confidence": 48
+          },
+          "version": "earnings-playbook-v1-2026-05"
+        },
+        "signals": {
+          "data_quality": "HIGH",
+          "sector": "Capital Goods",
+          "momentum": {
+            "ret_1m_pct": 1.07,
+            "ret_3m_pct": 10.93,
+            "ret_6m_pct": -14.72,
+            "ret_1y_pct": -57.67,
+            "sector_avg_1m_pct": 2.08,
+            "sector_sample_size": 952,
+            "sector_volatility_1m_pct": null,
+            "pre_runup_signal": "neutral",
+            "runup_vs_sector_pct": -1.01
+          },
+          "snowflake_total": 7,
+          "upside_pct": null,
+          "v3": {
+            "v3_score_100": 31.5,
+            "v3_verdict": "WATCH",
+            "source": "upcoming",
+            "breakdown": {
+              "pts_health": 18.3,
+              "pts_future": 0,
+              "pts_valuation": 0,
+              "pts_past": 5.3,
+              "pts_fv_total": 4.6,
+              "fv_imputed": true,
+              "fv_industry_imputed": true,
+              "fv_industry_average_pts": 4.6,
+              "fv_industry_average_count": 166,
+              "fv_industry_average_key": "sector:Capital Goods",
+              "fv_industry_average_label": "Capital Goods",
+              "fv_max_inflation_haircut": false,
+              "fv_subsignals_present": 1,
+              "fv_benchmark_used": false,
+              "pts_fv_upside_effective": null,
+              "pts_fv_pe_effective": null,
+              "fv_upside_relative_pts": null,
+              "fv_upside_rz": null,
+              "fv_pe_ratio": 1.222,
+              "fv_pe_bucket": "expensive",
+              "fv_pe_source": "groww_refinitiv",
+              "fv_pe_source_label": "Groww/Refinitiv",
+              "fv_pe_industry_name": "Distributors",
+              "fv_pe_company_pe": 72.36,
+              "fv_pe_industry_pe": 59.207,
+              "fv_pe_fetched_at": "2026-06-17T00:09:38.941Z",
+              "fv_pe_source_url": "https://groww.in/stocks/anik-industries-ltd",
+              "pts_mom_1y": 0.3,
+              "pts_mom_3m": 1.8,
+              "pts_mom_1m": 1.1,
+              "momentum_imputed": false,
+              "pts_overlay": 0,
+              "overlay_reasons": [],
+              "surveillance": null
+            }
+          },
+          "llm_signal": {
+            "bias": "neutral",
+            "confidence_delta_pct": 0,
+            "top_reason": "1 SWS-vetted reward bullet(s) on file",
+            "top_risk": "2 SWS-vetted risk bullet(s) on file",
+            "classifier_provider": "heuristic",
+            "model_id": "heuristic-v2",
+            "signal_version": "earnings-llm-v2-2026-05",
+            "generated_at": "2026-06-17T04:10:20.845Z"
+          },
+          "market_cap_inr": 1224900000,
+          "sws_upcoming_earnings": {
+            "composite_verdict": "WATCH",
+            "one_line": "P/E 72.4x · snow 7/30",
+            "counter_thesis": {
+              "verdict_bias": "neutral",
+              "text": "No strong opposing signal in the layer outputs — single-source view; verify thesis independently before acting.",
+              "falsification_trigger": [
+                "a material catalyst lands in the next 30 days (PT raise / beat / surveillance change)",
+                "V4 score moves into TOP_PICK (≥59) or AVOID (<28) on next refresh"
+              ]
+            },
+            "current_price_inr": 44.54
+          },
+          "announcements": {
+            "top3": []
+          }
+        }
+      }
+    },
+    {
+      "symbol": "SRPL",
+      "fiscal_quarter": "Q4 FY26",
+      "event_iso_date": "2026-06-29",
+      "days_until": 11,
+      "data_quality": "HIGH",
+      "predictor_version": "earnings-predict-v3-2026-05",
+      "playbook_version": "earnings-playbook-v1-2026-05",
+      "predicted_verdict": "INLINE",
+      "confidence_pct": 56,
+      "score_100": 46.8,
+      "price_at_snapshot_inr": 0.38,
+      "runup_signal": "lagging",
+      "sector": "Food, Beverage & Tobacco",
+      "actual_verdict": null,
+      "actual_guidance_tone": null,
+      "actual_t1_close_inr": null,
+      "actual_t1_open_gap_pct": null,
+      "resolved_at_iso": null,
+      "actual_source": null,
+      "actual_evidence": null,
+      "actual_revised_iso": null,
+      "actual_history": [],
+      "backfilled": false,
+      "llm_signal": {
+        "bias": "lean_miss",
+        "confidence_delta_pct": -2,
+        "classifier_provider": "heuristic",
+        "model_id": "heuristic-v2"
+      },
+      "score_breakdown": {
+        "v3_future_past": -18,
+        "v3_valuation": 0.3,
+        "v3_overlay": 0,
+        "runup": 5,
+        "sector_momentum": 0.5,
+        "trajectory": 15,
+        "last_quarter_echo": 0,
+        "announcements": 0,
+        "deal_flow": 0,
+        "llm_signal": -4,
+        "missing_data_penalty": -2,
+        "missing_data_components": [
+          "announcements"
+        ],
+        "raw_sum": -3.2,
+        "sws_quality": -18,
+        "fv_upside": 0.3,
+        "threshold_version": "v3-2026-05",
+        "threshold_source": "empirical",
+        "miss_cut": 34,
+        "beat_cut": 56
+      },
+      "display_snapshot": null
+    },
+    {
+      "symbol": "HCLTECH",
+      "fiscal_quarter": "Q1 FY27",
+      "event_iso_date": "2026-07-13",
+      "days_until": 25,
+      "data_quality": "HIGH",
+      "predictor_version": "earnings-predict-v3-2026-05",
+      "playbook_version": "earnings-playbook-v1-2026-05",
+      "predicted_verdict": "INLINE",
+      "confidence_pct": 54,
+      "score_100": 40.8,
+      "price_at_snapshot_inr": 1166.8,
+      "runup_signal": "neutral",
+      "sector": "Software",
+      "actual_verdict": null,
+      "actual_guidance_tone": null,
+      "actual_t1_close_inr": null,
+      "actual_t1_open_gap_pct": null,
+      "resolved_at_iso": null,
+      "actual_source": null,
+      "actual_evidence": null,
+      "actual_revised_iso": null,
+      "actual_history": [],
+      "backfilled": false,
+      "llm_signal": {
+        "bias": "lean_miss",
+        "confidence_delta_pct": -2,
+        "classifier_provider": "gemini",
+        "model_id": "gemini-2.5-flash"
+      },
+      "score_breakdown": {
+        "v3_future_past": -3,
+        "v3_valuation": 0.7,
+        "v3_overlay": 0,
+        "runup": 0,
+        "sector_momentum": 1.4,
+        "trajectory": 1.7,
+        "last_quarter_echo": -4,
+        "announcements": 0,
+        "deal_flow": 0,
+        "llm_signal": -4,
+        "missing_data_penalty": -2,
+        "missing_data_components": [
+          "announcements"
+        ],
+        "raw_sum": -9.2,
+        "sws_quality": -3,
+        "fv_upside": 0.7,
+        "threshold_version": "v3-2026-05",
+        "threshold_source": "empirical",
+        "miss_cut": 34,
+        "beat_cut": 56
+      },
+      "display_snapshot": null
+    },
+    {
+      "symbol": "GLOBUSSPR",
+      "fiscal_quarter": "Q1 FY27",
+      "event_iso_date": "2026-07-17",
+      "days_until": 29,
+      "data_quality": "HIGH",
+      "predictor_version": "earnings-predict-v3-2026-05",
+      "playbook_version": "earnings-playbook-v1-2026-05",
+      "predicted_verdict": "BEAT",
+      "confidence_pct": 61,
+      "score_100": 67.2,
+      "price_at_snapshot_inr": 870.3,
+      "runup_signal": "neutral",
+      "sector": "Food, Beverage & Tobacco",
+      "actual_verdict": null,
+      "actual_guidance_tone": null,
+      "actual_t1_close_inr": null,
+      "actual_t1_open_gap_pct": null,
+      "resolved_at_iso": null,
+      "actual_source": null,
+      "actual_evidence": null,
+      "actual_revised_iso": null,
+      "actual_history": [],
+      "backfilled": false,
+      "llm_signal": {
+        "bias": "lean_miss",
+        "confidence_delta_pct": -3,
+        "classifier_provider": "gemini",
+        "model_id": "gemini-2.5-flash"
+      },
+      "score_breakdown": {
+        "v3_future_past": 4,
+        "v3_valuation": 5.7,
+        "v3_overlay": 0,
+        "runup": 0,
+        "sector_momentum": 0.5,
+        "trajectory": 15,
+        "last_quarter_echo": 0,
+        "announcements": 0,
+        "deal_flow": 0,
+        "llm_signal": -6,
+        "missing_data_penalty": -2,
+        "missing_data_components": [
+          "announcements"
+        ],
+        "raw_sum": 17.2,
+        "sws_quality": 4,
+        "fv_upside": 5.7,
+        "threshold_version": "v3-2026-05",
+        "threshold_source": "empirical",
+        "miss_cut": 34,
+        "beat_cut": 56
+      },
+      "display_snapshot": null
+    },
+    {
+      "symbol": "INDIACEM",
+      "fiscal_quarter": "Q1 FY27",
+      "event_iso_date": "2026-07-18",
+      "days_until": 30,
+      "data_quality": "HIGH",
+      "predictor_version": "earnings-predict-v3-2026-05",
+      "playbook_version": "earnings-playbook-v1-2026-05",
+      "predicted_verdict": "BEAT",
+      "confidence_pct": 58,
+      "score_100": 63.7,
+      "price_at_snapshot_inr": 385.95,
+      "runup_signal": "lagging",
+      "sector": "Materials",
+      "actual_verdict": null,
+      "actual_guidance_tone": null,
+      "actual_t1_close_inr": null,
+      "actual_t1_open_gap_pct": null,
+      "resolved_at_iso": null,
+      "actual_source": null,
+      "actual_evidence": null,
+      "actual_revised_iso": null,
+      "actual_history": [],
+      "backfilled": false,
+      "llm_signal": {
+        "bias": "neutral",
+        "confidence_delta_pct": 0,
+        "classifier_provider": "heuristic",
+        "model_id": "heuristic-v2"
+      },
+      "score_breakdown": {
+        "v3_future_past": -7,
+        "v3_valuation": -2.9,
+        "v3_overlay": 0,
+        "runup": 5,
+        "sector_momentum": 1.6,
+        "trajectory": 15,
+        "last_quarter_echo": 4,
+        "announcements": 0,
+        "deal_flow": 0,
+        "llm_signal": 0,
+        "missing_data_penalty": -2,
+        "missing_data_components": [
+          "announcements"
+        ],
+        "raw_sum": 13.7,
+        "sws_quality": -7,
+        "fv_upside": -2.9,
+        "threshold_version": "v3-2026-05",
+        "threshold_source": "empirical",
+        "miss_cut": 34,
+        "beat_cut": 56
+      },
+      "display_snapshot": null
+    },
+    {
+      "symbol": "ULTRACEMCO",
+      "fiscal_quarter": "Q1 FY27",
+      "event_iso_date": "2026-07-20",
+      "days_until": 32,
+      "data_quality": "HIGH",
+      "predictor_version": "earnings-predict-v3-2026-05",
+      "playbook_version": "earnings-playbook-v1-2026-05",
+      "predicted_verdict": "BEAT",
+      "confidence_pct": 58,
+      "score_100": 63.5,
+      "price_at_snapshot_inr": 11373,
+      "runup_signal": "neutral",
+      "sector": "Materials",
+      "actual_verdict": null,
+      "actual_guidance_tone": null,
+      "actual_t1_close_inr": null,
+      "actual_t1_open_gap_pct": null,
+      "resolved_at_iso": null,
+      "actual_source": null,
+      "actual_evidence": null,
+      "actual_revised_iso": null,
+      "actual_history": [],
+      "backfilled": false,
+      "llm_signal": {
+        "bias": "lean_beat",
+        "confidence_delta_pct": 3,
+        "classifier_provider": "heuristic",
+        "model_id": "heuristic-v2"
+      },
+      "score_breakdown": {
+        "v3_future_past": -1.9,
+        "v3_valuation": -2.3,
+        "v3_overlay": 0,
+        "runup": 0,
+        "sector_momentum": 1.6,
+        "trajectory": 8.1,
+        "last_quarter_echo": 4,
+        "announcements": 0,
+        "deal_flow": 0,
+        "llm_signal": 6,
+        "missing_data_penalty": -2,
+        "missing_data_components": [
+          "announcements"
+        ],
+        "raw_sum": 13.5,
+        "sws_quality": -1.9,
+        "fv_upside": -2.3,
+        "threshold_version": "v3-2026-05",
+        "threshold_source": "empirical",
+        "miss_cut": 34,
+        "beat_cut": 56
+      },
+      "display_snapshot": null
+    },
+    {
+      "symbol": "INFY",
+      "fiscal_quarter": "Q1 FY27",
+      "event_iso_date": "2026-07-23",
+      "days_until": 35,
+      "data_quality": "HIGH",
+      "predictor_version": "earnings-predict-v3-2026-05",
+      "playbook_version": "earnings-playbook-v1-2026-05",
+      "predicted_verdict": "BEAT",
+      "confidence_pct": 54,
+      "score_100": 60.2,
+      "price_at_snapshot_inr": 1157.7,
+      "runup_signal": "neutral",
+      "sector": "Software",
+      "actual_verdict": null,
+      "actual_guidance_tone": null,
+      "actual_t1_close_inr": null,
+      "actual_t1_open_gap_pct": null,
+      "resolved_at_iso": null,
+      "actual_source": null,
+      "actual_evidence": null,
+      "actual_revised_iso": null,
+      "actual_history": [],
+      "backfilled": false,
+      "llm_signal": {
+        "bias": "neutral",
+        "confidence_delta_pct": 0,
+        "classifier_provider": "gemini",
+        "model_id": "gemini-2.5-flash"
+      },
+      "score_breakdown": {
+        "v3_future_past": -2.1,
+        "v3_valuation": 0.9,
+        "v3_overlay": 0,
+        "runup": 0,
+        "sector_momentum": 1.4,
+        "trajectory": 6,
+        "last_quarter_echo": 4,
+        "announcements": 0,
+        "deal_flow": 0,
+        "llm_signal": 0,
+        "missing_data_penalty": 0,
+        "missing_data_components": [],
+        "raw_sum": 10.2,
+        "sws_quality": -2.1,
+        "fv_upside": 0.9,
+        "threshold_version": "v3-2026-05",
+        "threshold_source": "empirical",
+        "miss_cut": 34,
+        "beat_cut": 56
+      },
+      "display_snapshot": null
+    },
+    {
+      "symbol": "COFORGE",
+      "fiscal_quarter": "Q1 FY27",
+      "event_iso_date": "2026-07-27",
+      "days_until": 39,
+      "data_quality": "HIGH",
+      "predictor_version": "earnings-predict-v3-2026-05",
+      "playbook_version": "earnings-playbook-v1-2026-05",
+      "predicted_verdict": "BEAT",
+      "confidence_pct": 65,
+      "score_100": 95.2,
+      "price_at_snapshot_inr": 1465.7,
+      "runup_signal": "smooth",
+      "sector": "Software",
+      "actual_verdict": null,
+      "actual_guidance_tone": null,
+      "actual_t1_close_inr": null,
+      "actual_t1_open_gap_pct": null,
+      "resolved_at_iso": null,
+      "actual_source": null,
+      "actual_evidence": null,
+      "actual_revised_iso": null,
+      "actual_history": [],
+      "backfilled": false,
+      "llm_signal": {
+        "bias": "lean_beat",
+        "confidence_delta_pct": 2,
+        "classifier_provider": "gemini",
+        "model_id": "gemini-2.5-flash"
+      },
+      "score_breakdown": {
+        "v3_future_past": 8.9,
+        "v3_valuation": -3.1,
+        "v3_overlay": 0,
+        "runup": 8,
+        "sector_momentum": 1.4,
+        "trajectory": 15,
+        "last_quarter_echo": 4,
+        "announcements": 7,
+        "deal_flow": 0,
+        "llm_signal": 4,
+        "missing_data_penalty": 0,
+        "missing_data_components": [],
+        "raw_sum": 45.2,
+        "sws_quality": 8.9,
+        "fv_upside": -3.1,
+        "threshold_version": "v3-2026-05",
+        "threshold_source": "empirical",
+        "miss_cut": 34,
+        "beat_cut": 56
+      },
+      "display_snapshot": null
+    }
+  ]
+}
