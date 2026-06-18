@@ -28,6 +28,7 @@ const DEEP_EXTRACT_BASE = "/tmp/sws-deep"; // Vercel /tmp is the only writable d
 
 const PICKS_LATEST_PATH = path.join(DATA_DIR, "picks-latest.json");
 const SCORED_UNIVERSE_PATH = path.join(DATA_DIR, "sws-scored-universe.json");
+const DISCOVERY_FEED_PATH = path.join(DATA_DIR, "discovery-feed-latest.json");
 const LAST_REFRESH_PATH = path.join(DATA_DIR, "last-refresh.json");
 const V3_UNIVERSE_PATH = path.join(DATA_DIR, "v3-universe-stats.json");
 const V4_UNIVERSE_PATH = path.join(DATA_DIR, "v4-universe-stats.json");
@@ -87,6 +88,7 @@ function readJson(fp) {
 
 const readPicks = mtimeCached(PICKS_LATEST_PATH, readJson);
 const readScoredUniverseRaw = mtimeCached(SCORED_UNIVERSE_PATH, readJson);
+const readDiscoveryFeedRaw = mtimeCached(DISCOVERY_FEED_PATH, readJson);
 const readLastRefresh = mtimeCached(LAST_REFRESH_PATH, readJson);
 const readV3UniverseRaw = mtimeCached(V3_UNIVERSE_PATH, readJson);
 const readV4UniverseRaw = mtimeCached(V4_UNIVERSE_PATH, readJson);
@@ -113,6 +115,10 @@ export function getPicksLatest() {
 
 export function getScoredUniverse() {
   return readScoredUniverseRaw();
+}
+
+export function getDiscoveryFeed() {
+  return readDiscoveryFeedRaw();
 }
 
 // Bulk index keyed by upper-case ticker. Wraps getScoredUniverse() into a

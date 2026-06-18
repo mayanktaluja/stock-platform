@@ -410,6 +410,8 @@ const stampIdx = refreshApi.indexOf("node scripts/sws-stamp-section-status.mjs")
 const chronosCommand = "node scripts/refresh-chronos-forecast.mjs --scope all_sections --limit all --horizons 7D,30D,3M,1Y";
 const chronosIdx = refreshApi.indexOf(chronosCommand);
 const inputDiffIdx = refreshApi.indexOf("node scripts/sws-build-input-diff.mjs");
+const discoveryFeedIdx = refreshApi.indexOf("node scripts/sws-build-discovery-feed.mjs");
+const discoveryMailIdx = refreshApi.indexOf("node scripts/sws-mail-discovery-feed.mjs");
 const loosePriceFreshnessIdx = refreshApi.indexOf("sws-price-freshness-gate.mjs --source loose");
 assert(
   "sws-refresh-api.sh refreshes/validates Groww stock cache before parser/scoring",
@@ -445,8 +447,21 @@ assert(
   { stampIdx, chronosIdx, inputDiffIdx, loosePriceFreshnessIdx },
 );
 assert(
+  "sws-refresh-api.sh builds Discovery Radar after confirmed input-diff and before loose price gate",
+  discoveryFeedIdx > inputDiffIdx &&
+    discoveryMailIdx > discoveryFeedIdx &&
+    loosePriceFreshnessIdx > discoveryMailIdx &&
+    /Discovery Radar email failed[\s\S]*?non-fatal/.test(refreshApi),
+  { inputDiffIdx, discoveryFeedIdx, discoveryMailIdx, loosePriceFreshnessIdx },
+);
+assert(
   "sws-refresh-api.sh passes current RUN_STARTED_ISO into input-diff run_id before last-refresh is stamped",
   /node scripts\/sws-build-input-diff\.mjs --run-id "\$\{RUN_STARTED_ISO\}"/.test(refreshApi),
+  null,
+);
+assert(
+  "sws-refresh-api.sh passes current RUN_STARTED_ISO into Discovery Radar run_id",
+  /node scripts\/sws-build-discovery-feed\.mjs --run-id "\$\{RUN_STARTED_ISO\}"/.test(refreshApi),
   null,
 );
 assert(
@@ -513,6 +528,11 @@ assert(
 assert(
   "sws-refresh-api.sh auto-PR stages section-performance snapshot",
   /git add .*data\/track-record\/section-performance-latest\.json/.test(refreshApi),
+  null,
+);
+assert(
+  "sws-refresh-api.sh auto-PR stages Discovery Radar artifact",
+  /git add .*data\/sws\/discovery-feed-latest\.json/.test(refreshApi),
   null,
 );
 assert(

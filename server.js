@@ -8999,6 +8999,56 @@ app.get("/api/sws-picks-summary", (req, res) => {
   res.json(buildSwsPicksSummaryPayload(raw, req));
 });
 
+function emptySwsDiscoveryFeed() {
+  const lanes = [
+    { id: "future_breakout", label: "Future Breakout" },
+    { id: "off_section_high_future", label: "Off-section High Future" },
+    { id: "momentum_news_confirmed", label: "Momentum + News" },
+    { id: "upgrade_watch", label: "Upgrade Watch" },
+  ];
+  return {
+    schema_version: "sws-discovery-feed-v1",
+    generated_at: null,
+    run_id: null,
+    available: false,
+    copy: {
+      title: "Discovery Radar",
+      subtitle: "Review queue for SWS names where future growth, momentum, or confirmed inputs are becoming interesting.",
+      guardrail: "Not a buy-now list. Use this to decide what deserves a deeper analyst review.",
+    },
+    lanes,
+    counts: {
+      universe: 0,
+      items: 0,
+      future_breakout: 0,
+      off_section_high_future: 0,
+      momentum_news_confirmed: 0,
+      upgrade_watch: 0,
+    },
+    items: [],
+    sections: Object.fromEntries(lanes.map((lane) => [lane.id, []])),
+  };
+}
+
+app.get("/api/sws-discovery-feed", (req, res) => {
+  res.set("Cache-Control", "private, max-age=300, must-revalidate");
+  try {
+    const feed = swsDal.getDiscoveryFeed();
+    if (!feed || typeof feed !== "object") return res.json(emptySwsDiscoveryFeed());
+    const empty = emptySwsDiscoveryFeed();
+    res.json({
+      ...empty,
+      ...feed,
+      available: feed.available !== false,
+      lanes: Array.isArray(feed.lanes) ? feed.lanes : empty.lanes,
+      items: Array.isArray(feed.items) ? feed.items : [],
+      sections: feed.sections && typeof feed.sections === "object" ? feed.sections : empty.sections,
+    });
+  } catch (err) {
+    res.json({ ...emptySwsDiscoveryFeed(), error: "discovery_feed_unavailable", message: err.message });
+  }
+});
+
 app.get("/api/sws-picks", async (req, res) => {
   const raw = swsDal.getPicksLatest();
   if (!raw) return res.status(404).json({ error: "no_picks_yet", hint: "Run /sws-scan-shard 1/2/3 in Claude to start the initial scan." });

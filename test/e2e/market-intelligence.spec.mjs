@@ -2,8 +2,9 @@
 //
 // Per the 2026-05-16 E2E audit: this entire tab had ZERO Playwright coverage
 // before this spec. The tab is non-admin (every signed-in user sees it) and
-// hits five production endpoints — /api/news/market, /api/macro/regime,
-// /api/market-verdict, /api/sector-heatmap, /api/catalysts/today — so a regression here ships silently
+// hits six production endpoints — /api/news/market, /api/macro/regime,
+// /api/market-verdict, /api/sector-heatmap, /api/catalysts/today,
+// /api/sws-discovery-feed — so a regression here ships silently
 // to every user.
 //
 // The spec covers three concerns:
@@ -68,20 +69,16 @@ test.describe("Market Intelligence tab", () => {
     const verdict = await probe("/api/market-verdict");
     const heatmap = await probe("/api/sector-heatmap");
     const catalysts = await probe("/api/catalysts/today");
+    const discovery = await probe("/api/sws-discovery-feed");
 
-    const probes = [["news", news], ["macro", macro], ["verdict", verdict], ["heatmap", heatmap], ["catalysts", catalysts]];
-    const timedOut = probes.find(([, p]) => !p.ok);
-    test.skip(
-      !!timedOut,
-      `Market Intelligence live endpoint probe did not complete: ${timedOut?.[0]} (${timedOut?.[1]?.err || "unknown"})`
-    );
-
+    // Each probe must have completed (no hard timeout / ECONNRESET).
     // Status <500 is the contract: route handler ran (even if it returned
     // a documented 4xx error body). Body must parse as JSON OR be null
     // when the response had no body. The spec is intentionally loose on
     // the response shape — that's what the unit tests + UI render spec
     // guard. Here we just confirm the route is reachable and well-formed.
-    for (const [name, p] of probes) {
+    for (const [name, p] of [["news", news], ["macro", macro], ["verdict", verdict], ["heatmap", heatmap], ["catalysts", catalysts], ["discovery", discovery]]) {
+      expect(p.ok, `${name} probe must complete (got error: ${p.err || "none"})`).toBe(true);
       expect(p.status, `${name} status must be <500 (got ${p.status})`).toBeLessThan(500);
       // Body must parse OR be null. We don't fail on null because
       // /api/sector-heatmap may legitimately return an empty body when
@@ -97,6 +94,11 @@ test.describe("Market Intelligence tab", () => {
     if (verdict.body?.signals) {
       expect(Array.isArray(verdict.body.signals)).toBe(true);
       expect(typeof verdict.body.score).toBe("number");
+    }
+    if (discovery.body?.schema_version) {
+      expect(discovery.body.schema_version).toBe("sws-discovery-feed-v1");
+      expect(Array.isArray(discovery.body.items)).toBe(true);
+      expect(typeof discovery.body.sections).toBe("object");
     }
   });
 
@@ -205,6 +207,74 @@ test.describe("Market Intelligence tab", () => {
         body: JSON.stringify({ sectors: [] }),
       }),
     );
+    await page.route("**/api/sws-discovery-feed", (route) =>
+      route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          schema_version: "sws-discovery-feed-v1",
+          generated_at: generatedAt,
+          available: true,
+          lanes: [
+            { id: "future_breakout", label: "Future Breakout" },
+            { id: "off_section_high_future", label: "Off-section High Future" },
+            { id: "momentum_news_confirmed", label: "Momentum + News" },
+            { id: "upgrade_watch", label: "Upgrade Watch" },
+          ],
+          counts: { universe: 2, items: 2, future_breakout: 1, off_section_high_future: 1, momentum_news_confirmed: 1, upgrade_watch: 0 },
+          items: [
+            {
+              ticker: "KRISHNADEF",
+              name: "Krishna Defence and Allied Industries Limited",
+              lanes: [{ id: "momentum_news_confirmed", label: "Momentum + News" }],
+              radar_score: 82,
+              v4_score: 61.9,
+              v4_verdict: "TOP_PICK",
+              future_growth: 0,
+              returns: { r7d: 7.3, r1m: -5, r3m: 13, r6m: 63, r1y: 27 },
+              latest_headline: "Full year 2026 earnings released: EPS up strongly",
+              section_membership: [{ id: "snowflake_gap_lab", label: "Snowflake Gap Lab", actionable: false }],
+              caution_flags: ["future_data_unavailable"],
+              why_surfaced: "Positive tape plus material recent headline.",
+            },
+            {
+              ticker: "FINOPB",
+              name: "Fino Payments Bank Limited",
+              lanes: [{ id: "off_section_high_future", label: "Off-section High Future" }],
+              radar_score: 68,
+              v4_score: 47.4,
+              v4_verdict: "STRONG",
+              future_growth: 5,
+              returns: { r7d: 3.2, r1m: 2.3, r3m: -25.1, r6m: -50.4, r1y: -50.5 },
+              latest_headline: "New minor risk - Profit margin trend",
+              section_membership: [],
+              caution_flags: ["needs_tape_confirmation"],
+              why_surfaced: "Future Growth 5/6 with V4 47.4; not in an actionable curated section.",
+            },
+          ],
+          sections: {
+            future_breakout: [],
+            off_section_high_future: [],
+            momentum_news_confirmed: [],
+            upgrade_watch: [],
+          },
+        }),
+      }),
+    );
+    await page.route("**/api/sws-stock/KRISHNADEF", (route) =>
+      route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          ticker: "KRISHNADEF",
+          card: { ticker: "KRISHNADEF", name: "Krishna Defence and Allied Industries Limited", sector: "Capital Goods", v4_score: 61.9, v4_verdict: "TOP_PICK", current_price_inr: 1217.3 },
+          deep: { overview: { name: "Krishna Defence and Allied Industries Limited", sector: "Capital Goods", snowflake: { future: 0, future_growth: 0 } } },
+          returns_pct: { "7D": 7.3, "3M": 13 },
+          in_sections: ["snowflake_gap_lab"],
+          currency: "INR",
+        }),
+      }),
+    );
 
     await gotoApp(page);
     await switchTab(page, "news");
@@ -231,6 +301,18 @@ test.describe("Market Intelligence tab", () => {
     await expect(page.getByTestId("market-catalysts-card")).toContainText("Upcoming Catalysts");
     await expect(page.getByTestId("market-catalysts-card")).toContainText("Reliance Industries");
     await expect(page.getByTestId("market-catalysts-card")).toContainText("RBI MPC minutes");
+    await expect(page.getByTestId("discovery-radar-card")).toBeVisible();
+    await expect(page.getByTestId("discovery-radar-card")).toContainText("Discovery Radar");
+    await expect(page.getByTestId("discovery-radar-card")).toContainText("KRISHNADEF");
+    await expect(page.getByTestId("discovery-radar-card")).toContainText("FINOPB");
+    await page.getByRole("button", { name: /Off-section High Future/ }).click();
+    await expect(page.getByTestId("discovery-radar-row")).toHaveCount(1);
+    await expect(page.getByTestId("discovery-radar-card")).toContainText("FINOPB");
+    await expect(page.getByTestId("discovery-radar-card")).not.toContainText("KRISHNADEF");
+    await page.getByRole("button", { name: /Momentum \+ News/ }).click();
+    await page.getByTestId("discovery-radar-row").first().click();
+    await expect(page.locator("#swsModalBackdrop.open")).toBeVisible();
+    await expect(page.locator("#swsModalBackdrop")).toContainText("KRISHNADEF");
     await expect(page.getByTestId("market-verdict-card")).not.toContainText("Deploy capital with confidence");
     await expect(page.getByTestId("market-verdict-card")).not.toContainText("proven edge");
   });

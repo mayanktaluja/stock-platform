@@ -20,6 +20,7 @@ export function makeFakeBackend(opts = {}) {
   const {
     picksLatest = null,
     scoredUniverse = null,
+    discoveryFeed = null,
     universeIndex = null,
     lastRefresh = null,
     v3UniverseStats = null,
@@ -32,6 +33,7 @@ export function makeFakeBackend(opts = {}) {
   return {
     getPicksLatest: () => picksLatest,
     getScoredUniverse: () => scoredUniverse,
+    getDiscoveryFeed: () => discoveryFeed,
     getUniverseIndex: () => {
       if (universeIndex instanceof Map) return universeIndex;
       if (universeIndex && typeof universeIndex === "object") {
