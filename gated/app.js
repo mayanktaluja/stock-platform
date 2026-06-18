@@ -3926,6 +3926,8 @@ function renderPortfolioHoldingCard(h) {
 
 let _newsDigest = null; // cached digest for filter re-renders
 let _newsLoading = false; // debounce concurrent loads
+let _discoveryRadarFeed = null;
+let _discoveryRadarFilter = "all";
 
 function setNewsLoadingBanner(visible) {
   const b = document.getElementById("newsLoadingBanner");
@@ -3941,13 +3943,14 @@ async function loadMarketNews(opts = {}) {
   const container = document.getElementById("newsContainer");
 
   try {
-    // Five endpoints feed the Market Intelligence tab: digest, macro regime, verdict, heatmap, catalysts
-    const [newsRes, macroRes, verdictRes, heatmapRes, catalystsRes] = await Promise.all([
+    // Market Intelligence combines digest, macro, verdict, catalysts, sector heatmap, and the SWS discovery review queue.
+    const [newsRes, macroRes, verdictRes, heatmapRes, catalystsRes, discoveryRes] = await Promise.all([
       fetch("/api/news/market"),
       fetch("/api/macro/regime").catch(() => null),
       fetch("/api/market-verdict").catch(() => null),
       fetch("/api/sector-heatmap").catch(() => null),
       fetch("/api/catalysts/today").catch(() => null),
+      fetch("/api/sws-discovery-feed").catch(() => null),
     ]);
     const data = await newsRes.json();
     const macroRegime = macroRes && macroRes.ok ? await macroRes.json().catch(() => null) : null;
@@ -3956,6 +3959,9 @@ async function loadMarketNews(opts = {}) {
     const catalysts = catalystsRes && catalystsRes.ok
       ? await catalystsRes.json().catch(() => null)
       : { status: "unavailable", message: "Catalyst context unavailable." };
+    const discovery = discoveryRes && discoveryRes.ok
+      ? await discoveryRes.json().catch(() => null)
+      : { available: false, items: [], sections: {} };
 
     if (data.error) {
       container.innerHTML = `<div class="empty-state"><div class="empty-icon">&#9888;</div><div class="empty-text">${escapeHtml(data.error)}</div></div>`;
@@ -3967,7 +3973,7 @@ async function loadMarketNews(opts = {}) {
     const updatedEl = document.getElementById("newsLastUpdated");
     if (updatedEl) updatedEl.textContent = `Updated: ${new Date(data.lastUpdated).toLocaleTimeString("en-IN")}`;
 
-    renderNewsPage(_newsDigest, verdict, heatmap, macroRegime, catalysts);
+    renderNewsPage(_newsDigest, verdict, heatmap, macroRegime, catalysts, discovery);
   } catch (err) {
     container.innerHTML = `<div class="empty-state"><div class="empty-icon">&#9888;</div><div class="empty-text">Failed to load news. Try again.</div></div>`;
   } finally {
@@ -4100,13 +4106,132 @@ function renderUpcomingCatalysts(catalysts) {
     </div>`;
 }
 
-function renderNewsPage(digest, verdict, heatmap, macroRegime, catalysts) {
+function discoveryLaneLabel(id) {
+  const labels = {
+    future_breakout: "Future Breakout",
+    off_section_high_future: "Off-section High Future",
+    momentum_news_confirmed: "Momentum + News",
+    upgrade_watch: "Upgrade Watch",
+  };
+  return labels[id] || String(id || "").replace(/_/g, " ");
+}
+
+function discoveryCautionLabel(flag) {
+  const labels = {
+    needs_tape_confirmation: "Needs tape/news confirmation",
+    future_data_unavailable: "Future data unavailable",
+    news_headwind: "News headwind",
+    fv_unavailable: "FV unavailable",
+    extended_momentum: "Extended momentum",
+    multi_risk_flag: "Multiple risk flags",
+    surveillance_hard_caution: "ASM/surveillance caution",
+  };
+  return labels[flag] || String(flag || "").replace(/_/g, " ");
+}
+
+function formatDiscoveryReturn(value) {
+  if (value == null || value === "") return "N/A";
+  const n = Number(value);
+  if (!Number.isFinite(n)) return "N/A";
+  return `${n >= 0 ? "+" : ""}${n.toFixed(1)}%`;
+}
+
+function renderDiscoveryRadar(feed) {
+  _discoveryRadarFeed = feed || null;
+  const lanes = Array.isArray(feed?.lanes) && feed.lanes.length
+    ? feed.lanes
+    : [
+        { id: "future_breakout", label: "Future Breakout" },
+        { id: "off_section_high_future", label: "Off-section High Future" },
+        { id: "momentum_news_confirmed", label: "Momentum + News" },
+        { id: "upgrade_watch", label: "Upgrade Watch" },
+      ];
+  const items = Array.isArray(feed?.items) ? feed.items : [];
+  const filteredItems = _discoveryRadarFilter === "all"
+    ? items
+    : items.filter((item) => (item.lanes || []).some((lane) => lane.id === _discoveryRadarFilter));
+  const countFor = (laneId) => laneId === "all"
+    ? items.length
+    : items.filter((item) => (item.lanes || []).some((lane) => lane.id === laneId)).length;
+  const generated = feed?.generated_at
+    ? new Date(feed.generated_at).toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" })
+    : "Warming";
+  const chip = (lane) => {
+    const active = _discoveryRadarFilter === lane.id;
+    return `<button type="button" data-testid="discovery-radar-lane-chip" data-lane="${escapeHtml(lane.id)}" onclick="setDiscoveryRadarFilter('${escapeHtml(lane.id)}')" style="border:1px solid ${active ? 'rgba(96,165,250,0.65)' : 'var(--border)'};background:${active ? 'rgba(96,165,250,0.18)' : 'rgba(255,255,255,0.035)'};color:${active ? '#bfdbfe' : 'var(--text-secondary)'};border-radius:7px;padding:7px 10px;font-size:11px;font-weight:800;cursor:pointer;">${escapeHtml(lane.label)} <span style="font-family:'JetBrains Mono',monospace;color:var(--text-muted);">${countFor(lane.id)}</span></button>`;
+  };
+  const rows = filteredItems.slice(0, 30).map((item) => {
+    const laneBadges = (item.lanes || []).map((lane) => `<span style="display:inline-flex;align-items:center;padding:3px 7px;border-radius:6px;background:rgba(34,211,238,0.08);border:1px solid rgba(34,211,238,0.22);color:#67e8f9;font-size:10px;font-weight:800;">${escapeHtml(lane.label || discoveryLaneLabel(lane.id))}</span>`).join("");
+    const cautions = (item.caution_flags || []).slice(0, 3).map((flag) => `<span style="display:inline-flex;align-items:center;padding:3px 7px;border-radius:6px;background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.22);color:#fbbf24;font-size:10px;font-weight:700;">${escapeHtml(discoveryCautionLabel(flag))}</span>`).join("");
+    const sections = (item.section_membership || []).length
+      ? item.section_membership.map((s) => s.label || s.id).slice(0, 2).join(", ")
+      : "Off-section";
+    return `
+      <div data-testid="discovery-radar-row" data-ticker="${escapeHtml(item.ticker)}" data-lanes="${escapeHtml((item.lanes || []).map((lane) => lane.id).join(","))}" onclick="openStockDetailModal('${escapeHtml(item.ticker)}','market-intelligence-discovery')" style="display:grid;grid-template-columns:minmax(155px,1.05fr) minmax(150px,0.9fr) minmax(155px,1fr) minmax(220px,1.5fr);gap:12px;align-items:start;padding:13px 14px;border-top:1px solid rgba(255,255,255,0.06);cursor:pointer;background:rgba(255,255,255,0.015);transition:background .15s;" onmouseover="this.style.background='rgba(255,255,255,0.045)';" onmouseout="this.style.background='rgba(255,255,255,0.015)';">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+            <span style="font-size:13px;font-weight:900;color:var(--text-primary);font-family:'JetBrains Mono',monospace;">${escapeHtml(item.ticker)}</span>
+            <span style="font-size:11px;color:var(--text-muted);">Score ${Number(item.radar_score || 0).toFixed(0)}</span>
+          </div>
+          <div style="font-size:12px;color:var(--text-secondary);margin-top:3px;line-height:1.35;">${escapeHtml(item.name || item.ticker)}</div>
+          <div style="font-size:10px;color:var(--text-muted);margin-top:5px;">${escapeHtml(sections)}</div>
+        </div>
+        <div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;">${laneBadges}</div>
+          <div style="font-size:11px;color:var(--text-secondary);">V4 <strong style="color:var(--text-primary);">${escapeHtml(item.v4_score ?? "N/A")}</strong> · ${escapeHtml(item.v4_verdict || "N/A")}</div>
+          <div style="font-size:11px;color:var(--text-secondary);margin-top:4px;">Future <strong style="color:${Number(item.future_growth) >= 4 ? 'var(--green)' : 'var(--text-primary)'};">${escapeHtml(item.future_growth ?? "N/A")}/6</strong></div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(5,minmax(42px,1fr));gap:5px;">
+          ${[["7D", "r7d"], ["1M", "r1m"], ["3M", "r3m"], ["6M", "r6m"], ["1Y", "r1y"]].map(([label, key]) => {
+            const value = item.returns?.[key];
+            const color = Number(value) > 0 ? "var(--green)" : Number(value) < 0 ? "var(--red)" : "var(--text-muted)";
+            return `<div style="padding:5px 4px;border-radius:6px;background:rgba(255,255,255,0.035);border:1px solid rgba(255,255,255,0.05);text-align:center;"><div style="font-size:9px;color:var(--text-muted);">${label}</div><div style="font-size:10px;color:${color};font-weight:800;font-family:'JetBrains Mono',monospace;">${escapeHtml(formatDiscoveryReturn(value))}</div></div>`;
+          }).join("")}
+        </div>
+        <div>
+          <div style="font-size:12px;color:var(--text-primary);line-height:1.45;">${escapeHtml(item.why_surfaced || item.latest_headline || "Review queue candidate.")}</div>
+          ${item.latest_headline ? `<div style="font-size:11px;color:var(--text-muted);line-height:1.35;margin-top:5px;">${escapeHtml(item.latest_headline)}</div>` : ""}
+          ${cautions ? `<div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;">${cautions}</div>` : ""}
+        </div>
+      </div>`;
+  }).join("");
+
+  return `
+    <div id="discoveryRadarCard" data-testid="discovery-radar-card" style="background:rgba(255,255,255,0.035);border:1px solid var(--border);border-radius:var(--card-radius);padding:18px 22px;margin-bottom:24px;">
+      <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap;margin-bottom:14px;">
+        <div>
+          <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);font-weight:800;margin-bottom:5px;">SWS Discovery Radar</div>
+          <div style="font-size:17px;font-weight:900;color:var(--text-primary);">Review queue, not a buy-now list</div>
+          <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;max-width:780px;">${escapeHtml(feed?.copy?.subtitle || "Stocks where future growth, price momentum, news, or confirmed SWS input changes are becoming interesting.")}</div>
+        </div>
+        <div style="text-align:right;font-size:11px;color:var(--text-muted);">
+          <div>${escapeHtml(generated)}</div>
+          <div>${Number(feed?.counts?.items || items.length)} names · ${Number(feed?.counts?.universe || 0)} scanned</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
+        ${chip({ id: "all", label: "All" })}
+        ${lanes.map(chip).join("")}
+      </div>
+      ${feed?.available === false ? `<div style="font-size:12px;color:var(--yellow);padding:10px 12px;border-radius:8px;background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.22);">Discovery Radar is warming. The next SWS refresh will publish the feed.</div>` : rows || `<div style="font-size:12px;color:var(--text-muted);">No SWS names cleared the Discovery Radar review thresholds in the latest run.</div>`}
+    </div>`;
+}
+
+function setDiscoveryRadarFilter(laneId) {
+  _discoveryRadarFilter = laneId || "all";
+  const card = document.getElementById("discoveryRadarCard");
+  if (card) card.outerHTML = renderDiscoveryRadar(_discoveryRadarFeed);
+}
+window.setDiscoveryRadarFilter = setDiscoveryRadarFilter;
+
+function renderNewsPage(digest, verdict, heatmap, macroRegime, catalysts, discovery) {
   const container = document.getElementById("newsContainer");
 
   let html = "";
 
   html += renderMacroRegimeCard(macroRegime);
   html += renderMarketVerdictCard(verdict);
+  html += renderDiscoveryRadar(discovery);
   html += renderUpcomingCatalysts(catalysts);
 
   // ── Market Digest (the morning briefing) ──

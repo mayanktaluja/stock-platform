@@ -386,7 +386,22 @@ fi
 echo "[refresh-api] building SWS input-diff alert artifacts..."
 node scripts/sws-build-input-diff.mjs --run-id "${RUN_STARTED_ISO}" 2>&1 | sed 's/^/[input-diff] /'
 
-# ---------- 8d. Price freshness gate ----------
+# ---------- 8d. Discovery Radar feed + formatted email ----------
+#
+# Built after input-diff so Upgrade Watch uses the same two-run-confirmed
+# SWS input changes as the alert system. Email is non-fatal: the committed
+# artifact is the product source of truth, and the mail provider may be
+# temporarily unavailable.
+
+echo "[refresh-api] building SWS Discovery Radar feed..."
+node scripts/sws-build-discovery-feed.mjs --run-id "${RUN_STARTED_ISO}" 2>&1 | sed 's/^/[discovery-feed] /'
+if [ "${SWS_DISCOVERY_MAIL_ENABLED:-1}" != "0" ]; then
+  if ! node scripts/sws-mail-discovery-feed.mjs 2>&1 | sed 's/^/[discovery-mail] /'; then
+    echo "[refresh-api] Discovery Radar email failed — non-fatal, artifact was still generated"
+  fi
+fi
+
+# ---------- 8e. Price freshness gate ----------
 
 PRICE_GATE_REPORT="data/sws/_sanity/price-freshness-inline.json"
 mkdir -p data/sws/_sanity
@@ -692,7 +707,7 @@ if [ "${SWS_AUTO_PR:-1}" != "0" ] \
   echo "[refresh-api] auto-PR: branching ${AUTO_BRANCH} from ${ORIGINAL_BRANCH}"
 
   if git checkout -b "${AUTO_BRANCH}" >/dev/null 2>&1; then
-    git add data/sws/picks-latest.json data/sws/last-refresh.json data/sws/v4-universe-stats.json data/sws/v3-universe-stats.json data/sws/sws-scored-universe.json data/sws/alerts/input-signatures-latest.json data/sws/alerts/input-alert-confirmation-state.json data/sws/alerts/fundamental-changes-latest.json data/sws/groww-stock-failed.json data/sws/groww-pe-latest.json data/sws/groww-pe-failed.json data/sws/chronos-forecast-latest.json data/sws/chronos-forecast-health.json data/track-record/section-performance-latest.json 2>/dev/null
+    git add data/sws/picks-latest.json data/sws/last-refresh.json data/sws/v4-universe-stats.json data/sws/v3-universe-stats.json data/sws/sws-scored-universe.json data/sws/discovery-feed-latest.json data/sws/alerts/input-signatures-latest.json data/sws/alerts/input-alert-confirmation-state.json data/sws/alerts/fundamental-changes-latest.json data/sws/groww-stock-failed.json data/sws/groww-pe-latest.json data/sws/groww-pe-failed.json data/sws/chronos-forecast-latest.json data/sws/chronos-forecast-health.json data/track-record/section-performance-latest.json 2>/dev/null
     # Pack 5,517-file deep/ into a single tarball so Vercel can bundle it
     # without tripping its 15k source-file cap. swsDal's jsonBackend lazy-
     # extracts to /tmp on first read in a cold container. Pack BEFORE the

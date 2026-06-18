@@ -47,6 +47,10 @@ export function getScoredUniverse() {
   return _backend.getScoredUniverse();
 }
 
+export function getDiscoveryFeed() {
+  return _backend.getDiscoveryFeed?.() ?? null;
+}
+
 export function getUniverseIndex() {
   return _backend.getUniverseIndex();
 }

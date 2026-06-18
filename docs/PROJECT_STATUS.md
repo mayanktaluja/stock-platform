@@ -75,6 +75,14 @@ experimental surface area and nightly refresh load.
   alone from lifting weak-quality names into the top tier.
 
 ### Market Intelligence backdrop safety (June 2026)
+- **This PR** — Market Intelligence now has a first-class SWS Discovery Radar
+  review queue backed by `data/sws/discovery-feed-latest.json` and
+  `/api/sws-discovery-feed`. The radar catches FINOPB-style off-section high
+  Future Growth names and KRISHNADEF-style momentum/news names where Future
+  Growth is unavailable or false-zero, keeps the copy explicitly review-only
+  rather than buy-now, reuses the existing SWS stock modal, and sends a
+  formatted nightly HTML digest from the same artifact after the confirmed
+  input-diff step.
 - **This PR** — Market Intelligence now treats the market verdict as a
   conservative backdrop read rather than a deterministic buy-day command. The
   `/api/market-verdict` route delegates to a pure `buildMarketVerdict()` engine,

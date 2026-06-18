@@ -192,6 +192,7 @@ const REQUIRED_ROOT_FIXTURES = [
 const REQUIRED_NESTED_RUNTIME_FILES = [
   "data/sws/chronos-forecast-latest.json",
   "data/sws/chronos-forecast-health.json",
+  "data/sws/discovery-feed-latest.json",
   "data/sectorOutlook/outlook-latest.json",
   "data/nse-fo/oi-deltas-latest.json",
   "data/risk-lab/picks-adjusted-latest.json",
