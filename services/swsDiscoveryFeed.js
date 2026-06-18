@@ -71,6 +71,63 @@ function getReturns(row, deep) {
   };
 }
 
+function getUpsidePct(row, deep) {
+  const ov = pickOverview(deep);
+  return firstNumber(
+    row?.upside_pct,
+    row?.fv_upside_pct,
+    row?.fair_value_upside_pct,
+    row?.analyst_upside_pct,
+    ov?.upside_pct,
+    ov?.fv_upside_pct,
+    ov?.fair_value_upside_pct,
+    ov?.analyst_upside_pct,
+  );
+}
+
+function getCurrentPrice(row, deep) {
+  const ov = pickOverview(deep);
+  return firstNumber(
+    row?.current_price_inr,
+    row?.price_inr,
+    row?.current_price,
+    row?.price,
+    ov?.current_price_inr,
+    ov?.price_inr,
+    ov?.current_price,
+    ov?.price,
+  );
+}
+
+function midpointRangeValue(range) {
+  const min = firstNumber(range?.min);
+  const max = firstNumber(range?.max);
+  if (min != null && max != null && min > 0 && max > 0) return (min + max) / 2;
+  return firstNumber(min, max);
+}
+
+function getDisplayUpside(row, deep) {
+  const trusted = getUpsidePct(row, deep);
+  if (trusted != null) return { value: trusted, source: "trusted_fv", displayOnly: false };
+
+  const ov = pickOverview(deep);
+  const price = getCurrentPrice(row, deep);
+  const visibleFairValue = firstNumber(
+    ov?.fair_value_display_inr,
+    ov?.sws_fair_value_inr,
+    midpointRangeValue(ov?.fair_value_range_inr),
+  );
+  if (price != null && price > 0 && visibleFairValue != null && visibleFairValue > 0) {
+    return {
+      value: ((visibleFairValue - price) / price) * 100,
+      source: "sws_visible_range_midpoint",
+      displayOnly: true,
+    };
+  }
+
+  return { value: null, source: "missing", displayOnly: false };
+}
+
 function momentumScore(returns) {
   let score = 0;
   if ((returns.r7d ?? -Infinity) >= 5) score += 8;
@@ -238,6 +295,8 @@ export function classifyDiscoveryItem(row, { deep = null, sections = [], inputCh
   const verdict = row?.v4_verdict || row?.canonical_score?.verdict || row?.composite_verdict || row?.verdict || null;
   const future = getSnowflakeFuture(row, deep);
   const returns = getReturns(row, deep);
+  const displayUpside = getDisplayUpside(row, deep);
+  const upsidePct = displayUpside.value;
   const news = scoreNews(deep, generatedAt);
   const momentum = momentumScore(returns);
   const currentFutureHigh = future != null && future >= 4;
@@ -261,7 +320,8 @@ export function classifyDiscoveryItem(row, { deep = null, sections = [], inputCh
   if (currentFutureHigh && !(momentum > 0 && news.score > 0)) cautions.push("needs_tape_confirmation");
   if (isFutureDataUnavailable(future, deep)) cautions.push("future_data_unavailable");
   if (news.score < 0) cautions.push("news_headwind");
-  if (row?.fair_value_inr == null && row?.upside_pct == null) cautions.push("fv_unavailable");
+  if (displayUpside.displayOnly) cautions.push("fv_display_only_range");
+  if (row?.fair_value_inr == null && upsidePct == null) cautions.push("fv_unavailable");
   if ((returns.r1m ?? 0) >= 25 || (returns.r6m ?? 0) >= 60) cautions.push("extended_momentum");
   if ((row?.risk_overlay?.risks_count ?? 0) >= 4) cautions.push("multi_risk_flag");
 
@@ -292,6 +352,9 @@ export function classifyDiscoveryItem(row, { deep = null, sections = [], inputCh
     v4_score: v4,
     v4_verdict: verdict,
     future_growth: future,
+    upside_pct: upsidePct,
+    upside_source: displayUpside.source,
+    upside_display_only: displayUpside.displayOnly,
     returns,
     latest_headline: news.top_headlines[0]?.title || null,
     news_signal: news,
@@ -371,6 +434,22 @@ function htmlEscape(value) {
     .replace(/"/g, "&quot;");
 }
 
+function upsideSourceLabel(item) {
+  if (item?.upside_display_only) return "SWS range";
+  if (item?.upside_pct == null) return "";
+  return "Trusted FV";
+}
+
+function renderUpsideHtml(item) {
+  const label = upsideSourceLabel(item);
+  return `${htmlEscape(pct(item?.upside_pct))}${label ? `<br><span style="color:#6b7280;">${htmlEscape(label)}</span>` : ""}`;
+}
+
+function renderUpsideText(item) {
+  const label = upsideSourceLabel(item);
+  return `${pct(item?.upside_pct)}${label ? ` (${label})` : ""}`;
+}
+
 function renderEmailTable(title, items) {
   if (!items?.length) return "";
   const rows = items.slice(0, 30).map((item) => `
@@ -378,6 +457,7 @@ function renderEmailTable(title, items) {
       <td style="padding:10px;border-bottom:1px solid #e5e7eb;"><strong>${htmlEscape(item.ticker)}</strong><br><span style="color:#6b7280;">${htmlEscape(item.name)}</span></td>
       <td style="padding:10px;border-bottom:1px solid #e5e7eb;">${htmlEscape(item.v4_score ?? "N/A")}<br><span style="color:#6b7280;">${htmlEscape(item.v4_verdict || "N/A")}</span></td>
       <td style="padding:10px;border-bottom:1px solid #e5e7eb;">${htmlEscape(item.future_growth ?? "N/A")}/6</td>
+      <td style="padding:10px;border-bottom:1px solid #e5e7eb;">${renderUpsideHtml(item)}</td>
       <td style="padding:10px;border-bottom:1px solid #e5e7eb;">7D ${htmlEscape(pct(item.returns?.r7d))}<br>1M ${htmlEscape(pct(item.returns?.r1m))}<br>3M ${htmlEscape(pct(item.returns?.r3m))}</td>
       <td style="padding:10px;border-bottom:1px solid #e5e7eb;">${htmlEscape(item.why_surfaced)}${item.caution_flags?.length ? `<br><span style="color:#b45309;">Caution: ${htmlEscape(item.caution_flags.join(", "))}</span>` : ""}</td>
     </tr>`).join("");
@@ -385,7 +465,7 @@ function renderEmailTable(title, items) {
     <h2 style="font-size:17px;margin:24px 0 8px;color:#111827;">${htmlEscape(title)}</h2>
     <table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;border-collapse:collapse;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;">
       <thead><tr style="background:#f9fafb;color:#374151;text-align:left;font-size:12px;text-transform:uppercase;">
-        <th style="padding:9px;">Stock</th><th style="padding:9px;">V4</th><th style="padding:9px;">Future</th><th style="padding:9px;">Tape</th><th style="padding:9px;">Why surfaced</th>
+        <th style="padding:9px;">Stock</th><th style="padding:9px;">V4</th><th style="padding:9px;">Future</th><th style="padding:9px;">Upside</th><th style="padding:9px;">Tape</th><th style="padding:9px;">Why surfaced</th>
       </tr></thead>
       <tbody>${rows}</tbody>
     </table>`;
@@ -427,7 +507,7 @@ export function buildDiscoveryFeedEmail(feed, { baseUrl = "https://starbhai-stoc
     ...DISCOVERY_LANES.flatMap((lane) => {
       const rows = (feed?.sections?.[lane.id] || []).slice(0, 30);
       if (!rows.length) return [];
-      return [lane.label, ...rows.map((item) => `${item.ticker}: V4 ${item.v4_score ?? "N/A"}, Future ${item.future_growth ?? "N/A"}/6, ${item.why_surfaced}`), ""];
+      return [lane.label, ...rows.map((item) => `${item.ticker}: V4 ${item.v4_score ?? "N/A"}, Future ${item.future_growth ?? "N/A"}/6, Upside ${renderUpsideText(item)}, ${item.why_surfaced}`), ""];
     }),
   ].join("\n");
   return { subject, html, text };
