@@ -3197,7 +3197,7 @@ function _renderUsersTable(users) {
         : `<tr><td colspan="3" style="padding:12px;color:var(--text-muted);text-align:center;">No visit log yet — first tracked visit will appear here.</td></tr>`;
       drilldown = `
         <tr>
-          <td colspan="8" style="padding:0;background:rgba(255,255,255,0.02);">
+          <td colspan="9" style="padding:0;background:rgba(255,255,255,0.02);">
             <div style="padding:12px 16px;">
               <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">Visit log (most recent first)</div>
               <table style="width:100%;border-collapse:collapse;font-size:12px;">
@@ -3221,6 +3221,15 @@ function _renderUsersTable(users) {
             onclick="event.stopPropagation()"
             style="color:var(--info-text);text-decoration:underline;font-size:12px;">XLSX</a>`
       : '<span style="color:var(--text-muted);font-size:12px;">—</span>';
+    const swsPrefs = u.notificationPrefs?.swsInputAlerts || {};
+    const swsEmailEnabled = swsPrefs.email !== false;
+    const swsEmailCell = swsEmailEnabled
+      ? `<div style="display:flex;align-items:center;justify-content:flex-end;gap:8px;">
+          <span style="color:var(--gold);font-size:12px;font-weight:700;">On</span>
+          <button type="button" data-sws-email-action="off" data-user-sub="${_escHtml(u.sub)}"
+                  style="border:1px solid rgba(248,113,113,0.35);background:rgba(248,113,113,0.08);color:#fca5a5;border-radius:6px;padding:4px 8px;font-size:11px;font-weight:700;cursor:pointer;">Turn off</button>
+        </div>`
+      : '<span style="color:var(--text-muted);font-size:12px;font-weight:700;">Off</span>';
 
     return `
       <tr style="cursor:pointer;border-bottom:1px solid var(--bg-graphite);" onclick="_toggleUserRow('${_escHtml(u.sub)}')">
@@ -3234,6 +3243,7 @@ function _renderUsersTable(users) {
         <td style="padding:10px 12px;font-variant-numeric:tabular-nums;font-size:12px;" title="Last activity (any authenticated request)">${_escHtml(_fmtIST(lastSeenAt))}</td>
         <td style="padding:10px 12px;font-variant-numeric:tabular-nums;text-align:right;" title="Total OAuth logins (cookie expires every 30 days)">${visitCount}</td>
         <td style="padding:10px 12px;font-variant-numeric:tabular-nums;text-align:right;" title="Distinct visits — new session counted after 30+ min idle gap">${sessionCount}</td>
+        <td style="padding:10px 12px;text-align:right;">${swsEmailCell}</td>
         <td style="padding:10px 12px;text-align:right;">${portfolioCell}</td>
       </tr>
       ${drilldown}
@@ -3251,6 +3261,7 @@ function _renderUsersTable(users) {
           <th style="padding:10px 12px;font-weight:500;">Last seen</th>
           <th style="padding:10px 12px;font-weight:500;text-align:right;" title="Total OAuth logins">Visits</th>
           <th style="padding:10px 12px;font-weight:500;text-align:right;" title="Distinct platform visits — new session after 30+ min idle">Sessions</th>
+          <th style="padding:10px 12px;font-weight:500;text-align:right;">SWS email</th>
           <th style="padding:10px 12px;font-weight:500;text-align:right;">Portfolio</th>
         </tr>
       </thead>
@@ -3265,12 +3276,44 @@ function _toggleUserRow(sub) {
   loadUsersList({ silent: true, useCache: true });
 }
 
+function wireUsersTableActions(container) {
+  if (!container || container.__starbhaiUsersActionsReady) return;
+  container.__starbhaiUsersActionsReady = true;
+  container.addEventListener("click", async (event) => {
+    const btn = event.target?.closest?.("[data-sws-email-action]");
+    if (!btn) return;
+    event.preventDefault();
+    event.stopPropagation();
+    const sub = btn.getAttribute("data-user-sub");
+    if (!sub) return;
+    const previousText = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = "Saving...";
+    try {
+      const res = await fetch(`/api/admin/users/${encodeURIComponent(sub)}/sws-input-alerts/prefs`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
+        body: JSON.stringify({ email: false }),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      _usersCache = null;
+      await loadUsersList({ silent: true });
+    } catch (err) {
+      btn.disabled = false;
+      btn.textContent = previousText;
+      if (window.console && console.warn) console.warn("[users] SWS email alert update failed:", err?.message);
+    }
+  });
+}
+
 let _usersCache = null;
 
 async function loadUsersList(opts = {}) {
   const container = document.getElementById("usersTabContent");
   const meta = document.getElementById("usersMeta");
   if (!container) return;
+  wireUsersTableActions(container);
 
   // Re-render from cache (used by the row toggle so we don't refetch on every
   // expand/collapse).

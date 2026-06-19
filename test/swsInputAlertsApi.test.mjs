@@ -3,6 +3,7 @@
  */
 
 import assert from "node:assert/strict";
+import { createHmac } from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { spawn } from "node:child_process";
@@ -48,6 +49,12 @@ async function waitForServer(child) {
     await new Promise((r) => setTimeout(r, 150));
   }
   throw new Error(`server did not start:\n${out}`);
+}
+
+function signTestSession(sub, secret) {
+  const payload = Buffer.from(`sess:${JSON.stringify({ sub, ts: Date.now() })}`, "utf8").toString("base64url");
+  const sig = createHmac("sha256", secret).update(payload).digest("hex");
+  return `${payload}.${sig}`;
 }
 
 const priors = new Map([[USERS, backup(USERS)], [ANALYZER, backup(ANALYZER)], [LEDGER, backup(LEDGER)], [PORTFOLIO_HISTORY, backup(PORTFOLIO_HISTORY)], [CHANGES, backup(CHANGES)]]);
@@ -199,6 +206,12 @@ try {
   const sample = await request(port, "POST", "/api/admin/sws-input-alerts/sample-email");
   assert.equal(sample.status, 401);
   assert.equal(sample.json.error, "auth-disabled");
+
+  const forbiddenAdminPrefs = await request(port, "POST", "/api/admin/users/user_default_on/sws-input-alerts/prefs", {
+    body: { email: false },
+  });
+  assert.equal(forbiddenAdminPrefs.status, 401);
+  assert.equal(forbiddenAdminPrefs.json.error, "auth-disabled");
 
   const forbiddenCron = await request(port, "POST", "/api/cron/sws-input-alerts/send");
   assert.equal(forbiddenCron.status, 401);
@@ -413,6 +426,84 @@ try {
   assert.equal(failedLedger.user_default_on.events[0].type, "EMAIL_FAILED");
   assert.equal(failedLedger.user_default_on.events.some((event) => event.type === "PORTFOLIO_ACTION_STATE"), false);
   assert.notEqual(failedLedger._local_dev.events[0].id, failedLedger.user_default_on.events[0].id);
+
+  await stopServer();
+  writeJson(CHANGES, {
+    schema_version: 2,
+    confirmation_policy: "two_consecutive_full_runs",
+    artifact_email_eligible: true,
+    run_id: "run-admin-prefs",
+    generated_at: "2026-06-10T00:00:00.000Z",
+    raw_change_count: 1,
+    pending_count: 0,
+    suppressed_unconfirmed_count: 0,
+    changes: [{
+      ticker: "INFY",
+      name: "Infosys",
+      severity: "medium",
+      change_hash: "hash-infy-admin",
+      changes: [{ field: "snowflake.future", previous: 3, current: 2, severity: "medium" }],
+    }],
+  });
+  writeJson(ANALYZER, {
+    target_bouncing_user: {
+      sub: "target_bouncing_user",
+      holdings: [{ symbol: "INFY.NS", quantity: 1, avgPrice: 100 }],
+      uploadedAt: "2026-06-10T00:00:00.000Z",
+    },
+  });
+  writeJson(USERS, {
+    admin_sub: {
+      sub: "admin_sub",
+      email: "mtaluja11@gmail.com",
+      notificationPrefs: {},
+    },
+    target_bouncing_user: {
+      sub: "target_bouncing_user",
+      email: "vikrant.deshmukh16@gmail.com",
+      notificationPrefs: {},
+    },
+  });
+  fs.rmSync(LEDGER, { force: true });
+  const sessionSecret = "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef";
+  await startServer({
+    STARBHAI_SESSION_SECRET: sessionSecret,
+    GOOGLE_CLIENT_ID: "test-client.apps.googleusercontent.com",
+    GOOGLE_CLIENT_SECRET: "test-secret",
+    GOOGLE_OAUTH_REDIRECT_URI: `http://localhost:${PORT}/api/auth/google/callback`,
+  });
+  const adminCookie = `starbhai_session=${signTestSession("admin_sub", sessionSecret)}`;
+  const adminUpdate = await request(PORT, "POST", "/api/admin/users/target_bouncing_user/sws-input-alerts/prefs", {
+    headers: { cookie: adminCookie },
+    body: { email: false },
+  });
+  assert.equal(adminUpdate.status, 200);
+  assert.equal(adminUpdate.json.ok, true);
+  assert.equal(adminUpdate.json.email, "vikrant.deshmukh16@gmail.com");
+  assert.deepEqual(adminUpdate.json.prefs, { inApp: true, email: false });
+
+  const persistedUsers = JSON.parse(fs.readFileSync(USERS, "utf-8"));
+  assert.equal(
+    persistedUsers.target_bouncing_user.notificationPrefs.swsInputAlerts.email,
+    false,
+    "admin endpoint persists target user's email opt-out",
+  );
+  assert.equal(
+    persistedUsers.target_bouncing_user.notificationPrefs.swsInputAlerts.inApp,
+    true,
+    "admin endpoint preserves/defaults in-app alerts on",
+  );
+
+  const cronAfterAdminUpdate = await request(PORT, "POST", "/api/cron/sws-input-alerts/send", {
+    headers: { authorization: "Bearer test-cron-secret" },
+  });
+  assert.equal(cronAfterAdminUpdate.status, 200);
+  assert.equal(cronAfterAdminUpdate.json.recipient_count, 0);
+  assert.equal(
+    cronAfterAdminUpdate.json.results.some((r) => r.email === "vikrant.deshmukh16@gmail.com"),
+    false,
+    "disabled target user is not included in cron send results",
+  );
 
   console.log("swsInputAlertsApi tests passed");
 } finally {
