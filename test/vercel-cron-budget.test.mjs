@@ -67,8 +67,8 @@ assert.deepEqual(
 
 assert.deepEqual(
   schedulesFor("/api/cron/sws-input-alerts/send"),
-  ["0 7 * * *"],
-  "SWS input alerts Vercel cron is a late retry only; primary delivery is the local post-deploy trigger because Hobby cron is hourly-precision",
+  ["0 3 * * *"],
+  "SWS input alerts fallback at 03:00 UTC keeps user emails near 08:30 IST; local post-deploy trigger remains primary",
 );
 
 assert.ok(
