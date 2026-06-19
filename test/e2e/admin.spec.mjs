@@ -81,6 +81,16 @@ test.describe("Admin endpoint protection (AUTH_ENABLED=false harness)", () => {
     expect(body.queued).toBeUndefined();
   });
 
+  test("POST /api/admin/users/:sub/sws-input-alerts/prefs returns 401 auth-disabled", async ({ request }) => {
+    const r = await request.post("/api/admin/users/some-fake-sub/sws-input-alerts/prefs", {
+      data: { email: false },
+      headers: { "Content-Type": "application/json" },
+    });
+    expect(r.status()).toBe(401);
+    const body = await r.json().catch(() => ({}));
+    expect(body.error).toBe("auth-disabled");
+  });
+
   test("admin error responses do not leak PII or stack traces", async ({ request }) => {
     for (const [method, urlPath] of ADMIN_READ_ENDPOINTS) {
       const r = method === "GET"
@@ -129,5 +139,65 @@ test.describe("Admin endpoint protection (AUTH_ENABLED=false harness)", () => {
     expect(r.status()).toBe(401);
     const body = await r.json().catch(() => ({}));
     expect(body.error).toBe("auth-disabled");
+  });
+
+  test("Users tab posts email=false and refreshes row status after Turn off", async ({ page }) => {
+    let emailEnabled = true;
+    let postedBody = null;
+
+    await page.route("**/api/admin/users", async (route) => {
+      if (route.request().method() !== "GET") return route.fallback();
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          count: 1,
+          users: [{
+            sub: "target_bouncing_user",
+            email: "vikrant.deshmukh16@gmail.com",
+            name: "Bouncing User",
+            createdAt: "2026-06-10T00:00:00.000Z",
+            lastSeenAt: "2026-06-10T01:00:00.000Z",
+            sessionCount: 1,
+            loginEvents: [],
+            hasPortfolio: true,
+            notificationPrefs: emailEnabled
+              ? {}
+              : { swsInputAlerts: { inApp: true, email: false } },
+          }],
+        }),
+      });
+    });
+    await page.route("**/api/admin/users/*/sws-input-alerts/prefs", async (route) => {
+      postedBody = route.request().postDataJSON();
+      emailEnabled = false;
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          ok: true,
+          sub: "target_bouncing_user",
+          email: "vikrant.deshmukh16@gmail.com",
+          prefs: { inApp: true, email: false },
+        }),
+      });
+    });
+
+    await page.goto("/");
+    await page.waitForFunction(() => typeof window.loadUsersList === "function");
+    await page.evaluate(() => {
+      const tab = document.getElementById("usersTab");
+      if (tab) tab.style.display = "block";
+    });
+    await page.evaluate(() => window.loadUsersList());
+
+    const usersTab = page.locator("#usersTabContent");
+    await expect(usersTab).toContainText("vikrant.deshmukh16@gmail.com");
+    await expect(usersTab.getByText("On", { exact: true })).toBeVisible();
+
+    await usersTab.getByRole("button", { name: "Turn off" }).click();
+    await expect.poll(() => postedBody).toEqual({ email: false });
+    await expect(usersTab.getByText("Off", { exact: true })).toBeVisible();
+    await expect(usersTab.getByRole("button", { name: "Turn off" })).toHaveCount(0);
   });
 });

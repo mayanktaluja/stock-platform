@@ -2354,6 +2354,42 @@ app.get("/api/admin/users", async (req, res) => {
 });
 
 /**
+ * POST /api/admin/users/:sub/sws-input-alerts/prefs
+ *
+ * Admin-only override for a user's SWS input-change notification preferences.
+ * This intentionally mutates only the email preference; the target user's
+ * in-app alert visibility is preserved so account/portfolio data remains
+ * untouched.
+ */
+app.post("/api/admin/users/:sub/sws-input-alerts/prefs", express.json(), async (req, res) => {
+  if (!(await requireAdminRequest(req, res))) return;
+  try {
+    const targetSub = String(req.params.sub || "");
+    const userStore = getUserStorage();
+    const target = await userStore.read(targetSub);
+    if (!target) return res.status(404).json({ error: "user-not-found" });
+    if (typeof req.body?.email !== "boolean") {
+      return res.status(400).json({ error: "email-boolean-required" });
+    }
+
+    const existingPrefs = readSwsInputAlertPrefs(target);
+    const updated = await updateSwsInputAlertPrefs(targetSub, {
+      inApp: existingPrefs.inApp,
+      email: req.body.email,
+    });
+    return res.json({
+      ok: true,
+      sub: targetSub,
+      email: updated.email || target.email || "",
+      prefs: readSwsInputAlertPrefs(updated),
+    });
+  } catch (err) {
+    console.error("[ADMIN:USERS] SWS input alert prefs update failed:", err.message);
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+/**
  * GET /api/admin/users/:sub/portfolio.xlsx
  *
  * Admin-only XLSX export of a single user's portfolio. Two sheets:
