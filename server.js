@@ -1000,11 +1000,17 @@ const AUTH_EXEMPT_PATHS = new Set([
   "/icon-maskable-512.png",
   "/manifest.webmanifest",
   "/og-image.jpg",
+  // Public customer-facing page for Asha Boutique & Collections. It is not
+  // part of the signed-in stock-platform SPA, so it must bypass the auth wall.
+  "/asha",
+  "/asha/",
+  "/asha/index.html",
 ]);
 app.use((req, res, next) => {
   if (!AUTH_ENABLED) return next();
   if (AUTH_EXEMPT_PATHS.has(req.path)) return next();
   if (req.path.startsWith("/assets/gated/")) return next();
+  if (req.path.startsWith("/assets/asha/")) return next();
   if (req.path.startsWith("/api/cron/")) return next();
   // Track-record bootstrap endpoints have their own MACRO_OVERRIDE_TOKEN
   // gate inside the handler — they intentionally bypass the session gate
@@ -1038,6 +1044,15 @@ app.use((req, res, next) => {
 // keyGenerator definition above and audit finding #6.
 app.use("/api/", apiLimiter);
 
+function servePublicHtml(filename) {
+  return (_req, res) => {
+    const p = path.join(__dirname, "public", filename);
+    res.type("text/html").sendFile(p);
+  };
+}
+
+app.get(["/asha", "/asha/", "/asha/index.html"], servePublicHtml("asha/index.html"));
+
 // SPA static files (app.js, index.html, etc.) live in gated/ — NOT public/ —
 // because Vercel auto-serves files in public/ from its edge CDN, bypassing
 // this gate middleware. Files in gated/ are bundled into the serverless
@@ -1063,6 +1078,8 @@ function setPublicStaticHeaders(res, filePath) {
   const name = path.basename(filePath);
   if (name === "login.html") {
     res.setHeader("Cache-Control", "no-cache");
+  } else if (filePath.includes(`${path.sep}assets${path.sep}asha${path.sep}`) && /\.(?:js|css)$/i.test(name)) {
+    res.setHeader("Cache-Control", "public, max-age=300, stale-while-revalidate=3600");
   } else if (filePath.includes(`${path.sep}assets${path.sep}gated${path.sep}`) && /\.(?:js|css)$/i.test(name)) {
     res.setHeader("Cache-Control", "public, max-age=300, stale-while-revalidate=3600");
   } else if (/\.(?:png|jpg|jpeg|webp|ico|svg|webmanifest)$/i.test(name)) {
