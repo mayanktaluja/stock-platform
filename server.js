@@ -6020,6 +6020,15 @@ function boolEnv(name) {
   return ["1", "true", "yes", "on"].includes(String(process.env[name] || "").trim().toLowerCase());
 }
 
+function emailSetEnv(name) {
+  return new Set(
+    String(process.env[name] || "")
+      .split(",")
+      .map((value) => value.trim().toLowerCase())
+      .filter(Boolean),
+  );
+}
+
 function readSwsInputAlertPrefs(userRecord) {
   return normalizeSwsInputAlertPrefs(userRecord?.notificationPrefs?.swsInputAlerts || {});
 }
@@ -6407,6 +6416,7 @@ app.all("/api/cron/sws-input-alerts/send", express.json(), async (req, res) => {
     const userStore = getUserStorage();
     const users = await userStore.list();
     const dryRun = boolEnv("SWS_INPUT_ALERTS_DRY_RUN");
+    const suppressedEmails = emailSetEnv("SWS_INPUT_ALERTS_SUPPRESS_EMAILS");
     if (!dryRun) {
       const preflight = validateBulkMailerConfig();
       if (!preflight.ok) {
@@ -6447,6 +6457,11 @@ app.all("/api/cron/sws-input-alerts/send", express.json(), async (req, res) => {
 
     for (const user of users) {
       const email = String(user?.email || "").trim().toLowerCase();
+      if (suppressedEmails.has(email)) {
+        counts.skipped++;
+        results.push({ sub: user.sub, email, skipped: true, reason: "recipient_suppressed" });
+        continue;
+      }
       const prefs = readSwsInputAlertPrefs(user);
       if (!prefs.email) {
         counts.skipped++;
