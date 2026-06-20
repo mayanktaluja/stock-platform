@@ -135,6 +135,12 @@ experimental surface area and nightly refresh load.
   factor-level drilldown evidence.
 
 ### Portfolio SWS input alert rollout (June 2026)
+- **This PR** — SWS portfolio input-change email delivery now supports a narrow
+  `SWS_INPUT_ALERTS_SUPPRESS_EMAILS` recipient blocklist. The cron checks the
+  comma-separated lowercase/trimmed email list before user preference and
+  portfolio eligibility, emits skipped recipients with
+  `reason: "recipient_suppressed"`, and leaves all other recipients, in-app
+  alert state, portfolio data, and ledger history untouched.
 - **This PR** — SWS input-change emails now require confirmed v2 alert
   artifacts before delivery. The parser rejects unstable non-consensus default
   narrative fair values unless an explicit `AnalystConsensusTarget` source is

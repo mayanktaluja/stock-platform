@@ -166,6 +166,11 @@ try {
       holdings: [{ symbol: "INFY.NS", quantity: 1, avgPrice: 100 }],
       uploadedAt: "2026-06-08T00:00:00.000Z",
     },
+    suppressed_vikrant: {
+      sub: "suppressed_vikrant",
+      holdings: [{ symbol: "INFY.NS", quantity: 1, avgPrice: 100 }],
+      uploadedAt: "2026-06-08T00:00:00.000Z",
+    },
   });
   writeJson(USERS, {
     _local_dev: {
@@ -188,10 +193,17 @@ try {
       email: "no-portfolio@example.com",
       notificationPrefs: {},
     },
+    suppressed_vikrant: {
+      sub: "suppressed_vikrant",
+      email: "vikrant.deshmukh16@gmail.com",
+      notificationPrefs: { swsInputAlerts: { inApp: true, email: true } },
+    },
   });
   fs.rmSync(LEDGER, { force: true });
 
-  const port = await startServer();
+  const port = await startServer({
+    SWS_INPUT_ALERTS_SUPPRESS_EMAILS: " vikrant.deshmukh16@gmail.com ",
+  });
 
   const alerts = await request(port, "GET", "/api/portfolio/sws-input-alerts");
   assert.equal(alerts.status, 200);
@@ -249,7 +261,7 @@ try {
     dry_run: 2,
     no_holdings: 1,
     no_alerts: 0,
-    skipped: 1,
+    skipped: 2,
     transition_suppressed: 0,
   });
   assert.equal(cron.json.artifact_email_eligible, true);
@@ -260,6 +272,16 @@ try {
   assert.ok(cronByEmail.has("portfolio-reader@example.com"), "portfolio user with no prefs is enabled by default");
   assert.equal(cronByEmail.has("opted-out@example.com"), false, "explicit email=false opts out");
   assert.equal(cronByEmail.has("no-portfolio@example.com"), false, "users without uploaded holdings are skipped");
+  assert.deepEqual(
+    cronByEmail.get("vikrant.deshmukh16@gmail.com"),
+    {
+      sub: "suppressed_vikrant",
+      email: "vikrant.deshmukh16@gmail.com",
+      skipped: true,
+      reason: "recipient_suppressed",
+    },
+    "suppressed recipient is skipped before send eligibility",
+  );
   assert.match(cronByEmail.get("mtaluja11@gmail.com").payload.text, /Future growth changed from 4 to 3/);
   assert.match(cronByEmail.get("mtaluja11@gmail.com").payload.html, /<table role="presentation"/);
   assert.match(cronByEmail.get("mtaluja11@gmail.com").payload.html, /Future growth/);
@@ -303,8 +325,17 @@ try {
   assert.equal(dedupedCron.status, 200);
   assert.equal(dedupedCron.json.recipient_count, 0);
   assert.equal(dedupedCron.json.counts.deduped, 2);
-  assert.equal(dedupedCron.json.results.length, 2);
-  assert.ok(dedupedCron.json.results.every((r) => r.skipped === true && r.reason === "deduped"));
+  assert.equal(dedupedCron.json.results.length, 3);
+  assert.equal(dedupedCron.json.results.filter((r) => r.skipped === true && r.reason === "deduped").length, 2);
+  assert.deepEqual(
+    dedupedCron.json.results.find((r) => r.email === "vikrant.deshmukh16@gmail.com"),
+    {
+      sub: "suppressed_vikrant",
+      email: "vikrant.deshmukh16@gmail.com",
+      skipped: true,
+      reason: "recipient_suppressed",
+    },
+  );
 
   const cronGet = await request(port, "GET", "/api/cron/sws-input-alerts/send", {
     headers: { authorization: "Bearer test-cron-secret" },
@@ -341,7 +372,16 @@ try {
   assert.equal(missingRunIdCron.json.ok, false);
   assert.equal(missingRunIdCron.json.counts.failed, 2);
   assert.equal(missingRunIdCron.json.recipient_count, 0);
-  assert.ok(missingRunIdCron.json.results.every((r) => r.reason === "missing_dedupe_key"));
+  assert.equal(missingRunIdCron.json.results.filter((r) => r.reason === "missing_dedupe_key").length, 2);
+  assert.deepEqual(
+    missingRunIdCron.json.results.find((r) => r.email === "vikrant.deshmukh16@gmail.com"),
+    {
+      sub: "suppressed_vikrant",
+      email: "vikrant.deshmukh16@gmail.com",
+      skipped: true,
+      reason: "recipient_suppressed",
+    },
+  );
   missingRunIdFixture.run_id = "run-api-test";
   writeJson(CHANGES, missingRunIdFixture);
 
