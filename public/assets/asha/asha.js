@@ -3,48 +3,26 @@ const WHATSAPP_NUMBER = "919718213716";
 const SERVICES = {
   custom: {
     label: "Custom Stitching",
+    message: "Namaste Asha, I need help with custom stitching and fitting. Please guide me.",
+  },
+  "blouse-saree": {
+    label: "Blouse & Saree Fitting",
     message:
-      "Namaste Asha, I want to ask about custom stitching and fitting. Please share details and timing.",
+      "Namaste Asha, I need blouse or saree fitting support. Please share details and timing.",
   },
   bridal: {
-    label: "Bridal Stitching",
+    label: "Bridal & Occasion Wear",
     message:
-      "Namaste Asha, I want to ask about bridal outfit stitching. Please share details and timing.",
-  },
-  blouse: {
-    label: "Blouse Fitting",
-    message:
-      "Namaste Asha, I want to ask about blouse stitching/fitting. Please share details.",
-  },
-  saree: {
-    label: "Saree Fitting",
-    message:
-      "Namaste Asha, I want to ask about saree fitting and blouse support. Please share details and timing.",
-  },
-  ready: {
-    label: "Ready-made Wear",
-    message:
-      "Namaste Asha, I saw your ready-made collection online. Please share options in my size.",
-  },
-  suits: {
-    label: "Suits",
-    message:
-      "Namaste Asha, I want to ask about suit stitching and fitting. Please share details and timing.",
-  },
-  coords: {
-    label: "Co-ord Sets",
-    message:
-      "Namaste Asha, I want to ask about co-ord sets and fitting options. Please share details.",
-  },
-  bottoms: {
-    label: "Bottom Wear",
-    message:
-      "Namaste Asha, I want to ask about pants and bottom wear fitting. Please share details.",
+      "Namaste Asha, I need bridal or occasion wear fitting/stitching support. Please guide me.",
   },
   alterations: {
     label: "Alterations",
+    message: "Namaste Asha, I need alteration/fitting support. Please share timing.",
+  },
+  ready: {
+    label: "Ready-made Ethnic Wear",
     message:
-      "Namaste Asha, I want to ask about alteration/fitting support. Please share timing.",
+      "Namaste Asha, I am looking for ready-made ethnic wear. Please share available options.",
   },
 };
 
@@ -65,17 +43,45 @@ function setService(serviceKey) {
     node.textContent = service.label;
   });
 
-  document.querySelectorAll(".service-chip").forEach((chip) => {
-    const isSelected = chip.dataset.service === serviceKey;
-    chip.classList.toggle("is-selected", isSelected);
-    chip.setAttribute("aria-pressed", String(isSelected));
+  document.querySelectorAll("[data-service]").forEach((button) => {
+    const isSelected = button.dataset.service === serviceKey;
+    button.classList.toggle("is-selected", isSelected);
+    button.setAttribute("aria-pressed", String(isSelected));
+  });
+
+  document.querySelectorAll("[data-service-card]").forEach((card) => {
+    card.classList.toggle("is-selected", card.dataset.serviceCard === serviceKey);
   });
 }
 
+function setupStickyCta() {
+  const sticky = document.querySelector("[data-testid='sticky-cta']");
+  const hero = document.querySelector("[data-hero]");
+  const contact = document.querySelector("[data-contact-section]");
+  if (!sticky || !hero) return;
+
+  const update = () => {
+    const heroThreshold = Math.min(hero.offsetHeight * 0.72, 620);
+    const contactTop = contact ? contact.getBoundingClientRect().top : Number.POSITIVE_INFINITY;
+    const pastHero = window.scrollY > heroThreshold;
+    const beforeContact = contactTop > window.innerHeight - 96;
+    const showSticky = pastHero && beforeContact;
+
+    sticky.classList.toggle("is-visible", showSticky);
+    sticky.classList.toggle("is-muted", !showSticky);
+    sticky.setAttribute("aria-hidden", String(!showSticky));
+  };
+
+  update();
+  window.addEventListener("scroll", update, { passive: true });
+  window.addEventListener("resize", update);
+}
+
 document.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll(".service-chip").forEach((chip) => {
-    chip.addEventListener("click", () => setService(chip.dataset.service));
+  document.querySelectorAll("[data-service]").forEach((button) => {
+    button.addEventListener("click", () => setService(button.dataset.service));
   });
 
   setService("custom");
+  setupStickyCta();
 });
