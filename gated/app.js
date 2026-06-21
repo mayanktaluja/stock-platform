@@ -14849,6 +14849,7 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
   const pegVal = (pegSource?.provider === "groww_refinitiv" || (growwSource?.provider === "groww_refinitiv" && pegRawVal != null))
     ? pegRawVal
     : null;
+  const pegDisplayVal = pegVal == null ? null : (pegVal > 0 ? pegVal.toFixed(2) : "Not meaningful");
   // EPS: parser writes overview.latest_eps (rarely populated — SWS yearly
   // time series usually returns eps:null). Fall back to net_income / shares
   // when those are present, matching the same derivation extractMultiples()
@@ -14905,7 +14906,7 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
         ["P/B", pbVal != null ? `${pbVal.toFixed(2)}x` : null],
         ["P/S", psVal != null ? `${psVal.toFixed(1)}x` : null],
         ["EV/EBITDA", evEbitdaVal != null ? `${evEbitdaVal.toFixed(1)}x` : null],
-        ["PEG", pegVal != null ? pegVal.toFixed(2) : null],
+        ["PEG", pegDisplayVal],
         ["EPS", epsVal != null ? fmtPerShareMoney(epsVal, cur) : null],
       ],
     },
