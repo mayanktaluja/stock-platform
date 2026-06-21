@@ -18,6 +18,73 @@ import { gotoApp, switchTab } from "./helpers/app.mjs";
 const TABS = ["picks", "news", "track", "analyzer", "watchlist"];
 const THEMES = ["dark", "light"];
 
+async function mockBoundedTrackRecord(page) {
+  await page.route("**/api/track/history**", async (route) => {
+    await route.fulfill({
+      contentType: "application/json",
+      body: JSON.stringify({
+        performance: {
+          total: 1,
+          winRate: 100,
+          avgReturn: 4.2,
+          avgAlpha: 1.2,
+          beatsNiftyRate: 100,
+          benchmarkSampleSize: 1,
+        },
+        totalCount: 1,
+        firstLivePickAt: "2026-05-20T00:00:00.000Z",
+        trades: [{
+          id: "axe-track-1",
+          type: "sws_top30_v3",
+          symbol: "TEST.NS",
+          name: "Test Ltd",
+          sector: "Financials",
+          snapshotAt: "2026-05-20T00:00:00.000Z",
+          priceAtSnapshot: 100,
+          regimeAtSnapshot: "CALM",
+          returns: {
+            currentPrice: 104.2,
+            returnPct: 4.2,
+            alpha: 1.2,
+            beatsNifty: true,
+            daysHeld: 7,
+          },
+        }],
+        byType: {},
+        byRegime: {},
+        bySector: {},
+        bySectionScorecard: {},
+        lastComputedAt: "2026-05-27T00:00:00.000Z",
+      }),
+    });
+  });
+  await page.route("**/api/track/sections**", async (route) => {
+    await route.fulfill({
+      contentType: "application/json",
+      body: JSON.stringify({ sections: [], lastComputedAt: "2026-05-27T00:00:00.000Z" }),
+    });
+  });
+  await page.route("**/api/track/section-performance**", async (route) => {
+    await route.fulfill({
+      contentType: "application/json",
+      body: JSON.stringify({
+        schema_version: "sws-section-performance-v1",
+        mode: "axe_fixture",
+        generatedAt: "2026-05-27T00:00:00.000Z",
+        bestOverall: null,
+        spotlightSection: null,
+        windows: [],
+      }),
+    });
+  });
+  await page.route("**/api/track/calibration**", async (route) => {
+    await route.fulfill({
+      contentType: "application/json",
+      body: JSON.stringify({ total: 0, resolved: 0, buckets: [] }),
+    });
+  });
+}
+
 test.describe("PR #12 axe-core a11y scan (critical only)", () => {
   for (const theme of THEMES) {
     for (const tab of TABS) {
@@ -25,6 +92,7 @@ test.describe("PR #12 axe-core a11y scan (critical only)", () => {
         page,
       }) => {
         test.setTimeout(90_000);
+        if (tab === "track") await mockBoundedTrackRecord(page);
         await gotoApp(page);
         // Set theme AFTER gotoApp (its first-nav storage-clear would wipe it),
         // then reload so the boot script re-resolves from localStorage.

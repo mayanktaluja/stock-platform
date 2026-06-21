@@ -10,12 +10,18 @@
 //   SWS_REPO_ROOT_OVERRIDE=.e2e/sws-root npx playwright test visual/ --update-snapshots
 
 import { test, expect } from "@playwright/test";
+import fs from "node:fs";
+import path from "node:path";
 import { gotoApp, waitForPicksLoaded } from "../helpers/app.mjs";
 
 // Baselines are rendered per-OS (…-chromium-darwin.png). Self-skip in CI so a
 // linux runner without matching baselines doesn't false-fail; regenerate with
 // --update-snapshots on whatever platform owns the baselines.
 test.skip(!!process.env.CI, "visual baselines are environment-specific");
+
+const swsFixtureRoot = process.env.SWS_REPO_ROOT_OVERRIDE || ".e2e/sws-root";
+const hasPinnedIndiaFixture = fs.existsSync(path.resolve(process.cwd(), swsFixtureRoot, "data/sws/picks-latest.json"));
+test.skip(!hasPinnedIndiaFixture, "visual baselines require a pinned India SWS fixture under SWS_REPO_ROOT_OVERRIDE");
 
 // Re-apply a theme/density AFTER gotoApp (which clears storage on first nav),
 // then reload so the <head> boot script re-resolves from localStorage. The

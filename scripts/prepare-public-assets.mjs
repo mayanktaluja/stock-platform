@@ -19,6 +19,7 @@ const ALLOWLIST = [
   "riskLab.js",
   "multibaggerLab.js",
   "sectorOutlook.js",
+  "marketInformation.js",
   "keyboard.js",
 ];
 

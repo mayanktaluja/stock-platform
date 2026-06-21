@@ -1,6 +1,6 @@
 # PROJECT_STATUS.md — stock-platform
 
-**Last updated: 2026-06-18**
+**Last updated: 2026-06-21**
 
 Living snapshot of where the project is right now. Update this file whenever
 you ship a meaningful PR or change direction. The point is that a fresh AI
@@ -32,6 +32,18 @@ Compounder Lab and Earnings Edge were retired in June 2026 to remove unused
 experimental surface area and nightly refresh load.
 
 ## Recently shipped (themed, newest first — rolling ~4–6 week window; `git log` is the archive)
+
+### Market Radar / StockInsights experiment (June 2026)
+- **This PR** — Added a signed-in experimental Market Radar tab backed by a
+  manual, cached StockInsights snapshot (`data/marketInformation/latest.json`).
+  Page views never call StockInsights directly; `scripts/refresh-market-information.mjs`
+  performs the provider refresh with a default one-page / 50-row guardrail so
+  the 7-day / 100-call trial is not burned by UI traffic. The feed is
+  informational only: it surfaces corporate announcements, filing category,
+  sentiment, AI summary, source links, provider lag, stale audit, and
+  portfolio/watchlist filters without changing SWS scores, action ladders, or
+  portfolio recommendations. Production customer-facing use still needs
+  StockInsights Business terms confirmed before scaling beyond the trial.
 
 ### Track Record freshness hardening (June 2026)
 - **This PR** — Track Record Section Alpha is now a first-class SWS publish

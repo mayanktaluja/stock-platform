@@ -32,10 +32,13 @@ const summaryBuilder = extractFunction("buildSwsPicksSummaryPayload");
 const summaryRoute = extractRoute("/api/sws-picks-summary");
 const summarySource = `${summaryBuilder}\n${summaryRoute}`;
 
-assert.doesNotMatch(summarySource, /getSnapshotFvMapSafe|getSnapshotFvMap|filterPicksWithDeepDataFailOpen|getStockByTicker/);
+assert.match(summarySource, /await getSnapshotFvMapSafe/);
+assert.match(summarySource, /applyPicksFvDriftGuard/);
+assert.match(summarySource, /fv_drift_skipped:\s*false/);
+assert.doesNotMatch(summarySource, /filterPicksWithDeepDataFailOpen|getStockByTicker/);
 assert.match(summarySource, /scan_status_hint/);
 assert.match(summarySource, /summary_view/);
 assert.match(summarySource, /liftSwsSectionAudit/);
 assert.match(summarySource, /stampSwsDecisionContracts/);
 
-console.log("sws picks summary route skips deep/FV drift reads");
+console.log("sws picks summary route applies bounded FV drift guard without deep filters");
