@@ -1,7 +1,7 @@
 {
   "schemaVersion": "fo-screener-v1",
   "asOf": "2026-06-19",
-  "fetchedAt": "2026-06-19T19:27:30.314Z",
+  "fetchedAt": "2026-06-20T19:27:28.353Z",
   "urlUsed": "https://nsearchives.nseindia.com/content/fo/BhavCopy_NSE_FO_0_0_0_20260619_F_0000.csv.zip",
   "methodology": "OI aggregated across all stock-futures expiries (avoids rollover-Thursday phantoms); Δ vs prior session = ChngInOpnIntrst / (OI − ChngInOpnIntrst). Volume confirmation: today's vol vs 20-session mean. Decoupling co-flag: |OI Δ| ≥ 20% with |price Δ| < 0.5%. Score 0–100 = scaled OI move × volume confirmation × decouple boost × direction consistency. Educational content only.",
   "stats": {
@@ -114,6 +114,25 @@
         "interpretation": "Bulls adding fresh longs — OI up with price."
       },
       {
+        "underlying": "EXIDEIND",
+        "instrumentType": "STF",
+        "expiryCount": 2,
+        "nearMonthExpiry": "2026-06-30",
+        "nearMonthSettle": 382.25,
+        "underlyingPrice": 380.75,
+        "oiTotal": 26303400,
+        "oiChangeTotal": 2052000,
+        "volumeTotal": 6980,
+        "oiDeltaPct": 8.461367178802048,
+        "priceDeltaPct": -0.7658359293873284,
+        "volumeRatio": null,
+        "volumeBucket": "unknown",
+        "signal": "short_buildup",
+        "decoupled": false,
+        "score": 9,
+        "interpretation": "Bears adding fresh shorts — OI up while price drops."
+      },
+      {
         "underlying": "RADICO",
         "instrumentType": "STF",
         "expiryCount": 3,
@@ -133,25 +152,6 @@
         "interpretation": "Shorts covering — OI falling as price recovers."
       },
       {
-        "underlying": "INDIANB",
-        "instrumentType": "STF",
-        "expiryCount": 3,
-        "nearMonthExpiry": "2026-06-30",
-        "nearMonthSettle": 871.2,
-        "underlyingPrice": 870.1,
-        "oiTotal": 17810000,
-        "oiChangeTotal": 1160000,
-        "volumeTotal": 4364,
-        "oiDeltaPct": 6.966966966966967,
-        "priceDeltaPct": -0.6046776953793445,
-        "volumeRatio": null,
-        "volumeBucket": "unknown",
-        "signal": "short_buildup",
-        "decoupled": false,
-        "score": 7,
-        "interpretation": "Bears adding fresh shorts — OI up while price drops."
-      },
-      {
         "underlying": "BHARATFORG",
         "instrumentType": "STF",
         "expiryCount": 3,
@@ -169,25 +169,6 @@
         "decoupled": false,
         "score": 7,
         "interpretation": "Bulls adding fresh longs — OI up with price."
-      },
-      {
-        "underlying": "LTM",
-        "instrumentType": "STF",
-        "expiryCount": 3,
-        "nearMonthExpiry": "2026-06-30",
-        "nearMonthSettle": 3829.6,
-        "underlyingPrice": 3832.5,
-        "oiTotal": 4251300,
-        "oiChangeTotal": 264450,
-        "volumeTotal": 9256,
-        "oiDeltaPct": 6.633056172165995,
-        "priceDeltaPct": -4.348477658166194,
-        "volumeRatio": null,
-        "volumeBucket": "unknown",
-        "signal": "short_buildup",
-        "decoupled": false,
-        "score": 7,
-        "interpretation": "Bears adding fresh shorts — OI up while price drops."
       },
       {
         "underlying": "TCS",
@@ -302,6 +283,25 @@
         "decoupled": false,
         "score": 4,
         "interpretation": "Shorts covering — OI falling as price recovers."
+      },
+      {
+        "underlying": "RBLBANK",
+        "instrumentType": "STF",
+        "expiryCount": 3,
+        "nearMonthExpiry": "2026-06-30",
+        "nearMonthSettle": 379.05,
+        "underlyingPrice": 378.85,
+        "oiTotal": 59661425,
+        "oiChangeTotal": -1825625,
+        "volumeTotal": 5112,
+        "oiDeltaPct": -2.9691211401425175,
+        "priceDeltaPct": 2.16981132075472,
+        "volumeRatio": null,
+        "volumeBucket": "unknown",
+        "signal": "short_covering",
+        "decoupled": false,
+        "score": 3,
+        "interpretation": "Shorts covering — OI falling as price recovers."
       }
     ],
     "broader": [
@@ -344,25 +344,6 @@
         "interpretation": "Bears adding fresh shorts — OI up while price drops."
       },
       {
-        "underlying": "EXIDEIND",
-        "instrumentType": "STF",
-        "expiryCount": 2,
-        "nearMonthExpiry": "2026-06-30",
-        "nearMonthSettle": 382.25,
-        "underlyingPrice": 380.75,
-        "oiTotal": 26303400,
-        "oiChangeTotal": 2052000,
-        "volumeTotal": 6980,
-        "oiDeltaPct": 8.461367178802048,
-        "priceDeltaPct": -0.7658359293873284,
-        "volumeRatio": null,
-        "volumeBucket": "unknown",
-        "signal": "short_buildup",
-        "decoupled": false,
-        "score": 9,
-        "interpretation": "Bears adding fresh shorts — OI up while price drops."
-      },
-      {
         "underlying": "KPITTECH",
         "instrumentType": "STF",
         "expiryCount": 3,
@@ -399,6 +380,44 @@
         "decoupled": false,
         "score": 8,
         "interpretation": "No meaningful conviction — OI/price moves both within noise."
+      },
+      {
+        "underlying": "INDIANB",
+        "instrumentType": "STF",
+        "expiryCount": 3,
+        "nearMonthExpiry": "2026-06-30",
+        "nearMonthSettle": 871.2,
+        "underlyingPrice": 870.1,
+        "oiTotal": 17810000,
+        "oiChangeTotal": 1160000,
+        "volumeTotal": 4364,
+        "oiDeltaPct": 6.966966966966967,
+        "priceDeltaPct": -0.6046776953793445,
+        "volumeRatio": null,
+        "volumeBucket": "unknown",
+        "signal": "short_buildup",
+        "decoupled": false,
+        "score": 7,
+        "interpretation": "Bears adding fresh shorts — OI up while price drops."
+      },
+      {
+        "underlying": "LTM",
+        "instrumentType": "STF",
+        "expiryCount": 3,
+        "nearMonthExpiry": "2026-06-30",
+        "nearMonthSettle": 3829.6,
+        "underlyingPrice": 3832.5,
+        "oiTotal": 4251300,
+        "oiChangeTotal": 264450,
+        "volumeTotal": 9256,
+        "oiDeltaPct": 6.633056172165995,
+        "priceDeltaPct": -4.348477658166194,
+        "volumeRatio": null,
+        "volumeBucket": "unknown",
+        "signal": "short_buildup",
+        "decoupled": false,
+        "score": 7,
+        "interpretation": "Bears adding fresh shorts — OI up while price drops."
       },
       {
         "underlying": "DIXON",
@@ -570,25 +589,6 @@
         "decoupled": false,
         "score": 5,
         "interpretation": "Bulls adding fresh longs — OI up with price."
-      },
-      {
-        "underlying": "HDFCLIFE",
-        "instrumentType": "STF",
-        "expiryCount": 3,
-        "nearMonthExpiry": "2026-06-30",
-        "nearMonthSettle": 592.2,
-        "underlyingPrice": 591.85,
-        "oiTotal": 43646900,
-        "oiChangeTotal": -2120800,
-        "volumeTotal": 5280,
-        "oiDeltaPct": -4.633835652654601,
-        "priceDeltaPct": 0.2454506982649252,
-        "volumeRatio": null,
-        "volumeBucket": "unknown",
-        "signal": "neutral",
-        "decoupled": false,
-        "score": 5,
-        "interpretation": "No meaningful conviction — OI/price moves both within noise."
       }
     ]
   }
