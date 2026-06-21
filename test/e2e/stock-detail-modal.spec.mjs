@@ -506,19 +506,24 @@ test.describe("Stock detail modal (SWS)", () => {
 
     await page.evaluate(() => window.openSwsModal("PEGPOS"));
     const body = page.locator("#swsModalBody");
+    const pegStat = () => body.locator(".sws-stat-cell").filter({ hasText: /^PEG/ }).first();
     await expect(body.locator(".sws-modal-hero")).toBeVisible({ timeout: 10_000 });
     await expect(body).toContainText(/Quick stats\s+Groww\/Refinitiv/);
-    await expect(body).toContainText("PEG");
-    await expect(body).toContainText("1.40");
+    await expect(pegStat()).toContainText("PEG");
+    await expect(pegStat()).toContainText("1.40");
     await expect(body).toContainText("vs Groww Test 20.0x");
 
     await page.evaluate(() => window.openSwsModal("PEGZERO"));
     await expect(body.locator(".sws-modal-hero")).toBeVisible({ timeout: 10_000 });
-    await expect(body).toContainText("0.00");
+    await expect(pegStat()).toContainText("PEG");
+    await expect(pegStat()).toContainText("Not meaningful");
+    await expect(pegStat()).not.toContainText("0.00");
 
     await page.evaluate(() => window.openSwsModal("PEGNEG"));
     await expect(body.locator(".sws-modal-hero")).toBeVisible({ timeout: 10_000 });
-    await expect(body).toContainText("-4.05");
+    await expect(pegStat()).toContainText("PEG");
+    await expect(pegStat()).toContainText("Not meaningful");
+    await expect(pegStat()).not.toContainText("-4.05");
   });
 
   test("renders WALCHANNAG-shaped peer benchmarks when own P/E is unavailable", async ({ page }) => {
