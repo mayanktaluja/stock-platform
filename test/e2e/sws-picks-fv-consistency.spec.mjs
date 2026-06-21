@@ -162,9 +162,17 @@ test.describe("/api/sws-picks Fair-Value consistency vs /api/sws-stock/:t", () =
         if (!it?._fv_drift) continue;
         drifted++;
         // Contract: the row's fair_value_inr now matches snap (the post-guard value).
-        expect(Number(it.fair_value_inr)).toBeCloseTo(it._fv_drift.snap, 2);
+        if (it._fv_drift.snap == null) {
+          expect(it.fair_value_inr).toBeNull();
+        } else {
+          expect(Number(it.fair_value_inr)).toBeCloseTo(it._fv_drift.snap, 2);
+        }
         // Contract: pick (the original stale value) DIFFERS from snap by > tolerance.
-        expect(Math.abs(it._fv_drift.pick - it._fv_drift.snap)).toBeGreaterThan(FV_TOLERANCE);
+        if (it._fv_drift.pick == null || it._fv_drift.snap == null) {
+          expect(it._fv_drift.pick).not.toBe(it._fv_drift.snap);
+        } else {
+          expect(Math.abs(it._fv_drift.pick - it._fv_drift.snap)).toBeGreaterThan(FV_TOLERANCE);
+        }
       }
     }
 

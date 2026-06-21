@@ -158,6 +158,11 @@ import { loadFoScreenerFromKV } from "./services/foKvStore.js";
 import { buildCatalystsPayload } from "./services/catalystsService.js";
 import { buildMarketVerdict } from "./services/marketVerdict.js";
 import {
+  buildMarketInformationPayload,
+  loadMarketInformationContext,
+  loadMarketInformationSnapshot,
+} from "./services/marketInformationService.js";
+import {
   loadEarningsSnapshot,
   loadEarningsStats,
   filterEvents,
@@ -333,6 +338,7 @@ const searchCache = new NodeCache({ stdTTL: 300, checkperiod: 60 });
 const SEARCH_UNIVERSE = getExpandedUniverse();
 // Catalyst calendar (NSE corporate events) changes slowly — cache for 2 hours.
 const catalystCache = new NodeCache({ stdTTL: 7200, checkperiod: 600 });
+const marketInformationCache = new NodeCache({ stdTTL: 300, checkperiod: 60 });
 // Portfolio intelligence orchestration is expensive (~1 second per call even
 // when underlying quotes are warm). Cache for 30 seconds so rapid refreshes,
 // tab switches, and the 60s auto-refresh don't rebuild the whole pipeline.
@@ -5050,6 +5056,50 @@ app.get("/api/sector-outlook/healthz", (req, res) => {
 });
 // ──── /end Sector Outlook ────
 
+// ──── Market Radar ────
+// Experimental StockInsights-backed filing radar. The API only serves the
+// committed/generated snapshot; live provider calls are restricted to the
+// manual refresh script so page views do not burn trial API quota.
+app.get("/api/market-information/latest", (req, res) => {
+  res.set("Cache-Control", "private, max-age=300, must-revalidate");
+  const cacheKey = JSON.stringify({
+    ticker: req.query.ticker || req.query.q || req.query.search || "",
+    sentiment: req.query.sentiment || "all",
+    category: req.query.category || "all",
+    source: req.query.source || "all",
+    scope: req.query.scope || "all",
+  });
+  const cached = marketInformationCache.get(cacheKey);
+  if (cached) {
+    res.set("X-Cache", "HIT");
+    return res.status(cached.status).json(cached.body);
+  }
+
+  const loaded = loadMarketInformationSnapshot(path.join(__dirname, "data", "marketInformation", "latest.json"));
+  if (!loaded.ok) {
+    const body = {
+      schema_version: "market-information-v1",
+      status: "warming",
+      error: loaded.error,
+      message: "Market Radar snapshot is not generated yet. Run scripts/refresh-market-information.mjs locally.",
+    };
+    marketInformationCache.set(cacheKey, { status: loaded.status || 503, body });
+    res.set("X-Cache", "MISS");
+    return res.status(loaded.status || 503).json(body);
+  }
+
+  const context = loadMarketInformationContext({ cwd: __dirname });
+  const body = buildMarketInformationPayload(loaded.snapshot, {
+    query: req.query,
+    portfolioTickers: context.portfolioTickers,
+    watchlistTickers: context.watchlistTickers,
+  });
+  marketInformationCache.set(cacheKey, { status: 200, body });
+  res.set("X-Cache", "MISS");
+  return res.json(body);
+});
+// ──── /end Market Radar ────
+
 // ==================== PAPER-TRADE TRACKER ====================
 
 // Public Track Record visibility is centralized in paperTrades.js. Anything
@@ -8733,13 +8783,18 @@ function applyReconciledFvToCard(card, overview, { markDrift = false } = {}) {
     current_price_inr: Number.isFinite(card.current_price_inr) ? card.current_price_inr : null,
     upside_pct: Number.isFinite(card.upside_pct) ? card.upside_pct : null,
   };
+  if (markDrift) delete card._fv_drift;
+  const fairValueDrifted =
+    (before.fair_value_inr == null && fv.fair_value_inr != null) ||
+    (before.fair_value_inr != null && fv.fair_value_inr == null) ||
+    (before.fair_value_inr != null && fv.fair_value_inr != null && Math.abs(before.fair_value_inr - fv.fair_value_inr) > 0.01);
   const fvChanged =
-    before.fair_value_inr !== fv.fair_value_inr ||
+    fairValueDrifted ||
     before.upside_pct !== fv.upside_pct ||
     card.fv_reconcile_reason !== fv.fv_reconcile_reason;
   const priceChanged = Number.isFinite(overview.current_price_inr) && before.current_price_inr !== overview.current_price_inr;
   if (!fvChanged && !priceChanged) return false;
-  if (markDrift && fvChanged) {
+  if (markDrift && fairValueDrifted) {
     card._fv_drift = {
       pick: before.fair_value_inr,
       snap: fv.fair_value_inr,
@@ -8763,6 +8818,33 @@ function applyReconciledFvToCard(card, overview, { markDrift = false } = {}) {
 // sibling of picks-latest.json (atomic write). Mirrors the nifty500 injection
 // + enrichPickRow pattern used by /api/sws-picks so off-section search hits
 // render with the same card shape as curated rows.
+const FV_DRIFT_LOG_SAMPLE_LIMIT = 5;
+
+function recordPicksFvDrift(counter, item) {
+  if (!counter || !item?._fv_drift) return;
+  counter.count = (counter.count || 0) + 1;
+  if (!Array.isArray(counter.sample)) counter.sample = [];
+  if (counter.sample.length >= FV_DRIFT_LOG_SAMPLE_LIMIT) return;
+  counter.sample.push({
+    ticker: item.ticker,
+    pick: item._fv_drift.pick ?? null,
+    snap: item._fv_drift.snap ?? null,
+    reason: item._fv_drift.reason,
+  });
+}
+
+function logPicksFvDriftSample(counter) {
+  if (!counter || !counter.count || counter.logged) return;
+  counter.logged = true;
+  const sample = Array.isArray(counter.sample) ? counter.sample : [];
+  const remaining = Math.max(0, counter.count - sample.length);
+  const suffix = remaining ? ` (+${remaining} more)` : "";
+  const details = sample
+    .map((it) => `${it.ticker}: pick=${it.pick} snap=${it.snap} reason=${it.reason}`)
+    .join("; ");
+  console.warn(`[picks-fv-drift] corrected ${counter.count} rows${suffix}${details ? `: ${details}` : ""}`);
+}
+
 // Read-time picks/snapshot FV drift guard. Applied inside /api/sws-picks
 // and /api/sws-universe. The picks table (sws_picks.fair_value_inr) is
 // written by sws-scoring.mjs once per full pipeline run; the snapshot
@@ -8783,8 +8865,9 @@ function applyPicksFvDriftGuard(items, snapMap, counter) {
     if (!snap) continue;
     const changed = applyReconciledFvToCard(it, snap, { markDrift: true });
     if (!changed) continue;
-    counter.count += 1;
-    console.warn(`[picks-fv-drift] ${it.ticker}: pick=${it._fv_drift?.pick ?? null} snap=${it.fair_value_inr} reason=${it.fv_reconcile_reason}`);
+    if (it._fv_drift) {
+      recordPicksFvDrift(counter, it);
+    }
   }
 }
 
@@ -8847,6 +8930,7 @@ app.get("/api/sws-universe", async (req, res) => {
       enrichPickRow(it);
     }
   }
+  logPicksFvDriftSample(driftCounter);
   data.indexConstituentsAvailable = NSE_INDEX_AVAILABLE;
   data._meta = {
     ...(data._meta || {}),
@@ -8998,7 +9082,7 @@ function buildMarketScanStatusHint(progress) {
   };
 }
 
-function buildSwsPicksSummaryPayload(raw, req) {
+async function buildSwsPicksSummaryPayload(raw, req) {
   const data = {
     ...raw,
     sections: raw.sections
@@ -9006,6 +9090,8 @@ function buildSwsPicksSummaryPayload(raw, req) {
       : raw.sections,
   };
   liftSwsSectionAudit(data, raw);
+  const driftCounter = { count: 0 };
+  const driftTimeoutFlag = { timedOut: false, errored: false };
   const missingDeepCounter = { count: 0, sample: [], failOpenSections: [] };
   if (data.sections) {
     const isPureBSEcode = (t) => typeof t === "string" && /^\d+$/.test(t);
@@ -9014,17 +9100,25 @@ function buildSwsPicksSummaryPayload(raw, req) {
       const valSnow = Number((it?.snowflake || {}).valuation);
       return (Number.isFinite(upside) && upside >= 0) || (Number.isFinite(valSnow) && valSnow >= 4);
     };
+    const allTickers = [...new Set(
+      Object.values(data.sections).flatMap((arr) =>
+        Array.isArray(arr) ? arr.map((it) => it?.ticker).filter(Boolean) : [],
+      ),
+    )];
+    const snapMap = await getSnapshotFvMapSafe(allTickers, driftTimeoutFlag);
     for (const [key, items] of Object.entries(data.sections)) {
       if (!Array.isArray(items)) continue;
       let filtered = items.filter((it) => it && it.ticker && !isPureBSEcode(it.ticker)).map((it) => ({ ...it }));
       if (key === "dividend_aristocrats") filtered = filtered.filter(passesDividendGate);
       data.sections[key] = filtered;
+      applyPicksFvDriftGuard(filtered, snapMap, driftCounter);
       for (const it of filtered) {
         stampIndexFlagsOnRow(it);
         enrichPickRow(it);
       }
     }
   }
+  logPicksFvDriftSample(driftCounter);
   data.last_refresh = swsDal.getLastRefresh();
   data.shard_progress_api = swsDal.getAllShardProgressApi();
   data.scan_status_hint = buildSwsScanStatusHint();
@@ -9033,8 +9127,10 @@ function buildSwsPicksSummaryPayload(raw, req) {
   data._meta = {
     ...(data._meta || {}),
     summary_view: true,
-    fv_drift_count: 0,
-    fv_drift_skipped: true,
+    fv_drift_count: driftCounter.count,
+    fv_drift_timeout: !!driftTimeoutFlag.timedOut,
+    fv_drift_errored: !!driftTimeoutFlag.errored,
+    fv_drift_skipped: false,
     missing_deep_count: missingDeepCounter.count,
     missing_deep_sample: missingDeepCounter.sample,
     missing_deep_fail_open_sections: missingDeepCounter.failOpenSections,
@@ -9043,11 +9139,11 @@ function buildSwsPicksSummaryPayload(raw, req) {
   return data;
 }
 
-app.get("/api/sws-picks-summary", (req, res) => {
+app.get("/api/sws-picks-summary", async (req, res) => {
   const raw = swsDal.getPicksLatest();
   if (!raw) return res.status(404).json({ error: "no_picks_yet", hint: "Run /sws-scan-shard 1/2/3 in Claude to start the initial scan." });
   res.set("Cache-Control", "private, max-age=300, must-revalidate");
-  res.json(buildSwsPicksSummaryPayload(raw, req));
+  res.json(await buildSwsPicksSummaryPayload(raw, req));
 });
 
 function emptySwsDiscoveryFeed() {
@@ -9105,7 +9201,7 @@ app.get("/api/sws-picks", async (req, res) => {
   if (!raw) return res.status(404).json({ error: "no_picks_yet", hint: "Run /sws-scan-shard 1/2/3 in Claude to start the initial scan." });
   if (String(req.query.view || "").toLowerCase() === "summary") {
     res.set("Cache-Control", "private, max-age=300, must-revalidate");
-    return res.json(buildSwsPicksSummaryPayload(raw, req));
+    return res.json(await buildSwsPicksSummaryPayload(raw, req));
   }
   // The Avoid List was removed from the SWS Picks tab — drop its ~1,191-row
   // section from the payload so it stops shipping on every load. Shallow-clone
@@ -9174,6 +9270,7 @@ app.get("/api/sws-picks", async (req, res) => {
       }
     }
   }
+  logPicksFvDriftSample(driftCounter);
   // last_refresh: canonical pipeline-finish stamp; per-shard progress fills in
   // when a refresh is mid-flight or last-refresh.json is stale.
   data.last_refresh = swsDal.getLastRefresh();
