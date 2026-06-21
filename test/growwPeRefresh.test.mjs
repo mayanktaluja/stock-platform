@@ -48,6 +48,7 @@ check("Groww stock page parser extracts Apollo P/E and industry P/E", () => {
         pbRatio: 12.3,
         priceToSales: 7.2,
         evToEbitda: 33.4,
+        pegRatio: 1.23,
         dividendYieldInPercent: 0.2,
         roe: 16.4,
         returnOnAssets: 8.2,
@@ -93,6 +94,7 @@ check("Groww stock page parser extracts Apollo P/E and industry P/E", () => {
   assert.equal(parsed.pbRatio, 12.3);
   assert.equal(parsed.psRatio, 7.2);
   assert.equal(parsed.evToEbitda, 33.4);
+  assert.equal(parsed.pegRatio, 1.23);
   assert.equal(parsed.debtToEquityPct, 24);
   assert.equal(parsed.shareholding.promoter_pct, 30);
   assert.equal(parsed.shareholding.fii_pct, 18);
