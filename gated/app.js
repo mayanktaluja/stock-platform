@@ -14839,7 +14839,11 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
   const pbVal = pickVal(sane(mult.pb, 0, 100), sane(fb.pb, 0, 100));
   const psVal = pickVal(sane(mult.ps, 0, 100), sane(fb.ps, 0, 100));
   const evEbitdaVal = pickVal(sane(mult.ev_ebitda, -500, 500), sane(fb.ev_ebitda, -500, 500));
-  const pegVal = pickVal(sane(mult.peg_ratio, -500, 500), sane(fb.peg_ratio, -500, 500));
+  const pegSource = sourceMap["multiples.peg"] || sourceMap["multiples.peg_ratio"] || null;
+  const pegRawVal = pickVal(sane(mult.peg, -500, 500), sane(mult.peg_ratio, -500, 500));
+  const pegVal = (pegSource?.provider === "groww_refinitiv" || (growwSource?.provider === "groww_refinitiv" && pegRawVal != null))
+    ? pegRawVal
+    : null;
   // EPS: parser writes overview.latest_eps (rarely populated — SWS yearly
   // time series usually returns eps:null). Fall back to net_income / shares
   // when those are present, matching the same derivation extractMultiples()

@@ -462,6 +462,65 @@ test.describe("Stock detail modal (SWS)", () => {
     await expect(body).toContainText("0.0x");
   });
 
+  test("renders Groww-backed PEG values in stock modal quick stats", async ({ page }) => {
+    const sourceMap = {
+      "multiples.peg": {
+        provider: "groww_refinitiv",
+        label: "Groww/Refinitiv",
+        value: 1.4,
+        fetched_at: "2026-05-24T12:00:00.000Z",
+        url: "https://groww.in/stocks/peg-positive-ltd",
+      },
+    };
+    await mockThinSwsStock(page, undefined, {
+      ticker: "PEGPOS",
+      name: "PEG Positive Ltd",
+      overview: {
+        multiples: { pe: 28.4, peg: 1.4 },
+        source_map: sourceMap,
+        industry_benchmarks: { pe: 20 },
+        pe_benchmark_source: { provider: "groww_refinitiv", label: "Groww/Refinitiv", industry_name: "Test", industry_pe: 20, company_pe: 28.4 },
+      },
+    });
+    await mockThinSwsStock(page, undefined, {
+      ticker: "PEGZERO",
+      name: "PEG Zero Ltd",
+      overview: {
+        multiples: { peg: 0 },
+        source_map: {
+          "multiples.peg": { ...sourceMap["multiples.peg"], value: 0 },
+        },
+      },
+    });
+    await mockThinSwsStock(page, undefined, {
+      ticker: "PEGNEG",
+      name: "PEG Negative Ltd",
+      overview: {
+        multiples: { peg: -4.05 },
+        source_map: {
+          "multiples.peg": { ...sourceMap["multiples.peg"], value: -4.05 },
+        },
+      },
+    });
+    await gotoApp(page, { tab: "picks" });
+
+    await page.evaluate(() => window.openSwsModal("PEGPOS"));
+    const body = page.locator("#swsModalBody");
+    await expect(body.locator(".sws-modal-hero")).toBeVisible({ timeout: 10_000 });
+    await expect(body).toContainText(/Quick stats\s+Groww\/Refinitiv/);
+    await expect(body).toContainText("PEG");
+    await expect(body).toContainText("1.40");
+    await expect(body).toContainText("vs Groww Test 20.0x");
+
+    await page.evaluate(() => window.openSwsModal("PEGZERO"));
+    await expect(body.locator(".sws-modal-hero")).toBeVisible({ timeout: 10_000 });
+    await expect(body).toContainText("0.00");
+
+    await page.evaluate(() => window.openSwsModal("PEGNEG"));
+    await expect(body.locator(".sws-modal-hero")).toBeVisible({ timeout: 10_000 });
+    await expect(body).toContainText("-4.05");
+  });
+
   test("renders WALCHANNAG-shaped peer benchmarks when own P/E is unavailable", async ({ page }) => {
     await mockThinSwsStock(page, undefined, {
       ticker: "WALCHANNAG",

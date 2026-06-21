@@ -529,6 +529,10 @@ check("Groww stock cache enriches fundamentals but SWS remains canonical for pri
   assert.equal(parsed.overview.debt_to_equity_pct, 24);
   assert.equal(parsed.overview.source_map.current_price_inr.provider, "sws_price");
   assert.equal(parsed.overview.source_map["multiples.pb"].provider, "groww_refinitiv");
+  assert.equal(parsed.overview.source_map["multiples.peg"].provider, "groww_refinitiv");
+  assert.equal(parsed.overview.source_map["multiples.peg"].value, 1.4);
+  assert.equal(parsed.overview.source_map["multiples.peg"].fetched_at, "2026-05-24T12:00:00.000Z");
+  assert.equal(parsed.overview.source_map["multiples.peg"].url, "https://groww.in/stocks/jeena-sikho-lifecare-ltd");
   assert.equal(parsed.ownership.promoter_pct, 55);
   assert.equal(parsed.ownership.insider_ownership_pct, null);
   assert.equal(parsed.financials.groww.yearly.revenue["2025"], 100);
