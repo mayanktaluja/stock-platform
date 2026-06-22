@@ -1,6 +1,6 @@
 {
   "schema_version": "earnings-health-v1",
-  "generated_at": "2026-06-21T06:40:09.511Z",
+  "generated_at": "2026-06-22T02:16:00.661Z",
   "resolved": {
     "count": 446,
     "delta_vs_prior": 0,
@@ -18,12 +18,12 @@
   "llm_stats": {
     "total": 14,
     "classified": 14,
-    "cache_hits": 4,
-    "llm_calls": 1,
-    "heuristic": 4,
+    "cache_hits": 14,
+    "llm_calls": 0,
+    "heuristic": 0,
     "heuristic_cache_invalidations": 0,
     "cross_floor_invalidations": 0,
-    "below_v3_floor": 4,
+    "below_v3_floor": 0,
     "composite_floor": 47,
     "llm_available": true,
     "skip_llm": false
@@ -31,7 +31,7 @@
   "cap_lift_gate": {
     "state": false,
     "enough_data_to_lift_cap": false,
-    "days_in_current_state": 44,
+    "days_in_current_state": 45,
     "current_resolved": 0,
     "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (446 across all versions)",
     "detail": {
@@ -93,7 +93,7 @@
       "gate": {
         "state": false,
         "enough_data_to_lift_cap": false,
-        "days_in_current_state": 44,
+        "days_in_current_state": 45,
         "current_resolved": 0,
         "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (446 across all versions)",
         "detail": {
@@ -164,7 +164,7 @@
     }
   },
   "archive_schema": {
-    "earnings-history-v5": 31
+    "earnings-history-v5": 32
   },
   "predictor_versions": {
     "earnings-predict-v3-2026-05": 14
@@ -182,46 +182,46 @@
   "insufficient_data": {
     "count_total": 49,
     "count_7d": 0,
-    "count_30d": 17,
-    "count_prior_30d": 32,
-    "trend_pct_30d_vs_prior": -46.9
+    "count_30d": 6,
+    "count_prior_30d": 43,
+    "trend_pct_30d_vs_prior": -86
   },
   "macro_regime": {
     "present": true,
-    "generated_at": "2026-06-20T08:30:24.849Z",
-    "age_hours": 22,
+    "generated_at": "2026-06-21T12:30:23.487Z",
+    "age_hours": 14,
     "classifier_provider": "groq",
     "regime": "CALM",
-    "stale": true,
-    "alert": "Macro regime is 22h old (threshold 18h) — com.starbhai.macro-only cron is unhealthy; check data/macroRegime-refresh.log"
+    "stale": false,
+    "alert": null
   },
   "picks_snapshot_fv_drift": {
     "pipeline": null,
     "runtime_24h": null,
     "alert": null
   },
-  "history_files": 31,
+  "history_files": 32,
   "hit_rate_summary": {
     "schema_version": "hit-rate-summary-v1",
-    "generated_at": "2026-06-21T06:40:09.747Z",
+    "generated_at": "2026-06-22T02:16:00.887Z",
     "resolved_count": 349,
     "unresolved_count": 1333,
     "strict": {
       "hit_rate_pct": 35,
-      "ci_low_pct": 29.8,
-      "ci_high_pct": 40.4,
+      "ci_low_pct": 30.1,
+      "ci_high_pct": 39.8,
       "sample_size": 349
     },
     "lenient": {
       "hit_rate_pct": 81.6,
-      "ci_low_pct": 77.6,
+      "ci_low_pct": 77.3,
       "ci_high_pct": 85.6,
       "sample_size": 348
     },
     "catastrophic": {
       "rate_pct": 18.4,
-      "ci_low_pct": 14.7,
-      "ci_high_pct": 23,
+      "ci_low_pct": 14.4,
+      "ci_high_pct": 22.7,
       "sample_size": 348
     },
     "rolling_30": {
@@ -233,7 +233,6 @@
     "catastrophic_alert_threshold_pct": 12
   },
   "alerts": [
-    "Macro regime is 22h old (threshold 18h) — com.starbhai.macro-only cron is unhealthy; check data/macroRegime-refresh.log",
     "Catastrophic rate alert: rolling-30 23.3% (7/30) exceeds 12% threshold — Risk Lab promotion gate cannot clear"
   ],
   "healthy": false
