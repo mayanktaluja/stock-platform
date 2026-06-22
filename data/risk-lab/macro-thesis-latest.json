@@ -1,21 +1,19 @@
 {
   "schema_version": "macro-thesis-v1",
-  "generated_at": "2026-06-21T06:44:09.473Z",
+  "generated_at": "2026-06-22T02:20:00.917Z",
   "regime": {
     "regime": "CALM",
     "severity": 1,
     "confidence": 0.8,
     "label": "Calm",
-    "generated_at": "2026-06-20T08:30:24.849Z",
+    "generated_at": "2026-06-21T12:30:23.487Z",
     "days_in_state": 0,
     "stale": false,
-    "reasoning": "Mixed headlines, no dominant trend",
+    "reasoning": "Mixed headlines, no dominant theme",
     "key_events": [
-      "Jio IPO: Spectrum acquisition, among 7 risks investors need to know (Economic Times)",
-      "India's IT sector facing a growth crisis (Economic Times)",
-      "Reliance unveils India's biggest IPO plan as Jio Platforms files DRHP (Economic Times)",
-      "RBI MPC minutes: Policy misstep fears drove rate pause amid West Asia uncertainty (Economic Times)",
-      "SBI, Axis Bank among lenders set for $2 billion ECB fundraising via RBI swap (Economic Times)"
+      "US-Iran talks, crude prices likely to steer stock markets this week (Business Standard)",
+      "M-cap of nine of top 10 most valued firms jumps Rs 2.15 lakh cr; Airtel biggest winner (Economic Times)",
+      "SEBI reintroduces open market buybacks via stock exchanges from 1 August (Business Standard)"
     ],
     "classifier_provider": "groq",
     "source_health": {
@@ -42,30 +40,25 @@
     },
     "sector_impacts": [
       {
-        "sector": "IT Services",
-        "impact": -1,
-        "reason": "Growth crisis"
-      },
-      {
-        "sector": "Telecom",
+        "sector": "Energy",
         "impact": 1,
-        "reason": "Jio IPO"
+        "reason": "Oil price movement"
       },
       {
         "sector": "Banking",
         "impact": 1,
-        "reason": "ECB fundraising"
+        "reason": "SEBI regulations"
       }
     ]
   },
-  "catalyst_proximity_days": 14,
+  "catalyst_proximity_days": 13,
   "upcoming_catalysts": [
     {
       "date": "2026-07-05",
       "kind": "OPEC",
       "label": "OPEC+ Ministerial Meeting",
       "severity_potential": 2,
-      "days_until": 14
+      "days_until": 13
     }
   ],
   "position_cap_pct": 10,
@@ -75,7 +68,7 @@
       "label": "CALM continues at current severity",
       "probability": 0.55,
       "duration_days": 14,
-      "n_analogs": 1,
+      "n_analogs": 2,
       "indeterminate": true,
       "beneficiaries": [],
       "losers": [],
@@ -84,12 +77,18 @@
         "base_probability": 0.55,
         "analog_pool_regime": "CALM",
         "analog_warnings": [
-          "n_analogs=1 < 3 — INDETERMINATE; do not act on these sector ranges",
+          "n_analogs=2 < 3 — INDETERMINATE; do not act on these sector ranges",
           "no sector-index data found for any analog date — run scripts/refresh-sector-indices.mjs --backfill-months=24"
         ],
         "analogs": [
           {
             "date": "2026-05-21",
+            "label": "Calm",
+            "severity": 1,
+            "source": "heuristic"
+          },
+          {
+            "date": "2026-05-22",
             "label": "Calm",
             "severity": 1,
             "source": "heuristic"
@@ -102,7 +101,7 @@
       "label": "CALM escalates (severity +1)",
       "probability": 0.11,
       "duration_days": 7,
-      "n_analogs": 1,
+      "n_analogs": 2,
       "indeterminate": true,
       "beneficiaries": [],
       "losers": [],
@@ -111,12 +110,18 @@
         "base_probability": 0.15,
         "analog_pool_regime": "CALM (severity +1)",
         "analog_warnings": [
-          "n_analogs=1 < 3 — INDETERMINATE; do not act on these sector ranges",
+          "n_analogs=2 < 3 — INDETERMINATE; do not act on these sector ranges",
           "no sector-index data found for any analog date — run scripts/refresh-sector-indices.mjs --backfill-months=24"
         ],
         "analogs": [
           {
             "date": "2026-05-21",
+            "label": "Calm",
+            "severity": 1,
+            "source": "heuristic"
+          },
+          {
+            "date": "2026-05-22",
             "label": "Calm",
             "severity": 1,
             "source": "heuristic"
@@ -129,7 +134,7 @@
       "label": "CALM de-escalates → CALM",
       "probability": 0.2,
       "duration_days": 21,
-      "n_analogs": 1,
+      "n_analogs": 2,
       "indeterminate": true,
       "beneficiaries": [],
       "losers": [],
@@ -138,12 +143,18 @@
         "base_probability": 0.2,
         "analog_pool_regime": "CALM",
         "analog_warnings": [
-          "n_analogs=1 < 3 — INDETERMINATE; do not act on these sector ranges",
+          "n_analogs=2 < 3 — INDETERMINATE; do not act on these sector ranges",
           "no sector-index data found for any analog date — run scripts/refresh-sector-indices.mjs --backfill-months=24"
         ],
         "analogs": [
           {
             "date": "2026-05-21",
+            "label": "Calm",
+            "severity": 1,
+            "source": "heuristic"
+          },
+          {
+            "date": "2026-05-22",
             "label": "Calm",
             "severity": 1,
             "source": "heuristic"
@@ -177,7 +188,7 @@
   "indeterminate": false,
   "audit": {
     "thesis_schema": "macro-thesis-v1",
-    "regime_generated_at": "2026-06-20T08:30:24.849Z",
+    "regime_generated_at": "2026-06-21T12:30:23.487Z",
     "regime_classifier": "groq",
     "scenario_engine_version": "scenario-prob-v1"
   }
