@@ -1,49 +1,49 @@
 {
   "schema_version": "earnings-watch-stats-v4",
-  "built_at": "2026-06-22T02:04:38.464Z",
-  "today_iso": "2026-06-22",
+  "built_at": "2026-06-23T02:14:02.171Z",
+  "today_iso": "2026-06-23",
   "window_days": 60,
-  "upstream_event_count": 35,
-  "upstream_fetched_at": "2026-06-21T19:00:21.336Z",
-  "event_count": 14,
+  "upstream_event_count": 47,
+  "upstream_fetched_at": "2026-06-22T19:00:19.928Z",
+  "event_count": 21,
   "recent_results_count": 5,
   "past_window_days": 14,
   "bucket_by_days": {
     "d0": 0,
     "d1to3": 1,
-    "d4to7": 2,
+    "d4to7": 4,
     "d8to14": 0,
-    "d15to30": 7,
-    "d31to60": 4
+    "d15to30": 11,
+    "d31to60": 5
   },
   "signals": {
     "by_data_quality": {
-      "HIGH": 14,
+      "HIGH": 21,
       "MEDIUM": 0,
       "LOW": 0
     },
     "by_pre_runup": {
-      "spike": 0,
-      "smooth": 2,
-      "lagging": 4,
-      "neutral": 8
+      "spike": 1,
+      "smooth": 3,
+      "lagging": 6,
+      "neutral": 11
     },
-    "sector_count": 8,
+    "sector_count": 9,
     "top_sectors": [
+      {
+        "sector": "Materials",
+        "count": 6
+      },
+      {
+        "sector": "Software",
+        "count": 5
+      },
       {
         "sector": "Food, Beverage & Tobacco",
         "count": 3
       },
       {
-        "sector": "Software",
-        "count": 3
-      },
-      {
         "sector": "Capital Goods",
-        "count": 2
-      },
-      {
-        "sector": "Materials",
         "count": 2
       },
       {
@@ -54,34 +54,34 @@
   },
   "predictions": {
     "by_verdict": {
-      "BEAT": 8,
-      "INLINE": 4,
-      "MISS": 2,
+      "BEAT": 9,
+      "INLINE": 8,
+      "MISS": 4,
       "INSUFFICIENT_DATA": 0
     },
-    "avg_confidence_pct": 58,
+    "avg_confidence_pct": 57,
     "confidence_cap_pct": 65,
     "predictor_version": "earnings-predict-v3-2026-05"
   },
   "playbooks": {
-    "tradable_count": 14,
+    "tradable_count": 21,
     "by_highlighted_branch": {
-      "RAISE": 6,
-      "MAINTAIN": 8,
-      "CUT": 0,
+      "RAISE": 9,
+      "MAINTAIN": 11,
+      "CUT": 1,
       "none": 0
     },
     "playbook_version": "earnings-playbook-v1-2026-05"
   },
   "llm_stats": {
-    "total": 14,
-    "classified": 14,
-    "cache_hits": 14,
-    "llm_calls": 0,
-    "heuristic": 0,
+    "total": 21,
+    "classified": 21,
+    "cache_hits": 2,
+    "llm_calls": 1,
+    "heuristic": 11,
     "heuristic_cache_invalidations": 0,
     "cross_floor_invalidations": 0,
-    "below_v3_floor": 0,
+    "below_v3_floor": 11,
     "composite_floor": 47,
     "llm_available": true,
     "skip_llm": false

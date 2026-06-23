@@ -1,6 +1,6 @@
 {
   "schema_version": "earnings-health-v1",
-  "generated_at": "2026-06-22T02:16:00.661Z",
+  "generated_at": "2026-06-23T02:25:27.080Z",
   "resolved": {
     "count": 446,
     "delta_vs_prior": 0,
@@ -8,22 +8,22 @@
   },
   "llm_providers": {
     "groq": 0,
-    "gemini": 6,
-    "heuristic": 8,
+    "gemini": 8,
+    "heuristic": 13,
     "none": 0,
-    "total": 14
+    "total": 21
   },
   "llm_offline": false,
   "llm_heuristic_share_pct": 0,
   "llm_stats": {
-    "total": 14,
-    "classified": 14,
-    "cache_hits": 14,
-    "llm_calls": 0,
-    "heuristic": 0,
+    "total": 21,
+    "classified": 21,
+    "cache_hits": 2,
+    "llm_calls": 1,
+    "heuristic": 11,
     "heuristic_cache_invalidations": 0,
     "cross_floor_invalidations": 0,
-    "below_v3_floor": 0,
+    "below_v3_floor": 11,
     "composite_floor": 47,
     "llm_available": true,
     "skip_llm": false
@@ -31,7 +31,7 @@
   "cap_lift_gate": {
     "state": false,
     "enough_data_to_lift_cap": false,
-    "days_in_current_state": 45,
+    "days_in_current_state": 46,
     "current_resolved": 0,
     "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (446 across all versions)",
     "detail": {
@@ -93,7 +93,7 @@
       "gate": {
         "state": false,
         "enough_data_to_lift_cap": false,
-        "days_in_current_state": 45,
+        "days_in_current_state": 46,
         "current_resolved": 0,
         "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (446 across all versions)",
         "detail": {
@@ -164,10 +164,10 @@
     }
   },
   "archive_schema": {
-    "earnings-history-v5": 32
+    "earnings-history-v5": 33
   },
   "predictor_versions": {
-    "earnings-predict-v3-2026-05": 14
+    "earnings-predict-v3-2026-05": 21
   },
   "restatements": {
     "count": 0,
@@ -188,8 +188,8 @@
   },
   "macro_regime": {
     "present": true,
-    "generated_at": "2026-06-21T12:30:23.487Z",
-    "age_hours": 14,
+    "generated_at": "2026-06-22T16:30:21.774Z",
+    "age_hours": 10,
     "classifier_provider": "groq",
     "regime": "CALM",
     "stale": false,
@@ -200,12 +200,12 @@
     "runtime_24h": null,
     "alert": null
   },
-  "history_files": 32,
+  "history_files": 33,
   "hit_rate_summary": {
     "schema_version": "hit-rate-summary-v1",
-    "generated_at": "2026-06-22T02:16:00.887Z",
+    "generated_at": "2026-06-23T02:25:27.303Z",
     "resolved_count": 349,
-    "unresolved_count": 1333,
+    "unresolved_count": 1340,
     "strict": {
       "hit_rate_pct": 35,
       "ci_low_pct": 30.1,
@@ -214,14 +214,14 @@
     },
     "lenient": {
       "hit_rate_pct": 81.6,
-      "ci_low_pct": 77.3,
-      "ci_high_pct": 85.6,
+      "ci_low_pct": 77,
+      "ci_high_pct": 85.3,
       "sample_size": 348
     },
     "catastrophic": {
       "rate_pct": 18.4,
-      "ci_low_pct": 14.4,
-      "ci_high_pct": 22.7,
+      "ci_low_pct": 14.7,
+      "ci_high_pct": 22.4,
       "sample_size": 348
     },
     "rolling_30": {
