@@ -354,10 +354,48 @@ mirroring `resendMailer.js`'s `mailerState()` posture. See `.env.example`.
 | `services/alerts/alertDispatcher.js` | The single non-throwing choke-point: state-gate → send. Always resolves (`{ok}`), never unwinds the caller. P2 adds dedup/quiet-hours here. |
 | `scripts/send-regime-alert.mjs` | CLI the cron calls post-commit. Reads worktree `macroRegime.json` + `git show origin/main:` prev → format → dispatch. Trusts the caller's ship-gate (no re-derived dedup). `--dry-run` / `--file <path>` for smoke. Always exits 0. |
 
+### Phase 2 — watchlist news poller (NEWS class)
+
+`scripts/refresh-news-alerts.mjs` (wrapper `scripts/news-alerts-poll.sh`, plist
+`com.starbhai.news-alerts`, ~every 30 min IST market hours) reads fresh RSS via
+`fetchMacroHeadlines`, keeps headlines mentioning a `data/alerts/watchlist.json`
+ticker, dedups against the sent-ledger, and pushes Telegram. **Runs read-only in
+the canonical repo — NO git worktree** (adversarial H1: a worktree+`prune` here
+would race the macro cron's live worktree). Own PID-lock
+(`/tmp/starbhai-news-alerts.lock.d`).
+
+Refresh / manual:
+```bash
+node scripts/refresh-news-alerts.mjs              # poll + send
+node scripts/refresh-news-alerts.mjs --dry-run    # match + log, no send, no ledger write
+```
+
+**Class boundary (C3, load-bearing):** the watchlist is NEWS-class — tickers +
+aliases only. **Do NOT add broad macro terms** (Fed/rate/war/oil-shock/risk-off)
+to `watchlist.json`; those are the REGIME class from the macro cron, and
+duplicating them double-fires across both classes.
+
+Known limitation: `isFresh` drops headlines with no parseable `publishedAt`
+(L3-safe — can't prove freshness, don't replay stale), so the poller only fires
+on dated items. Widening coverage = a follow-up (conditional-GET + source
+freshness), tracked in the plan.
+
+| File | Role |
+|------|------|
+| `data/alerts/watchlist.json` | Tracked config: tickers/aliases/sectorKeywords. Edit by hand. |
+| `services/alerts/watchlistGate.js` | Word-boundary-anchored match; sectorKeyword counts only when co-occurring with a ticker (M2). |
+| `services/alerts/sentLedger.js` | Check-and-set dedup at an **absolute** `ALERTS_LEDGER_DIR` (default `<repo>/data/alerts`, C2), PID-locked, monthly NDJSON, 24h TTL, fails OPEN. |
+| `services/alerts/quietHours.js` | NEWS-only overnight-IST suppression; REGIME never calls it (M1); `breaking` bypasses. |
+| `services/alerts/newsAlert.js` | Formats a matched headline → alert; dedup key collapses the same story across wires. |
+
 ### Smoke / test
 
 ```bash
+# All wired into `npm test`:
 node test/alertsState.test.mjs && node test/telegramSender.test.mjs \
-  && node test/regimeAlert.test.mjs && node test/alertDispatcher.test.mjs   # all in `npm test`
-node scripts/send-regime-alert.mjs --dry-run --file data/macroRegime.json    # render w/o sending
+  && node test/regimeAlert.test.mjs && node test/alertDispatcher.test.mjs \
+  && node test/sentLedger.test.mjs && node test/watchlistGate.test.mjs \
+  && node test/quietHours.test.mjs && node test/newsAlert.test.mjs
+node scripts/send-regime-alert.mjs --dry-run --file data/macroRegime.json    # render regime alert
+node scripts/refresh-news-alerts.mjs --dry-run                               # render watchlist alerts
 ```

@@ -1,0 +1,36 @@
+{
+  "$comment": "NEWS-class watchlist for fast-news-alerts Phase 2. Edit by hand. The poller (scripts/refresh-news-alerts.mjs) fires a Telegram alert when a fresh macro-headline mentions one of these tickers/aliases. Match is word-boundary anchored; sectorKeywords only count when they co-occur with a ticker hit. Do NOT add broad macro terms (Fed/rate hike/war/oil shock/risk-off) here — those are the REGIME class delivered by the macro cron, and duplicating them would double-fire (see CLAUDE.md fast-news-alerts).",
+  "as_of": "2026-06-24",
+  "tickers": [
+    "RELIANCE",
+    "TCS",
+    "HDFCBANK",
+    "INFY",
+    "ICICIBANK",
+    "SBIN",
+    "BHARTIARTL",
+    "LT",
+    "TATAMOTORS",
+    "M&M"
+  ],
+  "aliases": {
+    "RELIANCE": ["Reliance", "RIL", "Reliance Industries"],
+    "TCS": ["Tata Consultancy"],
+    "HDFCBANK": ["HDFC Bank"],
+    "INFY": ["Infosys"],
+    "ICICIBANK": ["ICICI Bank"],
+    "SBIN": ["State Bank of India", "SBI"],
+    "BHARTIARTL": ["Bharti Airtel", "Airtel"],
+    "LT": ["Larsen", "L&T", "Larsen & Toubro"],
+    "TATAMOTORS": ["Tata Motors"],
+    "M&M": ["Mahindra & Mahindra", "Mahindra and Mahindra"]
+  },
+  "sectorKeywords": [
+    "banking",
+    "IT services",
+    "telecom",
+    "automobile",
+    "infrastructure"
+  ],
+  "macroKeywords": []
+}
