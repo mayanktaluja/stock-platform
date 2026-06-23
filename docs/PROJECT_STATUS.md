@@ -1,6 +1,6 @@
 # PROJECT_STATUS.md — stock-platform
 
-**Last updated: 2026-06-21**
+**Last updated: 2026-06-23**
 
 Living snapshot of where the project is right now. Update this file whenever
 you ship a meaningful PR or change direction. The point is that a fresh AI
@@ -32,6 +32,15 @@ Compounder Lab and Earnings Edge were retired in June 2026 to remove unused
 experimental surface area and nightly refresh load.
 
 ## Recently shipped (themed, newest first — rolling ~4–6 week window; `git log` is the archive)
+
+### SWS current-cohort trailing audit (June 2026)
+- **This PR** — Added a research-only `scripts/sws-current-cohort-trailing-audit.mjs`
+  tool that measures today's SWS section cohorts against 3y/5y trailing price
+  returns and Nifty 50 price-index returns. The output is deliberately marked
+  `claim_allowed: false`, `hindsight_bias: true`, and `survivorship_bias: true`
+  so it can inform section confidence without being confused for a realized
+  Track Record backtest. The pure audit service has regression coverage and is
+  wired into `npm test`.
 
 ### Market Radar / StockInsights experiment (June 2026)
 - **This PR** — Added a signed-in experimental Market Radar tab backed by a
