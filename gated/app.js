@@ -11806,7 +11806,7 @@ const PICKS_SECTIONS = [
   { key: "growing_sector_value", term_id: "section_growing_sector_value", emoji: "📈", label: "📈 Growing Sector Value Stocks", chip_label: "Sector Value", subtitle: "HIGH-confidence SWS fair value upside ≥ 25%, positive sector context, and Future Growth ≥ 4/6; may show a labelled ≥ 3/6 fallback only when strict candidates are absent.", show_when_empty: true },
   { key: "snowflake_gap_lab", term_id: "section_snowflake_gap_lab", emoji: "🧪", label: "🧪 Snowflake Gap Lab", chip_label: "Gap Lab", subtitle: "Experimental screen for SWS data gaps. Canonical V4 remains the source of record.", show_when_empty: true },
   { key: "quality_growth", term_id: "section_quality_growth", emoji: "🌱", label: "🌱 Quality Growth", chip_label: "Quality Growth", subtitle: "Compounders: fortress balance sheet + visible forward growth runway." },
-  { key: "best_fundamentals", term_id: "section_best_fundamentals", emoji: "🧱", label: "🧱 Best Fundamentals", chip_label: "Fundamentals", subtitle: "Ranked by the score-breakdown modal's 'Fundamentals 74' line — 5 SWS pillars (Health + Future + Valuation + Past + Dividends) + AnalystConsensus FV upside, rescaled to 0–100 for the card badge. Ignores momentum and safety overlay. Same hygiene gate as Top 30 (mcap ≥ ₹500cr, no GSM)." },
+  { key: "best_fundamentals", term_id: "section_best_fundamentals", emoji: "🧱", label: "🧱 Core Compounders", chip_label: "Core Compounders", subtitle: "Core compounders ranked by the score-breakdown modal's 'Fundamentals 74' line — 5 SWS pillars (Health + Future + Valuation + Past + Dividends) + AnalystConsensus FV upside, rescaled to 0–100 for the card badge. Ignores momentum and safety overlay. Same hygiene gate as Top 30 (mcap ≥ ₹500cr, no GSM)." },
   { key: "midterm", term_id: "section_midterm", emoji: "⚡", label: "⚡ Midterm Picks (3-12 months)", chip_label: "Midterm", subtitle: "Trend-following — momentum already on side, with FV upside ≥ 15% remaining." },
   { key: "dividend_aristocrats", term_id: "section_dividend_aristocrats", emoji: "💰", label: "💰 Dividend Aristocrats", chip_label: "Dividend", subtitle: "Sustainable payers: Dividend pillar ≥ 5, payout < 70%, yield ≥ 1.5%." },
   { key: "smallcap_gems", term_id: "section_smallcap_gems", emoji: "🔍", label: "🔍 Smallcap Hidden Gems", chip_label: "Smallcap Gems", subtitle: "True smallcap quality: mcap < ₹15,000cr (NSE rank 251+) + Snowflake ≥ 22 + upside ≥ 15%." },
@@ -12631,6 +12631,24 @@ function renderTodayShortlistState(data) {
     </div>`;
 }
 
+// Renders the Best-to-Buy-Now section as three entry-band sub-buckets. Reuses
+// the unchanged renderPickCard; the entry badges it already draws carry the
+// per-card state, so the buckets just group by intent.
+const BEST_TO_BUY_BUCKETS = [
+  { key: "buy_now", label: "🟢 Buy now — in the buy zone", empty: "No names in the buy zone right now." },
+  { key: "wait_for_price", label: "🟡 Wait for price — quality, but above the buy band", empty: "Nothing waiting on a pullback." },
+  { key: "watchlist_only", label: "⚪ Watchlist only — clears the engine but misses one trust gate", empty: "No single-gate near-misses." },
+];
+function renderBestToBuyBuckets(tiers) {
+  return BEST_TO_BUY_BUCKETS.map((g) => {
+    const cards = Array.isArray(tiers && tiers[g.key]) ? tiers[g.key] : [];
+    const body = cards.length
+      ? cards.map((s) => renderPickCard(s, "best_to_buy_now", null)).join("")
+      : `<div class="sws-pick-bucket-empty">${escapeHtml(g.empty)}</div>`;
+    return `<div class="sws-pick-tier-divider sws-pick-bucket-header">${escapeHtml(g.label)} <span class="sws-pick-section-count">${cards.length}</span></div>${body}`;
+  }).join("");
+}
+
 function renderPicks(data) {
   const containerEl = document.getElementById("picksContainer");
   const collapsedState = loadPicksCollapsedState();
@@ -12766,13 +12784,20 @@ function renderPicks(data) {
     // cards land inline; the rest stream in via an IntersectionObserver
     // sentinel as the user scrolls. Buffers the full filtered slice on
     // picksChunkBuffers so chunks 2..N can't drift if filters change.
-    const useChunked = expanded && sliced.length > PICKS_EXPANDED_THRESHOLD;
+    // best_to_buy_now renders three entry-band sub-buckets (Buy now / Wait for
+    // price / Watchlist only) from the read-side tiers payload instead of a flat
+    // grid; bypasses the cap/chunk machinery since each tier is pre-capped.
+    const bucketed = section.key === "best_to_buy_now"
+      && data && data.best_to_buy_tiers && typeof data.best_to_buy_tiers === "object";
+    const useChunked = !bucketed && expanded && sliced.length > PICKS_EXPANDED_THRESHOLD;
     const firstChunkEnd = useChunked ? PICKS_EXPANDED_CHUNK_SIZE : sliced.length;
     const firstChunk = sliced.slice(0, firstChunkEnd);
     if (useChunked) picksChunkBuffers.set(section.key, sliced);
-    const cardsHtml = firstChunk
-      .map((s, i) => renderPickCard(s, section.key, isHero ? i + 1 : null))
-      .join("");
+    const cardsHtml = bucketed
+      ? renderBestToBuyBuckets(data.best_to_buy_tiers)
+      : firstChunk
+          .map((s, i) => renderPickCard(s, section.key, isHero ? i + 1 : null))
+          .join("");
     const sentinelHtml = useChunked
       ? `<div class="sws-pick-chunk-sentinel" data-section-key="${section.key}" data-rendered="${firstChunkEnd}" aria-hidden="true"></div>`
       : "";
@@ -12799,7 +12824,7 @@ function renderPicks(data) {
             ${cardsHtml}
             ${sentinelHtml}
           </div>
-          ${hidden > 0 ? `<div class="sws-pick-overflow">${expanded ? `Showing all <strong>${items.length}</strong> · ` : `… and <strong>${hidden}</strong> more · `}<button type="button" class="sws-pick-overflow-btn" onclick="togglePicksExpandAll('${section.key}', event)">${expanded ? `Show top ${defaultCap} ↑` : `Show all (${items.length}) ↓`}</button>${expanded ? "" : ` · or open the PDF for the full list`}</div>` : ""}
+          ${!bucketed && hidden > 0 ? `<div class="sws-pick-overflow">${expanded ? `Showing all <strong>${items.length}</strong> · ` : `… and <strong>${hidden}</strong> more · `}<button type="button" class="sws-pick-overflow-btn" onclick="togglePicksExpandAll('${section.key}', event)">${expanded ? `Show top ${defaultCap} ↑` : `Show all (${items.length}) ↓`}</button>${expanded ? "" : ` · or open the PDF for the full list`}</div>` : ""}
         </div>
       </div>`;
   }).join("");

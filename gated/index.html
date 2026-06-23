@@ -4227,6 +4227,28 @@
       grid-column: 1 / -1;
       min-height: 1px;
     }
+    /* Full-width bucket divider inside a pick grid — the Best-to-Buy-Now
+       Buy/Wait/Watchlist sub-buckets. */
+    .sws-pick-tier-divider {
+      grid-column: 1 / -1;
+      margin: 6px 0 2px 0;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border, rgba(127,127,127,0.2));
+      padding-top: 8px;
+    }
+    .sws-pick-tier-divider:first-child { border-top: none; padding-top: 0; }
+    .sws-pick-bucket-header .sws-pick-section-count { margin-left: 6px; }
+    .sws-pick-bucket-empty {
+      grid-column: 1 / -1;
+      font-size: 12px;
+      font-style: italic;
+      color: var(--text-muted);
+      padding: 2px 0 6px 0;
+    }
     .sws-pick-overflow {
       margin: 12px 0 0 0;
       font-size: 11px;

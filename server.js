@@ -109,6 +109,7 @@ import {
   PICKS_SCORING_VERSION,
 } from "./services/swsScoring.js";
 import { buildEntryBand } from "./services/swsIndiaSectionPolicy.js";
+import { buildBestToBuyTiers } from "./services/swsBestToBuyTiers.js";
 import { computeV4Score, verdictV4FromScore } from "./services/swsScoringV4.js";
 import { reconcileFairValue, withReconciledFairValue } from "./services/fvReconciliation.js";
 import { buildCalibration as buildTrackCalibration } from "./services/trackRecord/calibration.js";
@@ -9119,6 +9120,11 @@ async function buildSwsPicksSummaryPayload(raw, req) {
     }
   }
   logPicksFvDriftSample(driftCounter);
+  // Read-side Best-to-Buy-Now tiers (Buy now / Wait for price / Watchlist only)
+  // derived from the enriched section union — see services/swsBestToBuyTiers.js.
+  // Computed before applySwsPicksQuery so the tiers reflect the full curated set,
+  // not the user's section search/filter.
+  if (data.sections) data.best_to_buy_tiers = buildBestToBuyTiers(data.sections);
   data.last_refresh = swsDal.getLastRefresh();
   data.shard_progress_api = swsDal.getAllShardProgressApi();
   data.scan_status_hint = buildSwsScanStatusHint();
