@@ -24,7 +24,12 @@ export function routeMessage(message, deps = {}) {
   const text = String(message?.text || "").trim();
   if (!text) return null;
 
-  const { compiledWatchlist, macroGate } = deps;
+  const { compiledWatchlist, macroGate, noiseGate } = deps;
+
+  // Mute filter: drop disaster/weather spam (earthquake/tsunami/…) before it can
+  // become an alert. Coverage-first forwards everything EXCEPT muted noise.
+  if (noiseGate && typeof noiseGate.match === "function" && noiseGate.match(text)) return null;
+
   const category = String(message?.category || "");
   const channel = String(message?.channel || "");
 

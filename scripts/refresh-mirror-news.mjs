@@ -31,6 +31,7 @@ dotenv.config({ path: path.join(REPO_ROOT, ".env"), override: false });
 const { parseMirrorHtml } = await import("../services/alerts/telegramMirrorParser.js");
 const { compileWatchlist } = await import("../services/alerts/watchlistGate.js");
 const { compileMacroGate, matchMacro } = await import("../services/alerts/macroBreakingGate.js");
+const { compileNoiseGate, matchNoise } = await import("../services/alerts/noiseFilter.js");
 const { routeMessage } = await import("../services/alerts/newsRouter.js");
 const { markIfNew } = await import("../services/alerts/sentLedger.js");
 const { dispatch } = await import("../services/alerts/alertDispatcher.js");
@@ -68,6 +69,8 @@ async function main() {
   const compiledWatchlist = compileWatchlist(loadJson("data/alerts/watchlist.json") || {});
   const macroCompiled = compileMacroGate();
   const macroGate = { match: (t) => matchMacro(t, macroCompiled) };
+  const noiseCompiled = compileNoiseGate((loadJson("data/alerts/mute-keywords.json") || {}).keywords || []);
+  const noiseGate = { match: (t) => matchNoise(t, noiseCompiled) };
 
   let fetched = 0, fresh = 0, matched = 0, sent = 0, dup = 0;
 
@@ -86,7 +89,7 @@ async function main() {
 
       const alert = routeMessage(
         { text: row.text, channel: c.name || c.slug, category: c.category, link: row.url, date: row.publishedAt },
-        { compiledWatchlist, macroGate },
+        { compiledWatchlist, macroGate, noiseGate },
       );
       if (!alert) continue;
       matched += 1;

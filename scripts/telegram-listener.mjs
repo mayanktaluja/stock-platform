@@ -37,6 +37,7 @@ dotenv.config({ path: path.join(REPO_ROOT, ".env"), override: false });
 
 const { compileWatchlist } = await import("../services/alerts/watchlistGate.js");
 const { compileMacroGate, matchMacro } = await import("../services/alerts/macroBreakingGate.js");
+const { compileNoiseGate, matchNoise } = await import("../services/alerts/noiseFilter.js");
 const { routeMessage } = await import("../services/alerts/newsRouter.js");
 const { markIfNew } = await import("../services/alerts/sentLedger.js");
 const { dispatch } = await import("../services/alerts/alertDispatcher.js");
@@ -67,6 +68,8 @@ const categories = [...new Set(sources.map((c) => c.category))];
 const compiledWatchlist = compileWatchlist(loadJson("data/alerts/watchlist.json") || {});
 const macroCompiled = compileMacroGate();
 const macroGate = { match: (t) => matchMacro(t, macroCompiled) };
+const noiseCompiled = compileNoiseGate((loadJson("data/alerts/mute-keywords.json") || {}).keywords || []);
+const noiseGate = { match: (t) => matchNoise(t, noiseCompiled) };
 
 // GramJS import guarded (C2): a missing dep dormant-exits 0 (no KeepAlive hot-loop).
 let TelegramClient; let StringSession; let NewMessage;
@@ -108,7 +111,7 @@ async function handleMessage(event) {
 
     const alert = routeMessage(
       { text, channel: src.name, category: src.category, link, date },
-      { compiledWatchlist, macroGate },
+      { compiledWatchlist, macroGate, noiseGate },
     );
     if (!alert) return;
 
