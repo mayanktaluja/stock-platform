@@ -359,10 +359,16 @@ mirroring `resendMailer.js`'s `mailerState()` posture. See `.env.example`.
 `scripts/refresh-news-alerts.mjs` (wrapper `scripts/news-alerts-poll.sh`, plist
 `com.starbhai.news-alerts`, ~every 30 min IST market hours) reads fresh RSS via
 `fetchMacroHeadlines`, keeps headlines mentioning a `data/alerts/watchlist.json`
-ticker, dedups against the sent-ledger, and pushes Telegram. **Runs read-only in
-the canonical repo — NO git worktree** (adversarial H1: a worktree+`prune` here
-would race the macro cron's live worktree). Own PID-lock
-(`/tmp/starbhai-news-alerts.lock.d`).
+ticker, dedups against the sent-ledger, and pushes Telegram. It commits nothing.
+
+**Runs the poller CODE from a short-lived `origin/main` worktree** so it's
+independent of whatever branch the canonical checkout is parked on (the user's
+`~/code/stock-platform` is often on a feature branch). It deliberately does NOT
+call `git worktree prune` — that's the operation H1 flagged as racing the macro
+cron's worktree; each run adds/removes only its own mktemp worktree. The
+sent-LEDGER is pinned to the canonical repo via `ALERTS_LEDGER_DIR` (absolute)
+so it survives across runs (C2 — a worktree-relative ledger would vanish). Own
+PID-lock (`/tmp/starbhai-news-alerts.lock.d`), distinct from the macro cron's.
 
 Refresh / manual:
 ```bash
