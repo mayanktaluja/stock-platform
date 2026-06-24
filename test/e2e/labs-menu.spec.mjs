@@ -17,7 +17,6 @@ const ADMIN_ME = {
 const PUBLIC_MENU_LABELS = [
   "India Market",
   "Market Intelligence",
-  "Market Radar",
   "Portfolio Analyzer",
   "Watchlist",
   "US Market",
