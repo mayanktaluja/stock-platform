@@ -258,6 +258,19 @@ Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>" 2>&1 | sed
   exit 5
 fi
 
+# ---- 7a. Telegram alert on a genuine regime flip ----
+# Fire ONLY when the ship-gate said the regime|severity materially changed (or
+# the first-run missing-compare case) — NOT on age-12h churn or sub-regime
+# drift. This gate is the dedup: the alert keys on the same comparison the
+# commit does, against committed origin/main, so it can't re-fire every 2h
+# (adversarial C1). Runs from the worktree (fresh macroRegime.json) with prev
+# read from origin/main. Self-skips silently if TG_* unset. Never fatal:
+# `|| true` plus the script's own exit-0-always posture mean a Telegram outage
+# cannot abort the push/PR below.
+if [[ "${SHIP_DECISION}" == "ship:material_change" || "${SHIP_DECISION}" == "ship:missing_compare" ]]; then
+  node scripts/send-regime-alert.mjs 2>&1 | sed 's/^/[alert] /' || true
+fi
+
 if ! git push -u origin "${BRANCH}" 2>&1 | sed 's/^/[git] /'; then
   echo "[macro-only] git push failed — exit 8"
   exit 8

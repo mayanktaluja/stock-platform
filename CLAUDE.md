@@ -309,3 +309,99 @@ after the backtest so a silent failure in any stage surfaces.
 | `services/earnings/weightTuner.js` | Multiplier-sweep logic for data-tuning predictor weights (gated on resolved actuals) |
 | `services/earnings/earningsHealth.js` | Pure aggregator for the daily pipeline health summary + alert rules |
 | `services/earnings/earningsWatchService.js` | Read-side service for the API |
+
+---
+
+## Telegram market-moving-news alerts (fast-news-alerts)
+
+Personal, low-latency push alerts to the owner's phone (Telegram bot) for
+market-moving events — built to fix "I hear the news too late to react". Plan
+lives at `~/.claude/plans/fast-news-alerts.md`. Phased: **P1** macro-regime
+flips (shipped), **P2** watchlist news poller, P3 Telegram-channel push source,
+P4 LLM triage funnel, P5 Pushover loud-BREAKING, P6 price/volume anomaly.
+
+### Phase 1 — regime-transition alerts (live)
+
+Fires a Telegram DM **only when the macro regime materially flips**. The
+trigger is wired into `scripts/refresh-macro-only.sh` (the every-2h cron),
+gated on `SHIP_DECISION == ship:material_change` — the SAME comparison the
+commit uses. **This gating is the dedup, and it is load-bearing:**
+
+> **Do NOT move the trigger into `refresh-macro-regime.mjs` on
+> `appendRegimeIfChanged → {appended:true}`.** That re-fires every 2h on any
+> confidence/sector/reasoning drift, because (a) the history NDJSON append
+> happens inside the throwaway worktree and is never committed (the cron only
+> `git add data/macroRegime.json`), and (b) `appended:true` keys on a content
+> hash while the ship-gate keys on `regime|severity`. The shell-post-commit
+> hook sidesteps both. (See the adversarial findings C1/C2 in the plan.)
+
+The send is `|| true` and `send-regime-alert.mjs` always exits 0 — a Telegram
+outage can never abort the cron's push/PR.
+
+### Config
+
+`.env` (gitignored) — `TG_BOT_TOKEN`, `TG_CHAT_ID`, `ALERTS_ENABLED`. When
+unset, every alert path self-skips silently (logs a reason, never throws),
+mirroring `resendMailer.js`'s `mailerState()` posture. See `.env.example`.
+
+### Modules
+
+| File | Role |
+|------|------|
+| `services/alerts/alertsState.js` | Config gate — `alertsState(env)` → `{enabled, reason}`; self-skip when `TG_*` absent or `ALERTS_ENABLED=0`. |
+| `services/alerts/telegramSender.js` | Pure-fetch Bot-API sender. HTML parse_mode, escape helper, link-preview off, inline-button deep-link, 429 `retry_after` honoring, 4096→3900 truncation, 400 non-retryable. Runs unchanged on Mac + Vercel. |
+| `services/alerts/regimeAlert.js` | Formats a regime object → `{text, breaking, key, buttons}`. `breaking = severity ≥ 4`. Top-3 most-negative sector impacts; transition arrow vs prev. Pure/deterministic. Footer covers disclaimer — none inlined. |
+| `services/alerts/alertDispatcher.js` | The single non-throwing choke-point: state-gate → send. Always resolves (`{ok}`), never unwinds the caller. P2 adds dedup/quiet-hours here. |
+| `scripts/send-regime-alert.mjs` | CLI the cron calls post-commit. Reads worktree `macroRegime.json` + `git show origin/main:` prev → format → dispatch. Trusts the caller's ship-gate (no re-derived dedup). `--dry-run` / `--file <path>` for smoke. Always exits 0. |
+
+### Phase 2 — watchlist news poller (NEWS class)
+
+`scripts/refresh-news-alerts.mjs` (wrapper `scripts/news-alerts-poll.sh`, plist
+`com.starbhai.news-alerts`, ~every 30 min IST market hours) reads fresh RSS via
+`fetchMacroHeadlines`, keeps headlines mentioning a `data/alerts/watchlist.json`
+ticker, dedups against the sent-ledger, and pushes Telegram. It commits nothing.
+
+**Runs the poller CODE from a short-lived `origin/main` worktree** so it's
+independent of whatever branch the canonical checkout is parked on (the user's
+`~/code/stock-platform` is often on a feature branch). It deliberately does NOT
+call `git worktree prune` — that's the operation H1 flagged as racing the macro
+cron's worktree; each run adds/removes only its own mktemp worktree. The
+sent-LEDGER is pinned to the canonical repo via `ALERTS_LEDGER_DIR` (absolute)
+so it survives across runs (C2 — a worktree-relative ledger would vanish). Own
+PID-lock (`/tmp/starbhai-news-alerts.lock.d`), distinct from the macro cron's.
+
+Refresh / manual:
+```bash
+node scripts/refresh-news-alerts.mjs              # poll + send
+node scripts/refresh-news-alerts.mjs --dry-run    # match + log, no send, no ledger write
+```
+
+**Class boundary (C3, load-bearing):** the watchlist is NEWS-class — tickers +
+aliases only. **Do NOT add broad macro terms** (Fed/rate/war/oil-shock/risk-off)
+to `watchlist.json`; those are the REGIME class from the macro cron, and
+duplicating them double-fires across both classes.
+
+Known limitation: `isFresh` drops headlines with no parseable `publishedAt`
+(L3-safe — can't prove freshness, don't replay stale), so the poller only fires
+on dated items. Widening coverage = a follow-up (conditional-GET + source
+freshness), tracked in the plan.
+
+| File | Role |
+|------|------|
+| `data/alerts/watchlist.json` | Tracked config: tickers/aliases/sectorKeywords. Edit by hand. |
+| `services/alerts/watchlistGate.js` | Word-boundary-anchored match; sectorKeyword counts only when co-occurring with a ticker (M2). |
+| `services/alerts/sentLedger.js` | Check-and-set dedup at an **absolute** `ALERTS_LEDGER_DIR` (default `<repo>/data/alerts`, C2), PID-locked, monthly NDJSON, 24h TTL, fails OPEN. |
+| `services/alerts/quietHours.js` | NEWS-only overnight-IST suppression; REGIME never calls it (M1); `breaking` bypasses. |
+| `services/alerts/newsAlert.js` | Formats a matched headline → alert; dedup key collapses the same story across wires. |
+
+### Smoke / test
+
+```bash
+# All wired into `npm test`:
+node test/alertsState.test.mjs && node test/telegramSender.test.mjs \
+  && node test/regimeAlert.test.mjs && node test/alertDispatcher.test.mjs \
+  && node test/sentLedger.test.mjs && node test/watchlistGate.test.mjs \
+  && node test/quietHours.test.mjs && node test/newsAlert.test.mjs
+node scripts/send-regime-alert.mjs --dry-run --file data/macroRegime.json    # render regime alert
+node scripts/refresh-news-alerts.mjs --dry-run                               # render watchlist alerts
+```
