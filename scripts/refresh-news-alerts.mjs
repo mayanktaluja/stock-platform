@@ -35,7 +35,7 @@ dotenv.config({ path: path.join(REPO_ROOT, ".env"), override: false });
 const { fetchMacroHeadlines } = await import("../macroHeadlineFetcher.js");
 const { compileWatchlist, matchHeadline } = await import("../services/alerts/watchlistGate.js");
 const { formatNewsAlert } = await import("../services/alerts/newsAlert.js");
-const { markIfNew } = await import("../services/alerts/sentLedger.js");
+const { hasKey, recordSent } = await import("../services/alerts/sentLedger.js");
 const { dispatch } = await import("../services/alerts/alertDispatcher.js");
 const { suppressNews } = await import("../services/alerts/quietHours.js");
 
@@ -91,15 +91,19 @@ async function main() {
       continue;
     }
 
-    // Check-and-set BEFORE sending: claim the key so a concurrent run can't
-    // also send. dry-run still claims nothing.
-    if (!DRY_RUN) {
-      const { fresh: isNew } = markIfNew(alert.key);
-      if (!isNew) { dup += 1; continue; }
-    }
+    // Dedup CHECK before sending (read-only). The wrapper's PID lock makes the
+    // NEWS class single-instance, so check→send→record can't race.
+    if (!DRY_RUN && hasKey(alert.key)) { dup += 1; continue; }
 
     const res = await dispatch(alert, { dryRun: DRY_RUN });
-    if ((res.ok && !res.skipped) || (DRY_RUN && res.skipped)) sent += 1;
+    const delivered = res.ok && !res.skipped;
+    if (delivered || (DRY_RUN && res.skipped)) sent += 1;
+
+    // Record the key ONLY after a confirmed delivery. A skipped (unconfigured)
+    // or failed send leaves the key unclaimed so it retries next poll — never
+    // silently lost (the claim-before-send bug that ate the first 11:30 run).
+    if (delivered) recordSent(alert.key);
+
     if (DRY_RUN) console.log(`[news-alerts] would send: ${alert.text.replace(/\n/g, " ⏎ ")}`);
   }
 
