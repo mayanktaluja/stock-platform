@@ -714,7 +714,7 @@ function buildSectorOverlay(scoredHoldings) {
   return out;
 }
 
-function buildSnapshot(scoredHoldings) {
+function buildSnapshot(scoredHoldings, residual = null) {
   let totalCV = 0;
   let totalInv = 0;
   let snowSum = 0;
@@ -740,6 +740,18 @@ function buildSnapshot(scoredHoldings) {
     }
   }
 
+  // Residual — value of uploaded equity holdings that have no SWS data and were
+  // never scored (freshly-listed demergers, names outside the universe). They
+  // are NOT in scoredHoldings (which feeds scoring/weights/tiers/action-mix), so
+  // we fold their broker value into the DISPLAY money totals only, here, to keep
+  // the hero trio reflecting the user's full book. snowflake/v4 averages and the
+  // covered count deliberately exclude them — they have no SWS signal.
+  const resInv = num(residual?.invested, 0);
+  const resCur = num(residual?.current, 0);
+  const unmatchedCount = num(residual?.count, 0);
+  totalInv += resInv;
+  totalCV += resCur;
+
   return {
     totalInvested: Math.round(totalInv),
     totalCurrent: Math.round(totalCV),
@@ -747,6 +759,8 @@ function buildSnapshot(scoredHoldings) {
     totalPnLPct: totalInv > 0 ? Math.round((totalCV - totalInv) / totalInv * 1000) / 10 : 0,
     coveredCount,
     holdingsCount: scoredHoldings.length,
+    unmatchedCount,
+    uploadedEquityCount: scoredHoldings.length + unmatchedCount,
     avgSnowflake: snowN ? Math.round(snowSum / snowN * 10) / 10 : null,
     avgV4Score: v4N ? Math.round(v4Sum / v4N * 10) / 10 : null,
     // Back-compat alias: this field now carries V4 values.
@@ -830,6 +844,7 @@ export function buildSWSReport(scoredHoldings, opts = {}) {
   const uploadedAtIso = opts.uploadedAtIso ?? null;
   const asOfDateIso = opts.asOfDateIso ?? null;
   const brokerSummary = opts.brokerSummary ?? null;
+  const unmatchedResidual = opts.unmatchedResidual ?? null;
 
   attachDividendsToHoldings(scoredHoldings, loadDividendFeed());
 
@@ -844,7 +859,7 @@ export function buildSWSReport(scoredHoldings, opts = {}) {
     sectorOverlay,
     macroRegime,
   });
-  const snapshot = buildSnapshot(scoredHoldings);
+  const snapshot = buildSnapshot(scoredHoldings, unmatchedResidual);
   snapshot.portfolioHealth = computePortfolioHealth(snapshot, scoredHoldings, {
     macroRegime,
     asOf: new Date().toISOString(),
@@ -891,7 +906,7 @@ export function buildSWSReport(scoredHoldings, opts = {}) {
     statement_as_of: asOfDateIso ?? null,
     sws_scanned_at: picks?.scanned_at ?? null,
     universe_size: picks?.universe_size ?? null,
-    coverage_text: `${snapshot.coveredCount}/${snapshot.holdingsCount} holdings have SWS data`,
+    coverage_text: `${snapshot.coveredCount}/${snapshot.uploadedEquityCount || snapshot.holdingsCount} holdings have SWS data`,
     broker_summary: brokerSummary
       ? {
           invested: Number.isFinite(brokerSummary.invested) ? brokerSummary.invested : null,
@@ -938,3 +953,7 @@ export function buildSWSReport(scoredHoldings, opts = {}) {
     },
   };
 }
+
+// Test-only surface — buildSnapshot is internal, but the unmatched-equity
+// residual fold (hero-trio money totals) is worth asserting in isolation.
+export const __testing__ = { buildSnapshot };
