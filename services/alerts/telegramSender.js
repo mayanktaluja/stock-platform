@@ -31,7 +31,7 @@ export function escapeHtml(value) {
  * their own interpolations via escapeHtml); `buttons` is an optional flat list
  * of { text, url } rendered as a single inline-keyboard row.
  */
-export function buildTelegramPayload({ text, breaking = false, buttons = [] } = {}, env = process.env) {
+export function buildTelegramPayload({ text, breaking = false, buttons = [], messageThreadId } = {}, env = process.env) {
   if (!String(text || "").trim()) throw new Error("telegram payload requires non-empty text");
   const safeText = String(text).length > MAX_TEXT
     ? `${String(text).slice(0, MAX_TEXT - 1)}…`
@@ -45,6 +45,12 @@ export function buildTelegramPayload({ text, breaking = false, buttons = [] } = 
     disable_notification: !breaking,
     link_preview_options: { is_disabled: true },
   };
+  // Forum-topic routing: when set, the message lands in a specific topic thread
+  // of a Topics-enabled group. Omitted → posts to the chat root (backward-compatible
+  // with the P1/P2 DM bot).
+  if (messageThreadId != null && String(messageThreadId).trim() !== "") {
+    body.message_thread_id = Number(messageThreadId);
+  }
   const row = (Array.isArray(buttons) ? buttons : [])
     .filter((b) => b && b.text && b.url)
     .map((b) => ({ text: String(b.text), url: String(b.url) }));
