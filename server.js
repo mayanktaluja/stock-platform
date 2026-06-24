@@ -159,11 +159,6 @@ import { loadFoScreenerFromKV } from "./services/foKvStore.js";
 import { buildCatalystsPayload } from "./services/catalystsService.js";
 import { buildMarketVerdict } from "./services/marketVerdict.js";
 import {
-  buildMarketInformationPayload,
-  loadMarketInformationContext,
-  loadMarketInformationSnapshot,
-} from "./services/marketInformationService.js";
-import {
   loadEarningsSnapshot,
   loadEarningsStats,
   filterEvents,
@@ -339,7 +334,6 @@ const searchCache = new NodeCache({ stdTTL: 300, checkperiod: 60 });
 const SEARCH_UNIVERSE = getExpandedUniverse();
 // Catalyst calendar (NSE corporate events) changes slowly — cache for 2 hours.
 const catalystCache = new NodeCache({ stdTTL: 7200, checkperiod: 600 });
-const marketInformationCache = new NodeCache({ stdTTL: 300, checkperiod: 60 });
 // Portfolio intelligence orchestration is expensive (~1 second per call even
 // when underlying quotes are warm). Cache for 30 seconds so rapid refreshes,
 // tab switches, and the 60s auto-refresh don't rebuild the whole pipeline.
@@ -5056,50 +5050,6 @@ app.get("/api/sector-outlook/healthz", (req, res) => {
   });
 });
 // ──── /end Sector Outlook ────
-
-// ──── Market Radar ────
-// Experimental StockInsights-backed filing radar. The API only serves the
-// committed/generated snapshot; live provider calls are restricted to the
-// manual refresh script so page views do not burn trial API quota.
-app.get("/api/market-information/latest", (req, res) => {
-  res.set("Cache-Control", "private, max-age=300, must-revalidate");
-  const cacheKey = JSON.stringify({
-    ticker: req.query.ticker || req.query.q || req.query.search || "",
-    sentiment: req.query.sentiment || "all",
-    category: req.query.category || "all",
-    source: req.query.source || "all",
-    scope: req.query.scope || "all",
-  });
-  const cached = marketInformationCache.get(cacheKey);
-  if (cached) {
-    res.set("X-Cache", "HIT");
-    return res.status(cached.status).json(cached.body);
-  }
-
-  const loaded = loadMarketInformationSnapshot(path.join(__dirname, "data", "marketInformation", "latest.json"));
-  if (!loaded.ok) {
-    const body = {
-      schema_version: "market-information-v1",
-      status: "warming",
-      error: loaded.error,
-      message: "Market Radar snapshot is not generated yet. Run scripts/refresh-market-information.mjs locally.",
-    };
-    marketInformationCache.set(cacheKey, { status: loaded.status || 503, body });
-    res.set("X-Cache", "MISS");
-    return res.status(loaded.status || 503).json(body);
-  }
-
-  const context = loadMarketInformationContext({ cwd: __dirname });
-  const body = buildMarketInformationPayload(loaded.snapshot, {
-    query: req.query,
-    portfolioTickers: context.portfolioTickers,
-    watchlistTickers: context.watchlistTickers,
-  });
-  marketInformationCache.set(cacheKey, { status: 200, body });
-  res.set("X-Cache", "MISS");
-  return res.json(body);
-});
-// ──── /end Market Radar ────
 
 // ==================== PAPER-TRADE TRACKER ====================
 
