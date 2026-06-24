@@ -5956,6 +5956,7 @@ function formatQuote(q) {
 import { readFileSync, writeFileSync, existsSync } from "fs";
 import { getPortfolioStorage } from "./portfolioStorage.js";
 import { getAnalyzerStorage } from "./analyzerStorage.js";
+import { computeUnmatchedEquityResidual, slimUnmatchedForStorage, rebuildUnmatchedFromStored } from "./services/portfolio/unmatchedResidual.js";
 import { getSwsInputAlertLedgerStorage } from "./swsInputAlertLedgerStorage.js";
 import {
   buildSwsInputAlertTransitionKeys,
@@ -7648,6 +7649,11 @@ async function runSWSAnalysis({
         asOfDate: asOfDateIso,
       }
     : null;
+  // Fold the value of uploaded-but-unscored equity rows (e.g. freshly-listed
+  // demergers outside the universe) into the hero-trio money totals so the
+  // headline reflects the user's full book, not just the SWS-covered subset.
+  // Computed here from parsed.unmatched so /analyze and /rerun share one path.
+  const unmatchedResidual = computeUnmatchedEquityResidual(parsed?.unmatched);
   const swsReport = buildSWSReport(scoredHoldings, {
     freshCapitalInr,
     freshPickLimit: 8,
@@ -7655,6 +7661,7 @@ async function runSWSAnalysis({
     uploadedAtIso: uploadedAtIso ?? null,
     asOfDateIso,
     brokerSummary,
+    unmatchedResidual,
   });
   swsTimings.aggregate_ms = Date.now() - aggT0;
 
@@ -8044,12 +8051,17 @@ app.post("/api/portfolio/analyze", requireUploadQuota, requireRiskProfile, portf
         unrealisedPL: Number.isFinite(summary.unrealisedPL) ? summary.unrealisedPL : null,
         asOfDate: summary.asOfDate || null,
       };
+      // Persist the unmatched equity rows (slim) so the hero-trio residual
+      // survives a rerun. Same rationale as brokerSummary above: the rerun synth
+      // has no access to the original parsed.unmatched, so without this the
+      // headline would regress to the SWS-covered-only totals after a tab-switch.
       await getAnalyzerStorage().write(sub, {
         holdings: savable.stocks,
         mfHoldings: savable.mutualFunds,
         uploadedAt: savable.parsedAt,
         sourceFile: req.file.originalname || null,
         brokerSummary: brokerSummaryToStore,
+        unmatchedEquity: slimUnmatchedForStorage(parsed?.unmatched),
       });
     } catch (e) {
       console.warn("[ANALYZE] analyzer-cache write failed:", e.message);
@@ -8276,7 +8288,10 @@ app.post("/api/portfolio/analyze/rerun", requireRiskProfile, express.json(), asy
         instrumentType: h.instrumentType || "stock",
       })),
       mfHoldings: storedUploadMfs.length > 0 ? mfHoldings : null,
-      unmatched: [],
+      // Restore the persisted unmatched equity rows so the hero-trio residual
+      // (computeUnmatchedEquityResidual in runSWSAnalysis) keeps the full-book
+      // money totals + "Not analysed" section intact across reruns.
+      unmatched: rebuildUnmatchedFromStored(stored.unmatchedEquity),
       warnings: [],
       source: "rerun:" + (stored.sourceFile || "stored"),
       // The legacy summary.asOfDate = stored.uploadedAt is preserved for the
