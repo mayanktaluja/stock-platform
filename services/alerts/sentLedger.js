@@ -85,6 +85,43 @@ function readKeys(file, ttlMs, now) {
 }
 
 /**
+ * Read-only check: has `key` been recorded within the TTL window? Does NOT
+ * write. Use this BEFORE sending so a key is never claimed for an alert that
+ * then fails or self-skips (which would silently lose it forever). Pair with
+ * recordSent() AFTER a confirmed delivery.
+ *
+ * Safe because the poller wrapper holds a single-instance PID lock for the
+ * whole run, so the NEWS class has no concurrent writer to race the
+ * check→send→record sequence.
+ */
+export function hasKey(key, { env = process.env, ttlMs = DEFAULT_TTL_MS, now = Date.now() } = {}) {
+  try {
+    const file = ledgerPath(ledgerDir(env), now);
+    return readKeys(file, ttlMs, now).has(key);
+  } catch {
+    return false; // fail OPEN — better a rare duplicate than a missed alert
+  }
+}
+
+/**
+ * Append `key` to the ledger unconditionally (caller has already confirmed it's
+ * new via hasKey and that the alert was delivered). Never throws.
+ */
+export function recordSent(key, { env = process.env, now = Date.now() } = {}) {
+  const dir = ledgerDir(env);
+  try { mkdirSync(dir, { recursive: true }); } catch { return { recorded: false }; }
+  const lock = acquireLock(dir);
+  try {
+    appendFileSync(ledgerPath(dir, now), JSON.stringify({ key, ts: now }) + "\n", "utf-8");
+    return { recorded: true };
+  } catch {
+    return { recorded: false };
+  } finally {
+    releaseLock(lock);
+  }
+}
+
+/**
  * Mark `key` as sent if it hasn't been seen within the TTL window.
  *   { fresh: true }   — first time (within window); caller should send
  *   { fresh: false }  — already sent recently; caller should skip
