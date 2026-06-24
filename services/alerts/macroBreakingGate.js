@@ -108,7 +108,10 @@ export function compileMacroGate(extraKeywords = []) {
 export function matchMacro(text, compiled) {
   const str = String(text || "");
   if (!str.trim() || !compiled || !compiled.re) return { matched: false, hits: [] };
-  compiled.re.lastIndex = 0; // global regex is stateful — reset before reuse
-  const hits = [...new Set((str.match(compiled.re) || []).map((m) => m.toLowerCase()))];
+  // Build a FRESH regex per call (zero shared mutable lastIndex) so concurrent
+  // async callers — the event-driven listener fires handlers in parallel — can't
+  // race each other's match state (adversarial H3).
+  const re = new RegExp(compiled.re.source, "gi");
+  const hits = [...new Set((str.match(re) || []).map((m) => m.toLowerCase()))];
   return { matched: hits.length > 0, hits };
 }

@@ -41,15 +41,21 @@ export function routeMessage(message, deps = {}) {
 
   const headLabel = channel || category;
   const body = text.length > MAX_TEXT ? `${text.slice(0, MAX_TEXT)}…` : text;
-  const lines = [`${tags.join("")} <b>${escapeHtml(headLabel)}</b>`, escapeHtml(body)];
+  // 🔴 marks breaking (loud); ⭐ marks a watchlist hit. (Bot API has no DND
+  // override — loudness is disable_notification; these prefixes are the visual cue.)
+  const prefix = `${breaking ? "🔴 " : ""}${tags.join("")}`.trim();
+  const head = prefix ? `${prefix} <b>${escapeHtml(headLabel)}</b>` : `<b>${escapeHtml(headLabel)}</b>`;
+  const lines = [head, escapeHtml(body)];
   if (symbols.length) lines.push(`<i>${symbols.map(escapeHtml).join(" · ")}</i>`);
 
   const url = message?.link && /^https?:\/\//.test(message.link) ? message.link : null;
   const buttons = url ? [{ text: "🔗 Source", url }] : [];
 
-  // Channel-agnostic dedup identity: only the normalized title participates, so
-  // the same wire on multiple channels collapses to one alert in the ledger.
-  const normTitle = text.toLowerCase().replace(/[^a-z0-9]/g, "").slice(0, 80);
+  // Channel-agnostic dedup identity: the FULL normalized text participates (not a
+  // prefix) so the same wire on multiple channels collapses to one alert, while
+  // two genuinely-different headlines sharing a long prefix do NOT false-collapse
+  // (adversarial M1). ledgerKey sha256s, so length is free.
+  const normTitle = text.toLowerCase().replace(/[^a-z0-9]/g, "");
   const key = ledgerKey(["router", normTitle]);
 
   return { topic: category, breaking, text: lines.join("\n"), key, buttons, tags, symbols };

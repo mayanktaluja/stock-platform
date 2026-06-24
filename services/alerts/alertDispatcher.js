@@ -31,7 +31,7 @@ export async function dispatch(alert, { env = process.env, dryRun = false, logge
     }
 
     const res = await sendTelegram(
-      { text: alert.text, breaking: !!alert.breaking, buttons: alert.buttons || [], messageThreadId: alert.messageThreadId },
+      { text: alert.text, breaking: !!alert.breaking, buttons: alert.buttons || [], messageThreadId: alert.messageThreadId, chatId: alert.chatId },
       { env, dryRun },
     );
 
