@@ -2870,11 +2870,6 @@ const TAB_CONFIG = {
       );
     },
   },
-  marketInformation: {
-    elId: "marketInformationTab",
-    label: "Market Radar",
-    enter: () => { if (typeof loadMarketInformation === "function") loadMarketInformation(); },
-  },
   portfolio: { elId: "portfolioTab", label: "My Portfolio",        enter: () => loadPortfolio() },
   track:     { elId: "trackTab",     label: "Track Record",        enter: () => loadTrackRecord() },
   analyzer:  {
