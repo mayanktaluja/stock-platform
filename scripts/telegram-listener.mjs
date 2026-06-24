@@ -80,7 +80,9 @@ try {
 
 const queue = createThrottleQueue({ minGapMs: 1100 }); // ~1 msg/s into the one group
 let topicState = { groupId: null, topics: {} };
-const idToSource = new Map(); // channel id (string) → { category, name }
+// username (lowercased) → { name, category }. Routing is by username (skip if
+// unknown — M2) rather than by channel id, which GramJS marks inconsistently.
+const bySlug = new Map(sources.map((c) => [String(c.slug).toLowerCase(), { name: c.name || c.slug, category: c.category }]));
 
 async function sendWithFallback(alert) {
   const res = await dispatch(alert);
@@ -96,11 +98,12 @@ async function handleMessage(event) {
     const text = msg?.message || "";
     if (!text.trim()) return;
 
-    const cid = String(event.chatId ?? msg?.chatId ?? "");
-    const src = idToSource.get(cid);
+    let username = null; let chat = null;
+    try { chat = await msg.getChat(); username = chat?.username || null; } catch { /* entity fetch best-effort */ }
+    const src = username ? bySlug.get(String(username).toLowerCase()) : null;
     if (!src) return; // unknown channel → skip rather than misroute (M2)
 
-    const link = src.username ? `https://t.me/${src.username}/${msg.id}` : null;
+    const link = username ? `https://t.me/${username}/${msg.id}` : null;
     const date = msg?.date ? new Date(msg.date * 1000).toISOString() : new Date().toISOString();
 
     const alert = routeMessage(
@@ -127,8 +130,18 @@ async function handleMessage(event) {
 
 async function main() {
   const client = new TelegramClient(new StringSession(sessionStr), apiId, apiHash, { connectionRetries: 5 });
-  await client.connect();
+  // start() (not bare connect()) engages GramJS's update loop reliably. The
+  // session is already authorized, so the auth callbacks below are never called.
+  await client.start({
+    phoneNumber: async () => { throw new Error("session expected to be authorized — regenerate TG_SESSION"); },
+    password: async () => { throw new Error("session expected to be authorized"); },
+    phoneCode: async () => { throw new Error("session expected to be authorized"); },
+    onError: (e) => console.warn(`[tg-router] start error: ${e?.message || e}`),
+  });
   if (!(await client.checkAuthorization())) dormant("session not authorized — regenerate TG_SESSION");
+
+  // Warm the entity/dialog cache so getChat() resolves channel usernames.
+  try { await client.getDialogs({ limit: 50 }); } catch (e) { console.warn(`[tg-router] getDialogs prime failed (non-fatal): ${e?.message}`); }
 
   // Ensure a topic per category (bot admin in a Topics group + TG_GROUP_ID).
   // If not ready, run anyway and post to the chat root so nothing is lost.
@@ -138,21 +151,24 @@ async function main() {
     else console.warn(`[tg-router] topics not ready (${t.reason}) — posting to chat root until configured`);
   } catch (e) { console.warn(`[tg-router] ensureTopics failed (${e?.message}) — posting to chat root`); }
 
-  // Resolve each enabled channel to its entity; map its id → category (M2). The
-  // session account must have JOINED the channel or getEntity throws (skip it).
+  // Build the NewMessage filter from channel USERNAMES (strings). GramJS's
+  // _intoIdSet re-resolves each `chats` entry via getInputEntity; passing entity
+  // or InputPeer OBJECTS makes it stringify them to "[object Object]" and throw
+  // on the first update — only usernames/ids resolve. We pre-resolve each slug
+  // (so an un-joined channel is dropped + logged, not fatal) then pass the slug
+  // strings that succeeded. The session account must have JOINED each channel.
   const resolved = [];
   for (const c of sources) {
-    try {
-      const ent = await client.getEntity(c.slug);
-      resolved.push(ent);
-      idToSource.set(String(ent.id), { category: c.category, name: c.name || c.slug, username: ent.username || c.slug });
-    } catch (e) {
-      console.warn(`[tg-router] cannot resolve ${c.slug} (join it with the session account?): ${e?.message || e}`);
-    }
+    try { await client.getInputEntity(c.slug); resolved.push(c.slug); }
+    catch (e) { console.warn(`[tg-router] cannot resolve ${c.slug} (join it with the session account?): ${e?.message || e}`); }
   }
   if (!resolved.length) dormant("none of the configured channels could be resolved");
 
-  client.addEventHandler(handleMessage, new NewMessage({ chats: resolved }));
+  // No chats filter: GramJS's NewMessage `chats` resolution is unreliable here
+  // (entity/InputPeer objects throw, and username filtering didn't deliver), so
+  // we listen to ALL new messages and filter in-handler by username via bySlug
+  // (skip-if-unknown — M2). Non-source chats are dropped immediately, cheaply.
+  client.addEventHandler(handleMessage, new NewMessage({}));
   console.log(`[tg-router] live — ${resolved.length} channel(s), categories: ${categories.join(", ")}`);
   setInterval(() => console.log(`[tg-router] heartbeat ${new Date().toISOString()} queue=${queue.size()} dropped=${queue.dropped()}`), 30 * 60 * 1000);
 }

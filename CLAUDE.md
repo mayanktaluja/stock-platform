@@ -394,15 +394,27 @@ freshness), tracked in the plan.
 | `services/alerts/quietHours.js` | NEWS-only overnight-IST suppression; REGIME never calls it (M1); `breaking` bypasses. |
 | `services/alerts/newsAlert.js` | Formats a matched headline → alert; dedup key collapses the same story across wires. |
 
-### Phase 3b — real-time news router → Telegram Topics (COVERAGE-FIRST)
+### Phase 3b — news router → Telegram Topics (COVERAGE-FIRST)
 
-`scripts/telegram-listener.mjs` is a persistent GramJS (MTProto user-session) client
-that subscribes to the channels in `data/alerts/news-sources.json` and routes **every**
-message (coverage-first — NOT watchlist-gated) into the matching **category topic** of a
-Topics-enabled delivery group. Lowest-latency source (channels post before the wires;
-push ~1s). Wrapper `scripts/telegram-listener.sh`, plist `com.starbhai.telegram-listener`
-(KeepAlive `SuccessfulExit:false`). Reuses the same no-prune origin/main worktree +
-canonical `ALERTS_LEDGER_DIR` + PID-lock pattern as the RSS poller.
+Routes news from `data/alerts/news-sources.json` channels into per-category **topics** of a
+Topics-enabled delivery group, coverage-first (forward all; ⭐ watchlist; 🔴 macro-breaking;
+cross-channel deduped). Two ingestion engines share the SAME `routeMessage` → dedup →
+`dispatch(chatId=group, messageThreadId=topic)` pipeline:
+
+- **PRIMARY — `scripts/refresh-mirror-news.mjs` (the `t.me/s/` poller).** Polls each channel's
+  PUBLIC web preview (`https://t.me/s/<slug>`) over plain HTTPS — no MTProto, no session.
+  `scripts/telegramMirrorParser.js` regex-parses the page. Cron `com.starbhai.mirror-news`
+  (`StartInterval 60` = ~1 min, 3-min freshness window). **This is the reliable path** and the
+  one actually wired live, because the listener's persistent connection (below) won't hold on
+  this host.
+- **ALTERNATIVE — `scripts/telegram-listener.mjs` (GramJS MTProto, real-time push ~1s).**
+  Needs a Telegram user `TG_SESSION` + a host that can hold a long-lived MTProto connection.
+  In the dev/sandbox env the update stream only delivered `UpdateConnectionState` (no message
+  updates — RPC works, the persistent stream drops), so it's kept as the lower-latency option
+  for a stable-connection box (VPS), not the default. Plist `com.starbhai.telegram-listener`
+  (KeepAlive `SuccessfulExit:false`), `client.start()` + `getDialogs` prime, route by username.
+
+Both reuse the no-prune origin/main worktree + canonical `ALERTS_LEDGER_DIR` + PID-lock pattern.
 
 Flow: `routeMessage` → cross-channel dedup (`hasKey`) → `dispatch(messageThreadId)` → `recordSent`.
 
