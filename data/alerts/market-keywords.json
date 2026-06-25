@@ -1,0 +1,19 @@
+{
+  "$comment": "Market-relevance allowlist. A message is forwarded ONLY if it hits one of these (or a macro-breaking keyword, or a watchlist ticker). Everything else (general news, crime, weather, sports) is dropped. Broad on purpose for high recall; leading-boundary stem match (share→shares). Edit to tune. Pairs with macroBreakingGate.js (macro terms) + watchlist.json (your stocks).",
+  "as_of": "2026-06-25",
+  "keywords": [
+    "stock", "stocks", "share", "shares", "equity", "equities", "shareholder", "listed", "listing", "delist", "ipo", "spac",
+    "earnings", "result", "results", "revenue", "profit", "loss", "margin", "ebitda", "guidance", "outlook", "forecast", "q1", "q2", "q3", "q4", "quarter", "fiscal", "yoy", "qoq",
+    "dividend", "buyback", "bonus issue", "stock split", "merger", "acquisition", "takeover", "m&a", "stake", "divest", "demerger", "spin-off", "fundraise", "qip", "rights issue", "preferential",
+    "brokerage", "analyst", "target price", "price target", "upgrade", "downgrade", "rating", "overweight", "underweight", "outperform", "buy call", "sell call", "initiate coverage",
+    "nifty", "sensex", "bank nifty", "dow", "nasdaq", "s&p", "russell", "ftse", "nikkei", "hang seng", "dax", "index", "indices", "futures", "options", "derivative", "f&o", "open interest",
+    "bond", "bonds", "yield", "treasury", "g-sec", "repo", "rate cut", "rate hike", "interest rate", "rbi", "fed", "fomc", "ecb", "central bank", "inflation", "cpi", "wpi", "gdp", "fiscal deficit", "monetary",
+    "fii", "dii", "fpi", "inflow", "outflow", "block deal", "bulk deal", "buying", "selling", "selloff", "rally", "correction", "crash", "all-time high", "lifetime high", "52-week",
+    "rupee", "dollar", "forex", "currency", "usd/inr", "crude", "oil price", "brent", "wti", "opec", "gold", "silver", "commodity", "commodities",
+    "bank", "banking", "nbfc", "fintech", "insurance", "pharma", "auto", "automobile", "fmcg", "metals", "steel", "realty", "real estate", "energy", "power", "telecom", "infra", "cement", "chemicals", "psu", "it services", "semiconductor", "defence", "aviation", "airline",
+    "sebi", "regulator", "regulatory", "probe", "investigation", "penalty", "fine", "sanction", "tariff", "trade deal", "trade war", "export", "import", "ban",
+    "ceo", "cfo", "resign", "management change", "order win", "contract win", "capex", "expansion", "plant", "capacity",
+    "bitcoin", "btc", "ethereum", "eth", "crypto", "cryptocurrency", "token", "blockchain", "stablecoin", "etf", "halving",
+    "market", "markets", "trading", "trade setup", "pre-market", "premarket", "wall street", "dalal street", "valuation", "ipo allotment", "q3 results"
+  ]
+}

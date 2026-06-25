@@ -38,6 +38,7 @@ dotenv.config({ path: path.join(REPO_ROOT, ".env"), override: false });
 const { compileWatchlist } = await import("../services/alerts/watchlistGate.js");
 const { compileMacroGate, matchMacro } = await import("../services/alerts/macroBreakingGate.js");
 const { compileNoiseGate, matchNoise } = await import("../services/alerts/noiseFilter.js");
+const { compileMarketGate, matchMarket } = await import("../services/alerts/marketRelevanceGate.js");
 const { routeMessage } = await import("../services/alerts/newsRouter.js");
 const { markIfNew } = await import("../services/alerts/sentLedger.js");
 const { dispatch } = await import("../services/alerts/alertDispatcher.js");
@@ -70,6 +71,8 @@ const macroCompiled = compileMacroGate();
 const macroGate = { match: (t) => matchMacro(t, macroCompiled) };
 const noiseCompiled = compileNoiseGate((loadJson("data/alerts/mute-keywords.json") || {}).keywords || []);
 const noiseGate = { match: (t) => matchNoise(t, noiseCompiled) };
+const marketCompiled = compileMarketGate((loadJson("data/alerts/market-keywords.json") || {}).keywords || []);
+const marketGate = { match: (t) => matchMarket(t, marketCompiled) };
 
 // GramJS import guarded (C2): a missing dep dormant-exits 0 (no KeepAlive hot-loop).
 let TelegramClient; let StringSession; let NewMessage;
@@ -111,7 +114,7 @@ async function handleMessage(event) {
 
     const alert = routeMessage(
       { text, channel: src.name, category: src.category, link, date },
-      { compiledWatchlist, macroGate, noiseGate },
+      { compiledWatchlist, macroGate, noiseGate, marketGate },
     );
     if (!alert) return;
 
@@ -126,6 +129,12 @@ async function handleMessage(event) {
       alert.messageThreadId = threadId;
     }
     queue.enqueue(() => sendWithFallback(alert));
+
+    // Cross-post BREAKING to the IMPORTANT priority group (separate, loud).
+    const impGroup = process.env.TG_IMPORTANT_GROUP_ID;
+    if (alert.breaking && impGroup && markIfNew(`imp:${alert.key}`).fresh) {
+      queue.enqueue(() => dispatch({ text: alert.text, breaking: true, buttons: alert.buttons || [], chatId: impGroup }));
+    }
   } catch (err) {
     console.warn(`[tg-router] handler error (swallowed): ${err?.message || err}`);
   }

@@ -32,6 +32,7 @@ const { parseMirrorHtml } = await import("../services/alerts/telegramMirrorParse
 const { compileWatchlist } = await import("../services/alerts/watchlistGate.js");
 const { compileMacroGate, matchMacro } = await import("../services/alerts/macroBreakingGate.js");
 const { compileNoiseGate, matchNoise } = await import("../services/alerts/noiseFilter.js");
+const { compileMarketGate, matchMarket } = await import("../services/alerts/marketRelevanceGate.js");
 const { routeMessage } = await import("../services/alerts/newsRouter.js");
 const { markIfNew } = await import("../services/alerts/sentLedger.js");
 const { dispatch } = await import("../services/alerts/alertDispatcher.js");
@@ -71,6 +72,8 @@ async function main() {
   const macroGate = { match: (t) => matchMacro(t, macroCompiled) };
   const noiseCompiled = compileNoiseGate((loadJson("data/alerts/mute-keywords.json") || {}).keywords || []);
   const noiseGate = { match: (t) => matchNoise(t, noiseCompiled) };
+  const marketCompiled = compileMarketGate((loadJson("data/alerts/market-keywords.json") || {}).keywords || []);
+  const marketGate = { match: (t) => matchMarket(t, marketCompiled) };
 
   let fetched = 0, fresh = 0, matched = 0, sent = 0, dup = 0;
 
@@ -89,7 +92,7 @@ async function main() {
 
       const alert = routeMessage(
         { text: row.text, channel: c.name || c.slug, category: c.category, link: row.url, date: row.publishedAt },
-        { compiledWatchlist, macroGate, noiseGate },
+        { compiledWatchlist, macroGate, noiseGate, marketGate },
       );
       if (!alert) continue;
       matched += 1;
@@ -105,6 +108,16 @@ async function main() {
       if (res.ok && !res.skipped) { sent += 1; await delay(1100); } // ~1 msg/s into the group (Bot API per-chat limit)
       else if (DRY_RUN && res.skipped) sent += 1;
       if (DRY_RUN) console.log(`[mirror] would send [${alert.topic}]${alert.breaking ? " 🔴" : ""}: ${row.text.slice(0, 80)}`);
+
+      // Cross-post BREAKING (macro-moving or watchlist) to the IMPORTANT priority
+      // group — a separate, loud destination the user keeps unmuted. Separate
+      // ledger key ("imp:") so it delivers there once in addition to its topic.
+      const impGroup = process.env.TG_IMPORTANT_GROUP_ID;
+      if (alert.breaking && impGroup && (DRY_RUN || markIfNew(`imp:${alert.key}`).fresh)) {
+        const r2 = await dispatch({ text: alert.text, breaking: true, buttons: alert.buttons || [], chatId: impGroup }, { dryRun: DRY_RUN });
+        if (r2.ok && !r2.skipped) await delay(1100);
+        if (DRY_RUN) console.log(`[mirror]   ↳ ALSO → IMPORTANT: ${row.text.slice(0, 60)}`);
+      }
     }
     await delay(400); // polite gap between channels
   }

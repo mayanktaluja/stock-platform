@@ -24,10 +24,10 @@ export function routeMessage(message, deps = {}) {
   const text = String(message?.text || "").trim();
   if (!text) return null;
 
-  const { compiledWatchlist, macroGate, noiseGate } = deps;
+  const { compiledWatchlist, macroGate, noiseGate, marketGate } = deps;
 
   // Mute filter: drop disaster/weather spam (earthquake/tsunami/…) before it can
-  // become an alert. Coverage-first forwards everything EXCEPT muted noise.
+  // become an alert.
   if (noiseGate && typeof noiseGate.match === "function" && noiseGate.match(text)) return null;
 
   const category = String(message?.category || "");
@@ -37,6 +37,17 @@ export function routeMessage(message, deps = {}) {
   const macroResult = (macroGate && typeof macroGate.match === "function")
     ? macroGate.match(text)
     : { matched: false, hits: [] };
+
+  // Relevance gate: only forward news that relates to a stock or moves the
+  // market — a watchlist ticker, a macro-breaking keyword, OR a market keyword.
+  // Everything else (general/crime/weather/celebrity) is dropped. (When no
+  // marketGate is injected, matchMarket fails open so tests/callers still work.)
+  const hasMarketGate = marketGate && typeof marketGate.match === "function";
+  const marketRelevant = !hasMarketGate // no gate injected → don't filter (fail-open)
+    || Boolean(watchlistHit.matched)
+    || Boolean(macroResult?.matched)
+    || marketGate.match(text);
+  if (!marketRelevant) return null;
 
   // A big macro headline OR one about the owner's own stock pings loud.
   const breaking = Boolean(macroResult?.matched) || Boolean(watchlistHit.matched);
