@@ -8,7 +8,7 @@
 # Usage on a fresh VPS (as a sudo user):
 #   curl -fsSL https://raw.githubusercontent.com/mayanktaluja/stock-platform/<branch>/scripts/deploy-vps.sh | bash -s <branch>
 # or: clone the repo and run  bash scripts/deploy-vps.sh <branch>
-# <branch> defaults to "main" (use "feat/telegram-channel-listener" until PR #914 merges).
+# <branch> defaults to "main" (PR #914 is merged — use main).
 
 set -euo pipefail
 REPO_URL="https://github.com/mayanktaluja/stock-platform.git"
@@ -35,13 +35,14 @@ cd "${DIR}"
 # 3. Deps
 npm install --no-audit --no-fund
 
-# 4. .env — poller needs ONLY these four (no Telegram session).
+# 4. .env — poller needs ONLY these (no Telegram session).
 if [ ! -f .env ]; then
   cat > .env <<'EOF'
 # Paste TG_BOT_TOKEN from your Mac's .env (the secret). The rest are filled in.
 TG_BOT_TOKEN=PASTE_BOT_TOKEN_HERE
 TG_CHAT_ID=6150109282
 TG_GROUP_ID=-1004298377347
+TG_IMPORTANT_GROUP_ID=-5480926927
 ALERTS_ENABLED=1
 EOF
   echo ""
