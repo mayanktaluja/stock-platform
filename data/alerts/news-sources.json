@@ -1,0 +1,18 @@
+{
+  "$comment": "Telegram news-source registry for the breaking-news listener. Categories are markets|macro|trump|geopolitics|traders|crypto|india. The listener subscribes to each enabled channel and routes its messages into the matching category topic. Set enabled:false to mute a source without deleting it. Per-source slug is the public Telegram @handle WITHOUT the leading @. Broad-macro breaking keywords live in services/alerts/macroBreakingGate.js, NOT here — this file only declares which channels to listen to.",
+  "as_of": "2026-06-25",
+  "channels": [
+    { "name": "FinancialJuice", "slug": "financialjuice", "category": "markets", "enabled": true },
+    { "name": "Walter Bloomberg", "slug": "WalterBloomberg", "category": "markets", "enabled": true },
+    { "name": "Watcher.Guru", "slug": "WatcherGuru", "category": "crypto", "enabled": true },
+    { "name": "Insider Paper", "slug": "insiderpaper", "category": "trump", "enabled": true },
+    { "name": "Disclose.tv", "slug": "disclosetv", "category": "geopolitics", "enabled": true },
+    { "name": "Tree News", "slug": "tree_news", "category": "markets", "enabled": false, "note": "verify handle live before enabling" },
+    { "name": "Visegrad24", "slug": "visegrad24", "category": "geopolitics", "enabled": false, "note": "verify handle live before enabling" },
+    { "name": "ZeroHedge", "slug": "REPLACE_WITH_REAL_ZEROHEDGE_HANDLE", "category": "traders", "enabled": false, "note": "verify handle live before enabling — the bare 'zerohedge' slug is a FAKE impostor; find the real official handle" },
+    { "name": "Moneycontrol", "slug": "moneycontrolcom", "category": "india", "enabled": true },
+    { "name": "CNBC-TV18", "slug": "cnbc_tv18", "category": "india", "enabled": true },
+    { "name": "Mint", "slug": "livemint", "category": "india", "enabled": true },
+    { "name": "Trump Truth Social Mirror", "slug": "REPLACE_WITH_TRUTHSOCIAL_TELEGRAM_MIRROR", "category": "trump", "enabled": false, "note": "verify handle live before enabling — Truth Social→Telegram mirror of Trump's own posts" }
+  ]
+}

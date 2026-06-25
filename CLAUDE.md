@@ -394,6 +394,53 @@ freshness), tracked in the plan.
 | `services/alerts/quietHours.js` | NEWS-only overnight-IST suppression; REGIME never calls it (M1); `breaking` bypasses. |
 | `services/alerts/newsAlert.js` | Formats a matched headline → alert; dedup key collapses the same story across wires. |
 
+### Phase 3b — news router → Telegram Topics (COVERAGE-FIRST)
+
+Routes news from `data/alerts/news-sources.json` channels into per-category **topics** of a
+Topics-enabled delivery group, coverage-first (forward all; ⭐ watchlist; 🔴 macro-breaking;
+cross-channel deduped). Two ingestion engines share the SAME `routeMessage` → dedup →
+`dispatch(chatId=group, messageThreadId=topic)` pipeline:
+
+- **PRIMARY — `scripts/refresh-mirror-news.mjs` (the `t.me/s/` poller).** Polls each channel's
+  PUBLIC web preview (`https://t.me/s/<slug>`) over plain HTTPS — no MTProto, no session.
+  `scripts/telegramMirrorParser.js` regex-parses the page. Cron `com.starbhai.mirror-news`
+  (`StartInterval 60` = ~1 min, 3-min freshness window). **This is the reliable path** and the
+  one actually wired live, because the listener's persistent connection (below) won't hold on
+  this host.
+- **ALTERNATIVE — `scripts/telegram-listener.mjs` (GramJS MTProto, real-time push ~1s).**
+  Needs a Telegram user `TG_SESSION` + a host that can hold a long-lived MTProto connection.
+  In the dev/sandbox env the update stream only delivered `UpdateConnectionState` (no message
+  updates — RPC works, the persistent stream drops), so it's kept as the lower-latency option
+  for a stable-connection box (VPS), not the default. Plist `com.starbhai.telegram-listener`
+  (KeepAlive `SuccessfulExit:false`), `client.start()` + `getDialogs` prime, route by username.
+
+Both reuse the no-prune origin/main worktree + canonical `ALERTS_LEDGER_DIR` + PID-lock pattern.
+
+Flow: `routeMessage` → cross-channel dedup (`hasKey`) → `dispatch(messageThreadId)` → `recordSent`.
+
+- **Coverage-first, not filtered:** forwards all non-empty messages; **⭐** tags watchlist
+  hits, **🔴 breaking** (loud) on `macroBreakingGate` keyword hits, everything else posts
+  SILENTLY into its topic. No quiet-hours *drop* (that would lose coverage) — loud/quiet is
+  `disable_notification`; the user mutes topics natively to tune volume.
+- **Cross-channel dedup key is channel-agnostic** (`ledgerKey(["router", normTitle])`) so the
+  same wire seen on N channels posts once. Shares the canonical ledger with the RSS poller.
+- **Topic routing:** `topicManager.ensureTopics` creates one forum topic per category via the
+  Bot API (bot must be admin of a Topics group; `TG_GROUP_ID` in `.env`) and persists
+  `data/alerts/topic-map.json` (category → `message_thread_id`). If topics aren't ready, the
+  router posts to the chat root until configured — nothing is lost.
+- **Dormant-safe:** exits 0 (no hot-loop, `SuccessfulExit:false`) when api creds / `TG_SESSION`
+  / channels are missing. Session is owner-minted via `scripts/telegram-session-login.mjs`.
+- **Macro keywords live in `macroBreakingGate.js`, NOT `watchlist.json`** (the C3 boundary
+  still holds for the RSS/regime classes).
+
+| File | Role |
+|------|------|
+| `data/alerts/news-sources.json` | Tracked: `{channels:[{name,slug,category,enabled}]}`. Categories: markets/macro/trump/geopolitics/traders/crypto/india. `enabled:false` mutes a source. |
+| `data/alerts/topic-map.json` | Tracked: `{groupId, topics:{category→thread_id}}`, written by `ensureTopics`. |
+| `services/alerts/newsRouter.js` | Pure. `routeMessage(msg,{compiledWatchlist,macroGate})` → routed alert (topic, breaking, ⭐ tags, channel-agnostic dedup key) or null. |
+| `services/alerts/macroBreakingGate.js` | Pure. Curated breaking-macro keyword set (seeded from `macroRegime` REGIME_KEYWORDS, owned/independent). |
+| `services/alerts/topicManager.js` | Idempotent forum-topic creator + `topic-map.json` persister (Bot API `createForumTopic`). |
+
 ### Smoke / test
 
 ```bash
@@ -401,7 +448,11 @@ freshness), tracked in the plan.
 node test/alertsState.test.mjs && node test/telegramSender.test.mjs \
   && node test/regimeAlert.test.mjs && node test/alertDispatcher.test.mjs \
   && node test/sentLedger.test.mjs && node test/watchlistGate.test.mjs \
-  && node test/quietHours.test.mjs && node test/newsAlert.test.mjs
+  && node test/quietHours.test.mjs && node test/newsAlert.test.mjs \
+  && node test/newsRouter.test.mjs && node test/macroBreakingGate.test.mjs \
+  && node test/topicManager.test.mjs
 node scripts/send-regime-alert.mjs --dry-run --file data/macroRegime.json    # render regime alert
-node scripts/refresh-news-alerts.mjs --dry-run                               # render watchlist alerts
+node scripts/refresh-news-alerts.mjs --dry-run                               # render RSS watchlist alerts
+# Phase 3b router needs TG_SESSION + a Topics group (bot admin) + TG_GROUP_ID; then:
+node scripts/telegram-listener.mjs                                           # live router (dormant until configured)
 ```

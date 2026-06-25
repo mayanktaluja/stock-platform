@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.starbhai.mirror-news</string>
+
+    <!--
+      Telegram public-mirror news poller (fast-news-alerts Phase 3b). Polls
+      t.me/s/<slug> for the enabled channels and routes fresh messages into the
+      delivery group's category topics. Plain HTTPS — the reliable substitute
+      for the MTProto listener, which can't hold a persistent update connection
+      on this host.
+
+      StartInterval 60 = every ~1 minute, 24/7. The poller's freshness window is
+      3 min (2x the cadence + overlap) so nothing slips between runs and the
+      ledger dedups any re-sends. caffeinate -imsu keeps an asleep Mac awake for
+      the overnight US/Trump/Fed window.
+    -->
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/caffeinate</string>
+        <string>-imsu</string>
+        <string>/bin/bash</string>
+        <string>/Users/mayanktaluja/code/stock-platform/scripts/mirror-news-poll.sh</string>
+    </array>
+
+    <key>StartInterval</key>
+    <integer>60</integer>
+
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>WorkingDirectory</key>
+    <string>/Users/mayanktaluja/code/stock-platform</string>
+
+    <key>StandardOutPath</key>
+    <string>/Users/mayanktaluja/code/stock-platform/data/mirror-news-launchd-stdout.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/Users/mayanktaluja/code/stock-platform/data/mirror-news-launchd-stderr.log</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+        <key>HOME</key>
+        <string>/Users/mayanktaluja</string>
+        <key>LANG</key>
+        <string>en_US.UTF-8</string>
+    </dict>
+
+    <key>ProcessType</key>
+    <string>Background</string>
+</dict>
+</plist>
