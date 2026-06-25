@@ -207,7 +207,6 @@ const REQUIRED_NESTED_RUNTIME_FILES = [
   "data/disclosures/holdings.json",
   "data/sws/alerts/input-signatures-latest.json",
   "data/sws/alerts/fundamental-changes-latest.json",
-  "data/marketInformation/latest.json",
   "data/track-record/section-performance-latest.json",
 ];
 

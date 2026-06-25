@@ -2870,11 +2870,6 @@ const TAB_CONFIG = {
       );
     },
   },
-  marketInformation: {
-    elId: "marketInformationTab",
-    label: "Market Radar",
-    enter: () => { if (typeof loadMarketInformation === "function") loadMarketInformation(); },
-  },
   portfolio: { elId: "portfolioTab", label: "My Portfolio",        enter: () => loadPortfolio() },
   track:     { elId: "trackTab",     label: "Track Record",        enter: () => loadTrackRecord() },
   analyzer:  {
@@ -8672,7 +8667,7 @@ function renderSWSAnalyzerReport(report, elapsedMs) {
       <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:12px; margin-top:8px;">
         ${swsKpiCard("Avg Snowflake", `${snap.avgSnowflake ?? "—"}<span style="color:var(--text-muted); font-size:12px;">/30</span>`)}
         ${swsKpiCard("Avg v4 score", `${snap.avgV4Score ?? snap.avgV3Score ?? "—"}<span style="color:var(--text-muted); font-size:12px;">/100</span>`)}
-        ${swsKpiCard("Holdings", `${snap.holdingsCount} <span style="color:var(--text-muted); font-size:12px;">(${snap.coveredCount} SWS-covered)</span>`)}
+        ${swsKpiCard("Holdings", `${snap.uploadedEquityCount ?? snap.holdingsCount} <span style="color:var(--text-muted); font-size:12px;">(${snap.coveredCount} SWS-covered)</span>`)}
       </div>
     </details>
 
@@ -8841,7 +8836,8 @@ function renderSWSAnalyzerReportV2(report, elapsedMs) {
   const heroSentences = [];
   if (Number.isFinite(snap.holdingsCount)) {
     const cv = Number.isFinite(snap.totalCurrent) ? inr(snap.totalCurrent) : "—";
-    heroSentences.push(`Your book has <strong>${snap.holdingsCount}</strong> holdings worth <strong>${cv}</strong>.`);
+    const totalCount = snap.uploadedEquityCount ?? snap.holdingsCount;
+    heroSentences.push(`Your book has <strong>${totalCount}</strong> holdings worth <strong>${cv}</strong>.`);
   }
   if (Number.isFinite(snap.totalPnL) && Number.isFinite(snap.totalPnLPct)) {
     const pnlSign = snap.totalPnL >= 0 ? "up" : "down";
@@ -8941,7 +8937,7 @@ function renderSWSAnalyzerReportV2(report, elapsedMs) {
       <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:12px; margin-top:8px;">
         ${swsKpiCard(`Avg quality score ${infoIcon("snowflake_score")}`, `${snap.avgSnowflake ?? "—"}<span style="color:var(--text-muted); font-size:12px;">/30</span>`)}
         ${swsKpiCard(`Avg overall score ${infoIcon("combined_score")}`, `${snap.avgV4Score ?? snap.avgV3Score ?? "—"}<span style="color:var(--text-muted); font-size:12px;">/100</span>`)}
-        ${swsKpiCard("Holdings", `${snap.holdingsCount} <span style="color:var(--text-muted); font-size:12px;">(${snap.coveredCount} covered)</span>`)}
+        ${swsKpiCard("Holdings", `${snap.uploadedEquityCount ?? snap.holdingsCount} <span style="color:var(--text-muted); font-size:12px;">(${snap.coveredCount} covered)</span>`)}
       </div>
     </details>
 

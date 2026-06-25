@@ -1,6 +1,6 @@
 {
   "schema_version": "earnings-health-v1",
-  "generated_at": "2026-06-24T03:46:51.317Z",
+  "generated_at": "2026-06-25T02:55:18.796Z",
   "resolved": {
     "count": 446,
     "delta_vs_prior": 0,
@@ -8,22 +8,22 @@
   },
   "llm_providers": {
     "groq": 0,
-    "gemini": 3,
-    "heuristic": 25,
+    "gemini": 14,
+    "heuristic": 19,
     "none": 0,
-    "total": 28
+    "total": 33
   },
   "llm_offline": false,
-  "llm_heuristic_share_pct": 50,
+  "llm_heuristic_share_pct": 0,
   "llm_stats": {
-    "total": 28,
-    "classified": 28,
-    "cache_hits": 5,
+    "total": 33,
+    "classified": 33,
+    "cache_hits": 4,
     "llm_calls": 2,
-    "heuristic": 20,
+    "heuristic": 15,
     "heuristic_cache_invalidations": 0,
     "cross_floor_invalidations": 0,
-    "below_v3_floor": 12,
+    "below_v3_floor": 15,
     "composite_floor": 47,
     "llm_available": true,
     "skip_llm": false
@@ -31,7 +31,7 @@
   "cap_lift_gate": {
     "state": false,
     "enough_data_to_lift_cap": false,
-    "days_in_current_state": 47,
+    "days_in_current_state": 48,
     "current_resolved": 0,
     "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (446 across all versions)",
     "detail": {
@@ -93,7 +93,7 @@
       "gate": {
         "state": false,
         "enough_data_to_lift_cap": false,
-        "days_in_current_state": 47,
+        "days_in_current_state": 48,
         "current_resolved": 0,
         "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (446 across all versions)",
         "detail": {
@@ -164,10 +164,10 @@
     }
   },
   "archive_schema": {
-    "earnings-history-v5": 34
+    "earnings-history-v5": 35
   },
   "predictor_versions": {
-    "earnings-predict-v3-2026-05": 28
+    "earnings-predict-v3-2026-05": 33
   },
   "restatements": {
     "count": 0,
@@ -182,34 +182,34 @@
   "insufficient_data": {
     "count_total": 49,
     "count_7d": 0,
-    "count_30d": 6,
-    "count_prior_30d": 43,
-    "trend_pct_30d_vs_prior": -86
+    "count_30d": 4,
+    "count_prior_30d": 45,
+    "trend_pct_30d_vs_prior": -91.1
   },
   "macro_regime": {
     "present": true,
-    "generated_at": "2026-06-23T16:15:30.742Z",
-    "age_hours": 12,
+    "generated_at": "2026-06-24T08:30:50.244Z",
+    "age_hours": 18,
     "classifier_provider": "groq",
-    "regime": "RATE_HIKE",
-    "stale": false,
-    "alert": null
+    "regime": "CALM",
+    "stale": true,
+    "alert": "Macro regime is 18h old (threshold 18h) — com.starbhai.macro-only cron is unhealthy; check data/macroRegime-refresh.log"
   },
   "picks_snapshot_fv_drift": {
     "pipeline": null,
     "runtime_24h": null,
     "alert": null
   },
-  "history_files": 34,
+  "history_files": 35,
   "hit_rate_summary": {
     "schema_version": "hit-rate-summary-v1",
-    "generated_at": "2026-06-24T03:46:52.744Z",
+    "generated_at": "2026-06-25T02:55:19.047Z",
     "resolved_count": 349,
-    "unresolved_count": 1347,
+    "unresolved_count": 1353,
     "strict": {
       "hit_rate_pct": 35,
       "ci_low_pct": 30.1,
-      "ci_high_pct": 40.1,
+      "ci_high_pct": 39.8,
       "sample_size": 349
     },
     "lenient": {
@@ -221,7 +221,7 @@
     "catastrophic": {
       "rate_pct": 18.4,
       "ci_low_pct": 14.4,
-      "ci_high_pct": 22.7,
+      "ci_high_pct": 22.4,
       "sample_size": 348
     },
     "rolling_30": {
@@ -233,7 +233,7 @@
     "catastrophic_alert_threshold_pct": 12
   },
   "alerts": [
-    "LLM heuristic share (above V3 floor): 8/16 = 50% (threshold 20%; 12 below-floor skips excluded by design) — LLM tier may be failing on eligible events; check earningsLlmSignal.js logs",
+    "Macro regime is 18h old (threshold 18h) — com.starbhai.macro-only cron is unhealthy; check data/macroRegime-refresh.log",
     "Catastrophic rate alert: rolling-30 23.3% (7/30) exceeds 12% threshold — Risk Lab promotion gate cannot clear"
   ],
   "healthy": false

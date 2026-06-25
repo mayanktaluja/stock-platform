@@ -11,7 +11,6 @@ import { gotoApp, switchTab } from "./helpers/app.mjs";
 const NON_ADMIN_TABS = [
   { tab: "picks",     container: "#picksTab",     marker: ".sws-pick-card, .empty-state, .state--loading, .state--error, .state--empty" },
   { tab: "news",      container: "#newsTab",      marker: "#newsContainer, .empty-state, .state--loading" },
-  { tab: "marketInformation", container: "#marketInformationTab", marker: "#marketInformationContainer, .market-information-card, .empty-state, .state--loading, .state--error" },
   { tab: "track",     container: "#trackTab",     marker: "#trackHistoryTable, .empty-state, #trackCalibrationSvgWrap" },
   { tab: "analyzer",  container: "#analyzerTab",  marker: "#analyzerFileInput, .empty-state" },
   { tab: "watchlist", container: "#watchlistTab", marker: ".empty-state, [data-watchlist-symbol], #watchlistContainer" },
