@@ -1,34 +1,34 @@
 {
   "schema_version": "earnings-watch-stats-v4",
-  "built_at": "2026-06-24T03:35:19.654Z",
-  "today_iso": "2026-06-24",
+  "built_at": "2026-06-25T02:43:56.164Z",
+  "today_iso": "2026-06-25",
   "window_days": 60,
-  "upstream_event_count": 64,
-  "upstream_fetched_at": "2026-06-23T19:00:29.157Z",
-  "event_count": 28,
-  "recent_results_count": 5,
+  "upstream_event_count": 71,
+  "upstream_fetched_at": "2026-06-24T19:00:18.816Z",
+  "event_count": 33,
+  "recent_results_count": 6,
   "past_window_days": 14,
   "bucket_by_days": {
-    "d0": 1,
+    "d0": 0,
     "d1to3": 1,
     "d4to7": 5,
-    "d8to14": 0,
-    "d15to30": 14,
-    "d31to60": 7
+    "d8to14": 3,
+    "d15to30": 15,
+    "d31to60": 9
   },
   "signals": {
     "by_data_quality": {
-      "HIGH": 28,
+      "HIGH": 33,
       "MEDIUM": 0,
       "LOW": 0
     },
     "by_pre_runup": {
-      "spike": 1,
-      "smooth": 5,
-      "lagging": 9,
-      "neutral": 13
+      "spike": 3,
+      "smooth": 6,
+      "lagging": 10,
+      "neutral": 14
     },
-    "sector_count": 10,
+    "sector_count": 11,
     "top_sectors": [
       {
         "sector": "Materials",
@@ -44,7 +44,7 @@
       },
       {
         "sector": "Diversified Financials",
-        "count": 3
+        "count": 4
       },
       {
         "sector": "Capital Goods",
@@ -54,34 +54,34 @@
   },
   "predictions": {
     "by_verdict": {
-      "BEAT": 14,
-      "INLINE": 6,
+      "BEAT": 10,
+      "INLINE": 15,
       "MISS": 8,
       "INSUFFICIENT_DATA": 0
     },
-    "avg_confidence_pct": 57,
+    "avg_confidence_pct": 56,
     "confidence_cap_pct": 65,
     "predictor_version": "earnings-predict-v3-2026-05"
   },
   "playbooks": {
-    "tradable_count": 28,
+    "tradable_count": 33,
     "by_highlighted_branch": {
-      "RAISE": 14,
-      "MAINTAIN": 13,
-      "CUT": 1,
+      "RAISE": 16,
+      "MAINTAIN": 14,
+      "CUT": 3,
       "none": 0
     },
     "playbook_version": "earnings-playbook-v1-2026-05"
   },
   "llm_stats": {
-    "total": 28,
-    "classified": 28,
-    "cache_hits": 5,
+    "total": 33,
+    "classified": 33,
+    "cache_hits": 4,
     "llm_calls": 2,
-    "heuristic": 20,
+    "heuristic": 15,
     "heuristic_cache_invalidations": 0,
     "cross_floor_invalidations": 0,
-    "below_v3_floor": 12,
+    "below_v3_floor": 15,
     "composite_floor": 47,
     "llm_available": true,
     "skip_llm": false
