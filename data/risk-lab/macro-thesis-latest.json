@@ -1,19 +1,19 @@
 {
   "schema_version": "macro-thesis-v1",
-  "generated_at": "2026-06-25T02:59:18.825Z",
+  "generated_at": "2026-06-26T04:21:03.785Z",
   "regime": {
     "regime": "CALM",
     "severity": 1,
     "confidence": 0.8,
     "label": "Calm",
-    "generated_at": "2026-06-24T08:30:50.244Z",
+    "generated_at": "2026-06-25T10:30:24.719Z",
     "days_in_state": 0,
     "stale": false,
     "reasoning": "Mixed headlines, no dominant trend",
     "key_events": [
-      "Nifty trades tad above 24,050; broader market underperforms (Business Standard)",
-      "Tata Motors shares jump 5% on strong growth guidance (Economic Times)",
-      "RBI intervention steadies rupee, governor's rate comment pulls down hedging costs (Economic Times)"
+      "Rupee ends a tad higher as oil slide, foreign inflows lift sentiment (Economic Times)",
+      "Sensex closes 109 points higher, Nifty above 24,050; IndiGo, M&M among top gainers (Economic Times)",
+      "India at start of a major recovery, foreign investors just beginning to return, says BlackRock's Ben Powell (Economic Times)"
     ],
     "classifier_provider": "groq",
     "source_health": {
@@ -40,30 +40,25 @@
     },
     "sector_impacts": [
       {
-        "sector": "IT Services",
-        "impact": -1,
-        "reason": "AI worries"
-      },
-      {
-        "sector": "Banking",
+        "sector": "FMCG",
         "impact": 1,
-        "reason": "ICICI Bank soars 3%"
+        "reason": "Nifty FMCG up for 2nd day"
       },
       {
         "sector": "Automobile",
         "impact": 1,
-        "reason": "Tata Motors shares jump 5%"
+        "reason": "M&M among top gainers"
       }
     ]
   },
-  "catalyst_proximity_days": 10,
+  "catalyst_proximity_days": 9,
   "upcoming_catalysts": [
     {
       "date": "2026-07-05",
       "kind": "OPEC",
       "label": "OPEC+ Ministerial Meeting",
       "severity_potential": 2,
-      "days_until": 10
+      "days_until": 9
     }
   ],
   "position_cap_pct": 10,
@@ -73,7 +68,7 @@
       "label": "CALM continues at current severity",
       "probability": 0.55,
       "duration_days": 14,
-      "n_analogs": 4,
+      "n_analogs": 5,
       "indeterminate": false,
       "beneficiaries": [],
       "losers": [],
@@ -108,6 +103,12 @@
             "label": "Calm",
             "severity": 1,
             "source": "heuristic"
+          },
+          {
+            "date": "2026-05-26",
+            "label": "Calm",
+            "severity": 1,
+            "source": "heuristic"
           }
         ]
       }
@@ -117,7 +118,7 @@
       "label": "CALM escalates (severity +1)",
       "probability": 0.11,
       "duration_days": 7,
-      "n_analogs": 4,
+      "n_analogs": 5,
       "indeterminate": false,
       "beneficiaries": [],
       "losers": [],
@@ -152,6 +153,12 @@
             "label": "Calm",
             "severity": 1,
             "source": "heuristic"
+          },
+          {
+            "date": "2026-05-26",
+            "label": "Calm",
+            "severity": 1,
+            "source": "heuristic"
           }
         ]
       }
@@ -161,7 +168,7 @@
       "label": "CALM de-escalates → CALM",
       "probability": 0.2,
       "duration_days": 21,
-      "n_analogs": 4,
+      "n_analogs": 5,
       "indeterminate": false,
       "beneficiaries": [],
       "losers": [],
@@ -196,6 +203,12 @@
             "label": "Calm",
             "severity": 1,
             "source": "heuristic"
+          },
+          {
+            "date": "2026-05-26",
+            "label": "Calm",
+            "severity": 1,
+            "source": "heuristic"
           }
         ]
       }
@@ -225,7 +238,7 @@
   "indeterminate": false,
   "audit": {
     "thesis_schema": "macro-thesis-v1",
-    "regime_generated_at": "2026-06-24T08:30:50.244Z",
+    "regime_generated_at": "2026-06-25T10:30:24.719Z",
     "regime_classifier": "groq",
     "scenario_engine_version": "scenario-prob-v1"
   }
