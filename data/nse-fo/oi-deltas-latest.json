@@ -1,7 +1,7 @@
 {
   "schemaVersion": "fo-screener-v1",
   "asOf": "2026-06-25",
-  "fetchedAt": "2026-06-25T21:15:56.542Z",
+  "fetchedAt": "2026-06-27T12:08:41.551Z",
   "urlUsed": "https://nsearchives.nseindia.com/content/fo/BhavCopy_NSE_FO_0_0_0_20260625_F_0000.csv.zip",
   "methodology": "OI aggregated across all stock-futures expiries (avoids rollover-Thursday phantoms); Δ vs prior session = ChngInOpnIntrst / (OI − ChngInOpnIntrst). Volume confirmation: today's vol vs 20-session mean. Decoupling co-flag: |OI Δ| ≥ 20% with |price Δ| < 0.5%. Score 0–100 = scaled OI move × volume confirmation × decouple boost × direction consistency. Educational content only.",
   "stats": {
@@ -190,25 +190,6 @@
         "interpretation": "Bears adding fresh shorts — OI up while price drops."
       },
       {
-        "underlying": "NAM-INDIA",
-        "instrumentType": "STF",
-        "expiryCount": 3,
-        "nearMonthExpiry": "2026-06-30",
-        "nearMonthSettle": 1141.1,
-        "underlyingPrice": 1139,
-        "oiTotal": 8504375,
-        "oiChangeTotal": 627500,
-        "volumeTotal": 8472,
-        "oiDeltaPct": 7.966357216535745,
-        "priceDeltaPct": -0.32320055904961964,
-        "volumeRatio": null,
-        "volumeBucket": "unknown",
-        "signal": "neutral",
-        "decoupled": false,
-        "score": 8,
-        "interpretation": "No meaningful conviction — OI/price moves both within noise."
-      },
-      {
         "underlying": "BLUESTARCO",
         "instrumentType": "STF",
         "expiryCount": 3,
@@ -302,6 +283,25 @@
         "decoupled": false,
         "score": 6,
         "interpretation": "Bears adding fresh shorts — OI up while price drops."
+      },
+      {
+        "underlying": "SHREECEM",
+        "instrumentType": "STF",
+        "expiryCount": 3,
+        "nearMonthExpiry": "2026-06-30",
+        "nearMonthSettle": 25825,
+        "underlyingPrice": 25735,
+        "oiTotal": 410900,
+        "oiChangeTotal": -18925,
+        "volumeTotal": 16413,
+        "oiDeltaPct": -4.40295469086256,
+        "priceDeltaPct": -0.9777607361963191,
+        "volumeRatio": null,
+        "volumeBucket": "unknown",
+        "signal": "long_unwinding",
+        "decoupled": false,
+        "score": 5,
+        "interpretation": "Longs being booked — OI falling with price."
       }
     ],
     "broader": [
@@ -458,6 +458,25 @@
         "interpretation": "Bears adding fresh shorts — OI up while price drops."
       },
       {
+        "underlying": "NAM-INDIA",
+        "instrumentType": "STF",
+        "expiryCount": 3,
+        "nearMonthExpiry": "2026-06-30",
+        "nearMonthSettle": 1141.1,
+        "underlyingPrice": 1139,
+        "oiTotal": 8504375,
+        "oiChangeTotal": 627500,
+        "volumeTotal": 8472,
+        "oiDeltaPct": 7.966357216535745,
+        "priceDeltaPct": -0.32320055904961964,
+        "volumeRatio": null,
+        "volumeBucket": "unknown",
+        "signal": "neutral",
+        "decoupled": false,
+        "score": 8,
+        "interpretation": "No meaningful conviction — OI/price moves both within noise."
+      },
+      {
         "underlying": "ASTRAL",
         "instrumentType": "STF",
         "expiryCount": 3,
@@ -570,25 +589,6 @@
         "decoupled": false,
         "score": 7,
         "interpretation": "Bears adding fresh shorts — OI up while price drops."
-      },
-      {
-        "underlying": "AMBER",
-        "instrumentType": "STF",
-        "expiryCount": 3,
-        "nearMonthExpiry": "2026-06-30",
-        "nearMonthSettle": 7659.5,
-        "underlyingPrice": 7659,
-        "oiTotal": 2136600,
-        "oiChangeTotal": -130700,
-        "volumeTotal": 19273,
-        "oiDeltaPct": -5.764565783090019,
-        "priceDeltaPct": -2.5880707109245833,
-        "volumeRatio": null,
-        "volumeBucket": "unknown",
-        "signal": "long_unwinding",
-        "decoupled": false,
-        "score": 7,
-        "interpretation": "Longs being booked — OI falling with price."
       }
     ]
   }
