@@ -5,8 +5,8 @@
 //      render flat, so there are no #picksGroupMode control and no group headers.
 //   2. The "Today's shortlist · Fresh-buy" SECTION and the "Upcoming Earnings"
 //      SECTION are removed from the homepage. The slim today-shortlist-state
-//      banner survives (it reads sections.best_to_buy_now directly, independent
-//      of the section registry).
+//      summary banner is removed too — nothing on the India homepage references
+//      best_to_buy_now anymore (the server still ships the key for other tabs).
 //   3. Quality Growth is promoted to the 2nd rendered section, right after Top 30.
 //
 // Runs against whatever picks snapshot the env ships; self-skips when the tab
@@ -31,7 +31,7 @@ const CANON = [
 ];
 
 test.describe("India homepage · flat layout + retired sections", () => {
-  test("no view dropdown / group headers; sections flat; Quality Growth 2nd; banner kept", async ({ page }) => {
+  test("no view dropdown / group headers; sections flat; Quality Growth 2nd; banner removed", async ({ page }) => {
     await gotoApp(page, { tab: "picks" });
     await waitForPicksLoaded(page);
 
@@ -45,12 +45,12 @@ test.describe("India homepage · flat layout + retired sections", () => {
     await expect(page.locator(".sws-pick-group-header")).toHaveCount(0);
 
     // 2. The two retired sections never render (neither section nor chip);
-    //    the slim shortlist banner stays.
+    //    the slim shortlist summary banner is removed too.
     await expect(page.locator('.sws-pick-section[data-section-key="best_to_buy_now"]')).toHaveCount(0);
     await expect(page.locator('.sws-pick-section[data-section-key="upcoming_earnings"]')).toHaveCount(0);
     await expect(page.locator('.sws-pick-chip[data-section-key="best_to_buy_now"]')).toHaveCount(0);
     await expect(page.locator('.sws-pick-chip[data-section-key="upcoming_earnings"]')).toHaveCount(0);
-    await expect(page.getByTestId("today-shortlist-state")).toBeVisible();
+    await expect(page.getByTestId("today-shortlist-state")).toHaveCount(0);
 
     expect(sectionKeys).not.toContain("best_to_buy_now");
     expect(sectionKeys).not.toContain("upcoming_earnings");

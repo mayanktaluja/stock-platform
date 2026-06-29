@@ -12743,69 +12743,6 @@ function entryBandReasonText(entryBand) {
   return reasons.map((r) => r?.message).filter(Boolean).join(" ");
 }
 
-function renderTodayShortlistState(data) {
-  const raw = swsSectionItems(data?.sections, "best_to_buy_now");
-  const audit = getPicksSectionAudit(data, "best_to_buy_now") || {};
-  const distribution = {};
-  let eligible = 0;
-  let staleBlockers = 0;
-  let fvBlockers = 0;
-  const reasonCounts = new Map();
-
-  for (const row of raw) {
-    const entryBand = row?.entry_band && typeof row.entry_band === "object" ? row.entry_band : null;
-    const state = entryBand?.entry_state || "UNAVAILABLE";
-    distribution[state] = (distribution[state] || 0) + 1;
-    const reasons = Array.isArray(entryBand?.reasons) ? entryBand.reasons : [];
-    const codes = reasons.map((r) => r?.code).filter(Boolean);
-    if (entryBand?.fresh_buy_eligible === true || state === "BUY_ZONE" || state === "STAGGER_ONLY") eligible += 1;
-    if (codes.some((c) => c === "data_stale" || c === "freshness_missing")) staleBlockers += 1;
-    if (codes.some((c) => c === "fv_outlier" || c === "fv_low_confidence" || c === "upside_outlier")) fvBlockers += 1;
-    for (const reason of reasons) {
-      const label = reason?.message || reason?.code;
-      if (label) reasonCounts.set(label, (reasonCounts.get(label) || 0) + 1);
-    }
-  }
-
-  if (audit.available === false) {
-    const label = audit.ui_warning_label || (audit.reason ? audit.reason.replace(/_/g, " ") : "Withheld");
-    const message = audit.ui_warning_message || "Fresh-buy candidates are withheld until the data gate clears.";
-    reasonCounts.set(message, (reasonCounts.get(message) || 0) + 1);
-    if (Number.isFinite(Number(audit.selected_count))) eligible = Number(audit.selected_count);
-  }
-
-  const distText = Object.entries(distribution)
-    .map(([state, count]) => `${entryBandStateLabel({ entry_state: state }) || state.replace(/_/g, " ")} ${count}`)
-    .join(" · ") || "No entry-band rows";
-  const topReasons = [...reasonCounts.entries()]
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 2)
-    .map(([label, count]) => `${label}${count > 1 ? ` (${count})` : ""}`);
-  const emptyCopy = raw.length === 0
-    ? "No fresh-buy candidates in this snapshot."
-    : eligible === 0
-      ? "No fresh-buy candidates after entry, freshness, and FV checks."
-      : `${eligible} fresh-buy candidate${eligible === 1 ? "" : "s"} passed current entry checks.`;
-
-  return `
-    <div class="sws-today-shortlist" data-testid="today-shortlist-state" role="note" aria-label="Today shortlist state">
-      <div class="sws-today-shortlist-head">
-        <div>
-          <div class="sws-today-shortlist-kicker">Today’s shortlist</div>
-          <div class="sws-today-shortlist-title">Fresh-buy candidates: ${eligible}</div>
-        </div>
-        ${audit.available === false ? `<span class="sws-pick-section-warning">${escapeHtml(audit.ui_warning_label || "Gate withheld")}</span>` : ""}
-      </div>
-      <div class="sws-today-shortlist-copy">${escapeHtml(emptyCopy)}</div>
-      <div class="sws-today-shortlist-meta">
-        <span>${escapeHtml(distText)}</span>
-        <span>Stale blockers ${staleBlockers}</span>
-        <span>FV caution ${fvBlockers}</span>
-        ${topReasons.length ? `<span>Withheld: ${escapeHtml(topReasons.join(" · "))}</span>` : ""}
-      </div>
-    </div>`;
-}
-
 function renderPicks(data) {
   const containerEl = document.getElementById("picksContainer");
   const collapsedState = loadPicksCollapsedState();
@@ -12904,7 +12841,6 @@ function renderPicks(data) {
 	  }
 
 		  const statusHtml = renderPicksSearchStatus(totalShown, offSectionCount);
-		  const shortlistStateHtml = renderTodayShortlistState(data);
 		  const regimeStripHtml = renderPicksRegimeStrip(currentPicksMacroRegime);
 		  const chipNav = renderPicksChipNav(visibleSectionsForRender, collapsedState);
 
@@ -12986,7 +12922,7 @@ function renderPicks(data) {
     sectionsHtml = coreRows.map(renderPicksSectionHtml).join("") + moreHtml;
   }
 
-	  containerEl.innerHTML = regimeStripHtml + statusHtml + shortlistStateHtml + chipNav + sectionsHtml;
+	  containerEl.innerHTML = regimeStripHtml + statusHtml + chipNav + sectionsHtml;
   refreshScrollRails(containerEl);
   hydratePicksChunkSentinels(containerEl);
 }
@@ -14781,15 +14717,10 @@ function renderModalDecisionSummary(data, card_, opts, context) {
   const entryBand = card_?.entry_band && typeof card_.entry_band === "object" ? card_.entry_band : null;
   const entryLabel = entryBandStateLabel(entryBand) || "Entry not available";
   const entryReason = entryBandReasonText(entryBand);
-  const memberships = Array.isArray(data.section_memberships || data.in_sections)
-    ? (data.section_memberships || data.in_sections)
-    : [];
-  const inBest = memberships.includes("best_to_buy_now");
   const reasons = Array.isArray(entryBand?.reasons) ? entryBand.reasons : [];
   const stale = reasons.some((r) => r?.code === "data_stale" || r?.code === "freshness_missing");
   const fvCaution = reasons.some((r) => ["fv_outlier", "fv_low_confidence", "upside_outlier"].includes(r?.code));
   const whatMust = [
-    inBest ? "In Today’s shortlist" : "Not in Today’s shortlist",
     entryLabel,
     context.valBand ? `Valuation ${String(context.valBand).replace(/_/g, " ")}` : null,
     stale ? "freshness check blocked" : "freshness visible below",

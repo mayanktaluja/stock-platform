@@ -42,7 +42,7 @@ test.describe("SWS Picks · Universe + Sector filters", () => {
 	    await expect(summary).toHaveText(/Showing\s+\d[\d,]*\s+of\s+\d[\d,]*\s+stocks/, { timeout: 5_000 });
 	  });
 
-		  test("flat view: shortlist banner renders, sort works, Quality Growth is 2nd, no view dropdown", async ({ page }) => {
+		  test("flat view: sort works, Quality Growth is 2nd, no view dropdown", async ({ page }) => {
 	    await page.route("**/api/sws-picks**", async (route) => {
 	      const pathname = new URL(route.request().url()).pathname;
 	      if (!pathname.endsWith("/api/sws-picks") && !pathname.endsWith("/api/sws-picks-summary")) {
@@ -107,10 +107,11 @@ test.describe("SWS Picks · Universe + Sector filters", () => {
 	    await expect(page.locator("#picksGroupMode")).toHaveCount(0);
 	    await expect(page.locator(".sws-pick-group-header")).toHaveCount(0);
 	    await expect(page.locator("#picksSortMode")).toHaveValue("rank");
-		    await expect(page.getByTestId("today-shortlist-state")).toContainText(/Today’s shortlist/);
-		    await expect(page.getByTestId("today-shortlist-state")).toContainText(/Fresh-buy candidates: 1/);
-		    // The best_to_buy_now SECTION card-list + chip are removed from the homepage;
-		    // the slim banner above (today-shortlist-state) carries the fresh-buy summary.
+		    // The best_to_buy_now SECTION card-list + chip are gone from the homepage, AND
+		    // the Today's shortlist summary banner is removed too — nothing on the India
+		    // homepage references best_to_buy_now anymore (the server still ships the key
+		    // for other consumers: US/KR/TW tabs, paper trades, track record).
+		    await expect(page.getByTestId("today-shortlist-state")).toHaveCount(0);
 		    await expect(page.locator('.sws-pick-section[data-section-key="best_to_buy_now"]')).toHaveCount(0);
 		    await expect(page.locator('.sws-pick-chip[data-section-key="best_to_buy_now"]')).toHaveCount(0);
 
@@ -123,70 +124,6 @@ test.describe("SWS Picks · Universe + Sector filters", () => {
 
 	    await page.selectOption("#picksSortMode", "upside");
 	    await expect(page.locator('.sws-pick-section[data-section-key="top_ranked_30_v4"] .sws-pick-card-ticker').first()).toContainText("HIGHUP");
-		  });
-
-		  test("Today shortlist state shows zero eligible, stale, and FV blockers", async ({ page }) => {
-		    await page.route("**/api/sws-picks**", async (route) => {
-		      const pathname = new URL(route.request().url()).pathname;
-		      if (!pathname.endsWith("/api/sws-picks") && !pathname.endsWith("/api/sws-picks-summary")) {
-		        await route.fallback();
-		        return;
-		      }
-		      const row = (ticker, entryState, reasons) => ({
-		        ticker,
-		        name: `${ticker} Ltd`,
-		        sector: "Industrials",
-		        current_price_inr: 160,
-		        fair_value_inr: 140,
-		        upside_pct: -12.5,
-		        valuation_band: "PREMIUM",
-		        v4_score_100: 62,
-		        v4_verdict: "STRONG",
-		        score: 62,
-		        snowflake_total: 22,
-		        one_line: "Blocked shortlist row",
-		        entry_band: {
-		          available: true,
-		          entry_state: entryState,
-		          fresh_buy_eligible: false,
-		          no_buy_above_inr: 126,
-		          reasons,
-		        },
-		      });
-		      await route.fulfill({
-		        contentType: "application/json",
-		        body: JSON.stringify({
-		          schema_version: "picks-latest-v4",
-		          scoring_version: "test",
-		          scanned_at: "2026-06-15T06:00:00.000Z",
-		          indexConstituentsAvailable: false,
-		          section_audit: {
-		            best_to_buy_now: {
-		              available: false,
-		              ui_warning_label: "Fresh-buy gate withheld",
-		              ui_warning_message: "Fresh-buy candidates are withheld until stale/FV blockers clear.",
-		            },
-		          },
-		          sections: {
-		            top_ranked_30_v4: [row("TOP30", "BUY_ZONE", [])],
-		            best_to_buy_now: [
-		              row("STALE", "NO_BUY_ABOVE", [{ code: "data_stale", message: "Data stale" }]),
-		              row("FVWARN", "NO_BUY_ABOVE", [{ code: "fv_low_confidence", message: "FV confidence low" }]),
-		            ],
-		            snowflake_gap_lab: [],
-		          },
-		        }),
-		      });
-		    });
-
-		    await gotoApp(page, { tab: "picks" });
-		    await waitForPicksLoaded(page);
-		    const state = page.getByTestId("today-shortlist-state");
-		    await expect(state).toContainText(/Fresh-buy candidates: 0/);
-		    await expect(state).toContainText(/No fresh-buy candidates after entry, freshness, and FV checks/);
-		    await expect(state).toContainText(/Stale blockers 1/);
-		    await expect(state).toContainText(/FV caution 1/);
-		    await expect(state).toContainText(/Fresh-buy gate withheld/);
 		  });
 
   test("sector dropdown is populated from the response (>1 option)", async ({ page }) => {
