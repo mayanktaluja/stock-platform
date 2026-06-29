@@ -5,9 +5,9 @@
 // for 2–5 s and visibly freezing the UI. This spec is the regression gate for
 // the fix: render only the first PICKS_EXPANDED_CHUNK_SIZE (100) cards inline
 // + an IntersectionObserver sentinel, then stream the rest in as the user
-// scrolls. Exercised against the largest curated bucket (Upcoming Earnings,
-// ~640 stocks) — the old Avoid bucket that originally motivated this fix has
-// since been removed from the tab, but the chunked path it guards is unchanged.
+// scrolls. Exercised against a large core bucket (Quality Growth, ~220+
+// stocks) — the Upcoming Earnings + Avoid buckets that previously hosted this
+// guard have since been removed from the tab, but the chunked path is unchanged.
 //
 // Race-immune by construction — modelled on sws-picks-inline-star.spec.mjs:
 // install a requestAnimationFrame tick counter on window BEFORE the click,
@@ -22,7 +22,7 @@ const FREEZE_WINDOW_MS = 600;
 const MIN_TICKS_FOR_LIVE_MAINTHREAD = 20; // ~33 fps over 600ms — anything less = visible freeze
 const CHUNK_SIZE = 100; // mirrors PICKS_EXPANDED_CHUNK_SIZE in gated/app.js
 const SKIP_BELOW = 200; // chunked path only triggers above PICKS_EXPANDED_THRESHOLD (100)
-const SECTION_KEY = "upcoming_earnings"; // largest curated bucket post-Avoid-removal
+const SECTION_KEY = "quality_growth"; // large core bucket (~220+); self-skips below SKIP_BELOW if the snapshot is small
 
 test.describe("SWS Picks · chunked progressive render", () => {
   test("clicking 'Show all (N)' on a large section does not freeze the main thread", async ({ page }) => {

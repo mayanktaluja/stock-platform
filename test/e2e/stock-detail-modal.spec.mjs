@@ -390,14 +390,15 @@ test.describe("Stock detail modal (SWS)", () => {
     await mockThinSwsStock(page, undefined, {
       section_memberships: [
         "top_ranked_30_v3",
-        "best_to_buy_now",
-        "deep_value",
         "quality_growth",
+        "deep_value",
+        "growing_sector_value",
+        "snowflake_gap_lab",
         "best_fundamentals",
         "midterm",
         "dividend_aristocrats",
         "smallcap_gems",
-        "upcoming_earnings",
+        "insider_buying",
       ],
     });
     await page.setViewportSize({ width: 390, height: 812 });
