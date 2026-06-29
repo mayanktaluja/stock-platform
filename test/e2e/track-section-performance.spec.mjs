@@ -109,6 +109,10 @@ test.describe("India Market credibility banner and section alpha", () => {
       if (bestWindow?.sampleStatus === "latest_available") {
         await expect(banner.locator('[data-testid="picks-credibility-headline"]')).toContainText(/shows .* alpha vs Nifty 50/i);
         await expect(banner.locator('[data-testid="picks-credibility-headline"]')).not.toContainText(/sample/i);
+        // A hypothetical (latest_available) spotlight must be flagged Illustrative and
+        // carry the not-realized caveat, so the homepage banner isn't read as proof.
+        await expect(banner.locator('[data-testid="picks-credibility-illustrative"]')).toHaveText(/Illustrative/i);
+        await expect(banner.locator('[data-testid="picks-credibility-evidence"]')).toContainText(/not a realized return/i);
       }
       if (bestWindow?.sampleStatus === "resolved") {
         await expect(banner.locator('[data-testid="picks-credibility-headline"]')).toContainText(/beat Nifty 50/i);
@@ -281,6 +285,9 @@ test.describe("India Market credibility banner and section alpha", () => {
     expect(sawShortWindowRequest).toBe(true);
     await expect(banner.locator('[data-testid="picks-credibility-headline"]')).toContainText(/Best Fundamentals top 5 shows \+6\.2% alpha vs Nifty 50/i);
     await expect(banner.locator('[data-testid="picks-credibility-evidence"]')).toContainText(/Equal-weight top 5: \+9\.1% vs Nifty 50 \+2\.9%/);
+    // Hypothetical (latest_available) spotlight is flagged Illustrative + not-realized.
+    await expect(banner.locator('[data-testid="picks-credibility-illustrative"]')).toHaveText(/Illustrative/i);
+    await expect(banner.locator('[data-testid="picks-credibility-evidence"]')).toContainText(/not a realized return/i);
     for (const pattern of SPOTLIGHT_COPY_REGRESSIONS) {
       await expect(banner).not.toContainText(pattern);
     }
