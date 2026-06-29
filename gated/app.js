@@ -12940,6 +12940,14 @@ function renderPickCard(s, sectionKey, rank = null) {
   const headlineRaw = swsV4ScoreValue(s);
   const score = headlineRaw != null ? headlineRaw.toFixed(1) : "—";
   const scoreColor = headlineRaw != null ? pickScoreColorV4(headlineRaw, s.v4_verdict) : "var(--text-muted)";
+  // PR3 conviction accent — a left-border band keyed to the V4 score/verdict so the
+  // strongest names read at a glance instead of every card looking equally good.
+  const convictionTier = headlineRaw == null ? "none"
+    : (s.v4_verdict === "TOP_PICK" || headlineRaw >= 70) ? "strong"
+    : (s.v4_verdict === "AVOID" || headlineRaw < 40) ? "avoid"
+    : (s.v4_verdict === "STRONG" || headlineRaw >= 58) ? "high"
+    : (s.v4_verdict === "WATCH" || headlineRaw < 47) ? "watch"
+    : "medium";
   const scoreTermId = "v4_composite_score";
   // Composite verdict (multi-factor quality band): TOP_PICK/STRONG/ACCEPTABLE/WATCH/AVOID.
   const verdict = (headlineRaw != null ? (s.v4_verdict || s.composite_verdict) : null) || "—";
@@ -13026,7 +13034,14 @@ function renderPickCard(s, sectionKey, rank = null) {
 	    ? `<span class="sws-entry-badge sws-entry-badge--warn" title="${escapeHtml(entryReasonText || "Freshness warning")}">Stale</span>`
 	    : "";
 	  const entryRow = entryBand
-	    ? `<div class="sws-pick-entry-row">${entryBadge}${noBuyBadge}${fvWarningBadge}${staleEntryBadge}</div>`
+	    ? `<div class="sws-pick-entry-row">${entryBadge}${noBuyBadge}</div>`
+	    : "";
+	  // PR3 — consolidate the scattered risk flags (NSE surveillance, thin coverage,
+	  // FV caution, stale data) into one labelled risk row instead of sprinkling them
+	  // through the ticker line.
+	  const riskFlags = [survBadge, coverageBadge, fvWarningBadge, staleEntryBadge].filter(Boolean).join("");
+	  const riskRow = riskFlags
+	    ? `<div class="sws-pick-risk-row" aria-label="Risk flags"><span class="sws-pick-risk-label">Risk</span>${riskFlags}</div>`
 	    : "";
 
   let extraRow = "";
@@ -13053,6 +13068,7 @@ function renderPickCard(s, sectionKey, rank = null) {
   const inlineStar = `<span class="sws-pick-inline-star" onclick="event.stopPropagation();">${watchlistButton(watchlistSymbol, s.name || safeTicker, s.sector || "")}</span>`;
   return `
     <div class="stock-card sws-pick-card" tabindex="0" role="button" aria-label="Open detail for ${safeTicker}"
+         data-conviction="${convictionTier}"
          data-ticker="${safeTicker}"
          onclick="handlePickCardClick(event, '${safeTicker}')"
          onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openSwsModal('${safeTicker}');}">
@@ -13060,7 +13076,7 @@ function renderPickCard(s, sectionKey, rank = null) {
         <div class="sws-pick-card-id">
           ${rankBadge}
           <div class="sws-pick-card-id-text">
-	            <div class="sws-pick-card-ticker">${s.ticker}${survBadge}${coverageBadge}${fundBadge}${sectorTailwindBadge}${macroFallbackBadge}${futureBadge}${fv30Badge}${gapLabBadge}${entryBadge}${fvWarningBadge}${staleEntryBadge}${statusBadges}${s.sector ? `<span class="sws-pick-card-sector">${escapeHtml(s.sector)}</span>` : ""}</div>
+	            <div class="sws-pick-card-ticker">${s.ticker}${fundBadge}${sectorTailwindBadge}${macroFallbackBadge}${futureBadge}${fv30Badge}${gapLabBadge}${entryBadge}${statusBadges}${s.sector ? `<span class="sws-pick-card-sector">${escapeHtml(s.sector)}</span>` : ""}</div>
             <div class="sws-pick-card-name">${s.name || ""}${fresh}</div>
           </div>
         </div>
@@ -13082,6 +13098,7 @@ function renderPickCard(s, sectionKey, rank = null) {
       </div>
 	      <div class="sws-pick-card-narrative">${(s.narrative && s.narrative.card_one_line) || s.one_line || ""}</div>
 	      ${entryRow}
+	      ${riskRow}
 	      ${gapLabBadge ? `<div class="sws-gap-lab-card-note"><span>Experimental data-gap screen. Canonical V4 stays ${score}.</span></div>` : ""}
       ${extraRow}
       ${s.sws_url ? `<div class="sws-pick-card-link"><a href="${s.sws_url}" target="_blank" rel="noopener" onclick="event.stopPropagation();">Open on SWS →</a></div>` : ""}

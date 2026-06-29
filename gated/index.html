@@ -4607,6 +4607,29 @@
       }
     }
     [data-density="compact"] .sws-pick-card { --pick-card-pad: 10px; }
+
+    /* PR3 — conviction accent (left border keyed to V4 score band) + risk row. */
+    .sws-pick-card[data-conviction="strong"] { border-left: 3px solid var(--gold); }
+    .sws-pick-card[data-conviction="high"]   { border-left: 3px solid var(--green); }
+    .sws-pick-card[data-conviction="medium"] { border-left: 3px solid var(--cyan); }
+    .sws-pick-card[data-conviction="watch"]  { border-left: 3px solid var(--text-faint); }
+    .sws-pick-card[data-conviction="avoid"]  { border-left: 3px solid var(--red); }
+    .sws-pick-risk-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px dashed var(--border-soft);
+    }
+    .sws-pick-risk-label {
+      font-size: var(--fs-micro, 10px);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--warn);
+    }
     .sws-pick-card:focus-visible { outline: 2px solid var(--cyan, var(--accent-blue)); outline-offset: 2px; }
     .sws-pick-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
     .sws-pick-card-id { min-width: 0; flex: 1; display: flex; align-items: center; gap: 8px; }
