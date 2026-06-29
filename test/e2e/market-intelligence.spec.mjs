@@ -102,7 +102,7 @@ test.describe("Market Intelligence tab", () => {
     }
   });
 
-  test("renders the macro regime card from /api/macro/regime", async ({ page }) => {
+  test("renders macro card + digest + catalysts + collapsed radar in order (no verdict card)", async ({ page }) => {
     const generatedAt = new Date(Date.now() - 30 * 60 * 1000).toISOString();
 
     await page.route("**/api/news/market", (route) =>
@@ -150,40 +150,10 @@ test.describe("Market Intelligence tab", () => {
         }),
       }),
     );
-    await page.route("**/api/market-verdict", (route) =>
-      route.fulfill({
-        status: 200,
-        contentType: "application/json",
-        body: JSON.stringify({
-          verdict: "CAUTIOUS",
-          verdictColor: "yellow",
-          verdictAction: "Risk is elevated; new buys need extra confirmation.",
-          score: -1,
-          marketState: "RISK_OFF",
-          sourceQuality: {
-            macro: { available: true, usable: true, stale: false, ageHours: 0.5, source: "test", reason: "fresh" },
-            breadth: { available: true, usable: true, stale: false, ageHours: 0.1, source: "test", reason: "fresh" },
-            flow: { available: true, usable: true, stale: false, ageHours: 1.2, source: "test", reason: "fresh" },
-          },
-          decisionBasis: {
-            drivers: ["No confirmed constructive market backdrop"],
-            blockers: ["Severe macro pressure"],
-            missing: [],
-            downgradeTriggers: ["Breadth weakens further"],
-          },
-          signals: [
-            {
-              name: "Macro Regime",
-              signal: "red",
-              value: "OIL SHOCK · Severity 4/5",
-              action: "High oil = inflation risk.",
-              icon: "!",
-            },
-          ],
-          generatedAt,
-        }),
-      }),
-    );
+    // NOTE: /api/market-verdict is intentionally NOT mocked — the "Mixed evidence"
+    // verdict card was removed from this tab; the market digest is now the single
+    // backdrop synthesis. The route still exists server-side (covered by
+    // marketVerdictRoute.test.mjs), the tab just no longer fetches or renders it.
     await page.route("**/api/catalysts/today", (route) =>
       route.fulfill({
         status: 200,
@@ -293,19 +263,50 @@ test.describe("Market Intelligence tab", () => {
     await expect(card).toContainText("OIL_SHOCK");
     await expect(page.locator("#macroRegimeBanner")).toHaveCount(0);
 
-    await expect(page.getByTestId("market-verdict-card")).toBeVisible();
-    await expect(page.getByTestId("market-state-label")).toContainText("Risk-off backdrop");
-    await expect(page.getByTestId("market-verdict-source-quality")).toContainText("Macro: Fresh");
-    await expect(page.getByTestId("market-verdict-decision-basis")).toContainText("Severe macro pressure");
-    await expect(page.getByTestId("market-verdict-score-line")).toContainText("1-signal context");
+    // The legacy "Mixed evidence" market-verdict card is gone — the market digest is
+    // now the single backdrop synthesis.
+    await expect(page.getByTestId("market-verdict-card")).toHaveCount(0);
+    await expect(page.getByTestId("market-digest-card")).toBeVisible();
+    await expect(page.getByTestId("market-digest-card")).toContainText("MIXED");
+    await expect(page.getByTestId("market-digest-card")).toContainText("Macro pressure is the dominant read.");
+
+    // Catalysts (above the heatmap).
     await expect(page.getByTestId("market-catalysts-card")).toContainText("Upcoming Catalysts");
     await expect(page.getByTestId("market-catalysts-card")).toContainText("Reliance Industries");
     await expect(page.getByTestId("market-catalysts-card")).toContainText("RBI MPC minutes");
-    await expect(page.getByTestId("discovery-radar-card")).toBeVisible();
-    await expect(page.getByTestId("discovery-radar-card")).toContainText("Discovery Radar");
+
+    // Section order: macro → digest → catalysts → radar (the empty heatmap sits between
+    // catalysts and radar). Compare on-screen vertical positions.
+    const tops = await page.evaluate(() => {
+      const top = (id) => {
+        const el = document.querySelector(`[data-testid="${id}"]`);
+        return el ? el.getBoundingClientRect().top : Number.NaN;
+      };
+      return {
+        macro: top("market-macro-regime-card"),
+        digest: top("market-digest-card"),
+        catalysts: top("market-catalysts-card"),
+        radar: top("discovery-radar-details"),
+      };
+    });
+    expect(tops.macro).toBeLessThan(tops.digest);
+    expect(tops.digest).toBeLessThan(tops.catalysts);
+    expect(tops.catalysts).toBeLessThan(tops.radar);
+
+    // Discovery Radar is collapsed by default at the bottom.
+    const radarDetails = page.getByTestId("discovery-radar-details");
+    await expect(radarDetails).toBeVisible();
+    expect(await radarDetails.evaluate((el) => el.open)).toBe(false);
+    await expect(radarDetails).toContainText("review queue");
+
+    // Expand it, then exercise the lane filter — the <details> must STAY open across
+    // the outerHTML re-render setDiscoveryRadarFilter does (SF2 regression guard).
+    await radarDetails.locator("summary").click();
+    expect(await radarDetails.evaluate((el) => el.open)).toBe(true);
     await expect(page.getByTestId("discovery-radar-card")).toContainText("KRISHNADEF");
     await expect(page.getByTestId("discovery-radar-card")).toContainText("FINOPB");
     await page.getByRole("button", { name: /Off-section High Future/ }).click();
+    expect(await radarDetails.evaluate((el) => el.open)).toBe(true);
     await expect(page.getByTestId("discovery-radar-row")).toHaveCount(1);
     await expect(page.getByTestId("discovery-radar-card")).toContainText("FINOPB");
     await expect(page.getByTestId("discovery-radar-card")).not.toContainText("KRISHNADEF");
@@ -313,8 +314,6 @@ test.describe("Market Intelligence tab", () => {
     await page.getByTestId("discovery-radar-row").first().click();
     await expect(page.locator("#swsModalBackdrop.open")).toBeVisible();
     await expect(page.locator("#swsModalBackdrop")).toContainText("KRISHNADEF");
-    await expect(page.getByTestId("market-verdict-card")).not.toContainText("Deploy capital with confidence");
-    await expect(page.getByTestId("market-verdict-card")).not.toContainText("proven edge");
   });
 
   test("#newsContainer renders past the initial loading-spinner state", async ({ page }) => {

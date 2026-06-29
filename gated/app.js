@@ -3986,18 +3986,18 @@ async function loadMarketNews(opts = {}) {
   const container = document.getElementById("newsContainer");
 
   try {
-    // Market Intelligence combines digest, macro, verdict, catalysts, sector heatmap, and the SWS discovery review queue.
-    const [newsRes, macroRes, verdictRes, heatmapRes, catalystsRes, discoveryRes] = await Promise.all([
+    // Market Intelligence combines digest, macro, catalysts, sector heatmap, and the SWS discovery review queue.
+    // (The legacy /api/market-verdict "Mixed evidence" card was removed — the market
+    //  digest below is the single authoritative backdrop synthesis. The route stays.)
+    const [newsRes, macroRes, heatmapRes, catalystsRes, discoveryRes] = await Promise.all([
       fetch("/api/news/market"),
       fetch("/api/macro/regime").catch(() => null),
-      fetch("/api/market-verdict").catch(() => null),
       fetch("/api/sector-heatmap").catch(() => null),
       fetch("/api/catalysts/today").catch(() => null),
       fetch("/api/sws-discovery-feed").catch(() => null),
     ]);
     const data = await newsRes.json();
     const macroRegime = macroRes && macroRes.ok ? await macroRes.json().catch(() => null) : null;
-    const verdict = verdictRes && verdictRes.ok ? await verdictRes.json().catch(() => null) : null;
     const heatmap = heatmapRes && heatmapRes.ok ? await heatmapRes.json().catch(() => null) : null;
     const catalysts = catalystsRes && catalystsRes.ok
       ? await catalystsRes.json().catch(() => null)
@@ -4016,7 +4016,7 @@ async function loadMarketNews(opts = {}) {
     const updatedEl = document.getElementById("newsLastUpdated");
     if (updatedEl) updatedEl.textContent = `Updated: ${new Date(data.lastUpdated).toLocaleTimeString("en-IN")}`;
 
-    renderNewsPage(_newsDigest, verdict, heatmap, macroRegime, catalysts, discovery);
+    renderNewsPage(_newsDigest, heatmap, macroRegime, catalysts, discovery);
   } catch (err) {
     container.innerHTML = `<div class="empty-state"><div class="empty-icon">&#9888;</div><div class="empty-text">Failed to load news. Try again.</div></div>`;
   } finally {
@@ -4025,84 +4025,76 @@ async function loadMarketNews(opts = {}) {
   }
 }
 
-function marketStateMeta(state) {
-  const normalized = String(state || "MIXED").toUpperCase();
-  if (normalized === "CONSTRUCTIVE") return { label: "Constructive backdrop", color: "var(--green)", bg: "rgba(52,211,153,0.1)", border: "rgba(52,211,153,0.3)", icon: "&#9650;" };
-  if (normalized === "RISK_OFF") return { label: "Risk-off backdrop", color: "var(--red)", bg: "rgba(248,113,113,0.1)", border: "rgba(248,113,113,0.3)", icon: "&#9660;" };
-  if (normalized === "INSUFFICIENT_EVIDENCE") return { label: "Insufficient evidence", color: "var(--yellow)", bg: "rgba(251,191,36,0.1)", border: "rgba(251,191,36,0.3)", icon: "&#9679;" };
-  return { label: "Mixed evidence", color: "var(--yellow)", bg: "rgba(251,191,36,0.1)", border: "rgba(251,191,36,0.3)", icon: "&#9679;" };
-}
+// Market Digest — the single authoritative "what's the backdrop today" synthesis
+// (mood + key takeaways + bullish/bearish headlines + sectors to watch). Replaces the
+// removed /api/market-verdict "Mixed evidence" card, which read a dead source and
+// duplicated this block's verdict. Extracted from renderNewsPage so section order is
+// a clean sequence of render*() calls.
+function renderMarketDigest(digest) {
+  if (!digest) return "";
+  const moodColor = digest.marketMood === "bullish" ? "var(--green)" : digest.marketMood === "bearish" ? "var(--red)" : "var(--yellow)";
+  const moodBg = digest.marketMood === "bullish" ? "rgba(52,211,153,0.08)" : digest.marketMood === "bearish" ? "rgba(248,113,113,0.08)" : "rgba(251,191,36,0.08)";
+  const moodBorder = digest.marketMood === "bullish" ? "rgba(52,211,153,0.25)" : digest.marketMood === "bearish" ? "rgba(248,113,113,0.25)" : "rgba(251,191,36,0.25)";
+  const moodIcon = digest.marketMood === "bullish" ? "&#9650;" : digest.marketMood === "bearish" ? "&#9660;" : "&#9679;";
+  const moodLabel = (digest.marketMood || "mixed").toUpperCase();
 
-function renderSourceQualityChips(sourceQuality) {
-  const entries = Object.entries(sourceQuality || {});
-  if (!entries.length) return "";
   return `
-    <div data-testid="market-verdict-source-quality" style="display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 0;">
-      ${entries.map(([key, q]) => {
-        const label = key === "flow" ? "FII/DII" : key.charAt(0).toUpperCase() + key.slice(1);
-        const status = !q?.available ? "Unavailable" : q.stale ? "Stale" : q.usable ? "Fresh" : "Partial";
-        const color = status === "Fresh" ? "var(--green)" : status === "Unavailable" || status === "Stale" ? "var(--yellow)" : "var(--text-secondary)";
-        const age = q?.ageHours != null ? ` · ${Number(q.ageHours).toFixed(1)}h` : "";
-        return `<span style="padding:4px 8px;border-radius:6px;background:rgba(255,255,255,0.04);border:1px solid ${color}33;color:${color};font-size:11px;">${escapeHtml(label)}: ${escapeHtml(status)}${escapeHtml(age)}</span>`;
-      }).join("")}
-    </div>`;
-}
+    <div data-testid="market-digest-card" style="background:${moodBg};border:1px solid ${moodBorder};border-radius:var(--card-radius);padding:20px 24px;margin-bottom:24px;">
+      <!-- Market Mood -->
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+        <span style="font-size:20px;color:${moodColor};">${moodIcon}</span>
+        <span style="font-size:18px;font-weight:800;color:${moodColor};">${moodLabel}</span>
+        <span style="font-size:14px;color:var(--text-secondary);margin-left:4px;">${escapeHtml(digest.moodSummary || "")}</span>
+      </div>
 
-function renderDecisionBasis(decisionBasis) {
-  if (!decisionBasis || typeof decisionBasis !== "object") return "";
-  const row = (label, items, testid) => Array.isArray(items) && items.length
-    ? `<div data-testid="${testid}" style="font-size:12px;color:var(--text-secondary);line-height:1.5;"><strong style="color:var(--text-primary);">${label}:</strong> ${items.slice(0, 4).map(escapeHtml).join(" · ")}</div>`
-    : "";
-  return `
-    <div data-testid="market-verdict-decision-basis" style="display:flex;flex-direction:column;gap:4px;margin-top:12px;padding:10px 12px;border-radius:8px;background:rgba(255,255,255,0.03);border:1px solid var(--border);">
-      ${row("Why this state", decisionBasis.drivers, "market-verdict-drivers")}
-      ${row("Missing or blocked", [...(decisionBasis.missing || []), ...(decisionBasis.blockers || [])], "market-verdict-blockers")}
-      ${row("Would downgrade", decisionBasis.downgradeTriggers, "market-verdict-downgrades")}
-    </div>`;
-}
+      <!-- Key Takeaways -->
+      ${digest.keyTakeaways && digest.keyTakeaways.length > 0 ? `
+        <div style="margin-bottom:20px;">
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);font-weight:700;margin-bottom:10px;">Key Takeaways</div>
+          <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:8px;">
+            ${digest.keyTakeaways.map((t) => `<li style="font-size:13px;color:var(--text-primary);line-height:1.6;">${escapeHtml(t)}</li>`).join("")}
+          </ul>
+        </div>
+      ` : ""}
 
-function renderMarketVerdictCard(verdict) {
-  if (!verdict || !Array.isArray(verdict.signals)) {
-    return `
-      <div data-testid="market-verdict-unavailable" style="background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.25);border-radius:var(--card-radius);padding:16px 20px;margin-bottom:24px;">
-        <div style="font-size:13px;color:var(--yellow);font-weight:700;">Market backdrop unavailable</div>
-        <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;">Do not infer a buying backdrop from headlines or heatmap alone.</div>
-      </div>`;
-  }
-  const meta = marketStateMeta(verdict.marketState);
-  const signalRows = verdict.signals.map((s) => {
-    const sc = s.signal === "green" ? "var(--green)" : s.signal === "red" ? "var(--red)" : s.signal === "neutral" ? "var(--text-muted)" : "var(--yellow)";
-    const sBg = s.signal === "green" ? "rgba(52,211,153,0.06)" : s.signal === "red" ? "rgba(248,113,113,0.06)" : "rgba(255,255,255,0.02)";
-    return `
-      <div data-testid="market-verdict-signal-row" style="display:grid;grid-template-columns:auto 1fr;gap:12px;padding:10px 14px;border-radius:8px;background:${sBg};border:1px solid ${sc}22;">
-        <div style="font-size:18px;">${escapeHtml(s.icon || "-")}</div>
-        <div>
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;gap:12px;">
-            <span style="font-size:12px;font-weight:700;color:var(--text-primary);">${escapeHtml(s.name)}</span>
-            <span style="font-size:11px;font-family:'JetBrains Mono',monospace;color:${sc};font-weight:700;text-align:right;">${escapeHtml(s.value)}</span>
+      <!-- Bullish / Bearish columns -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <!-- Top Bullish Headlines -->
+        <div style="padding:14px 16px;background:rgba(52,211,153,0.06);border:1px solid rgba(52,211,153,0.18);border-radius:10px;">
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--green);font-weight:700;margin-bottom:10px;">&#9650; Top Bullish Headlines</div>
+          ${digest.bullishDrivers && digest.bullishDrivers.length > 0
+            ? `<ul style="margin:0;padding-left:16px;display:flex;flex-direction:column;gap:6px;">
+                ${digest.bullishDrivers.map((d) => `<li style="font-size:12px;color:var(--text-secondary);line-height:1.5;">${escapeHtml(d)}</li>`).join("")}
+              </ul>`
+            : `<div style="font-size:12px;color:var(--text-muted);">No clear bullish signals today.</div>`
+          }
+        </div>
+
+        <!-- Top Bearish Headlines -->
+        <div style="padding:14px 16px;background:rgba(248,113,113,0.06);border:1px solid rgba(248,113,113,0.18);border-radius:10px;">
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--red);font-weight:700;margin-bottom:10px;">&#9660; Top Bearish Headlines</div>
+          ${digest.bearishRisks && digest.bearishRisks.length > 0
+            ? `<ul style="margin:0;padding-left:16px;display:flex;flex-direction:column;gap:6px;">
+                ${digest.bearishRisks.map((d) => `<li style="font-size:12px;color:var(--text-secondary);line-height:1.5;">${escapeHtml(d)}</li>`).join("")}
+              </ul>`
+            : `<div style="font-size:12px;color:var(--text-muted);">No significant risks flagged.</div>`
+          }
+        </div>
+      </div>
+
+      <!-- Sectors to Watch -->
+      ${digest.sectorsToWatch && digest.sectorsToWatch.length > 0 ? `
+        <div style="margin-top:16px;">
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);font-weight:700;margin-bottom:8px;">Sectors to Watch</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            ${digest.sectorsToWatch.map((s) => `<span style="display:inline-block;padding:4px 10px;border-radius:6px;background:rgba(255,255,255,0.04);border:1px solid var(--border);font-size:11px;color:var(--text-secondary);">${escapeHtml(s)}</span>`).join("")}
           </div>
-          <div style="font-size:12px;color:var(--text-secondary);line-height:1.4;">${escapeHtml(s.action)}</div>
         </div>
-      </div>`;
-  }).join("");
+      ` : ""}
 
-  return `
-    <div data-testid="market-verdict-card" style="background:${meta.bg};border:1px solid ${meta.border};border-radius:var(--card-radius);padding:20px 24px;margin-bottom:24px;">
-      <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;">
-        <span style="font-size:24px;color:${meta.color};">${meta.icon}</span>
-        <div>
-          <div data-testid="market-state-label" style="font-size:20px;font-weight:800;color:${meta.color};letter-spacing:-0.3px;">${escapeHtml(meta.label)}</div>
-          <div style="font-size:13px;color:var(--text-secondary);margin-top:2px;">${escapeHtml(verdict.verdictAction || "")}</div>
-          <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">Market backdrop is context only. Stock-level valuation, entry bands, risk, and portfolio fit still decide action.</div>
-        </div>
-      </div>
-      ${renderSourceQualityChips(verdict.sourceQuality)}
-      ${renderDecisionBasis(verdict.decisionBasis)}
-      <div style="display:flex;flex-direction:column;gap:6px;margin-top:12px;">
-        ${signalRows}
-      </div>
-      <div data-testid="market-verdict-score-line" style="margin-top:12px;font-size:10px;color:var(--text-muted);text-align:right;">${verdict.signals.length}-signal context · Legacy: ${escapeHtml(verdict.verdict || "N/A")} · Score: ${Number(verdict.score ?? 0)}</div>
-    </div>`;
+      <div style="margin-top:14px;font-size:10px;color:var(--text-muted);text-align:right;">Composite of headlines + sectors + FII/DII</div>
+    </div>
+  `;
 }
 
 function renderUpcomingCatalysts(catalysts) {
@@ -4267,85 +4259,36 @@ function setDiscoveryRadarFilter(laneId) {
 }
 window.setDiscoveryRadarFilter = setDiscoveryRadarFilter;
 
-function renderNewsPage(digest, verdict, heatmap, macroRegime, catalysts, discovery) {
+function renderNewsPage(digest, heatmap, macroRegime, catalysts, discovery) {
   const container = document.getElementById("newsContainer");
 
   let html = "";
 
+  // Section order (analyst hierarchy): macro context → today's synthesis →
+  // event calendar → sector breadth → review queue (collapsed, at the bottom).
   html += renderMacroRegimeCard(macroRegime);
-  html += renderMarketVerdictCard(verdict);
-  html += renderDiscoveryRadar(discovery);
+  html += renderMarketDigest(digest);
   html += renderUpcomingCatalysts(catalysts);
-
-  // ── Market Digest (the morning briefing) ──
-  if (digest) {
-    const moodColor = digest.marketMood === "bullish" ? "var(--green)" : digest.marketMood === "bearish" ? "var(--red)" : "var(--yellow)";
-    const moodBg = digest.marketMood === "bullish" ? "rgba(52,211,153,0.08)" : digest.marketMood === "bearish" ? "rgba(248,113,113,0.08)" : "rgba(251,191,36,0.08)";
-    const moodBorder = digest.marketMood === "bullish" ? "rgba(52,211,153,0.25)" : digest.marketMood === "bearish" ? "rgba(248,113,113,0.25)" : "rgba(251,191,36,0.25)";
-    const moodIcon = digest.marketMood === "bullish" ? "&#9650;" : digest.marketMood === "bearish" ? "&#9660;" : "&#9679;";
-    const moodLabel = (digest.marketMood || "mixed").toUpperCase();
-
-    html += `
-      <div style="background:${moodBg};border:1px solid ${moodBorder};border-radius:var(--card-radius);padding:20px 24px;margin-bottom:24px;">
-        <!-- Market Mood -->
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
-          <span style="font-size:20px;color:${moodColor};">${moodIcon}</span>
-          <span style="font-size:18px;font-weight:800;color:${moodColor};">${moodLabel}</span>
-          <span style="font-size:14px;color:var(--text-secondary);margin-left:4px;">${escapeHtml(digest.moodSummary || "")}</span>
-        </div>
-
-        <!-- Key Takeaways -->
-        ${digest.keyTakeaways && digest.keyTakeaways.length > 0 ? `
-          <div style="margin-bottom:20px;">
-            <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);font-weight:700;margin-bottom:10px;">Key Takeaways</div>
-            <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:8px;">
-              ${digest.keyTakeaways.map((t) => `<li style="font-size:13px;color:var(--text-primary);line-height:1.6;">${escapeHtml(t)}</li>`).join("")}
-            </ul>
-          </div>
-        ` : ""}
-
-        <!-- Bullish / Bearish columns -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-          <!-- Top Bullish Headlines -->
-          <div style="padding:14px 16px;background:rgba(52,211,153,0.06);border:1px solid rgba(52,211,153,0.18);border-radius:10px;">
-            <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--green);font-weight:700;margin-bottom:10px;">&#9650; Top Bullish Headlines</div>
-            ${digest.bullishDrivers && digest.bullishDrivers.length > 0
-              ? `<ul style="margin:0;padding-left:16px;display:flex;flex-direction:column;gap:6px;">
-                  ${digest.bullishDrivers.map((d) => `<li style="font-size:12px;color:var(--text-secondary);line-height:1.5;">${escapeHtml(d)}</li>`).join("")}
-                </ul>`
-              : `<div style="font-size:12px;color:var(--text-muted);">No clear bullish signals today.</div>`
-            }
-          </div>
-
-          <!-- Top Bearish Headlines -->
-          <div style="padding:14px 16px;background:rgba(248,113,113,0.06);border:1px solid rgba(248,113,113,0.18);border-radius:10px;">
-            <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--red);font-weight:700;margin-bottom:10px;">&#9660; Top Bearish Headlines</div>
-            ${digest.bearishRisks && digest.bearishRisks.length > 0
-              ? `<ul style="margin:0;padding-left:16px;display:flex;flex-direction:column;gap:6px;">
-                  ${digest.bearishRisks.map((d) => `<li style="font-size:12px;color:var(--text-secondary);line-height:1.5;">${escapeHtml(d)}</li>`).join("")}
-                </ul>`
-              : `<div style="font-size:12px;color:var(--text-muted);">No significant risks flagged.</div>`
-            }
-          </div>
-        </div>
-
-        <!-- Sectors to Watch -->
-        ${digest.sectorsToWatch && digest.sectorsToWatch.length > 0 ? `
-          <div style="margin-top:16px;">
-            <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);font-weight:700;margin-bottom:8px;">Sectors to Watch</div>
-            <div style="display:flex;flex-wrap:wrap;gap:6px;">
-              ${digest.sectorsToWatch.map((s) => `<span style="display:inline-block;padding:4px 10px;border-radius:6px;background:rgba(255,255,255,0.04);border:1px solid var(--border);font-size:11px;color:var(--text-secondary);">${escapeHtml(s)}</span>`).join("")}
-            </div>
-          </div>
-        ` : ""}
-
-        <div style="margin-top:14px;font-size:10px;color:var(--text-muted);text-align:right;">Composite of headlines + sectors + FII/DII</div>
-      </div>
-    `;
-  }
-
-  // ── Sector heatmap (19 sectors, ranked by avgChange) ──
   html += renderSectorHeatmap(heatmap);
+
+  // SWS Discovery Radar — an idea review queue, not market intelligence, so it sits
+  // default-collapsed at the very bottom. The <details> wrapper is built HERE as a
+  // SIBLING OUTSIDE #discoveryRadarCard: setDiscoveryRadarFilter swaps that inner div's
+  // outerHTML on lane-chip clicks, so keeping the wrapper outside preserves the open
+  // state across filtering (and avoids a default-closed reset on every chip click).
+  const radarCount = Number(discovery?.counts?.items ?? (Array.isArray(discovery?.items) ? discovery.items.length : 0));
+  const radarScanned = Number(discovery?.counts?.universe ?? 0);
+  const radarAsOf = discovery?.generated_at
+    ? new Date(discovery.generated_at).toLocaleDateString("en-IN", { dateStyle: "medium" })
+    : "warming";
+  const radarBits = [`${radarCount} name${radarCount === 1 ? "" : "s"}`];
+  if (radarScanned) radarBits.push(`${radarScanned} scanned`);
+  radarBits.push(`as of ${radarAsOf}`);
+  html += `
+    <details class="analyzer-tier-details" data-testid="discovery-radar-details" style="margin-bottom:24px;">
+      <summary class="tx-title" style="cursor:pointer;padding:10px 0;border-bottom:1px solid var(--border);list-style:none;font-size:13px;font-weight:800;color:var(--text-primary);">SWS Discovery Radar &mdash; review queue <span style="color:var(--text-muted);font-weight:500;font-size:12px;">(${radarBits.join(" · ")})</span></summary>
+      ${renderDiscoveryRadar(discovery)}
+    </details>`;
 
   container.innerHTML = html;
 }
