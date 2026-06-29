@@ -1,42 +1,42 @@
 {
   "schema_version": "earnings-watch-stats-v4",
-  "built_at": "2026-06-28T03:34:46.328Z",
-  "today_iso": "2026-06-28",
+  "built_at": "2026-06-29T02:24:46.757Z",
+  "today_iso": "2026-06-29",
   "window_days": 60,
-  "upstream_event_count": 96,
-  "upstream_fetched_at": "2026-06-27T09:28:18.339Z",
-  "event_count": 70,
+  "upstream_event_count": 99,
+  "upstream_fetched_at": "2026-06-28T19:00:15.261Z",
+  "event_count": 75,
   "recent_results_count": 5,
   "past_window_days": 14,
   "bucket_by_days": {
-    "d0": 0,
+    "d0": 2,
     "d1to3": 5,
     "d4to7": 3,
-    "d8to14": 3,
-    "d15to30": 35,
-    "d31to60": 24
+    "d8to14": 7,
+    "d15to30": 37,
+    "d31to60": 21
   },
   "signals": {
     "by_data_quality": {
-      "HIGH": 50,
-      "MEDIUM": 19,
+      "HIGH": 74,
+      "MEDIUM": 0,
       "LOW": 1
     },
     "by_pre_runup": {
-      "spike": 3,
-      "smooth": 12,
-      "lagging": 20,
-      "neutral": 35
+      "spike": 7,
+      "smooth": 9,
+      "lagging": 21,
+      "neutral": 38
     },
-    "sector_count": 14,
+    "sector_count": 15,
     "top_sectors": [
       {
         "sector": "Materials",
-        "count": 10
+        "count": 12
       },
       {
         "sector": "Diversified Financials",
-        "count": 10
+        "count": 12
       },
       {
         "sector": "Capital Goods",
@@ -54,34 +54,34 @@
   },
   "predictions": {
     "by_verdict": {
-      "BEAT": 22,
-      "INLINE": 34,
-      "MISS": 13,
+      "BEAT": 34,
+      "INLINE": 28,
+      "MISS": 12,
       "INSUFFICIENT_DATA": 1
     },
-    "avg_confidence_pct": 56,
+    "avg_confidence_pct": 57,
     "confidence_cap_pct": 65,
     "predictor_version": "earnings-predict-v3-2026-05"
   },
   "playbooks": {
-    "tradable_count": 69,
+    "tradable_count": 74,
     "by_highlighted_branch": {
-      "RAISE": 32,
-      "MAINTAIN": 34,
-      "CUT": 3,
+      "RAISE": 30,
+      "MAINTAIN": 37,
+      "CUT": 7,
       "none": 1
     },
     "playbook_version": "earnings-playbook-v1-2026-05"
   },
   "llm_stats": {
-    "total": 70,
-    "classified": 69,
-    "cache_hits": 10,
+    "total": 75,
+    "classified": 74,
+    "cache_hits": 8,
     "llm_calls": 5,
-    "heuristic": 23,
-    "heuristic_cache_invalidations": 0,
+    "heuristic": 50,
+    "heuristic_cache_invalidations": 1,
     "cross_floor_invalidations": 0,
-    "below_v3_floor": 23,
+    "below_v3_floor": 26,
     "composite_floor": 47,
     "llm_available": true,
     "skip_llm": false
