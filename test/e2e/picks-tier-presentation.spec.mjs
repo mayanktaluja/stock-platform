@@ -14,18 +14,19 @@ const BUYNOW = "best_to_buy_now";
 const COMPOUNDERS = "best_fundamentals"; // machine key is unchanged; only the label moved
 
 test.describe("India Picks · tier presentation", () => {
-  test("Today's shortlist SECTION is retired; slim banner replaces it", async ({ page }) => {
+  test("Today's shortlist SECTION and summary banner are both removed", async ({ page }) => {
     // The best_to_buy_now SECTION (three entry-band sub-buckets) was removed from
-    // the India homepage. The slim renderTodayShortlistState banner now carries the
-    // fresh-buy summary instead. Server still ships sections.best_to_buy_now so the
-    // banner stays populated.
+    // the India homepage first; the slim "Today's shortlist" summary banner that
+    // briefly replaced it is now gone too. Nothing on the India homepage references
+    // best_to_buy_now anymore. The server still ships sections.best_to_buy_now for
+    // other consumers (US/KR/TW tabs, paper trades, track record).
     await gotoApp(page, { tab: "picks" });
     await waitForPicksLoaded(page);
 
     await expect(page.locator(`.sws-pick-section[data-section-key="${BUYNOW}"]`)).toHaveCount(0);
     await expect(page.locator(`.sws-pick-chip[data-section-key="${BUYNOW}"]`)).toHaveCount(0);
     await expect(page.locator(".sws-pick-bucket-header")).toHaveCount(0);
-    await expect(page.getByTestId("today-shortlist-state")).toBeVisible();
+    await expect(page.getByTestId("today-shortlist-state")).toHaveCount(0);
   });
 
   test("Best Fundamentals is labelled 'Core Compounders' on the India tab", async ({ page }) => {
