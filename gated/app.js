@@ -4416,9 +4416,9 @@ function renderSectorHeatmap(heatmap) {
   }).join("");
 
   return `
-    <div style="margin-bottom:24px;">
+    <div data-testid="market-heatmap-card" style="margin-bottom:24px;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-        <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);font-weight:700;">Sector Heatmap · ${heatmap.sectors.length} sectors · Nifty 100 universe</div>
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);font-weight:700;">Sector Heatmap · ${heatmap.sectors.length} sectors · Nifty 500 universe</div>
         <div style="font-size:10px;color:var(--text-muted);">Sorted by avg % change</div>
       </div>
       <div style="display:flex;flex-direction:column;gap:6px;">

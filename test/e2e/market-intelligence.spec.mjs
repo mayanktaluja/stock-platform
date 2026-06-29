@@ -174,7 +174,14 @@ test.describe("Market Intelligence tab", () => {
       route.fulfill({
         status: 200,
         contentType: "application/json",
-        body: JSON.stringify({ sectors: [] }),
+        body: JSON.stringify({
+          sectors: [
+            { sector: "Metals", avgChange: 1.45, winners: 6, losers: 0, stockCount: 6, topGainer: { symbol: "VEDL.NS", change: 4.1 }, topLoser: { symbol: "JSWSTEEL.NS", change: 0.1 } },
+            { sector: "Banking", avgChange: -1.13, winners: 2, losers: 8, stockCount: 10, topGainer: { symbol: "HDFCBANK.NS", change: 0.3 }, topLoser: { symbol: "KOTAKBANK.NS", change: -3.3 } },
+          ],
+          marketBreadth: { totalStocks: 500, advancing: 210, declining: 270, unchanged: 20 },
+          lastUpdated: new Date().toISOString(),
+        }),
       }),
     );
     await page.route("**/api/sws-discovery-feed", (route) =>
@@ -275,8 +282,12 @@ test.describe("Market Intelligence tab", () => {
     await expect(page.getByTestId("market-catalysts-card")).toContainText("Reliance Industries");
     await expect(page.getByTestId("market-catalysts-card")).toContainText("RBI MPC minutes");
 
-    // Section order: macro → digest → catalysts → radar (the empty heatmap sits between
-    // catalysts and radar). Compare on-screen vertical positions.
+    // Sector heatmap renders on the Nifty 500 universe.
+    await expect(page.getByTestId("market-heatmap-card")).toContainText("Nifty 500 universe");
+    await expect(page.getByTestId("market-heatmap-card")).toContainText("Metals");
+
+    // Section order: macro → digest → catalysts → heatmap → radar.
+    // Compare on-screen vertical positions.
     const tops = await page.evaluate(() => {
       const top = (id) => {
         const el = document.querySelector(`[data-testid="${id}"]`);
@@ -286,12 +297,14 @@ test.describe("Market Intelligence tab", () => {
         macro: top("market-macro-regime-card"),
         digest: top("market-digest-card"),
         catalysts: top("market-catalysts-card"),
+        heatmap: top("market-heatmap-card"),
         radar: top("discovery-radar-details"),
       };
     });
     expect(tops.macro).toBeLessThan(tops.digest);
     expect(tops.digest).toBeLessThan(tops.catalysts);
-    expect(tops.catalysts).toBeLessThan(tops.radar);
+    expect(tops.catalysts).toBeLessThan(tops.heatmap);
+    expect(tops.heatmap).toBeLessThan(tops.radar);
 
     // Discovery Radar is collapsed by default at the bottom.
     const radarDetails = page.getByTestId("discovery-radar-details");
