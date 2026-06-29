@@ -4097,28 +4097,87 @@ function renderMarketDigest(digest) {
   `;
 }
 
+// Parse a catalyst date string. NSE events arrive as "DD-Mmm-YYYY" and the macro
+// calendar as ISO "YYYY-MM-DD"; handle both. Returns a Date at local midnight, or
+// null if unparseable.
+function parseCatalystDate(dateStr) {
+  if (!dateStr) return null;
+  if (/^\d{4}-\d{2}-\d{2}/.test(dateStr)) {
+    const d = new Date(`${dateStr.slice(0, 10)}T00:00:00`);
+    return Number.isNaN(d.getTime()) ? null : d;
+  }
+  const m = String(dateStr).match(/^(\d{1,2})-([A-Za-z]{3})-(\d{4})$/);
+  if (m) {
+    const months = { jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5, jul: 6, aug: 7, sep: 8, oct: 9, nov: 10, dec: 11 };
+    const mon = months[m[2].toLowerCase()];
+    if (mon == null) return null;
+    return new Date(Number(m[3]), mon, Number(m[1]));
+  }
+  return null;
+}
+
+// "today" / "tomorrow" / "in 3d" / "in 2w" / "in 4mo" countdown for an event date.
+function catalystCountdown(dateStr) {
+  const d = parseCatalystDate(dateStr);
+  if (!d) return "";
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const diff = Math.round((d.getTime() - today.getTime()) / 86400000);
+  if (diff < 0) return "past";
+  if (diff === 0) return "today";
+  if (diff === 1) return "tomorrow";
+  if (diff < 7) return `in ${diff}d`;
+  if (diff < 30) return `in ${Math.round(diff / 7)}w`;
+  return `in ${Math.round(diff / 30)}mo`;
+}
+
 function renderUpcomingCatalysts(catalysts) {
   if (!catalysts) return "";
   const sections = catalysts.sections || {};
-  const groups = [
-    ["inBook", "In portfolio"],
-    ["inPicks", "In India picks"],
-    ["broader", "Broader market"],
-    ["macro", "Macro calendar"],
-  ];
-  const rows = [];
-  for (const [key, label] of groups) {
-    for (const item of (sections[key] || []).slice(0, 3)) {
-      const title = item.title || item.company || item.ticker || item.categoryLabel || "Catalyst";
-      const detail = item.purpose || item.category || item.notes || item.country || "";
-      rows.push({ label, date: item.date || "", title, detail });
-    }
-  }
+  const mkRows = (key, label, isMacro = false) => (sections[key] || []).map((item) => ({
+    label,
+    date: item.date || "",
+    title: item.title || item.company || item.ticker || item.categoryLabel || "Catalyst",
+    detail: item.purpose || item.category || item.notes || item.country || "",
+    isMacro,
+  }));
+  const byDate = (a, b) => {
+    const da = parseCatalystDate(a.date);
+    const db = parseCatalystDate(b.date);
+    if (!da) return 1;
+    if (!db) return -1;
+    return da - db;
+  };
+  // Portfolio / picks / macro are the rows the user actually acts on → shown
+  // expanded, soonest first. "Broader market" is context noise → tucked into a
+  // collapsed sub-section so it never buries the relevant events.
+  const priority = [
+    ...mkRows("inBook", "In portfolio"),
+    ...mkRows("inPicks", "In India picks"),
+    ...mkRows("macro", "Macro calendar", true),
+  ].sort(byDate);
+  const broader = mkRows("broader", "Broader market").sort(byDate);
+
+  const rowHtml = (r) => {
+    const cd = catalystCountdown(r.date);
+    const cdColor = cd === "today" || cd === "tomorrow" ? "var(--yellow)" : cd === "past" || !cd ? "var(--text-muted)" : "var(--text-secondary)";
+    const labelColor = r.isMacro ? "#c4b5fd" : "var(--cyan)";
+    const labelBg = r.isMacro ? "rgba(167,139,250,0.12)" : "rgba(34,211,238,0.10)";
+    return `
+      <div data-testid="catalyst-row" style="display:grid;grid-template-columns:62px 116px 1fr auto;gap:10px;align-items:center;font-size:12px;color:var(--text-secondary);">
+        <span data-testid="catalyst-countdown" style="font-size:10px;font-weight:700;color:${cdColor};text-align:center;padding:2px 6px;border-radius:5px;background:rgba(255,255,255,0.04);">${escapeHtml(cd || "—")}</span>
+        <span style="font-weight:700;color:${labelColor};padding:2px 8px;border-radius:5px;background:${labelBg};text-align:center;font-size:10px;">${escapeHtml(r.label)}</span>
+        <span><strong style="color:var(--text-primary);">${escapeHtml(r.title)}</strong>${r.detail ? ` · ${escapeHtml(r.detail)}` : ""}</span>
+        <span style="font-family:'JetBrains Mono',monospace;color:var(--text-muted);">${escapeHtml(r.date)}</span>
+      </div>`;
+  };
+
   const statusMessage = catalysts.status === "warming"
     ? catalysts.message || "Catalyst context is warming."
     : catalysts.status === "unavailable"
       ? catalysts.message || "Catalyst context unavailable."
       : null;
+  const hasAny = priority.length || broader.length;
   return `
     <div data-testid="market-catalysts-card" style="background:rgba(255,255,255,0.035);border:1px solid var(--border);border-radius:var(--card-radius);padding:18px 22px;margin-bottom:24px;">
       <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap;margin-bottom:12px;">
@@ -4128,15 +4187,17 @@ function renderUpcomingCatalysts(catalysts) {
         </div>
         ${catalysts.stats ? `<span style="font-size:11px;color:var(--text-muted);">${Number(catalysts.stats.corpInWindow || 0)} corporate · ${Number(catalysts.stats.macroInWindow || 0)} macro</span>` : ""}
       </div>
-      ${statusMessage ? `<div style="font-size:12px;color:var(--yellow);">${escapeHtml(statusMessage)}</div>` : rows.length ? `
+      ${statusMessage ? `<div style="font-size:12px;color:var(--yellow);">${escapeHtml(statusMessage)}</div>` : hasAny ? `
         <div style="display:flex;flex-direction:column;gap:8px;">
-          ${rows.slice(0, 8).map((r) => `
-            <div style="display:grid;grid-template-columns:90px 120px 1fr;gap:10px;align-items:start;font-size:12px;color:var(--text-secondary);">
-              <span style="font-family:'JetBrains Mono',monospace;color:var(--text-muted);">${escapeHtml(r.date)}</span>
-              <span style="color:var(--cyan);font-weight:700;">${escapeHtml(r.label)}</span>
-              <span><strong style="color:var(--text-primary);">${escapeHtml(r.title)}</strong>${r.detail ? ` · ${escapeHtml(r.detail)}` : ""}</span>
-            </div>`).join("")}
+          ${priority.slice(0, 10).map(rowHtml).join("") || `<div style="font-size:12px;color:var(--text-muted);">No portfolio, picks, or macro catalysts in the window.</div>`}
         </div>
+        ${broader.length ? `
+          <details class="analyzer-tier-details" data-testid="catalysts-broader" style="margin-top:12px;">
+            <summary style="cursor:pointer;list-style:none;font-size:12px;font-weight:700;color:var(--text-secondary);padding:8px 0;border-top:1px solid var(--border);">Broader market <span style="color:var(--text-muted);font-weight:500;">(${broader.length})</span></summary>
+            <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px;">
+              ${broader.slice(0, 20).map(rowHtml).join("")}
+            </div>
+          </details>` : ""}
       ` : `<div style="font-size:12px;color:var(--text-muted);">No near-term catalysts in the current window.</div>`}
     </div>`;
 }

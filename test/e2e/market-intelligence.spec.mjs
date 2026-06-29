@@ -160,12 +160,12 @@ test.describe("Market Intelligence tab", () => {
         contentType: "application/json",
         body: JSON.stringify({
           schemaVersion: "catalysts-v1",
-          stats: { corpInWindow: 1, macroInWindow: 1 },
+          stats: { corpInWindow: 2, macroInWindow: 1 },
           sections: {
-            inBook: [{ ticker: "RELIANCE", company: "Reliance Industries", categoryLabel: "Earnings", purpose: "Financial Results", date: "2026-06-18" }],
+            inBook: [{ ticker: "RELIANCE", company: "Reliance Industries", categoryLabel: "Earnings", purpose: "Financial Results", date: new Date(Date.now() + 3 * 86400000).toISOString().slice(0, 10) }],
             inPicks: [],
-            broader: [],
-            macro: [{ title: "RBI MPC minutes", category: "Macro", tier: "A", date: "2026-06-19", notes: "Rate commentary" }],
+            broader: [{ ticker: "SOMECO", company: "Some Broader Co", categoryLabel: "Buyback", purpose: "Buyback", date: new Date(Date.now() + 8 * 86400000).toISOString().slice(0, 10) }],
+            macro: [{ title: "RBI MPC minutes", category: "Macro", tier: "A", date: new Date(Date.now() + 5 * 86400000).toISOString().slice(0, 10), notes: "Rate commentary" }],
           },
         }),
       }),
@@ -295,6 +295,18 @@ test.describe("Market Intelligence tab", () => {
     await expect(page.getByTestId("market-catalysts-card")).toContainText("Upcoming Catalysts");
     await expect(page.getByTestId("market-catalysts-card")).toContainText("Reliance Industries");
     await expect(page.getByTestId("market-catalysts-card")).toContainText("RBI MPC minutes");
+
+    // Each priority row carries a countdown; "Broader market" is a collapsed sub-section.
+    await expect(page.getByTestId("catalyst-countdown").first()).toBeVisible();
+    await expect(page.getByTestId("catalyst-countdown").first()).toContainText(/in \d|today|tomorrow/);
+    const broaderDetails = page.getByTestId("catalysts-broader");
+    await expect(broaderDetails).toBeVisible();
+    expect(await broaderDetails.evaluate((el) => el.open)).toBe(false);
+    await expect(broaderDetails).toContainText("Broader market");
+    // The broader item is in the DOM but hidden until the section is expanded.
+    await expect(broaderDetails.getByText("Some Broader Co")).not.toBeVisible();
+    await broaderDetails.locator("summary").click();
+    await expect(broaderDetails.getByText("Some Broader Co")).toBeVisible();
 
     // Sector heatmap renders on the Nifty 500 universe.
     await expect(page.getByTestId("market-heatmap-card")).toContainText("Nifty 500 universe");
