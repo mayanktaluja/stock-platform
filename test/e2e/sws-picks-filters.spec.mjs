@@ -42,7 +42,7 @@ test.describe("SWS Picks · Universe + Sector filters", () => {
 	    await expect(summary).toHaveText(/Showing\s+\d[\d,]*\s+of\s+\d[\d,]*\s+stocks/, { timeout: 5_000 });
 	  });
 
-		  test("grouped buy-now/research view and section sort controls render", async ({ page }) => {
+		  test("flat view: shortlist banner renders, sort works, Quality Growth is 2nd, no view dropdown", async ({ page }) => {
 	    await page.route("**/api/sws-picks**", async (route) => {
 	      const pathname = new URL(route.request().url()).pathname;
 	      if (!pathname.endsWith("/api/sws-picks") && !pathname.endsWith("/api/sws-picks-summary")) {
@@ -90,6 +90,7 @@ test.describe("SWS Picks · Universe + Sector filters", () => {
 	          sections: {
 	            top_ranked_30_v4: [row("LOWUP", 10), row("HIGHUP", 50)],
 	            best_to_buy_now: [{ ...row("ACTION", 40), entry_band: entryBand }],
+	            quality_growth: [row("QG", 25)],
 	            snowflake_gap_lab: [{
 	              ...row("RESEARCH", 35),
 	              snowflake_gap_lab: { shadow_v4_score_100: 65, score_delta: 10 },
@@ -102,20 +103,26 @@ test.describe("SWS Picks · Universe + Sector filters", () => {
 	    await gotoApp(page, { tab: "picks" });
 	    await waitForPicksLoaded(page);
 
-	    await expect(page.locator("#picksGroupMode")).toHaveValue("grouped");
+	    // View dropdown (Flat/Grouped) is removed — sections always render flat.
+	    await expect(page.locator("#picksGroupMode")).toHaveCount(0);
+	    await expect(page.locator(".sws-pick-group-header")).toHaveCount(0);
 	    await expect(page.locator("#picksSortMode")).toHaveValue("rank");
-	    await expect(page.locator('.sws-pick-group-header[data-picks-group="actionable"]')).toContainText(/Ranked ideas/);
-	    await expect(page.locator('.sws-pick-group-header[data-picks-group="research"]')).toContainText(/Research \/ Watch/);
 		    await expect(page.getByTestId("today-shortlist-state")).toContainText(/Today’s shortlist/);
 		    await expect(page.getByTestId("today-shortlist-state")).toContainText(/Fresh-buy candidates: 1/);
-		    await expect(page.locator('.sws-pick-section[data-section-key="best_to_buy_now"]')).toContainText(/Today’s shortlist/);
-		    await expect(page.locator('.sws-pick-section[data-section-key="best_to_buy_now"]')).toContainText(/No-buy/);
+		    // The best_to_buy_now SECTION card-list + chip are removed from the homepage;
+		    // the slim banner above (today-shortlist-state) carries the fresh-buy summary.
+		    await expect(page.locator('.sws-pick-section[data-section-key="best_to_buy_now"]')).toHaveCount(0);
+		    await expect(page.locator('.sws-pick-chip[data-section-key="best_to_buy_now"]')).toHaveCount(0);
+
+	    // Quality Growth is promoted to the 2nd rendered section (right after Top 30).
+	    const sectionKeys = await page
+	      .locator('.sws-pick-section[data-section-key]')
+	      .evaluateAll((els) => els.map((e) => e.getAttribute("data-section-key")));
+	    expect(sectionKeys[0]).toBe("top_ranked_30_v4");
+	    expect(sectionKeys[1]).toBe("quality_growth");
 
 	    await page.selectOption("#picksSortMode", "upside");
 	    await expect(page.locator('.sws-pick-section[data-section-key="top_ranked_30_v4"] .sws-pick-card-ticker').first()).toContainText("HIGHUP");
-
-	    await page.selectOption("#picksGroupMode", "flat");
-		    await expect(page.locator(".sws-pick-group-header")).toHaveCount(0);
 		  });
 
 		  test("Today shortlist state shows zero eligible, stale, and FV blockers", async ({ page }) => {
@@ -161,7 +168,7 @@ test.describe("SWS Picks · Universe + Sector filters", () => {
 		            },
 		          },
 		          sections: {
-		            top_ranked_30_v4: [],
+		            top_ranked_30_v4: [row("TOP30", "BUY_ZONE", [])],
 		            best_to_buy_now: [
 		              row("STALE", "NO_BUY_ABOVE", [{ code: "data_stale", message: "Data stale" }]),
 		              row("FVWARN", "NO_BUY_ABOVE", [{ code: "fv_low_confidence", message: "FV confidence low" }]),

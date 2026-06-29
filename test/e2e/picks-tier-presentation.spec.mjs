@@ -14,18 +14,18 @@ const BUYNOW = "best_to_buy_now";
 const COMPOUNDERS = "best_fundamentals"; // machine key is unchanged; only the label moved
 
 test.describe("India Picks · tier presentation", () => {
-  test("Best to Buy Now renders three entry-band sub-buckets", async ({ page }) => {
+  test("Today's shortlist SECTION is retired; slim banner replaces it", async ({ page }) => {
+    // The best_to_buy_now SECTION (three entry-band sub-buckets) was removed from
+    // the India homepage. The slim renderTodayShortlistState banner now carries the
+    // fresh-buy summary instead. Server still ships sections.best_to_buy_now so the
+    // banner stays populated.
     await gotoApp(page, { tab: "picks" });
     await waitForPicksLoaded(page);
 
-    const section = page.locator(`.sws-pick-section[data-section-key="${BUYNOW}"]`);
-    await expect(section).toHaveCount(1, { timeout: 10_000 });
-
-    const headers = section.locator(".sws-pick-bucket-header");
-    await expect(headers).toHaveCount(3);
-    await expect(section.locator(".sws-pick-bucket-header", { hasText: "Buy now" })).toHaveCount(1);
-    await expect(section.locator(".sws-pick-bucket-header", { hasText: "Wait for price" })).toHaveCount(1);
-    await expect(section.locator(".sws-pick-bucket-header", { hasText: "Watchlist only" })).toHaveCount(1);
+    await expect(page.locator(`.sws-pick-section[data-section-key="${BUYNOW}"]`)).toHaveCount(0);
+    await expect(page.locator(`.sws-pick-chip[data-section-key="${BUYNOW}"]`)).toHaveCount(0);
+    await expect(page.locator(".sws-pick-bucket-header")).toHaveCount(0);
+    await expect(page.getByTestId("today-shortlist-state")).toBeVisible();
   });
 
   test("Best Fundamentals is labelled 'Core Compounders' on the India tab", async ({ page }) => {
