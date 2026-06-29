@@ -40,13 +40,17 @@ import {
 // upstream routes (/api/stock/:symbol, /api/news/market, /api/market) already
 // have route-level NodeCache + fallback chains — wrap-up of those routes is
 // deferred to a phase-2 PR.
-const sectorHeatmapBreaker = createBreaker({ name: "sector-heatmap-yahoo" });
+// timeoutMs raised from the 8s default: the heatmap now fans out ~500 Nifty-500
+// quotes (bounded to 20-at-a-time via mapWithConcurrency). A cold build of the
+// whole universe needs more than 8s; 45s leaves headroom under Vercel's 60s
+// function cap. Warm builds hit quoteCache + sectorHeatmapCache and return fast.
+const sectorHeatmapBreaker = createBreaker({ name: "sector-heatmap-yahoo", timeoutMs: 45_000 });
 import rateLimit from "express-rate-limit";
 import NodeCache from "node-cache";
 import { apiLimiterKeyGenerator } from "./services/apiLimiterKey.js";
 
 import { analyzeStock, intradayScan, midTermAnalysis, longTermOutlook } from "./analysis.js";
-import { ALL_STOCKS, NIFTY_50, NIFTY_NEXT_50, NIFTY500_SYMBOLS, getNifty100, getNifty500, getExpandedUniverse, getStocksByIndex, validateStockList, findBySymbol } from "./stockList.js";
+import { ALL_STOCKS, NIFTY_50, NIFTY_NEXT_50, NIFTY500_SYMBOLS, getNifty500, getExpandedUniverse, getStocksByIndex, validateStockList, findBySymbol } from "./stockList.js";
 import { analyzeNewsSentiment, quickSentiment } from "./sentiment.js";
 import { fetchNifty50, fetchNseQuote, fetchNseQuoteRaw, fetchNseIndices, fetchNseIndex, fetchNseEventCalendar, fetchGiftNifty, nseGet, nseGetUnauthed, warmup as nseWarmup } from "./nse.js";
 import { appendIfNew as appendFiiDiiHistory, readRecent as readFiiDiiHistory } from "./fiiDiiHistory.js";
@@ -3454,13 +3458,34 @@ app.locals.__clearMarketVerdictCache = () => verdictCache.del("verdict");
 /**
  * GET /api/sector-heatmap
  *
- * Returns all Nifty 100 sectors with average daily change %, winners/losers
- * count, and top movers per sector. Cached 2 minutes.
+ * Returns all Nifty 500 sectors with average daily change %, winners/losers
+ * count, and top movers per sector. Cached 3 minutes.
  */
-const sectorHeatmapCache = new NodeCache({ stdTTL: 120, checkperiod: 30 });
+const sectorHeatmapCache = new NodeCache({ stdTTL: 180, checkperiod: 30 });
 
 /**
- * Build the sector heatmap (Nifty 100 quotes → per-sector breadth + movers).
+ * Map over `items` running at most `limit` async tasks concurrently, preserving
+ * input order in the result. The heatmap fans out ~500 Nifty-500 quote fetches;
+ * an unbounded Promise.all opened 500 simultaneous Yahoo sockets that blew past
+ * the circuit-breaker deadline and tripped a 503. Bounded concurrency keeps
+ * wall-clock low while staying polite to upstream.
+ */
+async function mapWithConcurrency(items, limit, fn) {
+  const results = new Array(items.length);
+  let next = 0;
+  async function worker() {
+    while (next < items.length) {
+      const i = next++;
+      results[i] = await fn(items[i], i);
+    }
+  }
+  const pool = Array.from({ length: Math.min(limit, items.length) }, () => worker());
+  await Promise.all(pool);
+  return results;
+}
+
+/**
+ * Build the sector heatmap (Nifty 500 quotes → per-sector breadth + movers).
  * Extracted from the route handler so /api/news/market can warm this data
  * before building its digest — the digest reads sectorHeatmapCache directly
  * and used to emit "data not yet available" whenever the cache was cold.
@@ -3470,9 +3495,11 @@ async function getSectorHeatmapData() {
   const cached = sectorHeatmapCache.get("heatmap");
   if (cached) return cached;
 
-  const stocksToScan = getNifty100();
-  const quotes = await Promise.all(
-    stocksToScan.map((s) => fetchQuote(s.symbol).catch(() => null))
+  const stocksToScan = getNifty500();
+  const quotes = await mapWithConcurrency(
+    stocksToScan,
+    20,
+    (s) => fetchQuote(s.symbol).catch(() => null)
   );
 
   const bySector = {};
@@ -3497,9 +3524,16 @@ async function getSectorHeatmapData() {
     s.avgChange = s.count > 0 ? parseFloat((s.totalChange / s.count).toFixed(2)) : 0;
     s.winners = s.stocks.filter((st) => st.change > 0).length;
     s.losers = s.stocks.filter((st) => st.change < 0).length;
-    s.topGainer = s.stocks.sort((a, b) => b.change - a.change)[0] || null;
-    s.topLoser = s.stocks.sort((a, b) => a.change - b.change)[0] || null;
-    // Remove full stock list to keep response compact
+    // Sort once (desc by % change). Expose a compact constituents list so the
+    // frontend can offer a per-sector drill-down; symbol + change only, to keep
+    // the ~500-name payload small. topGainer/topLoser are the head/tail.
+    const sorted = s.stocks.slice().sort((a, b) => b.change - a.change);
+    s.topGainer = sorted[0] || null;
+    s.topLoser = sorted[sorted.length - 1] || null;
+    s.constituents = sorted.map((st) => ({
+      symbol: st.symbol,
+      change: parseFloat(Number(st.change || 0).toFixed(2)),
+    }));
     delete s.totalChange;
     s.stockCount = s.count;
     delete s.count;
@@ -4083,6 +4117,9 @@ app.get("/api/news/market", async (req, res) => {
     const response = {
       articles: scored,
       digest,
+      // Compact FII/DII freshness for the tab's source-health line (the full
+      // figures live in the digest; this is just availability + session date).
+      fiiDii: fiiDii ? { available: fiiDii.available !== false, date: fiiDii.date || null } : null,
       count: scored.length,
       sources: ["Economic Times", "LiveMint", "Google News India"],
       compliance: {
@@ -4126,7 +4163,7 @@ function buildDeterministicDigest(scored, ctx) {
     signals.push({ contributed: 0, claim: "Sectoral breadth data not yet available" });
   }
 
-  // 2. Adv/Decl ratio — across Nifty 100 stocks scanned for the heatmap
+  // 2. Adv/Decl ratio — across Nifty 500 stocks scanned for the heatmap
   if (sectorHeatmap?.marketBreadth) {
     const { advancing = 0, declining = 0 } = sectorHeatmap.marketBreadth;
     const ratio = declining > 0 ? advancing / declining : (advancing > 0 ? 99 : 0);

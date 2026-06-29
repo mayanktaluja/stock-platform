@@ -3986,18 +3986,18 @@ async function loadMarketNews(opts = {}) {
   const container = document.getElementById("newsContainer");
 
   try {
-    // Market Intelligence combines digest, macro, verdict, catalysts, sector heatmap, and the SWS discovery review queue.
-    const [newsRes, macroRes, verdictRes, heatmapRes, catalystsRes, discoveryRes] = await Promise.all([
+    // Market Intelligence combines digest, macro, catalysts, sector heatmap, and the SWS discovery review queue.
+    // (The legacy /api/market-verdict "Mixed evidence" card was removed — the market
+    //  digest below is the single authoritative backdrop synthesis. The route stays.)
+    const [newsRes, macroRes, heatmapRes, catalystsRes, discoveryRes] = await Promise.all([
       fetch("/api/news/market"),
       fetch("/api/macro/regime").catch(() => null),
-      fetch("/api/market-verdict").catch(() => null),
       fetch("/api/sector-heatmap").catch(() => null),
       fetch("/api/catalysts/today").catch(() => null),
       fetch("/api/sws-discovery-feed").catch(() => null),
     ]);
     const data = await newsRes.json();
     const macroRegime = macroRes && macroRes.ok ? await macroRes.json().catch(() => null) : null;
-    const verdict = verdictRes && verdictRes.ok ? await verdictRes.json().catch(() => null) : null;
     const heatmap = heatmapRes && heatmapRes.ok ? await heatmapRes.json().catch(() => null) : null;
     const catalysts = catalystsRes && catalystsRes.ok
       ? await catalystsRes.json().catch(() => null)
@@ -4016,7 +4016,7 @@ async function loadMarketNews(opts = {}) {
     const updatedEl = document.getElementById("newsLastUpdated");
     if (updatedEl) updatedEl.textContent = `Updated: ${new Date(data.lastUpdated).toLocaleTimeString("en-IN")}`;
 
-    renderNewsPage(_newsDigest, verdict, heatmap, macroRegime, catalysts, discovery);
+    renderNewsPage(_newsDigest, heatmap, macroRegime, catalysts, discovery, data.fiiDii || null);
   } catch (err) {
     container.innerHTML = `<div class="empty-state"><div class="empty-icon">&#9888;</div><div class="empty-text">Failed to load news. Try again.</div></div>`;
   } finally {
@@ -4025,108 +4025,159 @@ async function loadMarketNews(opts = {}) {
   }
 }
 
-function marketStateMeta(state) {
-  const normalized = String(state || "MIXED").toUpperCase();
-  if (normalized === "CONSTRUCTIVE") return { label: "Constructive backdrop", color: "var(--green)", bg: "rgba(52,211,153,0.1)", border: "rgba(52,211,153,0.3)", icon: "&#9650;" };
-  if (normalized === "RISK_OFF") return { label: "Risk-off backdrop", color: "var(--red)", bg: "rgba(248,113,113,0.1)", border: "rgba(248,113,113,0.3)", icon: "&#9660;" };
-  if (normalized === "INSUFFICIENT_EVIDENCE") return { label: "Insufficient evidence", color: "var(--yellow)", bg: "rgba(251,191,36,0.1)", border: "rgba(251,191,36,0.3)", icon: "&#9679;" };
-  return { label: "Mixed evidence", color: "var(--yellow)", bg: "rgba(251,191,36,0.1)", border: "rgba(251,191,36,0.3)", icon: "&#9679;" };
-}
+// Market Digest — the single authoritative "what's the backdrop today" synthesis
+// (mood + key takeaways + bullish/bearish headlines + sectors to watch). Replaces the
+// removed /api/market-verdict "Mixed evidence" card, which read a dead source and
+// duplicated this block's verdict. Extracted from renderNewsPage so section order is
+// a clean sequence of render*() calls.
+function renderMarketDigest(digest) {
+  if (!digest) return "";
+  const moodColor = digest.marketMood === "bullish" ? "var(--green)" : digest.marketMood === "bearish" ? "var(--red)" : "var(--yellow)";
+  const moodBg = digest.marketMood === "bullish" ? "rgba(52,211,153,0.08)" : digest.marketMood === "bearish" ? "rgba(248,113,113,0.08)" : "rgba(251,191,36,0.08)";
+  const moodBorder = digest.marketMood === "bullish" ? "rgba(52,211,153,0.25)" : digest.marketMood === "bearish" ? "rgba(248,113,113,0.25)" : "rgba(251,191,36,0.25)";
+  const moodIcon = digest.marketMood === "bullish" ? "&#9650;" : digest.marketMood === "bearish" ? "&#9660;" : "&#9679;";
+  const moodLabel = (digest.marketMood || "mixed").toUpperCase();
 
-function renderSourceQualityChips(sourceQuality) {
-  const entries = Object.entries(sourceQuality || {});
-  if (!entries.length) return "";
   return `
-    <div data-testid="market-verdict-source-quality" style="display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 0;">
-      ${entries.map(([key, q]) => {
-        const label = key === "flow" ? "FII/DII" : key.charAt(0).toUpperCase() + key.slice(1);
-        const status = !q?.available ? "Unavailable" : q.stale ? "Stale" : q.usable ? "Fresh" : "Partial";
-        const color = status === "Fresh" ? "var(--green)" : status === "Unavailable" || status === "Stale" ? "var(--yellow)" : "var(--text-secondary)";
-        const age = q?.ageHours != null ? ` · ${Number(q.ageHours).toFixed(1)}h` : "";
-        return `<span style="padding:4px 8px;border-radius:6px;background:rgba(255,255,255,0.04);border:1px solid ${color}33;color:${color};font-size:11px;">${escapeHtml(label)}: ${escapeHtml(status)}${escapeHtml(age)}</span>`;
-      }).join("")}
-    </div>`;
-}
+    <div data-testid="market-digest-card" style="background:${moodBg};border:1px solid ${moodBorder};border-radius:var(--card-radius);padding:20px 24px;margin-bottom:24px;">
+      <!-- Market Mood -->
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+        <span style="font-size:20px;color:${moodColor};">${moodIcon}</span>
+        <span style="font-size:18px;font-weight:800;color:${moodColor};">${moodLabel}</span>
+        <span style="font-size:14px;color:var(--text-secondary);margin-left:4px;">${escapeHtml(digest.moodSummary || "")}</span>
+      </div>
 
-function renderDecisionBasis(decisionBasis) {
-  if (!decisionBasis || typeof decisionBasis !== "object") return "";
-  const row = (label, items, testid) => Array.isArray(items) && items.length
-    ? `<div data-testid="${testid}" style="font-size:12px;color:var(--text-secondary);line-height:1.5;"><strong style="color:var(--text-primary);">${label}:</strong> ${items.slice(0, 4).map(escapeHtml).join(" · ")}</div>`
-    : "";
-  return `
-    <div data-testid="market-verdict-decision-basis" style="display:flex;flex-direction:column;gap:4px;margin-top:12px;padding:10px 12px;border-radius:8px;background:rgba(255,255,255,0.03);border:1px solid var(--border);">
-      ${row("Why this state", decisionBasis.drivers, "market-verdict-drivers")}
-      ${row("Missing or blocked", [...(decisionBasis.missing || []), ...(decisionBasis.blockers || [])], "market-verdict-blockers")}
-      ${row("Would downgrade", decisionBasis.downgradeTriggers, "market-verdict-downgrades")}
-    </div>`;
-}
+      <!-- Key Takeaways -->
+      ${digest.keyTakeaways && digest.keyTakeaways.length > 0 ? `
+        <div style="margin-bottom:20px;">
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);font-weight:700;margin-bottom:10px;">Key Takeaways</div>
+          <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:8px;">
+            ${digest.keyTakeaways.map((t) => `<li style="font-size:13px;color:var(--text-primary);line-height:1.6;">${escapeHtml(t)}</li>`).join("")}
+          </ul>
+        </div>
+      ` : ""}
 
-function renderMarketVerdictCard(verdict) {
-  if (!verdict || !Array.isArray(verdict.signals)) {
-    return `
-      <div data-testid="market-verdict-unavailable" style="background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.25);border-radius:var(--card-radius);padding:16px 20px;margin-bottom:24px;">
-        <div style="font-size:13px;color:var(--yellow);font-weight:700;">Market backdrop unavailable</div>
-        <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;">Do not infer a buying backdrop from headlines or heatmap alone.</div>
-      </div>`;
-  }
-  const meta = marketStateMeta(verdict.marketState);
-  const signalRows = verdict.signals.map((s) => {
-    const sc = s.signal === "green" ? "var(--green)" : s.signal === "red" ? "var(--red)" : s.signal === "neutral" ? "var(--text-muted)" : "var(--yellow)";
-    const sBg = s.signal === "green" ? "rgba(52,211,153,0.06)" : s.signal === "red" ? "rgba(248,113,113,0.06)" : "rgba(255,255,255,0.02)";
-    return `
-      <div data-testid="market-verdict-signal-row" style="display:grid;grid-template-columns:auto 1fr;gap:12px;padding:10px 14px;border-radius:8px;background:${sBg};border:1px solid ${sc}22;">
-        <div style="font-size:18px;">${escapeHtml(s.icon || "-")}</div>
-        <div>
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;gap:12px;">
-            <span style="font-size:12px;font-weight:700;color:var(--text-primary);">${escapeHtml(s.name)}</span>
-            <span style="font-size:11px;font-family:'JetBrains Mono',monospace;color:${sc};font-weight:700;text-align:right;">${escapeHtml(s.value)}</span>
+      <!-- Bullish / Bearish columns -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <!-- Top Bullish Headlines -->
+        <div style="padding:14px 16px;background:rgba(52,211,153,0.06);border:1px solid rgba(52,211,153,0.18);border-radius:10px;">
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--green);font-weight:700;margin-bottom:10px;">&#9650; Top Bullish Headlines</div>
+          ${digest.bullishDrivers && digest.bullishDrivers.length > 0
+            ? `<ul style="margin:0;padding-left:16px;display:flex;flex-direction:column;gap:6px;">
+                ${digest.bullishDrivers.map((d) => `<li style="font-size:12px;color:var(--text-secondary);line-height:1.5;">${escapeHtml(d)}</li>`).join("")}
+              </ul>`
+            : `<div style="font-size:12px;color:var(--text-muted);">No clear bullish signals today.</div>`
+          }
+        </div>
+
+        <!-- Top Bearish Headlines -->
+        <div style="padding:14px 16px;background:rgba(248,113,113,0.06);border:1px solid rgba(248,113,113,0.18);border-radius:10px;">
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--red);font-weight:700;margin-bottom:10px;">&#9660; Top Bearish Headlines</div>
+          ${digest.bearishRisks && digest.bearishRisks.length > 0
+            ? `<ul style="margin:0;padding-left:16px;display:flex;flex-direction:column;gap:6px;">
+                ${digest.bearishRisks.map((d) => `<li style="font-size:12px;color:var(--text-secondary);line-height:1.5;">${escapeHtml(d)}</li>`).join("")}
+              </ul>`
+            : `<div style="font-size:12px;color:var(--text-muted);">No significant risks flagged.</div>`
+          }
+        </div>
+      </div>
+
+      <!-- Sectors to Watch -->
+      ${digest.sectorsToWatch && digest.sectorsToWatch.length > 0 ? `
+        <div style="margin-top:16px;">
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);font-weight:700;margin-bottom:8px;">Sectors to Watch</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            ${digest.sectorsToWatch.map((s) => `<span style="display:inline-block;padding:4px 10px;border-radius:6px;background:rgba(255,255,255,0.04);border:1px solid var(--border);font-size:11px;color:var(--text-secondary);">${escapeHtml(s)}</span>`).join("")}
           </div>
-          <div style="font-size:12px;color:var(--text-secondary);line-height:1.4;">${escapeHtml(s.action)}</div>
         </div>
-      </div>`;
-  }).join("");
+      ` : ""}
 
-  return `
-    <div data-testid="market-verdict-card" style="background:${meta.bg};border:1px solid ${meta.border};border-radius:var(--card-radius);padding:20px 24px;margin-bottom:24px;">
-      <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;">
-        <span style="font-size:24px;color:${meta.color};">${meta.icon}</span>
-        <div>
-          <div data-testid="market-state-label" style="font-size:20px;font-weight:800;color:${meta.color};letter-spacing:-0.3px;">${escapeHtml(meta.label)}</div>
-          <div style="font-size:13px;color:var(--text-secondary);margin-top:2px;">${escapeHtml(verdict.verdictAction || "")}</div>
-          <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">Market backdrop is context only. Stock-level valuation, entry bands, risk, and portfolio fit still decide action.</div>
-        </div>
-      </div>
-      ${renderSourceQualityChips(verdict.sourceQuality)}
-      ${renderDecisionBasis(verdict.decisionBasis)}
-      <div style="display:flex;flex-direction:column;gap:6px;margin-top:12px;">
-        ${signalRows}
-      </div>
-      <div data-testid="market-verdict-score-line" style="margin-top:12px;font-size:10px;color:var(--text-muted);text-align:right;">${verdict.signals.length}-signal context · Legacy: ${escapeHtml(verdict.verdict || "N/A")} · Score: ${Number(verdict.score ?? 0)}</div>
-    </div>`;
+      <div style="margin-top:14px;font-size:10px;color:var(--text-muted);text-align:right;">Composite of headlines + sectors + FII/DII</div>
+    </div>
+  `;
+}
+
+// Parse a catalyst date string. NSE events arrive as "DD-Mmm-YYYY" and the macro
+// calendar as ISO "YYYY-MM-DD"; handle both. Returns a Date at local midnight, or
+// null if unparseable.
+function parseCatalystDate(dateStr) {
+  if (!dateStr) return null;
+  if (/^\d{4}-\d{2}-\d{2}/.test(dateStr)) {
+    const d = new Date(`${dateStr.slice(0, 10)}T00:00:00`);
+    return Number.isNaN(d.getTime()) ? null : d;
+  }
+  const m = String(dateStr).match(/^(\d{1,2})-([A-Za-z]{3})-(\d{4})$/);
+  if (m) {
+    const months = { jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5, jul: 6, aug: 7, sep: 8, oct: 9, nov: 10, dec: 11 };
+    const mon = months[m[2].toLowerCase()];
+    if (mon == null) return null;
+    return new Date(Number(m[3]), mon, Number(m[1]));
+  }
+  return null;
+}
+
+// "today" / "tomorrow" / "in 3d" / "in 2w" / "in 4mo" countdown for an event date.
+function catalystCountdown(dateStr) {
+  const d = parseCatalystDate(dateStr);
+  if (!d) return "";
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const diff = Math.round((d.getTime() - today.getTime()) / 86400000);
+  if (diff < 0) return "past";
+  if (diff === 0) return "today";
+  if (diff === 1) return "tomorrow";
+  if (diff < 7) return `in ${diff}d`;
+  if (diff < 30) return `in ${Math.round(diff / 7)}w`;
+  return `in ${Math.round(diff / 30)}mo`;
 }
 
 function renderUpcomingCatalysts(catalysts) {
   if (!catalysts) return "";
   const sections = catalysts.sections || {};
-  const groups = [
-    ["inBook", "In portfolio"],
-    ["inPicks", "In India picks"],
-    ["broader", "Broader market"],
-    ["macro", "Macro calendar"],
-  ];
-  const rows = [];
-  for (const [key, label] of groups) {
-    for (const item of (sections[key] || []).slice(0, 3)) {
-      const title = item.title || item.company || item.ticker || item.categoryLabel || "Catalyst";
-      const detail = item.purpose || item.category || item.notes || item.country || "";
-      rows.push({ label, date: item.date || "", title, detail });
-    }
-  }
+  const mkRows = (key, label, isMacro = false) => (sections[key] || []).map((item) => ({
+    label,
+    date: item.date || "",
+    title: item.title || item.company || item.ticker || item.categoryLabel || "Catalyst",
+    detail: item.purpose || item.category || item.notes || item.country || "",
+    isMacro,
+  }));
+  const byDate = (a, b) => {
+    const da = parseCatalystDate(a.date);
+    const db = parseCatalystDate(b.date);
+    if (!da) return 1;
+    if (!db) return -1;
+    return da - db;
+  };
+  // Portfolio / picks / macro are the rows the user actually acts on → shown
+  // expanded, soonest first. "Broader market" is context noise → tucked into a
+  // collapsed sub-section so it never buries the relevant events.
+  const priority = [
+    ...mkRows("inBook", "In portfolio"),
+    ...mkRows("inPicks", "In India picks"),
+    ...mkRows("macro", "Macro calendar", true),
+  ].sort(byDate);
+  const broader = mkRows("broader", "Broader market").sort(byDate);
+
+  const rowHtml = (r) => {
+    const cd = catalystCountdown(r.date);
+    const cdColor = cd === "today" || cd === "tomorrow" ? "var(--yellow)" : cd === "past" || !cd ? "var(--text-muted)" : "var(--text-secondary)";
+    const labelColor = r.isMacro ? "#c4b5fd" : "var(--cyan)";
+    const labelBg = r.isMacro ? "rgba(167,139,250,0.12)" : "rgba(34,211,238,0.10)";
+    return `
+      <div data-testid="catalyst-row" style="display:grid;grid-template-columns:62px 116px 1fr auto;gap:10px;align-items:center;font-size:12px;color:var(--text-secondary);">
+        <span data-testid="catalyst-countdown" style="font-size:10px;font-weight:700;color:${cdColor};text-align:center;padding:2px 6px;border-radius:5px;background:rgba(255,255,255,0.04);">${escapeHtml(cd || "—")}</span>
+        <span style="font-weight:700;color:${labelColor};padding:2px 8px;border-radius:5px;background:${labelBg};text-align:center;font-size:10px;">${escapeHtml(r.label)}</span>
+        <span><strong style="color:var(--text-primary);">${escapeHtml(r.title)}</strong>${r.detail ? ` · ${escapeHtml(r.detail)}` : ""}</span>
+        <span style="font-family:'JetBrains Mono',monospace;color:var(--text-muted);">${escapeHtml(r.date)}</span>
+      </div>`;
+  };
+
   const statusMessage = catalysts.status === "warming"
     ? catalysts.message || "Catalyst context is warming."
     : catalysts.status === "unavailable"
       ? catalysts.message || "Catalyst context unavailable."
       : null;
+  const hasAny = priority.length || broader.length;
   return `
     <div data-testid="market-catalysts-card" style="background:rgba(255,255,255,0.035);border:1px solid var(--border);border-radius:var(--card-radius);padding:18px 22px;margin-bottom:24px;">
       <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap;margin-bottom:12px;">
@@ -4136,15 +4187,17 @@ function renderUpcomingCatalysts(catalysts) {
         </div>
         ${catalysts.stats ? `<span style="font-size:11px;color:var(--text-muted);">${Number(catalysts.stats.corpInWindow || 0)} corporate · ${Number(catalysts.stats.macroInWindow || 0)} macro</span>` : ""}
       </div>
-      ${statusMessage ? `<div style="font-size:12px;color:var(--yellow);">${escapeHtml(statusMessage)}</div>` : rows.length ? `
+      ${statusMessage ? `<div style="font-size:12px;color:var(--yellow);">${escapeHtml(statusMessage)}</div>` : hasAny ? `
         <div style="display:flex;flex-direction:column;gap:8px;">
-          ${rows.slice(0, 8).map((r) => `
-            <div style="display:grid;grid-template-columns:90px 120px 1fr;gap:10px;align-items:start;font-size:12px;color:var(--text-secondary);">
-              <span style="font-family:'JetBrains Mono',monospace;color:var(--text-muted);">${escapeHtml(r.date)}</span>
-              <span style="color:var(--cyan);font-weight:700;">${escapeHtml(r.label)}</span>
-              <span><strong style="color:var(--text-primary);">${escapeHtml(r.title)}</strong>${r.detail ? ` · ${escapeHtml(r.detail)}` : ""}</span>
-            </div>`).join("")}
+          ${priority.slice(0, 10).map(rowHtml).join("") || `<div style="font-size:12px;color:var(--text-muted);">No portfolio, picks, or macro catalysts in the window.</div>`}
         </div>
+        ${broader.length ? `
+          <details class="analyzer-tier-details" data-testid="catalysts-broader" style="margin-top:12px;">
+            <summary style="cursor:pointer;list-style:none;font-size:12px;font-weight:700;color:var(--text-secondary);padding:8px 0;border-top:1px solid var(--border);">Broader market <span style="color:var(--text-muted);font-weight:500;">(${broader.length})</span></summary>
+            <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px;">
+              ${broader.slice(0, 20).map(rowHtml).join("")}
+            </div>
+          </details>` : ""}
       ` : `<div style="font-size:12px;color:var(--text-muted);">No near-term catalysts in the current window.</div>`}
     </div>`;
 }
@@ -4267,85 +4320,77 @@ function setDiscoveryRadarFilter(laneId) {
 }
 window.setDiscoveryRadarFilter = setDiscoveryRadarFilter;
 
-function renderNewsPage(digest, verdict, heatmap, macroRegime, catalysts, discovery) {
+// One honest freshness chip for a source. Shows age and turns amber once older
+// than its staleness budget (hours). Sources with no timestamp render "n/a"
+// rather than a fabricated "fresh".
+function _sourceChip(label, iso, staleHours) {
+  const t = iso ? new Date(iso).getTime() : NaN;
+  if (!Number.isFinite(t)) {
+    return `<span style="padding:3px 8px;border-radius:5px;background:rgba(255,255,255,0.03);border:1px solid var(--border);color:var(--text-muted);font-size:10px;">${escapeHtml(label)}: n/a</span>`;
+  }
+  const hours = (Date.now() - t) / 36e5;
+  const ageTxt = hours < 1 ? "live" : hours < 48 ? `${Math.round(hours)}h` : `${Math.round(hours / 24)}d`;
+  const color = hours > staleHours ? "var(--yellow)" : "var(--green)";
+  return `<span data-testid="source-chip" style="padding:3px 8px;border-radius:5px;background:rgba(255,255,255,0.03);border:1px solid ${color}33;color:${color};font-size:10px;font-weight:700;">${escapeHtml(label)} ${ageTxt}</span>`;
+}
+
+// Unified data-freshness line for the whole tab — replaces the per-section
+// staleness signals that were scattered (and absent for the 11-day-old radar).
+function renderSourceHealth(macroRegime, heatmap, catalysts, discovery, fiiDii) {
+  // FII/DII session date is NSE's "DD-Mmm-YYYY" (not ISO) — parse tolerantly.
+  const fiiDate = fiiDii && fiiDii.available !== false ? parseCatalystDate(fiiDii.date) : null;
+  const fiiIso = fiiDate ? fiiDate.toISOString() : null;
+  const chips = [
+    _sourceChip("Macro", macroRegime?.generatedAt, 14),
+    _sourceChip("Heatmap", heatmap?.lastUpdated, 1),
+    _sourceChip("FII/DII", fiiIso, 48),
+    _sourceChip("Catalysts", catalysts?.fetchedAt, 24 * 7),
+    _sourceChip("Radar", discovery?.generated_at, 24 * 7),
+  ];
+  return `
+    <div data-testid="market-source-health" style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:18px;font-size:10px;color:var(--text-muted);">
+      <span style="text-transform:uppercase;letter-spacing:0.5px;font-weight:700;">Data freshness</span>
+      ${chips.join("")}
+    </div>`;
+}
+
+function renderNewsPage(digest, heatmap, macroRegime, catalysts, discovery, fiiDii) {
   const container = document.getElementById("newsContainer");
 
   let html = "";
 
+  // Honest source-health line first, then the section hierarchy: macro context →
+  // today's synthesis → event calendar → sector breadth → review queue (collapsed).
+  html += renderSourceHealth(macroRegime, heatmap, catalysts, discovery, fiiDii);
   html += renderMacroRegimeCard(macroRegime);
-  html += renderMarketVerdictCard(verdict);
-  html += renderDiscoveryRadar(discovery);
+  html += renderMarketDigest(digest);
   html += renderUpcomingCatalysts(catalysts);
-
-  // ── Market Digest (the morning briefing) ──
-  if (digest) {
-    const moodColor = digest.marketMood === "bullish" ? "var(--green)" : digest.marketMood === "bearish" ? "var(--red)" : "var(--yellow)";
-    const moodBg = digest.marketMood === "bullish" ? "rgba(52,211,153,0.08)" : digest.marketMood === "bearish" ? "rgba(248,113,113,0.08)" : "rgba(251,191,36,0.08)";
-    const moodBorder = digest.marketMood === "bullish" ? "rgba(52,211,153,0.25)" : digest.marketMood === "bearish" ? "rgba(248,113,113,0.25)" : "rgba(251,191,36,0.25)";
-    const moodIcon = digest.marketMood === "bullish" ? "&#9650;" : digest.marketMood === "bearish" ? "&#9660;" : "&#9679;";
-    const moodLabel = (digest.marketMood || "mixed").toUpperCase();
-
-    html += `
-      <div style="background:${moodBg};border:1px solid ${moodBorder};border-radius:var(--card-radius);padding:20px 24px;margin-bottom:24px;">
-        <!-- Market Mood -->
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
-          <span style="font-size:20px;color:${moodColor};">${moodIcon}</span>
-          <span style="font-size:18px;font-weight:800;color:${moodColor};">${moodLabel}</span>
-          <span style="font-size:14px;color:var(--text-secondary);margin-left:4px;">${escapeHtml(digest.moodSummary || "")}</span>
-        </div>
-
-        <!-- Key Takeaways -->
-        ${digest.keyTakeaways && digest.keyTakeaways.length > 0 ? `
-          <div style="margin-bottom:20px;">
-            <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);font-weight:700;margin-bottom:10px;">Key Takeaways</div>
-            <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:8px;">
-              ${digest.keyTakeaways.map((t) => `<li style="font-size:13px;color:var(--text-primary);line-height:1.6;">${escapeHtml(t)}</li>`).join("")}
-            </ul>
-          </div>
-        ` : ""}
-
-        <!-- Bullish / Bearish columns -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-          <!-- Top Bullish Headlines -->
-          <div style="padding:14px 16px;background:rgba(52,211,153,0.06);border:1px solid rgba(52,211,153,0.18);border-radius:10px;">
-            <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--green);font-weight:700;margin-bottom:10px;">&#9650; Top Bullish Headlines</div>
-            ${digest.bullishDrivers && digest.bullishDrivers.length > 0
-              ? `<ul style="margin:0;padding-left:16px;display:flex;flex-direction:column;gap:6px;">
-                  ${digest.bullishDrivers.map((d) => `<li style="font-size:12px;color:var(--text-secondary);line-height:1.5;">${escapeHtml(d)}</li>`).join("")}
-                </ul>`
-              : `<div style="font-size:12px;color:var(--text-muted);">No clear bullish signals today.</div>`
-            }
-          </div>
-
-          <!-- Top Bearish Headlines -->
-          <div style="padding:14px 16px;background:rgba(248,113,113,0.06);border:1px solid rgba(248,113,113,0.18);border-radius:10px;">
-            <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--red);font-weight:700;margin-bottom:10px;">&#9660; Top Bearish Headlines</div>
-            ${digest.bearishRisks && digest.bearishRisks.length > 0
-              ? `<ul style="margin:0;padding-left:16px;display:flex;flex-direction:column;gap:6px;">
-                  ${digest.bearishRisks.map((d) => `<li style="font-size:12px;color:var(--text-secondary);line-height:1.5;">${escapeHtml(d)}</li>`).join("")}
-                </ul>`
-              : `<div style="font-size:12px;color:var(--text-muted);">No significant risks flagged.</div>`
-            }
-          </div>
-        </div>
-
-        <!-- Sectors to Watch -->
-        ${digest.sectorsToWatch && digest.sectorsToWatch.length > 0 ? `
-          <div style="margin-top:16px;">
-            <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);font-weight:700;margin-bottom:8px;">Sectors to Watch</div>
-            <div style="display:flex;flex-wrap:wrap;gap:6px;">
-              ${digest.sectorsToWatch.map((s) => `<span style="display:inline-block;padding:4px 10px;border-radius:6px;background:rgba(255,255,255,0.04);border:1px solid var(--border);font-size:11px;color:var(--text-secondary);">${escapeHtml(s)}</span>`).join("")}
-            </div>
-          </div>
-        ` : ""}
-
-        <div style="margin-top:14px;font-size:10px;color:var(--text-muted);text-align:right;">Composite of headlines + sectors + FII/DII</div>
-      </div>
-    `;
-  }
-
-  // ── Sector heatmap (19 sectors, ranked by avgChange) ──
   html += renderSectorHeatmap(heatmap);
+
+  // SWS Discovery Radar — an idea review queue, not market intelligence, so it sits
+  // default-collapsed at the very bottom. The <details> wrapper is built HERE as a
+  // SIBLING OUTSIDE #discoveryRadarCard: setDiscoveryRadarFilter swaps that inner div's
+  // outerHTML on lane-chip clicks, so keeping the wrapper outside preserves the open
+  // state across filtering (and avoids a default-closed reset on every chip click).
+  const radarCount = Number(discovery?.counts?.items ?? (Array.isArray(discovery?.items) ? discovery.items.length : 0));
+  const radarScanned = Number(discovery?.counts?.universe ?? 0);
+  const radarAsOf = discovery?.generated_at
+    ? new Date(discovery.generated_at).toLocaleDateString("en-IN", { dateStyle: "medium" })
+    : "warming";
+  const radarBits = [`${radarCount} name${radarCount === 1 ? "" : "s"}`];
+  if (radarScanned) radarBits.push(`${radarScanned} scanned`);
+  radarBits.push(`as of ${radarAsOf}`);
+  const radarStale = discovery?.generated_at
+    ? (Date.now() - new Date(discovery.generated_at).getTime()) > 7 * 24 * 36e5
+    : false;
+  const radarStalePill = radarStale
+    ? `<span data-testid="radar-stale-pill" style="margin-left:8px;padding:2px 7px;border-radius:5px;background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.35);color:var(--yellow);font-size:10px;font-weight:700;">stale</span>`
+    : "";
+  html += `
+    <details class="analyzer-tier-details" data-testid="discovery-radar-details" style="margin-bottom:24px;">
+      <summary class="tx-title" style="cursor:pointer;padding:10px 0;border-bottom:1px solid var(--border);list-style:none;font-size:13px;font-weight:800;color:var(--text-primary);">SWS Discovery Radar &mdash; review queue <span style="color:var(--text-muted);font-weight:500;font-size:12px;">(${radarBits.join(" · ")})</span>${radarStalePill}</summary>
+      ${renderDiscoveryRadar(discovery)}
+    </details>`;
 
   container.innerHTML = html;
 }
@@ -4446,7 +4491,32 @@ function renderSectorHeatmap(heatmap) {
       </div>`;
   }
 
-  // Already sorted desc by avgChange server-side
+  // Market-breadth gauge — a true advance/decline read across the full universe
+  // (the heatmap now scans the Nifty 500). marketBreadth is { totalStocks,
+  // advancing, declining, unchanged }; guard for older/cold cache shapes.
+  const mb = heatmap.marketBreadth || {};
+  const adv = Number(mb.advancing || 0);
+  const dec = Number(mb.declining || 0);
+  const flat = Number(mb.unchanged || 0);
+  const totBreadth = Number(mb.totalStocks || (adv + dec + flat)) || 0;
+  const advPct = totBreadth ? Math.round((adv / totBreadth) * 100) : 0;
+  const decPct = totBreadth ? Math.round((dec / totBreadth) * 100) : 0;
+  const breadthBar = totBreadth ? `
+    <div data-testid="market-breadth-bar" style="margin-bottom:14px;">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;font-size:11px;color:var(--text-secondary);margin-bottom:5px;flex-wrap:wrap;gap:6px;">
+        <span><strong style="color:var(--green);">${adv}</strong> advancing &middot; <strong style="color:var(--red);">${dec}</strong> declining${flat ? ` &middot; ${flat} flat` : ""}</span>
+        <span style="font-family:'JetBrains Mono',monospace;color:${advPct >= 50 ? "var(--green)" : "var(--red)"};font-weight:700;">${advPct}% advancing &middot; ${totBreadth} names</span>
+      </div>
+      <div style="display:flex;height:8px;border-radius:5px;overflow:hidden;background:rgba(255,255,255,0.05);">
+        <div style="width:${advPct}%;background:var(--green);"></div>
+        <div style="width:${decPct}%;background:var(--red);"></div>
+      </div>
+    </div>` : "";
+
+  // Already sorted desc by avgChange server-side. Each sector is an expandable
+  // <details> — the summary is the at-a-glance row; expanding lists every
+  // constituent (%-sorted), so the deeper Nifty-500 universe is inspectable
+  // rather than collapsed to a single top gainer/loser.
   const rows = heatmap.sectors.map((s) => {
     const chg = Number(s.avgChange ?? 0);
     const intensity = Math.min(Math.abs(chg) / 2.5, 1); // cap at 2.5% for full intensity
@@ -4459,25 +4529,43 @@ function renderSectorHeatmap(heatmap) {
     const arrow = chg > 0 ? "&#9650;" : chg < 0 ? "&#9660;" : "&#9679;";
     const tg = s.topGainer;
     const tl = s.topLoser;
-    const tgChip = tg ? `<span style="font-size:10px;color:var(--green);">${escapeHtml(tg.symbol?.replace(".NS","") || "")} ${tg.change >= 0 ? "+" : ""}${Number(tg.change).toFixed(1)}%</span>` : "";
-    const tlChip = tl ? `<span style="font-size:10px;color:var(--red);">${escapeHtml(tl.symbol?.replace(".NS","") || "")} ${Number(tl.change).toFixed(1)}%</span>` : "";
+    const tgChip = tg ? `<span style="font-size:10px;color:var(--green);">${escapeHtml(tg.symbol?.replace(/\.(NS|BO|BSE)$/, "") || "")} ${tg.change >= 0 ? "+" : ""}${Number(tg.change).toFixed(1)}%</span>` : "";
+    const tlChip = tl ? `<span style="font-size:10px;color:var(--red);">${escapeHtml(tl.symbol?.replace(/\.(NS|BO|BSE)$/, "") || "")} ${Number(tl.change).toFixed(1)}%</span>` : "";
 
-    return `
-      <div style="display:grid;grid-template-columns:1.4fr auto auto 1fr 1fr;gap:12px;align-items:center;padding:10px 14px;border-radius:8px;background:${bg};border:1px solid var(--border);">
+    const summaryRow = `
+      <div style="flex:1;display:grid;grid-template-columns:1.4fr auto auto 1fr 1fr;gap:12px;align-items:center;">
         <div style="font-size:13px;font-weight:600;color:var(--text-primary);">${escapeHtml(s.sector || "Unknown")}</div>
         <div style="font-size:13px;font-weight:700;font-family:'JetBrains Mono',monospace;color:${chgColor};text-align:right;">${arrow} ${chg >= 0 ? "+" : ""}${chg.toFixed(2)}%</div>
         <div style="font-size:10px;color:var(--text-muted);"><span style="color:var(--green);">${s.winners ?? 0}</span>/<span style="color:var(--red);">${s.losers ?? 0}</span></div>
         <div style="text-align:right;">${tgChip}</div>
         <div style="text-align:right;">${tlChip}</div>
       </div>`;
+
+    const constituents = Array.isArray(s.constituents) ? s.constituents : [];
+    if (!constituents.length) {
+      // No constituent list (cold/older cache) — render a plain non-expandable row.
+      return `<div style="display:flex;align-items:center;padding:10px 14px;border-radius:8px;background:${bg};border:1px solid var(--border);">${summaryRow}</div>`;
+    }
+    const chips = constituents.map((c) => {
+      const v = Number(c.change || 0);
+      const cc = v > 0 ? "var(--green)" : v < 0 ? "var(--red)" : "var(--text-muted)";
+      return `<span data-testid="heatmap-constituent" style="display:inline-flex;align-items:center;gap:5px;padding:3px 8px;border-radius:6px;background:rgba(255,255,255,0.03);border:1px solid var(--border);font-size:10px;color:var(--text-secondary);"><span style="font-family:'JetBrains Mono',monospace;">${escapeHtml(String(c.symbol || "").replace(/\.(NS|BO|BSE)$/, ""))}</span><span style="color:${cc};font-weight:700;">${v >= 0 ? "+" : ""}${v.toFixed(1)}%</span></span>`;
+    }).join("");
+
+    return `
+      <details class="analyzer-tier-details" data-testid="heatmap-sector" data-sector="${escapeHtml(s.sector || "")}" style="border-radius:8px;background:${bg};border:1px solid var(--border);">
+        <summary style="cursor:pointer;list-style:none;padding:10px 14px;display:flex;align-items:center;">${summaryRow}</summary>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;padding:0 14px 12px 30px;">${chips}</div>
+      </details>`;
   }).join("");
 
   return `
-    <div style="margin-bottom:24px;">
+    <div data-testid="market-heatmap-card" style="margin-bottom:24px;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-        <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);font-weight:700;">Sector Heatmap · ${heatmap.sectors.length} sectors · Nifty 100 universe</div>
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);font-weight:700;">Sector Heatmap · ${heatmap.sectors.length} sectors · Nifty 500 universe</div>
         <div style="font-size:10px;color:var(--text-muted);">Sorted by avg % change</div>
       </div>
+      ${breadthBar}
       <div style="display:flex;flex-direction:column;gap:6px;">
         ${rows}
       </div>

@@ -102,8 +102,14 @@ test.describe("Market Intelligence tab", () => {
     }
   });
 
-  test("renders the macro regime card from /api/macro/regime", async ({ page }) => {
+  test("renders macro card + digest + catalysts + collapsed radar in order (no verdict card)", async ({ page }) => {
     const generatedAt = new Date(Date.now() - 30 * 60 * 1000).toISOString();
+    // Radar feed deliberately aged 11 days to exercise the staleness pill.
+    const staleRadarAt = new Date(Date.now() - 11 * 86400000).toISOString();
+    // FII/DII session date mirrors NSE's "DD-Mmm-YYYY" format (NOT ISO) so the
+    // source-health chip's date parsing is exercised against the real shape.
+    const _now = new Date();
+    const fiiDateStr = `${String(_now.getDate()).padStart(2, "0")}-${["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][_now.getMonth()]}-${_now.getFullYear()}`;
 
     await page.route("**/api/news/market", (route) =>
       route.fulfill({
@@ -111,6 +117,7 @@ test.describe("Market Intelligence tab", () => {
         contentType: "application/json",
         body: JSON.stringify({
           lastUpdated: new Date().toISOString(),
+          fiiDii: { available: true, date: fiiDateStr },
           digest: {
             marketMood: "mixed",
             moodSummary: "Signals are split.",
@@ -150,52 +157,23 @@ test.describe("Market Intelligence tab", () => {
         }),
       }),
     );
-    await page.route("**/api/market-verdict", (route) =>
-      route.fulfill({
-        status: 200,
-        contentType: "application/json",
-        body: JSON.stringify({
-          verdict: "CAUTIOUS",
-          verdictColor: "yellow",
-          verdictAction: "Risk is elevated; new buys need extra confirmation.",
-          score: -1,
-          marketState: "RISK_OFF",
-          sourceQuality: {
-            macro: { available: true, usable: true, stale: false, ageHours: 0.5, source: "test", reason: "fresh" },
-            breadth: { available: true, usable: true, stale: false, ageHours: 0.1, source: "test", reason: "fresh" },
-            flow: { available: true, usable: true, stale: false, ageHours: 1.2, source: "test", reason: "fresh" },
-          },
-          decisionBasis: {
-            drivers: ["No confirmed constructive market backdrop"],
-            blockers: ["Severe macro pressure"],
-            missing: [],
-            downgradeTriggers: ["Breadth weakens further"],
-          },
-          signals: [
-            {
-              name: "Macro Regime",
-              signal: "red",
-              value: "OIL SHOCK · Severity 4/5",
-              action: "High oil = inflation risk.",
-              icon: "!",
-            },
-          ],
-          generatedAt,
-        }),
-      }),
-    );
+    // NOTE: /api/market-verdict is intentionally NOT mocked — the "Mixed evidence"
+    // verdict card was removed from this tab; the market digest is now the single
+    // backdrop synthesis. The route still exists server-side (covered by
+    // marketVerdictRoute.test.mjs), the tab just no longer fetches or renders it.
     await page.route("**/api/catalysts/today", (route) =>
       route.fulfill({
         status: 200,
         contentType: "application/json",
         body: JSON.stringify({
           schemaVersion: "catalysts-v1",
-          stats: { corpInWindow: 1, macroInWindow: 1 },
+          fetchedAt: new Date().toISOString(),
+          stats: { corpInWindow: 2, macroInWindow: 1 },
           sections: {
-            inBook: [{ ticker: "RELIANCE", company: "Reliance Industries", categoryLabel: "Earnings", purpose: "Financial Results", date: "2026-06-18" }],
+            inBook: [{ ticker: "RELIANCE", company: "Reliance Industries", categoryLabel: "Earnings", purpose: "Financial Results", date: new Date(Date.now() + 3 * 86400000).toISOString().slice(0, 10) }],
             inPicks: [],
-            broader: [],
-            macro: [{ title: "RBI MPC minutes", category: "Macro", tier: "A", date: "2026-06-19", notes: "Rate commentary" }],
+            broader: [{ ticker: "SOMECO", company: "Some Broader Co", categoryLabel: "Buyback", purpose: "Buyback", date: new Date(Date.now() + 8 * 86400000).toISOString().slice(0, 10) }],
+            macro: [{ title: "RBI MPC minutes", category: "Macro", tier: "A", date: new Date(Date.now() + 5 * 86400000).toISOString().slice(0, 10), notes: "Rate commentary" }],
           },
         }),
       }),
@@ -204,7 +182,28 @@ test.describe("Market Intelligence tab", () => {
       route.fulfill({
         status: 200,
         contentType: "application/json",
-        body: JSON.stringify({ sectors: [] }),
+        body: JSON.stringify({
+          sectors: [
+            {
+              sector: "Metals", avgChange: 1.45, winners: 3, losers: 1, stockCount: 4,
+              topGainer: { symbol: "VEDL.NS", change: 4.1 }, topLoser: { symbol: "TATASTEEL.NS", change: -0.5 },
+              constituents: [
+                { symbol: "VEDL.NS", change: 4.1 }, { symbol: "HINDALCO.NS", change: 2.0 },
+                { symbol: "JSWSTEEL.NS", change: 0.1 }, { symbol: "TATASTEEL.NS", change: -0.5 },
+              ],
+            },
+            {
+              sector: "Banking", avgChange: -1.13, winners: 1, losers: 3, stockCount: 4,
+              topGainer: { symbol: "HDFCBANK.NS", change: 0.3 }, topLoser: { symbol: "KOTAKBANK.NS", change: -3.3 },
+              constituents: [
+                { symbol: "HDFCBANK.NS", change: 0.3 }, { symbol: "SBIN.NS", change: -1.0 },
+                { symbol: "AXISBANK.NS", change: -2.0 }, { symbol: "KOTAKBANK.NS", change: -3.3 },
+              ],
+            },
+          ],
+          marketBreadth: { totalStocks: 500, advancing: 210, declining: 270, unchanged: 20 },
+          lastUpdated: new Date().toISOString(),
+        }),
       }),
     );
     await page.route("**/api/sws-discovery-feed", (route) =>
@@ -213,7 +212,7 @@ test.describe("Market Intelligence tab", () => {
         contentType: "application/json",
         body: JSON.stringify({
           schema_version: "sws-discovery-feed-v1",
-          generated_at: generatedAt,
+          generated_at: staleRadarAt,
           available: true,
           lanes: [
             { id: "future_breakout", label: "Future Breakout" },
@@ -293,19 +292,90 @@ test.describe("Market Intelligence tab", () => {
     await expect(card).toContainText("OIL_SHOCK");
     await expect(page.locator("#macroRegimeBanner")).toHaveCount(0);
 
-    await expect(page.getByTestId("market-verdict-card")).toBeVisible();
-    await expect(page.getByTestId("market-state-label")).toContainText("Risk-off backdrop");
-    await expect(page.getByTestId("market-verdict-source-quality")).toContainText("Macro: Fresh");
-    await expect(page.getByTestId("market-verdict-decision-basis")).toContainText("Severe macro pressure");
-    await expect(page.getByTestId("market-verdict-score-line")).toContainText("1-signal context");
+    // The legacy "Mixed evidence" market-verdict card is gone — the market digest is
+    // now the single backdrop synthesis.
+    await expect(page.getByTestId("market-verdict-card")).toHaveCount(0);
+    await expect(page.getByTestId("market-digest-card")).toBeVisible();
+    await expect(page.getByTestId("market-digest-card")).toContainText("MIXED");
+    await expect(page.getByTestId("market-digest-card")).toContainText("Macro pressure is the dominant read.");
+
+    // Unified data-freshness line (replaces scattered per-section staleness signals).
+    await expect(page.getByTestId("market-source-health")).toBeVisible();
+    await expect(page.getByTestId("market-source-health")).toContainText("Macro");
+    await expect(page.getByTestId("market-source-health")).toContainText("Radar");
+    // FII/DII date parsed from NSE's DD-Mmm-YYYY → a real age, not "n/a".
+    await expect(page.getByTestId("market-source-health")).toContainText("FII/DII");
+    await expect(page.getByTestId("market-source-health")).not.toContainText("FII/DII: n/a");
+
+    // Catalysts (above the heatmap).
     await expect(page.getByTestId("market-catalysts-card")).toContainText("Upcoming Catalysts");
     await expect(page.getByTestId("market-catalysts-card")).toContainText("Reliance Industries");
     await expect(page.getByTestId("market-catalysts-card")).toContainText("RBI MPC minutes");
-    await expect(page.getByTestId("discovery-radar-card")).toBeVisible();
-    await expect(page.getByTestId("discovery-radar-card")).toContainText("Discovery Radar");
+
+    // Each priority row carries a countdown; "Broader market" is a collapsed sub-section.
+    await expect(page.getByTestId("catalyst-countdown").first()).toBeVisible();
+    await expect(page.getByTestId("catalyst-countdown").first()).toContainText(/in \d|today|tomorrow/);
+    const broaderDetails = page.getByTestId("catalysts-broader");
+    await expect(broaderDetails).toBeVisible();
+    expect(await broaderDetails.evaluate((el) => el.open)).toBe(false);
+    await expect(broaderDetails).toContainText("Broader market");
+    // The broader item is in the DOM but hidden until the section is expanded.
+    await expect(broaderDetails.getByText("Some Broader Co")).not.toBeVisible();
+    await broaderDetails.locator("summary").click();
+    await expect(broaderDetails.getByText("Some Broader Co")).toBeVisible();
+
+    // Sector heatmap renders on the Nifty 500 universe.
+    await expect(page.getByTestId("market-heatmap-card")).toContainText("Nifty 500 universe");
+    await expect(page.getByTestId("market-heatmap-card")).toContainText("Metals");
+
+    // Market-breadth gauge from the 500-name advance/decline.
+    await expect(page.getByTestId("market-breadth-bar")).toContainText("advancing");
+    await expect(page.getByTestId("market-breadth-bar")).toContainText("210");
+
+    // Sector drill-down: Metals expands from a one-line summary to all constituents.
+    const metals = page.locator('[data-testid="heatmap-sector"][data-sector="Metals"]');
+    await expect(metals).toBeVisible();
+    expect(await metals.evaluate((el) => el.open)).toBe(false);
+    await metals.locator("summary").click();
+    expect(await metals.evaluate((el) => el.open)).toBe(true);
+    expect(await metals.getByTestId("heatmap-constituent").count()).toBeGreaterThan(2);
+
+    // Section order: macro → digest → catalysts → heatmap → radar.
+    // Compare on-screen vertical positions.
+    const tops = await page.evaluate(() => {
+      const top = (id) => {
+        const el = document.querySelector(`[data-testid="${id}"]`);
+        return el ? el.getBoundingClientRect().top : Number.NaN;
+      };
+      return {
+        macro: top("market-macro-regime-card"),
+        digest: top("market-digest-card"),
+        catalysts: top("market-catalysts-card"),
+        heatmap: top("market-heatmap-card"),
+        radar: top("discovery-radar-details"),
+      };
+    });
+    expect(tops.macro).toBeLessThan(tops.digest);
+    expect(tops.digest).toBeLessThan(tops.catalysts);
+    expect(tops.catalysts).toBeLessThan(tops.heatmap);
+    expect(tops.heatmap).toBeLessThan(tops.radar);
+
+    // Discovery Radar is collapsed by default at the bottom.
+    const radarDetails = page.getByTestId("discovery-radar-details");
+    await expect(radarDetails).toBeVisible();
+    expect(await radarDetails.evaluate((el) => el.open)).toBe(false);
+    await expect(radarDetails).toContainText("review queue");
+    // Feed is 11 days old in this fixture → the staleness pill renders on the summary.
+    await expect(page.getByTestId("radar-stale-pill")).toBeVisible();
+
+    // Expand it, then exercise the lane filter — the <details> must STAY open across
+    // the outerHTML re-render setDiscoveryRadarFilter does (SF2 regression guard).
+    await radarDetails.locator("summary").click();
+    expect(await radarDetails.evaluate((el) => el.open)).toBe(true);
     await expect(page.getByTestId("discovery-radar-card")).toContainText("KRISHNADEF");
     await expect(page.getByTestId("discovery-radar-card")).toContainText("FINOPB");
     await page.getByRole("button", { name: /Off-section High Future/ }).click();
+    expect(await radarDetails.evaluate((el) => el.open)).toBe(true);
     await expect(page.getByTestId("discovery-radar-row")).toHaveCount(1);
     await expect(page.getByTestId("discovery-radar-card")).toContainText("FINOPB");
     await expect(page.getByTestId("discovery-radar-card")).not.toContainText("KRISHNADEF");
@@ -313,8 +383,6 @@ test.describe("Market Intelligence tab", () => {
     await page.getByTestId("discovery-radar-row").first().click();
     await expect(page.locator("#swsModalBackdrop.open")).toBeVisible();
     await expect(page.locator("#swsModalBackdrop")).toContainText("KRISHNADEF");
-    await expect(page.getByTestId("market-verdict-card")).not.toContainText("Deploy capital with confidence");
-    await expect(page.getByTestId("market-verdict-card")).not.toContainText("proven edge");
   });
 
   test("#newsContainer renders past the initial loading-spinner state", async ({ page }) => {
