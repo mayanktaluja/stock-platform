@@ -3989,12 +3989,13 @@ async function loadMarketNews(opts = {}) {
     // Market Intelligence combines digest, macro, catalysts, sector heatmap, and the SWS discovery review queue.
     // (The legacy /api/market-verdict "Mixed evidence" card was removed — the market
     //  digest below is the single authoritative backdrop synthesis. The route stays.)
-    const [newsRes, macroRes, heatmapRes, catalystsRes, discoveryRes] = await Promise.all([
+    const [newsRes, macroRes, heatmapRes, catalystsRes, discoveryRes, indexRes] = await Promise.all([
       fetch("/api/news/market"),
       fetch("/api/macro/regime").catch(() => null),
       fetch("/api/sector-heatmap").catch(() => null),
       fetch("/api/catalysts/today").catch(() => null),
       fetch("/api/sws-discovery-feed").catch(() => null),
+      fetch("/api/index-intraday").catch(() => null),
     ]);
     const data = await newsRes.json();
     const macroRegime = macroRes && macroRes.ok ? await macroRes.json().catch(() => null) : null;
@@ -4005,6 +4006,7 @@ async function loadMarketNews(opts = {}) {
     const discovery = discoveryRes && discoveryRes.ok
       ? await discoveryRes.json().catch(() => null)
       : { available: false, items: [], sections: {} };
+    const indexIntraday = indexRes && indexRes.ok ? await indexRes.json().catch(() => null) : null;
 
     if (data.error) {
       container.innerHTML = `<div class="empty-state"><div class="empty-icon">&#9888;</div><div class="empty-text">${escapeHtml(data.error)}</div></div>`;
@@ -4016,7 +4018,7 @@ async function loadMarketNews(opts = {}) {
     const updatedEl = document.getElementById("newsLastUpdated");
     if (updatedEl) updatedEl.textContent = `Updated: ${new Date(data.lastUpdated).toLocaleTimeString("en-IN")}`;
 
-    renderNewsPage(_newsDigest, heatmap, macroRegime, catalysts, discovery, data.fiiDii || null);
+    renderNewsPage(_newsDigest, heatmap, macroRegime, catalysts, discovery, data.fiiDii || null, indexIntraday);
   } catch (err) {
     container.innerHTML = `<div class="empty-state"><div class="empty-icon">&#9888;</div><div class="empty-text">Failed to load news. Try again.</div></div>`;
   } finally {
@@ -4030,7 +4032,40 @@ async function loadMarketNews(opts = {}) {
 // removed /api/market-verdict "Mixed evidence" card, which read a dead source and
 // duplicated this block's verdict. Extracted from renderNewsPage so section order is
 // a clean sequence of render*() calls.
-function renderMarketDigest(digest) {
+// Multi-day FII/DII net-flow sparkline — zero-centered bars (green = net buy,
+// red = net sell). Source is fiiDii.history (recent sessions, newest-first);
+// reversed here to oldest→newest. Self-hides with fewer than 2 sessions.
+function renderFiiDiiTrend(fiiDii) {
+  const hist = Array.isArray(fiiDii?.history) ? fiiDii.history.slice(0, 8).reverse() : [];
+  if (hist.length < 2) return "";
+  const maxAbs = Math.max(1, ...hist.map((h) => Math.abs(Number(h.fii) || 0)));
+  const half = 26;
+  const fmtDay = (d) => {
+    const dt = parseCatalystDate(d);
+    return dt ? dt.toLocaleDateString("en-IN", { day: "2-digit", month: "short" }) : "";
+  };
+  const cols = hist.map((h) => {
+    const fii = Number(h.fii) || 0;
+    const dii = Number(h.dii) || 0;
+    const ph = Math.max(fii === 0 ? 0 : 2, Math.round((Math.abs(fii) / maxAbs) * half));
+    const up = fii > 0 ? `<div style="height:${ph}px;width:64%;background:var(--green);border-radius:2px 2px 0 0;"></div>` : "";
+    const down = fii < 0 ? `<div style="height:${ph}px;width:64%;background:var(--red);border-radius:0 0 2px 2px;"></div>` : "";
+    const title = `${fmtDay(h.date)} · FII ${fii >= 0 ? "+" : ""}${Math.round(fii)} Cr · DII ${dii >= 0 ? "+" : ""}${Math.round(dii)} Cr`;
+    return `<div data-testid="fii-dii-bar" title="${escapeHtml(title)}" style="flex:1;display:flex;flex-direction:column;align-items:center;">
+        <div style="height:${half}px;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;width:100%;">${up}</div>
+        <div style="height:1px;width:100%;background:var(--border);"></div>
+        <div style="height:${half}px;display:flex;flex-direction:column;justify-content:flex-start;align-items:center;width:100%;">${down}</div>
+        <div style="font-size:8px;color:var(--text-muted);margin-top:3px;white-space:nowrap;">${escapeHtml(fmtDay(h.date))}</div>
+      </div>`;
+  }).join("");
+  return `
+    <div data-testid="fii-dii-trend" style="margin-top:16px;">
+      <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);font-weight:700;margin-bottom:8px;">FII net flow &middot; last ${hist.length} sessions (&#8377; Cr) &middot; <span style="color:var(--green);">buy</span> / <span style="color:var(--red);">sell</span></div>
+      <div style="display:flex;gap:5px;align-items:stretch;">${cols}</div>
+    </div>`;
+}
+
+function renderMarketDigest(digest, fiiDii) {
   if (!digest) return "";
   const moodColor = digest.marketMood === "bullish" ? "var(--green)" : digest.marketMood === "bearish" ? "var(--red)" : "var(--yellow)";
   const moodBg = digest.marketMood === "bullish" ? "rgba(52,211,153,0.08)" : digest.marketMood === "bearish" ? "rgba(248,113,113,0.08)" : "rgba(251,191,36,0.08)";
@@ -4091,6 +4126,8 @@ function renderMarketDigest(digest) {
           </div>
         </div>
       ` : ""}
+
+      ${renderFiiDiiTrend(fiiDii)}
 
       <div style="margin-top:14px;font-size:10px;color:var(--text-muted);text-align:right;">Composite of headlines + sectors + FII/DII</div>
     </div>
@@ -4336,6 +4373,40 @@ function _sourceChip(label, iso, staleHours) {
 
 // Unified data-freshness line for the whole tab — replaces the per-section
 // staleness signals that were scattered (and absent for the 11-day-old radar).
+// Build an SVG polyline path for a sparkline from a numeric series.
+function _sparkPath(series, w, h) {
+  const v = (Array.isArray(series) ? series : []).filter((n) => Number.isFinite(Number(n))).map(Number);
+  if (v.length < 2) return "";
+  const min = Math.min(...v);
+  const max = Math.max(...v);
+  const range = max - min || 1;
+  const step = w / (v.length - 1);
+  return v.map((n, i) => `${i === 0 ? "M" : "L"}${(i * step).toFixed(1)},${(h - ((n - min) / range) * h).toFixed(1)}`).join(" ");
+}
+
+// Index intraday strip — NIFTY 50 / SENSEX / BANK NIFTY: spot, % change, and a
+// 5-minute sparkline. Self-hides when the feed is unavailable.
+function renderIndexStrip(idx) {
+  const indices = Array.isArray(idx?.indices) ? idx.indices : [];
+  if (!indices.length) return "";
+  const cards = indices.map((ix) => {
+    const up = Number(ix.changePct) >= 0;
+    const color = up ? "var(--green)" : "var(--red)";
+    const path = _sparkPath(ix.series || [], 120, 30);
+    return `<div data-testid="index-spark" data-symbol="${escapeHtml(ix.symbol || "")}" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;padding:10px 12px;border:1px solid var(--border);border-radius:8px;background:rgba(255,255,255,0.02);">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;">
+          <span style="font-size:11px;font-weight:700;color:var(--text-secondary);">${escapeHtml(ix.name || ix.symbol)}</span>
+          <span style="font-size:11px;font-family:'JetBrains Mono',monospace;color:${color};font-weight:700;">${up ? "+" : ""}${Number(ix.changePct || 0).toFixed(2)}%</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:8px;">
+          <span style="font-size:14px;font-weight:800;color:var(--text-primary);font-family:'JetBrains Mono',monospace;">${Number(ix.last || 0).toLocaleString("en-IN", { maximumFractionDigits: 2 })}</span>
+          ${path ? `<svg width="120" height="30" viewBox="0 0 120 30" preserveAspectRatio="none" aria-hidden="true"><path d="${path}" fill="none" stroke="${color}" stroke-width="1.5" stroke-linejoin="round"/></svg>` : ""}
+        </div>
+      </div>`;
+  }).join("");
+  return `<div data-testid="index-strip" style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px;">${cards}</div>`;
+}
+
 function renderSourceHealth(macroRegime, heatmap, catalysts, discovery, fiiDii) {
   // FII/DII session date is NSE's "DD-Mmm-YYYY" (not ISO) — parse tolerantly.
   const fiiDate = fiiDii && fiiDii.available !== false ? parseCatalystDate(fiiDii.date) : null;
@@ -4354,16 +4425,18 @@ function renderSourceHealth(macroRegime, heatmap, catalysts, discovery, fiiDii) 
     </div>`;
 }
 
-function renderNewsPage(digest, heatmap, macroRegime, catalysts, discovery, fiiDii) {
+function renderNewsPage(digest, heatmap, macroRegime, catalysts, discovery, fiiDii, indexIntraday) {
   const container = document.getElementById("newsContainer");
 
   let html = "";
 
-  // Honest source-health line first, then the section hierarchy: macro context →
-  // today's synthesis → event calendar → sector breadth → review queue (collapsed).
+  // Index sparkline strip, then the honest source-health line, then the section
+  // hierarchy: macro context → today's synthesis → event calendar → sector
+  // breadth → review queue (collapsed).
+  html += renderIndexStrip(indexIntraday);
   html += renderSourceHealth(macroRegime, heatmap, catalysts, discovery, fiiDii);
   html += renderMacroRegimeCard(macroRegime);
-  html += renderMarketDigest(digest);
+  html += renderMarketDigest(digest, fiiDii);
   html += renderUpcomingCatalysts(catalysts);
   html += renderSectorHeatmap(heatmap);
 

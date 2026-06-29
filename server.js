@@ -1298,6 +1298,38 @@ async function fetchIndexQuote(symbol) {
 }
 
 /**
+ * Fetch an index's intraday 5-minute close series (range=1d) plus last/change,
+ * for the Market Intelligence index sparklines. Same Yahoo chart call as
+ * fetchIndexQuote but it also extracts the close array.
+ */
+async function fetchIndexSeries(symbol) {
+  try {
+    const url = `${YF_BASE}/v8/finance/chart/${encodeURIComponent(symbol)}?range=1d&interval=5m&includePrePost=false`;
+    const res = await fetchWithRetry(url, { headers: YF_HEADERS }, { retries: 2, timeoutMs: 8000 });
+    if (!res?.ok) return null;
+    const data = await res.json();
+    const r = data.chart?.result?.[0];
+    if (!r) return null;
+    const meta = r.meta;
+    const closesRaw = r.indicators?.quote?.[0]?.close || [];
+    const series = closesRaw.filter((v) => v != null && Number.isFinite(v));
+    const prevClose = meta.chartPreviousClose;
+    const price = meta.regularMarketPrice ?? series[series.length - 1] ?? prevClose;
+    return {
+      symbol: meta.symbol,
+      name: meta.shortName || meta.longName || meta.symbol,
+      last: price,
+      previousClose: prevClose,
+      changePct: prevClose ? ((price - prevClose) / prevClose) * 100 : 0,
+      series: series.slice(-80),
+    };
+  } catch (err) {
+    console.error(`Index series error for ${symbol}:`, err.message);
+    return null;
+  }
+}
+
+/**
  * Fetch detailed quote - uses chart endpoint + derives additional metrics from historical data
  */
 async function fetchDetailedQuote(symbol) {
@@ -3566,6 +3598,38 @@ app.get("/api/sector-heatmap", async (req, res) => {
   res.json(result.data);
 });
 
+/**
+ * GET /api/index-intraday
+ *
+ * Intraday 5-minute close series for NIFTY 50 / SENSEX / BANK NIFTY, powering the
+ * Market Intelligence index sparklines. Only 3 upstream calls, so no concurrency
+ * cap needed; cached 2 min and breaker-wrapped (serves last-good on Yahoo hiccups).
+ */
+const indexIntradayCache = new NodeCache({ stdTTL: 120, checkperiod: 30 });
+const indexIntradayBreaker = createBreaker({ name: "index-intraday-yahoo", timeoutMs: 20_000 });
+
+async function getIndexIntradayData() {
+  const cached = indexIntradayCache.get("idx");
+  if (cached) return cached;
+  const defs = [["^NSEI", "NIFTY 50"], ["^BSESN", "SENSEX"], ["^NSEBANK", "BANK NIFTY"]];
+  const out = await Promise.all(defs.map(async ([sym, name]) => {
+    const s = await fetchIndexSeries(sym).catch(() => null);
+    return s ? { ...s, name } : null;
+  }));
+  const response = { indices: out.filter(Boolean), lastUpdated: new Date().toISOString() };
+  indexIntradayCache.set("idx", response);
+  return response;
+}
+
+app.get("/api/index-intraday", async (req, res) => {
+  const result = await indexIntradayBreaker.call("idx", () => getIndexIntradayData());
+  if (result.data == null) {
+    return res.status(503).json({ error: "index intraday upstream unavailable", source: result.source });
+  }
+  if (!result.fresh) res.set("X-Data-Source", result.source);
+  res.json(result.data);
+});
+
 // ==================== FII / DII FLOW DATA ====================
 
 /**
@@ -4117,9 +4181,17 @@ app.get("/api/news/market", async (req, res) => {
     const response = {
       articles: scored,
       digest,
-      // Compact FII/DII freshness for the tab's source-health line (the full
-      // figures live in the digest; this is just availability + session date).
-      fiiDii: fiiDii ? { available: fiiDii.available !== false, date: fiiDii.date || null } : null,
+      // Compact FII/DII for the tab: availability + session date for the
+      // source-health line, plus the last 8 sessions of net flows for the
+      // multi-day trend sparkline (getFiiDiiData already maintains the rolling
+      // history; we just forward a trimmed slice).
+      fiiDii: fiiDii ? {
+        available: fiiDii.available !== false,
+        date: fiiDii.date || null,
+        history: Array.isArray(fiiDii.history)
+          ? fiiDii.history.slice(0, 8).map((h) => ({ date: h.date, fii: h.fii, dii: h.dii }))
+          : [],
+      } : null,
       count: scored.length,
       sources: ["Economic Times", "LiveMint", "Google News India"],
       compliance: {

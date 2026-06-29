@@ -117,7 +117,16 @@ test.describe("Market Intelligence tab", () => {
         contentType: "application/json",
         body: JSON.stringify({
           lastUpdated: new Date().toISOString(),
-          fiiDii: { available: true, date: fiiDateStr },
+          fiiDii: {
+            available: true,
+            date: fiiDateStr,
+            history: [
+              { date: "27-Jun-2026", fii: -1350.4, dii: 2801.1 },
+              { date: "26-Jun-2026", fii: 980.2, dii: -440.5 },
+              { date: "25-Jun-2026", fii: -3200.7, dii: 4100.0 },
+              { date: "24-Jun-2026", fii: 1500.0, dii: -200.0 },
+            ],
+          },
           digest: {
             marketMood: "mixed",
             moodSummary: "Signals are split.",
@@ -202,6 +211,20 @@ test.describe("Market Intelligence tab", () => {
             },
           ],
           marketBreadth: { totalStocks: 500, advancing: 210, declining: 270, unchanged: 20 },
+          lastUpdated: new Date().toISOString(),
+        }),
+      }),
+    );
+    await page.route("**/api/index-intraday", (route) =>
+      route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          indices: [
+            { symbol: "^NSEI", name: "NIFTY 50", last: 23946.25, previousClose: 24056, changePct: -0.46, series: [24050, 24010, 23980, 23990, 23955, 23946] },
+            { symbol: "^BSESN", name: "SENSEX", last: 76728.37, previousClose: 77100, changePct: -0.48, series: [77090, 77010, 76900, 76850, 76760, 76728] },
+            { symbol: "^NSEBANK", name: "BANK NIFTY", last: 57727.35, previousClose: 58177, changePct: -0.77, series: [58170, 58050, 57900, 57850, 57780, 57727] },
+          ],
           lastUpdated: new Date().toISOString(),
         }),
       }),
@@ -306,6 +329,16 @@ test.describe("Market Intelligence tab", () => {
     // FII/DII date parsed from NSE's DD-Mmm-YYYY → a real age, not "n/a".
     await expect(page.getByTestId("market-source-health")).toContainText("FII/DII");
     await expect(page.getByTestId("market-source-health")).not.toContainText("FII/DII: n/a");
+
+    // Index intraday strip at the top of the tab — three sparkline cards.
+    await expect(page.getByTestId("index-strip")).toBeVisible();
+    await expect(page.getByTestId("index-spark")).toHaveCount(3);
+    await expect(page.getByTestId("index-strip")).toContainText("NIFTY 50");
+    await expect(page.getByTestId("index-strip")).toContainText("BANK NIFTY");
+
+    // FII/DII multi-day net-flow trend inside the digest.
+    await expect(page.getByTestId("fii-dii-trend")).toBeVisible();
+    expect(await page.getByTestId("fii-dii-bar").count()).toBeGreaterThanOrEqual(2);
 
     // Catalysts (above the heatmap).
     await expect(page.getByTestId("market-catalysts-card")).toContainText("Upcoming Catalysts");
