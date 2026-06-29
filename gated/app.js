@@ -5899,10 +5899,15 @@ function _credibilityBannerCopy(best, windowPayload, label) {
     };
   }
 
+  // latest_available (non-resolved) spotlight: the cohort is today's top-ranked
+  // picks applied backward, not a cohort actually held since then. Keep the metric
+  // but flag it hypothetical + append the not-realized caveat so the homepage banner
+  // is as honest as the Track tab's illustrative-basis disclaimer.
   return {
     tone: "positive",
+    hypothetical: true,
     headline: `${label} ${_cohortLabel(best)} shows ${_fmtSignedPct(alpha)} alpha vs Nifty 50`,
-    evidenceSuffix: "",
+    evidenceSuffix: " Illustrative: backfilled from today's top-ranked picks (survivorship) — not a cohort held since then, and not a realized return.",
     showAlpha: true,
   };
 }
@@ -5990,6 +5995,7 @@ function renderPicksCredibilityBanner(payload) {
         </div>
       </div>
       <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:flex-end;">
+        ${copy.hypothetical ? `<span data-testid="picks-credibility-illustrative" title="Backfilled from today's top-ranked picks — not a cohort held since then." style="border:1px solid var(--warn);color:var(--warn);border-radius:6px;padding:3px 7px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.04em;white-space:nowrap;">Illustrative</span>` : ""}
         ${copy.showAlpha ? `<div data-testid="picks-credibility-alpha" style="font-size:24px;font-weight:900;line-height:1;color:${alphaColor};">${_fmtSignedPct(alpha)}</div>` : ""}
         ${selectedWindowText ? `<div data-testid="picks-credibility-selected-window" style="border:1px solid rgba(224,176,96,0.45);background:rgba(224,176,96,0.14);color:var(--text-primary);border-radius:6px;padding:5px 8px;font-size:11px;font-weight:800;white-space:nowrap;">${escapeHtml(selectedWindowText)}</div>` : ""}
       </div>
