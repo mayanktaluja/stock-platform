@@ -12974,6 +12974,28 @@ function renderPickStatusBadges(stock, sectionKey) {
   return parts.join("");
 }
 
+// PR5 — Snowflake pillar mini-bars. Decomposes the "Snow N/30" badge into its 5
+// SWS pillars (Health/Future/Past/Value/Dividend, each 0–6), already present on
+// every row via s.snowflake. Colour-bands the fill by level so a weak pillar (e.g.
+// a value trap with strong Health/Future but Value 1/6) reads at a glance.
+function renderPickPillarBars(snow) {
+  if (!snow || typeof snow !== "object") return "";
+  const pillars = [
+    { key: "Health", v: snow.health ?? snow.financial_health, tip: "SWS Financial Health pillar — balance-sheet strength" },
+    { key: "Future", v: snow.future ?? snow.future_growth, tip: "SWS Future pillar — forecast earnings growth" },
+    { key: "Past", v: snow.past ?? snow.past_performance, tip: "SWS Past pillar — historical performance" },
+    { key: "Value", v: snow.value ?? snow.valuation, tip: "SWS Value pillar — price vs fair value" },
+    { key: "Div", v: snow.dividend ?? snow.dividends, tip: "SWS Dividend pillar — yield + sustainability" },
+  ].filter((p) => Number.isFinite(Number(p.v)));
+  if (pillars.length === 0) return "";
+  const bars = pillars.map((p) => {
+    const v = Math.max(0, Math.min(6, Number(p.v)));
+    const pct = Math.round((v / 6) * 100);
+    return `<span class="sws-pillar" title="${escapeHtml(p.tip)}: ${v}/6"><span class="sws-pillar-label">${p.key}</span><span class="sws-pillar-track"><span class="sws-pillar-fill" data-lvl="${Math.round(v)}" style="width:${pct}%;"></span></span></span>`;
+  }).join("");
+  return `<div class="sws-pick-pillars" aria-label="Snowflake pillar breakdown">${bars}</div>`;
+}
+
 function renderPickCard(s, sectionKey, rank = null) {
   const fmtInr = (v) => v == null ? "—" : v >= 1e12 ? `₹${(v / 1e12).toFixed(2)} L Cr` : v >= 1e7 ? `₹${(v / 1e7).toFixed(v >= 1e10 ? 0 : 2)} Cr` : `₹${v.toLocaleString("en-IN")}`;
   const upside = s.upside_pct != null ? `${s.upside_pct > 0 ? "+" : ""}${s.upside_pct.toFixed(1)}%` : "—";
@@ -13141,6 +13163,7 @@ function renderPickCard(s, sectionKey, rank = null) {
         <div class="sws-pick-stat" style="color:${upsideColor};">${upside}${infoIcon("upside_pct")}${valBandChip ? " " + valBandChip : ""}</div>
         <div class="sws-pick-stat sws-pick-stat-snow"><span class="sws-pick-stat-label">Snow${infoIcon("snowflake_score")}</span> ${sn}/30</div>
       </div>
+	      ${renderPickPillarBars(s.snowflake)}
 	      <div class="sws-pick-card-narrative">${(s.narrative && s.narrative.card_one_line) || s.one_line || ""}</div>
 	      ${entryRow}
 	      ${riskRow}

@@ -4670,6 +4670,30 @@
     }
     .sws-regime-sector--neg { color: var(--red); }
     .sws-regime-sector--pos { color: var(--green); }
+
+    /* PR5 — Snowflake pillar mini-bars on each pick card. */
+    .sws-pick-pillars { display: flex; gap: 8px; margin-top: 8px; }
+    .sws-pillar { display: flex; flex-direction: column; gap: 3px; flex: 1 1 0; min-width: 0; }
+    .sws-pillar-label {
+      font-size: var(--fs-micro, 10px);
+      color: var(--text-muted);
+      text-align: center;
+      letter-spacing: 0.02em;
+    }
+    .sws-pillar-track {
+      height: 4px;
+      border-radius: 2px;
+      background: var(--bg-input);
+      overflow: hidden;
+    }
+    .sws-pillar-fill { display: block; height: 100%; border-radius: 2px; background: var(--text-muted); }
+    .sws-pillar-fill[data-lvl="0"],
+    .sws-pillar-fill[data-lvl="1"],
+    .sws-pillar-fill[data-lvl="2"] { background: var(--red); }
+    .sws-pillar-fill[data-lvl="3"],
+    .sws-pillar-fill[data-lvl="4"] { background: var(--cyan); }
+    .sws-pillar-fill[data-lvl="5"],
+    .sws-pillar-fill[data-lvl="6"] { background: var(--green); }
     .sws-pick-card:focus-visible { outline: 2px solid var(--cyan, var(--accent-blue)); outline-offset: 2px; }
     .sws-pick-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
     .sws-pick-card-id { min-width: 0; flex: 1; display: flex; align-items: center; gap: 8px; }
