@@ -4630,6 +4630,46 @@
       text-transform: uppercase;
       color: var(--warn);
     }
+
+    /* PR4 — market-regime context strip (risk-on/off tone keyed to severity). */
+    .sws-pick-regime-strip {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 14px;
+      padding: 8px 14px;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--text-muted);
+      border-radius: var(--card-radius, 6px);
+      background: var(--bg-card);
+      font-size: var(--fs-meta, 11px);
+    }
+    .sws-pick-regime-strip[data-tone="on"]      { border-left-color: var(--green); }
+    .sws-pick-regime-strip[data-tone="caution"] { border-left-color: var(--warn); }
+    .sws-pick-regime-strip[data-tone="off"]     { border-left-color: var(--red); }
+    .sws-regime-tone {
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      font-size: var(--fs-micro, 10px);
+      color: var(--text-secondary);
+    }
+    .sws-pick-regime-strip[data-tone="on"] .sws-regime-tone      { color: var(--green); }
+    .sws-pick-regime-strip[data-tone="caution"] .sws-regime-tone { color: var(--warn); }
+    .sws-pick-regime-strip[data-tone="off"] .sws-regime-tone     { color: var(--red); }
+    .sws-regime-label { font-weight: 700; color: var(--text-primary); }
+    .sws-regime-sev { letter-spacing: 1px; color: var(--text-muted); }
+    .sws-regime-meta, .sws-regime-age { color: var(--text-muted); }
+    .sws-regime-impacts { display: inline-flex; gap: 6px; flex-wrap: wrap; }
+    .sws-regime-sector {
+      padding: 1px 7px;
+      border-radius: 9px;
+      background: var(--bg-input);
+      color: var(--text-secondary);
+    }
+    .sws-regime-sector--neg { color: var(--red); }
+    .sws-regime-sector--pos { color: var(--green); }
     .sws-pick-card:focus-visible { outline: 2px solid var(--cyan, var(--accent-blue)); outline-offset: 2px; }
     .sws-pick-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
     .sws-pick-card-id { min-width: 0; flex: 1; display: flex; align-items: center; gap: 8px; }

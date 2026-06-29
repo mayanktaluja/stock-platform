@@ -12259,6 +12259,10 @@ async function loadPicks() {
   containerEl.innerHTML = buildSkeleton("pick-card", 9);
 
   try {
+    // Fire the macro-regime fetch alongside picks so the context strip lands with
+    // the page. Mirrors loadMarketNews; non-blocking — a failure just hides the strip
+    // (the server returns a calm-regime body even on error, so json() still resolves).
+    const regimePromise = fetch("/api/macro/regime").then((r) => r.json()).catch(() => null);
     const res = await fetch("/api/sws-picks-summary");
     if (res.status === 404) {
       currentPicksData = null;
@@ -12267,7 +12271,7 @@ async function loadPicks() {
       return;
     }
     const data = await res.json();
-    currentPicksMacroRegime = null;
+    currentPicksMacroRegime = await regimePromise;
     currentPicksData = data;
     // Disable Large/Mid/Small dropdown options if the server says the
     // constituent JSON isn't loaded (e.g. fresh deploy before first refresh).
@@ -12490,6 +12494,46 @@ function humanMacroRegimeLabel(regime) {
   return raw.toLowerCase().replace(/_/g, " ").replace(/\b\w/g, (m) => m.toUpperCase());
 }
 
+// PR4 — market-regime context strip. Reuses the existing /api/macro/regime feed
+// (wired in loadPicks). Pure render: risk-on/off tone keyed to severity, regime
+// label, confidence, the 3 most-negative sector impacts, and a freshness stamp.
+// Macro context only — the site-wide footer carries the disclaimer.
+function renderPicksRegimeStrip(regime) {
+  if (!regime || !regime.regime) return "";
+  const label = regime.regimeLabel || humanMacroRegimeLabel(regime.regime);
+  const sevNum = Number(regime.severity);
+  const sev = Number.isFinite(sevNum) ? sevNum : null;
+  const tone = sev == null ? "neutral" : sev >= 4 ? "off" : sev >= 2 ? "caution" : "on";
+  const toneLabel = tone === "off" ? "Risk-off" : tone === "caution" ? "Elevated" : tone === "on" ? "Risk-on" : "Mixed";
+  const confNum = Number(regime.confidence);
+  const conf = Number.isFinite(confNum) ? `${Math.round(confNum * 100)}% conf` : "";
+  const age = regime.generatedAt ? timeAgo(regime.generatedAt) : "";
+  const impacts = Array.isArray(regime.sectorImpacts)
+    ? regime.sectorImpacts
+        .filter((x) => x && x.sector && Number.isFinite(Number(x.impact)))
+        .sort((a, b) => Number(a.impact) - Number(b.impact))
+        .slice(0, 3)
+    : [];
+  const impactChips = impacts.map((x) => {
+    const v = Number(x.impact);
+    const cls = v < 0 ? "neg" : v > 0 ? "pos" : "flat";
+    return `<span class="sws-regime-sector sws-regime-sector--${cls}" title="${escapeHtml(x.reason || "")}">${escapeHtml(x.sector)} ${v > 0 ? "+" : ""}${v}</span>`;
+  }).join("");
+  const dots = sev != null ? Math.max(0, Math.min(5, Math.round(sev))) : 0;
+  const sevDots = sev != null
+    ? `<span class="sws-regime-sev" title="Severity ${sev}/5" aria-label="Severity ${sev} of 5">${"●".repeat(dots)}${"○".repeat(5 - dots)}</span>`
+    : "";
+  return `
+    <div class="sws-pick-regime-strip" data-tone="${tone}" data-testid="picks-regime-strip" role="note" aria-label="Market regime context">
+      <span class="sws-regime-tone">${escapeHtml(toneLabel)}</span>
+      <span class="sws-regime-label">${escapeHtml(label)}</span>
+      ${sevDots}
+      ${conf ? `<span class="sws-regime-meta">${escapeHtml(conf)}</span>` : ""}
+      ${impactChips ? `<span class="sws-regime-impacts">${impactChips}</span>` : ""}
+      ${age ? `<span class="sws-regime-age">as of ${escapeHtml(age)}</span>` : ""}
+    </div>`;
+}
+
 function getPicksSectionAudit(data, sectionKey) {
   const audit = data && data.section_audit && data.section_audit[sectionKey];
   return audit && typeof audit === "object" ? audit : null;
@@ -12693,6 +12737,7 @@ function renderPicks(data) {
 
 		  const statusHtml = renderPicksSearchStatus(totalShown, offSectionCount);
 		  const shortlistStateHtml = renderTodayShortlistState(data);
+		  const regimeStripHtml = renderPicksRegimeStrip(currentPicksMacroRegime);
 		  const chipNav = renderPicksChipNav(visibleSectionsForRender, collapsedState);
 
   // Same force-expand logic as the chip-nav: an active search query overrides
@@ -12773,7 +12818,7 @@ function renderPicks(data) {
     sectionsHtml = coreRows.map(renderPicksSectionHtml).join("") + moreHtml;
   }
 
-	  containerEl.innerHTML = statusHtml + shortlistStateHtml + chipNav + sectionsHtml;
+	  containerEl.innerHTML = regimeStripHtml + statusHtml + shortlistStateHtml + chipNav + sectionsHtml;
   refreshScrollRails(containerEl);
   hydratePicksChunkSentinels(containerEl);
 }
