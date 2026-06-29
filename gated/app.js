@@ -3227,7 +3227,7 @@ function _renderUsersTable(users) {
       ? `<div style="display:flex;align-items:center;justify-content:flex-end;gap:8px;">
           <span style="color:var(--gold);font-size:12px;font-weight:700;">On</span>
           <button type="button" data-sws-email-action="off" data-user-sub="${_escHtml(u.sub)}"
-                  style="border:1px solid rgba(248,113,113,0.35);background:rgba(248,113,113,0.08);color:#fca5a5;border-radius:6px;padding:4px 8px;font-size:11px;font-weight:700;cursor:pointer;">Turn off</button>
+                  style="border:1px solid rgba(248,113,113,0.35);background:rgba(248,113,113,0.08);color:var(--negative-text-soft);border-radius:6px;padding:4px 8px;font-size:11px;font-weight:700;cursor:pointer;">Turn off</button>
         </div>`
       : '<span style="color:var(--text-muted);font-size:12px;font-weight:700;">Off</span>';
 
@@ -4198,7 +4198,7 @@ function renderUpcomingCatalysts(catalysts) {
   const rowHtml = (r) => {
     const cd = catalystCountdown(r.date);
     const cdColor = cd === "today" || cd === "tomorrow" ? "var(--yellow)" : cd === "past" || !cd ? "var(--text-muted)" : "var(--text-secondary)";
-    const labelColor = r.isMacro ? "#c4b5fd" : "var(--cyan)";
+    const labelColor = r.isMacro ? "var(--purple-bright)" : "var(--cyan)";
     const labelBg = r.isMacro ? "rgba(167,139,250,0.12)" : "rgba(34,211,238,0.10)";
     return `
       <div data-testid="catalyst-row" style="display:grid;grid-template-columns:62px 116px 1fr auto;gap:10px;align-items:center;font-size:12px;color:var(--text-secondary);">
@@ -4291,11 +4291,11 @@ function renderDiscoveryRadar(feed) {
     : "Warming";
   const chip = (lane) => {
     const active = _discoveryRadarFilter === lane.id;
-    return `<button type="button" data-testid="discovery-radar-lane-chip" data-lane="${escapeHtml(lane.id)}" onclick="setDiscoveryRadarFilter('${escapeHtml(lane.id)}')" style="border:1px solid ${active ? 'rgba(96,165,250,0.65)' : 'var(--border)'};background:${active ? 'rgba(96,165,250,0.18)' : 'rgba(255,255,255,0.035)'};color:${active ? '#bfdbfe' : 'var(--text-secondary)'};border-radius:7px;padding:7px 10px;font-size:11px;font-weight:800;cursor:pointer;">${escapeHtml(lane.label)} <span style="font-family:'JetBrains Mono',monospace;color:var(--text-muted);">${countFor(lane.id)}</span></button>`;
+    return `<button type="button" data-testid="discovery-radar-lane-chip" data-lane="${escapeHtml(lane.id)}" onclick="setDiscoveryRadarFilter('${escapeHtml(lane.id)}')" style="border:1px solid ${active ? 'rgba(96,165,250,0.65)' : 'var(--border)'};background:${active ? 'rgba(96,165,250,0.18)' : 'rgba(255,255,255,0.035)'};color:${active ? 'var(--info-text-soft)' : 'var(--text-secondary)'};border-radius:7px;padding:7px 10px;font-size:11px;font-weight:800;cursor:pointer;">${escapeHtml(lane.label)} <span style="font-family:'JetBrains Mono',monospace;color:var(--text-muted);">${countFor(lane.id)}</span></button>`;
   };
   const rows = filteredItems.slice(0, 30).map((item) => {
-    const laneBadges = (item.lanes || []).map((lane) => `<span style="display:inline-flex;align-items:center;padding:3px 7px;border-radius:6px;background:rgba(34,211,238,0.08);border:1px solid rgba(34,211,238,0.22);color:#67e8f9;font-size:10px;font-weight:800;">${escapeHtml(lane.label || discoveryLaneLabel(lane.id))}</span>`).join("");
-    const cautions = (item.caution_flags || []).slice(0, 3).map((flag) => `<span style="display:inline-flex;align-items:center;padding:3px 7px;border-radius:6px;background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.22);color:#fbbf24;font-size:10px;font-weight:700;">${escapeHtml(discoveryCautionLabel(flag))}</span>`).join("");
+    const laneBadges = (item.lanes || []).map((lane) => `<span style="display:inline-flex;align-items:center;padding:3px 7px;border-radius:6px;background:rgba(34,211,238,0.08);border:1px solid rgba(34,211,238,0.22);color:var(--cyan);font-size:10px;font-weight:800;">${escapeHtml(lane.label || discoveryLaneLabel(lane.id))}</span>`).join("");
+    const cautions = (item.caution_flags || []).slice(0, 3).map((flag) => `<span style="display:inline-flex;align-items:center;padding:3px 7px;border-radius:6px;background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.22);color:var(--warn-text);font-size:10px;font-weight:700;">${escapeHtml(discoveryCautionLabel(flag))}</span>`).join("");
     const sections = (item.section_membership || []).length
       ? item.section_membership.map((s) => s.label || s.id).slice(0, 2).join(", ")
       : "Off-section";
@@ -12692,6 +12692,7 @@ function renderPicksRegimeStrip(regime) {
     : "";
   return `
     <div class="sws-pick-regime-strip" data-tone="${tone}" data-testid="picks-regime-strip" role="note" aria-label="Market regime context">
+      <span class="sws-regime-kicker">Regime</span>
       <span class="sws-regime-tone">${escapeHtml(toneLabel)}</span>
       <span class="sws-regime-label">${escapeHtml(label)}</span>
       ${sevDots}
