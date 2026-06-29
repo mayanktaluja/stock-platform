@@ -176,8 +176,22 @@ test.describe("Market Intelligence tab", () => {
         contentType: "application/json",
         body: JSON.stringify({
           sectors: [
-            { sector: "Metals", avgChange: 1.45, winners: 6, losers: 0, stockCount: 6, topGainer: { symbol: "VEDL.NS", change: 4.1 }, topLoser: { symbol: "JSWSTEEL.NS", change: 0.1 } },
-            { sector: "Banking", avgChange: -1.13, winners: 2, losers: 8, stockCount: 10, topGainer: { symbol: "HDFCBANK.NS", change: 0.3 }, topLoser: { symbol: "KOTAKBANK.NS", change: -3.3 } },
+            {
+              sector: "Metals", avgChange: 1.45, winners: 3, losers: 1, stockCount: 4,
+              topGainer: { symbol: "VEDL.NS", change: 4.1 }, topLoser: { symbol: "TATASTEEL.NS", change: -0.5 },
+              constituents: [
+                { symbol: "VEDL.NS", change: 4.1 }, { symbol: "HINDALCO.NS", change: 2.0 },
+                { symbol: "JSWSTEEL.NS", change: 0.1 }, { symbol: "TATASTEEL.NS", change: -0.5 },
+              ],
+            },
+            {
+              sector: "Banking", avgChange: -1.13, winners: 1, losers: 3, stockCount: 4,
+              topGainer: { symbol: "HDFCBANK.NS", change: 0.3 }, topLoser: { symbol: "KOTAKBANK.NS", change: -3.3 },
+              constituents: [
+                { symbol: "HDFCBANK.NS", change: 0.3 }, { symbol: "SBIN.NS", change: -1.0 },
+                { symbol: "AXISBANK.NS", change: -2.0 }, { symbol: "KOTAKBANK.NS", change: -3.3 },
+              ],
+            },
           ],
           marketBreadth: { totalStocks: 500, advancing: 210, declining: 270, unchanged: 20 },
           lastUpdated: new Date().toISOString(),
@@ -285,6 +299,18 @@ test.describe("Market Intelligence tab", () => {
     // Sector heatmap renders on the Nifty 500 universe.
     await expect(page.getByTestId("market-heatmap-card")).toContainText("Nifty 500 universe");
     await expect(page.getByTestId("market-heatmap-card")).toContainText("Metals");
+
+    // Market-breadth gauge from the 500-name advance/decline.
+    await expect(page.getByTestId("market-breadth-bar")).toContainText("advancing");
+    await expect(page.getByTestId("market-breadth-bar")).toContainText("210");
+
+    // Sector drill-down: Metals expands from a one-line summary to all constituents.
+    const metals = page.locator('[data-testid="heatmap-sector"][data-sector="Metals"]');
+    await expect(metals).toBeVisible();
+    expect(await metals.evaluate((el) => el.open)).toBe(false);
+    await metals.locator("summary").click();
+    expect(await metals.evaluate((el) => el.open)).toBe(true);
+    expect(await metals.getByTestId("heatmap-constituent").count()).toBeGreaterThan(2);
 
     // Section order: macro → digest → catalysts → heatmap → radar.
     // Compare on-screen vertical positions.

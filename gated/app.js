@@ -4389,7 +4389,32 @@ function renderSectorHeatmap(heatmap) {
       </div>`;
   }
 
-  // Already sorted desc by avgChange server-side
+  // Market-breadth gauge — a true advance/decline read across the full universe
+  // (the heatmap now scans the Nifty 500). marketBreadth is { totalStocks,
+  // advancing, declining, unchanged }; guard for older/cold cache shapes.
+  const mb = heatmap.marketBreadth || {};
+  const adv = Number(mb.advancing || 0);
+  const dec = Number(mb.declining || 0);
+  const flat = Number(mb.unchanged || 0);
+  const totBreadth = Number(mb.totalStocks || (adv + dec + flat)) || 0;
+  const advPct = totBreadth ? Math.round((adv / totBreadth) * 100) : 0;
+  const decPct = totBreadth ? Math.round((dec / totBreadth) * 100) : 0;
+  const breadthBar = totBreadth ? `
+    <div data-testid="market-breadth-bar" style="margin-bottom:14px;">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;font-size:11px;color:var(--text-secondary);margin-bottom:5px;flex-wrap:wrap;gap:6px;">
+        <span><strong style="color:var(--green);">${adv}</strong> advancing &middot; <strong style="color:var(--red);">${dec}</strong> declining${flat ? ` &middot; ${flat} flat` : ""}</span>
+        <span style="font-family:'JetBrains Mono',monospace;color:${advPct >= 50 ? "var(--green)" : "var(--red)"};font-weight:700;">${advPct}% advancing &middot; ${totBreadth} names</span>
+      </div>
+      <div style="display:flex;height:8px;border-radius:5px;overflow:hidden;background:rgba(255,255,255,0.05);">
+        <div style="width:${advPct}%;background:var(--green);"></div>
+        <div style="width:${decPct}%;background:var(--red);"></div>
+      </div>
+    </div>` : "";
+
+  // Already sorted desc by avgChange server-side. Each sector is an expandable
+  // <details> — the summary is the at-a-glance row; expanding lists every
+  // constituent (%-sorted), so the deeper Nifty-500 universe is inspectable
+  // rather than collapsed to a single top gainer/loser.
   const rows = heatmap.sectors.map((s) => {
     const chg = Number(s.avgChange ?? 0);
     const intensity = Math.min(Math.abs(chg) / 2.5, 1); // cap at 2.5% for full intensity
@@ -4402,17 +4427,34 @@ function renderSectorHeatmap(heatmap) {
     const arrow = chg > 0 ? "&#9650;" : chg < 0 ? "&#9660;" : "&#9679;";
     const tg = s.topGainer;
     const tl = s.topLoser;
-    const tgChip = tg ? `<span style="font-size:10px;color:var(--green);">${escapeHtml(tg.symbol?.replace(".NS","") || "")} ${tg.change >= 0 ? "+" : ""}${Number(tg.change).toFixed(1)}%</span>` : "";
-    const tlChip = tl ? `<span style="font-size:10px;color:var(--red);">${escapeHtml(tl.symbol?.replace(".NS","") || "")} ${Number(tl.change).toFixed(1)}%</span>` : "";
+    const tgChip = tg ? `<span style="font-size:10px;color:var(--green);">${escapeHtml(tg.symbol?.replace(/\.(NS|BO|BSE)$/, "") || "")} ${tg.change >= 0 ? "+" : ""}${Number(tg.change).toFixed(1)}%</span>` : "";
+    const tlChip = tl ? `<span style="font-size:10px;color:var(--red);">${escapeHtml(tl.symbol?.replace(/\.(NS|BO|BSE)$/, "") || "")} ${Number(tl.change).toFixed(1)}%</span>` : "";
 
-    return `
-      <div style="display:grid;grid-template-columns:1.4fr auto auto 1fr 1fr;gap:12px;align-items:center;padding:10px 14px;border-radius:8px;background:${bg};border:1px solid var(--border);">
+    const summaryRow = `
+      <div style="flex:1;display:grid;grid-template-columns:1.4fr auto auto 1fr 1fr;gap:12px;align-items:center;">
         <div style="font-size:13px;font-weight:600;color:var(--text-primary);">${escapeHtml(s.sector || "Unknown")}</div>
         <div style="font-size:13px;font-weight:700;font-family:'JetBrains Mono',monospace;color:${chgColor};text-align:right;">${arrow} ${chg >= 0 ? "+" : ""}${chg.toFixed(2)}%</div>
         <div style="font-size:10px;color:var(--text-muted);"><span style="color:var(--green);">${s.winners ?? 0}</span>/<span style="color:var(--red);">${s.losers ?? 0}</span></div>
         <div style="text-align:right;">${tgChip}</div>
         <div style="text-align:right;">${tlChip}</div>
       </div>`;
+
+    const constituents = Array.isArray(s.constituents) ? s.constituents : [];
+    if (!constituents.length) {
+      // No constituent list (cold/older cache) — render a plain non-expandable row.
+      return `<div style="display:flex;align-items:center;padding:10px 14px;border-radius:8px;background:${bg};border:1px solid var(--border);">${summaryRow}</div>`;
+    }
+    const chips = constituents.map((c) => {
+      const v = Number(c.change || 0);
+      const cc = v > 0 ? "var(--green)" : v < 0 ? "var(--red)" : "var(--text-muted)";
+      return `<span data-testid="heatmap-constituent" style="display:inline-flex;align-items:center;gap:5px;padding:3px 8px;border-radius:6px;background:rgba(255,255,255,0.03);border:1px solid var(--border);font-size:10px;color:var(--text-secondary);"><span style="font-family:'JetBrains Mono',monospace;">${escapeHtml(String(c.symbol || "").replace(/\.(NS|BO|BSE)$/, ""))}</span><span style="color:${cc};font-weight:700;">${v >= 0 ? "+" : ""}${v.toFixed(1)}%</span></span>`;
+    }).join("");
+
+    return `
+      <details class="analyzer-tier-details" data-testid="heatmap-sector" data-sector="${escapeHtml(s.sector || "")}" style="border-radius:8px;background:${bg};border:1px solid var(--border);">
+        <summary style="cursor:pointer;list-style:none;padding:10px 14px;display:flex;align-items:center;">${summaryRow}</summary>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;padding:0 14px 12px 30px;">${chips}</div>
+      </details>`;
   }).join("");
 
   return `
@@ -4421,6 +4463,7 @@ function renderSectorHeatmap(heatmap) {
         <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);font-weight:700;">Sector Heatmap · ${heatmap.sectors.length} sectors · Nifty 500 universe</div>
         <div style="font-size:10px;color:var(--text-muted);">Sorted by avg % change</div>
       </div>
+      ${breadthBar}
       <div style="display:flex;flex-direction:column;gap:6px;">
         ${rows}
       </div>

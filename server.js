@@ -3524,9 +3524,16 @@ async function getSectorHeatmapData() {
     s.avgChange = s.count > 0 ? parseFloat((s.totalChange / s.count).toFixed(2)) : 0;
     s.winners = s.stocks.filter((st) => st.change > 0).length;
     s.losers = s.stocks.filter((st) => st.change < 0).length;
-    s.topGainer = s.stocks.sort((a, b) => b.change - a.change)[0] || null;
-    s.topLoser = s.stocks.sort((a, b) => a.change - b.change)[0] || null;
-    // Remove full stock list to keep response compact
+    // Sort once (desc by % change). Expose a compact constituents list so the
+    // frontend can offer a per-sector drill-down; symbol + change only, to keep
+    // the ~500-name payload small. topGainer/topLoser are the head/tail.
+    const sorted = s.stocks.slice().sort((a, b) => b.change - a.change);
+    s.topGainer = sorted[0] || null;
+    s.topLoser = sorted[sorted.length - 1] || null;
+    s.constituents = sorted.map((st) => ({
+      symbol: st.symbol,
+      change: parseFloat(Number(st.change || 0).toFixed(2)),
+    }));
     delete s.totalChange;
     s.stockCount = s.count;
     delete s.count;
