@@ -4016,7 +4016,7 @@ async function loadMarketNews(opts = {}) {
     const updatedEl = document.getElementById("newsLastUpdated");
     if (updatedEl) updatedEl.textContent = `Updated: ${new Date(data.lastUpdated).toLocaleTimeString("en-IN")}`;
 
-    renderNewsPage(_newsDigest, heatmap, macroRegime, catalysts, discovery);
+    renderNewsPage(_newsDigest, heatmap, macroRegime, catalysts, discovery, data.fiiDii || null);
   } catch (err) {
     container.innerHTML = `<div class="empty-state"><div class="empty-icon">&#9888;</div><div class="empty-text">Failed to load news. Try again.</div></div>`;
   } finally {
@@ -4320,13 +4320,48 @@ function setDiscoveryRadarFilter(laneId) {
 }
 window.setDiscoveryRadarFilter = setDiscoveryRadarFilter;
 
-function renderNewsPage(digest, heatmap, macroRegime, catalysts, discovery) {
+// One honest freshness chip for a source. Shows age and turns amber once older
+// than its staleness budget (hours). Sources with no timestamp render "n/a"
+// rather than a fabricated "fresh".
+function _sourceChip(label, iso, staleHours) {
+  const t = iso ? new Date(iso).getTime() : NaN;
+  if (!Number.isFinite(t)) {
+    return `<span style="padding:3px 8px;border-radius:5px;background:rgba(255,255,255,0.03);border:1px solid var(--border);color:var(--text-muted);font-size:10px;">${escapeHtml(label)}: n/a</span>`;
+  }
+  const hours = (Date.now() - t) / 36e5;
+  const ageTxt = hours < 1 ? "live" : hours < 48 ? `${Math.round(hours)}h` : `${Math.round(hours / 24)}d`;
+  const color = hours > staleHours ? "var(--yellow)" : "var(--green)";
+  return `<span data-testid="source-chip" style="padding:3px 8px;border-radius:5px;background:rgba(255,255,255,0.03);border:1px solid ${color}33;color:${color};font-size:10px;font-weight:700;">${escapeHtml(label)} ${ageTxt}</span>`;
+}
+
+// Unified data-freshness line for the whole tab — replaces the per-section
+// staleness signals that were scattered (and absent for the 11-day-old radar).
+function renderSourceHealth(macroRegime, heatmap, catalysts, discovery, fiiDii) {
+  // FII/DII session date is NSE's "DD-Mmm-YYYY" (not ISO) — parse tolerantly.
+  const fiiDate = fiiDii && fiiDii.available !== false ? parseCatalystDate(fiiDii.date) : null;
+  const fiiIso = fiiDate ? fiiDate.toISOString() : null;
+  const chips = [
+    _sourceChip("Macro", macroRegime?.generatedAt, 14),
+    _sourceChip("Heatmap", heatmap?.lastUpdated, 1),
+    _sourceChip("FII/DII", fiiIso, 48),
+    _sourceChip("Catalysts", catalysts?.fetchedAt, 24 * 7),
+    _sourceChip("Radar", discovery?.generated_at, 24 * 7),
+  ];
+  return `
+    <div data-testid="market-source-health" style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:18px;font-size:10px;color:var(--text-muted);">
+      <span style="text-transform:uppercase;letter-spacing:0.5px;font-weight:700;">Data freshness</span>
+      ${chips.join("")}
+    </div>`;
+}
+
+function renderNewsPage(digest, heatmap, macroRegime, catalysts, discovery, fiiDii) {
   const container = document.getElementById("newsContainer");
 
   let html = "";
 
-  // Section order (analyst hierarchy): macro context → today's synthesis →
-  // event calendar → sector breadth → review queue (collapsed, at the bottom).
+  // Honest source-health line first, then the section hierarchy: macro context →
+  // today's synthesis → event calendar → sector breadth → review queue (collapsed).
+  html += renderSourceHealth(macroRegime, heatmap, catalysts, discovery, fiiDii);
   html += renderMacroRegimeCard(macroRegime);
   html += renderMarketDigest(digest);
   html += renderUpcomingCatalysts(catalysts);
@@ -4345,9 +4380,15 @@ function renderNewsPage(digest, heatmap, macroRegime, catalysts, discovery) {
   const radarBits = [`${radarCount} name${radarCount === 1 ? "" : "s"}`];
   if (radarScanned) radarBits.push(`${radarScanned} scanned`);
   radarBits.push(`as of ${radarAsOf}`);
+  const radarStale = discovery?.generated_at
+    ? (Date.now() - new Date(discovery.generated_at).getTime()) > 7 * 24 * 36e5
+    : false;
+  const radarStalePill = radarStale
+    ? `<span data-testid="radar-stale-pill" style="margin-left:8px;padding:2px 7px;border-radius:5px;background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.35);color:var(--yellow);font-size:10px;font-weight:700;">stale</span>`
+    : "";
   html += `
     <details class="analyzer-tier-details" data-testid="discovery-radar-details" style="margin-bottom:24px;">
-      <summary class="tx-title" style="cursor:pointer;padding:10px 0;border-bottom:1px solid var(--border);list-style:none;font-size:13px;font-weight:800;color:var(--text-primary);">SWS Discovery Radar &mdash; review queue <span style="color:var(--text-muted);font-weight:500;font-size:12px;">(${radarBits.join(" · ")})</span></summary>
+      <summary class="tx-title" style="cursor:pointer;padding:10px 0;border-bottom:1px solid var(--border);list-style:none;font-size:13px;font-weight:800;color:var(--text-primary);">SWS Discovery Radar &mdash; review queue <span style="color:var(--text-muted);font-weight:500;font-size:12px;">(${radarBits.join(" · ")})</span>${radarStalePill}</summary>
       ${renderDiscoveryRadar(discovery)}
     </details>`;
 

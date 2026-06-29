@@ -4117,6 +4117,9 @@ app.get("/api/news/market", async (req, res) => {
     const response = {
       articles: scored,
       digest,
+      // Compact FII/DII freshness for the tab's source-health line (the full
+      // figures live in the digest; this is just availability + session date).
+      fiiDii: fiiDii ? { available: fiiDii.available !== false, date: fiiDii.date || null } : null,
       count: scored.length,
       sources: ["Economic Times", "LiveMint", "Google News India"],
       compliance: {

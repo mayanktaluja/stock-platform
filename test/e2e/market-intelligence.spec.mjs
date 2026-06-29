@@ -104,6 +104,12 @@ test.describe("Market Intelligence tab", () => {
 
   test("renders macro card + digest + catalysts + collapsed radar in order (no verdict card)", async ({ page }) => {
     const generatedAt = new Date(Date.now() - 30 * 60 * 1000).toISOString();
+    // Radar feed deliberately aged 11 days to exercise the staleness pill.
+    const staleRadarAt = new Date(Date.now() - 11 * 86400000).toISOString();
+    // FII/DII session date mirrors NSE's "DD-Mmm-YYYY" format (NOT ISO) so the
+    // source-health chip's date parsing is exercised against the real shape.
+    const _now = new Date();
+    const fiiDateStr = `${String(_now.getDate()).padStart(2, "0")}-${["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][_now.getMonth()]}-${_now.getFullYear()}`;
 
     await page.route("**/api/news/market", (route) =>
       route.fulfill({
@@ -111,6 +117,7 @@ test.describe("Market Intelligence tab", () => {
         contentType: "application/json",
         body: JSON.stringify({
           lastUpdated: new Date().toISOString(),
+          fiiDii: { available: true, date: fiiDateStr },
           digest: {
             marketMood: "mixed",
             moodSummary: "Signals are split.",
@@ -160,6 +167,7 @@ test.describe("Market Intelligence tab", () => {
         contentType: "application/json",
         body: JSON.stringify({
           schemaVersion: "catalysts-v1",
+          fetchedAt: new Date().toISOString(),
           stats: { corpInWindow: 2, macroInWindow: 1 },
           sections: {
             inBook: [{ ticker: "RELIANCE", company: "Reliance Industries", categoryLabel: "Earnings", purpose: "Financial Results", date: new Date(Date.now() + 3 * 86400000).toISOString().slice(0, 10) }],
@@ -204,7 +212,7 @@ test.describe("Market Intelligence tab", () => {
         contentType: "application/json",
         body: JSON.stringify({
           schema_version: "sws-discovery-feed-v1",
-          generated_at: generatedAt,
+          generated_at: staleRadarAt,
           available: true,
           lanes: [
             { id: "future_breakout", label: "Future Breakout" },
@@ -291,6 +299,14 @@ test.describe("Market Intelligence tab", () => {
     await expect(page.getByTestId("market-digest-card")).toContainText("MIXED");
     await expect(page.getByTestId("market-digest-card")).toContainText("Macro pressure is the dominant read.");
 
+    // Unified data-freshness line (replaces scattered per-section staleness signals).
+    await expect(page.getByTestId("market-source-health")).toBeVisible();
+    await expect(page.getByTestId("market-source-health")).toContainText("Macro");
+    await expect(page.getByTestId("market-source-health")).toContainText("Radar");
+    // FII/DII date parsed from NSE's DD-Mmm-YYYY → a real age, not "n/a".
+    await expect(page.getByTestId("market-source-health")).toContainText("FII/DII");
+    await expect(page.getByTestId("market-source-health")).not.toContainText("FII/DII: n/a");
+
     // Catalysts (above the heatmap).
     await expect(page.getByTestId("market-catalysts-card")).toContainText("Upcoming Catalysts");
     await expect(page.getByTestId("market-catalysts-card")).toContainText("Reliance Industries");
@@ -349,6 +365,8 @@ test.describe("Market Intelligence tab", () => {
     await expect(radarDetails).toBeVisible();
     expect(await radarDetails.evaluate((el) => el.open)).toBe(false);
     await expect(radarDetails).toContainText("review queue");
+    // Feed is 11 days old in this fixture → the staleness pill renders on the summary.
+    await expect(page.getByTestId("radar-stale-pill")).toBeVisible();
 
     // Expand it, then exercise the lane filter — the <details> must STAY open across
     // the outerHTML re-render setDiscoveryRadarFilter does (SF2 regression guard).
