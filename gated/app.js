@@ -11808,6 +11808,30 @@ const PICKS_SECTIONS = [
   { key: "insider_buying", term_id: "section_insider_buying", emoji: "👁", label: "👁 Insider Buying", chip_label: "Insider", subtitle: "Material insider / MD buys in last 90 days. Data field not yet captured." },
 ];
 
+// PR2 declutter — the curated "core" screens shown on the homepage by default.
+// Everything else (momentum/income/niche/experimental) renders behind a collapsed
+// "More screens" disclosure to cut choice overload. Off-section search results are
+// treated as core so global-search hits are never hidden.
+const PICKS_CORE_SECTIONS = new Set([
+  "top_ranked_30_v4",
+  "quality_growth",
+  "deep_value",
+  "growing_sector_value",
+  "best_fundamentals",
+]);
+function isPicksCoreSection(key) {
+  return PICKS_CORE_SECTIONS.has(key) || key === "off_section_search";
+}
+const PICKS_MORE_OPEN_LS_KEY = "swsPicksMoreOpen_v1";
+function loadPicksMoreOpen() {
+  try { return localStorage.getItem(PICKS_MORE_OPEN_LS_KEY) === "1"; } catch { return false; }
+}
+let picksMoreScreensOpen = loadPicksMoreOpen();
+function onPicksMoreScreensToggle(detailsEl) {
+  picksMoreScreensOpen = !!(detailsEl && detailsEl.open);
+  try { localStorage.setItem(PICKS_MORE_OPEN_LS_KEY, picksMoreScreensOpen ? "1" : "0"); } catch {}
+}
+
 // Per-section soft cap on cards displayed inline. The Top-30 section gets
 // its full 30; everything else stays at 12 (with a "more" hint).
 const PICKS_INLINE_CAP = {
@@ -12351,6 +12375,14 @@ function togglePicksSection(headerEl, ev) {
 function jumpToPicksSection(sectionKey) {
   const section = document.querySelector(`.sws-pick-section[data-section-key="${sectionKey}"]`);
   if (!section) return;
+  // If the target lives inside the collapsed "More screens" disclosure, open it
+  // first so the scroll + expand actually reveals the section.
+  const moreWrap = section.closest("details.sws-pick-more-screens");
+  if (moreWrap && !moreWrap.open) {
+    moreWrap.open = true;
+    picksMoreScreensOpen = true;
+    try { localStorage.setItem(PICKS_MORE_OPEN_LS_KEY, "1"); } catch {}
+  }
   if (section.classList.contains("collapsed")) {
     section.classList.remove("collapsed");
     const state = loadPicksCollapsedState();
@@ -12626,7 +12658,13 @@ function renderPicks(data) {
   }
 
 	  updatePicksFilterSummary(shownTickers.size, totalTickers.size);
-	  const visibleSectionsForRender = visibleSections;
+	  // Core-first stable order so the chip-nav and the section list agree: curated
+	  // core screens first, everything else after (those tail screens get folded
+	  // into the "More screens" disclosure below).
+	  const visibleSectionsForRender = [
+	    ...visibleSections.filter((r) => isPicksCoreSection(r.section.key)),
+	    ...visibleSections.filter((r) => !isPicksCoreSection(r.section.key)),
+	  ];
 
 	  if (!totalShown && visibleSections.length === 0) {
     const uniLabel = ({
@@ -12664,7 +12702,7 @@ function renderPicks(data) {
   // were just wiped by the upcoming innerHTML assignment, so nothing can
   // consume them and they'd otherwise leak across re-renders.
   picksChunkBuffers.clear();
-	  const sectionsHtml = visibleSectionsForRender.map(({ section, items, audit }) => {
+	  const renderPicksSectionHtml = ({ section, items, audit }) => {
 	    const defaultCap = PICKS_INLINE_CAP[section.key] ?? PICKS_INLINE_DEFAULT_CAP;
     const expanded = picksExpandedSections.has(section.key);
     const cap = expanded ? items.length : defaultCap;
@@ -12717,7 +12755,23 @@ function renderPicks(data) {
           ${hidden > 0 ? `<div class="sws-pick-overflow">${expanded ? `Showing all <strong>${items.length}</strong> · ` : `… and <strong>${hidden}</strong> more · `}<button type="button" class="sws-pick-overflow-btn" onclick="togglePicksExpandAll('${section.key}', event)">${expanded ? `Show top ${defaultCap} ↑` : `Show all (${items.length}) ↓`}</button>${expanded ? "" : ` · or open the PDF for the full list`}</div>` : ""}
         </div>
       </div>`;
-  }).join("");
+  };
+
+  // Declutter: render the curated core screens directly, then fold the rest into
+  // a collapsed "More screens" disclosure. Search mode (forceExpand) shows every
+  // matching section flat so global hits are never buried.
+  let sectionsHtml;
+  if (forceExpand) {
+    sectionsHtml = visibleSectionsForRender.map(renderPicksSectionHtml).join("");
+  } else {
+    const coreRows = visibleSectionsForRender.filter((r) => isPicksCoreSection(r.section.key));
+    const moreRows = visibleSectionsForRender.filter((r) => !isPicksCoreSection(r.section.key));
+    const moreInner = moreRows.map(renderPicksSectionHtml).join("");
+    const moreHtml = moreInner
+      ? `<details class="sws-pick-more-screens"${picksMoreScreensOpen ? " open" : ""} ontoggle="onPicksMoreScreensToggle(this)"><summary class="sws-pick-more-summary"><span class="sws-pick-more-label">More screens</span><span class="sws-pick-more-count">${moreRows.length}</span><span class="sws-pick-more-hint">momentum, income, smallcaps &amp; experimental</span></summary>${moreInner}</details>`
+      : "";
+    sectionsHtml = coreRows.map(renderPicksSectionHtml).join("") + moreHtml;
+  }
 
 	  containerEl.innerHTML = statusHtml + shortlistStateHtml + chipNav + sectionsHtml;
   refreshScrollRails(containerEl);

@@ -59,12 +59,20 @@ test.describe("India homepage · flat layout + retired sections", () => {
     expect(sectionKeys[0]).toBe("top_ranked_30_v4");
     expect(sectionKeys[1]).toBe("quality_growth");
 
-    // Rendered sections preserve the canonical order (filtered to whatever the
-    // snapshot populated) — every key is known and indices strictly increase.
-    const canonIdx = sectionKeys.map((k) => CANON.indexOf(k));
-    expect(canonIdx).not.toContain(-1);
-    for (let i = 1; i < canonIdx.length; i++) {
-      expect(canonIdx[i]).toBeGreaterThan(canonIdx[i - 1]);
+    // Every rendered key is known. PR2 declutter renders the curated "core"
+    // screens first, then folds the rest into a "More screens" disclosure — so
+    // assert core-before-non-core (no core section appears after a non-core one).
+    const CORE = new Set([
+      "top_ranked_30_v4",
+      "quality_growth",
+      "deep_value",
+      "growing_sector_value",
+      "best_fundamentals",
+    ]);
+    expect(sectionKeys.every((k) => CANON.includes(k))).toBe(true);
+    const firstNonCore = sectionKeys.findIndex((k) => !CORE.has(k));
+    if (firstNonCore !== -1) {
+      expect(sectionKeys.slice(firstNonCore).some((k) => CORE.has(k))).toBe(false);
     }
   });
 });

@@ -456,6 +456,8 @@ test.describe("SWS Picks · Universe + Sector filters", () => {
     await waitForPicksLoaded(page);
 
     await expect(page.locator('.sws-pick-chip[data-section-key="snowflake_gap_lab"]')).toContainText(/Gap Lab/);
+    // Gap Lab is demoted into the collapsed "More screens" disclosure (PR2) — open it.
+    await page.locator("details.sws-pick-more-screens .sws-pick-more-summary").click();
     const section = page.locator('.sws-pick-section[data-section-key="snowflake_gap_lab"]');
     await expect(section).toBeVisible();
     await expect(section).toContainText(/Snowflake Gap Lab/i);

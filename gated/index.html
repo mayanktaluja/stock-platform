@@ -4377,6 +4377,50 @@
       .sws-pick-chipnav { top: 48px; }
     }
 
+    /* PR2 declutter — "More screens" disclosure folding the non-core sections. */
+    .sws-pick-more-screens { margin-top: var(--space-300, 24px); }
+    .sws-pick-more-summary {
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--card-radius, 6px);
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      font-size: var(--fs-title, 14px);
+      font-weight: 600;
+      user-select: none;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+    .sws-pick-more-summary:hover { background: var(--bg-card-hover); border-color: var(--border-strong); }
+    .sws-pick-more-summary::-webkit-details-marker { display: none; }
+    .sws-pick-more-label::before {
+      content: "\25B8";
+      display: inline-block;
+      margin-right: 8px;
+      color: var(--text-muted);
+      transition: transform 0.15s ease;
+    }
+    .sws-pick-more-screens[open] .sws-pick-more-label::before { transform: rotate(90deg); }
+    .sws-pick-more-count {
+      display: inline-flex;
+      min-width: 20px;
+      height: 18px;
+      padding: 0 6px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 9px;
+      background: var(--bg-input);
+      color: var(--text-secondary);
+      font-size: var(--fs-meta, 11px);
+      font-weight: 700;
+    }
+    .sws-pick-more-hint { color: var(--text-faint); font-size: var(--fs-meta, 11px); font-weight: 500; }
+    .sws-pick-more-screens[open] .sws-pick-more-summary { margin-bottom: var(--space-200, 16px); }
+
     /* Universe + Sector dropdowns. Sits above the chip-nav. */
     .sws-pick-index-filter {
       display: flex;
