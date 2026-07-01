@@ -1,6 +1,6 @@
 {
   "schema_version": "earnings-health-v1",
-  "generated_at": "2026-06-30T02:57:55.069Z",
+  "generated_at": "2026-07-01T02:35:35.312Z",
   "resolved": {
     "count": 446,
     "delta_vs_prior": 0,
@@ -9,21 +9,21 @@
   "llm_providers": {
     "groq": 0,
     "gemini": 8,
-    "heuristic": 73,
+    "heuristic": 82,
     "none": 1,
-    "total": 82
+    "total": 91
   },
   "llm_offline": false,
-  "llm_heuristic_share_pct": 67,
+  "llm_heuristic_share_pct": 79,
   "llm_stats": {
-    "total": 82,
-    "classified": 81,
-    "cache_hits": 10,
-    "llm_calls": 6,
-    "heuristic": 63,
-    "heuristic_cache_invalidations": 3,
+    "total": 91,
+    "classified": 90,
+    "cache_hits": 3,
+    "llm_calls": 7,
+    "heuristic": 79,
+    "heuristic_cache_invalidations": 0,
     "cross_floor_invalidations": 0,
-    "below_v3_floor": 25,
+    "below_v3_floor": 34,
     "composite_floor": 47,
     "llm_available": true,
     "skip_llm": false
@@ -31,7 +31,7 @@
   "cap_lift_gate": {
     "state": false,
     "enough_data_to_lift_cap": false,
-    "days_in_current_state": 52,
+    "days_in_current_state": 53,
     "current_resolved": 0,
     "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (446 across all versions)",
     "detail": {
@@ -93,7 +93,7 @@
       "gate": {
         "state": false,
         "enough_data_to_lift_cap": false,
-        "days_in_current_state": 52,
+        "days_in_current_state": 53,
         "current_resolved": 0,
         "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (446 across all versions)",
         "detail": {
@@ -164,10 +164,10 @@
     }
   },
   "archive_schema": {
-    "earnings-history-v5": 39
+    "earnings-history-v5": 40
   },
   "predictor_versions": {
-    "earnings-predict-v3-2026-05": 82
+    "earnings-predict-v3-2026-05": 91
   },
   "restatements": {
     "count": 0,
@@ -188,8 +188,8 @@
   },
   "macro_regime": {
     "present": true,
-    "generated_at": "2026-06-29T14:30:22.188Z",
-    "age_hours": 12,
+    "generated_at": "2026-06-30T10:30:30.764Z",
+    "age_hours": 16,
     "classifier_provider": "groq",
     "regime": "CALM",
     "stale": false,
@@ -200,28 +200,28 @@
     "runtime_24h": null,
     "alert": null
   },
-  "history_files": 39,
+  "history_files": 40,
   "hit_rate_summary": {
     "schema_version": "hit-rate-summary-v1",
-    "generated_at": "2026-06-30T02:57:55.266Z",
+    "generated_at": "2026-07-01T02:35:35.532Z",
     "resolved_count": 349,
-    "unresolved_count": 1405,
+    "unresolved_count": 1418,
     "strict": {
       "hit_rate_pct": 35,
       "ci_low_pct": 29.8,
-      "ci_high_pct": 40.1,
+      "ci_high_pct": 40.4,
       "sample_size": 349
     },
     "lenient": {
       "hit_rate_pct": 81.6,
-      "ci_low_pct": 77.6,
-      "ci_high_pct": 85.3,
+      "ci_low_pct": 77.9,
+      "ci_high_pct": 85.6,
       "sample_size": 348
     },
     "catastrophic": {
       "rate_pct": 18.4,
-      "ci_low_pct": 14.7,
-      "ci_high_pct": 22.4,
+      "ci_low_pct": 14.4,
+      "ci_high_pct": 23,
       "sample_size": 348
     },
     "rolling_30": {
@@ -233,7 +233,7 @@
     "catastrophic_alert_threshold_pct": 12
   },
   "alerts": [
-    "LLM heuristic share (above V3 floor): 38/57 = 67% (threshold 20%; 25 below-floor skips excluded by design) — LLM tier may be failing on eligible events; check earningsLlmSignal.js logs",
+    "LLM heuristic share (above V3 floor): 45/57 = 79% (threshold 20%; 34 below-floor skips excluded by design) — LLM tier may be failing on eligible events; check earningsLlmSignal.js logs",
     "Catastrophic rate alert: rolling-30 23.3% (7/30) exceeds 12% threshold — Risk Lab promotion gate cannot clear"
   ],
   "healthy": false
