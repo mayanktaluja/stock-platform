@@ -1,21 +1,19 @@
 {
   "schema_version": "macro-thesis-v1",
-  "generated_at": "2026-06-30T03:01:55.356Z",
+  "generated_at": "2026-07-01T02:39:35.198Z",
   "regime": {
     "regime": "CALM",
     "severity": 1,
     "confidence": 0.8,
     "label": "Calm",
-    "generated_at": "2026-06-29T14:30:22.188Z",
+    "generated_at": "2026-06-30T10:30:30.764Z",
     "days_in_state": 0,
     "stale": false,
-    "reasoning": "No major market-moving news",
+    "reasoning": "Mixed and neutral headlines",
     "key_events": [
-      "Yes Bank to raise up to $1.7 billion via equity, debt issue (Economic Times)",
-      "US stocks today: US stocks open higher as US, Iran halt attacks (Economic Times)",
-      "India reclaims 5th spot in global mcap rankings, overtakes Taiwan, S Korea (Business Standard)",
-      "Index of industrial production records a 5.1% year-on-year growth in May (Business Standard)",
-      "Rupee slips as tepid stocks dull boost from firmer Asian peers (Economic Times)"
+      "Sensex, Nifty hover near flatline; broader market outperforms (Business Standard)",
+      "Gold poised for biggest monthly drop since 2008 amid Fed rate hike expectations (Economic Times)",
+      "Japan's Nikkei clocks best quarter on record on tech rebound (Economic Times)"
     ],
     "classifier_provider": "groq",
     "source_health": {
@@ -42,32 +40,37 @@
     },
     "sector_impacts": [
       {
-        "sector": "Banking",
+        "sector": "IT Services",
         "impact": 1,
-        "reason": "Yes Bank fund raising"
+        "reason": "AI boost"
       },
       {
         "sector": "Automobile",
-        "impact": -1,
-        "reason": "Nifty Auto Index drop"
+        "impact": 1,
+        "reason": "Auto shares outperform"
+      },
+      {
+        "sector": "Banking",
+        "impact": 1,
+        "reason": "Banking sector ready for next growth phase"
       }
     ]
   },
-  "catalyst_proximity_days": 5,
+  "catalyst_proximity_days": 4,
   "upcoming_catalysts": [
     {
       "date": "2026-07-05",
       "kind": "OPEC",
       "label": "OPEC+ Ministerial Meeting",
       "severity_potential": 2,
-      "days_until": 5
+      "days_until": 4
     },
     {
       "date": "2026-07-30",
       "kind": "FOMC",
       "label": "US FOMC Meeting — July 2026",
       "severity_potential": 3,
-      "days_until": 30
+      "days_until": 29
     }
   ],
   "position_cap_pct": 10,
@@ -247,7 +250,7 @@
   "indeterminate": false,
   "audit": {
     "thesis_schema": "macro-thesis-v1",
-    "regime_generated_at": "2026-06-29T14:30:22.188Z",
+    "regime_generated_at": "2026-06-30T10:30:30.764Z",
     "regime_classifier": "groq",
     "scenario_engine_version": "scenario-prob-v1"
   }
