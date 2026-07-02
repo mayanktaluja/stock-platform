@@ -144,6 +144,7 @@ import { buildFyContext as swsBuildFyContext } from "./taxEngine.js";
 import { buildSWSReport, rebuildTierAggregates } from "./services/swsPortfolioAggregate.js";
 import { buildPortfolioConstructionPlan } from "./services/portfolioConstructionPlan.js";
 import { applyTopUpBadgeCap } from "./services/portfolio/topUpCapPolicy.js";
+import { applyTopUpFundingLabels } from "./services/portfolio/topUpFundingLabels.js";
 import { getPortfolioHistoryStorage } from "./portfolioHistoryStorage.js";
 import { getRecommendationLedgerStorage } from "./recommendationLedgerStorage.js";
 import {
@@ -7881,6 +7882,12 @@ function attachConstructionPlanToAnalyzerReport(swsResult, {
     asOfDateIso: asOfDateIso || report.asOfDate || report.banner?.statement_as_of || null,
   });
   report.constructionPlan = plan;
+  // Map the plan's funding outcome onto Top-up badge labels, then rebuild
+  // tier aggregates — holdingsByAction rows are copies, so label mutations
+  // don't propagate without the rebuild. Centralized here so every call
+  // site (analyze, rerun, optimize, memory) gets consistent labels.
+  applyTopUpFundingLabels(swsResult._scoredHoldings || [], plan);
+  rebuildTierAggregates(report, swsResult._scoredHoldings || []);
   report.snapshot = {
     ...(report.snapshot || {}),
     fundedActionMix: {
