@@ -10,6 +10,7 @@ import {
   buildSmallcapSleeve,
   classifyMarketCapBucket,
 } from "./portfolioDecisionPolicy.js";
+import { candidateBaseRank } from "./portfolio/addCandidateRank.js";
 
 export const MIN_FUNDED_TRADE_INR = 25_000;
 export const MAX_FUNDED_ADDS = 5;
@@ -56,14 +57,8 @@ function freshPriceUsable(row) {
   return age <= 36;
 }
 
-function candidateBaseRank(c) {
-  const v4 = num(c.v4_score, 0);
-  const upside = Math.min(Math.max(num(c.upside_pct, 0), 0), 40);
-  const sectorFit = num(c.sectorFitScore, 0);
-  const lowerPositionBonus = Math.max(0, MAX_POSITION_WEIGHT_PCT - num(c.positionWeight, 0)) * 1.2;
-  const sourceBonus = c.source === "holding" ? 2 : 0;
-  return +(v4 + upside * 0.35 + sectorFit * 0.5 + lowerPositionBonus + sourceBonus).toFixed(2);
-}
+// candidateBaseRank moved to ./portfolio/addCandidateRank.js — shared with the
+// Top-up badge cap so both surfaces rank candidates with one formula.
 
 function candidateRejectionReasons(c) {
   const reasons = [];
