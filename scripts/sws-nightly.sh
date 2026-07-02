@@ -716,8 +716,15 @@ restore_non_deployable_generated_worksets() {
 }
 
 run_sws_primary_branch() {
-  echo "[nightly] running scripts/sws-refresh-api.sh (SWS_AUTO_PR=0; nightly creates the PR)..."
-  SWS_AUTO_PR=0 bash scripts/sws-refresh-api.sh
+  # SWS_GROWW_FORCE_REFRESH=1: the nightly is a daily PUBLISH, so it must fetch a
+  # fresh Groww/Refinitiv cache every run. The isolated worktree checks out the
+  # restore-pinned committed groww-stock-latest.json (frozen at its last manual
+  # publish, weeks old), so the freshness gate would fire anyway — but forcing
+  # makes the intent explicit and immune to a same-day manual re-publish leaving
+  # a <24h-old cache in the tree. Bare hourly sws-refresh-api.sh runs omit this
+  # env and reuse a fresh cache instead of hammering Groww every hour.
+  echo "[nightly] running scripts/sws-refresh-api.sh (SWS_AUTO_PR=0; SWS_GROWW_FORCE_REFRESH=1; nightly creates the PR)..."
+  SWS_AUTO_PR=0 SWS_GROWW_FORCE_REFRESH=1 bash scripts/sws-refresh-api.sh
   local sws_rc=$?
   if [ "${sws_rc}" -ne 0 ]; then
     echo "[nightly] sws-refresh-api.sh failed (exit ${sws_rc})"
