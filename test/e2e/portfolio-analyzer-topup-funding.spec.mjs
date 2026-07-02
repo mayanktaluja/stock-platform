@@ -22,7 +22,14 @@ const FUNDED_BADGE = /Top-up — ₹[\d,]+ funded/;
 async function uploadAndWait(page, { freshCapital = null } = {}) {
   await gotoApp(page, { tab: "analyzer" });
   if (freshCapital != null) {
-    await page.locator("#analyzerFreshCapital").fill(String(freshCapital));
+    // The input may still be hidden pre-upload; the app reads its value at
+    // upload time (gated/app.js reads #analyzerFreshCapital on file select),
+    // so setting it directly is equivalent to the user typing first.
+    await page.waitForSelector("#analyzerFreshCapital", { state: "attached", timeout: 10_000 });
+    await page.evaluate((v) => {
+      const el = document.getElementById("analyzerFreshCapital");
+      if (el) el.value = String(v);
+    }, freshCapital);
   }
   await page.locator("#analyzerFileInput").setInputFiles(FIXTURE);
   return page
