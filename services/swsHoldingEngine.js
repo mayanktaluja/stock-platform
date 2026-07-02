@@ -1087,6 +1087,12 @@ export function scoreHolding(holding, portfolioContext = {}) {
       snowflake: snow,
       snowflake_total: snow.total,
       current_price_inr: ov.current_price_inr,
+      // SWS deep 52W range — primary input for the profit-protection signal
+      // (services/portfolio/profitProtectionSignal.js). Nightly-refreshed
+      // with the rest of the deep brief; live-quote fields are only the
+      // fallback for uncovered names.
+      fifty_two_week_high_inr: num(ov.fifty_two_week?.high, null),
+      fifty_two_week_low_inr: num(ov.fifty_two_week?.low, null),
       fair_value_inr: reconciled.fair_value_inr,
       upside_pct: reconciled.upside_pct,
       valuation_confidence: reconciled.confidence,

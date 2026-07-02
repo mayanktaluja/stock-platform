@@ -145,6 +145,7 @@ import { buildSWSReport, rebuildTierAggregates } from "./services/swsPortfolioAg
 import { buildPortfolioConstructionPlan } from "./services/portfolioConstructionPlan.js";
 import { applyTopUpBadgeCap } from "./services/portfolio/topUpCapPolicy.js";
 import { applyTopUpFundingLabels } from "./services/portfolio/topUpFundingLabels.js";
+import { attachProfitProtection } from "./services/portfolio/profitProtectionSignal.js";
 import { getPortfolioHistoryStorage } from "./portfolioHistoryStorage.js";
 import { getRecommendationLedgerStorage } from "./recommendationLedgerStorage.js";
 import {
@@ -7749,6 +7750,10 @@ async function runSWSAnalysis({
   // baskets, actionMix, ISSUED ledger events, and the construction plan all
   // see the capped actions (services/portfolio/topUpCapPolicy.js).
   const topUpCap = applyTopUpBadgeCap(scoredHoldings);
+  // Profit-protection signal (volatile winners retracing off their 52W
+  // high). Never changes actions — attaches h.profitProtection; runs before
+  // buildSWSReport so holdingsByAction row copies carry it.
+  const profitProtection = attachProfitProtection(scoredHoldings);
 
   swsTimings.score_ms = Date.now() - swsT0;
   const aggT0 = Date.now();
@@ -7781,6 +7786,7 @@ async function runSWSAnalysis({
   });
   swsReport.topUpCap = topUpCap;
   if (swsReport.snapshot) swsReport.snapshot.topUpCap = topUpCap;
+  swsReport.profitProtection = profitProtection;
   swsTimings.aggregate_ms = Date.now() - aggT0;
 
   // MF enrichment: only enrich MFs from the upload (saved-portfolio MFs

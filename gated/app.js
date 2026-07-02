@@ -7765,6 +7765,50 @@ function swsReasonRow(h) {
   </details>`;
 }
 
+// Profit booking — optional discipline trims for volatile winners that
+// retraced off their 52W high while still in profit on cost. Separate
+// evidence class from Tier A: these rows keep their (Top-up/HOLD) action,
+// their notional ₹ is NOT in tiers.A.freedRupees, and the copy stays
+// factual ("optional", "notional") — #sebiSiteFooter carries the disclaimer.
+function renderSWSProfitProtection(report) {
+  const rows = Array.isArray(report?.profitProtection) ? report.profitProtection : [];
+  if (rows.length === 0) return "";
+  const totalNotional = rows.reduce((acc, r) => acc + (Number(r.notionalFreedInr) || 0), 0);
+  return `
+    <details class="analyzer-tier-details" style="margin-top: var(--space-200);" data-testid="analyzer-profit-protection">
+      <summary class="tx-title" style="cursor:pointer; padding: 10px 0; border-bottom: 1px solid var(--border); list-style: none;">Profit booking — optional discipline trims <span style="color:var(--text-muted); font-weight:500; font-size:12px;">(${rows.length})</span></summary>
+      <div style="padding-top: var(--space-200);">
+        <div style="font-size:12px; color:var(--text-muted); margin-bottom:10px;">Winners still up ≥25% on cost that have retraced ≥15% off their 52-week high with a volatility qualifier. Optional discipline rule — separate from the risk-driven Reductions above; notional ₹ is not counted in freed capital.</div>
+        <div style="background:var(--panel); border:1px solid var(--border-graphite); border-radius:8px; overflow-x:auto;">
+          <table style="width:100%; border-collapse:collapse; font-size:13px;">
+            <thead>
+              <tr style="background:rgba(0,0,0,0.2); text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted);">
+                <th style="padding:10px 12px;">Stock</th>
+                <th style="padding:10px 12px; text-align:right;">52W high → now</th>
+                <th style="padding:10px 12px; text-align:right;">Retrace</th>
+                <th style="padding:10px 12px; text-align:right;">Gain on cost</th>
+                <th style="padding:10px 12px;">Volatility</th>
+                <th style="padding:10px 12px; text-align:right;">Suggested trim (notional)</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rows.map((r) => `
+                <tr style="border-top:1px solid var(--border-graphite);">
+                  <td style="padding:10px 12px; font-weight:600;">${r.ticker}${r.source === "quote" ? ` <span class="tx-micro" style="color:var(--text-muted);" title="52W data from live quote — not SWS-covered">quote</span>` : ""}${r.strongFundamentals ? ` <span class="tx-micro" style="color:var(--positive-text-soft);" title="${swsEscapeAttr(r.rationale)}">strong fundamentals</span>` : ""}</td>
+                  <td style="padding:10px 12px; text-align:right;">₹${Math.round(r.week52HighInr).toLocaleString("en-IN")} → ₹${Math.round(r.currentPriceInr).toLocaleString("en-IN")}</td>
+                  <td style="padding:10px 12px; text-align:right; color:var(--yellow-bright);">−${r.retracePctFromHigh}%</td>
+                  <td style="padding:10px 12px; text-align:right; color:var(--positive-text-soft);">+${r.gainOnCostPct}%</td>
+                  <td style="padding:10px 12px; color:var(--text-muted);">${r.volatilityQualifier}</td>
+                  <td style="padding:10px 12px; text-align:right;">${r.suggestedTrimPct}% ≈ ${inr(r.notionalFreedInr || 0)}</td>
+                </tr>`).join("")}
+            </tbody>
+          </table>
+        </div>
+        <div style="font-size:11px; color:var(--text-muted); margin-top:8px;">Total notional if all trims execute: <strong>${inr(totalNotional)}</strong> — shown separately from the Reductions freed-capital figure.</div>
+      </div>
+    </details>`;
+}
+
 function renderSWSTierA(tier, report) {
   if (!tier || !tier.rows || tier.rows.length === 0) {
     return `<div style="margin-bottom:18px;">
@@ -8871,6 +8915,8 @@ function renderSWSAnalyzerReport(report, elapsedMs) {
       <div style="padding-top: var(--space-200);">${renderSWSTierA(tiers.A, report)}</div>
     </details>
 
+    ${renderSWSProfitProtection(report)}
+
     <details class="analyzer-tier-details" style="margin-top: var(--space-200);">
       <summary class="tx-title" style="cursor:pointer; padding: 10px 0; border-bottom: 1px solid var(--border); list-style: none;">Eligible but unfunded add candidates</summary>
       <div style="padding-top: var(--space-200);">
@@ -9143,6 +9189,8 @@ function renderSWSAnalyzerReportV2(report, elapsedMs) {
       <summary class="tx-title" style="cursor:pointer; padding: 10px 0; border-bottom: 1px solid var(--border); list-style: none;">Reductions &amp; potential freed capital ${snap.totalFreedCapital > 0 ? `<span style="color: var(--warn); margin-left: 8px;">(${formatINR(snap.totalFreedCapital || 0, { compact: true })} gross)</span>` : ""}</summary>
       <div style="padding-top: var(--space-200);">${renderSWSTierA(tiers.A, report)}</div>
     </details>
+
+    ${renderSWSProfitProtection(report)}
 
     <details class="analyzer-tier-details" style="margin-top: var(--space-200);">
       <summary class="tx-title" style="cursor:pointer; padding: 10px 0; border-bottom: 1px solid var(--border); list-style: none;">Eligible but unfunded add candidates</summary>
