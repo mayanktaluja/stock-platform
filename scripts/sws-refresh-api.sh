@@ -67,7 +67,6 @@ START_EPOCH="$(date +%s)"
 # catches the 2026-05-18 22:37 IST failure mode where picks-latest.json was
 # silently reverted to a previous run's value between scoring and the gate.
 RUN_STARTED_ISO="$(date -u +"%Y-%m-%dT%H:%M:%S.000Z")"
-RUN_STARTED_IST_HHMM="$(TZ=Asia/Kolkata date +%H%M)"
 
 # Mail summary helper. Sends via Resend (scripts/sws-mail-summary.mjs).
 # Gated by SWS_MAIL_ENABLED (set =0 to silence). Silent no-op if helper
@@ -250,24 +249,39 @@ if ! node scripts/sws-fetch-nse-calendar.mjs 2>&1 | tail -5 | sed 's/^/[nse-cal]
   echo "[refresh-api] NSE calendar fetch failed — non-fatal, parser will write next_earnings_date=null"
 fi
 
-# Groww/Refinitiv is canonical for fast-moving India fundamentals. The full
-# network pass is intentionally restricted to the 00:30 IST launchd window;
-# manual runs outside that window validate and reuse the last good cache. The
-# script writes both groww-stock-latest.json and the legacy groww-pe-latest.json
-# alias.
+# Groww/Refinitiv is canonical for fast-moving India fundamentals. The refresh
+# is FRESHNESS-driven, not wall-clock gated: groww-pe-refresh.mjs reuses the
+# on-disk cache when it is younger than --max-age-days and does a full network
+# pass otherwise. The nightly/publish path exports SWS_GROWW_FORCE_REFRESH=1 so
+# every daily ship fetches a fresh cache; a bare hourly re-run within the day
+# cheaply reuses instead of hammering Groww.
+#
+# History: 8b0533a343 (2026-06-02, "move India nightly to 00:30 IST") gated the
+# full pass on RUN_STARTED_IST_HHMM being in [00:00,02:00) IST. That HHMM was
+# the wall-clock the script *happened* to reach this line, which routinely
+# drifted outside the window (scrape latency, retries), so the pass silently ran
+# in validate-and-reuse mode for ~3 weeks; the cache aged past its stale grace and the step
+# then hard-aborted the whole pipeline (exit 6) — no picks shipped 2026-06-10→.
+# The freshness gate removes the clock dependency entirely.
+#
+# --stale-grace-days 21 matches sws-sanity-gate.mjs's GROWW_PE_STALE_GRACE_DAYS,
+# so a transient network failure reuses the last good cache instead of aborting;
+# only a genuine failure with no cache inside grace reaches exit 6, which routes
+# to the nightly's data-only ship path. Writes both groww-stock-latest.json and
+# the committed groww-pe-latest.json alias.
 GROWW_STEP_IST_HHMM="$(TZ=Asia/Kolkata date +%H%M)"
-if [ "${SWS_GROWW_FORCE_REFRESH:-0}" = "1" ] || { [ "${RUN_STARTED_IST_HHMM}" -ge 0 ] && [ "${RUN_STARTED_IST_HHMM}" -lt 200 ]; }; then
-  echo "[refresh-api] refreshing Groww/Refinitiv stock cache (00:30 IST full pass; run_hhmm=${RUN_STARTED_IST_HHMM}, step_hhmm=${GROWW_STEP_IST_HHMM})..."
-  GROWW_CMD=(node scripts/groww-pe-refresh.mjs --force --max-age-days 1 --stale-grace-days 3)
+GROWW_CMD=(node scripts/groww-pe-refresh.mjs --max-age-days 1 --stale-grace-days 21)
+if [ "${SWS_GROWW_FORCE_REFRESH:-0}" = "1" ]; then
+  GROWW_CMD+=(--force)
+  echo "[refresh-api] refreshing Groww/Refinitiv stock cache (forced full pass; step_hhmm=${GROWW_STEP_IST_HHMM})..."
 else
-  echo "[refresh-api] validating Groww/Refinitiv stock cache (reuse outside 00:30 IST; run_hhmm=${RUN_STARTED_IST_HHMM}, step_hhmm=${GROWW_STEP_IST_HHMM})..."
-  GROWW_CMD=(node scripts/groww-pe-refresh.mjs --validate-only --max-age-days 1 --stale-grace-days 3)
+  echo "[refresh-api] refreshing Groww/Refinitiv stock cache (freshness-gated, reuse if <1d old; step_hhmm=${GROWW_STEP_IST_HHMM})..."
 fi
 if GROWW_OUT="$("${GROWW_CMD[@]}" 2>&1)"; then
   echo "${GROWW_OUT}" | tail -10 | sed 's/^/[groww-stock] /'
 else
   echo "${GROWW_OUT}" | tail -12 | sed 's/^/[groww-stock] /'
-  echo "[refresh-api] Groww stock cache unavailable and no stale cache inside grace — aborting so canonical fields do not silently revert"
+  echo "[refresh-api] Groww refresh failed AND no usable cache within 21d grace — holding SWS; the nightly data-only ship path handles the rest so canonical fields do not silently revert"
   exit 6
 fi
 

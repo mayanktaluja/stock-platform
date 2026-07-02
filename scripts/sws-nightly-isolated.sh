@@ -76,6 +76,28 @@ echo "[isolated-nightly] primary=${PRIMARY_REPO}"
 echo "[isolated-nightly] worktree=${WORKTREE_DIR}"
 echo "[isolated-nightly] base_branch=${BASE_BRANCH}"
 
+# Single-instance guard. The launchd cron and a manual /sws-refresh both enter
+# here and DESTRUCTIVELY reset the shared WORKTREE_DIR (git reset --hard +
+# clean). Two concurrent runs would stomp each other's tree mid-flight. Take an
+# atomic PID lock; if a live instance already holds it, skip (exit 0) rather
+# than corrupt the in-flight publish. A stale lock (holder dead) is reclaimed.
+LOCK_DIR="${SWS_NIGHTLY_LOCK_DIR:-/tmp/starbhai-sws-nightly.lock.d}"
+if ! mkdir "${LOCK_DIR}" 2>/dev/null; then
+  lock_holder="$(cat "${LOCK_DIR}/pid" 2>/dev/null || echo "")"
+  if [ -n "${lock_holder}" ] && kill -0 "${lock_holder}" 2>/dev/null; then
+    echo "[isolated-nightly] another SWS nightly (pid ${lock_holder}) is already running — skipping to avoid a shared-worktree collision. Check /sws-status; re-run when it finishes."
+    exit 0
+  fi
+  echo "[isolated-nightly] reclaiming stale lock (holder '${lock_holder:-none}' not alive)"
+  rm -rf "${LOCK_DIR}" 2>/dev/null || true
+  if ! mkdir "${LOCK_DIR}" 2>/dev/null; then
+    echo "[isolated-nightly] could not acquire ${LOCK_DIR}; another run raced us — skipping."
+    exit 0
+  fi
+fi
+echo "$$" > "${LOCK_DIR}/pid"
+trap 'rm -rf "${LOCK_DIR}" 2>/dev/null || true' EXIT
+
 if ! git -C "${PRIMARY_REPO}" fetch origin main 2>&1 | sed 's/^/[git] /'; then
   fail_critical "worktree setup fetch failed" "git fetch origin main failed from ${PRIMARY_REPO} at $(ts)." 5
 fi

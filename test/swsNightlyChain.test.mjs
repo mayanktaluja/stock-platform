@@ -478,13 +478,22 @@ assert(
   { riskLabIdx, macroThesisIdx, packIdx },
 );
 assert(
-  "sws-refresh-api.sh gates full Groww refresh to the 00:30 IST launchd window",
-  /RUN_STARTED_IST_HHMM=.*Asia\/Kolkata/.test(refreshApi) &&
-    /GROWW_STEP_IST_HHMM=.*Asia\/Kolkata/.test(refreshApi) &&
-    /\[ "\$\{RUN_STARTED_IST_HHMM\}" -ge 0 \]/.test(refreshApi) &&
-    /\[ "\$\{RUN_STARTED_IST_HHMM\}" -lt 200 \]/.test(refreshApi) &&
-    /--validate-only/.test(refreshApi) &&
-    /--force --max-age-days 1 --stale-grace-days 3/.test(refreshApi),
+  "sws-refresh-api.sh refreshes Groww on cache FRESHNESS, not a wall-clock window",
+  // Regression guard for 8b0533a343: the full Groww pass must NOT be gated on
+  // the HHMM the script happens to reach the step (that drifted outside the
+  // 00:00-01:59 window and silently ran validate-only for weeks). It must key
+  // off cache age via --max-age-days, forcing only when SWS_GROWW_FORCE_REFRESH=1.
+  /--max-age-days 1 --stale-grace-days 21/.test(refreshApi) &&
+    /SWS_GROWW_FORCE_REFRESH:-0.*=.*"1"/.test(refreshApi) &&
+    /GROWW_CMD\+=\(--force\)/.test(refreshApi) &&
+    !/--validate-only/.test(refreshApi) &&
+    !/RUN_STARTED_IST_HHMM.*-lt 200/.test(refreshApi) &&
+    !/-ge 0 \].*-lt 200/.test(refreshApi),
+  null,
+);
+assert(
+  "sws-nightly.sh forces a fresh Groww pass every publish (SWS_GROWW_FORCE_REFRESH=1)",
+  /SWS_GROWW_FORCE_REFRESH=1 bash scripts\/sws-refresh-api\.sh/.test(nightly),
   null,
 );
 assert(
