@@ -7063,6 +7063,10 @@ const SWS_ACTION_COLORS = {
   "Top-up-33%":        { bg: "rgba(34,197,94,0.14)",  border: "rgba(34,197,94,0.45)", text: "var(--positive-text-soft)" },
   "Top-up-50%":        { bg: "rgba(34,197,94,0.18)",  border: "rgba(34,197,94,0.6)",  text: "var(--positive-text-soft)" },
   "Top-up-100%":       { bg: "rgba(34,197,94,0.28)",  border: "rgba(34,197,94,0.75)", text: "var(--positive-text-pale)" },
+  // Cap-demoted add candidate — passed the absolute gates but ranked below
+  // the within-book top-k conviction cap. Muted grey-green: visually part of
+  // the add family, clearly secondary to a funded Top-up rung.
+  "Top-up-if-funded":  { bg: "rgba(148,163,184,0.10)", border: "rgba(52,211,153,0.35)", text: "var(--text-slate-light)" },
   // Bucket rollups — used by the Action Mix bar's per-segment modal
   // (renderAnalyzerActionMixBar → openActionListModalForBucket). The badge
   // inside the modal header shows the bucket name; each row inside still
@@ -7071,6 +7075,7 @@ const SWS_ACTION_COLORS = {
   // ("Top-up" bucket reuses the existing legacy "Top-up" entry above.)
   "Reduce":            { bg: "rgba(250,204,21,0.10)", border: "rgba(250,204,21,0.35)", text: "var(--amber-pale)" },
   "Hold":              { bg: "rgba(59,130,246,0.10)", border: "rgba(59,130,246,0.35)", text: "var(--info-text-soft)" },
+  "If funded":         { bg: "rgba(148,163,184,0.10)", border: "rgba(52,211,153,0.35)", text: "var(--text-slate-light)" },
   "Exit":              { bg: "rgba(239,68,68,0.14)",  border: "rgba(239,68,68,0.45)",  text: "var(--negative-text-soft)" },
   "n/a":               { bg: "rgba(107,114,128,0.12)", border: "rgba(107,114,128,0.4)", text: "var(--text-gray)" },
 };
@@ -7229,16 +7234,22 @@ function renderAnalyzerActionMixBar(snap) {
 
   // Group into Reduce / Hold / Top-up / Exit. Anything that doesn't match
   // bucks the bar and stays as a residual chip beneath.
-  const buckets = { Reduce: 0, Hold: 0, "Top-up": 0, Exit: 0 };
+  // "If funded" sits between Top-up and Hold: cap-demoted add candidates
+  // that passed the absolute gates but ranked below the within-book top-k.
+  // Kept as its own segment so the Top-up count reads as the real shortlist
+  // (≤ k) and the segment↔modal row-count invariant stays exact.
+  const buckets = { Reduce: 0, Hold: 0, "Top-up": 0, "If funded": 0, Exit: 0 };
   const colours = {
-    Reduce:   "var(--negative-soft)",
-    Hold:     "var(--info)",
-    "Top-up": "var(--positive-soft)",
-    Exit:     "var(--negative)",
+    Reduce:      "var(--negative-soft)",
+    Hold:        "var(--info)",
+    "Top-up":    "var(--positive-soft)",
+    "If funded": "rgba(52,211,153,0.35)",
+    Exit:        "var(--negative)",
   };
   const fallback = [];
   for (const [action, n] of entries) {
     if (action.startsWith("Reduction-")) buckets.Reduce += Number(n);
+    else if (action === "Top-up-if-funded") buckets["If funded"] += Number(n);
     else if (action.startsWith("Top-up-")) buckets["Top-up"] += Number(n);
     else if (action === "HOLD") buckets.Hold += Number(n);
     else if (action === "EXIT" || action.startsWith("EXIT-")) buckets.Exit += Number(n);
@@ -7268,6 +7279,13 @@ function renderAnalyzerActionMixBar(snap) {
       ${swsActionBadge(action)}<span style="margin-left:6px;">×${n}</span>
     </button>`).join("");
 
+  const cap = snap && snap.topUpCap;
+  const capNote = (cap && cap.enabled && Array.isArray(cap.demotedByRank) && cap.demotedByRank.length > 0)
+    ? `<div data-testid="analyzer-topup-cap-note" style="font-size:11px; color:var(--text-muted); line-height:1.55; margin-top:10px; padding:9px 12px; border:1px dashed rgba(52,211,153,0.3); border-radius:8px;">
+        <strong style="color:var(--text-secondary);">Top-up shortlist:</strong> Top-up badges are capped to the top ${cap.k} of ${cap.candidateCount} add candidates by within-book conviction rank. The other ${cap.demotedByRank.length} show as <em>Top-up (if funded)</em> — same stock quality, lower capital priority today.
+      </div>`
+    : "";
+
   return `
     <div class="l-box" style="--pad: var(--space-200); margin-bottom: var(--space-200);">
       <div class="tx-micro" style="margin-bottom: 8px;">Action mix · ${total} holding${total === 1 ? "" : "s"}</div>
@@ -7275,6 +7293,7 @@ function renderAnalyzerActionMixBar(snap) {
         ${segments}
       </div>
       ${residual ? `<div style="display:flex; flex-wrap:wrap; gap:6px; margin-top:10px;">${residual}</div>` : ""}
+      ${capNote}
       <div data-testid="analyzer-action-validation-note" style="font-size:11px; color:var(--text-muted); line-height:1.55; margin-top:10px; padding:9px 12px; border:1px dashed rgba(148,163,184,0.28); border-radius:8px;">
         <strong style="color:var(--text-secondary);">How to read these actions:</strong> the Reduce / Hold / Top-up / Exit calls and ₹ sizing are a rules-based restatement of each holding's SWS quality score and your position weight — <strong>not a tested strategy</strong>. They have never been backtested against whether acting on them beats simply holding. Treat them as a discussion prompt for your own diligence, not as instructions.
       </div>
@@ -7291,10 +7310,11 @@ function renderAnalyzerActionMixBar(snap) {
 // would open a modal listing 1.
 window.openActionListModalForBucket = function openActionListModalForBucket(slug) {
   const BUCKET_LABEL = {
-    Reduce: "Reduce",
-    Hold:   "Hold",
-    Topup:  "Top-up",
-    Exit:   "Exit",
+    Reduce:   "Reduce",
+    Hold:     "Hold",
+    Topup:    "Top-up",
+    Iffunded: "If funded",
+    Exit:     "Exit",
   };
   const label = BUCKET_LABEL[slug];
   if (label && typeof openActionListModal === "function") openActionListModal(label);
@@ -7745,18 +7765,69 @@ function swsReasonRow(h) {
   </details>`;
 }
 
-function renderSWSTierA(tier) {
+// Profit booking — optional discipline trims for volatile winners that
+// retraced off their 52W high while still in profit on cost. Separate
+// evidence class from Tier A: these rows keep their (Top-up/HOLD) action,
+// their notional ₹ is NOT in tiers.A.freedRupees, and the copy stays
+// factual ("optional", "notional") — #sebiSiteFooter carries the disclaimer.
+function renderSWSProfitProtection(report) {
+  const rows = Array.isArray(report?.profitProtection) ? report.profitProtection : [];
+  if (rows.length === 0) return "";
+  const totalNotional = rows.reduce((acc, r) => acc + (Number(r.notionalFreedInr) || 0), 0);
+  return `
+    <details class="analyzer-tier-details" style="margin-top: var(--space-200);" data-testid="analyzer-profit-protection">
+      <summary class="tx-title" style="cursor:pointer; padding: 10px 0; border-bottom: 1px solid var(--border); list-style: none;">Profit booking — optional discipline trims <span style="color:var(--text-muted); font-weight:500; font-size:12px;">(${rows.length})</span></summary>
+      <div style="padding-top: var(--space-200);">
+        <div style="font-size:12px; color:var(--text-muted); margin-bottom:10px;">Winners still up ≥25% on cost that have retraced ≥15% off their 52-week high with a volatility qualifier. Optional discipline rule — separate from the risk-driven Reductions above; notional ₹ is not counted in freed capital.</div>
+        <div style="background:var(--panel); border:1px solid var(--border-graphite); border-radius:8px; overflow-x:auto;">
+          <table style="width:100%; border-collapse:collapse; font-size:13px;">
+            <thead>
+              <tr style="background:rgba(0,0,0,0.2); text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted);">
+                <th style="padding:10px 12px;">Stock</th>
+                <th style="padding:10px 12px; text-align:right;">52W high → now</th>
+                <th style="padding:10px 12px; text-align:right;">Retrace</th>
+                <th style="padding:10px 12px; text-align:right;">Gain on cost</th>
+                <th style="padding:10px 12px;">Volatility</th>
+                <th style="padding:10px 12px; text-align:right;">Suggested trim (notional)</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rows.map((r) => `
+                <tr style="border-top:1px solid var(--border-graphite);">
+                  <td style="padding:10px 12px; font-weight:600;">${r.ticker}${r.source === "quote" ? ` <span class="tx-micro" style="color:var(--text-muted);" title="52W data from live quote — not SWS-covered">quote</span>` : ""}${r.strongFundamentals ? ` <span class="tx-micro" style="color:var(--positive-text-soft);" title="${swsEscapeAttr(r.rationale)}">strong fundamentals</span>` : ""}</td>
+                  <td style="padding:10px 12px; text-align:right;">₹${Math.round(r.week52HighInr).toLocaleString("en-IN")} → ₹${Math.round(r.currentPriceInr).toLocaleString("en-IN")}</td>
+                  <td style="padding:10px 12px; text-align:right; color:var(--yellow-bright);">−${r.retracePctFromHigh}%</td>
+                  <td style="padding:10px 12px; text-align:right; color:var(--positive-text-soft);">+${r.gainOnCostPct}%</td>
+                  <td style="padding:10px 12px; color:var(--text-muted);">${r.volatilityQualifier}</td>
+                  <td style="padding:10px 12px; text-align:right;">${r.suggestedTrimPct}% ≈ ${inr(r.notionalFreedInr || 0)}</td>
+                </tr>`).join("")}
+            </tbody>
+          </table>
+        </div>
+        <div style="font-size:11px; color:var(--text-muted); margin-top:8px;">Total notional if all trims execute: <strong>${inr(totalNotional)}</strong> — shown separately from the Reductions freed-capital figure.</div>
+      </div>
+    </details>`;
+}
+
+function renderSWSTierA(tier, report) {
   if (!tier || !tier.rows || tier.rows.length === 0) {
     return `<div style="margin-bottom:18px;">
       <div style="font-size:13px; font-weight:700; margin-bottom:8px; color:var(--text-muted);">Tier A · Reductions</div>
       <div style="background:var(--panel); border:1px solid var(--border-graphite); border-radius:8px; padding:14px; font-size:12px; color:var(--text-muted);">No reductions flagged — every covered holding scored ≥ FAIR_VALUE.</div>
     </div>`;
   }
+  const whatIf = report?.freedCapitalWhatIf;
+  const whatIfLine = (whatIf && whatIf.fundedBuyCount > 0)
+    ? `<div data-testid="analyzer-freed-whatif" style="font-size:12px; color:var(--text-muted); margin-bottom:10px; padding:8px 12px; border:1px dashed rgba(52,211,153,0.3); border-radius:8px;">
+        If you execute and confirm these reductions, ${inr(whatIf.notionalFreedRupees || 0)} frees up — notionally enough to fund ${whatIf.fundedBuyCount} of your add candidates (${(whatIf.fundedTickers || []).slice(0, 5).join(", ")}). See Today's plan; nothing is redeployed until reductions are confirmed.
+      </div>`
+    : "";
   return `<div style="margin-bottom:22px;">
     <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:10px; gap:12px; flex-wrap:wrap;">
       <div style="font-size:14px; font-weight:700;">Tier A · Reductions <span style="color:var(--text-muted); font-weight:500; font-size:12px;">(${tier.rows.length})</span></div>
-      <div style="font-size:12px; color:var(--text-muted);">Notional reduction value <strong style="color:var(--positive-text-soft);">${inr(tier.freedRupees || 0)}</strong>; redeploy only after the action is confirmed</div>
+      <div style="font-size:12px; color:var(--text-muted);">Sorted by severity, highest first · Notional reduction value <strong style="color:var(--positive-text-soft);">${inr(tier.freedRupees || 0)}</strong>; redeploy only after the action is confirmed</div>
     </div>
+    ${whatIfLine}
     <div style="background:var(--panel); border:1px solid var(--border-graphite); border-radius:8px; overflow-x:auto;">
       <table style="width:100%; border-collapse:collapse; font-size:13px;">
         <thead>
@@ -8841,8 +8912,10 @@ function renderSWSAnalyzerReport(report, elapsedMs) {
     ${/* PR A10 — Tier 2 disclosures. Tier A auto-opens when freed > 0. */ ""}
     <details class="analyzer-tier-details" ${snap.totalFreedCapital > 0 ? "open" : ""}>
       <summary class="tx-title" style="cursor:pointer; padding: 10px 0; border-bottom: 1px solid var(--border); list-style: none;">Reductions &amp; potential freed capital ${snap.totalFreedCapital > 0 ? `<span style="color: var(--warn); margin-left: 8px;">(${formatINR(snap.totalFreedCapital || 0, { compact: true })} gross)</span>` : ""}</summary>
-      <div style="padding-top: var(--space-200);">${renderSWSTierA(tiers.A)}</div>
+      <div style="padding-top: var(--space-200);">${renderSWSTierA(tiers.A, report)}</div>
     </details>
+
+    ${renderSWSProfitProtection(report)}
 
     <details class="analyzer-tier-details" style="margin-top: var(--space-200);">
       <summary class="tx-title" style="cursor:pointer; padding: 10px 0; border-bottom: 1px solid var(--border); list-style: none;">Eligible but unfunded add candidates</summary>
@@ -9114,8 +9187,10 @@ function renderSWSAnalyzerReportV2(report, elapsedMs) {
         only when explicitly expanded. */ ""}
     <details class="analyzer-tier-details" ${snap.totalFreedCapital > 0 ? "open" : ""}>
       <summary class="tx-title" style="cursor:pointer; padding: 10px 0; border-bottom: 1px solid var(--border); list-style: none;">Reductions &amp; potential freed capital ${snap.totalFreedCapital > 0 ? `<span style="color: var(--warn); margin-left: 8px;">(${formatINR(snap.totalFreedCapital || 0, { compact: true })} gross)</span>` : ""}</summary>
-      <div style="padding-top: var(--space-200);">${renderSWSTierA(tiers.A)}</div>
+      <div style="padding-top: var(--space-200);">${renderSWSTierA(tiers.A, report)}</div>
     </details>
+
+    ${renderSWSProfitProtection(report)}
 
     <details class="analyzer-tier-details" style="margin-top: var(--space-200);">
       <summary class="tx-title" style="cursor:pointer; padding: 10px 0; border-bottom: 1px solid var(--border); list-style: none;">Eligible but unfunded add candidates</summary>
@@ -14360,10 +14435,13 @@ function actionHelpText(action) {
 // every sub-tier (Top-up-25/33/50/100%) instead of looking up one
 // exact-string key and finding only one of them.
 const ACTION_BUCKET_MATCHERS = {
-  "Reduce": (k) => k === "Reduction" || k.startsWith("Reduction-"),
-  "Hold":   (k) => k === "HOLD",
-  "Top-up": (k) => k === "Top-up" || k.startsWith("Top-up-"),
-  "Exit":   (k) => k === "EXIT" || k.startsWith("EXIT-"),
+  "Reduce":    (k) => k === "Reduction" || k.startsWith("Reduction-"),
+  "Hold":      (k) => k === "HOLD",
+  // "Top-up-if-funded" is excluded here and owned by its own bucket so the
+  // bar's Top-up count (≤ k under the cap) matches the modal row count.
+  "Top-up":    (k) => (k === "Top-up" || k.startsWith("Top-up-")) && k !== "Top-up-if-funded",
+  "If funded": (k) => k === "Top-up-if-funded",
+  "Exit":      (k) => k === "EXIT" || k.startsWith("EXIT-"),
 };
 
 function openActionListModal(action) {

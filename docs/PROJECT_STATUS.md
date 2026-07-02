@@ -1,6 +1,6 @@
 # PROJECT_STATUS.md — stock-platform
 
-**Last updated: 2026-06-23**
+**Last updated: 2026-07-02**
 
 Living snapshot of where the project is right now. Update this file whenever
 you ship a meaningful PR or change direction. The point is that a fresh AI
@@ -32,6 +32,26 @@ Compounder Lab and Earnings Edge were retired in June 2026 to remove unused
 experimental surface area and nightly refresh load.
 
 ## Recently shipped (themed, newest first — rolling ~4–6 week window; `git log` is the archive)
+
+### Portfolio Analyzer — Top-up cap + capital-aware actions (July 2026)
+- **This series (6 commits)** — Top-up badges are now a ranked shortlist, not a
+  per-stock quality restatement: at most `k = min(5, ceil(10% of covered book))`
+  full Top-ups, ranked by the same `candidateBaseRank` the construction plan
+  uses to fund adds (one shared formula in `services/portfolio/addCandidateRank.js`).
+  The rest demote to a new `Top-up-if-funded` action ("Top-up (if funded)" muted
+  badge, own action-mix segment, never minted as ledger ISSUED events). Declared
+  fresh capital now reflects on badges ("Top-up — ₹X funded" / "unfunded this
+  budget") — the platform never fabricates a budget. Tier A reductions sort by
+  ladder severity with a freed-capital→top-up what-if line, and a new isolated
+  profit-protection signal (`services/portfolio/profitProtectionSignal.js`)
+  flags volatile winners ≥15% off their 52W high while ≥25% up on cost (the
+  Jeena Sikho case) as optional discipline trims — action-neutral, SWS-first
+  data, quote fallback for uncovered names. Attribution harness:
+  `scripts/measure-analyzer-action-mix.mjs` + snapshots in
+  `data/analyzer-topup-cap/`. NOTE: on the current 22-day-stale SWS deep
+  snapshot the freshness gate blocks all adds, so the cap shows zero demotions
+  until the nightly re-freshens data — re-run the measurement on a real Groww
+  export after that.
 
 ### SWS current-cohort trailing audit (June 2026)
 - **This PR** — Added a research-only `scripts/sws-current-cohort-trailing-audit.mjs`

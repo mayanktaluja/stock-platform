@@ -143,6 +143,9 @@ import {
 import { buildFyContext as swsBuildFyContext } from "./taxEngine.js";
 import { buildSWSReport, rebuildTierAggregates } from "./services/swsPortfolioAggregate.js";
 import { buildPortfolioConstructionPlan } from "./services/portfolioConstructionPlan.js";
+import { applyTopUpBadgeCap } from "./services/portfolio/topUpCapPolicy.js";
+import { applyTopUpFundingLabels } from "./services/portfolio/topUpFundingLabels.js";
+import { attachProfitProtection } from "./services/portfolio/profitProtectionSignal.js";
 import { getPortfolioHistoryStorage } from "./portfolioHistoryStorage.js";
 import { getRecommendationLedgerStorage } from "./recommendationLedgerStorage.js";
 import {
@@ -7743,6 +7746,15 @@ async function runSWSAnalysis({
     };
   });
 
+  // Within-book Top-up cap — must run BEFORE buildSWSReport so tiers,
+  // baskets, actionMix, ISSUED ledger events, and the construction plan all
+  // see the capped actions (services/portfolio/topUpCapPolicy.js).
+  const topUpCap = applyTopUpBadgeCap(scoredHoldings);
+  // Profit-protection signal (volatile winners retracing off their 52W
+  // high). Never changes actions — attaches h.profitProtection; runs before
+  // buildSWSReport so holdingsByAction row copies carry it.
+  const profitProtection = attachProfitProtection(scoredHoldings);
+
   swsTimings.score_ms = Date.now() - swsT0;
   const aggT0 = Date.now();
   // asOfDate from the broker statement is "DD-MM-YYYY"; toIsoDate normalises
@@ -7772,6 +7784,9 @@ async function runSWSAnalysis({
     brokerSummary,
     unmatchedResidual,
   });
+  swsReport.topUpCap = topUpCap;
+  if (swsReport.snapshot) swsReport.snapshot.topUpCap = topUpCap;
+  swsReport.profitProtection = profitProtection;
   swsTimings.aggregate_ms = Date.now() - aggT0;
 
   // MF enrichment: only enrich MFs from the upload (saved-portfolio MFs
@@ -7873,6 +7888,12 @@ function attachConstructionPlanToAnalyzerReport(swsResult, {
     asOfDateIso: asOfDateIso || report.asOfDate || report.banner?.statement_as_of || null,
   });
   report.constructionPlan = plan;
+  // Map the plan's funding outcome onto Top-up badge labels, then rebuild
+  // tier aggregates — holdingsByAction rows are copies, so label mutations
+  // don't propagate without the rebuild. Centralized here so every call
+  // site (analyze, rerun, optimize, memory) gets consistent labels.
+  applyTopUpFundingLabels(swsResult._scoredHoldings || [], plan);
+  rebuildTierAggregates(report, swsResult._scoredHoldings || []);
   report.snapshot = {
     ...(report.snapshot || {}),
     fundedActionMix: {
@@ -7883,6 +7904,35 @@ function attachConstructionPlanToAnalyzerReport(swsResult, {
     fundedSellRupees: plan.summary?.totalSellRupees || 0,
     eligibleUnfundedAdds: plan.summary?.eligibleUnfundedCount || 0,
   };
+
+  // Freed-capital what-if: a second PURE plan run assuming the user executes
+  // and confirms every Tier A reduction. Read-only narrative link between
+  // the Reductions section and the Top-up shortlist — it never touches the
+  // real capitalLedger (which stays confirmed-only, the honesty invariant).
+  const notionalFreed = report.tiers?.A?.freedRupees || 0;
+  if (notionalFreed > 0) {
+    try {
+      const whatIf = buildPortfolioConstructionPlan({
+        scoredHoldings: swsResult._scoredHoldings || [],
+        baskets: report.tiers?.B?.baskets || null,
+        outsidePicks: report.outsidePicks || null,
+        freshCapitalInr,
+        confirmedFreedCapitalInr: confirmedFreedCapitalInr + notionalFreed,
+        asOfDateIso: asOfDateIso || report.asOfDate || report.banner?.statement_as_of || null,
+      });
+      report.freedCapitalWhatIf = {
+        notionalFreedRupees: notionalFreed,
+        fundedBuyCount: whatIf.summary?.fundedBuyCount || 0,
+        fundedTickers: (whatIf.fundedTrades || []).map((t) => t.ticker),
+        note: "notional — assumes every Tier A reduction is executed and confirmed",
+      };
+    } catch (e) {
+      console.warn("[ANALYZER] freed-capital what-if failed:", e?.message);
+      report.freedCapitalWhatIf = null;
+    }
+  } else {
+    report.freedCapitalWhatIf = null;
+  }
   return plan;
 }
 
