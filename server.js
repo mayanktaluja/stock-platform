@@ -143,6 +143,7 @@ import {
 import { buildFyContext as swsBuildFyContext } from "./taxEngine.js";
 import { buildSWSReport, rebuildTierAggregates } from "./services/swsPortfolioAggregate.js";
 import { buildPortfolioConstructionPlan } from "./services/portfolioConstructionPlan.js";
+import { applyTopUpBadgeCap } from "./services/portfolio/topUpCapPolicy.js";
 import { getPortfolioHistoryStorage } from "./portfolioHistoryStorage.js";
 import { getRecommendationLedgerStorage } from "./recommendationLedgerStorage.js";
 import {
@@ -7743,6 +7744,11 @@ async function runSWSAnalysis({
     };
   });
 
+  // Within-book Top-up cap — must run BEFORE buildSWSReport so tiers,
+  // baskets, actionMix, ISSUED ledger events, and the construction plan all
+  // see the capped actions (services/portfolio/topUpCapPolicy.js).
+  const topUpCap = applyTopUpBadgeCap(scoredHoldings);
+
   swsTimings.score_ms = Date.now() - swsT0;
   const aggT0 = Date.now();
   // asOfDate from the broker statement is "DD-MM-YYYY"; toIsoDate normalises
@@ -7772,6 +7778,8 @@ async function runSWSAnalysis({
     brokerSummary,
     unmatchedResidual,
   });
+  swsReport.topUpCap = topUpCap;
+  if (swsReport.snapshot) swsReport.snapshot.topUpCap = topUpCap;
   swsTimings.aggregate_ms = Date.now() - aggT0;
 
   // MF enrichment: only enrich MFs from the upload (saved-portfolio MFs

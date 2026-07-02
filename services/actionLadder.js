@@ -52,9 +52,18 @@ export const ALL_REDUCTION_ACTIONS = new Set([
   ...LADDER_V2_REDUCTION_ACTIONS,
 ]);
 
+// Cap-demoted add candidate — passed the absolute per-stock gates but ranked
+// below the within-book top-k cap (services/portfolio/topUpCapPolicy.js).
+// Lives in ALL_TOPUP_ACTIONS so basket/candidate/exit-plan surfaces keep the
+// row in the add family; sizing and freed-cash math treat it as 0 because it
+// is not a funded instruction (see TOPUP_PCT_OF_IDEAL_BY_ACTION below —
+// construction-plan sizing reads the original rung via preCapAction instead).
+export const CAPPED_TOPUP_ACTION = "Top-up-if-funded";
+
 export const ALL_TOPUP_ACTIONS = new Set([
   ...LEGACY_TOPUP_ACTIONS,
   ...LADDER_V2_TOPUP_ACTIONS,
+  CAPPED_TOPUP_ACTION,
 ]);
 
 // Trim fraction by action label. Drives _computeFreedCash in
@@ -83,6 +92,7 @@ const TOPUP_PCT_OF_IDEAL_BY_ACTION = {
   "Top-up-33%": 0.33,
   "Top-up-modest": 0.25,
   "Top-up-25%": 0.25,
+  "Top-up-if-funded": 0, // capped candidate: no ideal-sizing weight of its own
 };
 
 const LADDER_TO_LEGACY = {

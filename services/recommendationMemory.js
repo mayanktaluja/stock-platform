@@ -16,7 +16,7 @@
  */
 
 import { createHash } from "crypto";
-import { parseTrimPct, parseTopUpPct } from "./actionLadder.js";
+import { parseTrimPct, parseTopUpPct, CAPPED_TOPUP_ACTION } from "./actionLadder.js";
 
 // ────────────────────────── Constants ──────────────────────────
 
@@ -871,6 +871,9 @@ export function buildIssuedEvents({
   for (const h of (scoredHoldings || [])) {
     const action = h.action || h.recommendation || "HOLD";
     if (isHoldAction(action)) continue;
+    // Cap-demoted add candidates are not recommendations — minting ISSUED
+    // for them would recreate the decision noise the cap exists to remove.
+    if (action === CAPPED_TOPUP_ACTION) continue;
     const symKey = symbolKey(h);
     if (!symKey) continue;
 

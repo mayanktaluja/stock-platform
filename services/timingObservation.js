@@ -29,6 +29,8 @@ import { num } from "./swsScoring.js";
 // Pre-open auction: 09:00-09:15. Post-close: 15:40-16:00 (admin).
 // We model: Closed (pre-09:00 + post-16:00 + weekends),
 // Pre-open (09:00-09:15), Open (09:15-15:30), Post-close (15:30-16:00 ish).
+import { ALL_TOPUP_ACTIONS } from "./actionLadder.js";
+
 const NSE_OPEN_MIN = 9 * 60 + 15;   // 09:15
 const NSE_CLOSE_MIN = 15 * 60 + 30; // 15:30
 const NSE_PREOPEN_MIN = 9 * 60;     // 09:00
@@ -56,10 +58,10 @@ const TRIM_OR_EXIT_ACTIONS = new Set([
   "EXIT", "EXIT-now", "EXIT-staged",
   "Reduction-25%", "Reduction-25-33%", "Reduction-33%", "Reduction-50%", "Reduction-66%",
 ]);
-const TOPUP_ACTIONS = new Set([
-  "Top-up-modest", "Top-up", "STRONG Top-up",
-  "Top-up-25%", "Top-up-33%", "Top-up-50%", "Top-up-100%",
-]);
+// Canonical add-family set from actionLadder — the previous hardcoded copy
+// drifted from it, silently skipping timing logic for new keys (e.g. the
+// cap-demoted "Top-up-if-funded").
+const TOPUP_ACTIONS = ALL_TOPUP_ACTIONS;
 
 // Build a compact earnings-note fragment for use in timing reason strings.
 // Returns "" when the prediction isn't trustworthy enough to surface

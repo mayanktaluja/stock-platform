@@ -22,6 +22,7 @@ import { scoreHolding } from "../services/swsHoldingEngine.js";
 import { buildSWSReport } from "../services/swsPortfolioAggregate.js";
 import { ALL_TOPUP_ACTIONS } from "../services/actionLadder.js";
 import { candidateBaseRank, holdingRankInputs } from "../services/portfolio/addCandidateRank.js";
+import { applyTopUpBadgeCap } from "../services/portfolio/topUpCapPolicy.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(__dirname, "..");
@@ -210,10 +211,14 @@ const result = {
 };
 
 if (flags.has("--simulate-cap")) {
+  // Authoritative simulation: run the REAL cap module over copies so the
+  // script can never drift from production behavior.
+  const sim = scoredHoldings.map((h) => ({ ...h, reasons: [...(h.reasons || [])] }));
+  const capSummary = applyTopUpBadgeCap(sim, { enabled: true, ...(kOverride != null ? { k: kOverride } : {}) });
   result.simulated_cap = {
-    k,
-    kept: result.add_candidates.filter((c) => c.would_keep).map((c) => c.ticker),
-    demoted_by_rank: result.add_candidates.filter((c) => !c.would_keep).map((c) => c.ticker),
+    k: capSummary.k,
+    kept: capSummary.kept.map((x) => x.ticker),
+    demoted_by_rank: capSummary.demotedByRank.map((x) => x.ticker),
     demoted_by_bar: flags.has("--abs-bar")
       ? result.add_candidates.filter((c) => c.would_keep && c.quality_gate_failures.length > 0).map((c) => c.ticker)
       : [],

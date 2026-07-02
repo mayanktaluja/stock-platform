@@ -88,7 +88,10 @@ function makeHoldingCandidate(h, context) {
     ticker: normTicker(sws.ticker || h?.symbol),
     name: sws.name || h?.name || null,
     sector,
-    rawAction: h?.action || null,
+    // preCapAction first: a cap-demoted "Top-up-if-funded" row sizes off its
+    // original rung when a declared budget reaches it (parseTopUpPct of the
+    // capped key is 0).
+    rawAction: h?.preCapAction || h?.action || null,
     currentValue,
     positionWeight: num(h?.positionWeight, 0),
     sectorWeight: num(h?.sectorWeight, null),
