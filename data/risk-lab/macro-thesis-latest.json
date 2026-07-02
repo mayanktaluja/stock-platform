@@ -1,19 +1,21 @@
 {
   "schema_version": "macro-thesis-v1",
-  "generated_at": "2026-07-01T02:39:35.198Z",
+  "generated_at": "2026-07-02T03:25:18.481Z",
   "regime": {
     "regime": "CALM",
     "severity": 1,
     "confidence": 0.8,
     "label": "Calm",
-    "generated_at": "2026-06-30T10:30:30.764Z",
+    "generated_at": "2026-07-01T06:36:23.130Z",
     "days_in_state": 0,
     "stale": false,
-    "reasoning": "Mixed and neutral headlines",
+    "reasoning": "Mixed headlines, no dominant trend",
     "key_events": [
-      "Sensex, Nifty hover near flatline; broader market outperforms (Business Standard)",
-      "Gold poised for biggest monthly drop since 2008 amid Fed rate hike expectations (Economic Times)",
-      "Japan's Nikkei clocks best quarter on record on tech rebound (Economic Times)"
+      "Sensex jumps 494 pts; realty shares advance (Business Standard)",
+      "India's external financial position improves in FY2025-26 (Business Standard)",
+      "Sticky inflation clouds rate outlook, but AI and earnings keep markets resilient: Santosh Rao (Economic Times)",
+      "India bonds rise as index-entry hopes counter rise in US yields (Economic Times)",
+      "Nifty trades above 24,000 level; media shares in demand (Business Standard)"
     ],
     "classifier_provider": "groq",
     "source_health": {
@@ -40,37 +42,42 @@
     },
     "sector_impacts": [
       {
-        "sector": "IT Services",
+        "sector": "Real Estate",
+        "impact": 2,
+        "reason": "Realty shares advance"
+      },
+      {
+        "sector": "FMCG",
         "impact": 1,
-        "reason": "AI boost"
+        "reason": "Nifty FMCG index up 1.7%"
+      },
+      {
+        "sector": "Media",
+        "impact": 1,
+        "reason": "Media shares in demand"
       },
       {
         "sector": "Automobile",
         "impact": 1,
-        "reason": "Auto shares outperform"
-      },
-      {
-        "sector": "Banking",
-        "impact": 1,
-        "reason": "Banking sector ready for next growth phase"
+        "reason": "Tractor sales jump 19%"
       }
     ]
   },
-  "catalyst_proximity_days": 4,
+  "catalyst_proximity_days": 3,
   "upcoming_catalysts": [
     {
       "date": "2026-07-05",
       "kind": "OPEC",
       "label": "OPEC+ Ministerial Meeting",
       "severity_potential": 2,
-      "days_until": 4
+      "days_until": 3
     },
     {
       "date": "2026-07-30",
       "kind": "FOMC",
       "label": "US FOMC Meeting — July 2026",
       "severity_potential": 3,
-      "days_until": 29
+      "days_until": 28
     }
   ],
   "position_cap_pct": 10,
@@ -250,7 +257,7 @@
   "indeterminate": false,
   "audit": {
     "thesis_schema": "macro-thesis-v1",
-    "regime_generated_at": "2026-06-30T10:30:30.764Z",
+    "regime_generated_at": "2026-07-01T06:36:23.130Z",
     "regime_classifier": "groq",
     "scenario_engine_version": "scenario-prob-v1"
   }
