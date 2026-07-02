@@ -7765,18 +7765,25 @@ function swsReasonRow(h) {
   </details>`;
 }
 
-function renderSWSTierA(tier) {
+function renderSWSTierA(tier, report) {
   if (!tier || !tier.rows || tier.rows.length === 0) {
     return `<div style="margin-bottom:18px;">
       <div style="font-size:13px; font-weight:700; margin-bottom:8px; color:var(--text-muted);">Tier A · Reductions</div>
       <div style="background:var(--panel); border:1px solid var(--border-graphite); border-radius:8px; padding:14px; font-size:12px; color:var(--text-muted);">No reductions flagged — every covered holding scored ≥ FAIR_VALUE.</div>
     </div>`;
   }
+  const whatIf = report?.freedCapitalWhatIf;
+  const whatIfLine = (whatIf && whatIf.fundedBuyCount > 0)
+    ? `<div data-testid="analyzer-freed-whatif" style="font-size:12px; color:var(--text-muted); margin-bottom:10px; padding:8px 12px; border:1px dashed rgba(52,211,153,0.3); border-radius:8px;">
+        If you execute and confirm these reductions, ${inr(whatIf.notionalFreedRupees || 0)} frees up — notionally enough to fund ${whatIf.fundedBuyCount} of your add candidates (${(whatIf.fundedTickers || []).slice(0, 5).join(", ")}). See Today's plan; nothing is redeployed until reductions are confirmed.
+      </div>`
+    : "";
   return `<div style="margin-bottom:22px;">
     <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:10px; gap:12px; flex-wrap:wrap;">
       <div style="font-size:14px; font-weight:700;">Tier A · Reductions <span style="color:var(--text-muted); font-weight:500; font-size:12px;">(${tier.rows.length})</span></div>
-      <div style="font-size:12px; color:var(--text-muted);">Notional reduction value <strong style="color:var(--positive-text-soft);">${inr(tier.freedRupees || 0)}</strong>; redeploy only after the action is confirmed</div>
+      <div style="font-size:12px; color:var(--text-muted);">Sorted by severity, highest first · Notional reduction value <strong style="color:var(--positive-text-soft);">${inr(tier.freedRupees || 0)}</strong>; redeploy only after the action is confirmed</div>
     </div>
+    ${whatIfLine}
     <div style="background:var(--panel); border:1px solid var(--border-graphite); border-radius:8px; overflow-x:auto;">
       <table style="width:100%; border-collapse:collapse; font-size:13px;">
         <thead>
@@ -8861,7 +8868,7 @@ function renderSWSAnalyzerReport(report, elapsedMs) {
     ${/* PR A10 — Tier 2 disclosures. Tier A auto-opens when freed > 0. */ ""}
     <details class="analyzer-tier-details" ${snap.totalFreedCapital > 0 ? "open" : ""}>
       <summary class="tx-title" style="cursor:pointer; padding: 10px 0; border-bottom: 1px solid var(--border); list-style: none;">Reductions &amp; potential freed capital ${snap.totalFreedCapital > 0 ? `<span style="color: var(--warn); margin-left: 8px;">(${formatINR(snap.totalFreedCapital || 0, { compact: true })} gross)</span>` : ""}</summary>
-      <div style="padding-top: var(--space-200);">${renderSWSTierA(tiers.A)}</div>
+      <div style="padding-top: var(--space-200);">${renderSWSTierA(tiers.A, report)}</div>
     </details>
 
     <details class="analyzer-tier-details" style="margin-top: var(--space-200);">
@@ -9134,7 +9141,7 @@ function renderSWSAnalyzerReportV2(report, elapsedMs) {
         only when explicitly expanded. */ ""}
     <details class="analyzer-tier-details" ${snap.totalFreedCapital > 0 ? "open" : ""}>
       <summary class="tx-title" style="cursor:pointer; padding: 10px 0; border-bottom: 1px solid var(--border); list-style: none;">Reductions &amp; potential freed capital ${snap.totalFreedCapital > 0 ? `<span style="color: var(--warn); margin-left: 8px;">(${formatINR(snap.totalFreedCapital || 0, { compact: true })} gross)</span>` : ""}</summary>
-      <div style="padding-top: var(--space-200);">${renderSWSTierA(tiers.A)}</div>
+      <div style="padding-top: var(--space-200);">${renderSWSTierA(tiers.A, report)}</div>
     </details>
 
     <details class="analyzer-tier-details" style="margin-top: var(--space-200);">

@@ -7898,6 +7898,35 @@ function attachConstructionPlanToAnalyzerReport(swsResult, {
     fundedSellRupees: plan.summary?.totalSellRupees || 0,
     eligibleUnfundedAdds: plan.summary?.eligibleUnfundedCount || 0,
   };
+
+  // Freed-capital what-if: a second PURE plan run assuming the user executes
+  // and confirms every Tier A reduction. Read-only narrative link between
+  // the Reductions section and the Top-up shortlist — it never touches the
+  // real capitalLedger (which stays confirmed-only, the honesty invariant).
+  const notionalFreed = report.tiers?.A?.freedRupees || 0;
+  if (notionalFreed > 0) {
+    try {
+      const whatIf = buildPortfolioConstructionPlan({
+        scoredHoldings: swsResult._scoredHoldings || [],
+        baskets: report.tiers?.B?.baskets || null,
+        outsidePicks: report.outsidePicks || null,
+        freshCapitalInr,
+        confirmedFreedCapitalInr: confirmedFreedCapitalInr + notionalFreed,
+        asOfDateIso: asOfDateIso || report.asOfDate || report.banner?.statement_as_of || null,
+      });
+      report.freedCapitalWhatIf = {
+        notionalFreedRupees: notionalFreed,
+        fundedBuyCount: whatIf.summary?.fundedBuyCount || 0,
+        fundedTickers: (whatIf.fundedTrades || []).map((t) => t.ticker),
+        note: "notional — assumes every Tier A reduction is executed and confirmed",
+      };
+    } catch (e) {
+      console.warn("[ANALYZER] freed-capital what-if failed:", e?.message);
+      report.freedCapitalWhatIf = null;
+    }
+  } else {
+    report.freedCapitalWhatIf = null;
+  }
   return plan;
 }
 

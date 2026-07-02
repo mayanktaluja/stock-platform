@@ -171,6 +171,14 @@ export function buildTiers(scoredHoldings) {
     }
   }
 
+  // Priority order: most severe first (V3/V4 ladder severity), then by the
+  // capital a confirmed execution frees. Deterministic ticker tie-break so
+  // /analyze and /rerun render the same order.
+  tierA.sort((a, b) =>
+    (num(b.ladderSeverity, 0) - num(a.ladderSeverity, 0))
+    || (num(b.freedRupees, 0) - num(a.freedRupees, 0))
+    || String(a.sws?.ticker || a.symbol || "").localeCompare(String(b.sws?.ticker || b.symbol || "")));
+
   return { tierA, tierC, tierD, freedRupees: Math.round(freedRupees) };
 }
 
