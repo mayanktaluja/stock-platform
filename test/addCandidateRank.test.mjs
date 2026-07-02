@@ -3,6 +3,9 @@ import assert from "node:assert/strict";
 import {
   candidateBaseRank,
   holdingRankInputs,
+  coreAddQualityFailures,
+  ADD_V4_FLOOR,
+  ADD_UPSIDE_FLOOR_PCT,
   RANK_MAX_POSITION_WEIGHT_PCT,
 } from "../services/portfolio/addCandidateRank.js";
 
@@ -62,4 +65,25 @@ test("holdingRankInputs mirrors makeHoldingCandidate: sws fields, fit 0, source 
 test("holdingRankInputs tolerates missing sws payload (uncovered rows)", () => {
   const inputs = holdingRankInputs({ positionWeight: 1 });
   assert.equal(candidateBaseRank(inputs), +(0 + 0 + (8 - 1) * 1.2 + 2).toFixed(2));
+});
+
+test("coreAddQualityFailures: passes only at v4>=53, HIGH confidence, discount band, upside>=12", () => {
+  const pass = { v4_score: 53, valuation_confidence: "HIGH", valuation_band: "DISCOUNT", upside_pct: 12 };
+  assert.deepEqual(coreAddQualityFailures(pass), []);
+  assert.deepEqual(coreAddQualityFailures({ ...pass, valuation_band: "DEEP_DISCOUNT" }), []);
+  assert.deepEqual(coreAddQualityFailures({ ...pass, v4_score: 52.9 }), ["v4_below_floor"]);
+  assert.deepEqual(coreAddQualityFailures({ ...pass, valuation_confidence: "MEDIUM" }), ["confidence_not_high"]);
+  assert.deepEqual(coreAddQualityFailures({ ...pass, valuation_band: "FAIR" }), ["band_not_discount"]);
+  assert.deepEqual(coreAddQualityFailures({ ...pass, upside_pct: 11.9 }), ["upside_below_floor"]);
+  assert.equal(ADD_V4_FLOOR, 53);
+  assert.equal(ADD_UPSIDE_FLOOR_PCT, 12);
+});
+
+test("coreAddQualityFailures: null/missing inputs fail their gates (never pass by absence)", () => {
+  assert.deepEqual(coreAddQualityFailures({}), [
+    "v4_below_floor",
+    "confidence_not_high",
+    "band_not_discount",
+    "upside_below_floor",
+  ]);
 });

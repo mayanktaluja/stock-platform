@@ -31,6 +31,7 @@ import { findPeerSubstitutes } from "./swsPeerLayer.js";
 import { buildFallbackHolding } from "./swsCoverageFallback.js";
 import { buildAuditTrail } from "./swsAuditTrail.js";
 import { promoteToLadderV2, parseTrimPct, parseTopUpPct } from "./actionLadder.js";
+import { coreAddQualityFailures } from "./portfolio/addCandidateRank.js";
 import { buildExitPlan } from "./exitPlan/exitPlanPolicy.js";
 import { computeTimingObservation as computeTimingObservationFromModule } from "./timingObservation.js";
 import { gateActionByTier, getLiquidityTier } from "./swsTierGate.js";
@@ -441,7 +442,15 @@ function actionIsTopUp(action) {
   return String(action || "").startsWith("Top-up") || action === "STRONG Top-up";
 }
 
-const RAW_ADD_VALUATION_BANDS = new Set(["DISCOUNT", "DEEP_DISCOUNT"]);
+// Badge-time wording for the shared core add-quality gate codes
+// (services/portfolio/addCandidateRank.js — one threshold source shared with
+// the construction plan's funding gate and the measurement script).
+const RAW_ADD_GATE_WORDING = {
+  v4_below_floor: "V4 score below 53 add-candidate floor",
+  confidence_not_high: "fair-value confidence is not HIGH",
+  band_not_discount: "valuation is not discounted or deep-discounted",
+  upside_below_floor: "FV upside below 12% add-candidate floor",
+};
 
 export function _buildRawAddGate({
   action,
@@ -453,16 +462,16 @@ export function _buildRawAddGate({
 } = {}) {
   if (!actionIsTopUp(action)) return { allowed: true, reasons: [] };
   const reasons = [];
-  const score = num(v4, null);
-  const upside = num(reconciled?.upside_pct, null);
-  const confidence = reconciled?.confidence || "NONE";
-  const band = reconciled?.valuation_band || "UNKNOWN";
   const dataStatus = dataQualityGate?.status || "ok";
 
-  if (score == null || score < 53) reasons.push("V4 score below 53 add-candidate floor");
-  if (confidence !== "HIGH") reasons.push("fair-value confidence is not HIGH");
-  if (!RAW_ADD_VALUATION_BANDS.has(band)) reasons.push("valuation is not discounted or deep-discounted");
-  if (upside == null || upside < 12) reasons.push("FV upside below 12% add-candidate floor");
+  for (const code of coreAddQualityFailures({
+    v4_score: v4,
+    valuation_confidence: reconciled?.confidence || "NONE",
+    valuation_band: reconciled?.valuation_band || "UNKNOWN",
+    upside_pct: reconciled?.upside_pct,
+  })) {
+    reasons.push(RAW_ADD_GATE_WORDING[code]);
+  }
   if (newsSignal?.signal < 0) {
     reasons.push(newsSignal?.materialDisclosure
       ? "material negative SWS news blocks adding exposure"

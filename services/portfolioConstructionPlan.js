@@ -10,14 +10,12 @@ import {
   buildSmallcapSleeve,
   classifyMarketCapBucket,
 } from "./portfolioDecisionPolicy.js";
-import { candidateBaseRank } from "./portfolio/addCandidateRank.js";
+import { candidateBaseRank, coreAddQualityFailures } from "./portfolio/addCandidateRank.js";
 
 export const MIN_FUNDED_TRADE_INR = 25_000;
 export const MAX_FUNDED_ADDS = 5;
 export const MAX_POSITION_WEIGHT_PCT = 8;
 export const MAX_SECTOR_WEIGHT_PCT = 25;
-
-const FUNDABLE_VALUATION_BANDS = new Set(["DISCOUNT", "DEEP_DISCOUNT"]);
 
 function normTicker(v) {
   return String(v || "").trim().toUpperCase();
@@ -60,12 +58,18 @@ function freshPriceUsable(row) {
 // candidateBaseRank moved to ./portfolio/addCandidateRank.js — shared with the
 // Top-up badge cap so both surfaces rank candidates with one formula.
 
+// Funding-side wording for the shared core add-quality gate codes
+// (services/portfolio/addCandidateRank.js). Same thresholds as the engine's
+// badge-time raw-add gate; different user-facing phrasing preserved.
+const FUNDING_GATE_WORDING = {
+  v4_below_floor: "v4 score below 53 construction floor",
+  confidence_not_high: "valuation confidence is not HIGH",
+  band_not_discount: "valuation is not at discount/deep discount",
+  upside_below_floor: "FV upside below 12% funding floor",
+};
+
 function candidateRejectionReasons(c) {
-  const reasons = [];
-  if (num(c.v4_score, 0) < 53) reasons.push("v4 score below 53 construction floor");
-  if (c.valuation_confidence !== "HIGH") reasons.push("valuation confidence is not HIGH");
-  if (!FUNDABLE_VALUATION_BANDS.has(c.valuation_band)) reasons.push("valuation is not at discount/deep discount");
-  if (num(c.upside_pct, -Infinity) < 12) reasons.push("FV upside below 12% funding floor");
+  const reasons = coreAddQualityFailures(c).map((code) => FUNDING_GATE_WORDING[code]);
   if (c.newsSignal?.signal < 0) reasons.push("negative SWS news vetoes fresh deployment");
   if (c.marketCapBucket === "unknown") reasons.push("market cap unavailable; coverage watch blocks funding");
   if (c.dataQualityGate?.status === "coverage_watch") reasons.push("coverage watch blocks funding");

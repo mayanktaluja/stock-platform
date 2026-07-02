@@ -17,6 +17,27 @@ export function candidateBaseRank(c) {
   return +(v4 + upside * 0.35 + sectorFit * 0.5 + lowerPositionBonus + sourceBonus).toFixed(2);
 }
 
+// The four core add-quality gates — ONE threshold source for the three
+// surfaces that each duplicated them: the engine's badge-time raw-add gate
+// (swsHoldingEngine._buildRawAddGate), the construction plan's funding
+// rejection reasons (candidateRejectionReasons), and the measurement script.
+// Returns failure CODES; each consumer maps codes to its own user-facing
+// strings so this consolidation is byte-identical in every output.
+export const ADD_V4_FLOOR = 53;
+export const ADD_UPSIDE_FLOOR_PCT = 12;
+export const ADD_FUNDABLE_VALUATION_BANDS = new Set(["DISCOUNT", "DEEP_DISCOUNT"]);
+
+export function coreAddQualityFailures({ v4_score, valuation_confidence, valuation_band, upside_pct } = {}) {
+  const failures = [];
+  const v4 = num(v4_score, null);
+  const upside = num(upside_pct, null);
+  if (v4 == null || v4 < ADD_V4_FLOOR) failures.push("v4_below_floor");
+  if (valuation_confidence !== "HIGH") failures.push("confidence_not_high");
+  if (!ADD_FUNDABLE_VALUATION_BANDS.has(valuation_band)) failures.push("band_not_discount");
+  if (upside == null || upside < ADD_UPSIDE_FLOOR_PCT) failures.push("upside_below_floor");
+  return failures;
+}
+
 // Rank inputs for a scored holding, mirroring makeHoldingCandidate's fields:
 // original scoredHoldings never carry _sectorFit (it is attached only to
 // basket-row copies), so sectorFitScore resolves to 0 and source is always

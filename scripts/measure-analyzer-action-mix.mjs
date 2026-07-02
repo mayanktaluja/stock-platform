@@ -21,7 +21,7 @@ import { parsePortfolioFile } from "../portfolioParser.js";
 import { scoreHolding } from "../services/swsHoldingEngine.js";
 import { buildSWSReport } from "../services/swsPortfolioAggregate.js";
 import { ALL_TOPUP_ACTIONS } from "../services/actionLadder.js";
-import { candidateBaseRank, holdingRankInputs } from "../services/portfolio/addCandidateRank.js";
+import { candidateBaseRank, holdingRankInputs, coreAddQualityFailures } from "../services/portfolio/addCandidateRank.js";
 import { applyTopUpBadgeCap } from "../services/portfolio/topUpCapPolicy.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -134,17 +134,15 @@ function summarize(holdings) {
   return { perAction, perBucket };
 }
 
-// The four PR3 quality gates (mirrors candidateRejectionReasons' first four
-// checks in portfolioConstructionPlan.js — becomes coreAddQualityFailures).
+// Shared core add-quality gates (services/portfolio/addCandidateRank.js) —
+// same thresholds the engine's badge gate and the plan's funding gate use.
 function qualityGateFailures(sws) {
-  const fails = [];
-  const v4 = Number(sws?.v4_score);
-  const upside = Number(sws?.upside_pct);
-  if (!(v4 >= 53)) fails.push("v4<53");
-  if (sws?.valuation_confidence !== "HIGH") fails.push("conf!=HIGH");
-  if (!["DISCOUNT", "DEEP_DISCOUNT"].includes(sws?.valuation_band)) fails.push("band");
-  if (!(upside >= 12)) fails.push("upside<12");
-  return fails;
+  return coreAddQualityFailures({
+    v4_score: sws?.v4_score,
+    valuation_confidence: sws?.valuation_confidence,
+    valuation_band: sws?.valuation_band,
+    upside_pct: sws?.upside_pct,
+  });
 }
 
 const isTopUp = (h) => ALL_TOPUP_ACTIONS.has(h.action) && h.action !== "Top-up-if-funded";
