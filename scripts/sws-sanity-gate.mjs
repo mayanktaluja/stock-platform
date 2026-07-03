@@ -128,6 +128,7 @@ const UUID_REGEX = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}
 const TOP_PICK_MIN_SCORE     = 60;
 const MIN_ACTIONABLE_TODAY_BLOCK = 5;
 const MIN_ACTIONABLE_TODAY_WARN  = 15;
+const MIN_ENTRY_TIMING_COVERAGE  = 0.8;   // WARN — ≥80% of best_to_buy_now rows carry usable entry_timing (Two-Key Entry PR-2)
 // Threshold split — same pattern as MIN_SCORED_COUNT / MIN_NEWS_POPULATED /
 // MIN_REWARDS_POPULATED above. NSE only publishes earnings dates ~2-3 weeks
 // ahead, so the 0-75d categorisation window in services/swsScoring.js is
@@ -446,6 +447,20 @@ function layer1(lr, picks) {
   record(layer, "section_actionable_today_depth", WARN,
     actionableTodayCount >= MIN_ACTIONABLE_TODAY_WARN,
     { count: actionableTodayCount, threshold: MIN_ACTIONABLE_TODAY_WARN });
+  // Two-Key Entry (PR-2): entry_timing coverage floor. WARN-only — the stamp is
+  // fail-open by design, but a broad collapse (e.g. universe stats missing) should
+  // surface before the unattended auto-merge ships a night of unstamped rows.
+  const buyNowRows = sec.best_to_buy_now || [];
+  const entryTimingUsable = buyNowRows.filter(
+    (it) => it?.entry_timing?.state && it.entry_timing.state !== "NO_DATA",
+  ).length;
+  record(layer, "entry_timing_coverage", WARN,
+    buyNowRows.length === 0 || entryTimingUsable / buyNowRows.length >= MIN_ENTRY_TIMING_COVERAGE,
+    {
+      usable: entryTimingUsable,
+      total: buyNowRows.length,
+      threshold_pct: MIN_ENTRY_TIMING_COVERAGE * 100,
+    });
   const nseCalendar = nseCalendarStats();
   const calendarSparseButValid =
     nseCalendar.present &&
