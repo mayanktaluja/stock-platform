@@ -61,14 +61,32 @@ test.describe("India Picks · Two-Key entry-timing chip (advisory)", () => {
                 fiftytwo_week_position: 0.05,
                 tier: 1,
               }),
-              baseRow("CONFIRMD", {
-                version: "entry-timing-v1-2026-07",
-                state: "ENTRY_CONFIRMED",
-                reasons: ["confirmed_momentum_base"],
-                momentum_pct_3m: 0.68,
-                fiftytwo_week_position: 0.42,
-                tier: 1,
-              }),
+              {
+                ...baseRow("CONFIRMD", {
+                  version: "entry-timing-v1-2026-07",
+                  state: "ENTRY_CONFIRMED",
+                  reasons: ["confirmed_momentum_base"],
+                  momentum_pct_3m: 0.68,
+                  fiftytwo_week_position: 0.42,
+                  tier: 1,
+                }),
+                entry_plan: {
+                  eligible: true,
+                  version: "entry-timing-v1-2026-07",
+                  anchor_price_inr: 100,
+                  anchored_at: "2026-07-01T00:00:00Z",
+                  deep_below_band: false,
+                  tranches: [
+                    { pct: 0.4, trigger_type: "market", trigger_price_inr: 100, label: "Initiate at anchor" },
+                    { pct: 0.35, trigger_type: "limit", trigger_price_inr: 92, label: "Add on measured pullback" },
+                    { pct: 0.25, trigger_type: "limit", trigger_price_inr: 84, label: "Final add at deep-value level" },
+                  ],
+                  no_chase_inr: 117,
+                  invalidation_inr: 80.64,
+                  invalidation_basis: "ladder_floor",
+                  mae_pct_used: 8,
+                },
+              },
               baseRow("MACROHLD", {
                 version: "entry-timing-v1-2026-07",
                 state: "MACRO_DEFER",
@@ -99,6 +117,18 @@ test.describe("India Picks · Two-Key entry-timing chip (advisory)", () => {
     const confirmedCard = cardFor("CONFIRMD");
     await expect(confirmedCard.locator('[data-testid="entry-readiness-chip"]')).toHaveText("Timing ✓");
     await expect(confirmedCard.locator('[data-testid="decision-state"]').first()).toBeVisible();
+
+    // Staged buy plan ladder renders on the confirmed card: 3 tranches with ₹
+    // triggers, no-chase + invalidation lines. Knife card carries NO ladder.
+    const ladder = confirmedCard.locator('[data-testid="entry-plan-ladder"]');
+    await expect(ladder).toHaveCount(1);
+    await ladder.locator("summary").click();
+    await expect(ladder.locator("table tr")).toHaveCount(3);
+    const ladderText = await ladder.textContent();
+    for (const frag of ["40%", "35%", "25%", "100", "92", "84", "No-chase", "Invalidation"]) {
+      expect(ladderText).toContain(frag);
+    }
+    await expect(cardFor("KNIFEY").locator('[data-testid="entry-plan-ladder"]')).toHaveCount(0);
 
     // Macro defer renders its own label.
     await expect(cardFor("MACROHLD").locator('[data-testid="entry-readiness-chip"]')).toHaveText("Macro hold");

@@ -12844,6 +12844,27 @@ const ENTRY_TIMING_REASON_COPY = {
   degraded_no_percentile: "universe momentum percentile unavailable",
 };
 
+// Staged-buy ladder <details> — mirrors the analyzer-tier-details collapsible
+// pattern. Factual labels only; #sebiSiteFooter carries the disclaimer.
+function entryPlanLadder(s) {
+  const p = s?.entry_plan;
+  if (!p || p.eligible !== true || !Array.isArray(p.tranches) || !p.tranches.length) return "";
+  const rows = p.tranches
+    .map(
+      (t) =>
+        `<tr><td>${Math.round((t.pct || 0) * 100)}%</td><td>${escapeHtml(t.label || t.trigger_type || "")}</td><td class="sws-entry-plan-px">${fmtInr(t.trigger_price_inr)}</td></tr>`,
+    )
+    .join("");
+  const anchoredNote = p.anchored_at
+    ? ` · anchored ${String(p.anchored_at).slice(0, 10)} @ ${fmtInr(p.anchor_price_inr)}`
+    : "";
+  return `<details class="analyzer-tier-details sws-entry-plan" data-testid="entry-plan-ladder" onclick="event.stopPropagation();">
+    <summary>Staged buy plan (${p.tranches.length} tranches)${p.deep_below_band ? " · deep-below-band" : ""}</summary>
+    <table class="sws-entry-plan-table"><tbody>${rows}</tbody></table>
+    <div class="sws-entry-plan-lines">No-chase above ${fmtInr(p.no_chase_inr)} · Invalidation ${fmtInr(p.invalidation_inr)}${anchoredNote}</div>
+  </details>`;
+}
+
 function entryTimingChip(s) {
   const t = s?.entry_timing;
   const meta = t && ENTRY_TIMING_CHIP[t.state];
@@ -13325,6 +13346,10 @@ function renderPickCard(s, sectionKey, rank = null) {
 	  const entryRow = entryBand
 	    ? `<div class="sws-pick-entry-row">${entryBadge}${timingChip}${noBuyBadge}</div>`
 	    : "";
+	  // Staged buy plan (PR-3): collapsible tranche ladder — anchored ₹ triggers the
+	  // user can drop straight into Groww price alerts. Only for eligible plans;
+	  // refused/absent plans render nothing (no actionable rungs may leak).
+	  const planLadder = entryPlanLadder(s);
 	  // PR3 — consolidate the scattered risk flags (NSE surveillance, thin coverage,
 	  // FV caution, stale data) into one labelled risk row instead of sprinkling them
 	  // through the ticker line.
@@ -13388,6 +13413,7 @@ function renderPickCard(s, sectionKey, rank = null) {
 	      ${renderPickPillarBars(s.snowflake)}
 	      <div class="sws-pick-card-narrative">${(s.narrative && s.narrative.card_one_line) || s.one_line || ""}</div>
 	      ${entryRow}
+	      ${planLadder}
 	      ${riskRow}
 	      ${gapLabBadge ? `<div class="sws-gap-lab-card-note"><span>Experimental data-gap screen. Canonical V4 stays ${score}.</span></div>` : ""}
       ${extraRow}
