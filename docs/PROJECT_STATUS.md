@@ -1,6 +1,6 @@
 # PROJECT_STATUS.md — stock-platform
 
-**Last updated: 2026-07-02**
+**Last updated: 2026-07-03**
 
 Living snapshot of where the project is right now. Update this file whenever
 you ship a meaningful PR or change direction. The point is that a fresh AI
@@ -32,6 +32,26 @@ Compounder Lab and Earnings Edge were retired in June 2026 to remove unused
 experimental surface area and nightly refresh load.
 
 ## Recently shipped (themed, newest first — rolling ~4–6 week window; `git log` is the archive)
+
+### Two-Key Entry timing — knife detection + staged-buy ladders + entry alerts (July 2026)
+- **4-commit series (PR-1→PR-4, on branch awaiting push)** — fixes the
+  systematic "buy on Actionable-now, drop 5-15%, then recover" pattern.
+  Root cause (code-verified): the badge is `price ≤ 0.85×FV` + 9 fundamental
+  gates with ZERO timing input — a falling-knife catcher by construction.
+  Design: Key 1 (value, untouched) × Key 2 (timing, new, ADVISORY until a
+  backtest promotion gate clears). Nightly scoring stamps `entry_timing`
+  (FALLING_KNIFE / STABILIZING / ENTRY_CONFIRMED / MACRO_DEFER, hysteresis +
+  slow-bleeder leg — FLAIR classifies FALLING_KNIFE) + `entry_plan` (anchored
+  40/35/25 tranche ladder, no-chase, invalidation) on every section row.
+  Cards show an advisory timing chip + a collapsible "Staged buy plan" with
+  Groww-ready ₹ triggers. Evidence-first: `scripts/backtest-entry-band-mae.mjs`
+  git-replays picks-latest history (real result: knife-classified flags T+5
+  median MAE −3.39% vs −0.06% confirmed). Tier-2: Yahoo-direct
+  `sws-enrich-technicals.mjs` sidecar (RSI/DMA/reclaim/ATR/RS) + demote-only
+  confirm gate. Alerts: dwell-filtered transitions → canonical
+  `ALERTS_LEDGER_DIR` queue → drained by the news-alerts poller's 08:30 IST
+  tick (→CONFIRMED is breaking, carries the ladder). Modules under
+  `services/entry/`; plan at `~/.claude/plans/entry-timing-final.md`.
 
 ### Portfolio Analyzer — Top-up cap + capital-aware actions (July 2026)
 - **This series (6 commits)** — Top-up badges are now a ranked shortlist, not a

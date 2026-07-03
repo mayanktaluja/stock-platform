@@ -9,6 +9,8 @@ import path from "node:path";
 import { PATHS } from "./sws-config.mjs";
 import { computeV4Score, verdictV4FromScore, buildFvCompositeIndustryAverages } from "./swsScoringV4.mjs";
 import { buildFvUpsideBenchmark } from "../services/scoring/fvUpsideRelative.js";
+import { stampEntryTimingOnSections } from "../services/entry/stampEntryTiming.js";
+import { getTechnicals } from "../services/entry/technicalStoreReader.js";
 import {
   reconcileFairValue,
   valuationBandFromUpside as canonicalValuationBandFromUpside,
@@ -164,7 +166,9 @@ function buildPickAuditTrail(stock) {
   };
 }
 
-const PICK_RETURN_KEYS = ["1D", "7D", "1M", "3M", "1Y"];
+// 6M added for the entry-timing slow-bleeder leg (Two-Key Entry PR-2) — deep briefs
+// carry it; rows previously dropped it.
+const PICK_RETURN_KEYS = ["1D", "7D", "1M", "3M", "6M", "1Y"];
 
 export function compactReturnsPct(returnsPct = {}) {
   const out = {};
@@ -753,6 +757,11 @@ export function pickCardFields(stock) {
     // Per-pick audit blob — slim, self-contained, ~250 bytes.
 	    audit_trail: buildPickAuditTrail(stock),
 	    entry_band: buildEntryBand(stock),
+	    // Two-Key Entry (PR-2): baked additively so the nightly entry-timing stamp and
+	    // any serve-time consumer can read 52w position + the analyst FV range without
+	    // reaching into data/sws/deep/ (frozen on prod). Both come straight from the parser.
+	    fifty_two_week: ov.fifty_two_week || null,
+	    fair_value_range_inr: ov.fair_value_range_inr || null,
 	  };
 	}
 
@@ -964,6 +973,47 @@ export function runFullScoring() {
   const macroRegime = readJsonIfExists(path.join(PATHS.repoRoot, "data", "macroRegime.json"));
   const sections = buildLeaderboard(scored, { sectorOutlook, macroRegime, universe });
   const sectionAudit = sections.__section_audit || {};
+
+  // Two-Key Entry (PR-2): stamp entry_timing + entry_plan onto section rows.
+  // MUST read the PREVIOUS night's picks-latest BEFORE it is overwritten below —
+  // prevState drives hysteresis + the alert dwell counter, and the ladder anchor
+  // carries forward while the state is unchanged. Fail-open: an error here ships
+  // rows without the stamp (cards render exactly as before).
+  try {
+    const prevPicks = readJsonIfExists(PATHS.picksLatest);
+    const stampStats = stampEntryTimingOnSections({
+      sections,
+      universeR3m: universe.r3m,
+      macroRegime,
+      prevSections: prevPicks?.sections || null,
+      scannedAt: new Date().toISOString(),
+      getTechnicals, // Tier-2 sidecar lookup; fail-open (missing/stale → Tier-1)
+    });
+    console.log(`Entry timing stamped: ${stampStats.stamped} rows (${stampStats.eligibleRows} plan-eligible)`);
+
+    // PR-3: dwell-passed transitions → the alert pending queue. MUST live at the
+    // ABSOLUTE canonical path (ALERTS_LEDGER_DIR, exported by the nightly wrapper) —
+    // the nightly runs in a throwaway worktree that is hard-reset every run, so a
+    // worktree-relative queue would vanish before the 08:30 dispatcher drains it.
+    // Env absent (manual/dev runs) → skip silently with a log line.
+    if (stampStats.transitions.length && process.env.ALERTS_LEDGER_DIR) {
+      const queuePath = path.join(process.env.ALERTS_LEDGER_DIR, "entry-transitions-pending.json");
+      const existing = readJsonIfExists(queuePath);
+      const merged = new Map(); // (ticker|to) → transition, newest wins, prior unsent survive
+      for (const t of existing?.transitions || []) merged.set(`${t.ticker}|${t.to}`, t);
+      for (const t of stampStats.transitions) merged.set(`${t.ticker}|${t.to}`, t);
+      fs.mkdirSync(path.dirname(queuePath), { recursive: true });
+      writeJsonAtomic(queuePath, {
+        generated_at: new Date().toISOString(),
+        transitions: [...merged.values()],
+      });
+      console.log(`Entry transitions queued: ${stampStats.transitions.length} new → ${queuePath}`);
+    } else if (stampStats.transitions.length) {
+      console.log(`Entry transitions detected (${stampStats.transitions.length}) but ALERTS_LEDGER_DIR unset — queue skipped (dev run)`);
+    }
+  } catch (e) {
+    console.error(`Entry-timing stamp failed (non-fatal, rows ship unstamped): ${e.message}`);
+  }
 
   // Compute scrape duration estimate from file mtimes if available
   let earliest = null, latest = null;

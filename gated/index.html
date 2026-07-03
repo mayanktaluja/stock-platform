@@ -4050,6 +4050,18 @@
 	    .sws-pick-entry-row .sws-entry-badge { margin-left: 0; }
 	    .sws-entry-badge--buy_zone { color: var(--positive-text-soft); border-color: rgba(34,197,94,0.42); background: rgba(34,197,94,0.10); }
 	    .sws-entry-badge--stagger_only { color: var(--info-text); border-color: rgba(96,165,250,0.42); background: rgba(96,165,250,0.10); }
+	    /* Two-Key Entry timing chip (advisory Key 2, beside the Key-1 value badge) */
+	    .sws-entry-timing-chip--knife { color: var(--negative-text-soft); border-color: rgba(248,113,113,0.42); background: rgba(248,113,113,0.10); }
+	    .sws-entry-timing-chip--stabilizing { color: var(--warning, #fbbf24); border-color: rgba(251,191,36,0.38); background: rgba(251,191,36,0.10); }
+	    .sws-entry-timing-chip--confirmed { color: var(--positive-text-soft); border-color: rgba(34,197,94,0.42); background: rgba(34,197,94,0.10); }
+	    .sws-entry-timing-chip--defer { color: var(--info-text); border-color: rgba(96,165,250,0.42); background: rgba(96,165,250,0.10); }
+	    /* Staged buy plan ladder (Two-Key Entry PR-3) */
+	    .sws-entry-plan { margin: 6px 0 0; font-size: 11px; }
+	    .sws-entry-plan > summary { cursor: pointer; color: var(--text-secondary); font-weight: 600; }
+	    .sws-entry-plan-table { width: 100%; margin: 4px 0 2px; border-collapse: collapse; }
+	    .sws-entry-plan-table td { padding: 2px 6px 2px 0; color: var(--text-secondary); }
+	    .sws-entry-plan-table td.sws-entry-plan-px { text-align: right; font-variant-numeric: tabular-nums; color: var(--text-primary, inherit); }
+	    .sws-entry-plan-lines { color: var(--text-muted); }
 		    .sws-entry-badge--no_buy_above,
 		    .sws-entry-badge--warn { color: var(--warning, #fbbf24); border-color: rgba(251,191,36,0.38); background: rgba(251,191,36,0.10); }
 		    .sws-pick-card-top--wait .sws-entry-badge--no_buy_above {

@@ -291,6 +291,26 @@ echo "[refresh-api] parsing raw API payloads..."
 PARSE_OUT="$(node scripts/sws-api-parser.mjs --dest deep 2>&1)"
 echo "${PARSE_OUT}" | tail -5 | sed 's/^/[parser] /'
 
+# ---------- 6.5. Technicals enrich (Two-Key Entry PR-4) ----------
+# Yahoo-direct RSI/DMA/ATR/RS sidecar (data/technicals/indicators-latest.json)
+# consumed by the entry-timing stamp inside scoring. Membership comes from the
+# PREVIOUS night's picks-latest (scoring hasn't rewritten it yet) — the 1-day
+# membership lag is accepted. 18h freshness gate so same-day reruns coast.
+# Non-fatal: a Yahoo outage degrades entry timing to Tier-1, never blocks the ship.
+TECHNICALS_SIDECAR="data/technicals/indicators-latest.json"
+TECH_FRESH=0
+if [ -f "${TECHNICALS_SIDECAR}" ]; then
+  TECH_AGE_H="$(node -e 'try{const g=Date.parse(JSON.parse(require("fs").readFileSync(process.argv[1],"utf8")).generatedAt);console.log(Number.isFinite(g)?Math.floor((Date.now()-g)/3600000):999)}catch{console.log(999)}' "${TECHNICALS_SIDECAR}")"
+  if [ "${TECH_AGE_H}" -lt 18 ]; then TECH_FRESH=1; fi
+fi
+if [ "${TECH_FRESH}" = "1" ]; then
+  echo "[technicals] sidecar ${TECH_AGE_H}h old (<18h) — skipping enrich"
+else
+  echo "[refresh-api] refreshing technicals sidecar..."
+  TECH_OUT="$(node scripts/sws-enrich-technicals.mjs 2>&1)" || true
+  echo "${TECH_OUT}" | tail -6 | sed 's/^/[technicals] /'
+fi
+
 # ---------- 7. Seed score ----------
 
 echo "[refresh-api] running seed scoring..."

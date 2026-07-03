@@ -12818,6 +12818,66 @@ function entryBandReasonText(entryBand) {
   return reasons.map((r) => r?.message).filter(Boolean).join(" ");
 }
 
+// Two-Key Entry (PR-2, advisory stage): timing chip beside the untouched value badge.
+// Key 1 (value) still drives "Actionable now"; this chip is Key 2 (timing) — advisory
+// only until the backtest promotion gate clears. Reason CODES arrive on the row; the
+// display copy lives here.
+const ENTRY_TIMING_CHIP = {
+  FALLING_KNIFE: { label: "Knife falling", cls: "knife" },
+  STABILIZING: { label: "Base forming", cls: "stabilizing" },
+  ENTRY_CONFIRMED: { label: "Timing ✓", cls: "confirmed" },
+  MACRO_DEFER: { label: "Macro hold", cls: "defer" },
+};
+
+const ENTRY_TIMING_REASON_COPY = {
+  knife_1m: "1M return below the knife line",
+  knife_3m: "3M return below the knife line",
+  knife_52w_drawdown: "deep drawdown vs 52-week high",
+  knife_7d: "sharp fall this week",
+  knife_slow_bleeder: "steady multi-month slide, bottom-quartile momentum",
+  knife_held_hysteresis: "recovering, but 1M return has not cleared the exit line yet",
+  confirmed_momentum_base: "momentum positive and at/above universe median — base confirmed",
+  macro_defer_sector: "severe macro regime against this sector — hold fresh entries",
+  no_returns_data: "no returns data",
+  degraded_no_52w: "52-week range unavailable for this check",
+  degraded_no_6m: "6M return unavailable for this check",
+  degraded_no_percentile: "universe momentum percentile unavailable",
+};
+
+// Staged-buy ladder <details> — mirrors the analyzer-tier-details collapsible
+// pattern. Factual labels only; #sebiSiteFooter carries the disclaimer.
+function entryPlanLadder(s) {
+  const p = s?.entry_plan;
+  if (!p || p.eligible !== true || !Array.isArray(p.tranches) || !p.tranches.length) return "";
+  const rows = p.tranches
+    .map(
+      (t) =>
+        `<tr><td>${Math.round((t.pct || 0) * 100)}%</td><td>${escapeHtml(t.label || t.trigger_type || "")}</td><td class="sws-entry-plan-px">${fmtInr(t.trigger_price_inr)}</td></tr>`,
+    )
+    .join("");
+  const anchoredNote = p.anchored_at
+    ? ` · anchored ${String(p.anchored_at).slice(0, 10)} @ ${fmtInr(p.anchor_price_inr)}`
+    : "";
+  return `<details class="analyzer-tier-details sws-entry-plan" data-testid="entry-plan-ladder" onclick="event.stopPropagation();">
+    <summary>Staged buy plan (${p.tranches.length} tranches)${p.deep_below_band ? " · deep-below-band" : ""}</summary>
+    <table class="sws-entry-plan-table"><tbody>${rows}</tbody></table>
+    <div class="sws-entry-plan-lines">No-chase above ${fmtInr(p.no_chase_inr)} · Invalidation ${fmtInr(p.invalidation_inr)}${anchoredNote}</div>
+  </details>`;
+}
+
+function entryTimingChip(s) {
+  const t = s?.entry_timing;
+  const meta = t && ENTRY_TIMING_CHIP[t.state];
+  if (!meta) return "";
+  const bits = (Array.isArray(t.reasons) ? t.reasons : [])
+    .map((code) => ENTRY_TIMING_REASON_COPY[code])
+    .filter(Boolean);
+  if (Number.isFinite(t.momentum_pct_3m)) bits.push(`3M momentum at the ${Math.round(t.momentum_pct_3m * 100)}th percentile`);
+  if (Number.isFinite(t.fiftytwo_week_position)) bits.push(`${Math.round(t.fiftytwo_week_position * 100)}% up the 52-week range`);
+  const title = bits.join(". ") || "Entry timing derived from stored momentum data.";
+  return `<span data-testid="entry-readiness-chip" class="sws-entry-badge sws-entry-timing-chip sws-entry-timing-chip--${meta.cls}" title="${escapeHtml(title)}">${escapeHtml(meta.label)}</span>`;
+}
+
 function renderPicks(data) {
   const containerEl = document.getElementById("picksContainer");
   const collapsedState = loadPicksCollapsedState();
@@ -13279,9 +13339,17 @@ function renderPickCard(s, sectionKey, rank = null) {
 	  const staleEntryBadge = entryReasons.some((r) => ["data_stale", "freshness_missing"].includes(r?.code))
 	    ? `<span class="sws-entry-badge sws-entry-badge--warn" title="${escapeHtml(entryReasonText || "Freshness warning")}">Stale</span>`
 	    : "";
+	  // Two-Key Entry: advisory timing chip sits beside the value badge — both keys
+	  // visible at a glance. Absent entry_timing → chip renders nothing (legacy rows,
+	  // region forks, NO_DATA all fall through unchanged).
+	  const timingChip = entryTimingChip(s);
 	  const entryRow = entryBand
-	    ? `<div class="sws-pick-entry-row">${entryBadge}${noBuyBadge}</div>`
+	    ? `<div class="sws-pick-entry-row">${entryBadge}${timingChip}${noBuyBadge}</div>`
 	    : "";
+	  // Staged buy plan (PR-3): collapsible tranche ladder — anchored ₹ triggers the
+	  // user can drop straight into Groww price alerts. Only for eligible plans;
+	  // refused/absent plans render nothing (no actionable rungs may leak).
+	  const planLadder = entryPlanLadder(s);
 	  // PR3 — consolidate the scattered risk flags (NSE surveillance, thin coverage,
 	  // FV caution, stale data) into one labelled risk row instead of sprinkling them
 	  // through the ticker line.
@@ -13345,6 +13413,7 @@ function renderPickCard(s, sectionKey, rank = null) {
 	      ${renderPickPillarBars(s.snowflake)}
 	      <div class="sws-pick-card-narrative">${(s.narrative && s.narrative.card_one_line) || s.one_line || ""}</div>
 	      ${entryRow}
+	      ${planLadder}
 	      ${riskRow}
 	      ${gapLabBadge ? `<div class="sws-gap-lab-card-note"><span>Experimental data-gap screen. Canonical V4 stays ${score}.</span></div>` : ""}
       ${extraRow}
