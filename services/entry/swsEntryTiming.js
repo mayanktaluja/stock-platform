@@ -30,6 +30,7 @@ import {
   KNIFE_EXIT,
   CONFIRMED,
   MACRO_DEFER,
+  TIER2_CONFIRM,
   REASON,
 } from "./entryTimingConfig.js";
 
@@ -118,6 +119,7 @@ export function computeEntryTiming({
   sector = null,
   prevState = null,
   asOf = null,
+  technicals = null,
 } = {}) {
   const asOfOut = asOf ?? null;
 
@@ -154,6 +156,10 @@ export function computeEntryTiming({
   // every percentile-dependent leg the same way — one code covers both causes.
   if (momentum_pct_3m == null) degraded.push(REASON.DEGRADED_NO_PERCENTILE);
 
+  // Tier-2 (PR-4): fresh technicals present with the fields the confirm gate
+  // needs. Demote-only — technicals can veto a CONFIRMED, never mint one.
+  const tier2 = !!(technicals && isNum(technicals.rsi14) && isNum(technicals.dma50) && px != null);
+
   const finish = (state, stateReasons) => {
     const seen = new Set();
     const reasons = [];
@@ -169,7 +175,7 @@ export function computeEntryTiming({
       reasons,
       momentum_pct_3m,
       fiftytwo_week_position,
-      tier: 1,
+      tier: tier2 ? 2 : 1,
       as_of: asOfOut,
     };
   };
@@ -230,6 +236,15 @@ export function computeEntryTiming({
   }
 
   if (confirmed) {
+    // 5b. Tier-2 confirm gate (demote-only): with fresh technicals, CONFIRMED
+    // additionally requires price above the 50-DMA and RSI-14 inside the
+    // healthy band — oversold hasn't proven the turn, overbought is a chase.
+    if (tier2
+      && !(px > technicals.dma50
+        && technicals.rsi14 >= TIER2_CONFIRM.RSI_MIN
+        && technicals.rsi14 <= TIER2_CONFIRM.RSI_MAX)) {
+      return finish(ENTRY_STATES.STABILIZING, [REASON.TIER2_UNCONFIRMED]);
+    }
     // 6. MACRO_DEFER — only demotes a would-be CONFIRMED. Severe regime
     // (severity ≥ min) AND this row's sector resolving to a materially
     // negative impact. CONFIRMED_ALL is kept in the reasons so the row

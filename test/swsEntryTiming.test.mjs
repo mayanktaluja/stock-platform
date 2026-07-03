@@ -403,5 +403,54 @@ check("resolveSectorImpact matches case-insensitive + trimmed", () => {
   assert.equal(resolveSectorImpact("banks", deepFreeze([{ sector: "banks", impact: "bad" }])), null);
 });
 
+// ------------------------------------------- Tier-2 confirm gate (PR-4)
+// Demote-only: fresh technicals can veto a CONFIRMED, never mint one.
+
+check("tier-2: CONFIRMED holds when px>dma50 and RSI in band; tier=2", () => {
+  const out = computeEntryTiming(row({
+    returnsPct: { "1M": 6, "3M": 12 },
+    technicals: { rsi14: 55, dma50: 110, atr14: 4 },
+  }));
+  assert.equal(out.state, ENTRY_STATES.ENTRY_CONFIRMED);
+  assert.equal(out.tier, 2);
+});
+
+check("tier-2: px below dma50 demotes CONFIRMED → STABILIZING with tier2 code", () => {
+  const out = computeEntryTiming(row({
+    returnsPct: { "1M": 6, "3M": 12 },
+    technicals: { rsi14: 55, dma50: 130, atr14: 4 },
+  }));
+  assert.equal(out.state, ENTRY_STATES.STABILIZING);
+  assert.ok(out.reasons.includes(REASON.TIER2_UNCONFIRMED));
+  assert.equal(out.tier, 2);
+});
+
+check("tier-2: RSI outside 45-70 demotes (overbought = chase)", () => {
+  const out = computeEntryTiming(row({
+    returnsPct: { "1M": 6, "3M": 12 },
+    technicals: { rsi14: 78, dma50: 110 },
+  }));
+  assert.equal(out.state, ENTRY_STATES.STABILIZING);
+  assert.ok(out.reasons.includes(REASON.TIER2_UNCONFIRMED));
+});
+
+check("tier-2 never promotes: knife stays knife regardless of technicals", () => {
+  const out = computeEntryTiming(row({
+    returnsPct: { "1M": -15, "3M": 5 },
+    technicals: { rsi14: 55, dma50: 100 },
+  }));
+  assert.equal(out.state, ENTRY_STATES.FALLING_KNIFE);
+  assert.equal(out.tier, 2);
+});
+
+check("tier-2: incomplete technicals (no dma50) → tier stays 1, no demotion", () => {
+  const out = computeEntryTiming(row({
+    returnsPct: { "1M": 6, "3M": 12 },
+    technicals: { rsi14: 78 },
+  }));
+  assert.equal(out.state, ENTRY_STATES.ENTRY_CONFIRMED);
+  assert.equal(out.tier, 1);
+});
+
 console.log(`\nswsEntryTiming result: ${pass} passed, ${fail} failed`);
 process.exit(fail === 0 ? 0 : 1);

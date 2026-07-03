@@ -77,4 +77,14 @@ export const REASON = {
   DEGRADED_NO_52W: "degraded_no_52w",
   DEGRADED_NO_6M: "degraded_no_6m",
   DEGRADED_NO_PERCENTILE: "degraded_no_percentile",
+  TIER2_UNCONFIRMED: "tier2_confirm_failed",
+};
+
+// Tier-2 confirmation gate (fresh technicals present): ENTRY_CONFIRMED additionally
+// requires price above the 50-DMA and RSI-14 inside a healthy band — oversold has
+// not proven the turn, overbought is a chase. Demote-only (never promotes) so the
+// technicals layer can only make the signal MORE conservative.
+export const TIER2_CONFIRM = {
+  RSI_MIN: 45,
+  RSI_MAX: 70,
 };
