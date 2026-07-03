@@ -1,21 +1,19 @@
 {
   "schema_version": "macro-thesis-v1",
-  "generated_at": "2026-07-02T03:25:18.481Z",
+  "generated_at": "2026-07-03T02:36:57.485Z",
   "regime": {
     "regime": "CALM",
     "severity": 1,
     "confidence": 0.8,
     "label": "Calm",
-    "generated_at": "2026-07-01T06:36:23.130Z",
+    "generated_at": "2026-07-02T18:30:40.060Z",
     "days_in_state": 0,
     "stale": false,
-    "reasoning": "Mixed headlines, no dominant trend",
+    "reasoning": "Mixed headlines, no dominant theme",
     "key_events": [
-      "Sensex jumps 494 pts; realty shares advance (Business Standard)",
-      "India's external financial position improves in FY2025-26 (Business Standard)",
-      "Sticky inflation clouds rate outlook, but AI and earnings keep markets resilient: Santosh Rao (Economic Times)",
-      "India bonds rise as index-entry hopes counter rise in US yields (Economic Times)",
-      "Nifty trades above 24,000 level; media shares in demand (Business Standard)"
+      "US stocks rise as softer jobs data calms rate-hike fears (Economic Times)",
+      "Nifty IT logs best 1-day gains in over a year; Sensex climbs 580 points (Business Standard)",
+      "India bonds surge on Bloomberg index hopes, oil-led inflation relief (Economic Times)"
     ],
     "classifier_provider": "groq",
     "source_health": {
@@ -42,42 +40,37 @@
     },
     "sector_impacts": [
       {
-        "sector": "Real Estate",
+        "sector": "IT Services",
         "impact": 2,
-        "reason": "Realty shares advance"
-      },
-      {
-        "sector": "FMCG",
-        "impact": 1,
-        "reason": "Nifty FMCG index up 1.7%"
-      },
-      {
-        "sector": "Media",
-        "impact": 1,
-        "reason": "Media shares in demand"
+        "reason": "Nifty IT logs best 1-day gains"
       },
       {
         "sector": "Automobile",
         "impact": 1,
-        "reason": "Tractor sales jump 19%"
+        "reason": "Tata Motors PV Q1 sales jump 46%"
+      },
+      {
+        "sector": "Banking",
+        "impact": 1,
+        "reason": "Ujjivan SFB offers high interest on FCNR deposits"
       }
     ]
   },
-  "catalyst_proximity_days": 3,
+  "catalyst_proximity_days": 2,
   "upcoming_catalysts": [
     {
       "date": "2026-07-05",
       "kind": "OPEC",
       "label": "OPEC+ Ministerial Meeting",
       "severity_potential": 2,
-      "days_until": 3
+      "days_until": 2
     },
     {
       "date": "2026-07-30",
       "kind": "FOMC",
       "label": "US FOMC Meeting — July 2026",
       "severity_potential": 3,
-      "days_until": 28
+      "days_until": 27
     }
   ],
   "position_cap_pct": 10,
@@ -87,7 +80,7 @@
       "label": "CALM continues at current severity",
       "probability": 0.52,
       "duration_days": 14,
-      "n_analogs": 8,
+      "n_analogs": 9,
       "indeterminate": false,
       "beneficiaries": [],
       "losers": [],
@@ -137,7 +130,7 @@
       "label": "CALM escalates (severity +1)",
       "probability": 0.1,
       "duration_days": 7,
-      "n_analogs": 8,
+      "n_analogs": 9,
       "indeterminate": false,
       "beneficiaries": [],
       "losers": [],
@@ -187,7 +180,7 @@
       "label": "CALM de-escalates → CALM",
       "probability": 0.19,
       "duration_days": 21,
-      "n_analogs": 8,
+      "n_analogs": 9,
       "indeterminate": false,
       "beneficiaries": [],
       "losers": [],
@@ -257,7 +250,7 @@
   "indeterminate": false,
   "audit": {
     "thesis_schema": "macro-thesis-v1",
-    "regime_generated_at": "2026-07-01T06:36:23.130Z",
+    "regime_generated_at": "2026-07-02T18:30:40.060Z",
     "regime_classifier": "groq",
     "scenario_engine_version": "scenario-prob-v1"
   }
