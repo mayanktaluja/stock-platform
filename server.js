@@ -233,6 +233,7 @@ import {
   filterPublicTrackTrades,
 } from "./paperTrades.js";
 import { snapshotTrackRecordSections } from "./services/trackRecord/sectionSnapshotter.js";
+import { withSectionPills } from "./services/trackRecord/picksSectionBacktest.js";
 import { resolveOpenHorizons } from "./services/trackRecord/forwardReturnsResolver.js";
 import {
   buildAllSectionScorecards,
@@ -5206,6 +5207,7 @@ const trackCache = new NodeCache({ stdTTL: 300, checkperiod: 60 });
 const SECTION_PERFORMANCE_MODULE_PATH = "./services/trackRecord/sectionPerformance.js";
 const SECTION_PERFORMANCE_STORAGE_MODULE_PATH = "./services/trackRecord/sectionPerformanceStorage.js";
 const SECTION_PERFORMANCE_LATEST_PATH = path.join(__dirname, "data", "track-record", "section-performance-latest.json");
+const PICKS_SECTION_BACKTEST_LATEST_PATH = path.join(__dirname, "data", "track-record", "picks-section-backtest-latest.json");
 let _sectionPerformanceModulePromise = null;
 let _sectionPerformanceStorageModulePromise = null;
 
@@ -5340,6 +5342,29 @@ function readStoredSectionPerformancePayload({ windows, cohorts, picksData, mod 
     };
   } catch (err) {
     console.warn("[trackRecord:sectionPerformance] stored snapshot read failed:", err.message);
+    return null;
+  }
+}
+
+/**
+ * Read the resolved-cohort picks-section backtest (hit-rate + alpha CIs) and
+ * stamp each section with its header pill HTML. Null-safe: if the nightly hasn't
+ * written the file, the Picks header silently falls back to the plain count.
+ */
+function readPicksSectionBacktest() {
+  try {
+    if (!fs.existsSync(PICKS_SECTION_BACKTEST_LATEST_PATH)) return null;
+    const payload = JSON.parse(fs.readFileSync(PICKS_SECTION_BACKTEST_LATEST_PATH, "utf-8"));
+    const stat = fs.statSync(PICKS_SECTION_BACKTEST_LATEST_PATH);
+    const generatedAt = payload.generated_at || stat.mtime.toISOString();
+    const ageHours = (Date.now() - new Date(generatedAt).getTime()) / 3_600_000;
+    return {
+      ...withSectionPills(payload),
+      source_age_hours: Number.isFinite(ageHours) ? Math.round(ageHours * 10) / 10 : null,
+      source_stale: !Number.isFinite(ageHours) || ageHours > 48,
+    };
+  } catch (err) {
+    console.warn("[trackRecord:picksSectionBacktest] read failed:", err.message);
     return null;
   }
 }
@@ -5874,6 +5899,9 @@ app.get("/api/track/section-performance", async (req, res) => {
       windows: payload?.windows || windows,
       cohorts: payload?.cohorts || cohorts,
       lastComputedAt: payload?.lastComputedAt || new Date().toISOString(),
+      // Resolved-cohort per-section hit-rate + alpha CIs (with header pill HTML)
+      // for the Picks-tab section headers. Null when the nightly hasn't run.
+      resolved_backtest: readPicksSectionBacktest(),
       decision_contract: contextOnlyContract("Track Record is historical evidence; hindsight rows do not imply current action."),
     };
     if (!response.transient) trackCache.set(cacheKey, response);

@@ -6037,7 +6037,12 @@ async function loadPicksCredibilityBanner(forceBust = false) {
     const res = await fetch(url);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const payload = await res.json();
+    // Capture the resolved-cohort per-section backtest (hit-rate + alpha pills)
+    // riding on the same payload — no extra fetch. Re-render picks so section
+    // headers pick up the measured/measuring pills once this lands.
+    currentPicksSectionBacktest = payload && payload.resolved_backtest ? payload.resolved_backtest : null;
     renderPicksCredibilityBanner(payload);
+    if (currentPicksData) renderPicks(currentPicksData);
   } catch (err) {
     host.style.display = "none";
     host.innerHTML = "";
@@ -12179,6 +12184,20 @@ let picksStatusPollStarted = false;
 // Cached payload from /api/sws-picks so the radio filter can re-render
 // without re-fetching. Set on every successful loadPicks().
 let currentPicksData = null;
+// Resolved-cohort per-section hit-rate + alpha pills (India). Populated by
+// loadPicksCredibilityBanner from /api/track/section-performance.resolved_backtest.
+let currentPicksSectionBacktest = null;
+
+// Header pill for a Picks section: measured "α … · n=… · ~Nd hold" or muted
+// "n=X · measuring". The HTML is computed server-side (formatSectionPill), so
+// this just injects the pre-rendered string; empty when the backtest hasn't
+// loaded yet or the section isn't tracked.
+function renderPicksSectionMetricPill(sectionKey) {
+  const entry = currentPicksSectionBacktest && currentPicksSectionBacktest.sections
+    ? currentPicksSectionBacktest.sections[sectionKey]
+    : null;
+  return entry && entry.pill_html ? entry.pill_html : "";
+}
 let currentPicksMacroRegime = null;
 
 // V4 is the platform's sole composite score (the V3→V4 migration removed V3 and
@@ -13049,6 +13068,7 @@ function renderPicks(data) {
               <div class="sws-pick-section-title">
                 <span class="section-name">${section.label}</span>
                 <span class="sws-pick-section-count">${items.length}</span>
+                ${renderPicksSectionMetricPill(section.key)}
                 ${sectionWarning.pill}
                 ${tip}
                 <span class="section-chevron">&#9660;</span>
