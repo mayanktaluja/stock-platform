@@ -17,6 +17,7 @@ import compression from "compression";
 import cors from "cors";
 import helmet from "helmet";
 import { createBreaker } from "./services/externalApiBreaker.js";
+import { resolveUserSub } from "./services/userIdentity.js";
 import { loadRiskLabViewMap, buildLabViewForEvent } from "./services/riskLab/earningsLabView.js";
 import { LAB_PROMOTION_STATUS, buildSizingDecision } from "./services/riskLab/positionSizing.js";
 import { loadHitRateSummary } from "./services/earnings/hitRateSummary.js";
@@ -6116,9 +6117,24 @@ async function savePortfolio(sub, data) {
 // Returns null if AUTH_ENABLED but no session — handler should 401.
 // Returns "_local_dev" when AUTH_ENABLED is false (dev without OAuth)
 // so endpoints don't crash on missing req.user.
+//
+// Test-only identity injection (auth iter 2): under NODE_ENV==='test' an
+// `X-Test-Sub` header selects the namespace, so the Playwright harness can
+// drive two distinct signed-in users from two browser contexts (the OAuth
+// flow can't run headless). This gate is SECURITY-LOAD-BEARING: NODE_ENV is
+// re-read from process.env on every call (never the module-load `isTestEnv`
+// cache) and is only ever 'test' under the test runner — in prod the header
+// is invisible and can never impersonate. Real sessions (req.user.sub) still
+// win over the header, so it can't override an authenticated user either.
 function userSub(req) {
-  if (req.user?.sub) return req.user.sub;
-  return AUTH_ENABLED ? null : "_local_dev";
+  // Delegates to the pure resolver (services/userIdentity.js) so the header
+  // gate is unit-tested in isolation. NODE_ENV is read here, per request.
+  return resolveUserSub({
+    reqUser: req.user,
+    headers: req.headers,
+    authEnabled: AUTH_ENABLED,
+    nodeEnv: process.env.NODE_ENV,
+  });
 }
 
 function sleep(ms) {
