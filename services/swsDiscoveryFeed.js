@@ -288,7 +288,7 @@ function whySurfaced(item) {
   return parts.join(" ");
 }
 
-export function classifyDiscoveryItem(row, { deep = null, sections = [], inputChange = null, generatedAt = new Date().toISOString() } = {}) {
+export function classifyDiscoveryItem(row, { deep = null, sections = [], inputChange = null, generatedAt = new Date().toISOString(), keepCuratedUpgradeWatch = false } = {}) {
   const ticker = canonicalTicker(row?.ticker || row?.symbol);
   if (!ticker) return null;
   const v4 = firstNumber(row?.v4_score, row?.v4_score_100, row?.canonical_score?.value, row?.score);
@@ -311,6 +311,17 @@ export function classifyDiscoveryItem(row, { deep = null, sections = [], inputCh
   if ((v4 ?? 0) >= 47 && momentum > 0 && news.score > 0) lanes.push("momentum_news_confirmed");
   if (inputChange && hasConfirmedUpgrade(inputChange)) lanes.push("upgrade_watch");
   if (!lanes.length) return null;
+
+  // Dedup vs curated Picks: a name already in a curated actionable section is,
+  // by definition, already surfaced in SWS Picks — the review queue must not
+  // re-list it ("no dup names"). Drop it entirely, EXCEPT when the only reason
+  // it surfaced is a confirmed fresh upgrade (upgrade_watch), which still
+  // warrants an analyst look even for a curated name. The carve-out is
+  // caller-controllable so the policy can be tuned without editing the classifier.
+  if (!offActionableSection) {
+    const upgradeOnly = lanes.length === 1 && lanes[0] === "upgrade_watch";
+    if (!(keepCuratedUpgradeWatch && upgradeOnly)) return null;
+  }
 
   const surveillance = classifySurveillance(surveillanceValue(row, deep));
   if (surveillance.suppressed) return null;
@@ -374,6 +385,7 @@ export function buildSwsDiscoveryFeed({
   lastRefresh = null,
   generatedAt = new Date().toISOString(),
   maxItems = 250,
+  keepCuratedUpgradeWatch = false,
 } = {}) {
   const stocks = Array.isArray(scoredUniverse) ? scoredUniverse : asArray(scoredUniverse?.stocks);
   const membership = buildMembershipMap(picksLatest);
@@ -387,6 +399,7 @@ export function buildSwsDiscoveryFeed({
       sections: [...(membership.get(ticker) || new Set(asArray(row?.in_sections)))],
       inputChange: changes.get(ticker) || null,
       generatedAt,
+      keepCuratedUpgradeWatch,
     });
     if (item) items.push(item);
   }
@@ -399,6 +412,10 @@ export function buildSwsDiscoveryFeed({
   const counts = {
     universe: stocks.length,
     items: capped.length,
+    // Curated-membership tickers seen in picks-latest.json. A zero here means
+    // the membership map was empty (picks missing/stale) and the curated dedup
+    // silently no-op'd — observable in the committed artifact + catchable by tests.
+    membership_tickers: membership.size,
   };
   for (const lane of DISCOVERY_LANES) counts[lane.id] = sections[lane.id].length;
 

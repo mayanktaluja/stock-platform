@@ -428,7 +428,14 @@ node scripts/sws-build-input-diff.mjs --run-id "${RUN_STARTED_ISO}" 2>&1 | sed '
 # temporarily unavailable.
 
 echo "[refresh-api] building SWS Discovery Radar feed..."
-node scripts/sws-build-discovery-feed.mjs --run-id "${RUN_STARTED_ISO}" 2>&1 | sed 's/^/[discovery-feed] /'
+# Non-fatal: a build failure must never abort the prod SWS primary branch/PR. If
+# it fails, the previous committed feed persists and the 48h freshness gate
+# (server + client) collapses it to a "regenerating" state — graceful degradation.
+# --keep-curated-upgrades applies the chosen policy: drop names already in a
+# curated actionable Picks section EXCEPT when they surfaced only via a confirmed
+# fresh upgrade (upgrade_watch), which still warrants an analyst look.
+node scripts/sws-build-discovery-feed.mjs --run-id "${RUN_STARTED_ISO}" --keep-curated-upgrades 2>&1 | sed 's/^/[discovery-feed] /' \
+  || echo "[refresh-api] Discovery Radar build failed — non-fatal, the 48h freshness gate will collapse the stale feed"
 if [ "${SWS_DISCOVERY_MAIL_ENABLED:-1}" != "0" ]; then
   if ! node scripts/sws-mail-discovery-feed.mjs 2>&1 | sed 's/^/[discovery-mail] /'; then
     echo "[refresh-api] Discovery Radar email failed — non-fatal, artifact was still generated"

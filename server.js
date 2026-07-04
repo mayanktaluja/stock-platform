@@ -9281,6 +9281,12 @@ app.get("/api/sws-picks-summary", async (req, res) => {
   res.json(await buildSwsPicksSummaryPayload(raw, req));
 });
 
+// Discovery Radar staleness budget — the single source of truth, mirrored
+// client-side in gated/app.js. A feed older than this (or with a missing/
+// unparseable/future generated_at) is served with stale:true so the UI
+// collapses the rows to a "regenerating" state instead of showing them as live.
+const DISCOVERY_STALE_HOURS = 48;
+
 function emptySwsDiscoveryFeed() {
   const lanes = [
     { id: "future_breakout", label: "Future Breakout" },
@@ -9293,6 +9299,12 @@ function emptySwsDiscoveryFeed() {
     generated_at: null,
     run_id: null,
     available: false,
+    // Warming/never-built is DISTINCT from stale: there is no old data to be
+    // stale, so stale:false here. A built-but-old feed is available:true,
+    // stale:true (computed in the route from generated_at).
+    stale: false,
+    age_hours: null,
+    stale_threshold_hours: DISCOVERY_STALE_HOURS,
     copy: {
       title: "Discovery Radar",
       subtitle: "Review queue for SWS names where future growth, momentum, or confirmed inputs are becoming interesting.",
@@ -9318,16 +9330,30 @@ app.get("/api/sws-discovery-feed", (req, res) => {
     const feed = swsDal.getDiscoveryFeed();
     if (!feed || typeof feed !== "object") return res.json(emptySwsDiscoveryFeed());
     const empty = emptySwsDiscoveryFeed();
+    // Age from generated_at ONLY — never file mtime. The feed is re-committed by
+    // the nightly so its mtime is always fresh; content freshness lives in
+    // generated_at. null/unparseable/future-dated all read as stale (can't prove
+    // fresh ⇒ don't serve as live). Recomputed per request (time-relative), so it
+    // must NOT be cached in the mtime-keyed DAL.
+    const t = feed.generated_at ? new Date(feed.generated_at).getTime() : NaN;
+    const ageHours = Number.isFinite(t) ? +(((Date.now() - t) / 3_600_000)).toFixed(1) : null;
+    const stale = ageHours == null || ageHours < 0 || ageHours > DISCOVERY_STALE_HOURS;
     res.json({
       ...empty,
       ...feed,
       available: feed.available !== false,
+      // stamped AFTER ...feed so the server-computed values always win, even if a
+      // future feed writes its own — server is authoritative, client mirrors.
+      stale,
+      age_hours: ageHours,
+      stale_threshold_hours: DISCOVERY_STALE_HOURS,
       lanes: Array.isArray(feed.lanes) ? feed.lanes : empty.lanes,
       items: Array.isArray(feed.items) ? feed.items : [],
       sections: feed.sections && typeof feed.sections === "object" ? feed.sections : empty.sections,
     });
   } catch (err) {
-    res.json({ ...emptySwsDiscoveryFeed(), error: "discovery_feed_unavailable", message: err.message });
+    // An errored feed collapses (stale:true) rather than rendering a phantom live queue.
+    res.json({ ...emptySwsDiscoveryFeed(), stale: true, age_hours: null, error: "discovery_feed_unavailable", message: err.message });
   }
 });
 

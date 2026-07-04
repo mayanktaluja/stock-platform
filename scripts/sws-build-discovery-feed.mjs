@@ -53,15 +53,29 @@ if (!scoredUniverse) {
 }
 
 const stocks = Array.isArray(scoredUniverse) ? scoredUniverse : scoredUniverse.stocks || [];
+const picksLatest = readJson(path.join(DATA_DIR, "picks-latest.json"), null);
+const keepCuratedUpgradeWatch = process.argv.includes("--keep-curated-upgrades");
 const feed = buildSwsDiscoveryFeed({
   scoredUniverse,
-  picksLatest: readJson(path.join(DATA_DIR, "picks-latest.json"), null),
+  picksLatest,
   deepByTicker: loadDeepForUniverse(stocks),
   inputChanges: readJson(path.join(DATA_DIR, "alerts", "fundamental-changes-latest.json"), null),
   lastRefresh: readJson(path.join(DATA_DIR, "last-refresh.json"), null),
   generatedAt: new Date().toISOString(),
   maxItems: Number(argValue("--max-items", "250")) || 250,
+  keepCuratedUpgradeWatch,
 });
+
+// Curated dedup depends on picks-latest.json membership. If picks is absent or
+// carries no sections, the membership map is empty and the dedup silently
+// no-ops — curated names would leak back into the review queue exactly when
+// picks is stale. Flag it loudly and on the artifact so it is visible rather
+// than a silent correctness hole.
+const picksSectionCount = picksLatest && picksLatest.sections ? Object.keys(picksLatest.sections).length : 0;
+feed.dedup_degraded = picksSectionCount === 0 || feed.counts.membership_tickers === 0;
+if (feed.dedup_degraded) {
+  console.warn(`[discovery-feed] WARNING: curated dedup degraded — picks-latest.json ${picksLatest ? "has no sections" : "missing"} (membership_tickers=${feed.counts.membership_tickers}). Curated names may leak into the radar.`);
+}
 
 const runId = argValue("--run-id", null);
 if (runId) feed.run_id = runId;
