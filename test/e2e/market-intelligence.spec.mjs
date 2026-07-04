@@ -104,8 +104,9 @@ test.describe("Market Intelligence tab", () => {
 
   test("renders macro card + digest + catalysts + collapsed radar in order (no verdict card)", async ({ page }) => {
     const generatedAt = new Date(Date.now() - 30 * 60 * 1000).toISOString();
-    // Radar feed deliberately aged 11 days to exercise the staleness pill.
-    const staleRadarAt = new Date(Date.now() - 11 * 86400000).toISOString();
+    // Radar feed is FRESH (30 min old) so rows render live and the lane-filter /
+    // modal flow is exercised. The >48h staleness collapse has its own test.
+    const freshRadarAt = new Date(Date.now() - 30 * 60 * 1000).toISOString();
     // FII/DII session date mirrors NSE's "DD-Mmm-YYYY" format (NOT ISO) so the
     // source-health chip's date parsing is exercised against the real shape.
     const _now = new Date();
@@ -235,7 +236,9 @@ test.describe("Market Intelligence tab", () => {
         contentType: "application/json",
         body: JSON.stringify({
           schema_version: "sws-discovery-feed-v1",
-          generated_at: staleRadarAt,
+          generated_at: freshRadarAt,
+          stale: false,
+          age_hours: 0.5,
           available: true,
           lanes: [
             { id: "future_breakout", label: "Future Breakout" },
@@ -398,8 +401,9 @@ test.describe("Market Intelligence tab", () => {
     await expect(radarDetails).toBeVisible();
     expect(await radarDetails.evaluate((el) => el.open)).toBe(false);
     await expect(radarDetails).toContainText("review queue");
-    // Feed is 11 days old in this fixture → the staleness pill renders on the summary.
-    await expect(page.getByTestId("radar-stale-pill")).toBeVisible();
+    // Feed is fresh (<48h) → no staleness pill, and rows render live (not collapsed).
+    await expect(page.getByTestId("radar-stale-pill")).toHaveCount(0);
+    await expect(page.getByTestId("discovery-radar-stale-notice")).toHaveCount(0);
 
     // Expand it, then exercise the lane filter — the <details> must STAY open across
     // the outerHTML re-render setDiscoveryRadarFilter does (SF2 regression guard).
@@ -416,6 +420,61 @@ test.describe("Market Intelligence tab", () => {
     await page.getByTestId("discovery-radar-row").first().click();
     await expect(page.locator("#swsModalBackdrop.open")).toBeVisible();
     await expect(page.locator("#swsModalBackdrop")).toContainText("KRISHNADEF");
+  });
+
+  test("stale (>48h) discovery feed collapses the radar rows into a regenerating notice", async ({ page }) => {
+    // A 14-day-old feed carrying the server's stale:true is the exact production
+    // failure this fix addresses: the rows must NOT be served as live — they
+    // collapse to a "Regenerating" notice while the section + summary stay put.
+    const staleAt = new Date(Date.now() - 14 * 86400000).toISOString();
+    const j = (body) => (route) => route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(body) });
+    const nowIso = new Date().toISOString();
+    // Minimal deterministic mocks for the sibling sections so the tab renders
+    // without upstream flake; the radar is the surface under test.
+    await page.route("**/api/news/market", j({ lastUpdated: nowIso, digest: { marketMood: "mixed", moodSummary: "", keyTakeaways: [], bullishDrivers: [], bearishRisks: [], sectorsToWatch: [] } }));
+    await page.route("**/api/macro/regime", j({ regime: "CALM", regimeLabel: "Calm", severity: 1, confidence: 0.8, classifierProvider: "groq", generatedAt: nowIso, reasoning: "", keyEvents: [], sectorImpacts: [] }));
+    await page.route("**/api/catalysts/today", j({ schemaVersion: "catalysts-v1", fetchedAt: nowIso, stats: {}, sections: { inBook: [], inPicks: [], broader: [], macro: [] } }));
+    await page.route("**/api/sector-heatmap", j({ sectors: [], marketBreadth: { totalStocks: 0, advancing: 0, declining: 0, unchanged: 0 }, lastUpdated: nowIso }));
+    await page.route("**/api/index-intraday", j({ indices: [], lastUpdated: nowIso }));
+    await page.route("**/api/sws-discovery-feed", j({
+      schema_version: "sws-discovery-feed-v1",
+      generated_at: staleAt,
+      stale: true,
+      age_hours: 336,
+      stale_threshold_hours: 48,
+      available: true,
+      lanes: [
+        { id: "future_breakout", label: "Future Breakout" },
+        { id: "off_section_high_future", label: "Off-section High Future" },
+        { id: "momentum_news_confirmed", label: "Momentum + News" },
+        { id: "upgrade_watch", label: "Upgrade Watch" },
+      ],
+      counts: { universe: 3000, items: 2, future_breakout: 1, off_section_high_future: 1, momentum_news_confirmed: 0, upgrade_watch: 0 },
+      items: [
+        { ticker: "KRISHNADEF", name: "Krishna Defence", lanes: [{ id: "future_breakout", label: "Future Breakout" }], radar_score: 82, v4_score: 61.9, v4_verdict: "TOP_PICK", future_growth: 5, returns: {}, section_membership: [], caution_flags: [], why_surfaced: "x" },
+        { ticker: "FINOPB", name: "Fino Payments Bank", lanes: [{ id: "off_section_high_future", label: "Off-section High Future" }], radar_score: 68, v4_score: 47.4, v4_verdict: "STRONG", future_growth: 5, returns: {}, section_membership: [], caution_flags: [], why_surfaced: "y" },
+      ],
+      sections: { future_breakout: [], off_section_high_future: [], momentum_news_confirmed: [], upgrade_watch: [] },
+    }));
+
+    await gotoApp(page);
+    await switchTab(page, "news");
+
+    const radarDetails = page.getByTestId("discovery-radar-details");
+    await expect(radarDetails).toBeVisible({ timeout: 10_000 });
+    // Summary carries the regenerating pill at the 48h threshold.
+    await expect(page.getByTestId("radar-stale-pill")).toBeVisible();
+
+    // Expand: the stale rows are NOT served — replaced by the regenerating notice.
+    await radarDetails.locator("summary").click();
+    expect(await radarDetails.evaluate((el) => el.open)).toBe(true);
+    await expect(page.getByTestId("discovery-radar-stale-notice")).toBeVisible();
+    await expect(page.getByTestId("discovery-radar-stale-notice")).toContainText(/Regenerating/i);
+    await expect(page.getByTestId("discovery-radar-row")).toHaveCount(0);
+    // Stale candidate names are not rendered as live/clickable rows.
+    await expect(page.getByTestId("discovery-radar-card")).not.toContainText("KRISHNADEF");
+    // Lane chips + counts remain (the section is regenerating, not gone).
+    await expect(page.getByTestId("discovery-radar-lane-chip").first()).toBeVisible();
   });
 
   test("#newsContainer renders past the initial loading-spinner state", async ({ page }) => {
