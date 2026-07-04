@@ -245,6 +245,16 @@ check("top-of-universe returns earn near-full 12 momentum", () => {
   assert.ok(b.pts_mom_1y > 5 && b.pts_mom_3m > 2 && b.pts_mom_1m > 1);
   assert.equal(b.momentum_imputed, false);
 });
+check("universe present + missing 1Y return → that window scores 0, not median (no free 3.5)", () => {
+  const peers = [-30, -10, 0, 10, 30].map((x) => ({ overview: { returns_pct: { "1Y": x, "3M": x, "1M": x } } }));
+  const universe = buildUniverseStats(peers);
+  // Stock has strong 3M/1M but NO 1Y history (e.g. a recent listing).
+  const noHist1y = mk({}, { returns_pct: { "3M": 30, "1M": 30 } });
+  const b = computeV4Score(noHist1y, { universe, surveillanceFlag: null }).v4_breakdown;
+  assert.equal(b.pts_mom_1y, 0);          // was 3.5 under the 0.5 median gift
+  assert.ok(b.pts_mom_3m > 2 && b.pts_mom_1m > 1); // windows it DOES have still score
+  assert.equal(b.momentum_imputed, true);  // flagged because 1Y is missing
+});
 
 console.log("\nvalue-trap brake + falling-knife precedence\n");
 check("cheap + 3M bleed + mediocre health → -4 value-trap", () => {

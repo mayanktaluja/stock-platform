@@ -270,9 +270,19 @@ export function computeV4Score(stock, opts = {}) {
   const pct1y = universe ? _percentileRank(ret1y, universe.r1y) : null;
   const pct3m = universe ? _percentileRank(ret3m, universe.r3m) : null;
   const pct1m = universe ? _percentileRank(ret1m, universe.r1m) : null;
-  const pts_mom_1y = (pct1y ?? 0.5) * 7;
-  const pts_mom_3m = (pct3m ?? 0.5) * 3;
-  const pts_mom_1m = (pct1m ?? 0.5) * 2;
+  // A missing per-stock return scores 0 for THAT window — but only when we actually
+  // have a populated universe array to rank against. If the whole window/stats file
+  // is absent (an infra gap, not a stock signal), fall back to the neutral 0.5 so a
+  // stale or empty universe can't silently zero the entire book. Note getV4UniverseStats
+  // coerces missing windows to [] (a truthy `universe` with empty arrays), so the guard
+  // must key on array length, not `!!universe`. Previously every miss took 0.5, gifting
+  // a no-history name up to 6/12 momentum points for free.
+  const imp1y = universe?.r1y?.length ? 0 : 0.5;
+  const imp3m = universe?.r3m?.length ? 0 : 0.5;
+  const imp1m = universe?.r1m?.length ? 0 : 0.5;
+  const pts_mom_1y = (pct1y ?? imp1y) * 7;
+  const pts_mom_3m = (pct3m ?? imp3m) * 3;
+  const pts_mom_1m = (pct1m ?? imp1m) * 2;
   const momentum_imputed = !universe || pct1y == null || pct3m == null || pct1m == null;
 
   const continuous = pts_health + pts_future + pts_valuation + pts_past
