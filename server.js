@@ -115,7 +115,7 @@ import {
 import { buildEntryBand } from "./services/swsIndiaSectionPolicy.js";
 import { buildBestToBuyTiers } from "./services/swsBestToBuyTiers.js";
 import { computeV4Score, verdictV4FromScore } from "./services/swsScoringV4.js";
-import { reconcileFairValue, withReconciledFairValue } from "./services/fvReconciliation.js";
+import { reconcileFairValue, withReconciledFairValue, applyUpsideHaircut } from "./services/fvReconciliation.js";
 import { buildCalibration as buildTrackCalibration } from "./services/trackRecord/calibration.js";
 import { buildSymbolEarningsCalibration } from "./services/trackRecord/earningsCalibration.js";
 import { deriveGovernanceGate } from "./services/swsIndianRiskLayer.js";
@@ -8891,7 +8891,10 @@ function enrichPickRow(it) {
     const cachedQuote = quoteCache.get(`${it.ticker}.NS`);
     const livePx = cachedQuote && Number(cachedQuote.regularMarketPrice);
     if (Number.isFinite(livePx) && livePx > 0) {
-      const liveUpside = ((it.fair_value_inr - livePx) / livePx) * 100;
+      // Re-apply the display haircut the scorer stamped (enrichPickRow sees only
+      // the slim card at recompute time, not the analyst range), so a live price
+      // can't silently re-inflate a thin-coverage max-target upside.
+      const liveUpside = applyUpsideHaircut(((it.fair_value_inr - livePx) / livePx) * 100, it.upside_haircut_factor ?? 1);
       it.current_price_inr = livePx;
       it.upside_pct = Math.round(liveUpside * 10) / 10;
       it.valuation_band = valuationBandFromUpside(liveUpside);
@@ -8928,8 +8931,10 @@ function applyReconciledFvToCard(card, overview, { markDrift = false } = {}) {
   }
   card.fair_value_inr = fv.fair_value_inr;
   if (Number.isFinite(overview.current_price_inr)) card.current_price_inr = overview.current_price_inr;
-  card.upside_pct = fv.upside_pct;
-  card.valuation_band = fv.valuation_band;
+  // Preserve the scorer's display haircut through the drift-corrected recompute.
+  const reconciledUpside = applyUpsideHaircut(fv.upside_pct, card.upside_haircut_factor ?? 1);
+  card.upside_pct = reconciledUpside;
+  card.valuation_band = valuationBandFromUpside(reconciledUpside);
   card.fv_reconcile_reason = fv.fv_reconcile_reason;
   card.fair_value_confidence = fv.fair_value_confidence;
   card.fair_value_source = fv.fair_value_source;

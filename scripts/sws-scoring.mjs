@@ -15,6 +15,7 @@ import {
   reconcileFairValue,
   valuationBandFromUpside as canonicalValuationBandFromUpside,
   withReconciledFairValue,
+  applyUpsideHaircut,
 } from "../services/fvReconciliation.js";
 import { buildGrowingSectorValueSection } from "../services/swsGrowingSectorValue.js";
 import { buildSnowflakeGapLabSection, buildSnowflakeGapPeerAverages } from "../services/swsSnowflakeGapLab.js";
@@ -709,6 +710,13 @@ export function _reconcilePickFV(ov) {
 export function pickCardFields(stock) {
   const ov = stock.overview || {};
   const reconciled = _reconcilePickFV(ov);
+  // Display-side honesty: when the FV composite flagged the analyst target as an
+  // inflated range-MAX (thin coverage), de-rate the DISPLAYED upside by the stored
+  // factor so the card number matches how the score already treats it. Factor is 1
+  // (no-op) for the well-covered majority. `renderPickCard` badges the card when
+  // `upside_haircut_applied`. See services/swsScoringV4.js `_fvCompositeV4`.
+  const haircutFactor = stock.v4_breakdown?.upside_haircut_factor ?? 1;
+  const displayUpside = applyUpsideHaircut(reconciled.upside_pct, haircutFactor);
   return {
     ticker: stock.ticker,
     name: stock.name || stock.ticker,
@@ -732,12 +740,18 @@ export function pickCardFields(stock) {
     // (price-vs-FV) are two SEPARATE signals; the UI keeps them as two
     // distinct badges so users never see them collapsed into one.
     composite_verdict: stock.v4_verdict,
-    valuation_band: valuationBandFromUpside(reconciled.upside_pct),
+    valuation_band: valuationBandFromUpside(displayUpside),
     snowflake_total: ov.snowflake_total,
     snowflake: ov.snowflake,
     current_price_inr: ov.current_price_inr,
     fair_value_inr: reconciled.fair_value_inr,
-    upside_pct: reconciled.upside_pct,
+    upside_pct: displayUpside,
+    // Carried so the serve-time live-price recompute (server.js enrichPickRow /
+    // applyReconciledFvToCard) can re-apply the same de-rate — the slim serve-side
+    // FV map has no analyst range, so it cannot re-derive the factor itself.
+    upside_haircut_factor: haircutFactor,
+    upside_haircut_applied: haircutFactor < 1,
+    upside_display_basis: stock.v4_breakdown?.upside_display_basis || null,
     fv_reconcile_reason: reconciled.fv_reconcile_reason,
     fair_value_confidence: reconciled.fair_value_confidence,
     fair_value_source: reconciled.fair_value_source,

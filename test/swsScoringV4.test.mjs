@@ -156,6 +156,22 @@ check("guard does NOT fire when analyst count is high", () => {
   assert.equal(fv.pts_fv_total, 12);
   assert.equal(fv.fv_max_inflation_haircut, false);
 });
+check("guard emits a DISPLAY haircut factor (0.75) + max-target basis when it fires", () => {
+  const fv = _fvCompositeV4({ upside_pct: 30, fair_value_inr: 155, fair_value_range_inr: { min: 100, max: 155, count: 3 } });
+  assert.equal(fv.upside_haircut_factor, 0.75);
+  assert.equal(fv.upside_display_basis, "haircut_max_target");
+});
+check("no-histogram path: FV≈max with ABSENT count still fires (factor 0.75, thin_coverage)", () => {
+  const fv = _fvCompositeV4({ upside_pct: 30, fair_value_inr: 155, fair_value_range_inr: { min: 100, max: 155 } });
+  assert.equal(fv.fv_max_inflation_haircut, true);
+  assert.equal(fv.upside_haircut_factor, 0.75);
+  assert.equal(fv.upside_display_basis, "haircut_thin_coverage");
+});
+check("well-covered near-max leaves the displayed upside intact (factor 1, basis null)", () => {
+  const fv = _fvCompositeV4({ upside_pct: 30, fair_value_inr: 155, fair_value_range_inr: { min: 100, max: 155, count: 30 } });
+  assert.equal(fv.upside_haircut_factor, 1);
+  assert.equal(fv.upside_display_basis, null);
+});
 
 console.log("\nrelative FV-upside — adopts #426 universe benchmark (magnitude-aware)\n");
 const _bmRows = [5, 8, 10, 12, 14, 18, 25, 40, 80, 150].map((u) => ({ upside_pct: u, market_cap_inr: 1e10 }));

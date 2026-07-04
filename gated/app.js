@@ -13239,6 +13239,12 @@ function renderPickCard(s, sectionKey, rank = null) {
   const fmtInr = (v) => v == null ? "—" : v >= 1e12 ? `₹${(v / 1e12).toFixed(2)} L Cr` : v >= 1e7 ? `₹${(v / 1e7).toFixed(v >= 1e10 ? 0 : 2)} Cr` : `₹${v.toLocaleString("en-IN")}`;
   const upside = s.upside_pct != null ? `${s.upside_pct > 0 ? "+" : ""}${s.upside_pct.toFixed(1)}%` : "—";
   const upsideColor = s.upside_pct == null ? "var(--text-muted)" : s.upside_pct >= 0 ? "var(--green)" : "var(--red)";
+  // Honesty chip: the analyst FV was flagged as an inflated range-MAX with thin
+  // coverage, so the shown upside has been de-rated to match the score. The number
+  // is not a consensus — say so on the card, not only in the score-breakdown modal.
+  const upsideHaircutChip = s.upside_haircut_applied
+    ? `<span class="sws-pick-haircut-chip" title="Fair value sits at the top of a thin analyst range — likely one bullish target, not a consensus. Shown upside is de-rated to match how the composite score already treats it." style="display:inline-block;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:0.03em;color:var(--warn);border:1px solid var(--warn);border-radius:4px;padding:1px 4px;margin-left:4px;vertical-align:middle;">${s.upside_display_basis === "haircut_thin_coverage" ? "thin coverage" : "max-target basis"}</span>`
+    : "";
   const sn = s.snowflake_total ?? "—";
   // Headline score: v3 (fundamentals 74 + momentum 14 + safety overlay −15) > v2 > v1.
   // v4 is the platform's sole composite score (fundamentals 76 + FV 12 +
@@ -13407,7 +13413,7 @@ function renderPickCard(s, sectionKey, rank = null) {
             ? `<span class="sws-pick-fv-unavailable" title="SWS did not publish a finite fair value for this stock. This card stays in the section based on its Snowflake quality pillars; no discount-to-FV claim is being made.">unavailable</span>`
             : fmtInr(s.fair_value_inr)
         }</div>
-        <div class="sws-pick-stat" style="color:${upsideColor};">${upside}${infoIcon("upside_pct")}${valBandChip ? " " + valBandChip : ""}</div>
+        <div class="sws-pick-stat" style="color:${upsideColor};">${upside}${infoIcon("upside_pct")}${valBandChip ? " " + valBandChip : ""}${upsideHaircutChip}</div>
         <div class="sws-pick-stat sws-pick-stat-snow"><span class="sws-pick-stat-label">Snow${infoIcon("snowflake_score")}</span> ${sn}/30</div>
       </div>
 	      ${renderPickPillarBars(s.snowflake)}
