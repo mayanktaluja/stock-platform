@@ -6769,8 +6769,10 @@ import { getWatchlistStorage } from "./watchlistStorage.js";
 
 app.get("/api/watchlist", async (req, res) => {
   try {
+    const sub = userSub(req);
+    if (!sub) return res.status(401).json({ error: "auth-required" });
     const storage = getWatchlistStorage();
-    const list = await storage.readAll();
+    const list = await storage.read(sub);
     // Enrich with live prices
     const enriched = await Promise.all(list.map(async (item) => {
       try {
@@ -6790,6 +6792,8 @@ app.get("/api/watchlist", async (req, res) => {
 });
 
 app.post("/api/watchlist/add", express.json(), async (req, res) => {
+  const sub = userSub(req);
+  if (!sub) return res.status(401).json({ error: "auth-required" });
   const { symbol, name, sector } = req.body || {};
   if (!symbol) return res.status(400).json({ error: "symbol required" });
 
@@ -6815,7 +6819,7 @@ app.post("/api/watchlist/add", express.json(), async (req, res) => {
     if (q && typeof q.regularMarketPrice === "number") addedPrice = q.regularMarketPrice;
   } catch { /* keep addedPrice null */ }
 
-  const result = await storage.add({
+  const result = await storage.add(sub, {
     symbol: resolved.symbol,
     name: resolved.name || name || resolved.symbol,
     sector: resolved.sector || sector || null,
@@ -6826,12 +6830,14 @@ app.post("/api/watchlist/add", express.json(), async (req, res) => {
 });
 
 app.post("/api/watchlist/remove", express.json(), async (req, res) => {
+  const sub = userSub(req);
+  if (!sub) return res.status(401).json({ error: "auth-required" });
   const { symbol } = req.body || {};
   if (!symbol) return res.status(400).json({ error: "symbol required" });
   const resolved = findBySymbol(symbol);
   const canonicalSymbol = resolved?.symbol || symbol;
   const storage = getWatchlistStorage();
-  const result = await storage.remove(canonicalSymbol);
+  const result = await storage.remove(sub, canonicalSymbol);
   res.json({ ok: true, ...result });
 });
 
@@ -6863,7 +6869,13 @@ app.get("/api/portfolio", async (req, res) => {
     // shared across lambdas, ~10-30ms). On a new cold lambda, NodeCache is
     // always empty but KV is almost always warm — this shaves the full
     // enrichment+intel pipeline off every second user after any cold start.
-    const cacheKey = `port_${portfolio.lastUpdated}`;
+    //
+    // The key MUST include `sub` (auth iter 2): without it, two users whose
+    // portfolios share a lastUpdated timestamp collide, and the cache serves
+    // one user's enriched portfolio to the other. sub is threaded into both
+    // tiers here — the L2 key derives from cacheKey (`portfolio:resp:${...}`)
+    // and both cache writes reuse cacheKey, so this single change covers all.
+    const cacheKey = `port_${sub}_${portfolio.lastUpdated}`;
     if (!req.query.bust) {
       const l1 = portfolioCache.get(cacheKey);
       if (l1) {

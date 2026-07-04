@@ -25,6 +25,12 @@ test.describe("SWS Picks inline ★ (PR P9)", () => {
     // findBySymbol() guard. Pre-PR6 this test "passed" because the buggy
     // toggleWatchlist swallowed API failures and flipped the star anyway;
     // post-PR6 the rollback is honest, so we mock 200 OK explicitly.
+    // Auth iter 2 note: the watchlist is now per-user (server keys by `sub`),
+    // but this mock is deliberately session-agnostic — it intercepts at the
+    // HTTP layer, and the frontend request/response contract is unchanged
+    // (POST {symbol,name,sector} → {ok:true}; GET → {stocks,count}). `sub`
+    // is resolved server-side from the session, never sent in the body, so
+    // the per-sub refactor needs no change here. Keyed by symbol on purpose.
     const watchlistStorage = new Map();
     await page.route("**/api/watchlist/add", async (route) => {
       const body = JSON.parse(route.request().postData() || "{}");

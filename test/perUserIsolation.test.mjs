@@ -54,9 +54,11 @@ const TEST_SUB_B = `_test_isolation_B_${Date.now()}_${Math.random().toString(36)
 
 const { getPortfolioStorage } = await import("../portfolioStorage.js");
 const { getAnalyzerStorage } = await import("../analyzerStorage.js");
+const { getWatchlistStorage } = await import("../watchlistStorage.js");
 
 const ps = getPortfolioStorage();
 const as = getAnalyzerStorage();
+const ws = getWatchlistStorage();
 
 console.log("\n[1] Portfolio storage requires sub on write");
 await test("write throws when sub is null", async () => {
@@ -129,6 +131,24 @@ await test("portfolio storage key includes sub (KV adapter contract)", async () 
   assert.ok(name === "file" || name === "vercel-kv");
 });
 
+console.log("\n[5] Watchlist storage shares the same isolation contract (auth iter 2)");
+await test("watchlist add throws when sub is null", async () => {
+  await assert.rejects(() => ws.add(null, { symbol: "X.NS" }), /sub is required/i);
+});
+await test("watchlist sub A's item is not readable as sub B", async () => {
+  await ws.add(TEST_SUB_A, {
+    symbol: "WL_ISOLATION_A.NS", name: "A", sector: "TEST",
+    addedAt: new Date().toISOString(), addedPrice: 100,
+  });
+  const asB = await ws.read(TEST_SUB_B);
+  assert.ok(!asB.some((s) => s.symbol === "WL_ISOLATION_A.NS"),
+    "sub B watchlist read returned sub A's item");
+});
+await test("watchlist read of unknown sub returns []", async () => {
+  const got = await ws.read(`_test_never_wl_${Date.now()}`);
+  assert.deepEqual(got, []);
+});
+
 // Cleanup — remove the two test users from the portfolios file/KV so we
 // don't accumulate cruft on the dev box. Idempotent.
 try {
@@ -144,6 +164,12 @@ try {
     delete all[TEST_SUB_A];
     delete all[TEST_SUB_B];
     await as._writeAll(all);
+  }
+  if (ws.name === "file") {
+    const all = await ws._readAll();
+    delete all[TEST_SUB_A];
+    delete all[TEST_SUB_B];
+    await ws._writeAll(all);
   }
 } catch {
   // Cleanup failure is not a test failure — log and move on.
