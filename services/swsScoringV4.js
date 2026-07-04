@@ -125,6 +125,8 @@ export function _fvCompositeV4(ov, fvBenchmark = null, opts = {}) {
   ov = ov || {};
   const subs = []; // { key, weight, fraction in [0,1] }
   let fv_max_inflation_haircut = false;
+  let upside_haircut_factor = 1;   // display-side de-rate carried to the card (1 = none)
+  let upside_display_basis = null; // {haircut_max_target | haircut_thin_coverage}
   let fv_benchmark_used = false;
   let fv_upside_relative_pts = null;
   let fv_upside_rz = null;
@@ -153,16 +155,28 @@ export function _fvCompositeV4(ov, fvBenchmark = null, opts = {}) {
       fv_upside_relative_pts = 12 * frac;
     }
     // MAX-inflation guard: if the "consensus" FV is really the analyst-range
-    // MAX with few analysts, the upside is likely one outlier target rather
-    // than a true consensus — haircut one bucket (0.25).
+    // MAX with few (or no) analysts, the upside is likely one outlier target
+    // rather than a true consensus. Two consequences:
+    //   (1) haircut one bucket (0.25) off the SCORE fraction (as before), and
+    //   (2) carry a display-side `upside_haircut_factor` so the number shown on
+    //       the CARD is de-rated too — previously only the score moved, so a card
+    //       could read "+40%" while the score quietly treated it as inflated.
+    // The `cnt == null` clause future-proofs a max-without-count feed (0 such rows
+    // in the current universe) and, with `cnt <= 5`, covers the thin-coverage /
+    // no-histogram path. Well-covered near-max names (cnt > 5) are deliberately
+    // left untouched — many analysts converging near the top is legitimate, not
+    // inflation. Method labels are NOT a trigger: ~90% of the universe is
+    // non-histogram by method, so keying on that would re-base the whole book.
     const range = ov.fair_value_range_inr || {};
     const fv = num(ov.fair_value_inr, null);
     const fvMax = num(range.max, null);
     const cnt = num(range.count, null);
-    if (fv != null && fvMax != null && fvMax > 0 && cnt != null && cnt <= 5
+    if (fv != null && fvMax != null && fvMax > 0 && (cnt == null || cnt <= 5)
         && Math.abs(fv - fvMax) / fvMax <= 0.05) {
       frac = Math.max(0, frac - 0.25);
       fv_max_inflation_haircut = true;
+      upside_haircut_factor = 0.75;
+      upside_display_basis = cnt == null ? "haircut_thin_coverage" : "haircut_max_target";
     }
     subs.push({ key: "upside", weight: 8, fraction: frac });
   }
@@ -221,6 +235,8 @@ export function _fvCompositeV4(ov, fvBenchmark = null, opts = {}) {
     fv_industry_average_key: fv_industry_imputed ? industryFallback.key ?? null : null,
     fv_industry_average_label: fv_industry_imputed ? industryFallback.label ?? null : null,
     fv_max_inflation_haircut,
+    upside_haircut_factor,
+    upside_display_basis,
     fv_subsignals_present: subs.length,
     fv_benchmark_used,
     pts_fv_upside_effective: r1(pts_fv_upside_effective),
@@ -270,9 +286,19 @@ export function computeV4Score(stock, opts = {}) {
   const pct1y = universe ? _percentileRank(ret1y, universe.r1y) : null;
   const pct3m = universe ? _percentileRank(ret3m, universe.r3m) : null;
   const pct1m = universe ? _percentileRank(ret1m, universe.r1m) : null;
-  const pts_mom_1y = (pct1y ?? 0.5) * 7;
-  const pts_mom_3m = (pct3m ?? 0.5) * 3;
-  const pts_mom_1m = (pct1m ?? 0.5) * 2;
+  // A missing per-stock return scores 0 for THAT window — but only when we actually
+  // have a populated universe array to rank against. If the whole window/stats file
+  // is absent (an infra gap, not a stock signal), fall back to the neutral 0.5 so a
+  // stale or empty universe can't silently zero the entire book. Note getV4UniverseStats
+  // coerces missing windows to [] (a truthy `universe` with empty arrays), so the guard
+  // must key on array length, not `!!universe`. Previously every miss took 0.5, gifting
+  // a no-history name up to 6/12 momentum points for free.
+  const imp1y = universe?.r1y?.length ? 0 : 0.5;
+  const imp3m = universe?.r3m?.length ? 0 : 0.5;
+  const imp1m = universe?.r1m?.length ? 0 : 0.5;
+  const pts_mom_1y = (pct1y ?? imp1y) * 7;
+  const pts_mom_3m = (pct3m ?? imp3m) * 3;
+  const pts_mom_1m = (pct1m ?? imp1m) * 2;
   const momentum_imputed = !universe || pct1y == null || pct3m == null || pct1m == null;
 
   const continuous = pts_health + pts_future + pts_valuation + pts_past
@@ -326,6 +352,8 @@ export function computeV4Score(stock, opts = {}) {
       fv_industry_average_key: fv.fv_industry_average_key,
       fv_industry_average_label: fv.fv_industry_average_label,
       fv_max_inflation_haircut: fv.fv_max_inflation_haircut,
+      upside_haircut_factor: fv.upside_haircut_factor,
+      upside_display_basis: fv.upside_display_basis,
       fv_subsignals_present: fv.fv_subsignals_present,
       fv_benchmark_used: fv.fv_benchmark_used,
       pts_fv_upside_effective: fv.pts_fv_upside_effective,

@@ -156,6 +156,22 @@ check("guard does NOT fire when analyst count is high", () => {
   assert.equal(fv.pts_fv_total, 12);
   assert.equal(fv.fv_max_inflation_haircut, false);
 });
+check("guard emits a DISPLAY haircut factor (0.75) + max-target basis when it fires", () => {
+  const fv = _fvCompositeV4({ upside_pct: 30, fair_value_inr: 155, fair_value_range_inr: { min: 100, max: 155, count: 3 } });
+  assert.equal(fv.upside_haircut_factor, 0.75);
+  assert.equal(fv.upside_display_basis, "haircut_max_target");
+});
+check("no-histogram path: FV≈max with ABSENT count still fires (factor 0.75, thin_coverage)", () => {
+  const fv = _fvCompositeV4({ upside_pct: 30, fair_value_inr: 155, fair_value_range_inr: { min: 100, max: 155 } });
+  assert.equal(fv.fv_max_inflation_haircut, true);
+  assert.equal(fv.upside_haircut_factor, 0.75);
+  assert.equal(fv.upside_display_basis, "haircut_thin_coverage");
+});
+check("well-covered near-max leaves the displayed upside intact (factor 1, basis null)", () => {
+  const fv = _fvCompositeV4({ upside_pct: 30, fair_value_inr: 155, fair_value_range_inr: { min: 100, max: 155, count: 30 } });
+  assert.equal(fv.upside_haircut_factor, 1);
+  assert.equal(fv.upside_display_basis, null);
+});
 
 console.log("\nrelative FV-upside — adopts #426 universe benchmark (magnitude-aware)\n");
 const _bmRows = [5, 8, 10, 12, 14, 18, 25, 40, 80, 150].map((u) => ({ upside_pct: u, market_cap_inr: 1e10 }));
@@ -244,6 +260,16 @@ check("top-of-universe returns earn near-full 12 momentum", () => {
   const b = computeV4Score(hot, { universe, surveillanceFlag: null }).v4_breakdown;
   assert.ok(b.pts_mom_1y > 5 && b.pts_mom_3m > 2 && b.pts_mom_1m > 1);
   assert.equal(b.momentum_imputed, false);
+});
+check("universe present + missing 1Y return → that window scores 0, not median (no free 3.5)", () => {
+  const peers = [-30, -10, 0, 10, 30].map((x) => ({ overview: { returns_pct: { "1Y": x, "3M": x, "1M": x } } }));
+  const universe = buildUniverseStats(peers);
+  // Stock has strong 3M/1M but NO 1Y history (e.g. a recent listing).
+  const noHist1y = mk({}, { returns_pct: { "3M": 30, "1M": 30 } });
+  const b = computeV4Score(noHist1y, { universe, surveillanceFlag: null }).v4_breakdown;
+  assert.equal(b.pts_mom_1y, 0);          // was 3.5 under the 0.5 median gift
+  assert.ok(b.pts_mom_3m > 2 && b.pts_mom_1m > 1); // windows it DOES have still score
+  assert.equal(b.momentum_imputed, true);  // flagged because 1Y is missing
 });
 
 console.log("\nvalue-trap brake + falling-knife precedence\n");

@@ -11,6 +11,20 @@ export const FV_RATIO_MAX = 10;
 const num = (v, fallback = null) => (typeof v === "number" && Number.isFinite(v) ? v : fallback);
 const round1 = (v) => (Number.isFinite(v) ? Math.round(v * 10) / 10 : null);
 
+// Apply a precomputed display-haircut factor to a raw upside %. The factor is
+// decided at scoring time (services/swsScoringV4.js `_fvCompositeV4`), where the
+// full deep-brief overview — analyst range + count — is in hand; the serve path
+// only sees a slim FV map, so it can't re-derive suspicion and must re-apply the
+// stored factor instead. Only POSITIVE upside is de-rated: haircutting a negative
+// (overvalued) upside would make it read LESS bearish — the wrong direction.
+// Factor defaults to a no-op (1) for anything outside (0,1).
+export function applyUpsideHaircut(upsidePct, factor) {
+  const f = typeof factor === "number" && Number.isFinite(factor) && factor > 0 && factor < 1 ? factor : 1;
+  if (f === 1) return upsidePct;
+  if (typeof upsidePct !== "number" || !Number.isFinite(upsidePct) || upsidePct <= 0) return upsidePct;
+  return Math.round(upsidePct * f * 10) / 10;
+}
+
 export function valuationBandFromUpside(upside) {
   if (upside == null || !Number.isFinite(upside)) return null;
   if (upside >= 25) return "DEEP_DISCOUNT";

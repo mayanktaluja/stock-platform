@@ -103,22 +103,22 @@ test.describe("India Market credibility banner and section alpha", () => {
       await expect(selected).toContainText(best.window);
       await expect(selected).toContainText(best.cohortLabel || `top ${best.requestedCohortSize || 10}`);
     }
-    if (hasPositiveAlpha) {
+    if (hasPositiveAlpha && bestWindow?.sampleStatus === "resolved") {
+      // Only a genuinely RESOLVED forward window may headline a realized alpha.
       await expect(banner).toContainText(/top (3|5|10|20|\d+ available)/i);
       await expect(banner.locator('[data-testid="picks-credibility-alpha"]')).toContainText(/[+-]\d/);
-      if (bestWindow?.sampleStatus === "latest_available") {
-        await expect(banner.locator('[data-testid="picks-credibility-headline"]')).toContainText(/shows .* alpha vs Nifty 50/i);
-        await expect(banner.locator('[data-testid="picks-credibility-headline"]')).not.toContainText(/sample/i);
-        // A hypothetical (latest_available) spotlight must be flagged Illustrative and
-        // carry the not-realized caveat, so the homepage banner isn't read as proof.
-        await expect(banner.locator('[data-testid="picks-credibility-illustrative"]')).toHaveText(/Illustrative/i);
-        await expect(banner.locator('[data-testid="picks-credibility-evidence"]')).toContainText(/not a realized return/i);
-      }
-      if (bestWindow?.sampleStatus === "resolved") {
-        await expect(banner.locator('[data-testid="picks-credibility-headline"]')).toContainText(/beat Nifty 50/i);
-      }
+      await expect(banner.locator('[data-testid="picks-credibility-headline"]')).toContainText(/beat Nifty 50/i);
     } else {
+      // Non-resolved (survivorship / latest_available) or no positive alpha → the
+      // banner must be in its BUILDING state: no headline alpha number, no
+      // Illustrative-backfill chip, and no "beat Nifty 50" claim. A hindsight %
+      // is never surfaced as evidence on the homepage.
+      await expect(banner.locator('[data-testid="picks-credibility-alpha"]')).toHaveCount(0);
+      await expect(banner.locator('[data-testid="picks-credibility-illustrative"]')).toHaveCount(0);
       await expect(banner.locator('[data-testid="picks-credibility-headline"]')).not.toContainText(/beat Nifty 50/i);
+      if (bestWindow?.sampleStatus === "latest_available") {
+        await expect(banner.locator('[data-testid="picks-credibility-headline"]')).toContainText(/building/i);
+      }
     }
 
     const order = await page.evaluate(() => {
@@ -283,17 +283,21 @@ test.describe("India Market credibility banner and section alpha", () => {
     const banner = page.locator("#picksCredibilityBanner");
     await expect(banner).toBeVisible({ timeout: 20_000 });
     expect(sawShortWindowRequest).toBe(true);
-    await expect(banner.locator('[data-testid="picks-credibility-headline"]')).toContainText(/Best Fundamentals top 5 shows \+6\.2% alpha vs Nifty 50/i);
-    await expect(banner.locator('[data-testid="picks-credibility-evidence"]')).toContainText(/Equal-weight top 5: \+9\.1% vs Nifty 50 \+2\.9%/);
-    // Hypothetical (latest_available) spotlight is flagged Illustrative + not-realized.
-    await expect(banner.locator('[data-testid="picks-credibility-illustrative"]')).toHaveText(/Illustrative/i);
-    await expect(banner.locator('[data-testid="picks-credibility-evidence"]')).toContainText(/not a realized return/i);
+    // latest_available spotlight → building state. The survivorship +6.2% is NOT
+    // headlined, NOT shown as an alpha number, and NOT tagged Illustrative — it's
+    // hindsight, not evidence. The banner flips to a realized figure automatically
+    // once a forward window resolves.
+    await expect(banner.locator('[data-testid="picks-credibility-headline"]')).toContainText(/building/i);
+    await expect(banner.locator('[data-testid="picks-credibility-headline"]')).not.toContainText(/\+6\.2%|alpha vs Nifty 50/i);
+    await expect(banner.locator('[data-testid="picks-credibility-alpha"]')).toHaveCount(0);
+    await expect(banner.locator('[data-testid="picks-credibility-illustrative"]')).toHaveCount(0);
+    await expect(banner.locator('[data-testid="picks-credibility-evidence"]')).toContainText(/maturing|No hindsight/i);
     for (const pattern of SPOTLIGHT_COPY_REGRESSIONS) {
       await expect(banner).not.toContainText(pattern);
     }
     await expect(banner).not.toContainText(/Nifty 500|N500|N50/i);
-    await expect(banner.locator('[data-testid="picks-credibility-alpha"]')).toContainText("+6.2%");
-    await expect(banner.locator('[data-testid="picks-credibility-selected-window"]')).toHaveText(/30d · Best Fundamentals top 5 \+6\.2%/);
+    // The window chip may still show the window · label · cohort, but never the %.
+    await expect(banner.locator('[data-testid="picks-credibility-selected-window"]')).not.toContainText(/\+6\.2%/);
     await expect(banner.locator('[data-testid="picks-credibility-selected-window"]')).not.toContainText(/\b(3m|1y|3y|5y)\b/i);
     await expect(banner).not.toContainText(/Mid-Term|1y|3m/);
     await expect(banner.getByRole("button", { name: /^7d\b/i })).toHaveCount(0);

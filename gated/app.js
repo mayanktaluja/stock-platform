@@ -5899,16 +5899,18 @@ function _credibilityBannerCopy(best, windowPayload, label) {
     };
   }
 
-  // latest_available (non-resolved) spotlight: the cohort is today's top-ranked
-  // picks applied backward, not a cohort actually held since then. Keep the metric
-  // but flag it hypothetical + append the not-realized caveat so the homepage banner
-  // is as honest as the Track tab's illustrative-basis disclaimer.
+  // latest_available (non-resolved) spotlight: the "cohort" is today's top-ranked
+  // picks applied BACKWARD — survivorship, not a cohort actually held since then.
+  // That is not evidence, so we no longer headline the backfilled alpha number
+  // (previously shown with an "Illustrative" chip). Show a building state instead;
+  // the banner flips to a realized figure automatically once forward windows mature
+  // (sampleStatus === "resolved"). The Track tab keeps the full illustrative
+  // methodology + disclaimer for anyone who wants the backfilled context.
   return {
-    tone: "positive",
-    hypothetical: true,
-    headline: `${label} ${_cohortLabel(best)} shows ${_fmtSignedPct(alpha)} alpha vs Nifty 50`,
-    evidenceSuffix: " Illustrative: backfilled from today's top-ranked picks (survivorship) — not a cohort held since then, and not a realized return.",
-    showAlpha: true,
+    tone: "neutral",
+    headline: "Track Record is building — tracking picks live vs Nifty 50",
+    evidence: "Verified forward returns begin maturing on a rolling 1m/3m/6m/12m basis; this banner switches to a realized figure automatically. No hindsight outperformance is being claimed.",
+    showAlpha: false,
   };
 }
 
@@ -5972,7 +5974,10 @@ function renderPicksCredibilityBanner(payload) {
   const cohortText = _cohortLabel(best);
   const evidence = copy.evidence || `${_sectionBenchmarkLine(cohortText, sectionReturn, benchmark)}.${copy.evidenceSuffix || ""}`;
   const selectedWindow = best?.window || null;
-  const selectedWindowText = selectedWindow && Number.isFinite(alpha)
+  // Only surface the numeric alpha in the window chip when the copy is actually
+  // showing a resolved figure — otherwise the survivorship % would leak here even
+  // though the headline is in its building state.
+  const selectedWindowText = selectedWindow && Number.isFinite(alpha) && copy.showAlpha
     ? `${selectedWindow} · ${label} ${cohortText} ${_fmtSignedPct(alpha)}`
     : selectedWindow
       ? `${selectedWindow} · ${label} ${cohortText}`
@@ -13239,6 +13244,12 @@ function renderPickCard(s, sectionKey, rank = null) {
   const fmtInr = (v) => v == null ? "—" : v >= 1e12 ? `₹${(v / 1e12).toFixed(2)} L Cr` : v >= 1e7 ? `₹${(v / 1e7).toFixed(v >= 1e10 ? 0 : 2)} Cr` : `₹${v.toLocaleString("en-IN")}`;
   const upside = s.upside_pct != null ? `${s.upside_pct > 0 ? "+" : ""}${s.upside_pct.toFixed(1)}%` : "—";
   const upsideColor = s.upside_pct == null ? "var(--text-muted)" : s.upside_pct >= 0 ? "var(--green)" : "var(--red)";
+  // Honesty chip: the analyst FV was flagged as an inflated range-MAX with thin
+  // coverage, so the shown upside has been de-rated to match the score. The number
+  // is not a consensus — say so on the card, not only in the score-breakdown modal.
+  const upsideHaircutChip = s.upside_haircut_applied
+    ? `<span class="sws-pick-haircut-chip" title="Fair value sits at the top of a thin analyst range — likely one bullish target, not a consensus. Shown upside is de-rated to match how the composite score already treats it." style="display:inline-block;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:0.03em;color:var(--warn);border:1px solid var(--warn);border-radius:4px;padding:1px 4px;margin-left:4px;vertical-align:middle;">${s.upside_display_basis === "haircut_thin_coverage" ? "thin coverage" : "max-target basis"}</span>`
+    : "";
   const sn = s.snowflake_total ?? "—";
   // Headline score: v3 (fundamentals 74 + momentum 14 + safety overlay −15) > v2 > v1.
   // v4 is the platform's sole composite score (fundamentals 76 + FV 12 +
@@ -13407,7 +13418,7 @@ function renderPickCard(s, sectionKey, rank = null) {
             ? `<span class="sws-pick-fv-unavailable" title="SWS did not publish a finite fair value for this stock. This card stays in the section based on its Snowflake quality pillars; no discount-to-FV claim is being made.">unavailable</span>`
             : fmtInr(s.fair_value_inr)
         }</div>
-        <div class="sws-pick-stat" style="color:${upsideColor};">${upside}${infoIcon("upside_pct")}${valBandChip ? " " + valBandChip : ""}</div>
+        <div class="sws-pick-stat" style="color:${upsideColor};">${upside}${infoIcon("upside_pct")}${valBandChip ? " " + valBandChip : ""}${upsideHaircutChip}</div>
         <div class="sws-pick-stat sws-pick-stat-snow"><span class="sws-pick-stat-label">Snow${infoIcon("snowflake_score")}</span> ${sn}/30</div>
       </div>
 	      ${renderPickPillarBars(s.snowflake)}
