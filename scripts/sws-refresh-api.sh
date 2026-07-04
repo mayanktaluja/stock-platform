@@ -464,6 +464,14 @@ if ! node scripts/build-section-performance-snapshot.mjs 2>&1 | tail -8 | sed 's
   exit 8
 fi
 
+# Resolved-cohort per-section hit-rate + alpha CIs for the Picks-tab section
+# headers. Non-fatal: a failure just leaves the header at the plain count — it
+# must never block the SWS PR (unlike the section-perf build above).
+echo "[refresh-api] building picks-section backtest (resolved-cohort hit-rate + alpha CIs)..."
+if ! node scripts/backtest-picks-sections.mjs 2>&1 | tail -8 | sed 's/^/[picks-backtest] /'; then
+  echo "[picks-backtest] non-zero exit — continuing (Picks header pill is non-fatal; degrades to plain count)"
+fi
+
 # ---------- 8.7. Inline sanity gate (pass 1) ----------
 #
 # Runs the SAME sanity gate that sws-nightly.sh runs at the end of the
@@ -741,7 +749,7 @@ if [ "${SWS_AUTO_PR:-1}" != "0" ] \
   echo "[refresh-api] auto-PR: branching ${AUTO_BRANCH} from ${ORIGINAL_BRANCH}"
 
   if git checkout -b "${AUTO_BRANCH}" >/dev/null 2>&1; then
-    git add data/sws/picks-latest.json data/sws/last-refresh.json data/sws/v4-universe-stats.json data/sws/v3-universe-stats.json data/sws/sws-scored-universe.json data/sws/discovery-feed-latest.json data/sws/alerts/input-signatures-latest.json data/sws/alerts/input-alert-confirmation-state.json data/sws/alerts/fundamental-changes-latest.json data/sws/groww-stock-failed.json data/sws/groww-pe-latest.json data/sws/groww-pe-failed.json data/sws/chronos-forecast-latest.json data/sws/chronos-forecast-health.json data/track-record/section-performance-latest.json 2>/dev/null
+    git add data/sws/picks-latest.json data/sws/last-refresh.json data/sws/v4-universe-stats.json data/sws/v3-universe-stats.json data/sws/sws-scored-universe.json data/sws/discovery-feed-latest.json data/sws/alerts/input-signatures-latest.json data/sws/alerts/input-alert-confirmation-state.json data/sws/alerts/fundamental-changes-latest.json data/sws/groww-stock-failed.json data/sws/groww-pe-latest.json data/sws/groww-pe-failed.json data/sws/chronos-forecast-latest.json data/sws/chronos-forecast-health.json data/track-record/section-performance-latest.json data/track-record/picks-section-backtest-latest.json 2>/dev/null
     # Pack 5,517-file deep/ into a single tarball so Vercel can bundle it
     # without tripping its 15k source-file cap. swsDal's jsonBackend lazy-
     # extracts to /tmp on first read in a cold container. Pack BEFORE the
