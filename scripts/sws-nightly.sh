@@ -1443,6 +1443,28 @@ warn_if_publish_late
 timing_record "local_publish_ready" "coverage_gap_analysis" "$(timing_start_epoch)" "ok" "0"
 finalize_timings
 
+# ---- Track Record: accrue + resolve the forward paper-trade ledger (LOCAL, committed) ----
+# The daily snapshot + forward-returns resolver previously ran ONLY as Vercel crons,
+# which write to KV / an ephemeral FS the committed repo never sees, and can't reach
+# Yahoo/AMFI from datacenter IPs — so the committed forward record never accrued (0
+# resolved). Run them here, pinned to a COMMITTED ledger via PAPER_TRADES_FILE and with
+# KV creds unset to force the file backend, then commit the file so deploys read a
+# growing, self-resolving record. Non-fatal: a Track Record hiccup must never abort the
+# SWS ship. (The homepage banner stays in its honest "building" state until a forward
+# window resolves; flipping the section-performance API to serve resolved-from-ledger is
+# the tracked follow-up, gated on the 3-run cron comparison per vercel-cron-budget.)
+echo "[nightly] accruing + resolving forward Track Record ledger..."
+(
+  export PAPER_TRADES_FILE="${REPO_DIR}/data/track-record/paper-trades-live.jsonl"
+  unset KV_REST_API_URL KV_REST_API_TOKEN
+  if ! with_timeout 120 node scripts/sws-snapshot-track-record.mjs 2>&1 | sed 's/^/[track-snapshot] /'; then
+    echo "[nightly] sws-snapshot-track-record.mjs failed — non-fatal; ledger unchanged this run"
+  fi
+  if ! with_timeout 180 node scripts/resolve-forward-returns.mjs 2>&1 | sed 's/^/[track-resolve] /'; then
+    echo "[nightly] resolve-forward-returns.mjs failed — non-fatal; matured horizons stay open"
+  fi
+) || true
+
 echo "[nightly] rebuilding section-performance API snapshot for final SWS publish..."
 if ! node scripts/build-section-performance-snapshot.mjs 2>&1 | sed 's/^/[section-perf] /'; then
   echo "[nightly] section-performance snapshot failed — refusing to ship stale Track Record section alpha"
@@ -1476,6 +1498,7 @@ CHANGED_FILES=$(git status --short \
   data/sws/chronos-forecast-health.json \
   data/sws/nightly-timings-latest.json \
   data/track-record/section-performance-latest.json \
+  data/track-record/paper-trades-live.jsonl \
   data/sws-us/deep-us.tar.gz \
   data/sws-kr/deep-kr.tar.gz \
   data/sws-tw/deep-tw.tar.gz \
@@ -1551,6 +1574,7 @@ git add data/sws/deep.tar.gz \
         data/sws/chronos-forecast-health.json \
         data/sws/nightly-timings-latest.json \
         data/track-record/section-performance-latest.json \
+        data/track-record/paper-trades-live.jsonl \
         data/sws-us/deep-us.tar.gz \
         data/sws-kr/deep-kr.tar.gz \
         data/sws-tw/deep-tw.tar.gz \

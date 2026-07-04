@@ -5899,16 +5899,18 @@ function _credibilityBannerCopy(best, windowPayload, label) {
     };
   }
 
-  // latest_available (non-resolved) spotlight: the cohort is today's top-ranked
-  // picks applied backward, not a cohort actually held since then. Keep the metric
-  // but flag it hypothetical + append the not-realized caveat so the homepage banner
-  // is as honest as the Track tab's illustrative-basis disclaimer.
+  // latest_available (non-resolved) spotlight: the "cohort" is today's top-ranked
+  // picks applied BACKWARD — survivorship, not a cohort actually held since then.
+  // That is not evidence, so we no longer headline the backfilled alpha number
+  // (previously shown with an "Illustrative" chip). Show a building state instead;
+  // the banner flips to a realized figure automatically once forward windows mature
+  // (sampleStatus === "resolved"). The Track tab keeps the full illustrative
+  // methodology + disclaimer for anyone who wants the backfilled context.
   return {
-    tone: "positive",
-    hypothetical: true,
-    headline: `${label} ${_cohortLabel(best)} shows ${_fmtSignedPct(alpha)} alpha vs Nifty 50`,
-    evidenceSuffix: " Illustrative: backfilled from today's top-ranked picks (survivorship) — not a cohort held since then, and not a realized return.",
-    showAlpha: true,
+    tone: "neutral",
+    headline: "Track Record is building — tracking picks live vs Nifty 50",
+    evidence: "Verified forward returns begin maturing on a rolling 1m/3m/6m/12m basis; this banner switches to a realized figure automatically. No hindsight outperformance is being claimed.",
+    showAlpha: false,
   };
 }
 
@@ -5972,7 +5974,10 @@ function renderPicksCredibilityBanner(payload) {
   const cohortText = _cohortLabel(best);
   const evidence = copy.evidence || `${_sectionBenchmarkLine(cohortText, sectionReturn, benchmark)}.${copy.evidenceSuffix || ""}`;
   const selectedWindow = best?.window || null;
-  const selectedWindowText = selectedWindow && Number.isFinite(alpha)
+  // Only surface the numeric alpha in the window chip when the copy is actually
+  // showing a resolved figure — otherwise the survivorship % would leak here even
+  // though the headline is in its building state.
+  const selectedWindowText = selectedWindow && Number.isFinite(alpha) && copy.showAlpha
     ? `${selectedWindow} · ${label} ${cohortText} ${_fmtSignedPct(alpha)}`
     : selectedWindow
       ? `${selectedWindow} · ${label} ${cohortText}`
