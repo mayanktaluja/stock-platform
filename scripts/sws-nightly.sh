@@ -1460,6 +1460,7 @@ CHANGED_FILES=$(git status --short \
   data/sws/picks-latest.json \
   data/sws/last-refresh.json \
   data/sws/sws-scored-universe.json \
+  data/sws/discovery-feed-latest.json \
   data/sws/v4-universe-stats.json \
   data/sws/v3-universe-stats.json \
   data/sws/universe.json \
@@ -1535,6 +1536,7 @@ git add data/sws/deep.tar.gz \
         data/sws/picks-latest.json \
         data/sws/last-refresh.json \
         data/sws/sws-scored-universe.json \
+        data/sws/discovery-feed-latest.json \
         data/sws/v4-universe-stats.json \
         data/sws/v3-universe-stats.json \
         data/sws/_sanity/_latest.json \
@@ -1787,6 +1789,7 @@ republish_conflicted_pr_on_latest_main() {
     data/sws/picks-latest.json
     data/sws/last-refresh.json
     data/sws/sws-scored-universe.json
+    data/sws/discovery-feed-latest.json
     data/sws/v4-universe-stats.json
     data/sws/v3-universe-stats.json
     data/sws/_sanity/_latest.json

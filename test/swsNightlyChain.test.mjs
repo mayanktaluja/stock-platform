@@ -98,6 +98,7 @@ const gitAddBlock = (nightly.match(/git add data\/sws\/deep\.tar\.gz[\s\S]*?fund
 const dataFilesBlock = (nightly.match(/DATA_FILES=\([\s\S]*?\)/) || [""])[0];
 const changedFilesBlock =
   (nightly.match(/CHANGED_FILES=\$\(git status --short[\s\S]*?wc -l/) || [""])[0];
+const recoveryPathsBlock = (nightly.match(/recovery_paths=\([\s\S]*?\)/) || [""])[0];
 
 for (const f of ["surveillance.json", "governance.json"]) {
   assert(`${f} is staged in the git add list`, gitAddBlock.includes(f), null);
@@ -130,6 +131,18 @@ for (const f of ["data/sws/chronos-forecast-latest.json", "data/sws/chronos-fore
 for (const f of ["data/track-record/section-performance-latest.json"]) {
   assert(`${f} is staged in the git add list`, gitAddBlock.includes(f), null);
   assert(`${f} is in the CHANGED_FILES check`, changedFilesBlock.includes(f), null);
+  assert(`${f} is not in the sanity-fail DATA_FILES path`, !dataFilesBlock.includes(f), null);
+}
+// Discovery Radar feed (2026-07-05 fix): the nightly rebuilds it inside
+// sws-refresh-api.sh (SWS_AUTO_PR=0) but historically never staged it, so the
+// fresh build was discarded by the next isolated-run `git clean -fd` and a
+// 17-day-old blob kept shipping. It must be staged + change-detected + carried
+// through conflict recovery, but must NOT ship from the sanity-fail path (a
+// scrape-blocked universe must not publish a feed built from it).
+for (const f of ["data/sws/discovery-feed-latest.json"]) {
+  assert(`${f} is staged in the git add list`, gitAddBlock.includes(f), null);
+  assert(`${f} is in the CHANGED_FILES check`, changedFilesBlock.includes(f), null);
+  assert(`${f} is carried in the conflict-recovery paths`, recoveryPathsBlock.includes(f), null);
   assert(`${f} is not in the sanity-fail DATA_FILES path`, !dataFilesBlock.includes(f), null);
 }
 for (const f of [
@@ -542,6 +555,11 @@ assert(
 assert(
   "sws-refresh-api.sh auto-PR stages Discovery Radar artifact",
   /git add .*data\/sws\/discovery-feed-latest\.json/.test(refreshApi),
+  null,
+);
+assert(
+  "sws-refresh-api.sh discovery-feed build is non-fatal (a failure degrades to the 48h gate, never aborts the prod branch)",
+  /sws-build-discovery-feed\.mjs[\s\S]*?\|\|\s*echo[^\n]*Discovery Radar build failed[\s\S]*?non-fatal/.test(refreshApi),
   null,
 );
 assert(
