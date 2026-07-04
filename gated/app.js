@@ -4239,6 +4239,24 @@ function renderUpcomingCatalysts(catalysts) {
     </div>`;
 }
 
+// Discovery Radar staleness budget — mirrors DISCOVERY_STALE_HOURS in server.js.
+// The server is authoritative (stamps feed.stale); this constant only drives the
+// offline/mocked-feed fallback so the two can never disagree at the boundary.
+const DISCOVERY_STALE_HOURS = 48;
+
+// True when the radar feed is older than the budget. Prefer the server flag;
+// only recompute from generated_at when the server didn't stamp one (mocks).
+// Missing generated_at is the "warming" path (handled by available:false), so it
+// is NOT stale here; an unparseable timestamp can't prove freshness ⇒ stale.
+function isDiscoveryStale(feed) {
+  if (feed?.stale === true) return true;
+  if (feed?.stale === false) return false;
+  if (!feed?.generated_at) return false;
+  const t = new Date(feed.generated_at).getTime();
+  if (!Number.isFinite(t)) return true;
+  return Date.now() - t > DISCOVERY_STALE_HOURS * 36e5;
+}
+
 function discoveryLaneLabel(id) {
   const labels = {
     future_breakout: "Future Breakout",
@@ -4289,6 +4307,8 @@ function renderDiscoveryRadar(feed) {
   const generated = feed?.generated_at
     ? new Date(feed.generated_at).toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" })
     : "Warming";
+  const stale = isDiscoveryStale(feed);
+  const ageDays = feed?.age_hours != null ? Math.round(feed.age_hours / 24) : null;
   const chip = (lane) => {
     const active = _discoveryRadarFilter === lane.id;
     return `<button type="button" data-testid="discovery-radar-lane-chip" data-lane="${escapeHtml(lane.id)}" onclick="setDiscoveryRadarFilter('${escapeHtml(lane.id)}')" style="border:1px solid ${active ? 'rgba(96,165,250,0.65)' : 'var(--border)'};background:${active ? 'rgba(96,165,250,0.18)' : 'rgba(255,255,255,0.035)'};color:${active ? 'var(--info-text-soft)' : 'var(--text-secondary)'};border-radius:7px;padding:7px 10px;font-size:11px;font-weight:800;cursor:pointer;">${escapeHtml(lane.label)} <span style="font-family:'JetBrains Mono',monospace;color:var(--text-muted);">${countFor(lane.id)}</span></button>`;
@@ -4346,7 +4366,11 @@ function renderDiscoveryRadar(feed) {
         ${chip({ id: "all", label: "All" })}
         ${lanes.map(chip).join("")}
       </div>
-      ${feed?.available === false ? `<div style="font-size:12px;color:var(--yellow);padding:10px 12px;border-radius:8px;background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.22);">Discovery Radar is warming. The next SWS refresh will publish the feed.</div>` : rows || `<div style="font-size:12px;color:var(--text-muted);">No SWS names cleared the Discovery Radar review thresholds in the latest run.</div>`}
+      ${feed?.available === false
+        ? `<div style="font-size:12px;color:var(--yellow);padding:10px 12px;border-radius:8px;background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.22);">Discovery Radar is warming. The next SWS refresh will publish the feed.</div>`
+        : stale
+          ? `<div data-testid="discovery-radar-stale-notice" style="font-size:12px;color:var(--yellow);padding:10px 12px;border-radius:8px;background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.22);">Regenerating &mdash; last built ${escapeHtml(generated)}${ageDays != null ? ` (${ageDays}d ago)` : ""}. These names are past the ${DISCOVERY_STALE_HOURS}h freshness window; the next SWS refresh will republish the queue.</div>`
+          : rows || `<div style="font-size:12px;color:var(--text-muted);">No SWS names cleared the Discovery Radar review thresholds in the latest run.</div>`}
     </div>`;
 }
 
@@ -4416,7 +4440,7 @@ function renderSourceHealth(macroRegime, heatmap, catalysts, discovery, fiiDii) 
     _sourceChip("Heatmap", heatmap?.lastUpdated, 1),
     _sourceChip("FII/DII", fiiIso, 48),
     _sourceChip("Catalysts", catalysts?.fetchedAt, 24 * 7),
-    _sourceChip("Radar", discovery?.generated_at, 24 * 7),
+    _sourceChip("Radar", discovery?.generated_at, DISCOVERY_STALE_HOURS),
   ];
   return `
     <div data-testid="market-source-health" style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:18px;font-size:10px;color:var(--text-muted);">
@@ -4453,11 +4477,9 @@ function renderNewsPage(digest, heatmap, macroRegime, catalysts, discovery, fiiD
   const radarBits = [`${radarCount} name${radarCount === 1 ? "" : "s"}`];
   if (radarScanned) radarBits.push(`${radarScanned} scanned`);
   radarBits.push(`as of ${radarAsOf}`);
-  const radarStale = discovery?.generated_at
-    ? (Date.now() - new Date(discovery.generated_at).getTime()) > 7 * 24 * 36e5
-    : false;
+  const radarStale = isDiscoveryStale(discovery);
   const radarStalePill = radarStale
-    ? `<span data-testid="radar-stale-pill" style="margin-left:8px;padding:2px 7px;border-radius:5px;background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.35);color:var(--yellow);font-size:10px;font-weight:700;">stale</span>`
+    ? `<span data-testid="radar-stale-pill" style="margin-left:8px;padding:2px 7px;border-radius:5px;background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.35);color:var(--yellow);font-size:10px;font-weight:700;">regenerating</span>`
     : "";
   html += `
     <details class="analyzer-tier-details" data-testid="discovery-radar-details" style="margin-bottom:24px;">
