@@ -478,6 +478,11 @@ assert(
   null,
 );
 assert(
+  "sws-refresh-api.sh builds the Discovery Radar with the curated-upgrade carve-out (--keep-curated-upgrades)",
+  /sws-build-discovery-feed\.mjs[^\n]*--keep-curated-upgrades/.test(refreshApi),
+  null,
+);
+assert(
   "sws-nightly.sh does not run a late post-score Sector Outlook refresh",
   !/with_timeout\s+\d+\s+node scripts\/refresh-sector-outlook\.mjs/.test(nightly) &&
     !/with_timeout\s+\d+\s+node scripts\/refresh-sector-news-themes\.mjs/.test(nightly),
