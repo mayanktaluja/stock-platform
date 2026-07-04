@@ -6371,6 +6371,7 @@ async function buildSwsInputReductionContext(sub, portfolio, ledger) {
     ltcgRealisedYtdRupees,
     freshCapitalInr,
     uploadedAtIso,
+    sub,
   });
   try {
     await applyAnalyzerMemory({
@@ -7631,6 +7632,7 @@ async function runSWSAnalysis({
   ltcgRealisedYtdRupees,
   freshCapitalInr,
   uploadedAtIso,
+  sub,
 }) {
   const swsT0 = Date.now();
   const swsTimings = {};
@@ -7862,6 +7864,9 @@ async function runSWSAnalysis({
 
   const sessionId = randomUUID();
   analyzerCache.set(sessionId, {
+    // sub stamps ownership so /api/portfolio/optimize can reject a sessionId
+    // presented by a different user (auth iter 2 defense-in-depth).
+    sub,
     engine: "sws",
     holdings: scoredHoldings,
     mfHoldings,
@@ -8336,6 +8341,7 @@ app.post("/api/portfolio/analyze", requireUploadQuota, requireRiskProfile, portf
       // MF-only books too.
       const sessionId = randomUUID();
       analyzerCache.set(sessionId, {
+        sub, // ownership stamp — see /api/portfolio/optimize validation
         holdings: report.holdings || [],
         mfHoldings,
         sectorAllocation: report.sectorAllocation || [],
@@ -8363,6 +8369,7 @@ app.post("/api/portfolio/analyze", requireUploadQuota, requireRiskProfile, portf
       ltcgRealisedYtdRupees,
       freshCapitalInr,
       uploadedAtIso: savable.parsedAt,
+      sub,
     });
 
     // Recommendation-memory pipeline: reconcile against prior snapshot,
@@ -8500,6 +8507,7 @@ app.post("/api/portfolio/analyze/rerun", requireRiskProfile, express.json(), asy
       ltcgRealisedYtdRupees,
       freshCapitalInr,
       uploadedAtIso: stored.uploadedAt || new Date().toISOString(),
+      sub,
     });
 
     // Memory pipeline (rerun-mode): suppression-only, no writes. Reads the
@@ -8586,12 +8594,18 @@ app.get("/api/portfolio/stance/:symbol", async (req, res) => {
 // Body: { sessionId, preset?, taxSlabPct?, assumedHoldingMonths?, ltcgRealisedYtd? }
 app.post("/api/portfolio/optimize", requireRiskProfile, express.json(), async (req, res) => {
   try {
+    const sub = userSub(req);
+    if (!sub) return res.status(401).json({ error: "auth-required" });
     const sessionId = String(req.body?.sessionId || "");
     if (!sessionId) {
       return res.status(400).json({ error: "Missing sessionId. Run /api/portfolio/analyze first." });
     }
     const cached = analyzerCache.get(sessionId);
-    if (!cached) {
+    // Ownership check (auth iter 2): the sessionId is an unguessable UUID, but
+    // validate it belongs to the caller so a leaked/guessed id can't optimize
+    // against another user's cached holdings. A mismatch is treated as
+    // not-found (410) so we don't confirm the id exists for someone else.
+    if (!cached || (cached.sub && cached.sub !== sub)) {
       return res.status(410).json({
         error: "Session expired or not found. Re-run /api/portfolio/analyze.",
         hint: "Analyzer sessions live 30 minutes; re-upload your portfolio file.",

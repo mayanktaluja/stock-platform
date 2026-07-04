@@ -13,20 +13,28 @@
 // even a buggy route that omitted `sub` would error loudly rather than
 // silently writing to a default bucket.
 //
+// This test exercises the storage-layer contract directly.
+//
 // What this test proves:
 //   1. Storage writes require sub (throws on missing/null/empty)
 //   2. Reads with sub_A do not return sub_B's data, regardless of order
 //   3. Different subs land in different keys / map entries
 //   4. The analyzer storage shares the same contract
+//   5. The watchlist storage shares the same contract (auth iter 2 — was a
+//      shared global list until 2026-07-05)
 //
-// What this test does NOT prove (out of scope, needs a real two-user
-// playwright harness which dev-mode AUTH_ENABLED=false can't simulate):
-//   - The OAuth callback assigns the correct sub
-//   - A session cookie can't be hijacked to read another user's data
-//   - Vercel KV permissions are correctly partitioned
+// Auth iter 2 (2026-07-05) also closed the surfaces this storage test can't
+// reach, with their own dedicated tests:
+//   - The X-Test-Sub identity gate (services/userIdentity.js) — proven inert
+//     outside NODE_ENV==='test' by test/userIdentity.test.mjs.
+//   - The live two-user scenario (dev-mode AUTH_ENABLED=false used to collapse
+//     everyone to _local_dev) — now proven by test/e2e/per-user-isolation.spec
+//     using two contexts pinned to distinct subs via the test header.
+//   - Portfolio response cache is now keyed by sub (was an active bleed);
+//     analyzer sessionId cache stamps sub and /optimize 410s on a mismatch.
 //
-// Those gaps remain real and are tracked in the methodology page; the
-// route-level audit is the primary defence today.
+// Still out of scope here (infra, not app logic): the OAuth callback assigns
+// the correct sub, session cookies can't be hijacked, Vercel KV partitioning.
 
 import { strict as assert } from "node:assert";
 import { existsSync, unlinkSync, mkdtempSync, rmSync } from "node:fs";

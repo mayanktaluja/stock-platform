@@ -102,4 +102,43 @@ test.describe("Per-user data isolation (auth iter 2)", () => {
       await ctxB.close();
     }
   });
+
+  test("a 2nd signed-in user does NOT see the 1st user's portfolio", async ({ browser }) => {
+    const ctxA = await browser.newContext(ctxOpts(SUB_A));
+    const ctxB = await browser.newContext(ctxOpts(SUB_B));
+    try {
+      const reqA = ctxA.request;
+      const reqB = ctxB.request;
+
+      // Reset both namespaces to a known-empty state.
+      await reqA.post("/api/portfolio", { data: { stocks: [], mutualFunds: [] } }).catch(() => {});
+      await reqB.post("/api/portfolio", { data: { stocks: [], mutualFunds: [] } }).catch(() => {});
+
+      // User A saves a portfolio with a distinctive holding.
+      const save = await reqA.post("/api/portfolio", {
+        data: { stocks: [{ symbol: SYM, quantity: 10, avgPrice: 100 }], mutualFunds: [] },
+      });
+      test.skip(!save.ok(), `portfolio save failed (${save.status()}) — cannot run isolation proof`);
+
+      // Precondition: A reads back its own holding (also exercises the
+      // now-sub-keyed response cache — a stale global key would misfire here).
+      const aResp = await reqA.get("/api/portfolio");
+      expect(aResp.ok()).toBeTruthy();
+      const aStocks = (await aResp.json()).stocks || [];
+      expect(aStocks.some((s) => (s.symbol || "").startsWith("TCS"))).toBeTruthy();
+
+      // THE isolation assertion: user B's portfolio must not contain A's holding.
+      const bResp = await reqB.get("/api/portfolio");
+      expect(bResp.ok()).toBeTruthy();
+      const bStocks = (await bResp.json()).stocks || [];
+      expect(
+        bStocks.some((s) => (s.symbol || "").startsWith("TCS")),
+        "user B must not see user A's portfolio holding (cache-key + storage isolation)",
+      ).toBeFalsy();
+    } finally {
+      await ctxA.request.post("/api/portfolio", { data: { stocks: [], mutualFunds: [] } }).catch(() => {});
+      await ctxA.close();
+      await ctxB.close();
+    }
+  });
 });
