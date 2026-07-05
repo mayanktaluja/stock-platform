@@ -17,6 +17,7 @@ import compression from "compression";
 import cors from "cors";
 import helmet from "helmet";
 import { createBreaker } from "./services/externalApiBreaker.js";
+import { resolveUserSub } from "./services/userIdentity.js";
 import { loadRiskLabViewMap, buildLabViewForEvent } from "./services/riskLab/earningsLabView.js";
 import { LAB_PROMOTION_STATUS, buildSizingDecision } from "./services/riskLab/positionSizing.js";
 import { loadHitRateSummary } from "./services/earnings/hitRateSummary.js";
@@ -6144,9 +6145,24 @@ async function savePortfolio(sub, data) {
 // Returns null if AUTH_ENABLED but no session — handler should 401.
 // Returns "_local_dev" when AUTH_ENABLED is false (dev without OAuth)
 // so endpoints don't crash on missing req.user.
+//
+// Test-only identity injection (auth iter 2): under NODE_ENV==='test' an
+// `X-Test-Sub` header selects the namespace, so the Playwright harness can
+// drive two distinct signed-in users from two browser contexts (the OAuth
+// flow can't run headless). This gate is SECURITY-LOAD-BEARING: NODE_ENV is
+// re-read from process.env on every call (never the module-load `isTestEnv`
+// cache) and is only ever 'test' under the test runner — in prod the header
+// is invisible and can never impersonate. Real sessions (req.user.sub) still
+// win over the header, so it can't override an authenticated user either.
 function userSub(req) {
-  if (req.user?.sub) return req.user.sub;
-  return AUTH_ENABLED ? null : "_local_dev";
+  // Delegates to the pure resolver (services/userIdentity.js) so the header
+  // gate is unit-tested in isolation. NODE_ENV is read here, per request.
+  return resolveUserSub({
+    reqUser: req.user,
+    headers: req.headers,
+    authEnabled: AUTH_ENABLED,
+    nodeEnv: process.env.NODE_ENV,
+  });
 }
 
 function sleep(ms) {
@@ -6383,6 +6399,7 @@ async function buildSwsInputReductionContext(sub, portfolio, ledger) {
     ltcgRealisedYtdRupees,
     freshCapitalInr,
     uploadedAtIso,
+    sub,
   });
   try {
     await applyAnalyzerMemory({
@@ -6797,8 +6814,10 @@ import { getWatchlistStorage } from "./watchlistStorage.js";
 
 app.get("/api/watchlist", async (req, res) => {
   try {
+    const sub = userSub(req);
+    if (!sub) return res.status(401).json({ error: "auth-required" });
     const storage = getWatchlistStorage();
-    const list = await storage.readAll();
+    const list = await storage.read(sub);
     // Enrich with live prices
     const enriched = await Promise.all(list.map(async (item) => {
       try {
@@ -6818,6 +6837,8 @@ app.get("/api/watchlist", async (req, res) => {
 });
 
 app.post("/api/watchlist/add", express.json(), async (req, res) => {
+  const sub = userSub(req);
+  if (!sub) return res.status(401).json({ error: "auth-required" });
   const { symbol, name, sector } = req.body || {};
   if (!symbol) return res.status(400).json({ error: "symbol required" });
 
@@ -6843,7 +6864,7 @@ app.post("/api/watchlist/add", express.json(), async (req, res) => {
     if (q && typeof q.regularMarketPrice === "number") addedPrice = q.regularMarketPrice;
   } catch { /* keep addedPrice null */ }
 
-  const result = await storage.add({
+  const result = await storage.add(sub, {
     symbol: resolved.symbol,
     name: resolved.name || name || resolved.symbol,
     sector: resolved.sector || sector || null,
@@ -6854,12 +6875,14 @@ app.post("/api/watchlist/add", express.json(), async (req, res) => {
 });
 
 app.post("/api/watchlist/remove", express.json(), async (req, res) => {
+  const sub = userSub(req);
+  if (!sub) return res.status(401).json({ error: "auth-required" });
   const { symbol } = req.body || {};
   if (!symbol) return res.status(400).json({ error: "symbol required" });
   const resolved = findBySymbol(symbol);
   const canonicalSymbol = resolved?.symbol || symbol;
   const storage = getWatchlistStorage();
-  const result = await storage.remove(canonicalSymbol);
+  const result = await storage.remove(sub, canonicalSymbol);
   res.json({ ok: true, ...result });
 });
 
@@ -6891,7 +6914,13 @@ app.get("/api/portfolio", async (req, res) => {
     // shared across lambdas, ~10-30ms). On a new cold lambda, NodeCache is
     // always empty but KV is almost always warm — this shaves the full
     // enrichment+intel pipeline off every second user after any cold start.
-    const cacheKey = `port_${portfolio.lastUpdated}`;
+    //
+    // The key MUST include `sub` (auth iter 2): without it, two users whose
+    // portfolios share a lastUpdated timestamp collide, and the cache serves
+    // one user's enriched portfolio to the other. sub is threaded into both
+    // tiers here — the L2 key derives from cacheKey (`portfolio:resp:${...}`)
+    // and both cache writes reuse cacheKey, so this single change covers all.
+    const cacheKey = `port_${sub}_${portfolio.lastUpdated}`;
     if (!req.query.bust) {
       const l1 = portfolioCache.get(cacheKey);
       if (l1) {
@@ -7631,6 +7660,7 @@ async function runSWSAnalysis({
   ltcgRealisedYtdRupees,
   freshCapitalInr,
   uploadedAtIso,
+  sub,
 }) {
   const swsT0 = Date.now();
   const swsTimings = {};
@@ -7862,6 +7892,9 @@ async function runSWSAnalysis({
 
   const sessionId = randomUUID();
   analyzerCache.set(sessionId, {
+    // sub stamps ownership so /api/portfolio/optimize can reject a sessionId
+    // presented by a different user (auth iter 2 defense-in-depth).
+    sub,
     engine: "sws",
     holdings: scoredHoldings,
     mfHoldings,
@@ -8336,6 +8369,7 @@ app.post("/api/portfolio/analyze", requireUploadQuota, requireRiskProfile, portf
       // MF-only books too.
       const sessionId = randomUUID();
       analyzerCache.set(sessionId, {
+        sub, // ownership stamp — see /api/portfolio/optimize validation
         holdings: report.holdings || [],
         mfHoldings,
         sectorAllocation: report.sectorAllocation || [],
@@ -8363,6 +8397,7 @@ app.post("/api/portfolio/analyze", requireUploadQuota, requireRiskProfile, portf
       ltcgRealisedYtdRupees,
       freshCapitalInr,
       uploadedAtIso: savable.parsedAt,
+      sub,
     });
 
     // Recommendation-memory pipeline: reconcile against prior snapshot,
@@ -8500,6 +8535,7 @@ app.post("/api/portfolio/analyze/rerun", requireRiskProfile, express.json(), asy
       ltcgRealisedYtdRupees,
       freshCapitalInr,
       uploadedAtIso: stored.uploadedAt || new Date().toISOString(),
+      sub,
     });
 
     // Memory pipeline (rerun-mode): suppression-only, no writes. Reads the
@@ -8586,12 +8622,18 @@ app.get("/api/portfolio/stance/:symbol", async (req, res) => {
 // Body: { sessionId, preset?, taxSlabPct?, assumedHoldingMonths?, ltcgRealisedYtd? }
 app.post("/api/portfolio/optimize", requireRiskProfile, express.json(), async (req, res) => {
   try {
+    const sub = userSub(req);
+    if (!sub) return res.status(401).json({ error: "auth-required" });
     const sessionId = String(req.body?.sessionId || "");
     if (!sessionId) {
       return res.status(400).json({ error: "Missing sessionId. Run /api/portfolio/analyze first." });
     }
     const cached = analyzerCache.get(sessionId);
-    if (!cached) {
+    // Ownership check (auth iter 2): the sessionId is an unguessable UUID, but
+    // validate it belongs to the caller so a leaked/guessed id can't optimize
+    // against another user's cached holdings. A mismatch is treated as
+    // not-found (410) so we don't confirm the id exists for someone else.
+    if (!cached || (cached.sub && cached.sub !== sub)) {
       return res.status(410).json({
         error: "Session expired or not found. Re-run /api/portfolio/analyze.",
         hint: "Analyzer sessions live 30 minutes; re-upload your portfolio file.",

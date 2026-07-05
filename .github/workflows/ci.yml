@@ -83,3 +83,12 @@ jobs:
         # build lacks. The Playwright config auto-starts node server.js on :4011,
         # auth off (reuseExistingServer:false under CI).
         run: npx playwright test stock-detail-modal
+
+      - name: Per-user isolation e2e (auth iter 2)
+        # Runs per-user-isolation.spec — the acceptance gate for per-user data
+        # namespacing. Two browser contexts pinned to distinct subs via the
+        # NODE_ENV=test-gated X-Test-Sub header prove that a 2nd signed-in user
+        # sees neither the 1st user's watchlist nor portfolio. Deterministic
+        # (no fixture build; seeds its own data via API), so it belongs in CI —
+        # a regression here is a cross-user data leak, the worst-case outcome.
+        run: npx playwright test per-user-isolation

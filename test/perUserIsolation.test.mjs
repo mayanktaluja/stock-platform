@@ -13,20 +13,28 @@
 // even a buggy route that omitted `sub` would error loudly rather than
 // silently writing to a default bucket.
 //
+// This test exercises the storage-layer contract directly.
+//
 // What this test proves:
 //   1. Storage writes require sub (throws on missing/null/empty)
 //   2. Reads with sub_A do not return sub_B's data, regardless of order
 //   3. Different subs land in different keys / map entries
 //   4. The analyzer storage shares the same contract
+//   5. The watchlist storage shares the same contract (auth iter 2 — was a
+//      shared global list until 2026-07-05)
 //
-// What this test does NOT prove (out of scope, needs a real two-user
-// playwright harness which dev-mode AUTH_ENABLED=false can't simulate):
-//   - The OAuth callback assigns the correct sub
-//   - A session cookie can't be hijacked to read another user's data
-//   - Vercel KV permissions are correctly partitioned
+// Auth iter 2 (2026-07-05) also closed the surfaces this storage test can't
+// reach, with their own dedicated tests:
+//   - The X-Test-Sub identity gate (services/userIdentity.js) — proven inert
+//     outside NODE_ENV==='test' by test/userIdentity.test.mjs.
+//   - The live two-user scenario (dev-mode AUTH_ENABLED=false used to collapse
+//     everyone to _local_dev) — now proven by test/e2e/per-user-isolation.spec
+//     using two contexts pinned to distinct subs via the test header.
+//   - Portfolio response cache is now keyed by sub (was an active bleed);
+//     analyzer sessionId cache stamps sub and /optimize 410s on a mismatch.
 //
-// Those gaps remain real and are tracked in the methodology page; the
-// route-level audit is the primary defence today.
+// Still out of scope here (infra, not app logic): the OAuth callback assigns
+// the correct sub, session cookies can't be hijacked, Vercel KV partitioning.
 
 import { strict as assert } from "node:assert";
 import { existsSync, unlinkSync, mkdtempSync, rmSync } from "node:fs";
@@ -54,9 +62,11 @@ const TEST_SUB_B = `_test_isolation_B_${Date.now()}_${Math.random().toString(36)
 
 const { getPortfolioStorage } = await import("../portfolioStorage.js");
 const { getAnalyzerStorage } = await import("../analyzerStorage.js");
+const { getWatchlistStorage } = await import("../watchlistStorage.js");
 
 const ps = getPortfolioStorage();
 const as = getAnalyzerStorage();
+const ws = getWatchlistStorage();
 
 console.log("\n[1] Portfolio storage requires sub on write");
 await test("write throws when sub is null", async () => {
@@ -129,6 +139,24 @@ await test("portfolio storage key includes sub (KV adapter contract)", async () 
   assert.ok(name === "file" || name === "vercel-kv");
 });
 
+console.log("\n[5] Watchlist storage shares the same isolation contract (auth iter 2)");
+await test("watchlist add throws when sub is null", async () => {
+  await assert.rejects(() => ws.add(null, { symbol: "X.NS" }), /sub is required/i);
+});
+await test("watchlist sub A's item is not readable as sub B", async () => {
+  await ws.add(TEST_SUB_A, {
+    symbol: "WL_ISOLATION_A.NS", name: "A", sector: "TEST",
+    addedAt: new Date().toISOString(), addedPrice: 100,
+  });
+  const asB = await ws.read(TEST_SUB_B);
+  assert.ok(!asB.some((s) => s.symbol === "WL_ISOLATION_A.NS"),
+    "sub B watchlist read returned sub A's item");
+});
+await test("watchlist read of unknown sub returns []", async () => {
+  const got = await ws.read(`_test_never_wl_${Date.now()}`);
+  assert.deepEqual(got, []);
+});
+
 // Cleanup — remove the two test users from the portfolios file/KV so we
 // don't accumulate cruft on the dev box. Idempotent.
 try {
@@ -144,6 +172,12 @@ try {
     delete all[TEST_SUB_A];
     delete all[TEST_SUB_B];
     await as._writeAll(all);
+  }
+  if (ws.name === "file") {
+    const all = await ws._readAll();
+    delete all[TEST_SUB_A];
+    delete all[TEST_SUB_B];
+    await ws._writeAll(all);
   }
 } catch {
   // Cleanup failure is not a test failure — log and move on.
