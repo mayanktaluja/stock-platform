@@ -4239,6 +4239,24 @@ function renderUpcomingCatalysts(catalysts) {
     </div>`;
 }
 
+// Discovery Radar staleness budget — mirrors DISCOVERY_STALE_HOURS in server.js.
+// The server is authoritative (stamps feed.stale); this constant only drives the
+// offline/mocked-feed fallback so the two can never disagree at the boundary.
+const DISCOVERY_STALE_HOURS = 48;
+
+// True when the radar feed is older than the budget. Prefer the server flag;
+// only recompute from generated_at when the server didn't stamp one (mocks).
+// Missing generated_at is the "warming" path (handled by available:false), so it
+// is NOT stale here; an unparseable timestamp can't prove freshness ⇒ stale.
+function isDiscoveryStale(feed) {
+  if (feed?.stale === true) return true;
+  if (feed?.stale === false) return false;
+  if (!feed?.generated_at) return false;
+  const t = new Date(feed.generated_at).getTime();
+  if (!Number.isFinite(t)) return true;
+  return Date.now() - t > DISCOVERY_STALE_HOURS * 36e5;
+}
+
 function discoveryLaneLabel(id) {
   const labels = {
     future_breakout: "Future Breakout",
@@ -4289,6 +4307,8 @@ function renderDiscoveryRadar(feed) {
   const generated = feed?.generated_at
     ? new Date(feed.generated_at).toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" })
     : "Warming";
+  const stale = isDiscoveryStale(feed);
+  const ageDays = feed?.age_hours != null ? Math.round(feed.age_hours / 24) : null;
   const chip = (lane) => {
     const active = _discoveryRadarFilter === lane.id;
     return `<button type="button" data-testid="discovery-radar-lane-chip" data-lane="${escapeHtml(lane.id)}" onclick="setDiscoveryRadarFilter('${escapeHtml(lane.id)}')" style="border:1px solid ${active ? 'rgba(96,165,250,0.65)' : 'var(--border)'};background:${active ? 'rgba(96,165,250,0.18)' : 'rgba(255,255,255,0.035)'};color:${active ? 'var(--info-text-soft)' : 'var(--text-secondary)'};border-radius:7px;padding:7px 10px;font-size:11px;font-weight:800;cursor:pointer;">${escapeHtml(lane.label)} <span style="font-family:'JetBrains Mono',monospace;color:var(--text-muted);">${countFor(lane.id)}</span></button>`;
@@ -4346,7 +4366,11 @@ function renderDiscoveryRadar(feed) {
         ${chip({ id: "all", label: "All" })}
         ${lanes.map(chip).join("")}
       </div>
-      ${feed?.available === false ? `<div style="font-size:12px;color:var(--yellow);padding:10px 12px;border-radius:8px;background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.22);">Discovery Radar is warming. The next SWS refresh will publish the feed.</div>` : rows || `<div style="font-size:12px;color:var(--text-muted);">No SWS names cleared the Discovery Radar review thresholds in the latest run.</div>`}
+      ${feed?.available === false
+        ? `<div style="font-size:12px;color:var(--yellow);padding:10px 12px;border-radius:8px;background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.22);">Discovery Radar is warming. The next SWS refresh will publish the feed.</div>`
+        : stale
+          ? `<div data-testid="discovery-radar-stale-notice" style="font-size:12px;color:var(--yellow);padding:10px 12px;border-radius:8px;background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.22);">Regenerating &mdash; last built ${escapeHtml(generated)}${ageDays != null ? ` (${ageDays}d ago)` : ""}. These names are past the ${DISCOVERY_STALE_HOURS}h freshness window; the next SWS refresh will republish the queue.</div>`
+          : rows || `<div style="font-size:12px;color:var(--text-muted);">No SWS names cleared the Discovery Radar review thresholds in the latest run.</div>`}
     </div>`;
 }
 
@@ -4416,7 +4440,7 @@ function renderSourceHealth(macroRegime, heatmap, catalysts, discovery, fiiDii) 
     _sourceChip("Heatmap", heatmap?.lastUpdated, 1),
     _sourceChip("FII/DII", fiiIso, 48),
     _sourceChip("Catalysts", catalysts?.fetchedAt, 24 * 7),
-    _sourceChip("Radar", discovery?.generated_at, 24 * 7),
+    _sourceChip("Radar", discovery?.generated_at, DISCOVERY_STALE_HOURS),
   ];
   return `
     <div data-testid="market-source-health" style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:18px;font-size:10px;color:var(--text-muted);">
@@ -4453,11 +4477,9 @@ function renderNewsPage(digest, heatmap, macroRegime, catalysts, discovery, fiiD
   const radarBits = [`${radarCount} name${radarCount === 1 ? "" : "s"}`];
   if (radarScanned) radarBits.push(`${radarScanned} scanned`);
   radarBits.push(`as of ${radarAsOf}`);
-  const radarStale = discovery?.generated_at
-    ? (Date.now() - new Date(discovery.generated_at).getTime()) > 7 * 24 * 36e5
-    : false;
+  const radarStale = isDiscoveryStale(discovery);
   const radarStalePill = radarStale
-    ? `<span data-testid="radar-stale-pill" style="margin-left:8px;padding:2px 7px;border-radius:5px;background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.35);color:var(--yellow);font-size:10px;font-weight:700;">stale</span>`
+    ? `<span data-testid="radar-stale-pill" style="margin-left:8px;padding:2px 7px;border-radius:5px;background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.35);color:var(--yellow);font-size:10px;font-weight:700;">regenerating</span>`
     : "";
   html += `
     <details class="analyzer-tier-details" data-testid="discovery-radar-details" style="margin-bottom:24px;">
@@ -5899,16 +5921,18 @@ function _credibilityBannerCopy(best, windowPayload, label) {
     };
   }
 
-  // latest_available (non-resolved) spotlight: the cohort is today's top-ranked
-  // picks applied backward, not a cohort actually held since then. Keep the metric
-  // but flag it hypothetical + append the not-realized caveat so the homepage banner
-  // is as honest as the Track tab's illustrative-basis disclaimer.
+  // latest_available (non-resolved) spotlight: the "cohort" is today's top-ranked
+  // picks applied BACKWARD — survivorship, not a cohort actually held since then.
+  // That is not evidence, so we no longer headline the backfilled alpha number
+  // (previously shown with an "Illustrative" chip). Show a building state instead;
+  // the banner flips to a realized figure automatically once forward windows mature
+  // (sampleStatus === "resolved"). The Track tab keeps the full illustrative
+  // methodology + disclaimer for anyone who wants the backfilled context.
   return {
-    tone: "positive",
-    hypothetical: true,
-    headline: `${label} ${_cohortLabel(best)} shows ${_fmtSignedPct(alpha)} alpha vs Nifty 50`,
-    evidenceSuffix: " Illustrative: backfilled from today's top-ranked picks (survivorship) — not a cohort held since then, and not a realized return.",
-    showAlpha: true,
+    tone: "neutral",
+    headline: "Track Record is building — tracking picks live vs Nifty 50",
+    evidence: "Verified forward returns begin maturing on a rolling 1m/3m/6m/12m basis; this banner switches to a realized figure automatically. No hindsight outperformance is being claimed.",
+    showAlpha: false,
   };
 }
 
@@ -5972,7 +5996,10 @@ function renderPicksCredibilityBanner(payload) {
   const cohortText = _cohortLabel(best);
   const evidence = copy.evidence || `${_sectionBenchmarkLine(cohortText, sectionReturn, benchmark)}.${copy.evidenceSuffix || ""}`;
   const selectedWindow = best?.window || null;
-  const selectedWindowText = selectedWindow && Number.isFinite(alpha)
+  // Only surface the numeric alpha in the window chip when the copy is actually
+  // showing a resolved figure — otherwise the survivorship % would leak here even
+  // though the headline is in its building state.
+  const selectedWindowText = selectedWindow && Number.isFinite(alpha) && copy.showAlpha
     ? `${selectedWindow} · ${label} ${cohortText} ${_fmtSignedPct(alpha)}`
     : selectedWindow
       ? `${selectedWindow} · ${label} ${cohortText}`
@@ -6010,7 +6037,12 @@ async function loadPicksCredibilityBanner(forceBust = false) {
     const res = await fetch(url);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const payload = await res.json();
+    // Capture the resolved-cohort per-section backtest (hit-rate + alpha pills)
+    // riding on the same payload — no extra fetch. Re-render picks so section
+    // headers pick up the measured/measuring pills once this lands.
+    currentPicksSectionBacktest = payload && payload.resolved_backtest ? payload.resolved_backtest : null;
     renderPicksCredibilityBanner(payload);
+    if (currentPicksData) renderPicks(currentPicksData);
   } catch (err) {
     host.style.display = "none";
     host.innerHTML = "";
@@ -12152,6 +12184,20 @@ let picksStatusPollStarted = false;
 // Cached payload from /api/sws-picks so the radio filter can re-render
 // without re-fetching. Set on every successful loadPicks().
 let currentPicksData = null;
+// Resolved-cohort per-section hit-rate + alpha pills (India). Populated by
+// loadPicksCredibilityBanner from /api/track/section-performance.resolved_backtest.
+let currentPicksSectionBacktest = null;
+
+// Header pill for a Picks section: measured "α … · n=… · ~Nd hold" or muted
+// "n=X · measuring". The HTML is computed server-side (formatSectionPill), so
+// this just injects the pre-rendered string; empty when the backtest hasn't
+// loaded yet or the section isn't tracked.
+function renderPicksSectionMetricPill(sectionKey) {
+  const entry = currentPicksSectionBacktest && currentPicksSectionBacktest.sections
+    ? currentPicksSectionBacktest.sections[sectionKey]
+    : null;
+  return entry && entry.pill_html ? entry.pill_html : "";
+}
 let currentPicksMacroRegime = null;
 
 // V4 is the platform's sole composite score (the V3→V4 migration removed V3 and
@@ -13022,6 +13068,7 @@ function renderPicks(data) {
               <div class="sws-pick-section-title">
                 <span class="section-name">${section.label}</span>
                 <span class="sws-pick-section-count">${items.length}</span>
+                ${renderPicksSectionMetricPill(section.key)}
                 ${sectionWarning.pill}
                 ${tip}
                 <span class="section-chevron">&#9660;</span>
@@ -13239,6 +13286,12 @@ function renderPickCard(s, sectionKey, rank = null) {
   const fmtInr = (v) => v == null ? "—" : v >= 1e12 ? `₹${(v / 1e12).toFixed(2)} L Cr` : v >= 1e7 ? `₹${(v / 1e7).toFixed(v >= 1e10 ? 0 : 2)} Cr` : `₹${v.toLocaleString("en-IN")}`;
   const upside = s.upside_pct != null ? `${s.upside_pct > 0 ? "+" : ""}${s.upside_pct.toFixed(1)}%` : "—";
   const upsideColor = s.upside_pct == null ? "var(--text-muted)" : s.upside_pct >= 0 ? "var(--green)" : "var(--red)";
+  // Honesty chip: the analyst FV was flagged as an inflated range-MAX with thin
+  // coverage, so the shown upside has been de-rated to match the score. The number
+  // is not a consensus — say so on the card, not only in the score-breakdown modal.
+  const upsideHaircutChip = s.upside_haircut_applied
+    ? `<span class="sws-pick-haircut-chip" title="Fair value sits at the top of a thin analyst range — likely one bullish target, not a consensus. Shown upside is de-rated to match how the composite score already treats it." style="display:inline-block;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:0.03em;color:var(--warn);border:1px solid var(--warn);border-radius:4px;padding:1px 4px;margin-left:4px;vertical-align:middle;">${s.upside_display_basis === "haircut_thin_coverage" ? "thin coverage" : "max-target basis"}</span>`
+    : "";
   const sn = s.snowflake_total ?? "—";
   // Headline score: v3 (fundamentals 74 + momentum 14 + safety overlay −15) > v2 > v1.
   // v4 is the platform's sole composite score (fundamentals 76 + FV 12 +
@@ -13407,7 +13460,7 @@ function renderPickCard(s, sectionKey, rank = null) {
             ? `<span class="sws-pick-fv-unavailable" title="SWS did not publish a finite fair value for this stock. This card stays in the section based on its Snowflake quality pillars; no discount-to-FV claim is being made.">unavailable</span>`
             : fmtInr(s.fair_value_inr)
         }</div>
-        <div class="sws-pick-stat" style="color:${upsideColor};">${upside}${infoIcon("upside_pct")}${valBandChip ? " " + valBandChip : ""}</div>
+        <div class="sws-pick-stat" style="color:${upsideColor};">${upside}${infoIcon("upside_pct")}${valBandChip ? " " + valBandChip : ""}${upsideHaircutChip}</div>
         <div class="sws-pick-stat sws-pick-stat-snow"><span class="sws-pick-stat-label">Snow${infoIcon("snowflake_score")}</span> ${sn}/30</div>
       </div>
 	      ${renderPickPillarBars(s.snowflake)}

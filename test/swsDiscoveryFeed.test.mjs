@@ -29,7 +29,7 @@ function deep({ future = 0, returns = {}, news = [], dataQuality = null, valuati
   };
 }
 
-const feed = buildSwsDiscoveryFeed({
+const buildArgs = {
   generatedAt,
   scoredUniverse: {
     stocks: [
@@ -38,9 +38,14 @@ const feed = buildSwsDiscoveryFeed({
       row({ ticker: "WEAKTAPE", v4_score: 51, v4_verdict: "STRONG" }),
       row({ ticker: "ASMNAME", v4_score: 65, v4_verdict: "TOP_PICK", regulatory_flags: { surveillance: "ASM" } }),
       row({ ticker: "GSMNAME", v4_score: 70, v4_verdict: "TOP_PICK", regulatory_flags: { surveillance: "GSM" } }),
+      // Curated dedup fixtures: both sit in the actionable top_ranked_30_v4 section.
+      // CURATEDHI qualifies for future_breakout absent dedup; CURATEDUPG qualifies
+      // ONLY for upgrade_watch (the carve-out case).
+      row({ ticker: "CURATEDHI", name: "Curated High Future Ltd", v4_score: 65, v4_verdict: "TOP_PICK" }),
+      row({ ticker: "CURATEDUPG", name: "Curated Upgrade Ltd", v4_score: 55, v4_verdict: "STRONG" }),
     ],
   },
-  picksLatest: { sections: { top_ranked_30_v4: [], snowflake_gap_lab: [{ ticker: "KRISHNADEF" }] } },
+  picksLatest: { sections: { top_ranked_30_v4: [{ ticker: "CURATEDHI" }, { ticker: "CURATEDUPG" }], snowflake_gap_lab: [{ ticker: "KRISHNADEF" }] } },
   deepByTicker: {
     FINOPB: deep({
       future: 5,
@@ -64,15 +69,21 @@ const feed = buildSwsDiscoveryFeed({
     }),
     ASMNAME: deep({ future: 5, returns: { "7D": 8 }, news: [{ title: "Revenue rises strongly", date: "2026-06-09T00:00:00.000Z" }] }),
     GSMNAME: deep({ future: 5, returns: { "7D": 8 }, news: [{ title: "Revenue rises strongly", date: "2026-06-09T00:00:00.000Z" }] }),
+    CURATEDHI: deep({ future: 5, returns: { "7D": 1, "1M": 1 }, news: [] }),
+    CURATEDUPG: deep({ future: 2, returns: { "7D": -3, "1M": -5 }, news: [] }),
   },
   inputChanges: {
     run_id: "test-run",
     confirmation_policy: "two_consecutive_full_runs",
     changes: [
       { ticker: "FINOPB", changes: [{ field: "snowflake.future", previous: 3, current: 5 }] },
+      // fair_value upgrade (not a future-pillar change) → upgrade_watch only.
+      { ticker: "CURATEDUPG", changes: [{ field: "fair_value_inr", previous: 100, current: 150 }] },
     ],
   },
-});
+};
+
+const feed = buildSwsDiscoveryFeed(buildArgs);
 
 const byTicker = new Map(feed.items.map((item) => [item.ticker, item]));
 
@@ -90,6 +101,22 @@ assert.ok(byTicker.get("KRISHNADEF").caution_flags.includes("fv_display_only_ran
 assert.ok(byTicker.get("WEAKTAPE").caution_flags.includes("news_headwind"), "negative-news/weak-tape names are caution-tagged");
 assert.ok(byTicker.get("ASMNAME").caution_flags.includes("surveillance_hard_caution"), "ASM names are hard-cautioned");
 assert.equal(byTicker.has("GSMNAME"), false, "GSM names are suppressed");
+
+// Curated dedup (no dup names): a name already in an actionable curated section
+// must not re-list in the review queue, even though it would otherwise qualify.
+assert.equal(byTicker.has("CURATEDHI"), false, "a name in a curated actionable section is deduped out of the radar");
+assert.equal(byTicker.has("CURATEDUPG"), false, "curated upgrade-only names are dropped by default (keepCuratedUpgradeWatch=false)");
+assert.ok(byTicker.has("KRISHNADEF"), "names in NON-actionable sections (snowflake_gap_lab) are NOT deduped");
+assert.ok(feed.counts.membership_tickers >= 3, "membership_tickers reflects curated names seen in picks-latest.json");
+assert.equal(feed.dedup_degraded, undefined, "buildSwsDiscoveryFeed itself does not stamp dedup_degraded (the build script does)");
+
+// Carve-out: with keepCuratedUpgradeWatch=true, a curated name that surfaced
+// ONLY via a confirmed fresh upgrade survives; curated non-upgrade names stay out.
+const feedKeep = buildSwsDiscoveryFeed({ ...buildArgs, keepCuratedUpgradeWatch: true });
+const keepByTicker = new Map(feedKeep.items.map((item) => [item.ticker, item]));
+assert.equal(keepByTicker.has("CURATEDHI"), false, "curated non-upgrade names stay deduped even with the carve-out");
+assert.ok(keepByTicker.has("CURATEDUPG"), "curated upgrade-only names survive when keepCuratedUpgradeWatch=true");
+assert.deepEqual(keepByTicker.get("CURATEDUPG").lanes.map((l) => l.id), ["upgrade_watch"], "carve-out keeps only the upgrade_watch lane");
 
 const email = buildDiscoveryFeedEmail(feed);
 assert.match(email.html, /Discovery Radar/);

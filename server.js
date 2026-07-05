@@ -116,7 +116,7 @@ import {
 import { buildEntryBand } from "./services/swsIndiaSectionPolicy.js";
 import { buildBestToBuyTiers } from "./services/swsBestToBuyTiers.js";
 import { computeV4Score, verdictV4FromScore } from "./services/swsScoringV4.js";
-import { reconcileFairValue, withReconciledFairValue } from "./services/fvReconciliation.js";
+import { reconcileFairValue, withReconciledFairValue, applyUpsideHaircut } from "./services/fvReconciliation.js";
 import { buildCalibration as buildTrackCalibration } from "./services/trackRecord/calibration.js";
 import { buildSymbolEarningsCalibration } from "./services/trackRecord/earningsCalibration.js";
 import { deriveGovernanceGate } from "./services/swsIndianRiskLayer.js";
@@ -234,6 +234,7 @@ import {
   filterPublicTrackTrades,
 } from "./paperTrades.js";
 import { snapshotTrackRecordSections } from "./services/trackRecord/sectionSnapshotter.js";
+import { withSectionPills } from "./services/trackRecord/picksSectionBacktest.js";
 import { resolveOpenHorizons } from "./services/trackRecord/forwardReturnsResolver.js";
 import {
   buildAllSectionScorecards,
@@ -5207,6 +5208,7 @@ const trackCache = new NodeCache({ stdTTL: 300, checkperiod: 60 });
 const SECTION_PERFORMANCE_MODULE_PATH = "./services/trackRecord/sectionPerformance.js";
 const SECTION_PERFORMANCE_STORAGE_MODULE_PATH = "./services/trackRecord/sectionPerformanceStorage.js";
 const SECTION_PERFORMANCE_LATEST_PATH = path.join(__dirname, "data", "track-record", "section-performance-latest.json");
+const PICKS_SECTION_BACKTEST_LATEST_PATH = path.join(__dirname, "data", "track-record", "picks-section-backtest-latest.json");
 let _sectionPerformanceModulePromise = null;
 let _sectionPerformanceStorageModulePromise = null;
 
@@ -5341,6 +5343,29 @@ function readStoredSectionPerformancePayload({ windows, cohorts, picksData, mod 
     };
   } catch (err) {
     console.warn("[trackRecord:sectionPerformance] stored snapshot read failed:", err.message);
+    return null;
+  }
+}
+
+/**
+ * Read the resolved-cohort picks-section backtest (hit-rate + alpha CIs) and
+ * stamp each section with its header pill HTML. Null-safe: if the nightly hasn't
+ * written the file, the Picks header silently falls back to the plain count.
+ */
+function readPicksSectionBacktest() {
+  try {
+    if (!fs.existsSync(PICKS_SECTION_BACKTEST_LATEST_PATH)) return null;
+    const payload = JSON.parse(fs.readFileSync(PICKS_SECTION_BACKTEST_LATEST_PATH, "utf-8"));
+    const stat = fs.statSync(PICKS_SECTION_BACKTEST_LATEST_PATH);
+    const generatedAt = payload.generated_at || stat.mtime.toISOString();
+    const ageHours = (Date.now() - new Date(generatedAt).getTime()) / 3_600_000;
+    return {
+      ...withSectionPills(payload),
+      source_age_hours: Number.isFinite(ageHours) ? Math.round(ageHours * 10) / 10 : null,
+      source_stale: !Number.isFinite(ageHours) || ageHours > 48,
+    };
+  } catch (err) {
+    console.warn("[trackRecord:picksSectionBacktest] read failed:", err.message);
     return null;
   }
 }
@@ -5875,6 +5900,9 @@ app.get("/api/track/section-performance", async (req, res) => {
       windows: payload?.windows || windows,
       cohorts: payload?.cohorts || cohorts,
       lastComputedAt: payload?.lastComputedAt || new Date().toISOString(),
+      // Resolved-cohort per-section hit-rate + alpha CIs (with header pill HTML)
+      // for the Picks-tab section headers. Null when the nightly hasn't run.
+      resolved_backtest: readPicksSectionBacktest(),
       decision_contract: contextOnlyContract("Track Record is historical evidence; hindsight rows do not imply current action."),
     };
     if (!response.transient) trackCache.set(cacheKey, response);
@@ -8933,7 +8961,10 @@ function enrichPickRow(it) {
     const cachedQuote = quoteCache.get(`${it.ticker}.NS`);
     const livePx = cachedQuote && Number(cachedQuote.regularMarketPrice);
     if (Number.isFinite(livePx) && livePx > 0) {
-      const liveUpside = ((it.fair_value_inr - livePx) / livePx) * 100;
+      // Re-apply the display haircut the scorer stamped (enrichPickRow sees only
+      // the slim card at recompute time, not the analyst range), so a live price
+      // can't silently re-inflate a thin-coverage max-target upside.
+      const liveUpside = applyUpsideHaircut(((it.fair_value_inr - livePx) / livePx) * 100, it.upside_haircut_factor ?? 1);
       it.current_price_inr = livePx;
       it.upside_pct = Math.round(liveUpside * 10) / 10;
       it.valuation_band = valuationBandFromUpside(liveUpside);
@@ -8970,8 +9001,10 @@ function applyReconciledFvToCard(card, overview, { markDrift = false } = {}) {
   }
   card.fair_value_inr = fv.fair_value_inr;
   if (Number.isFinite(overview.current_price_inr)) card.current_price_inr = overview.current_price_inr;
-  card.upside_pct = fv.upside_pct;
-  card.valuation_band = fv.valuation_band;
+  // Preserve the scorer's display haircut through the drift-corrected recompute.
+  const reconciledUpside = applyUpsideHaircut(fv.upside_pct, card.upside_haircut_factor ?? 1);
+  card.upside_pct = reconciledUpside;
+  card.valuation_band = valuationBandFromUpside(reconciledUpside);
   card.fv_reconcile_reason = fv.fv_reconcile_reason;
   card.fair_value_confidence = fv.fair_value_confidence;
   card.fair_value_source = fv.fair_value_source;
@@ -9318,6 +9351,12 @@ app.get("/api/sws-picks-summary", async (req, res) => {
   res.json(await buildSwsPicksSummaryPayload(raw, req));
 });
 
+// Discovery Radar staleness budget — the single source of truth, mirrored
+// client-side in gated/app.js. A feed older than this (or with a missing/
+// unparseable/future generated_at) is served with stale:true so the UI
+// collapses the rows to a "regenerating" state instead of showing them as live.
+const DISCOVERY_STALE_HOURS = 48;
+
 function emptySwsDiscoveryFeed() {
   const lanes = [
     { id: "future_breakout", label: "Future Breakout" },
@@ -9330,6 +9369,12 @@ function emptySwsDiscoveryFeed() {
     generated_at: null,
     run_id: null,
     available: false,
+    // Warming/never-built is DISTINCT from stale: there is no old data to be
+    // stale, so stale:false here. A built-but-old feed is available:true,
+    // stale:true (computed in the route from generated_at).
+    stale: false,
+    age_hours: null,
+    stale_threshold_hours: DISCOVERY_STALE_HOURS,
     copy: {
       title: "Discovery Radar",
       subtitle: "Review queue for SWS names where future growth, momentum, or confirmed inputs are becoming interesting.",
@@ -9355,16 +9400,30 @@ app.get("/api/sws-discovery-feed", (req, res) => {
     const feed = swsDal.getDiscoveryFeed();
     if (!feed || typeof feed !== "object") return res.json(emptySwsDiscoveryFeed());
     const empty = emptySwsDiscoveryFeed();
+    // Age from generated_at ONLY — never file mtime. The feed is re-committed by
+    // the nightly so its mtime is always fresh; content freshness lives in
+    // generated_at. null/unparseable/future-dated all read as stale (can't prove
+    // fresh ⇒ don't serve as live). Recomputed per request (time-relative), so it
+    // must NOT be cached in the mtime-keyed DAL.
+    const t = feed.generated_at ? new Date(feed.generated_at).getTime() : NaN;
+    const ageHours = Number.isFinite(t) ? +(((Date.now() - t) / 3_600_000)).toFixed(1) : null;
+    const stale = ageHours == null || ageHours < 0 || ageHours > DISCOVERY_STALE_HOURS;
     res.json({
       ...empty,
       ...feed,
       available: feed.available !== false,
+      // stamped AFTER ...feed so the server-computed values always win, even if a
+      // future feed writes its own — server is authoritative, client mirrors.
+      stale,
+      age_hours: ageHours,
+      stale_threshold_hours: DISCOVERY_STALE_HOURS,
       lanes: Array.isArray(feed.lanes) ? feed.lanes : empty.lanes,
       items: Array.isArray(feed.items) ? feed.items : [],
       sections: feed.sections && typeof feed.sections === "object" ? feed.sections : empty.sections,
     });
   } catch (err) {
-    res.json({ ...emptySwsDiscoveryFeed(), error: "discovery_feed_unavailable", message: err.message });
+    // An errored feed collapses (stale:true) rather than rendering a phantom live queue.
+    res.json({ ...emptySwsDiscoveryFeed(), stale: true, age_hours: null, error: "discovery_feed_unavailable", message: err.message });
   }
 });
 

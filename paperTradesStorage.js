@@ -84,9 +84,13 @@ function mergeById(baseTrades, overlayTrades) {
 }
 
 class FileStorage {
-  constructor(filePath = TRADES_PATH) {
+  constructor(filePath) {
     this.name = "file";
-    this.path = filePath;
+    // Honor PAPER_TRADES_FILE so the local nightly can accrue into a COMMITTED
+    // ledger (data/track-record/paper-trades-live.jsonl) instead of the gitignored
+    // dev default — the committed file is what deploys read. An explicit constructor
+    // path (used by tests) still wins over the env var.
+    this.path = filePath || process.env.PAPER_TRADES_FILE || TRADES_PATH;
   }
 
   async readAll() {
