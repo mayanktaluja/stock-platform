@@ -132,7 +132,6 @@ import * as swsDal from "./services/swsDal/index.js";
 import { filterPicksWithDeepDataFailOpen } from "./services/swsPicksResponse.js";
 import { getExperimentalForecastForTicker } from "./services/experimentalForecastOverlay.js";
 import * as usPicksDal from "./services/usPicksDal.js";
-import { makeRegionPicksDal } from "./services/regionPicksDal.js";
 import { enrichMarketCardReturns, normaliseMarketReturns } from "./services/marketReturnNormalizer.js";
 import { loadIndexConstituentsFromFile, stampIndexFlags } from "./services/indexConstituents.js";
 import {
@@ -8894,7 +8893,7 @@ function stampIndexFlagsOnRow(it) {
 // locally by scripts/refresh-<market>-index-constituents.mjs; an absent/empty
 // file → empty sets → the dropdown options disable gracefully.
 const MARKET_INDEX_STATE = {};
-for (const market of ["us", "kr", "tw"]) {
+for (const market of ["us"]) {
   const fp = path.join(__dirname, "data", `sws-${market}`, `${market}-index-constituents.json`);
   MARKET_INDEX_STATE[market] = loadMarketIndexConstituents(fp, market);
 }
@@ -10093,151 +10092,6 @@ app.get("/api/us-scan/status", async (req, res) => {
     shards,
   });
 });
-
-// ── Region picks (Korea / Taiwan) — generic route factory ──
-// Registers the same 3 read routes the US tab uses, bound to a region DAL:
-//   GET /api/<code>-picks, /api/<code>-stock/:ticker, /api/<code>-scan/status
-// requireSignedInRead (AUTH-off ⇒ allow) is reused so e2e + local dev reach the tab.
-// The US routes above are frozen — this is purely additive.
-const REGION_PICKS_MAX_LIMIT = 200;
-function registerRegionPicksRoutes(app, dal) {
-  const prefix = dal.code;
-
-  app.get(`/api/${prefix}-picks`, async (req, res) => {
-    if (!(await requireSignedInRead(req, res))) return;
-    const raw = dal.getPicksLatest();
-    if (!raw) {
-      return res.status(404).json({
-        error: `no_${prefix}_picks_yet`,
-        hint: `Run /sws-refresh-${prefix} (or the seed scrape) to populate ${dal.PATHS.dataDir}.`,
-      });
-    }
-    // Shallow-clone so we never mutate the mtime-cached object the DAL shares.
-    const data = { ...raw, sections: normaliseTopRankedSections({ ...(raw.sections || {}) }) };
-    filterSyntheticMarketFixtureRows(data);
-    const limit =
-      req.query.limit != null
-        ? Math.min(Math.max(parseInt(req.query.limit, 10) || 0, 0), REGION_PICKS_MAX_LIMIT)
-        : null;
-    const category =
-      typeof req.query.category === "string" && req.query.category.trim()
-        ? normaliseTopRankedCategory(req.query.category.trim())
-        : null;
-    if (data.sections && (limit !== null || category)) {
-      if (category) {
-        const keep = data.sections[category];
-        data.sections = keep ? { [category]: keep } : {};
-      }
-      if (limit !== null) {
-        const totals = {};
-        for (const k of Object.keys(data.sections)) {
-          const arr = data.sections[k];
-          if (Array.isArray(arr) && arr.length > limit) {
-            totals[`${k}_total`] = arr.length;
-            data.sections[k] = arr.slice(0, limit);
-          }
-        }
-        data._meta = { ...(data._meta || {}), ...totals, limit };
-      }
-      if (category) data._meta = { ...(data._meta || {}), category };
-    }
-    data.last_refresh = dal.getLastRefresh();
-    data.scan_progress = dal.getAllShardProgressApi();
-    data.scan_status_hint = buildMarketScanStatusHint(data.scan_progress);
-    // Dormant regions (KR/TW) have no refresh cron — flag it so the UI can tell
-    // users the leaderboard is a periodic snapshot, not a live feed.
-    data.dormant = dal.dormant === true;
-    data.refresh_note = dal.refreshNote || null;
-    stampMarketRows(data, prefix);
-    res.json(data);
-  });
-
-  app.get(`/api/${prefix}-stock/:ticker`, async (req, res) => {
-    if (!(await requireSignedInRead(req, res))) return;
-    // KR/TW canonical keys are dotted and may contain lower-case exchange ids
-    // (q500036.KS / 01001t.TW). Accept any case, then resolve through the
-    // scored-universe index so deep tarball lookup uses the on-disk filename.
-    const requestedTicker = String(req.params.ticker || "").trim();
-    if (!requestedTicker || !/^[A-Z0-9.\-]+$/i.test(requestedTicker)) {
-      return res.status(400).json({ error: "invalid_ticker" });
-    }
-    const ticker = dal.resolveCanonicalTicker?.(requestedTicker) || requestedTicker;
-    const picks = dal.getPicksLatest();
-    let card = null;
-    const sectionMemberships = [];
-    if (picks && picks.sections) {
-      for (const [key, items] of Object.entries(picks.sections)) {
-        if (!Array.isArray(items)) continue;
-        const found = items.find((c) => c.ticker === ticker);
-        if (found) {
-          sectionMemberships.push(key);
-          if (!card) card = { ...found };
-          else if (found.snowflake_gap_lab && !card.snowflake_gap_lab) {
-            card = { ...card, snowflake_gap_lab: found.snowflake_gap_lab };
-          }
-        }
-      }
-    }
-    // Fallback to the scored-universe card when the ticker isn't in a curated section.
-    if (!card) {
-      const idx = dal.getUniverseIndex();
-      if (idx) card = idx.get(String(ticker).toUpperCase()) || null;
-    }
-    if (isSyntheticMarketFixtureRow(card)) return res.status(404).json({ error: `no_${prefix}_data`, ticker });
-    if (!card) return res.status(404).json({ error: `no_${prefix}_data`, ticker });
-    const deep = dal.getStockByTicker(ticker);
-    if (isSyntheticMarketFixtureRow(deep)) return res.status(404).json({ error: `no_${prefix}_data`, ticker });
-    const returnsPct = normaliseMarketReturns({ deep, card });
-    const hydratedCard = hydrateMarketCardV4Breakdown(card, deep, dal, prefix);
-    const responseCard = enrichMarketCardReturns(normaliseV4ScoreContracts(hydratedCard), returnsPct);
-    const responseDeep = deep ? prepareSwsStockDeepForResponse(deep, responseCard) : null;
-    res.json({
-      ticker,
-      deep: responseDeep,
-      card: responseCard || null,
-      returns_pct: returnsPct,
-      fundamentals_fallback: dal.getFundamentalsFallback(ticker),
-      in_sections: sectionMemberships,
-      currency: (responseDeep && responseDeep.currency) || (responseCard && responseCard.currency) || dal.currencyIso,
-    });
-  });
-
-  app.get(`/api/${prefix}-scan/status`, async (req, res) => {
-    if (!(await requireSignedInRead(req, res))) return;
-    const now = Date.now();
-    const RECENT_MS = 5 * 60 * 1000;
-    const shards = [1, 2, 3].map((n) => {
-      const p = dal.getShardProgressApi(n);
-      if (!p) return { id: n, started: false };
-      const recent = p.last_run_at && now - new Date(p.last_run_at).getTime() < RECENT_MS;
-      return {
-        id: n,
-        done_count: p.done_count || 0,
-        next_local_index: p.next_local_index || 0,
-        last_ticker: p.last_ticker || null,
-        last_run_at: p.last_run_at || null,
-        complete: !recent && p.last_run_at != null,
-        today_count: p.today_count || 0,
-      };
-    });
-    const totalDone = shards.reduce((a, s) => a + (s.done_count || 0), 0);
-    const inProgress = shards.some((s) => s.last_run_at && now - new Date(s.last_run_at).getTime() < RECENT_MS);
-    const lr = dal.getLastRefresh();
-    res.set("Cache-Control", "private, no-store");
-    res.json({
-      in_progress: inProgress,
-      total_done: totalDone,
-      all_complete: !inProgress,
-      universe_size: lr?.universe_size ?? null,
-      scored_count: lr?.scored_count ?? null,
-      last_refresh_at: lr?.scanned_at ?? null,
-      shards,
-    });
-  });
-}
-
-registerRegionPicksRoutes(app, makeRegionPicksDal("kr"));
-registerRegionPicksRoutes(app, makeRegionPicksDal("tw"));
 
 // Latest PDF download (returns most recent Top-50-Buy-Now-*.pdf)
 app.get("/api/sws-pdf/latest", (req, res) => {
