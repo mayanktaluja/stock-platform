@@ -17,16 +17,6 @@ const PRODUCTION_FILES = [
   "data/sws-us/v4-universe-stats.json",
   "data/sws-us/fundamentals-latest.json",
   "data/sws-us/deep-us.tar.gz",
-  "data/sws-kr/picks-latest.json",
-  "data/sws-kr/sws-scored-universe.json",
-  "data/sws-kr/v3-universe-stats.json",
-  "data/sws-kr/fundamentals-latest.json",
-  "data/sws-kr/deep-kr.tar.gz",
-  "data/sws-tw/picks-latest.json",
-  "data/sws-tw/sws-scored-universe.json",
-  "data/sws-tw/v3-universe-stats.json",
-  "data/sws-tw/fundamentals-latest.json",
-  "data/sws-tw/deep-tw.tar.gz",
 ];
 
 function hashFile(relPath) {
@@ -43,14 +33,12 @@ function runFixture(args) {
   });
 }
 
-test("US/KR/TW e2e market fixtures write only to SWS_REPO_ROOT_OVERRIDE", () => {
+test("US e2e market fixtures write only to SWS_REPO_ROOT_OVERRIDE", () => {
   fs.rmSync(OVERRIDE_ABS, { recursive: true, force: true });
   const before = new Map(PRODUCTION_FILES.map((relPath) => [relPath, hashFile(relPath)]));
 
   try {
     runFixture(["test/e2e/helpers/build-us-picks-fixture.mjs"]);
-    runFixture(["test/e2e/helpers/build-region-picks-fixture.mjs", "--region", "kr"]);
-    runFixture(["test/e2e/helpers/build-region-picks-fixture.mjs", "--region", "tw"]);
 
     for (const relPath of PRODUCTION_FILES) {
       assert.equal(hashFile(relPath), before.get(relPath), `${relPath} changed while building e2e fixtures`);
@@ -59,10 +47,6 @@ test("US/KR/TW e2e market fixtures write only to SWS_REPO_ROOT_OVERRIDE", () => 
     for (const relPath of [
       "data/sws-us/picks-latest.json",
       "data/sws-us/deep-us.tar.gz",
-      "data/sws-kr/picks-latest.json",
-      "data/sws-kr/deep-kr.tar.gz",
-      "data/sws-tw/picks-latest.json",
-      "data/sws-tw/deep-tw.tar.gz",
     ]) {
       assert.ok(fs.existsSync(path.join(OVERRIDE_ABS, relPath)), `missing isolated fixture output ${relPath}`);
     }

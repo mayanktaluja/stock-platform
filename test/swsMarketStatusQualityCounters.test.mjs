@@ -4,8 +4,6 @@ import test from "node:test";
 
 const statusScripts = [
   ["us", readFileSync("scripts/sws-status-us.sh", "utf8")],
-  ["kr", readFileSync("scripts/sws-status-kr.sh", "utf8")],
-  ["tw", readFileSync("scripts/sws-status-tw.sh", "utf8")],
 ];
 
 test("market status scripts display stored quality counters from last-refresh.json", () => {

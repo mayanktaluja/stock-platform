@@ -24,8 +24,6 @@
  * Usage:
  *   node scripts/sws-news-scrape.mjs                    # full coverage set
  *   node scripts/sws-news-scrape.mjs --market us        # US displayed cards
- *   node scripts/sws-news-scrape.mjs --market kr        # Korea displayed cards
- *   node scripts/sws-news-scrape.mjs --market tw        # Taiwan displayed cards
  *   node scripts/sws-news-scrape.mjs --market us --shard-id 1 --shard-count 3
  *   node scripts/sws-news-scrape.mjs --market us --merge-shards --shard-count 3
  *   node scripts/sws-news-scrape.mjs --limit 5          # test small batch
@@ -39,9 +37,6 @@ import { createClient, fetchStockData, TransportError } from "./sws-api-client.m
 import { parseStock } from "./sws-api-parser.mjs";
 import { parseStockUS } from "./sws-api-parser-us.mjs";
 import { PATHS as US_PATHS } from "./sws-config-us.mjs";
-import { parseStockRegion } from "./sws-api-parser-region.mjs";
-import { makeRegionConfig } from "./sws-config-region.mjs";
-import { getRegion } from "./sws-regions.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = process.env.SWS_REPO_ROOT_OVERRIDE || path.resolve(__dirname, "..");
@@ -97,25 +92,7 @@ export function makeNewsMarketConfig(market = "in") {
       includePortfolioWatchlist: false,
     };
   }
-  if (m === "kr" || m === "tw") {
-    const region = getRegion(m);
-    const cfg = makeRegionConfig(m);
-    return {
-      market: m,
-      label: region.label,
-      dataDir: cfg.PATHS.dataDir,
-      universePath: cfg.PATHS.universe,
-      picksPath: cfg.PATHS.picksLatest,
-      deepDir: cfg.PATHS.deepDir,
-      progressPath: path.join(cfg.PATHS.dataDir, "news-progress.json"),
-      newsLatestPath: path.join(cfg.PATHS.dataDir, "news-latest.json"),
-      panicFlag: cfg.PATHS.panicStop,
-      parseApi: (api) => parseStockRegion(api, region),
-      fixedCoverageSections: null,
-      includePortfolioWatchlist: false,
-    };
-  }
-  throw new Error(`unsupported market '${market}' (expected in|us|kr|tw)`);
+  throw new Error(`unsupported market '${market}' (expected in|us)`);
 }
 
 function checkPanic(config) {

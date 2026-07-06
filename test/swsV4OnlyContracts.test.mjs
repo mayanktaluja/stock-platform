@@ -40,7 +40,6 @@ test("first-party generated sections expose top_ranked_30_v4 before legacy alias
     "services/swsScoring.js",
     "scripts/sws-scoring.mjs",
     "scripts/sws-scoring-us.mjs",
-    "scripts/sws-scoring-region.mjs",
   ];
   for (const rel of files) {
     const src = read(rel);

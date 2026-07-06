@@ -10,8 +10,6 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseStock, extractSnowflakeDataQuality, extractSnowflakeCheckMatrix } from "../scripts/sws-api-parser.mjs";
 import { parseStockUS } from "../scripts/sws-api-parser-us.mjs";
-import { parseStockRegion } from "../scripts/sws-api-parser-region.mjs";
-import { getRegion } from "../scripts/sws-regions.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, "..");
@@ -781,13 +779,10 @@ check("extractSnowflakeDataQuality is null-safe for missing or malformed stateme
   assert.equal(extractSnowflakeDataQuality({ rest: { statements: { data: { statements: { data: { bad: true } } } } } }), null);
 });
 
-check("US and region parser wrappers inherit compact snowflake data-quality metadata", () => {
+check("US parser wrapper inherits compact snowflake data-quality metadata", () => {
   const us = parseStockUS(baseApi({ ticker: "AAPL", statementRows: insufficientRows }), {});
   assert.equal(us.currency, "USD");
   assert.equal(us.overview.snowflake_data_quality.insufficient, true);
-  const kr = parseStockRegion(baseApi({ ticker: "005930.KS", statementRows: insufficientRows }), getRegion("kr"), {});
-  assert.equal(kr.currency, "KRW");
-  assert.equal(kr.overview.snowflake_data_quality.insufficient, true);
 });
 
 check("UMESLTD real SWS payload counts only the 30 visible Snowflake checks", () => {
