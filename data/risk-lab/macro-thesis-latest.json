@@ -1,19 +1,19 @@
 {
   "schema_version": "macro-thesis-v1",
-  "generated_at": "2026-07-05T02:18:46.053Z",
+  "generated_at": "2026-07-06T10:02:11.486Z",
   "regime": {
     "regime": "CALM",
     "severity": 1,
     "confidence": 0.8,
     "label": "Calm",
-    "generated_at": "2026-07-04T04:30:22.216Z",
+    "generated_at": "2026-07-05T16:43:21.516Z",
     "days_in_state": 0,
     "stale": false,
-    "reasoning": "Mixed headlines, no dominant trend",
+    "reasoning": "No major market-moving news",
     "key_events": [
-      "Dollar set for biggest weekly drop since April after jobs data lowers Fed hike bets (Economic Times)",
-      "Global stocks mostly rise as beaten-down tech enjoys bounce (Economic Times)",
-      "India's Godrej Consumer expects volume-driven first-quarter revenue rise (Economic Times)"
+      "Investors looking for shelter from AI storm are turning to India (Economic Times)",
+      "M-cap of 6 of top-10 most valued firms surges Rs 1 lakh cr; Airtel, Bajaj Fin top winners (Economic Times)",
+      "Cube Highways Trust plans Rs 5,000-cr IPO this month; eyes broader investor base (Economic Times)"
     ],
     "classifier_provider": "groq",
     "source_health": {
@@ -40,37 +40,30 @@
     },
     "sector_impacts": [
       {
-        "sector": "FMCG",
+        "sector": "IT Services",
         "impact": 1,
-        "reason": "Strong Q1 expectations"
+        "reason": "AI storm"
       },
       {
         "sector": "Banking",
         "impact": 1,
-        "reason": "HDFC Bank Q1 business update shows growth"
+        "reason": "Healthy Q1 business growth"
       },
       {
-        "sector": "Metals",
+        "sector": "Infrastructure",
         "impact": 1,
-        "reason": "JSW Steel commences Rayalaseema integrated steel project"
+        "reason": "IPO plans"
       }
     ]
   },
-  "catalyst_proximity_days": 0,
+  "catalyst_proximity_days": 24,
   "upcoming_catalysts": [
-    {
-      "date": "2026-07-05",
-      "kind": "OPEC",
-      "label": "OPEC+ Ministerial Meeting",
-      "severity_potential": 2,
-      "days_until": 0
-    },
     {
       "date": "2026-07-30",
       "kind": "FOMC",
       "label": "US FOMC Meeting — July 2026",
       "severity_potential": 3,
-      "days_until": 25
+      "days_until": 24
     }
   ],
   "position_cap_pct": 10,
@@ -78,7 +71,7 @@
     {
       "key": "continue",
       "label": "CALM continues at current severity",
-      "probability": 0.52,
+      "probability": 0.58,
       "duration_days": 14,
       "n_analogs": 9,
       "indeterminate": false,
@@ -128,7 +121,7 @@
     {
       "key": "escalate",
       "label": "CALM escalates (severity +1)",
-      "probability": 0.1,
+      "probability": 0.11,
       "duration_days": 7,
       "n_analogs": 9,
       "indeterminate": false,
@@ -178,7 +171,7 @@
     {
       "key": "de_escalate",
       "label": "CALM de-escalates → CALM",
-      "probability": 0.19,
+      "probability": 0.21,
       "duration_days": 21,
       "n_analogs": 9,
       "indeterminate": false,
@@ -228,14 +221,14 @@
     {
       "key": "new_shock",
       "label": "New unrelated shock supersedes CALM",
-      "probability": 0.19,
+      "probability": 0.1,
       "duration_days": 7,
       "n_analogs": 0,
       "indeterminate": false,
       "beneficiaries": [],
       "losers": [],
       "reasoning": {
-        "modulator_applied": 2,
+        "modulator_applied": 1,
         "base_probability": 0.1,
         "analog_pool_regime": "n/a (new regime — projection suppressed by design)",
         "analog_warnings": [],
@@ -250,7 +243,7 @@
   "indeterminate": false,
   "audit": {
     "thesis_schema": "macro-thesis-v1",
-    "regime_generated_at": "2026-07-04T04:30:22.216Z",
+    "regime_generated_at": "2026-07-05T16:43:21.516Z",
     "regime_classifier": "groq",
     "scenario_engine_version": "scenario-prob-v1"
   }

@@ -1,7 +1,7 @@
 {
   "schemaVersion": "fo-screener-v1",
   "asOf": "2026-07-03",
-  "fetchedAt": "2026-07-03T19:27:23.001Z",
+  "fetchedAt": "2026-07-06T02:50:26.900Z",
   "urlUsed": "https://nsearchives.nseindia.com/content/fo/BhavCopy_NSE_FO_0_0_0_20260703_F_0000.csv.zip",
   "methodology": "OI aggregated across all stock-futures expiries (avoids rollover-Thursday phantoms); Δ vs prior session = ChngInOpnIntrst / (OI − ChngInOpnIntrst). Volume confirmation: today's vol vs 20-session mean. Decoupling co-flag: |OI Δ| ≥ 20% with |price Δ| < 0.5%. Score 0–100 = scaled OI move × volume confirmation × decouple boost × direction consistency. Educational content only.",
   "stats": {
@@ -13,7 +13,7 @@
     "broaderCount": 15,
     "historyPointsAppended": 215,
     "historyRestoredFromKV": 0,
-    "walkedBack": 0
+    "walkedBack": 1
   },
   "sections": {
     "inBook": [],
@@ -152,44 +152,6 @@
         "interpretation": "Shorts covering — OI falling as price recovers."
       },
       {
-        "underlying": "UNIONBANK",
-        "instrumentType": "STF",
-        "expiryCount": 3,
-        "nearMonthExpiry": "2026-07-28",
-        "nearMonthSettle": 163.89,
-        "underlyingPrice": 163.09,
-        "oiTotal": 130860525,
-        "oiChangeTotal": 10252725,
-        "volumeTotal": 8645,
-        "oiDeltaPct": 8.500880540064573,
-        "priceDeltaPct": -6.198489010989018,
-        "volumeRatio": null,
-        "volumeBucket": "unknown",
-        "signal": "short_buildup",
-        "decoupled": false,
-        "score": 9,
-        "interpretation": "Bears adding fresh shorts — OI up while price drops."
-      },
-      {
-        "underlying": "INDIANB",
-        "instrumentType": "STF",
-        "expiryCount": 3,
-        "nearMonthExpiry": "2026-07-28",
-        "nearMonthSettle": 803.3,
-        "underlyingPrice": 798.95,
-        "oiTotal": 17156000,
-        "oiChangeTotal": 889000,
-        "volumeTotal": 4667,
-        "oiDeltaPct": 5.465051945656851,
-        "priceDeltaPct": -2.0545022252027096,
-        "volumeRatio": null,
-        "volumeBucket": "unknown",
-        "signal": "short_buildup",
-        "decoupled": false,
-        "score": 6,
-        "interpretation": "Bears adding fresh shorts — OI up while price drops."
-      },
-      {
         "underlying": "ABB",
         "instrumentType": "STF",
         "expiryCount": 3,
@@ -302,6 +264,44 @@
         "decoupled": false,
         "score": 5,
         "interpretation": "No meaningful conviction — OI/price moves both within noise."
+      },
+      {
+        "underlying": "FORCEMOT",
+        "instrumentType": "STF",
+        "expiryCount": 3,
+        "nearMonthExpiry": "2026-07-28",
+        "nearMonthSettle": 18731,
+        "underlyingPrice": 18803,
+        "oiTotal": 235075,
+        "oiChangeTotal": 11450,
+        "volumeTotal": 5305,
+        "oiDeltaPct": 5.120178870877585,
+        "priceDeltaPct": -3.721408378308918,
+        "volumeRatio": null,
+        "volumeBucket": "unknown",
+        "signal": "short_buildup",
+        "decoupled": false,
+        "score": 5,
+        "interpretation": "Bears adding fresh shorts — OI up while price drops."
+      },
+      {
+        "underlying": "VMM",
+        "instrumentType": "STF",
+        "expiryCount": 3,
+        "nearMonthExpiry": "2026-07-28",
+        "nearMonthSettle": 121.05,
+        "underlyingPrice": 120.57,
+        "oiTotal": 43533600,
+        "oiChangeTotal": 2032150,
+        "volumeTotal": 1959,
+        "oiDeltaPct": 4.896575902769662,
+        "priceDeltaPct": -0.8680697731553536,
+        "volumeRatio": null,
+        "volumeBucket": "unknown",
+        "signal": "short_buildup",
+        "decoupled": false,
+        "score": 5,
+        "interpretation": "Bears adding fresh shorts — OI up while price drops."
       }
     ],
     "broader": [
@@ -382,6 +382,25 @@
         "interpretation": "Bears adding fresh shorts — OI up while price drops."
       },
       {
+        "underlying": "UNIONBANK",
+        "instrumentType": "STF",
+        "expiryCount": 3,
+        "nearMonthExpiry": "2026-07-28",
+        "nearMonthSettle": 163.89,
+        "underlyingPrice": 163.09,
+        "oiTotal": 130860525,
+        "oiChangeTotal": 10252725,
+        "volumeTotal": 8645,
+        "oiDeltaPct": 8.500880540064573,
+        "priceDeltaPct": -6.198489010989018,
+        "volumeRatio": null,
+        "volumeBucket": "unknown",
+        "signal": "short_buildup",
+        "decoupled": false,
+        "score": 9,
+        "interpretation": "Bears adding fresh shorts — OI up while price drops."
+      },
+      {
         "underlying": "KPITTECH",
         "instrumentType": "STF",
         "expiryCount": 3,
@@ -455,6 +474,25 @@
         "signal": "short_buildup",
         "decoupled": false,
         "score": 7,
+        "interpretation": "Bears adding fresh shorts — OI up while price drops."
+      },
+      {
+        "underlying": "INDIANB",
+        "instrumentType": "STF",
+        "expiryCount": 3,
+        "nearMonthExpiry": "2026-07-28",
+        "nearMonthSettle": 803.3,
+        "underlyingPrice": 798.95,
+        "oiTotal": 17156000,
+        "oiChangeTotal": 889000,
+        "volumeTotal": 4667,
+        "oiDeltaPct": 5.465051945656851,
+        "priceDeltaPct": -2.0545022252027096,
+        "volumeRatio": null,
+        "volumeBucket": "unknown",
+        "signal": "short_buildup",
+        "decoupled": false,
+        "score": 6,
         "interpretation": "Bears adding fresh shorts — OI up while price drops."
       },
       {
@@ -551,44 +589,6 @@
         "decoupled": false,
         "score": 5,
         "interpretation": "Bulls adding fresh longs — OI up with price."
-      },
-      {
-        "underlying": "MARICO",
-        "instrumentType": "STF",
-        "expiryCount": 3,
-        "nearMonthExpiry": "2026-07-28",
-        "nearMonthSettle": 842.3,
-        "underlyingPrice": 838.55,
-        "oiTotal": 17648400,
-        "oiChangeTotal": 896400,
-        "volumeTotal": 8722,
-        "oiDeltaPct": 5.351002865329512,
-        "priceDeltaPct": -2.149163568773234,
-        "volumeRatio": null,
-        "volumeBucket": "unknown",
-        "signal": "short_buildup",
-        "decoupled": false,
-        "score": 5,
-        "interpretation": "Bears adding fresh shorts — OI up while price drops."
-      },
-      {
-        "underlying": "NHPC",
-        "instrumentType": "STF",
-        "expiryCount": 3,
-        "nearMonthExpiry": "2026-07-28",
-        "nearMonthSettle": 80.45,
-        "underlyingPrice": 80.53,
-        "oiTotal": 109886450,
-        "oiChangeTotal": -4406300,
-        "volumeTotal": 3150,
-        "oiDeltaPct": -3.855275159622986,
-        "priceDeltaPct": 1.3351807532434845,
-        "volumeRatio": null,
-        "volumeBucket": "unknown",
-        "signal": "short_covering",
-        "decoupled": false,
-        "score": 4,
-        "interpretation": "Shorts covering — OI falling as price recovers."
       }
     ]
   }
