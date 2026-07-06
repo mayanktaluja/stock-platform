@@ -271,6 +271,19 @@ check("universe present + missing 1Y return → that window scores 0, not median
   assert.ok(b.pts_mom_3m > 2 && b.pts_mom_1m > 1); // windows it DOES have still score
   assert.equal(b.momentum_imputed, true);  // flagged because 1Y is missing
 });
+check("populated universe + NO returns at all → 0 momentum, not a free 5.5 (anti-phantom-quality lock)", () => {
+  // A thinly-traded / no-price-history name against a real universe must earn
+  // ZERO momentum, not the 0.5-median 5.5/12 gift. The 0.5 fallback is ONLY for
+  // an absent stats file (infra gap), never for a stock that simply has no data.
+  const peers = [-30, -10, 0, 10, 30].map((x) => ({ overview: { returns_pct: { "1Y": x, "3M": x, "1M": x } } }));
+  const universe = buildUniverseStats(peers);
+  const noHist = mk({}, { returns_pct: {} }); // populated universe, empty stock returns
+  const b = computeV4Score(noHist, { universe, surveillanceFlag: null }).v4_breakdown;
+  assert.equal(b.pts_mom_1y, 0);
+  assert.equal(b.pts_mom_3m, 0);
+  assert.equal(b.pts_mom_1m, 0);
+  assert.equal(b.momentum_imputed, true);
+});
 
 console.log("\nvalue-trap brake + falling-knife precedence\n");
 check("cheap + 3M bleed + mediocre health → -4 value-trap", () => {

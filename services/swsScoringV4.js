@@ -13,10 +13,14 @@
 //   - Momentum 14->12 (1Y x7 + 3M x3 + 1M x2).
 //   - Risk overlay = V3's verbatim + a V4-only value-trap brake (the heavier
 //     value tilt needs a wider net than V3's narrow falling-knife).
-//   - Verdict is RANK-BASED off the V4 universe distribution (percentile bands),
-//     not the absolute 60/45/30/22 cutoffs. computeV4Score does NOT assign a
-//     verdict (needs the distribution); the scorer assigns it two-pass via
-//     buildV4VerdictBands + verdictV4FromScore.
+//   - Verdict uses ABSOLUTE frozen cutoffs (TOP_PICK>=59 / STRONG>=47 /
+//     ACCEPTABLE>=37 / WATCH>=28 / AVOID<28), calibrated once from the 2026-05
+//     V4 universe distribution and then frozen — NOT rank-based, no per-run
+//     percentile bands threaded through. verdictV4FromScore is pure and
+//     stateless, so every scoring path (batch, server on-demand, holding
+//     engine, categoriseStock) resolves the same verdict. (An earlier
+//     rank-based draft returned null on paths that never loaded bands,
+//     silently collapsing the action ladder.) See verdictV4FromScore below.
 //
 // v4_breakdown uses field names DISTINCT from the now-deleted v3_breakdown
 // (pts_fv_total not pts_fv_upside, fv_*_sub, fv_max_inflation_haircut, …) so
