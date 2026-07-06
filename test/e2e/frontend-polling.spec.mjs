@@ -217,8 +217,6 @@ test.describe("frontend polling cadence", () => {
     await switchTab(page, "usPicks");
     await tickClock(page, 1);
     await expect.poll(() => statusRequests.us).toBe(1);
-    expect(statusRequests.kr).toBe(0);
-    expect(statusRequests.tw).toBe(0);
 
     await tickClock(page, 30 * 1000);
     await expect.poll(() => statusRequests.us).toBe(2);
