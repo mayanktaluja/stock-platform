@@ -20,7 +20,7 @@ The platform is **in production**, live at
 [starbhai-stock-platform.vercel.app](https://starbhai-stock-platform.vercel.app),
 serving a single-tenant Indian equity research workflow. Auth, the SWS picks
 pipeline, portfolio analyzer, earnings watch, risk lab, and macro thesis are
-all shipped — plus US / Korea / Taiwan picks tabs, Sector Outlook, and a 5x Lab.
+all shipped — plus a US Market tab, Sector Outlook, and a 5x Lab.
 
 The headline scoring engine is now **V4** (`swsScoringV4.js`) — V3 was deleted
 in #437. The current investment is in **signal quality and back-testing
@@ -32,6 +32,13 @@ Compounder Lab and Earnings Edge were retired in June 2026 to remove unused
 experimental surface area and nightly refresh load.
 
 ## Recently shipped (themed, newest first — rolling ~4–6 week window; `git log` is the archive)
+
+### Korea + Taiwan markets removed (July 2026)
+- **2026-07-07** — The Korea (KRX) and Taiwan (TWSE/TPEx) picks markets were
+  fully removed: UI tabs, `/api/kr-*` + `/api/tw-*` routes,
+  `services/regionPicksDal.js`, the generic region scripts, `data/sws-kr/` +
+  `data/sws-tw/`, and the KR/TW e2e specs. The platform now supports **two
+  markets: India (primary) and US.** India and US pipelines are unchanged.
 
 ### Two-Key Entry timing — knife detection + staged-buy ladders + entry alerts (July 2026)
 - **4-commit series (PR-1→PR-4, on branch awaiting push)** — fixes the
@@ -94,7 +101,7 @@ experimental surface area and nightly refresh load.
   degraded transient fallback.
 
 ### Decision-quality contracts (June 2026)
-- **This PR** — Non-US/KR/TW research surfaces now expose additive
+- **This PR** — Non-US research surfaces now expose additive
   `decision_contract` metadata so the UI can distinguish actionable,
   stagger-only, wait, research-only, shadow-only, degraded, and hindsight
   states without changing existing schema versions or V4 scoring. India Buy Now
@@ -276,12 +283,10 @@ experimental surface area and nightly refresh load.
 
 ### Unified global search (June 2026)
 - **This PR** — Header global search now covers every committed SWS scored
-  universe across India, US, Korea, and Taiwan while keeping results compact.
+  universe across India and US while keeping results compact.
   The API reads only scored-universe JSON, preserves India NSE/BSE dedupe and
   India-scoped Yahoo fallback, and returns market metadata so the frontend
-  opens India, US, Korea, or Taiwan SWS detail modals correctly. KR/TW ticker
-  lookup now resolves mixed-case SWS keys such as `q500036.KS` and `01001t.TW`
-  without breaking deep tarball lookups.
+  opens India or US SWS detail modals correctly.
 
 ### SWS nightly artifact contract (June 2026)
 - **This PR** — The isolated SWS nightly now separates deployable artifacts
@@ -322,19 +327,19 @@ experimental surface area and nightly refresh load.
   canonicalize to India Market (`#tab=picks`), while 5x Lab and Track Record
   paper-trade infrastructure remain intact.
 
-### US/KR/TW modal enrichment quality gate (June 2026)
-- **This PR** — US, Korea, and Taiwan refresh jobs now treat SWS Recent News
+### US modal enrichment quality gate (June 2026)
+- **This PR** — The US refresh job now treats SWS Recent News
   and Rewards/Risks as a shipping contract for stock-detail modals. The
   existing shared India modal renderer remains the single UI path; the refresh
   scripts run `sws-news-sharded.sh <market>` after parse/score and before
   packing `deep-<market>.tar.gz`, then compute a tarball-backed quality summary
   and run a fail-closed auto-ship gate. Local generated data remains inspectable
   on quality failure, but PR/auto-merge is skipped if deployable tarballs lose
-  canary news/reward coverage. `/sws-status-us`, `/sws-status-kr`, and
-  `/sws-status-tw` now print stored quality counters from `last-refresh.json`.
+  canary news/reward coverage. `/sws-status-us` now prints stored quality
+  counters from `last-refresh.json`.
 
-### US/KR/TW e2e fixture isolation (June 2026)
-- **This PR** — US/KR/TW Playwright market fixtures now write under the ignored
+### US e2e fixture isolation (June 2026)
+- **This PR** — US Playwright market fixtures now write under the ignored
   `.e2e/sws-root` tree via `SWS_REPO_ROOT_OVERRIDE`, and the runtime DALs honor
   that same override so tests and web-server reads stay aligned. This prevents
   synthetic fixture rows from leaking into committed `data/sws-*` production
@@ -346,8 +351,8 @@ experimental surface area and nightly refresh load.
   fixture builders mutate tracked production outputs.
 
 ### SWS fair-value source fidelity (May 2026)
-- **This PR** — SWS fair value is now treated as source-of-truth across India,
-  US, Korea, and Taiwan picks. Finite SWS FV values are preserved even when the
+- **This PR** — SWS fair value is now treated as source-of-truth across India
+  and US picks. Finite SWS FV values are preserved even when the
   FV/price ratio is unusually high or low; upside is computed from raw SWS FV
   plus current price, and extreme-ratio telemetry now stamps `ok_sws_raw_fv`
   instead of suppressing the value. Card/scored-universe/API rows carry
@@ -429,7 +434,7 @@ experimental surface area and nightly refresh load.
   `services/swsScoringV4.js`: pillars 76 (Health 22 / Future 20 / Valuation 18 /
   Past 16) + coverage-renormalised FV 12 + momentum 12 − risk overlay ≤15 → a
   0–100 score with **absolute** verdict cutoffs (TOP_PICK ≥59 / STRONG ≥47 /
-  ACCEPTABLE ≥37 / WATCH ≥28 / AVOID), applied across all four regions. The
+  ACCEPTABLE ≥37 / WATCH ≥28 / AVOID), applied across both markets. The
   Dividends pillar was dropped from the score. The `signals.v3.*` /
   `top_ranked_30_v3` / `v3-universe-stats.json` names were **kept as
   V4-carrying aliases on purpose** — don't blind-rename them. Honest caveat:
@@ -441,23 +446,17 @@ experimental surface area and nightly refresh load.
 ### Multi-region Markets (May 2026)
 - **#379 / #386** — US Market tab + first full US scrape (~5,448 names), as a
   fully isolated `data/sws-us/` fork (US scorer/parser import India's, never edit).
-- **#383 / #391 / #408** — **Region registry** (`scripts/sws-regions.mjs`):
-  config/universe/scrape/parse/score/DAL + `registerRegionPicksRoutes` factory +
-  generic `renderRegionPicks`, keyed by region code. Korea (~2,590) + Taiwan
-  (~2,339) scraped and live, in ₩ / NT$. **KR/TW are registry config, not forks;
-  India + US pipelines frozen.** Numeric tickers dot-suffixed (005930.KS /
-  2330.TW); 4-market co-run guard on the one shared SWS account.
-- **#390** — US/KR/TW Markets at 1:1 parity with India (rich modal, dropdown,
+- **#390** — US Market at 1:1 parity with India (rich modal, dropdown,
   collapse). **#393 / #404** — regional deep briefs are packed as tarballs for
   local/DAL use, but the catch-all Vercel lambda serves compact card fallback
   data to avoid bundle-size/file-count risk.
-- **This PR** — US/KR/TW stock-detail APIs now normalize `returns_pct` from
+- **This PR** — US stock-detail APIs now normalize `returns_pct` from
   deep briefs, card rows, or audit-trail aliases, and enriched card data carries
   1D / 7D / 1M / 3M / 1Y total returns for modal fallback rendering.
-- **This PR** — US/KR/TW stock modals now render Total Returns from full deep
+- **This PR** — US stock modals now render Total Returns from full deep
   briefs or compact card fallback data, and the regional DAL prefers fresher
   packed deep tarballs with a Node extraction fallback when shell `tar` fails.
-- **This PR** — US/KR/TW stock modals also accept an offline
+- **This PR** — US stock modals also accept an offline
   `fundamentals-latest.json` Yahoo enrichment snapshot, so sparse SWS briefs can
   still show India-style valuation, profitability, balance-sheet, dividend, and
   ownership metrics without fetching anything at modal-open time.
@@ -470,7 +469,7 @@ experimental surface area and nightly refresh load.
   promoter-transaction feed. Retired in June 2026.
 
 ### Auth & navigation (May 2026)
-- **#458** — Flatten privileged navigation: US/KR/TW Markets, Risk Lab, and
+- **#458** — Flatten privileged navigation: US Market, Risk Lab, and
   Sector Outlook stay visible in the main tab bar for signed-in users; only
   Users remains owner-admin-only. Admin authority is now hard-coded to
   `mtaluja11@gmail.com` via `computeIsAdmin()` rather than `ADMIN_EMAILS`.
@@ -500,9 +499,9 @@ experimental surface area and nightly refresh load.
   NSE blocks Vercel datacenter traffic. Protected shell/app JS remains
   auth-gated, with conservative static cache headers so private app surfaces
   are not CDN-public.
-- **This PR** — Permanent refresh shipping fix: successful full India/US/KR/TW
+- **This PR** — Permanent refresh shipping fix: successful full India/US
   SWS refreshes now auto-open generated-data PRs and auto-merge to `main`, while
-  seed/capped runs and failed-shard runs are refused. US/KR/TW shortcuts ship
+  seed/capped runs and failed-shard runs are refused. US shortcuts ship
   only their own `data/sws-<market>/` deployable artifacts, index/universe
   metadata, and the global `data/macroCalendar.json`; they explicitly do not
   run India fundamentals, F&O OI, or Earnings Watch refreshes. India nightly now
@@ -576,7 +575,7 @@ experimental surface area and nightly refresh load.
   universe band is loaded at runtime.
 - **Vercel KV is dead for the picks/fundamentals READ path** (#195) but still backs
   user-scoped *writes* (watchlist, portfolio, track) via `userStorage.js`.
-- **Regional deep briefs are packed as `deep-{us,kr,tw}.tar.gz`** (#393), but the
+- **Regional deep briefs are packed as `deep-us.tar.gz`** (#393), but the
   catch-all Vercel lambda must stay on compact `picks-latest.json` fallback data
   for regional modals to avoid bundle-size/file-count risk. Regional refresh
   jobs must run SWS news enrichment before packing these tarballs; the quality
