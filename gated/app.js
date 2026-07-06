@@ -1015,8 +1015,6 @@ function attachNumericFlash() {
 // Trap is active whenever ANY of these is on screen:
 //   #swsModalBackdrop.open
 //   #usModalBackdrop.open
-//   #krModalBackdrop.open
-//   #twModalBackdrop.open
 //   #actionListModalBackdrop.open
 //   #shortcutsModal.open
 //
@@ -1026,8 +1024,6 @@ function _activeDialogEl() {
   const candidates = [
     "#swsModalBackdrop.open",
     "#usModalBackdrop.open",
-    "#krModalBackdrop.open",
-    "#twModalBackdrop.open",
     "#actionListModalBackdrop.open",
     "#shortcutsModal.open",
   ];
@@ -1577,8 +1573,6 @@ function openGlobalSearchResult(result) {
   searchInput.value = "";
   if (market === "us") {
     openUSModal(ticker);
-  } else if (market === "kr" || market === "tw") {
-    openRegionModal(market, ticker);
   } else {
     openStockDetailModal(symbol, "search");
   }
@@ -2896,20 +2890,6 @@ const TAB_CONFIG = {
     label: "US Market",
     guard: () => true,
     enter: () => loadUSPicks(),
-  },
-  // Korea / Taiwan Market — SWS leaderboards, registry-driven render path. Open to
-  // every signed-in user, same as US; only the global session gate applies.
-  krPicks: {
-    elId: "krPicksTab",
-    label: "Korea Market",
-    guard: () => true,
-    enter: () => loadRegionPicks("kr"),
-  },
-  twPicks: {
-    elId: "twPicksTab",
-    label: "Taiwan Market",
-    guard: () => true,
-    enter: () => loadRegionPicks("tw"),
   },
   earnings: {
     elId: "earningsTab",
@@ -13518,8 +13498,8 @@ const usPicksChunkBuffers = new Map();
 let usPicksChunkObserver = null;
 
 // Currency-aware compact money formatter. The symbol comes from the row's
-// `currency` field: US=$, Korea=₩, Taiwan=NT$ (plus a few stray listing
-// currencies). KRW is conventionally shown with no decimals; everything else
+// `currency` field: US=$ (plus a few stray listing currencies). Zero-decimal
+// currencies (e.g. KRW/JPY) are shown with no decimals; everything else
 // keeps 2 — so USD/CAD/GBP/EUR output is byte-identical to before.
 function fmtMoney(v, currency = "USD") {
   if (v == null || !Number.isFinite(v)) return "—";
@@ -13629,10 +13609,10 @@ function usPickMatchesFilters(it) {
   return true;
 }
 
-// ── Generic collapsible-section machinery for the US + region picks tabs ──
+// ── Generic collapsible-section machinery for the US picks tab ──
 // India's togglePicksSection / setAllPicksCollapsed are bound to swsPicksCollapsed_v1
-// and a global `.sws-pick-section` query. US/KR/TW reuse the SAME section keys
-// (top_ranked_30_v4, deep_value, …), so they MUST persist to their own
+// and a global `.sws-pick-section` query. US reuses the SAME section keys
+// (top_ranked_30_v4, deep_value, …), so it MUST persist to its own
 // localStorage key and scope DOM queries to their own container — otherwise
 // collapse state bleeds across tabs. Markup/CSS classes are shared with India
 // (.dashboard-section.collapsed .section-body, .section-chevron, .sws-pick-chip*).
@@ -13764,10 +13744,6 @@ function renderNextUSPicksChunk(sentinelEl) {
   }
 }
 window.toggleUSPicksExpandAll = toggleUSPicksExpandAll;
-const regionPicksCollapsedKey = (code) => `sws${String(code).toUpperCase()}PicksCollapsed_v1`;
-window.toggleRegionPicksSection = (el, code) => toggleTabSection(el, regionPicksCollapsedKey(code), `${code}PicksContainer`);
-window.setAllRegionPicksCollapsed = (code, c) => setAllTabCollapsed(`${code}PicksContainer`, regionPicksCollapsedKey(code), c);
-window.jumpToRegionPicksSection = (code, k) => jumpToTabSection(`${code}PicksContainer`, regionPicksCollapsedKey(code), k);
 
 function renderUSPicks(data) {
   const container = document.getElementById("usPicksContainer");
@@ -13998,336 +13974,6 @@ window.onUSPicksUniverseChange = onUSPicksUniverseChange;
 window.onUSPicksSearchInput = onUSPicksSearchInput;
 window.onUSPicksSearchClear = onUSPicksSearchClear;
 
-// ── Region picks (Korea / Taiwan) — generic render path ──
-// A config-driven clone of the US render path, keyed by a region code. The US
-// functions above are FROZEN; KR/TW use these so the shipped US tab can't
-// regress. Each region keeps its own state + modal with its own ESC + close
-// wiring — closeUSModal hardwires usModalBackdrop, so it must NOT be aliased.
-const REGION_PICKS_UI = {
-  kr: { code: "kr", label: "Korea", currency: "KRW", skill: "sws-refresh-kr" },
-  tw: { code: "tw", label: "Taiwan", currency: "TWD", skill: "sws-refresh-tw" },
-};
-
-// Region-neutral subtitles — no "$50M"/"for US" leaks (native gates differ).
-const REGION_PICKS_SECTIONS = [
-  { key: "top_ranked_30_v4", label: "⭐ Top 30 — V4 Score", subtitle: "Universe-wide top 30 by V4 composite score — start every session here." },
-  { key: "best_to_buy_now", label: "🎯 Today’s shortlist · Fresh-buy candidates", subtitle: "Tighter fresh-buy cut: high score + Snowflake ≥ 18 + clean of major risks." },
-  { key: "deep_value", label: "💎 Deep Value", subtitle: "TOP_PICK names trading ≥ 20% below analyst-consensus fair value." },
-  { key: "quality_growth", label: "🌱 Quality Growth", subtitle: "Compounders: fortress balance sheet + visible forward growth runway." },
-  { key: "best_fundamentals", label: "🧱 Best Fundamentals", subtitle: "Ranked by the 5 SWS pillars + analyst FV upside, above a liquid mcap floor." },
-  { key: "midterm", label: "⚡ Midterm Picks (3-12 months)", subtitle: "Momentum already on side, with FV upside ≥ 15% remaining." },
-  { key: "dividend_aristocrats", label: "💰 Dividend Aristocrats", subtitle: "Dividend pillar ≥ 5, payout < 70%, yield ≥ 1.5%." },
-  { key: "smallcap_gems", label: "🔍 Smallcap Hidden Gems", subtitle: "Smaller-cap names + Snowflake ≥ 22 + upside ≥ 15%." },
-  { key: "insider_buying", label: "👁 Insider Buying", subtitle: "Material insider buys. Data field not yet captured." },
-  { key: "upcoming_earnings", label: "📅 Upcoming Earnings", subtitle: "Catalyst calendar. Not captured in v1." },
-];
-
-const regionPicksState = {
-  kr: { data: null, sector: "all", universe: "all", search: "", pollTimer: null, pollStarted: false, modalTicker: null, modalLastFocus: null },
-  tw: { data: null, sector: "all", universe: "all", search: "", pollTimer: null, pollStarted: false, modalTicker: null, modalLastFocus: null },
-};
-const _rp = (code) => regionPicksState[code];
-const _rpDom = (code) => code + "Picks"; // krPicks / twPicks element-id prefix
-
-async function loadRegionPicks(code) {
-  const dom = _rpDom(code);
-  const ui = REGION_PICKS_UI[code];
-  const container = document.getElementById(dom + "Container");
-  const meta = document.getElementById(dom + "Meta");
-  if (!container || !ui) return;
-  const marketLabel = `${ui.label} Market`;
-  container.innerHTML = buildLoading(`Loading ${escapeHtml(marketLabel)}…`);
-  try {
-    const res = await fetch(`/api/${code}-picks`);
-    if (res.status === 404) {
-      _rp(code).data = null;
-      container.innerHTML = `<div style="padding:48px;text-align:center;color:var(--text-muted);">No ${escapeHtml(marketLabel)} data yet. Run <code>/${escapeHtml(ui.skill)}</code> (or the seed scrape) to populate the universe — the tab fills in as stocks are scored.</div>`;
-      if (meta) meta.textContent = "No data yet";
-      return;
-    }
-    const data = await res.json();
-    _rp(code).data = data;
-    hydrateRegionSectorOptions(code, data);
-    hydrateUniverseDropdown(_rpDom(code) + "UniverseFilter", data);
-    renderRegionPicks(code);
-    if (meta) {
-      const when = data.scanned_at ? new Date(data.scanned_at).toLocaleString() : "—";
-      meta.textContent = `${data.scored_count != null ? data.scored_count : "—"} ${ui.label} stocks scored · ${data.currency || ui.currency} · updated ${when}`;
-    }
-    if (data?.scan_status_hint?.should_poll) pollRegionScanStatus(code);
-    else {
-      _rp(code).pollStarted = false;
-      clearRegionScanStatusTimer(code);
-    }
-  } catch (e) {
-    container.innerHTML = `<div style="color:var(--red);padding:24px;">Failed to load ${escapeHtml(marketLabel)}: ${escapeHtml(String((e && e.message) || e))}</div>`;
-  }
-}
-
-function hydrateRegionSectorOptions(code, data) {
-  const sel = document.getElementById(_rpDom(code) + "SectorFilter");
-  if (!sel || !data || !data.sections) return;
-  const sectors = new Set();
-  for (const items of Object.values(data.sections)) {
-    if (Array.isArray(items)) for (const it of items) if (it && it.sector) sectors.add(it.sector);
-  }
-  const current = sel.value;
-  const opts = [...sectors].sort();
-  sel.innerHTML = `<option value="all">All sectors</option>` + opts.map((s) => `<option value="${escapeHtml(s)}">${escapeHtml(s)}</option>`).join("");
-  if (current && opts.includes(current)) sel.value = current;
-}
-
-function regionPickMatchesFilters(code, it) {
-  const st = _rp(code);
-  if (!it) return false;
-  if (st.universe && st.universe !== "all" && it[st.universe] !== true) return false;
-  if (st.sector !== "all" && it.sector !== st.sector) return false;
-  if (st.search) {
-    const hay = `${it.ticker || ""} ${it.name || ""} ${it.sector || ""}`.toLowerCase();
-    if (!hay.includes(st.search.toLowerCase())) return false;
-  }
-  return true;
-}
-
-function renderRegionPicks(code) {
-  const dom = _rpDom(code);
-  const container = document.getElementById(dom + "Container");
-  const data = _rp(code).data;
-  if (!container) return;
-  if (!data || !data.sections) { container.innerHTML = `<div style="padding:40px;color:var(--text-muted);">No data.</div>`; return; }
-  const lsKey = regionPicksCollapsedKey(code);
-  const collapsedState = loadTabCollapsedState(lsKey);
-  const forceExpand = !!_rp(code).search; // an active search reveals every match
-  const visibleSections = [];
-  let html = "";
-  let totalShown = 0;
-  for (const sec of REGION_PICKS_SECTIONS) {
-    const items = swsSectionItems(data.sections, sec.key).filter((it) => regionPickMatchesFilters(code, it));
-    if (!items.length) continue;
-    totalShown += items.length;
-    const isHero = isTopRankedSectionKey(sec.key);
-    const isCollapsed = !forceExpand && isTabSectionCollapsed(collapsedState, sec.key);
-    visibleSections.push({ section: sec, count: items.length, collapsed: isCollapsed });
-    const cards = items.map((s, i) => renderRegionPickCard(code, s, sec.key, isHero ? i + 1 : null)).join("");
-    html += `
-      <div class="dashboard-section sws-pick-section${isCollapsed ? " collapsed" : ""}${isHero ? " sws-pick-section-hero" : ""}" data-section-key="${sec.key}">
-        <div class="section-header" onclick="toggleRegionPicksSection(this, '${code}')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleRegionPicksSection(this, '${code}');}">
-          <div class="section-header-left"><div>
-            <div class="sws-pick-section-title"><span class="section-name">${sec.label}</span> <span class="sws-pick-section-count">${items.length}</span> <span class="section-chevron">&#9660;</span></div>
-            <p class="sws-pick-section-subtitle">${escapeHtml(sec.subtitle)}</p>
-          </div></div>
-        </div>
-        <div class="section-body"><div class="stock-cards sws-pick-grid">${cards}</div></div>
-      </div>`;
-  }
-  // Dormant regions (KR/TW) have no refresh cron — surface an honest "periodic
-  // snapshot, not a live feed" banner so stale scores aren't read as current.
-  let dormantBanner = "";
-  if (data.dormant) {
-    const ts = data.scanned_at ? new Date(data.scanned_at) : null;
-    const ageDays = ts ? Math.floor((Date.now() - ts.getTime()) / 86400000) : null;
-    const whenTxt = ts ? ts.toLocaleDateString() : "—";
-    const ageTxt = ageDays != null ? ` (${ageDays} day${ageDays === 1 ? "" : "s"} ago)` : "";
-    const note = data.refresh_note || "This market is refreshed occasionally — treat these scores as a periodic snapshot, not a live feed.";
-    dormantBanner = `
-      <div data-testid="region-dormant-banner" style="border:1px solid rgba(251,191,36,0.28);background:rgba(251,191,36,0.07);border-radius:8px;padding:11px 13px;margin-bottom:12px;font-size:12px;line-height:1.55;color:var(--text-secondary);">
-        <strong style="color:var(--gold);">Periodic snapshot — not actively maintained.</strong>
-        ${escapeHtml(note)} Last refreshed <strong style="color:var(--text-primary);">${escapeHtml(whenTxt)}</strong>${escapeHtml(ageTxt)}.
-      </div>`;
-  }
-  if (!totalShown) {
-    container.innerHTML = dormantBanner + `<div style="padding:48px;text-align:center;color:var(--text-muted);">No stocks match your filters.</div>`;
-  } else {
-    const chipNav = renderTabChipNav(visibleSections, {
-      jumpOnclick: (k) => `jumpToRegionPicksSection('${code}','${k}')`,
-      expandAllOnclick: `setAllRegionPicksCollapsed('${code}',false)`,
-      collapseAllOnclick: `setAllRegionPicksCollapsed('${code}',true)`,
-    });
-    container.innerHTML = dormantBanner + chipNav + html;
-    refreshScrollRails(container);
-  }
-  const summary = document.getElementById(dom + "FilterSummary");
-  if (summary) summary.textContent = `Showing ${totalShown} card${totalShown === 1 ? "" : "s"}`;
-}
-
-function renderRegionPickCard(code, s, sectionKey, rank) {
-  const cur = s.currency || REGION_PICKS_UI[code].currency;
-  const upside = s.upside_pct != null ? `${s.upside_pct > 0 ? "+" : ""}${s.upside_pct.toFixed(1)}%` : "—";
-  const upsideColor = s.upside_pct == null ? "var(--text-muted)" : s.upside_pct >= 0 ? "var(--green)" : "var(--red)";
-  const sn = s.snowflake_total != null ? s.snowflake_total : "—";
-  const headlineRaw = swsV4ScoreValue(s);
-  const score = headlineRaw != null ? headlineRaw.toFixed(1) : "—";
-  const scoreColor = headlineRaw != null && typeof pickScoreColorV4 === "function" ? pickScoreColorV4(headlineRaw, s.v4_verdict) : "var(--text-muted)";
-  const verdict = headlineRaw != null ? (s.v4_verdict || s.composite_verdict || "—") : "—";
-  const verdictColor = { TOP_PICK: "var(--gold)", STRONG: "var(--green)", ACCEPTABLE: "var(--cyan)", WATCH: "var(--text-muted)", AVOID: "var(--red)" }[verdict] || "var(--text-muted)";
-  const valBand = s.valuation_band || null;
-  const valBandColor = { DEEP_DISCOUNT: "var(--gold)", DISCOUNT: "var(--green)", FAIR: "var(--cyan)", PREMIUM: "var(--text-muted)", EXPENSIVE: "var(--red)" }[valBand] || "var(--text-muted)";
-  const valBandChip = valBand ? `<span class="sws-pick-valband-chip" style="color:${valBandColor};border-color:${valBandColor};" title="Price vs analyst fair value">${valBand.replace(/_/g, " ")}</span>` : "";
-  const cov = typeof s.data_completeness_pct === "number" ? s.data_completeness_pct : null;
-  const coverageBadge = (cov != null && cov < 60) ? `<span class="sws-thin-coverage-badge" title="Only ${cov}% of SWS input fields populated when scored — verify before acting.">Thin · ${cov}%</span>` : "";
-  const rankBadge = rank ? `<span class="sws-pick-rank">${rank}</span>` : "";
-  const safeTicker = String(s.ticker || "").replace(/[^A-Z0-9.\-]/gi, "");
-  const fvCell = s.fair_value_inr == null
-    ? `<span class="sws-pick-fv-unavailable" title="SWS did not publish a finite fair value for this stock. Card stays on Snowflake quality; no discount claim made.">unavailable</span>`
-    : fmtMoney(s.fair_value_inr, cur);
-  return `
-    <div class="stock-card sws-pick-card" tabindex="0" role="button" aria-label="Open detail for ${safeTicker}"
-         data-ticker="${safeTicker}"
-         onclick="openRegionModal('${code}','${safeTicker}')"
-         onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openRegionModal('${code}','${safeTicker}');}">
-      <div class="sws-pick-card-top">
-        <div class="sws-pick-card-id">
-          ${rankBadge}
-          <div class="sws-pick-card-id-text">
-            <div class="sws-pick-card-ticker">${escapeHtml(s.ticker || "")}${coverageBadge}${s.sector ? `<span class="sws-pick-card-sector">${escapeHtml(s.sector)}</span>` : ""}</div>
-            <div class="sws-pick-card-name">${escapeHtml(s.name || "")}</div>
-          </div>
-        </div>
-        <div class="sws-pick-card-score">
-          <div class="sws-pick-card-score-num" style="color:${scoreColor};">${score}</div>
-          <div class="sws-pick-card-score-verdict" style="color:${verdictColor};">${String(verdict).replace(/_/g, " ")}</div>
-        </div>
-      </div>
-      <div class="sws-pick-card-stats">
-        <div class="sws-pick-stat"><span class="sws-pick-stat-label">Px</span> ${fmtMoney(s.current_price_inr, cur)}</div>
-        <div class="sws-pick-stat"><span class="sws-pick-stat-label">FV</span> ${fvCell}</div>
-        <div class="sws-pick-stat" style="color:${upsideColor};">${upside}${valBandChip ? " " + valBandChip : ""}</div>
-        <div class="sws-pick-stat sws-pick-stat-snow"><span class="sws-pick-stat-label">Snow</span> ${sn}/30</div>
-      </div>
-      <div class="sws-pick-card-narrative">${escapeHtml((s.narrative && s.narrative.card_one_line) || s.one_line || "")}</div>
-      ${s.sws_url ? `<div class="sws-pick-card-link"><a href="${escapeHtml(s.sws_url)}" target="_blank" rel="noopener" onclick="event.stopPropagation();">Open on SWS →</a></div>` : ""}
-    </div>`;
-}
-
-function onRegionPicksSectorChange(code, v) { _rp(code).sector = v; if (_rp(code).data) renderRegionPicks(code); }
-function onRegionPicksUniverseChange(code, v) { _rp(code).universe = v; if (_rp(code).data) renderRegionPicks(code); }
-function onRegionPicksSearchInput(code, v) {
-  _rp(code).search = (v || "").trim();
-  const clr = document.getElementById(_rpDom(code) + "SearchClear");
-  if (clr) clr.hidden = !_rp(code).search;
-  if (_rp(code).data) renderRegionPicks(code);
-}
-function onRegionPicksSearchClear(code) {
-  _rp(code).search = "";
-  const inp = document.getElementById(_rpDom(code) + "SearchInput"); if (inp) inp.value = "";
-  const clr = document.getElementById(_rpDom(code) + "SearchClear"); if (clr) clr.hidden = true;
-  if (_rp(code).data) renderRegionPicks(code);
-}
-
-function clearRegionScanStatusTimer(code) {
-  const st = _rp(code);
-  if (st && st.pollTimer) {
-    clearTimeout(st.pollTimer);
-    st.pollTimer = null;
-  }
-}
-
-function scheduleRegionScanStatusPoll(code, delayMs) {
-  const st = _rp(code);
-  if (!st) return;
-  clearRegionScanStatusTimer(code);
-  if (!st.pollStarted || !isActiveVisibleTab(`${code}Picks`)) return;
-  st.pollTimer = setTimeout(() => tickRegionScanStatus(code), Math.max(0, delayMs || 0));
-}
-
-async function tickRegionScanStatus(code) {
-  const st = _rp(code);
-  if (!st || !isActiveVisibleTab(`${code}Picks`)) {
-    clearRegionScanStatusTimer(code);
-    return;
-  }
-  const banner = document.getElementById(_rpDom(code) + "StatusBanner");
-  const ui = REGION_PICKS_UI[code];
-  let nextDelay = SCAN_STATUS_IDLE_POLL_MS;
-  try {
-    const s = await (await fetch(`/api/${code}-scan/status`)).json();
-    nextDelay = isScanStatusHot(s) ? SCAN_STATUS_FAST_POLL_MS : SCAN_STATUS_IDLE_POLL_MS;
-    if (!banner || !ui) return;
-    if (s && s.panic_stop && s.panic_stop.active) {
-      banner.style.display = "block";
-      banner.style.background = "rgba(220,80,80,0.1)";
-      banner.style.border = "1px solid var(--red)";
-      banner.style.color = "var(--red)";
-      banner.innerHTML = `🚨 ${escapeHtml(ui.label)} Market scan halted: <strong>${escapeHtml(s.panic_stop.reason || "panic stop")}</strong>`;
-    } else if (s && s.in_progress) {
-      const lines = (s.shards || []).filter((sh) => sh.last_run_at).map((sh) => `Shard ${sh.id}: ${sh.done_count} done${sh.last_ticker ? ` (${sh.last_ticker})` : ""}`).join(" · ");
-      banner.style.display = "block";
-      banner.style.background = "rgba(0,180,100,0.1)";
-      banner.style.border = "1px solid var(--green)";
-      banner.style.color = "var(--green)";
-      banner.innerHTML = `🟢 ${escapeHtml(ui.label)} Market scan in progress · ${lines || "starting…"} · Total ${s.total_done}`;
-    } else {
-      banner.style.display = "none";
-    }
-  } catch {
-    nextDelay = SCAN_STATUS_IDLE_POLL_MS;
-  } finally {
-    scheduleRegionScanStatusPoll(code, nextDelay);
-  }
-}
-
-async function pollRegionScanStatus(code) {
-  const st = _rp(code);
-  if (!st) return;
-  st.pollStarted = true;
-  scheduleRegionScanStatusPoll(code, 0);
-}
-
-async function openRegionModal(code, ticker) {
-  ticker = String(ticker || "").trim();
-  const state = _rp(code);
-  if (!state) return;
-  state.modalTicker = ticker;
-  state.modalLastFocus = document.activeElement;
-  const backdrop = document.getElementById(code + "ModalBackdrop");
-  const body = document.getElementById(code + "ModalBody");
-  if (!backdrop || !body) return;
-  body.innerHTML = buildLoading(`Loading ${escapeHtml(ticker)}…`);
-  backdrop.classList.add("open");
-  document.body.style.overflow = "hidden";
-  focusDialogCloseButton(backdrop);
-  try {
-    const res = await fetch(`/api/${code}-stock/${encodeURIComponent(ticker)}`);
-    if (_rp(code).modalTicker !== ticker) return;
-    if (!res.ok) { body.innerHTML = `<div style="padding:24px;color:var(--text-muted);">No detail available for ${escapeHtml(ticker)}.</div>`; return; }
-    const data = await res.json();
-    if (_rp(code).modalTicker !== ticker) return;
-    body.innerHTML = renderRegionModal(code, data);
-    refreshScrollRails(body);
-  } catch (e) {
-    body.innerHTML = `<div style="padding:24px;color:var(--red);">Failed: ${escapeHtml(String((e && e.message) || e))}</div>`;
-  }
-}
-function closeRegionModal(code) {
-  const state = _rp(code);
-  const backdrop = document.getElementById(code + "ModalBackdrop");
-  if (backdrop) backdrop.classList.remove("open");
-  document.body.style.overflow = "";
-  if (state) {
-    state.modalTicker = null;
-    restoreModalFocus(state.modalLastFocus);
-    state.modalLastFocus = null;
-  }
-}
-function renderRegionModal(code, data) {
-  // Parity (PR2): delegate to the shared rich modal core. Region opts — native
-  // currency, per-code modal title id, no watchlist star, inert chips until PR3.
-  return renderSwsModalCore(data, { currency: data.currency || REGION_PICKS_UI[code].currency, titleId: code + "ModalTitle", watchlistSuffix: null, sectionNavFn: null });
-}
-
-document.addEventListener("keydown", (e) => {
-  if (e.key !== "Escape") return;
-  for (const c of Object.keys(regionPicksState)) if (regionPicksState[c].modalTicker) closeRegionModal(c);
-});
-
-window.loadRegionPicks = loadRegionPicks;
-window.openRegionModal = openRegionModal;
-window.closeRegionModal = closeRegionModal;
-window.onRegionPicksSectorChange = onRegionPicksSectorChange;
-window.onRegionPicksUniverseChange = onRegionPicksUniverseChange;
-window.onRegionPicksSearchInput = onRegionPicksSearchInput;
-window.onRegionPicksSearchClear = onRegionPicksSearchClear;
-
 function showPicksBanner(kind, msg) {
   const b = document.getElementById("picksStatusBanner");
   if (!b) return;
@@ -14413,12 +14059,6 @@ function syncScanStatusPollers() {
   if (usPicksStatusPollStarted) {
     if (isActiveVisibleTab("usPicks")) scheduleUSScanStatusPoll(0);
     else clearUSScanStatusTimer();
-  }
-  for (const code of Object.keys(regionPicksState)) {
-    const st = _rp(code);
-    if (!st || !st.pollStarted) continue;
-    if (isActiveVisibleTab(`${code}Picks`)) scheduleRegionScanStatusPoll(code, 0);
-    else clearRegionScanStatusTimer(code);
   }
 }
 
@@ -14743,7 +14383,7 @@ function renderSwsModalEventWarning(deep, card) {
 }
 
 // Region-parametrised modal core. India → renderSwsModal wrapper (INDIA_MODAL_OPTS,
-// byte-identical output); US/KR/TW pass their own opts (currency, modal title id,
+// byte-identical output); US passes its own opts (currency, modal title id,
 // watchlist suffix, section-nav handler). Single source of truth so every market's
 // modal renders the same sections from the same code.
 function renderSnowflakeDataQualityBanner(dataQuality, checkMatrix) {
@@ -14939,11 +14579,7 @@ function renderModalDecisionSummary(data, card_, opts, context) {
   const read = `${String(context.verdict || "—").replace(/_/g, " ")} V4 read${context.score ? ` · ${context.score}/100` : ""}`;
   const closeModalExpr = opts.titleId === "usModalTitle"
     ? "closeUSModal()"
-    : opts.titleId === "krModalTitle"
-      ? "closeRegionModal('kr')"
-      : opts.titleId === "twModalTitle"
-        ? "closeRegionModal('tw')"
-        : "closeSwsModal()";
+    : "closeSwsModal()";
   const navButtons = [
     ["riskLab", "risk backdrop"],
     ["sectorOutlook", "sector context"],
@@ -15012,7 +14648,7 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
   const sn = ov.snowflake || {};
   const ret = normaliseModalReturns(data, ov, card_);
   const mult = ov.multiples || {};
-  // US/KR/TW deep brief is lazily extracted from a per-region tarball on prod and
+  // US deep brief is lazily extracted from a tarball on prod and
   // can be absent; fall back to the picks-card fields so the header + snowflake
   // never render all-blank. India's deep is always present, so these no-op there.
   const priceVal = card_.current_price_inr ?? ov.current_price_inr;
@@ -15441,7 +15077,7 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
       const safeKey = escapeHtml(key);
       const safeDisplay = escapeHtml(display);
       // India wires chips to navigateToPicksSection; markets without a section
-      // scroller yet (US/KR/TW pre-PR3) get inert chips — same look, no nav.
+      // scroller yet (US pre-PR3) get inert chips — same look, no nav.
       if (opts.sectionNavFn) {
         return `<button type="button" class="sws-modal-section-chip is-clickable" data-section-key="${safeKey}" onclick="${opts.sectionNavFn}('${safeKey.replace(/'/g, "\\'")}')" title="Open India Market → ${safeDisplay}">${safeDisplay}</button>`;
       }

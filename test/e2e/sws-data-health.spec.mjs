@@ -158,8 +158,6 @@ test.describe("SWS data health", () => {
 
   for (const market of [
     { code: "us", label: "US", currency: "USD" },
-    { code: "kr", label: "Korea", currency: "KRW" },
-    { code: "tw", label: "Taiwan", currency: "TWD" },
   ]) {
     test(`${market.label} picks resolve via regional detail fallback contract`, async ({ request }) => {
       const picksRes = await request.get(`/api/${market.code}-picks`);

@@ -193,11 +193,11 @@ test.describe("frontend polling cadence", () => {
     await expect.poll(() => swsStatusRequests).toBe(5);
   });
 
-  test("US and regional scan pollers are scoped to their active visible tabs", async ({ page }) => {
+  test("US scan poller is scoped to its active visible tab", async ({ page }) => {
     await page.clock.install({ time: new Date("2026-06-02T04:00:00.000Z") });
     await installVisibilityShim(page);
 
-    const statusRequests = { us: 0, kr: 0, tw: 0 };
+    const statusRequests = { us: 0 };
     const statusBody = { in_progress: true, shards: [], total_done: 0 };
 
     await page.route("**/api/market", (route) => json(route, { marketStatus: "OPEN", indices: [] }));
@@ -206,18 +206,8 @@ test.describe("frontend polling cadence", () => {
       json(route, { in_progress: false, all_complete: true, shards: [], total_done: 0 }),
     );
     await page.route("**/api/us-picks", (route) => json(route, activeScanPicks("USD")));
-    await page.route("**/api/kr-picks", (route) => json(route, activeScanPicks("KRW")));
-    await page.route("**/api/tw-picks", (route) => json(route, activeScanPicks("TWD")));
     await page.route("**/api/us-scan/status", (route) => {
       statusRequests.us += 1;
-      return json(route, statusBody);
-    });
-    await page.route("**/api/kr-scan/status", (route) => {
-      statusRequests.kr += 1;
-      return json(route, statusBody);
-    });
-    await page.route("**/api/tw-scan/status", (route) => {
-      statusRequests.tw += 1;
       return json(route, statusBody);
     });
 
@@ -233,18 +223,8 @@ test.describe("frontend polling cadence", () => {
     await tickClock(page, 30 * 1000);
     await expect.poll(() => statusRequests.us).toBe(2);
 
-    await switchTab(page, "krPicks");
-    await tickClock(page, 1);
-    await expect.poll(() => statusRequests.kr).toBe(1);
-    expect(statusRequests.us).toBe(2);
-
-    await switchTab(page, "twPicks");
-    await tickClock(page, 1);
-    await expect.poll(() => statusRequests.tw).toBe(1);
-    expect(statusRequests.kr).toBe(1);
-
     await page.evaluate(() => window.__setE2EVisibility("hidden"));
     await tickClock(page, 30 * 1000);
-    expect(statusRequests).toEqual({ us: 2, kr: 1, tw: 1 });
+    expect(statusRequests).toEqual({ us: 2 });
   });
 });
