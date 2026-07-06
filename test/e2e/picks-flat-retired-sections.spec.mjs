@@ -27,7 +27,7 @@ const CANON = [
   "midterm",
   "dividend_aristocrats",
   "smallcap_gems",
-  "insider_buying",
+  // insider_buying retired (B8): never a valid rendered India section anymore.
 ];
 
 test.describe("India homepage · flat layout + retired sections", () => {

@@ -12079,7 +12079,14 @@ const PICKS_SECTIONS = [
   { key: "midterm", term_id: "section_midterm", emoji: "⚡", label: "⚡ Midterm Picks (3-12 months)", chip_label: "Midterm", subtitle: "Trend-following — momentum already on side, with FV upside ≥ 15% remaining." },
   { key: "dividend_aristocrats", term_id: "section_dividend_aristocrats", emoji: "💰", label: "💰 Dividend Aristocrats", chip_label: "Dividend", subtitle: "Sustainable payers: Dividend pillar ≥ 5, payout < 70%, yield ≥ 1.5%." },
   { key: "smallcap_gems", term_id: "section_smallcap_gems", emoji: "🔍", label: "🔍 Smallcap Hidden Gems", chip_label: "Smallcap Gems", subtitle: "True smallcap quality: mcap < ₹15,000cr (NSE rank 251+) + Snowflake ≥ 22 + upside ≥ 15%." },
-  { key: "insider_buying", term_id: "section_insider_buying", emoji: "👁", label: "👁 Insider Buying", chip_label: "Insider", subtitle: "Material insider / MD buys in last 90 days. Data field not yet captured." },
+  // insider_buying retired from the India homepage (B8): SWS ships no insider
+  // data (ov.insider_activity is null universe-wide) so the section was always
+  // empty — showing an always-empty "Data field not yet captured" screen was
+  // dead coverage. Removed from PICKS_SECTIONS so it never renders a section or
+  // a chip. The scorers still emit an empty `insider_buying: []` key (read-side
+  // consumers — swsDiscoveryFeed, the track-record snapshotter — iterate section
+  // keys), and the track-record registry keeps `sws_insider_buying` as a
+  // discontinued type so historical rows still filter correctly.
 ];
 
 // PR2 declutter — the curated "core" screens shown on the homepage by default.
