@@ -5,19 +5,23 @@
 import { test, expect } from "@playwright/test";
 import { gotoApp } from "./helpers/app.mjs";
 
-function trustSortedSectors(body, horizon) {
-  const confidenceRank = { HIGH: 3, MED: 2, LOW: 1 };
-  const directionRank = { STRONG_TAILWIND: 5, STRONG_HEADWIND: 4, TAILWIND: 3, HEADWIND: 2, NEUTRAL: 1 };
+function growthKey(h) {
+  if (!h || typeof h !== "object") return -Infinity;
+  if (Number.isFinite(Number(h.growth_rank_score))) return Number(h.growth_rank_score);
+  const raw = h.top_down?.status === "UNCORROBORATED" ? Number(h.bottom_up?.score) : Number(h.composite);
+  return Number.isFinite(raw) ? raw : -Infinity;
+}
+function growthSortedSectors(body, horizon) {
   return [...(body.sectors || [])].sort((a, b) => {
     const ah = a.horizons?.[horizon] || {};
     const bh = b.horizons?.[horizon] || {};
-    const cr = (confidenceRank[bh.confidence] || 0) - (confidenceRank[ah.confidence] || 0);
-    if (cr) return cr;
+    const ga = growthKey(ah), gb = growthKey(bh);
+    if (ga !== gb) return gb > ga ? 1 : -1;
     const tr = (Number(bh.trust_score) || 0) - (Number(ah.trust_score) || 0);
     if (tr) return tr;
-    const ar = Math.abs(Number(bh.composite) || 0) - Math.abs(Number(ah.composite) || 0);
-    if (ar) return ar;
-    return (directionRank[bh.outlook_label] || 0) - (directionRank[ah.outlook_label] || 0);
+    const br = (Number(bh.bottom_up?.breadth_pct) || 0) - (Number(ah.bottom_up?.breadth_pct) || 0);
+    if (br) return br;
+    return String(a.sector || "").localeCompare(String(b.sector || ""));
   }).map((s) => s.sector);
 }
 
@@ -152,13 +156,13 @@ test.describe("Sector Outlook tab (v1)", () => {
     const tab1224 = page.locator(".sector-outlook-horizon-tab[data-horizon='12_24m']");
     await expect(tab312).toHaveAttribute("aria-selected", "true");
     await expect(tab1224).toHaveAttribute("aria-selected", "false");
-    expect(await renderedSectors(page)).toEqual(trustSortedSectors(body, "3_12m"));
+    expect(await renderedSectors(page)).toEqual(growthSortedSectors(body, "3_12m"));
 
     // Click the 12-24m tab — aria-selected flips
     await tab1224.click();
     await expect(tab1224).toHaveAttribute("aria-selected", "true");
     await expect(tab312).toHaveAttribute("aria-selected", "false");
-    expect(await renderedSectors(page)).toEqual(trustSortedSectors(body, "12_24m"));
+    expect(await renderedSectors(page)).toEqual(growthSortedSectors(body, "12_24m"));
   });
 
   test("SEBI-conservative language audit — no 'predict' / 'guarantee' / 'will outperform'", async ({ page, request }) => {

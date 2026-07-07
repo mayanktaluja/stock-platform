@@ -1022,8 +1022,15 @@ window.GLOSSARY = {
   sector_trust_score: {
     term: "Sector Trust Score",
     category: "macro",
-    short: "A 0-100 reliability score used to order Sector Outlook rows.",
-    full: "Trust blends evidence volume, sector breadth, 30/90/365-day signal stability, macro/external agreement, classifier quality, available sector-index confirmation, and freshness. Rows sort by this score first, so a high-trust risk can appear above a lower-trust opportunity. Missing macro or price context is marked uncorroborated rather than treated as a hard failure.",
+    short: "A 0-100 data-confidence score — how well-supported a sector's read is, not its rank order.",
+    full: "Trust blends evidence volume, sector breadth, 30/90/365-day signal stability, macro/external agreement, classifier quality, available sector-index confirmation, and freshness into one data-quality read. It measures how much to trust a row, not how constructive the sector looks — rows are ordered by growth outlook (the signed composite), so Trust only tells you how solid each row's evidence is. Missing macro or price context is marked uncorroborated rather than treated as a hard failure.",
+  },
+
+  sector_growth_sort: {
+    term: "Sort order",
+    category: "macro",
+    short: "Chooses how Sector Outlook rows are ordered — by growth outlook or by Trust.",
+    full: "'Growth outlook' ranks sectors by the signed composite — the bottom-up SWS news signal cross-checked with the current macro regime — strongest tailwind first, so the most positively-leaning sectors sit on top. It is indicative context from observed news, not a forecast or recommendation. 'Trust' instead ranks by the 0-100 data-confidence score. Rows with thin evidence are flagged.",
   },
 
   sector_trust_factors: {
