@@ -456,3 +456,87 @@ node scripts/refresh-news-alerts.mjs --dry-run                               # r
 # Phase 3b router needs TG_SESSION + a Topics group (bot admin) + TG_GROUP_ID; then:
 node scripts/telegram-listener.mjs                                           # live router (dormant until configured)
 ```
+
+---
+
+## Market Wire (Market Intelligence tab)
+
+The **digested, on-site consumption layer** on top of the Telegram firehose. The
+mirror poller (Phase 3b, above) stays the instant raw stream; the Market Wire
+persists those messages, clusters duplicates across channels, LLM-triages each
+cluster for Indian-equity impact, ranks, and surfaces the top ~40 as a **"Live
+Market Wire"** section on the Market Intelligence tab (below the macro regime
+card, above the deterministic Market Digest). It is ADDITIVE — the Digest is
+untouched.
+
+### Data flow (two independent crons, two PID locks)
+
+```
+mirror poller (60s) → [NEW sink] data/news-wire/buffer/<UTC-date>.jsonl   (gitignored, per-machine)
+news-wire builder (5min) → cluster → heuristic-score all → rank → LLM-refine top-N → re-rank → publish
+                         → Vercel KV  news:wire:latest   (prod source of truth; + local mirror for dev)
+server.js GET /api/news/wire (KV → FS fallback → 90s NodeCache; never 500) → gated/app.js renderMarketWire()
+```
+
+### Refresh (local; the builder needs GEMINI/GROQ + KV keys for full fidelity)
+
+```bash
+node scripts/refresh-news-wire.mjs                 # build 6h window → publish to KV
+node scripts/refresh-news-wire.mjs --skip-llm      # heuristic only (CI/offline)
+node scripts/refresh-news-wire.mjs --dry-run       # build + log, no mirror, no KV
+```
+
+The persistence sink is a single guarded line in `scripts/refresh-mirror-news.mjs`
+(archives BEFORE the Telegram dedup so cross-channel copies are all captured for
+source-counting). It **NO-OPs unless `NEWS_WIRE_DIR` is set** — the poller runs
+in a throwaway `git worktree` that's force-removed each run, so an unpinned path
+would be nuked; `scripts/mirror-news-poll.sh` pins it to the canonical repo,
+exactly like `ALERTS_LEDGER_DIR`. The builder cron is
+`scripts/news-wire-build.sh` (own lock, origin/main worktree, buffer + mirror +
+cache all pinned to canonical) + `scripts/com.starbhai.news-wire.plist`
+(StartInterval 300, self-gated to the active IST window 07:00→02:00 since the
+channels peak overnight on the US/Fed/Trump session).
+
+### Design invariants (load-bearing — from the adversarial pass)
+
+- **Publish is Vercel KV, not git** — a 5-min commit cadence would be ~200+
+  auto-merged PRs + deploys/day (the rank's recency term rewrites every item
+  every build). Nothing under `data/news-wire/` is committed; it needs no
+  `vercel.json` includeFiles entry.
+- **Rank-first, LLM only the top-N.** The floor gate (`source_count≥2 OR breaking
+  OR watchlist ticker`) inverts under a storm (breaking correlates with storms),
+  so spend is bounded by a hard per-build cap (`MAX_LLM_CLUSTERS=18`), not the
+  floor. A failed LLM attempt backs off (`FAILED_RETRY_MS`) instead of being
+  re-hammered every 5 min.
+- **Content-only cache key** (the cluster's stable earliest-member anchor). A new
+  corroborating source never invalidates a cached score — corroboration/recency
+  are rank multipliers applied OUTSIDE the cache (`wireBuilder.rankClusters`).
+- **Honest display (D3):** cards show a BUCKETED heat (Low/Med/High) + direction
+  + a source-count corroboration chip + channel names — never a precise 0-10
+  numeral on unverified scraped chatter. `#sebiSiteFooter` covers the disclaimer.
+- **Never-throw:** every LLM path floors to the deterministic `wireHeuristic`, so
+  a missing key / quota outage degrades quality, never availability.
+
+### Modules
+
+| File | Role |
+|------|------|
+| `services/newsWire/wireArchive.js` | Append-only NDJSON sink; no-op when `NEWS_WIRE_DIR` unset; trailing-2-UTC-file window read + buffer prune. |
+| `services/newsWire/wireClusterer.js` | Deterministic token-set Jaccard; stable earliest-`publishedAt` cluster key (H3). |
+| `services/newsWire/wireHeuristic.js` | Never-throw floor emitting the exact wire-signal schema the LLM also emits. |
+| `services/newsWire/wireImpactSignal.js` | Gemini→Groq→heuristic; `sanitiseText` + `<news_body>` wrap (untrusted Telegram bodies). |
+| `services/newsWire/wireImpactBatcher.js` | Floor gate + per-build LLM cap + concurrency pool + cache tri-state (H1). |
+| `services/newsWire/wireImpactCache.js` | Schema-versioned atomic cache; content-only key; `none/failed/below_floor/succeeded` + backoff (H2). |
+| `services/newsWire/wireBuilder.js` | Orchestrator + `rankClusters` (impact × recency × corroboration) + KV/mirror publish. |
+| `server.js` `GET /api/news/wire` | KV→FS→cache; never 500 → `{items:[]}` so the UI self-hides. |
+| `gated/app.js` `renderMarketWire` | Bucketed-heat cards; 7th fetch in `loadMarketNews`; own var (not `_newsDigest`). |
+
+### Tests
+
+```bash
+node test/wireArchive.test.mjs && node test/wireClusterer.test.mjs \
+  && node test/wireHeuristic.test.mjs && node test/wireImpactCache.test.mjs \
+  && node test/wireImpactSignal.test.mjs && node test/wireImpactBatcher.test.mjs \
+  && node test/wireBuilder.test.mjs          # all wired into `npm test`
+npx playwright test market-wire.spec.mjs     # renders cards + self-hides when empty
+```
