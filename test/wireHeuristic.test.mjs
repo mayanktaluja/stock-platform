@@ -38,7 +38,7 @@ test("bearish cluster → bearish direction", () => {
 test("no keyword signal → neutral, low heat", () => {
   const s = heuristicClassifyCluster(cluster({ text: "Company to hold board meeting on Thursday to consider agenda items" }));
   assert.equal(s.direction, "neutral");
-  assert.ok(s.heat_raw <= 3);
+  assert.ok(s.impact <= 3);
 });
 
 test("breaking + multi-source raises heat vs a quiet singleton", () => {
@@ -48,7 +48,7 @@ test("breaking + multi-source raises heat vs a quiet singleton", () => {
     source_count: 3,
     breaking: true,
   }));
-  assert.ok(loud.heat_raw > quiet.heat_raw);
+  assert.ok(loud.impact > quiet.impact);
 });
 
 test("heat clamps to 0-10, confidence to 0.3-0.85", () => {
@@ -58,7 +58,7 @@ test("heat clamps to 0-10, confidence to 0.3-0.85", () => {
     breaking: true,
     symbols: ["TCS"],
   }));
-  assert.ok(s.heat_raw >= 0 && s.heat_raw <= 10);
+  assert.ok(s.impact >= 0 && s.impact <= 10);
   assert.ok(s.confidence >= 0.3 && s.confidence <= 0.85);
 });
 
@@ -85,7 +85,7 @@ test("never throws on garbage input", () => {
 
 test("emits the full interchangeable schema", () => {
   const s = heuristicClassifyCluster(cluster({ text: "Nifty gains on strong FII buying" }));
-  for (const k of ["direction", "heat_raw", "confidence", "tickers", "sectors", "category", "why", "breaking", "classifier_provider", "model_id", "signal_version", "generated_at"]) {
+  for (const k of ["direction", "impact", "confidence", "tickers", "sectors", "category", "why", "breaking", "classifier_provider", "model_id", "signal_version", "generated_at"]) {
     assert.ok(k in s, `missing ${k}`);
   }
 });

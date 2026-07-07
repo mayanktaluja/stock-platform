@@ -60,7 +60,7 @@ function countMatches(text, words) {
 function neutralFloor(now) {
   return {
     direction: "neutral",
-    heat_raw: 1,
+    impact: 1,
     confidence: 0.3,
     tickers: [],
     sectors: [],
@@ -100,7 +100,7 @@ export function heuristicClassifyCluster(cluster, { now = Date.now() } = {}) {
     heat += Math.min(sourceCount - 1, 3) * 1.2; // corroboration
     if (breaking) heat += 2;
     if (symbols.length) heat += 1;
-    const heat_raw = clamp(Math.round(heat * 10) / 10, 0, 10);
+    const impact = clamp(Math.round(heat * 10) / 10, 0, 10);
 
     // Confidence: humble base, lifted by corroboration + keyword clarity.
     let confidence = 0.3;
@@ -133,7 +133,7 @@ export function heuristicClassifyCluster(cluster, { now = Date.now() } = {}) {
 
     return {
       direction,
-      heat_raw,
+      impact,
       confidence,
       tickers: symbols,
       sectors,
