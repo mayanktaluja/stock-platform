@@ -3501,6 +3501,34 @@
       box-shadow: none;
       border-bottom-color: var(--gold);
     }
+    /* PR7 — calm "Experimental" tab flag. Replaces the per-button pulsing dot +
+       inline-styled pill: one token-based chip, no animation (quieter on the
+       rail + no reduced-motion liability). Hidden below 720px so the scroll rail
+       stays short on phones (the tab itself stays — #458 flat-nav). */
+    .tab-flag {
+      display: inline-flex; align-items: center;
+      margin-left: 6px; padding: 1px 6px;
+      font-size: 9px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+      border-radius: var(--radius-full, 999px); border: 1px solid var(--border);
+      background: var(--surface-raise-strong); color: var(--text-muted);
+    }
+    .tab-flag--warn { color: var(--warn-text); background: var(--yellow-bg); border-color: var(--gold-glow-30); }
+    .tab-flag--lab  { color: var(--purple-bright); }
+    @media (max-width: 720px) { .tab-flag { display: none; } }
+
+    /* PR7 — Track Record disclosures band. Groups the (legally required)
+       non-registration / conflict-of-interest / backtest-vs-live notes into one
+       calm framed unit so the trust tab no longer opens with three stacked
+       alarm-coloured boxes above the scorecard. Inner notes keep their exact
+       classes/ids/roles/text; the frame + tighter rhythm do the work. */
+    .track-disclosure-band {
+      margin: 0 0 var(--space-250, 20px);
+      padding: 12px 12px 2px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-150, 10px);
+      background: var(--surface-raise);
+    }
+    .track-disclosure-band > [role="note"] { margin-bottom: 10px !important; }
 
     /* Phase 8C: editorial back button — minimal text link */
     .back-btn {
@@ -5349,11 +5377,11 @@
       <button class="tab" id="usPicksTabBtn" role="tab" aria-selected="false" aria-controls="usPicksTab" onclick="switchTab('usPicks')">US Market</button>
       <button class="tab" id="earningsTabBtn" role="tab" aria-selected="false" aria-controls="earningsTab" onclick="switchTab('earnings')">Earnings Watch</button>
       <!-- Risk Lab (experimental) — macro/geopolitical + earnings-quality overlay on existing picks/predictions. Hidden when localStorage.riskLabEnabled === "false". -->
-      <button class="tab" id="riskLabTabBtn" role="tab" aria-selected="false" aria-controls="riskLabTab" onclick="switchTab('riskLab')" style="display:inline-flex; align-items:center; gap:6px;"><span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--warn-text); box-shadow:0 0 0 2px rgba(251,191,36,0.18); animation: pulse 2s ease-in-out infinite;" aria-hidden="true"></span>Risk Lab<span style="font-size:9px; font-weight:700; letter-spacing:0.06em; color:var(--warn-text); background:rgba(251,191,36,0.12); border:1px solid rgba(251,191,36,0.35); padding:1px 6px; border-radius:6px; margin-left:2px;">EXPERIMENTAL</span></button>
+      <button class="tab" id="riskLabTabBtn" role="tab" aria-selected="false" aria-controls="riskLabTab" onclick="switchTab('riskLab')" style="display:inline-flex; align-items:center; gap:6px;">Risk Lab<span class="tab-flag tab-flag--warn">EXPERIMENTAL</span></button>
       <!-- 5x Lab — concentrated multibagger strategy targeting ₹1L → ₹5L net in 12 months. Open to every signed-in user. -->
-      <button class="tab" id="multibaggerLabTabBtn" role="tab" aria-selected="false" aria-controls="multibaggerLabTab" onclick="switchTab('multibaggerLab')" style="display:inline-flex; align-items:center; gap:6px;"><span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--purple-bright); box-shadow:0 0 0 2px rgba(167,139,250,0.18);" aria-hidden="true"></span>5x Lab<span style="font-size:9px; font-weight:700; letter-spacing:0.06em; color:var(--purple-bright); background:rgba(167,139,250,0.12); border:1px solid rgba(167,139,250,0.35); padding:1px 6px; border-radius:6px; margin-left:2px;">EXPERIMENTAL</span></button>
+      <button class="tab" id="multibaggerLabTabBtn" role="tab" aria-selected="false" aria-controls="multibaggerLabTab" onclick="switchTab('multibaggerLab')" style="display:inline-flex; align-items:center; gap:6px;">5x Lab<span class="tab-flag tab-flag--lab">EXPERIMENTAL</span></button>
       <!-- Sector Outlook (experimental) — bottom-up SWS news theme aggregation × current macro regime. Sector-level only; no named stock recommendations in v1. Hidden when localStorage.sectorOutlookEnabled_v1 === "false". -->
-      <button class="tab" id="sectorOutlookTabBtn" role="tab" aria-selected="false" aria-controls="sectorOutlookTab" onclick="switchTab('sectorOutlook')" style="display:inline-flex; align-items:center; gap:6px;"><span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--purple-bright); box-shadow:0 0 0 2px rgba(167,139,250,0.18); animation: pulse 2s ease-in-out infinite;" aria-hidden="true"></span>Sector Outlook<span style="font-size:9px; font-weight:700; letter-spacing:0.06em; color:var(--purple-bright); background:rgba(167,139,250,0.12); border:1px solid rgba(167,139,250,0.35); padding:1px 6px; border-radius:6px; margin-left:2px;">EXPERIMENTAL</span></button>
+      <button class="tab" id="sectorOutlookTabBtn" role="tab" aria-selected="false" aria-controls="sectorOutlookTab" onclick="switchTab('sectorOutlook')" style="display:inline-flex; align-items:center; gap:6px;">Sector Outlook<span class="tab-flag tab-flag--lab">EXPERIMENTAL</span></button>
       <button class="tab" id="trackTabBtn" role="tab" aria-selected="false" aria-controls="trackTab" onclick="switchTab('track')">Track Record</button>
       </div>
       <button type="button" class="scroll-rail-btn scroll-rail-btn-right" data-scroll-dir="right" aria-label="Scroll platform tabs right" hidden>&rsaquo;</button>
@@ -5471,6 +5499,10 @@
       </div>
       <div id="trackHeroSubline" class="tx-meta" style="margin: 4px 2px 16px; opacity: 0.85;"></div>
 
+      <!-- PR7 — the three legally-required notes are grouped into one calm
+           framed band so the trust tab stops opening with stacked alarm boxes.
+           Every inner class/id/role/text is unchanged (SEBI e2e locks them). -->
+      <div class="track-disclosure-band">
       <!-- SEBI 10/10 — registration disclosure. SEBI (RA) Regs 2014 Reg 21(2)(b)
            requires performance surfaces to disclose registration status. Mirror
            the past-performance chip styling. -->
@@ -5500,6 +5532,7 @@
         <span id="trackLiveCountSub">· loading picks…</span>
         · All data shown is live unless flagged "Backtest". Backtested entries are excluded from the headline Hit Rate / Avg α numbers.
       </div>
+      </div><!-- /.track-disclosure-band -->
 
       <!-- SEBI 10/10 — Methodology drawer. SEBI Reg 28(2)(c). Collapsed by
            default; uses the same <details> pattern as the Brier popover. -->
