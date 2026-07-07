@@ -231,6 +231,13 @@
       --z-tooltip:         1600;
       --z-toast:           1700;
       --z-cmdk:            1800;
+      /* PR8 — the two overlays that deliberately sit ABOVE the 1800 ladder max:
+       * the SWS stock modal (was z-index:9000, above toast/cmdk) and the
+       * glossary tooltip (was 10000, above the modal). Tokenised at their exact
+       * values so the stacking order is unchanged — this is naming, not a
+       * renumber into the ladder. */
+      --z-overlay-high:    9000;
+      --z-max:            10000;
 
       /* Focus ring (paired with :focus-visible double-ring below) */
       --focus-ring-width:  2px;
@@ -2353,7 +2360,7 @@
     /* Floating tooltip popover */
     #starbhaiTooltip {
       position: fixed;
-      z-index: 10000;
+      z-index: var(--z-max);
       max-width: 360px;
       min-width: 240px;
       /* SEBI 10/10 — D4: cap the tooltip height so dynamic bodies (e.g. the
@@ -3558,7 +3565,7 @@
       inset: 0;
       background: rgba(0, 0, 0, 0.65);
       backdrop-filter: blur(3px);
-      z-index: 9000;
+      z-index: var(--z-overlay-high);
       display: none;
       align-items: flex-start;
       justify-content: center;
