@@ -16,18 +16,21 @@ export const WIRE_SIGNAL_VERSION = "news-wire-v1";
 const MODEL_ID = "news-wire-heuristic-v1";
 
 const BULL = [
-  "rally", "surge", "gain", "gains", "jump", "jumps", "rise", "rises", "bull", "buy",
+  "rally", "rallies", "rallied", "surge", "surges", "surged", "gain", "gains", "gained",
+  "jump", "jumps", "jumped", "rise", "rises", "rose", "rising", "bull", "buy",
   "profit", "growth", "record", "beat", "beats", "upgrade", "upgraded", "strong",
-  "recover", "rebound", "high", "positive", "soar", "soars", "boost", "optimism",
-  "stimulus", "approval", "approved", "wins", "expansion", "outperform",
+  "recover", "recovers", "rebound", "rebounds", "high", "positive", "soar", "soars",
+  "boost", "optimism", "stimulus", "ease", "eases", "easing", "approval", "approved",
+  "wins", "expansion", "outperform", "climbs", "climbed", "advances", "advanced",
 ];
 const BEAR = [
-  "fall", "falls", "crash", "drop", "drops", "slip", "sell", "selloff", "bear",
-  "loss", "losses", "decline", "weak", "concern", "concerns", "negative",
-  "correction", "plunge", "plunges", "cut", "cuts", "downgrade", "downgraded",
-  "pressure", "fear", "fears", "risk", "slump", "default", "recession", "sanction",
-  "sanctions", "tariff", "tariffs", "probe", "fraud", "ban", "banned", "halt",
-  "warning", "warns", "miss", "misses",
+  "fall", "falls", "fell", "crash", "crashes", "drop", "drops", "dropped", "slip",
+  "slips", "slipped", "sell", "selloff", "bear", "loss", "losses", "decline",
+  "declines", "weak", "concern", "concerns", "negative", "correction", "plunge",
+  "plunges", "plunged", "cut", "cuts", "downgrade", "downgraded", "pressure", "fear",
+  "fears", "risk", "slump", "slumps", "sank", "sink", "sinks", "tumble", "tumbles",
+  "tumbled", "default", "recession", "sanction", "sanctions", "tariff", "tariffs",
+  "probe", "fraud", "ban", "banned", "halt", "warning", "warns", "miss", "misses",
 ];
 
 // High-precision sector triggers → canonical SECTORS. Kept small; the LLM fills
