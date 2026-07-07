@@ -357,6 +357,18 @@
       /* Frosted-glass sticky surfaces (header, chip-nav) */
       --bg-frost:              rgba(11, 12, 16, 0.85);
       --bg-frost-deep:         rgba(11, 12, 16, 0.92);
+
+      /* D8 — semantic depth surfaces. Replace the dark-locked translucent
+       * fills that the render layer hardcoded as literal rgba (invisible on
+       * the light "paper" surface). Dark values match the pre-sweep look;
+       * light values are dark tints that actually read on cream. */
+      --surface-raise:         rgba(255, 255, 255, 0.03);   /* subtle raised fill */
+      --surface-raise-strong:  rgba(255, 255, 255, 0.06);   /* stronger raised fill */
+      --surface-inset:         rgba(0, 0, 0, 0.20);         /* recessed / well fill */
+      /* Translucent navy panels (earnings/risk-lab overlays) — keep the alpha
+       * so layering survives; light values are the paper-navy tint. */
+      --surface-navy-glass-40: rgba(15, 20, 34, 0.40);
+      --surface-navy-glass-60: rgba(15, 20, 34, 0.60);
     }
     /* @tokens-end */
 
@@ -514,6 +526,15 @@
       --yellow-mid:            #A16207;
       --bg-frost:              rgba(251, 250, 247, 0.85);
       --bg-frost-deep:         rgba(251, 250, 247, 0.92);
+
+      /* D8 — semantic depth surfaces (light "Editorial Paper"). Dark tints of
+       * the ink colour so raised/inset fills actually read on cream, where the
+       * old translucent-white/black literals were invisible or muddy. */
+      --surface-raise:         rgba(20, 22, 28, 0.035);
+      --surface-raise-strong:  rgba(20, 22, 28, 0.06);
+      --surface-inset:         rgba(20, 22, 28, 0.05);
+      --surface-navy-glass-40: rgba(226, 231, 240, 0.55);
+      --surface-navy-glass-60: rgba(226, 231, 240, 0.80);
     }
     /* @tokens-end */
 
@@ -981,7 +1002,7 @@
       height: 32px;
       padding: 0;
       background: transparent;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border);
       border-radius: 50%;
       cursor: pointer;
       overflow: hidden;
@@ -1006,7 +1027,7 @@
       right: 0;
       min-width: 220px;
       background: var(--bg-card);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border);
       border-radius: 8px;
       box-shadow: 0 10px 24px rgba(0, 0, 0, 0.4);
       padding: 12px;
@@ -1040,7 +1061,7 @@
       color: var(--text-secondary); font-family: inherit; font-size: 13px; font-weight: 500;
       text-align: left; cursor: pointer; transition: color 120ms ease, background 120ms ease;
     }
-    .labs-menu-item:hover { color: var(--text-primary); background: rgba(255,255,255,0.04); }
+    .labs-menu-item:hover { color: var(--text-primary); background: var(--surface-raise); }
     .labs-menu-item:focus-visible { outline: none; box-shadow: var(--focus-ring); }
     .labs-menu-item[aria-current="page"],
     .labs-menu-item[aria-current="true"] { color: var(--gold); background: var(--yellow-bg); }
@@ -1069,7 +1090,7 @@
       .header-toggle { width: 44px; height: 44px; }
     }
 
-    .user-menu-info { padding: 4px 4px 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.06); margin-bottom: 8px; }
+    .user-menu-info { padding: 4px 4px 12px; border-bottom: 1px solid var(--border); margin-bottom: 8px; }
     .user-menu-name {
       font-size: 13px;
       font-weight: 600;
@@ -1101,7 +1122,7 @@
       cursor: pointer;
       transition: background 120ms ease, color 120ms ease;
     }
-    .user-menu-signout:hover { background: rgba(255, 255, 255, 0.04); color: var(--yellow); }
+    .user-menu-signout:hover { background: var(--surface-raise); color: var(--yellow); }
 
     @keyframes pulse {
       0%, 100% { opacity: 1; }
@@ -1565,7 +1586,7 @@
       margin-bottom: 28px;
       position: relative;
       overflow: hidden;
-      background: rgba(255, 255, 255, 0.015);
+      background: var(--surface-raise);
       border: 1px solid var(--border);
       border-left: 3px solid var(--border);
     }
@@ -1625,7 +1646,7 @@
     .rec-reasoning {
       margin-top: 16px;
       padding: 16px;
-      background: rgba(0,0,0,0.2);
+      background: var(--surface-inset);
       border-radius: 10px;
       font-size: 14px;
       line-height: 1.7;
@@ -2162,7 +2183,7 @@
       gap: 14px;
       padding: 12px 16px;
       margin-bottom: 16px;
-      background: rgba(255,255,255,0.02);
+      background: var(--surface-raise);
       border: 1px solid var(--bg-graphite);
       border-radius: 10px;
       flex-wrap: wrap;
@@ -2176,8 +2197,8 @@
     }
     .pick-depth-control {
       display: inline-flex;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.06);
+      background: var(--surface-raise);
+      border: 1px solid var(--border);
       border-radius: 8px;
       padding: 3px;
       gap: 2px;
@@ -2199,7 +2220,7 @@
     }
     .pick-depth-btn:hover {
       color: var(--text);
-      background: rgba(255,255,255,0.04);
+      background: var(--surface-raise);
     }
     .pick-depth-btn.active {
       background: rgba(224, 176, 96, 0.10);
@@ -2574,7 +2595,7 @@
      * stock-detail modal sections so they read as raised surfaces. */
     .card--elevated {
       box-shadow: var(--card-shadow-elevated);
-      border-color: rgba(255, 255, 255, 0.08);
+      border-color: var(--border);
     }
     /* Clickable cards: subtle lift on hover, removed on mobile (no hover). */
     @media (hover: hover) and (pointer: fine) {
@@ -2589,7 +2610,7 @@
       .card[role="button"]:hover {
         transform: translateY(-1px);
         box-shadow: var(--card-shadow-elevated);
-        border-color: rgba(255, 255, 255, 0.10);
+        border-color: var(--border);
       }
     }
     .card--flat   { box-shadow: none; }
@@ -2615,7 +2636,7 @@
     .badge--warn     { background: var(--yellow-bg);   color: var(--warn-text);        border-color: rgba(245, 158, 11, 0.30); }
     .badge--danger   { background: var(--red-bg);      color: var(--negative-text);    border-color: var(--red-border); }
     .badge--info     { background: var(--blue-bg);     color: var(--info-text);        border-color: rgba(74, 144, 226, 0.30); }
-    .badge--neutral  { background: rgba(255,255,255,0.05); color: var(--text-secondary); border-color: var(--border); }
+    .badge--neutral  { background: var(--surface-raise-strong); color: var(--text-secondary); border-color: var(--border); }
 
     /* ============================================================
      * Legacy aliases — .refresh-btn was the highest-traffic legacy
@@ -2680,7 +2701,7 @@
     /* Phase 8C: Editorial stock cards — hairline border, lighter bg,
        left-border accent on hover (no transform pop), serif name. */
     .stock-card {
-      background: rgba(255, 255, 255, 0.015);
+      background: var(--surface-raise);
       background-image: none;
       border: 1px solid var(--border);
       border-left: 2px solid transparent;
@@ -2694,7 +2715,7 @@
     }
 
     .stock-card:hover {
-      background: rgba(255, 255, 255, 0.025);
+      background: var(--surface-raise);
       border-color: var(--border);
       border-left-color: var(--gold);
       transform: none;
@@ -3068,7 +3089,7 @@
       justify-content: center;
       border: 1px solid var(--border);
       border-radius: var(--radius-200);
-      background: rgba(255,255,255,0.035);
+      background: var(--surface-raise);
       color: var(--text-secondary);
       font-family: var(--font-sans);
       font-size: 20px;
@@ -3712,8 +3733,8 @@
     .sws-modal-gap-lab .gap-lab-checks span {
       padding: 3px 7px;
       border-radius: 4px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: var(--surface-raise);
+      border: 1px solid var(--border);
       color: var(--text-muted);
       font-size: 10px;
     }
@@ -3796,8 +3817,8 @@
 	    .sws-modal-decision-grid div {
 	      padding: 8px 9px;
 	      border-radius: 6px;
-	      border: 1px solid rgba(255,255,255,0.07);
-	      background: rgba(255,255,255,0.03);
+	      border: 1px solid var(--border);
+	      background: var(--surface-raise);
 	    }
 	    .sws-modal-decision-grid span {
 	      display: block;
@@ -4070,7 +4091,7 @@
 		      background: rgba(248,113,113,0.12);
 		    }
 		    .sws-entry-badge--cap,
-	    .sws-entry-badge--unavailable { color: var(--text-muted); border-color: var(--border-soft, var(--bg-graphite)); background: rgba(255,255,255,0.03); }
+	    .sws-entry-badge--unavailable { color: var(--text-muted); border-color: var(--border-soft, var(--bg-graphite)); background: var(--surface-raise); }
 
 	    /* India Market — accordion-driven layout (replaces the wall-of-cards). Each
        section uses the existing .dashboard-section / .section-body pattern;
@@ -4146,7 +4167,7 @@
       font-size: 11px;
       font-weight: 600;
       color: var(--text-muted);
-      background: rgba(255,255,255,0.04);
+      background: var(--surface-raise);
       border: 1px solid var(--border-soft, var(--bg-graphite));
       border-radius: 10px;
       padding: 2px 8px;
@@ -4301,7 +4322,7 @@
       font-weight: 600;
       color: var(--text-muted);
       font-variant-numeric: tabular-nums;
-      background: rgba(255,255,255,0.05);
+      background: var(--surface-raise-strong);
       padding: 1px 6px;
       border-radius: 8px;
     }
@@ -4511,7 +4532,7 @@
     }
     .sws-pick-search-clear:hover {
       color: var(--text-primary);
-      background: rgba(255,255,255,0.06);
+      background: var(--surface-raise-strong);
     }
     @media (max-width: 720px) {
       .sws-pick-filters { flex-direction: column; align-items: stretch; }
@@ -4674,7 +4695,7 @@
       font-size: 9px;
       font-weight: 500;
       color: var(--text-muted);
-      background: rgba(255,255,255,0.04);
+      background: var(--surface-raise);
       border: 1px solid var(--border-soft, var(--bg-graphite));
       border-radius: 3px;
       padding: 2px 6px;
@@ -4972,7 +4993,7 @@
       .track-table tbody tr:hover,
       .watchlist-table tbody tr:hover,
       .data-table-host tbody tr:hover {
-        background-color: rgba(255, 255, 255, 0.035);
+        background-color: var(--surface-raise);
       }
     }
 
@@ -5034,7 +5055,7 @@
       font-weight: 600;
       letter-spacing: 0.06em;
       color: var(--text-muted);
-      background: rgba(255, 255, 255, 0.04);
+      background: var(--surface-raise);
       border: 1px solid var(--border);
       border-radius: 4px;
       padding: 4px 8px;
@@ -5121,7 +5142,7 @@
     .picks-collapse-all-btn:hover {
       background: var(--bg-card-hover);
       color: var(--text-primary);
-      border-color: rgba(255, 255, 255, 0.10);
+      border-color: var(--border);
     }
     .picks-collapse-all-btn:focus-visible {
       outline: none;
@@ -5457,7 +5478,7 @@
 
       <!-- SEBI 10/10 — Methodology drawer. SEBI Reg 28(2)(c). Collapsed by
            default; uses the same <details> pattern as the Brier popover. -->
-      <details class="sebi-methodology-drawer" style="margin: 0 0 var(--space-300); border: 1px solid var(--border); border-radius: var(--radius-100); background: rgba(0,0,0,0.15);">
+      <details class="sebi-methodology-drawer" style="margin: 0 0 var(--space-300); border: 1px solid var(--border); border-radius: var(--radius-100); background: var(--surface-inset);">
         <summary style="cursor:pointer; list-style:none; padding: 10px 14px; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-secondary); display:flex; align-items:center; gap:8px;">
           <span style="display:inline-block; width:18px; height:18px; border-radius:9px; border:1px solid var(--border); text-align:center; line-height:16px; font-size:11px;">i</span>
           Methodology — how these numbers are computed

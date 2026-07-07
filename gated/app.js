@@ -1879,11 +1879,11 @@ function renderSnowflakePillarList(pillars) {
     const color = isNA ? 'var(--text-gray-deep)' : (sc >= 4 ? 'var(--positive-text-emerald)' : sc >= 3 ? 'var(--positive-text-spring)' : sc >= 2 ? 'var(--warn-text)' : 'var(--negative-text)');
     const bar = isNA ? 0 : (sc / 5) * 100;
     return `
-      <div style="display:grid;grid-template-columns:84px 42px 1fr;gap:10px;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:12px;">
+      <div style="display:grid;grid-template-columns:84px 42px 1fr;gap:10px;align-items:center;padding:6px 0;border-bottom:1px solid var(--border-soft);font-size:12px;">
         <div style="color:var(--text-secondary);font-weight:600;">${labels[k]}</div>
         <div style="font-family:var(--font-mono);color:${color};font-weight:700;">${isNA ? 'N/A' : fmt(sc) + '/5'}</div>
         <div style="display:flex;align-items:center;gap:10px;">
-          <div style="flex:0 0 70px;height:4px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden;">
+          <div style="flex:0 0 70px;height:4px;background:var(--surface-raise-strong);border-radius:2px;overflow:hidden;">
             <div style="width:${bar}%;height:100%;background:${color};"></div>
           </div>
           <div style="color:var(--text-muted);font-size:11.5px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${escapeHtml(topSig)}">
@@ -1893,7 +1893,7 @@ function renderSnowflakePillarList(pillars) {
       </div>
     `;
   }).join('');
-  return `<div style="padding:8px 12px;background:rgba(0,0,0,0.18);border-radius:10px;">${rows}</div>`;
+  return `<div style="padding:8px 12px;background:var(--surface-inset);border-radius:10px;">${rows}</div>`;
 }
 
 /**
@@ -2107,7 +2107,7 @@ function renderStockDetail(data) {
 
         <!-- Score breakdown (2 or 3 columns depending on fundamentals availability) -->
         <div style="display:flex;gap:16px;margin-top:16px;flex-wrap:wrap;">
-          <div style="flex:1;min-width:180px;background:rgba(0,0,0,0.2);border-radius:10px;padding:14px;">
+          <div style="flex:1;min-width:180px;background:var(--surface-inset);border-radius:10px;padding:14px;">
             <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.6px;color:var(--text-muted);font-weight:700;margin-bottom:6px;">Technical</div>
             <div style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:800;">${techScore}<span style="font-size:13px;color:var(--text-muted);">/100</span></div>
             <div class="score-gauge" style="margin-top:8px;">
@@ -2115,7 +2115,7 @@ function renderStockDetail(data) {
             </div>
             <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">RSI, MACD, trend, momentum</div>
           </div>
-          <div style="flex:1;min-width:180px;background:rgba(0,0,0,0.2);border-radius:10px;padding:14px;">
+          <div style="flex:1;min-width:180px;background:var(--surface-inset);border-radius:10px;padding:14px;">
             <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.6px;color:var(--text-muted);font-weight:700;margin-bottom:6px;">News Sentiment</div>
             ${newsAvailable ? `
               <div style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:800;color:${sentColor};">${newsScore}<span style="font-size:13px;color:var(--text-muted);">/100</span></div>
@@ -2131,7 +2131,7 @@ function renderStockDetail(data) {
             `}
           </div>
           ${fundamentals ? `
-          <div style="flex:1;min-width:180px;background:rgba(0,0,0,0.2);border-radius:10px;padding:14px;">
+          <div style="flex:1;min-width:180px;background:var(--surface-inset);border-radius:10px;padding:14px;">
             <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.6px;color:var(--text-muted);font-weight:700;margin-bottom:6px;">Fundamentals</div>
             <div style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:800;">${fundamentals.score}<span style="font-size:13px;color:var(--text-muted);">/100</span></div>
             <div class="score-gauge" style="margin-top:8px;">
@@ -2202,7 +2202,7 @@ function renderStockDetail(data) {
               </div>
             </div>
           </div>
-          <div style="margin-top:14px;padding:12px 14px;background:rgba(0,0,0,0.2);border-radius:10px;font-size:13px;color:var(--text-secondary);line-height:1.6;">
+          <div style="margin-top:14px;padding:12px 14px;background:var(--surface-inset);border-radius:10px;font-size:13px;color:var(--text-secondary);line-height:1.6;">
             <strong style="color:${verdictColor};">${fundamentals.verdict.replace(/_/g, ' ')}:</strong> ${escapeHtml(fundamentals.reasoning)}
           </div>
           ${(() => {
@@ -2261,7 +2261,7 @@ function renderStockDetail(data) {
         <div class="info-card">
           <div class="info-card-title">&#128200; Mid-Term Outlook${infoIcon('trend')}</div>
           <div class="info-card-value ${mtColor}">${midTerm.recommendation}</div>
-          <div style="font-size:11px;color:var(--text-muted);margin:4px 0 6px;padding:4px 8px;background:rgba(255,255,255,0.03);border-radius:4px;display:inline-block;">
+          <div style="font-size:11px;color:var(--text-muted);margin:4px 0 6px;padding:4px 8px;background:var(--surface-raise);border-radius:4px;display:inline-block;">
             &#128337; Holding period: <strong style="color:var(--text-secondary);">2&ndash;4 weeks</strong> &mdash; swing trade based on trend &amp; momentum signals
           </div>
           <div class="info-card-detail">
@@ -2269,7 +2269,7 @@ function renderStockDetail(data) {
             Trend: ${midTerm.trendAlignment}
           </div>
           ${midTerm.stopLoss && midTerm.target ? `
-            <div style="display:flex;gap:14px;align-items:center;margin-top:10px;padding:8px 12px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;font-size:12px;font-family:'JetBrains Mono',monospace;">
+            <div style="display:flex;gap:14px;align-items:center;margin-top:10px;padding:8px 12px;background:var(--surface-raise);border:1px solid var(--border);border-radius:8px;font-size:12px;font-family:'JetBrains Mono',monospace;">
               <div><span style="font-size:10px;color:var(--text-muted);text-transform:uppercase;display:block;">Stop Loss</span><span style="color:var(--red);font-weight:700;">&#8377;${formatNumber(midTerm.stopLoss)}</span></div>
               <div><span style="font-size:10px;color:var(--text-muted);text-transform:uppercase;display:block;">Target</span><span style="color:var(--green);font-weight:700;">&#8377;${formatNumber(midTerm.target)}</span></div>
               <div><span style="font-size:10px;color:var(--text-muted);text-transform:uppercase;display:block;">Volatility</span><span style="color:var(--yellow);font-weight:700;">${midTerm.volatilityPct}%</span></div>
@@ -2312,7 +2312,7 @@ function renderStockDetail(data) {
         <div class="info-card">
           <div class="info-card-title">&#127970; Long-Term Outlook${infoIcon('long_term_outlook')}${verdictBadge}</div>
           <div class="info-card-value ${ltColor}">${longTerm.recommendation}</div>
-          <div style="font-size:11px;color:var(--text-muted);margin:4px 0 6px;padding:4px 8px;background:rgba(255,255,255,0.03);border-radius:4px;display:inline-block;">
+          <div style="font-size:11px;color:var(--text-muted);margin:4px 0 6px;padding:4px 8px;background:var(--surface-raise);border-radius:4px;display:inline-block;">
             &#128337; Holding period: <strong style="color:var(--text-secondary);">${longTerm.holdingPeriod}</strong> &mdash; based on business quality &amp; valuation
           </div>
           <div class="info-card-detail">
@@ -2322,7 +2322,7 @@ function renderStockDetail(data) {
           </div>
 
           ${longTerm.target && longTerm.stopLoss ? `
-            <div style="display:flex;gap:14px;align-items:center;margin-top:10px;padding:8px 12px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;font-size:12px;font-family:'JetBrains Mono',monospace;">
+            <div style="display:flex;gap:14px;align-items:center;margin-top:10px;padding:8px 12px;background:var(--surface-raise);border:1px solid var(--border);border-radius:8px;font-size:12px;font-family:'JetBrains Mono',monospace;">
               <div><span style="font-size:10px;color:var(--text-muted);text-transform:uppercase;display:block;">Stop Loss</span><span style="color:var(--red);font-weight:700;">&#8377;${formatNumber(longTerm.stopLoss)}</span></div>
               <div><span style="font-size:10px;color:var(--text-muted);text-transform:uppercase;display:block;">Target</span><span style="color:var(--green);font-weight:700;">&#8377;${formatNumber(longTerm.target)}</span></div>
               ${longTerm.riskReward ? `<div><span style="font-size:10px;color:var(--text-muted);text-transform:uppercase;display:block;">R:R</span><span style="font-weight:700;">${longTerm.riskReward}x</span></div>` : ""}
@@ -2330,7 +2330,7 @@ function renderStockDetail(data) {
             ${longTerm.valuationBasis ? `<div style="font-size:10px;color:var(--text-muted);margin-top:6px;font-style:italic;">Target basis: ${longTerm.valuationBasis}</div>` : ""}
           ` : ""}
 
-          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px;padding:10px 12px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;">
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px;padding:10px 12px;background:var(--surface-raise);border:1px solid var(--border);border-radius:8px;">
             <div style="text-align:center;">
               <div style="font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;">ROE</div>
               <div style="font-size:13px;font-weight:700;color:${km.roe != null && km.roe >= 0.15 ? 'var(--green)' : km.roe != null && km.roe < 0.05 ? 'var(--red)' : 'var(--text-primary)'};">${fmtPct(km.roe)}</div>
@@ -2777,7 +2777,7 @@ function renderSebiDisclosure(stock, type) {
     : "Tech + Fund (legacy 50/50)";
 
   return `
-    <details class="sebi-disclosure" onclick="event.stopPropagation()" style="margin-top:10px;border:1px solid var(--border);border-radius:8px;background:rgba(255,255,255,0.015);">
+    <details class="sebi-disclosure" onclick="event.stopPropagation()" style="margin-top:10px;border:1px solid var(--border);border-radius:8px;background:var(--surface-raise);">
       <summary style="cursor:pointer;list-style:none;padding:8px 12px;font-size:11px;font-weight:600;color:var(--text-secondary);display:flex;align-items:center;gap:8px;">
         <span style="font-family:'JetBrains Mono',monospace;color:var(--gold,var(--warn-text));">METHOD</span>
         <span>Methodology &amp; risk parameters</span>
@@ -2826,7 +2826,7 @@ function renderMethodologyFooter(methodology) {
     : "—";
   const sources = (methodology.sources || []).join(" · ");
   return `
-    <div class="methodology-footer" style="margin-top:18px;padding:10px 12px;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:8px;font-size:10px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;line-height:1.55;">
+    <div class="methodology-footer" style="margin-top:18px;padding:10px 12px;background:var(--surface-raise);border:1px solid var(--border);border-radius:8px;font-size:10px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;line-height:1.55;">
       <div><strong style="color:var(--text-secondary);">Combined Score</strong> · Tech ${wp.tech || 0}% · Fund ${wp.fund || 0}% · SWS ${wp.sws || 0}% · v=${methodology.version || "—"}</div>
       <div>Sources: ${sources} · SWS last refresh: ${refresh} (${methodology.swsScoredCount || 0} stocks)</div>
     </div>`;
@@ -3177,7 +3177,7 @@ function _renderUsersTable(users) {
         : `<tr><td colspan="3" style="padding:12px;color:var(--text-muted);text-align:center;">No visit log yet — first tracked visit will appear here.</td></tr>`;
       drilldown = `
         <tr>
-          <td colspan="9" style="padding:0;background:rgba(255,255,255,0.02);">
+          <td colspan="9" style="padding:0;background:var(--surface-raise);">
             <div style="padding:12px 16px;">
               <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">Visit log (most recent first)</div>
               <table style="width:100%;border-collapse:collapse;font-size:12px;">
@@ -3558,7 +3558,7 @@ function renderHealthAndActionsBanner(intel) {
       </div>
 
       <!-- Urgent Actions list -->
-      <div style="padding:18px 20px;background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:12px;">
+      <div style="padding:18px 20px;background:var(--surface-inset);border:1px solid var(--border);border-radius:12px;">
         ${urgent.length === 0 ? `
           <div style="display:flex;align-items:center;gap:10px;">
             <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.6px;color:var(--text-muted);font-weight:700;">Urgent Actions</div>
@@ -3628,7 +3628,7 @@ function renderSectorAllocation(sectorAllocation) {
     return `
       <div style="display:grid;grid-template-columns:110px 1fr auto auto;gap:10px;align-items:center;font-size:12px;">
         <div style="color:var(--text-secondary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600;">${escapeHtml(s.sector)}</div>
-        <div style="height:8px;background:rgba(255,255,255,0.04);border-radius:4px;overflow:hidden;">
+        <div style="height:8px;background:var(--surface-raise);border-radius:4px;overflow:hidden;">
           <div style="width:${barPct}%;height:100%;background:${color};border-radius:4px;"></div>
         </div>
         ${macroChipInline || '<span></span>'}
@@ -3637,7 +3637,7 @@ function renderSectorAllocation(sectorAllocation) {
   }).join("");
 
   return `
-    <div style="padding:18px 20px;background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:12px;">
+    <div style="padding:18px 20px;background:var(--surface-inset);border:1px solid var(--border);border-radius:12px;">
       <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.6px;color:var(--text-muted);font-weight:700;margin-bottom:12px;">Sector Allocation (${sectorAllocation.length} sectors)</div>
       <div style="display:flex;flex-direction:column;gap:8px;">${rows}</div>
     </div>`;
@@ -3654,7 +3654,7 @@ function renderTopMovers(topWinners, topLosers) {
   const row = (mover, color) => {
     const isPos = mover.pnl >= 0;
     return `
-      <div onclick="openStockDetailModal('${mover.symbol}','top-movers')" style="cursor:pointer;display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;padding:7px 10px;border-radius:6px;background:rgba(255,255,255,0.02);border:1px solid ${color}22;">
+      <div onclick="openStockDetailModal('${mover.symbol}','top-movers')" style="cursor:pointer;display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;padding:7px 10px;border-radius:6px;background:var(--surface-raise);border:1px solid ${color}22;">
         <div style="font-size:12px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(mover.name || mover.symbol)}</div>
         <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:${color};font-weight:700;white-space:nowrap;">
           ${isPos ? "+" : ""}₹${formatNumber(Math.abs(mover.pnl))}
@@ -3666,7 +3666,7 @@ function renderTopMovers(topWinners, topLosers) {
   };
 
   return `
-    <div style="padding:18px 20px;background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:12px;">
+    <div style="padding:18px 20px;background:var(--surface-inset);border:1px solid var(--border);border-radius:12px;">
       <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.6px;color:var(--text-muted);font-weight:700;margin-bottom:12px;">Top Contributors</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
         <div>
@@ -3865,7 +3865,7 @@ function renderPortfolioHoldingCard(h) {
     return `
       <div style="display:flex;align-items:center;gap:6px;font-size:10px;">
         <span style="color:var(--text-muted);font-weight:600;min-width:32px;">${label}</span>
-        <div style="flex:1;height:4px;background:rgba(255,255,255,0.05);border-radius:2px;overflow:hidden;min-width:40px;max-width:80px;">
+        <div style="flex:1;height:4px;background:var(--surface-raise-strong);border-radius:2px;overflow:hidden;min-width:40px;max-width:80px;">
           <div style="width:${score}%;height:100%;background:${barColor};"></div>
         </div>
         <span style="font-family:'JetBrains Mono',monospace;color:${barColor};font-weight:700;min-width:20px;">${score}</span>
@@ -3917,7 +3917,7 @@ function renderPortfolioHoldingCard(h) {
       </div>
 
       <!-- Score mini-bars (tech / fund / combined) -->
-      <div style="display:flex;flex-direction:column;gap:4px;padding:8px 10px;background:rgba(0,0,0,0.15);border-radius:6px;">
+      <div style="display:flex;flex-direction:column;gap:4px;padding:8px 10px;background:var(--surface-inset);border-radius:6px;">
         ${scoreBar(techScore, "Tech")}
         ${scoreBar(fundScore, "Fund")}
         ${scoreBar(combinedScore, "Total")}
@@ -3931,12 +3931,12 @@ function renderPortfolioHoldingCard(h) {
       ${renderMacroRow(intel)}
 
       <!-- Reasoning -->
-      <div style="font-size:12px;line-height:1.5;color:var(--text-secondary);border-top:1px solid rgba(255,255,255,0.05);padding-top:10px;">
+      <div style="font-size:12px;line-height:1.5;color:var(--text-secondary);border-top:1px solid var(--border);padding-top:10px;">
         ${escapeHtml(intel.reasoning || "No analysis available.")}
       </div>
 
       <!-- Footer: weight + sizing badge + current value -->
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:10px;color:var(--text-muted);padding-top:6px;border-top:1px solid rgba(255,255,255,0.03);flex-wrap:wrap;">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:10px;color:var(--text-muted);padding-top:6px;border-top:1px solid var(--border-soft);flex-wrap:wrap;">
         <span>Weight: <span style="color:${weightColor};font-weight:700;font-family:'JetBrains Mono',monospace;">${weight.toFixed(1)}%</span></span>
         ${renderPositionSizing(intel.positionSizing)}
         <span>Current: <span style="color:var(--text-secondary);font-family:'JetBrains Mono',monospace;">₹${h.currentValue != null ? formatNumber(h.currentValue) : 'N/A'}</span></span>
@@ -4102,7 +4102,7 @@ function renderMarketDigest(digest, fiiDii) {
         <div style="margin-top:16px;">
           <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);font-weight:700;margin-bottom:8px;">Sectors to Watch</div>
           <div style="display:flex;flex-wrap:wrap;gap:6px;">
-            ${digest.sectorsToWatch.map((s) => `<span style="display:inline-block;padding:4px 10px;border-radius:6px;background:rgba(255,255,255,0.04);border:1px solid var(--border);font-size:11px;color:var(--text-secondary);">${escapeHtml(s)}</span>`).join("")}
+            ${digest.sectorsToWatch.map((s) => `<span style="display:inline-block;padding:4px 10px;border-radius:6px;background:var(--surface-raise);border:1px solid var(--border);font-size:11px;color:var(--text-secondary);">${escapeHtml(s)}</span>`).join("")}
           </div>
         </div>
       ` : ""}
@@ -4182,7 +4182,7 @@ function renderUpcomingCatalysts(catalysts) {
     const labelBg = r.isMacro ? "rgba(167,139,250,0.12)" : "rgba(34,211,238,0.10)";
     return `
       <div data-testid="catalyst-row" style="display:grid;grid-template-columns:62px 116px 1fr auto;gap:10px;align-items:center;font-size:12px;color:var(--text-secondary);">
-        <span data-testid="catalyst-countdown" style="font-size:10px;font-weight:700;color:${cdColor};text-align:center;padding:2px 6px;border-radius:5px;background:rgba(255,255,255,0.04);">${escapeHtml(cd || "—")}</span>
+        <span data-testid="catalyst-countdown" style="font-size:10px;font-weight:700;color:${cdColor};text-align:center;padding:2px 6px;border-radius:5px;background:var(--surface-raise);">${escapeHtml(cd || "—")}</span>
         <span style="font-weight:700;color:${labelColor};padding:2px 8px;border-radius:5px;background:${labelBg};text-align:center;font-size:10px;">${escapeHtml(r.label)}</span>
         <span><strong style="color:var(--text-primary);">${escapeHtml(r.title)}</strong>${r.detail ? ` · ${escapeHtml(r.detail)}` : ""}</span>
         <span style="font-family:'JetBrains Mono',monospace;color:var(--text-muted);">${escapeHtml(r.date)}</span>
@@ -4196,7 +4196,7 @@ function renderUpcomingCatalysts(catalysts) {
       : null;
   const hasAny = priority.length || broader.length;
   return `
-    <div data-testid="market-catalysts-card" style="background:rgba(255,255,255,0.035);border:1px solid var(--border);border-radius:var(--card-radius);padding:18px 22px;margin-bottom:24px;">
+    <div data-testid="market-catalysts-card" style="background:var(--surface-raise);border:1px solid var(--border);border-radius:var(--card-radius);padding:18px 22px;margin-bottom:24px;">
       <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap;margin-bottom:12px;">
         <div>
           <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);font-weight:700;margin-bottom:5px;">Upcoming Catalysts</div>
@@ -4300,7 +4300,7 @@ function renderDiscoveryRadar(feed) {
       ? item.section_membership.map((s) => s.label || s.id).slice(0, 2).join(", ")
       : "Off-section";
     return `
-      <div data-testid="discovery-radar-row" data-ticker="${escapeHtml(item.ticker)}" data-lanes="${escapeHtml((item.lanes || []).map((lane) => lane.id).join(","))}" onclick="openStockDetailModal('${escapeHtml(item.ticker)}','market-intelligence-discovery')" style="display:grid;grid-template-columns:minmax(155px,1.05fr) minmax(150px,0.9fr) minmax(155px,1fr) minmax(220px,1.5fr);gap:12px;align-items:start;padding:13px 14px;border-top:1px solid rgba(255,255,255,0.06);cursor:pointer;background:rgba(255,255,255,0.015);transition:background .15s;" onmouseover="this.style.background='rgba(255,255,255,0.045)';" onmouseout="this.style.background='rgba(255,255,255,0.015)';">
+      <div data-testid="discovery-radar-row" data-ticker="${escapeHtml(item.ticker)}" data-lanes="${escapeHtml((item.lanes || []).map((lane) => lane.id).join(","))}" onclick="openStockDetailModal('${escapeHtml(item.ticker)}','market-intelligence-discovery')" style="display:grid;grid-template-columns:minmax(155px,1.05fr) minmax(150px,0.9fr) minmax(155px,1fr) minmax(220px,1.5fr);gap:12px;align-items:start;padding:13px 14px;border-top:1px solid var(--border);cursor:pointer;background:var(--surface-raise);transition:background .15s;" onmouseover="this.style.background='rgba(255,255,255,0.045)';" onmouseout="this.style.background='rgba(255,255,255,0.015)';">
         <div>
           <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
             <span style="font-size:13px;font-weight:900;color:var(--text-primary);font-family:'JetBrains Mono',monospace;">${escapeHtml(item.ticker)}</span>
@@ -4318,7 +4318,7 @@ function renderDiscoveryRadar(feed) {
           ${[["7D", "r7d"], ["1M", "r1m"], ["3M", "r3m"], ["6M", "r6m"], ["1Y", "r1y"]].map(([label, key]) => {
             const value = item.returns?.[key];
             const color = Number(value) > 0 ? "var(--green)" : Number(value) < 0 ? "var(--red)" : "var(--text-muted)";
-            return `<div style="padding:5px 4px;border-radius:6px;background:rgba(255,255,255,0.035);border:1px solid rgba(255,255,255,0.05);text-align:center;"><div style="font-size:9px;color:var(--text-muted);">${label}</div><div style="font-size:10px;color:${color};font-weight:800;font-family:'JetBrains Mono',monospace;">${escapeHtml(formatDiscoveryReturn(value))}</div></div>`;
+            return `<div style="padding:5px 4px;border-radius:6px;background:var(--surface-raise);border:1px solid var(--border);text-align:center;"><div style="font-size:9px;color:var(--text-muted);">${label}</div><div style="font-size:10px;color:${color};font-weight:800;font-family:'JetBrains Mono',monospace;">${escapeHtml(formatDiscoveryReturn(value))}</div></div>`;
           }).join("")}
         </div>
         <div>
@@ -4330,7 +4330,7 @@ function renderDiscoveryRadar(feed) {
   }).join("");
 
   return `
-    <div id="discoveryRadarCard" data-testid="discovery-radar-card" style="background:rgba(255,255,255,0.035);border:1px solid var(--border);border-radius:var(--card-radius);padding:18px 22px;margin-bottom:24px;">
+    <div id="discoveryRadarCard" data-testid="discovery-radar-card" style="background:var(--surface-raise);border:1px solid var(--border);border-radius:var(--card-radius);padding:18px 22px;margin-bottom:24px;">
       <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap;margin-bottom:14px;">
         <div>
           <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);font-weight:800;margin-bottom:5px;">SWS Discovery Radar</div>
@@ -4367,12 +4367,12 @@ window.setDiscoveryRadarFilter = setDiscoveryRadarFilter;
 function _sourceChip(label, iso, staleHours) {
   const t = iso ? new Date(iso).getTime() : NaN;
   if (!Number.isFinite(t)) {
-    return `<span style="padding:3px 8px;border-radius:5px;background:rgba(255,255,255,0.03);border:1px solid var(--border);color:var(--text-muted);font-size:10px;">${escapeHtml(label)}: n/a</span>`;
+    return `<span style="padding:3px 8px;border-radius:5px;background:var(--surface-raise);border:1px solid var(--border);color:var(--text-muted);font-size:10px;">${escapeHtml(label)}: n/a</span>`;
   }
   const hours = (Date.now() - t) / 36e5;
   const ageTxt = hours < 1 ? "live" : hours < 48 ? `${Math.round(hours)}h` : `${Math.round(hours / 24)}d`;
   const color = hours > staleHours ? "var(--yellow)" : "var(--green)";
-  return `<span data-testid="source-chip" style="padding:3px 8px;border-radius:5px;background:rgba(255,255,255,0.03);border:1px solid ${color}33;color:${color};font-size:10px;font-weight:700;">${escapeHtml(label)} ${ageTxt}</span>`;
+  return `<span data-testid="source-chip" style="padding:3px 8px;border-radius:5px;background:var(--surface-raise);border:1px solid ${color}33;color:${color};font-size:10px;font-weight:700;">${escapeHtml(label)} ${ageTxt}</span>`;
 }
 
 // Unified data-freshness line for the whole tab — replaces the per-section
@@ -4397,7 +4397,7 @@ function renderIndexStrip(idx) {
     const up = Number(ix.changePct) >= 0;
     const color = up ? "var(--green)" : "var(--red)";
     const path = _sparkPath(ix.series || [], 120, 30);
-    return `<div data-testid="index-spark" data-symbol="${escapeHtml(ix.symbol || "")}" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;padding:10px 12px;border:1px solid var(--border);border-radius:8px;background:rgba(255,255,255,0.02);">
+    return `<div data-testid="index-spark" data-symbol="${escapeHtml(ix.symbol || "")}" style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:3px;padding:10px 12px;border:1px solid var(--border);border-radius:8px;background:var(--surface-raise);">
         <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;">
           <span style="font-size:11px;font-weight:700;color:var(--text-secondary);">${escapeHtml(ix.name || ix.symbol)}</span>
           <span style="font-size:11px;font-family:'JetBrains Mono',monospace;color:${color};font-weight:700;">${up ? "+" : ""}${Number(ix.changePct || 0).toFixed(2)}%</span>
@@ -4520,7 +4520,7 @@ function renderMacroRegimeCard(macroRegime) {
   const transition = macroRegime.transition;
   const transitionHtml = transition && transition.signal
     ? `
-      <div style="margin-top:12px;padding:10px 12px;border-radius:6px;background:rgba(255,255,255,0.03);border:1px solid var(--border);">
+      <div style="margin-top:12px;padding:10px 12px;border-radius:6px;background:var(--surface-raise);border:1px solid var(--border);">
         <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);font-weight:700;margin-bottom:4px;">Regime Transition</div>
         <div style="font-size:12px;color:var(--text-secondary);line-height:1.5;">
           <strong style="color:var(--text-primary);">${escapeHtml(transition.from || "?")} &rarr; ${escapeHtml(transition.to || "?")}</strong>
@@ -4531,7 +4531,7 @@ function renderMacroRegimeCard(macroRegime) {
     : "";
 
   return `
-    <div data-testid="market-macro-regime-card" style="background:rgba(255,255,255,0.035);border:1px solid var(--border);border-radius:var(--card-radius);padding:18px 22px;margin-bottom:24px;">
+    <div data-testid="market-macro-regime-card" style="background:var(--surface-raise);border:1px solid var(--border);border-radius:var(--card-radius);padding:18px 22px;margin-bottom:24px;">
       <div style="display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap;margin-bottom:14px;">
         <div>
           <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);font-weight:700;margin-bottom:5px;">Macro Regime</div>
@@ -4542,8 +4542,8 @@ function renderMacroRegimeCard(macroRegime) {
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;">
           <span data-testid="market-macro-severity" style="padding:5px 9px;border-radius:6px;background:${severityColor}14;border:1px solid ${severityColor}33;color:${severityColor};font-size:11px;font-family:'JetBrains Mono',monospace;font-weight:700;">Severity ${Number.isFinite(severity) ? severity : 0}/5</span>
-          <span style="padding:5px 9px;border-radius:6px;background:rgba(255,255,255,0.04);border:1px solid var(--border);color:var(--text-secondary);font-size:11px;">${escapeHtml(confidenceLabel)}</span>
-          <span style="padding:5px 9px;border-radius:6px;background:rgba(255,255,255,0.04);border:1px solid var(--border);color:var(--text-secondary);font-size:11px;">${escapeHtml(provider)}</span>
+          <span style="padding:5px 9px;border-radius:6px;background:var(--surface-raise);border:1px solid var(--border);color:var(--text-secondary);font-size:11px;">${escapeHtml(confidenceLabel)}</span>
+          <span style="padding:5px 9px;border-radius:6px;background:var(--surface-raise);border:1px solid var(--border);color:var(--text-secondary);font-size:11px;">${escapeHtml(provider)}</span>
           <span data-testid="market-macro-freshness" style="padding:5px 9px;border-radius:6px;background:${stale ? "rgba(224,176,96,0.08)" : "rgba(46,204,113,0.08)"};border:1px solid ${stale ? "rgba(224,176,96,0.25)" : "rgba(46,204,113,0.24)"};color:${stale ? "var(--yellow)" : "var(--green)"};font-size:11px;">${escapeHtml(freshness)}</span>
         </div>
       </div>
@@ -4582,7 +4582,7 @@ function renderSectorHeatmap(heatmap) {
         <span><strong style="color:var(--green);">${adv}</strong> advancing &middot; <strong style="color:var(--red);">${dec}</strong> declining${flat ? ` &middot; ${flat} flat` : ""}</span>
         <span style="font-family:'JetBrains Mono',monospace;color:${advPct >= 50 ? "var(--green)" : "var(--red)"};font-weight:700;">${advPct}% advancing &middot; ${totBreadth} names</span>
       </div>
-      <div style="display:flex;height:8px;border-radius:5px;overflow:hidden;background:rgba(255,255,255,0.05);">
+      <div style="display:flex;height:8px;border-radius:5px;overflow:hidden;background:var(--surface-raise-strong);">
         <div style="width:${advPct}%;background:var(--green);"></div>
         <div style="width:${decPct}%;background:var(--red);"></div>
       </div>
@@ -4624,7 +4624,7 @@ function renderSectorHeatmap(heatmap) {
     const chips = constituents.map((c) => {
       const v = Number(c.change || 0);
       const cc = v > 0 ? "var(--green)" : v < 0 ? "var(--red)" : "var(--text-muted)";
-      return `<span data-testid="heatmap-constituent" style="display:inline-flex;align-items:center;gap:5px;padding:3px 8px;border-radius:6px;background:rgba(255,255,255,0.03);border:1px solid var(--border);font-size:10px;color:var(--text-secondary);"><span style="font-family:'JetBrains Mono',monospace;">${escapeHtml(String(c.symbol || "").replace(/\.(NS|BO|BSE)$/, ""))}</span><span style="color:${cc};font-weight:700;">${v >= 0 ? "+" : ""}${v.toFixed(1)}%</span></span>`;
+      return `<span data-testid="heatmap-constituent" style="display:inline-flex;align-items:center;gap:5px;padding:3px 8px;border-radius:6px;background:var(--surface-raise);border:1px solid var(--border);font-size:10px;color:var(--text-secondary);"><span style="font-family:'JetBrains Mono',monospace;">${escapeHtml(String(c.symbol || "").replace(/\.(NS|BO|BSE)$/, ""))}</span><span style="color:${cc};font-weight:700;">${v >= 0 ? "+" : ""}${v.toFixed(1)}%</span></span>`;
     }).join("");
 
     return `
@@ -5450,7 +5450,7 @@ function renderTrackBreakdown(groupMap, title, subtitle, labelMap = null) {
         ? `<span title="Sell signal — win = pick under-performed Nifty 50" style="display:inline-block;margin-left:8px;padding:1px 6px;border-radius:4px;background:rgba(239,68,68,0.15);color:var(--negative-text-soft);font-size:9px;font-weight:800;letter-spacing:0.4px;">SELL SIGNAL</span>`
         : "";
       return `
-        <div style="display:grid;grid-template-columns:1fr auto auto auto auto;gap:14px;align-items:center;padding:10px 14px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);font-size:12px;">
+        <div style="display:grid;grid-template-columns:1fr auto auto auto auto;gap:14px;align-items:center;padding:10px 14px;border-radius:8px;background:var(--surface-raise);border:1px solid var(--border);font-size:12px;">
           <div style="font-weight:700;">${escapeHtml(label)}${shortBadge}</div>
           <div style="font-family:'JetBrains Mono',monospace;color:var(--text-muted);">n=${perf.total}</div>
           <div style="font-family:'JetBrains Mono',monospace;color:${winColor};font-weight:700;min-width:60px;text-align:right;">Win ${perf.winRate}%</div>
@@ -5459,7 +5459,7 @@ function renderTrackBreakdown(groupMap, title, subtitle, labelMap = null) {
         </div>`;
     }).join("");
   return `
-    <div style="padding:18px 20px;background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:12px;">
+    <div style="padding:18px 20px;background:var(--surface-inset);border:1px solid var(--border);border-radius:12px;">
       <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.6px;color:var(--text-muted);font-weight:700;margin-bottom:4px;">${escapeHtml(title)}</div>
       <div style="font-size:11px;color:var(--text-muted);margin-bottom:14px;">${escapeHtml(subtitle)}</div>
       <div style="display:flex;flex-direction:column;gap:6px;">${rows}</div>
@@ -5485,7 +5485,7 @@ function renderTrackHistoryTable(trades) {
       ? `<span style="color:var(--text-muted);font-size:10px;">no live price</span>`
       : "";
     return `
-      <div onclick="openStockDetailModal('${t.symbol.replace('.NS', '')}','analyzer')" style="display:grid;grid-template-columns:1fr 100px 90px 90px 90px 90px 70px;gap:12px;align-items:center;padding:10px 14px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);font-size:12px;cursor:pointer;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.06)';" onmouseout="this.style.background='rgba(255,255,255,0.02)';">
+      <div onclick="openStockDetailModal('${t.symbol.replace('.NS', '')}','analyzer')" style="display:grid;grid-template-columns:1fr 100px 90px 90px 90px 90px 70px;gap:12px;align-items:center;padding:10px 14px;border-radius:8px;background:var(--surface-raise);border:1px solid var(--border);font-size:12px;cursor:pointer;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.06)';" onmouseout="this.style.background='rgba(255,255,255,0.02)';">
         <div style="min-width:0;">
           <div style="font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escapeHtml(t.name || t.symbol)}</div>
           <div style="font-size:10px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;">${t.symbol} ${t.sector ? '· ' + escapeHtml(t.sector.slice(0, 18)) : ''} ${macroBadge}</div>
@@ -5540,7 +5540,7 @@ function renderStockVerdictCard(sv) {
   const signalRows = sv.signals.map((s) => {
     const sc = s.signal === "green" ? "var(--green)" : s.signal === "red" ? "var(--red)" : s.signal === "neutral" ? "var(--text-muted)" : "var(--yellow)";
     return `
-      <div style="display:grid;grid-template-columns:24px 1fr auto;gap:10px;align-items:center;padding:6px 10px;border-radius:6px;background:rgba(255,255,255,0.02);">
+      <div style="display:grid;grid-template-columns:24px 1fr auto;gap:10px;align-items:center;padding:6px 10px;border-radius:6px;background:var(--surface-raise);">
         <span style="font-size:16px;">${s.icon}</span>
         <div>
           <span style="font-size:11px;font-weight:700;color:var(--text-primary);">${escapeHtml(s.name)}</span>
@@ -6421,7 +6421,7 @@ async function loadWatchlist() {
       const detailsRow = `
         <tr class="wl-details-row" data-wl-details="${escapeHtml(sym)}" hidden>
           <td colspan="6" style="padding:0;">
-            <div style="padding:8px 14px 12px 52px; background:rgba(255,255,255,0.015); border-top:1px solid var(--border); font-size:12px; color:var(--text-secondary); display:flex; flex-direction:column; gap:6px;">
+            <div style="padding:8px 14px 12px 52px; background:var(--surface-raise); border-top:1px solid var(--border); font-size:12px; color:var(--text-secondary); display:flex; flex-direction:column; gap:6px;">
               <div><span class="tx-micro">Sector</span> &nbsp; ${escapeHtml(sectorForDetails)}</div>
               <div><span class="tx-micro">Added on</span> &nbsp; ${addedLabel} &nbsp;·&nbsp; entry ${addedPriceLabel}</div>
               ${swsReason ? `<div><span class="tx-micro">SWS take</span> &nbsp; ${swsReason}</div>` : ""}
@@ -6510,7 +6510,7 @@ async function showComparison() {
       const n2 = parseFloat(v2);
       const c1 = !isNaN(n1) && !isNaN(n2) ? (higherBetter ? (n1 >= n2 ? "var(--green)" : "var(--red)") : (n1 <= n2 ? "var(--green)" : "var(--red)")) : "inherit";
       const c2 = !isNaN(n1) && !isNaN(n2) ? (higherBetter ? (n2 >= n1 ? "var(--green)" : "var(--red)") : (n2 <= n1 ? "var(--green)" : "var(--red)")) : "inherit";
-      return `<div style="display:grid;grid-template-columns:1fr 120px 120px;gap:8px;padding:6px 12px;border-radius:6px;background:rgba(255,255,255,0.02);font-size:12px;">
+      return `<div style="display:grid;grid-template-columns:1fr 120px 120px;gap:8px;padding:6px 12px;border-radius:6px;background:var(--surface-raise);font-size:12px;">
         <div style="color:var(--text-muted);font-weight:600;">${label}</div>
         <div style="text-align:right;font-family:'JetBrains Mono',monospace;font-weight:700;color:${c1};">${v1 ?? '—'}</div>
         <div style="text-align:right;font-family:'JetBrains Mono',monospace;font-weight:700;color:${c2};">${v2 ?? '—'}</div>
@@ -7296,7 +7296,7 @@ function renderAnalyzerActionMixBar(snap) {
   return `
     <div class="l-box" style="--pad: var(--space-200); margin-bottom: var(--space-200);">
       <div class="tx-micro" style="margin-bottom: 8px;">Action mix · ${total} holding${total === 1 ? "" : "s"}</div>
-      <div class="analyzer-actionmix-bar" style="display:flex; gap:2px; height:36px; border-radius: var(--radius-100); overflow:hidden; background: rgba(255,255,255,0.04);">
+      <div class="analyzer-actionmix-bar" style="display:flex; gap:2px; height:36px; border-radius: var(--radius-100); overflow:hidden; background: var(--surface-raise);">
         ${segments}
       </div>
       ${residual ? `<div style="display:flex; flex-wrap:wrap; gap:6px; margin-top:10px;">${residual}</div>` : ""}
@@ -7411,7 +7411,7 @@ function renderPortfolioHealthHero(ph) {
   const cmp = ph.components;
   if (cmp) {
     const fmt = (v) => Math.round(+v ?? 0);
-    breakdownHtml = `<div style="flex:1 1 100%; padding-top:8px; border-top:1px solid rgba(255,255,255,0.04); margin-top:4px; font-size:11px; color:var(--text-muted); font-family:'JetBrains Mono', monospace; letter-spacing:0.3px;">
+    breakdownHtml = `<div style="flex:1 1 100%; padding-top:8px; border-top:1px solid var(--border-soft); margin-top:4px; font-size:11px; color:var(--text-muted); font-family:'JetBrains Mono', monospace; letter-spacing:0.3px;">
       Q ${fmt(cmp.quality)}/25 · Val ${fmt(cmp.valuation)}/15 · Div ${fmt(cmp.diversification)}/15 · Conc ${fmt(cmp.concentration)}/10 · Risk ${fmt(cmp.risk)}/15 · Loss ${fmt(cmp.lossControl)}/10 · Macro ${fmt(cmp.macro)}/10
     </div>`;
   }
@@ -7665,7 +7665,7 @@ function swsAuditTrailDetails(audit) {
   const versions = audit.versions || {};
   const versionLine = Object.entries(versions).map(([k, v]) => `${k}=${v}`).join(" · ");
   const citations = Array.isArray(audit.citations) ? audit.citations : [];
-  return `<details style="margin-top:10px; padding:8px 10px; background:rgba(0,0,0,0.2); border:1px solid var(--surface-slate-panel); border-radius:5px; font-size:11px;">
+  return `<details style="margin-top:10px; padding:8px 10px; background:var(--surface-inset); border:1px solid var(--surface-slate-panel); border-radius:5px; font-size:11px;">
     <summary style="cursor:pointer; font-weight:700; color:var(--text-muted); letter-spacing:0.3px;">Audit trail (decision reproducibility)</summary>
     <div style="margin-top:6px;">
       <div style="font-weight:700; color:var(--text-muted); margin-bottom:3px; font-size:10px; text-transform:uppercase; letter-spacing:0.4px;">Decision path</div>
@@ -7697,7 +7697,7 @@ function swsNewsSignalDetails(signal) {
   if (!signal || !signal.available) return "";
   const color = signal.signal < 0 ? "var(--negative-text-soft)" : signal.signal > 0 ? "var(--positive-text-soft)" : "var(--text-muted)";
   const evidence = Array.isArray(signal.evidence) ? signal.evidence.slice(0, 3) : [];
-  return `<details style="font-size:11px; color:var(--text-muted); padding:8px 10px; background:rgba(255,255,255,0.025); border:1px solid var(--surface-slate-panel); border-radius:5px;">
+  return `<details style="font-size:11px; color:var(--text-muted); padding:8px 10px; background:var(--surface-raise); border:1px solid var(--surface-slate-panel); border-radius:5px;">
     <summary style="cursor:pointer; list-style:none; color:${color}; font-weight:800;">SWS news evidence ▾</summary>
     <div style="margin-top:7px; line-height:1.45;">${swsEscapeAttr(signal.summary || "News is evidence only.")}</div>
     ${evidence.length ? `<div style="margin-top:7px; display:flex; flex-direction:column; gap:5px;">${evidence.map((row) => `
@@ -7744,10 +7744,10 @@ function swsReasonRow(h) {
     : "";
 
   const timingBox = h.timing && h.timing.reason
-    ? `<div style="font-size:11px; color:var(--text-muted); padding:6px 10px; background:rgba(0,0,0,0.2); border-radius:4px;"><strong style="color:var(--text);">Timing:</strong> ${swsEscapeAttr(h.timing.reason)}</div>`
+    ? `<div style="font-size:11px; color:var(--text-muted); padding:6px 10px; background:var(--surface-inset); border-radius:4px;"><strong style="color:var(--text);">Timing:</strong> ${swsEscapeAttr(h.timing.reason)}</div>`
     : "";
 
-  return `<details style="margin-top:8px; background:rgba(255,255,255,0.02); border:1px solid var(--surface-slate-panel); border-radius:6px; padding:10px 14px;">
+  return `<details style="margin-top:8px; background:var(--surface-raise); border:1px solid var(--surface-slate-panel); border-radius:6px; padding:10px 14px;">
     <summary style="cursor:pointer; font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
       <strong style="color:var(--text);">${tk}</strong>
       <span>· why this action</span>
@@ -7789,7 +7789,7 @@ function renderSWSProfitProtection(report) {
         <div style="background:var(--panel); border:1px solid var(--border-graphite); border-radius:8px; overflow-x:auto;">
           <table style="width:100%; border-collapse:collapse; font-size:13px;">
             <thead>
-              <tr style="background:rgba(0,0,0,0.2); text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted);">
+              <tr style="background:var(--surface-inset); text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted);">
                 <th style="padding:10px 12px;">Stock</th>
                 <th style="padding:10px 12px; text-align:right;">52W high → now</th>
                 <th style="padding:10px 12px; text-align:right;">Retrace</th>
@@ -7838,7 +7838,7 @@ function renderSWSTierA(tier, report) {
     <div style="background:var(--panel); border:1px solid var(--border-graphite); border-radius:8px; overflow-x:auto;">
       <table style="width:100%; border-collapse:collapse; font-size:13px;">
         <thead>
-          <tr style="background:rgba(0,0,0,0.2); text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted);">
+          <tr style="background:var(--surface-inset); text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted);">
             <th style="padding:10px 12px;">Stock</th>
             <th style="padding:10px 12px;">Action</th>
             <th style="padding:10px 12px;">v4 score</th>
@@ -7992,7 +7992,7 @@ function renderSWSEarningsCalendar(report) {
       <div style="background:var(--panel); border:1px solid var(--border-graphite); border-radius:8px; overflow-x:auto;">
         <table style="width:100%; border-collapse:collapse; font-size:13px;" aria-label="Holdings sorted ascending by next result date">
           <thead>
-            <tr style="background:rgba(0,0,0,0.2); text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted);">
+            <tr style="background:var(--surface-inset); text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted);">
               <th style="padding:10px 12px;">#</th>
               <th style="padding:10px 12px;">Stock</th>
               <th style="padding:10px 12px;">Sector</th>
@@ -8096,7 +8096,7 @@ function renderSWSDividendCalendar(report) {
     : `<div style="background:var(--panel); border:1px solid var(--border-graphite); border-radius:8px; overflow-x:auto;">
         <table style="width:100%; border-collapse:collapse; font-size:13px;" aria-label="Holdings with upcoming ex-dividend dates, sorted ascending">
           <thead>
-            <tr style="background:rgba(0,0,0,0.2); text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted);">
+            <tr style="background:var(--surface-inset); text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted);">
               <th style="padding:10px 12px;">#</th>
               <th style="padding:10px 12px;">Stock</th>
               <th style="padding:10px 12px; text-align:right;">Qty</th>
@@ -8185,7 +8185,7 @@ function renderSWSAwaitingDividendSection(report) {
     : `<div style="background:var(--panel); border:1px solid var(--border-graphite); border-radius:8px; overflow-x:auto;">
         <table style="width:100%; border-collapse:collapse; font-size:13px;" aria-label="Holdings with recommended dividends awaiting ex-date">
           <thead>
-            <tr style="background:rgba(0,0,0,0.2); text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted);">
+            <tr style="background:var(--surface-inset); text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted);">
               <th style="padding:10px 12px;">#</th>
               <th style="padding:10px 12px;">Stock</th>
               <th style="padding:10px 12px;">Announced</th>
@@ -8252,7 +8252,7 @@ function swsBasketRow(r) {
 
 function swsBasketCard(title, criteria, rows, accentColor) {
   return `<div style="background:var(--panel); border:1px solid var(--border-graphite); border-radius:10px; overflow:hidden;">
-    <div style="padding:12px 14px; border-bottom:1px solid var(--border-graphite); background:rgba(0,0,0,0.15);">
+    <div style="padding:12px 14px; border-bottom:1px solid var(--border-graphite); background:var(--surface-inset);">
       <div style="font-size:13px; font-weight:700; color:${accentColor};">${title} <span style="color:var(--text-muted); font-weight:500;">(${rows.length})</span></div>
       <div style="font-size:10px; color:var(--text-muted); margin-top:3px; letter-spacing:0.2px;">${criteria}</div>
     </div>
@@ -8381,7 +8381,7 @@ function renderSWSSectorOverlay(rows) {
     <div style="background:var(--panel); border:1px solid var(--border-graphite); border-radius:8px; overflow-x:auto;">
       <table style="width:100%; border-collapse:collapse; font-size:12px;">
         <thead>
-          <tr style="background:rgba(0,0,0,0.2); text-align:left; font-size:10px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted);">
+          <tr style="background:var(--surface-inset); text-align:left; font-size:10px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted);">
             <th style="padding:8px 12px;">Sector</th>
             <th style="padding:8px 12px; text-align:right;">Weight</th>
             <th style="padding:8px 12px; text-align:right;">Avg Snowflake</th>
@@ -8433,7 +8433,7 @@ function renderSWSOutsidePicks(picks) {
   const total = (picks.growth?.length || 0) + (picks.defensive?.length || 0);
   if (total === 0) return "";
   const triggerLine = (picks.triggerReasons || []).join(" · ");
-  const renderColumn = (rows, title, color) => `<div style="background:rgba(0,0,0,0.18); border:1px solid var(--border-graphite); border-radius:8px; padding:12px 14px;">
+  const renderColumn = (rows, title, color) => `<div style="background:var(--surface-inset); border:1px solid var(--border-graphite); border-radius:8px; padding:12px 14px;">
     <div style="font-size:12px; font-weight:700; color:${color}; margin-bottom:8px; letter-spacing:0.3px;">${title} (${rows.length})</div>
     ${rows.length === 0
       ? `<div style="font-size:11px; color:var(--text-muted);">No qualifying picks in current snapshot.</div>`
@@ -8773,7 +8773,7 @@ function renderAnalyzerExitPlanSummary(summary) {
   const profitZone = Number(summary.profitZoneCount) || 0;
   const highVol = Number(summary.highVolatilityCount) || 0;
   const stat = (label, value, color) => `
-    <div style="min-width:120px; flex:1; background:rgba(255,255,255,0.03); border:1px solid var(--surface-slate-panel); border-radius:8px; padding:10px 12px;">
+    <div style="min-width:120px; flex:1; background:var(--surface-raise); border:1px solid var(--surface-slate-panel); border-radius:8px; padding:10px 12px;">
       <div style="font-size:20px; font-weight:800; color:${color}; line-height:1;">${value}</div>
       <div style="font-size:11px; color:var(--text-muted); margin-top:5px;">${label}</div>
     </div>`;
@@ -13139,7 +13139,7 @@ function renderPicksSearchStatus(totalShown, offSectionCount) {
     const universeSize = swsScoredUniverse.length;
     body = `<span><strong>${totalShown}</strong> match${totalShown === 1 ? "" : "es"} for "<strong>${q}</strong>" across <strong>${universeSize.toLocaleString()}</strong> SWS stocks${offSectionCount ? ` · <strong>${offSectionCount}</strong> off-section` : ""}.</span>`;
   }
-  return `<div class="sws-pick-search-status" style="padding:8px 12px; margin:4px 0 12px 0; background:rgba(255,255,255,0.03); border-radius:6px; font-size:13px;">${body}</div>`;
+  return `<div class="sws-pick-search-status" style="padding:8px 12px; margin:4px 0 12px 0; background:var(--surface-raise); border-radius:6px; font-size:13px;">${body}</div>`;
 }
 
 // Color band for the score number on the card. Mirrors v3 verdict tiers
@@ -14212,7 +14212,7 @@ function openActionListModal(action) {
     : `<div style="overflow-x:auto; border:1px solid var(--border-graphite); border-radius:8px; background:var(--panel);">
          <table style="width:100%; border-collapse:collapse; font-size:13px;">
            <thead>
-             <tr style="background:rgba(0,0,0,0.2); text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted);">
+             <tr style="background:var(--surface-inset); text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.4px; color:var(--text-muted);">
                <th style="padding:10px 12px;">Stock</th>
                <th style="padding:10px 12px;">Action</th>
                <th style="padding:10px 12px;">v4 score</th>
@@ -15205,12 +15205,12 @@ function renderStockDetailLoading(displayTicker) {
       <div style="font-size:12px;">Fetching SWS deep data + live technicals + news (≈3s)</div>
     </div>
     <div class="sws-modal-section" style="opacity:0.4;">
-      <div style="height:14px;width:160px;background:rgba(255,255,255,0.06);border-radius:4px;margin-bottom:10px;"></div>
-      <div style="height:48px;background:rgba(255,255,255,0.04);border-radius:6px;"></div>
+      <div style="height:14px;width:160px;background:var(--surface-raise-strong);border-radius:4px;margin-bottom:10px;"></div>
+      <div style="height:48px;background:var(--surface-raise);border-radius:6px;"></div>
     </div>
     <div class="sws-modal-section" style="opacity:0.3;">
-      <div style="height:14px;width:120px;background:rgba(255,255,255,0.06);border-radius:4px;margin-bottom:10px;"></div>
-      <div style="height:80px;background:rgba(255,255,255,0.04);border-radius:6px;"></div>
+      <div style="height:14px;width:120px;background:var(--surface-raise-strong);border-radius:4px;margin-bottom:10px;"></div>
+      <div style="height:80px;background:var(--surface-raise);border-radius:6px;"></div>
     </div>
   `;
 }
