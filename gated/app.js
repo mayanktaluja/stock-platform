@@ -773,6 +773,7 @@ function renderState(container, opts = {}) {
     container.innerHTML = `
       <div class="state state--empty" data-testid="state-empty">
         <div class="state-empty-msg">${message || "Nothing here yet."}</div>
+        ${adminDetail(opts.detail)}
       </div>`;
   } else if (state === "error") {
     const retryBtn = onRetry
@@ -781,6 +782,7 @@ function renderState(container, opts = {}) {
     container.innerHTML = `
       <div class="state state--error" data-testid="state-error" role="alert">
         <div class="state-error-msg">${message || "Something went wrong."}</div>
+        ${adminDetail(opts.detail)}
         ${retryBtn}
       </div>`;
     if (onRetry) {
@@ -790,6 +792,18 @@ function renderState(container, opts = {}) {
   }
 }
 window.renderState = renderState;
+
+// Admin-only technical detail for empty/error states. The owner
+// (window.__starbhai_isAdmin, set at auth init) sees the pipeline command +
+// file path; a normal signed-in user sees only the plain-language line. Read
+// live at render time — if auth hasn't resolved yet it omits, and the admin
+// sees it on the next refetch. This is how the user-facing copy stays free of
+// "run scripts/…" CLI leaks while the owner keeps the operational hint.
+function adminDetail(text) {
+  if (!text || !window.__starbhai_isAdmin) return "";
+  return `<div class="state-detail tx-meta" data-testid="state-detail">${escapeHtml(text)}</div>`;
+}
+window.adminDetail = adminDetail;
 
 // Toast queue: cap at 3 visible. Anything additional collapses into a
 // "+N more" chip until the oldest dismisses. Auto-dismiss after
@@ -5767,7 +5781,7 @@ window.__trackRenderSectionGrid = function() {
   const grid = document.getElementById("trackSectionGrid");
   if (!grid) return;
   if (!_trackSectionsCache || !Array.isArray(_trackSectionsCache.sections)) {
-    grid.innerHTML = `<div class="empty-state"><div class="empty-text">No section data yet — run the daily snapshot cron or trigger /api/cron/snapshot-track-record manually.</div></div>`;
+    grid.innerHTML = `<div class="empty-state"><div class="empty-text">Section performance appears after the daily snapshot runs.</div>${adminDetail("Snapshot: /api/cron/snapshot-track-record")}</div>`;
     return;
   }
   const horizon = _trackHorizonValue();
@@ -12502,11 +12516,14 @@ function renderPicksMetaBanner(data) {
   const stale = ageMs != null && ageMs > 3 * 24 * 3600 * 1000;
   const fresh = ageMs != null && ageMs < 6 * 3600 * 1000;
   const inFlight = shards.some((s) => s.last_run_at && (Date.now() - new Date(s.last_run_at).getTime()) < 5 * 60 * 1000);
-  const color = stale ? "var(--red)" : (fresh ? "var(--green)" : "var(--text-secondary)");
+  const color = stale ? "var(--warn-text)" : (fresh ? "var(--green)" : "var(--text-secondary)");
 
   const totals = `${data.scored_count} scored · ${data.failed_count} failed`;
+  const staleNote = stale
+    ? ` · <span style="color:var(--warn-text);">refresh overdue</span>${window.__starbhai_isAdmin ? ' <span class="tx-meta">· /sws-refresh-api</span>' : ""}`
+    : "";
   const refreshLine = dataStamp
-    ? `Last data refresh: <strong style="color:${color};">${timeAgo(dataStamp)}</strong> · ${new Date(dataStamp).toLocaleString()}${stale ? ' · <span style="color:var(--red);">stale, run /sws-refresh-api</span>' : ""}`
+    ? `Last data refresh: <strong style="color:${color};">${timeAgo(dataStamp)}</strong> · ${new Date(dataStamp).toLocaleString()}${staleNote}`
     : "Refresh time unknown";
   const inFlightLine = inFlight
     ? `<br><span style="color:var(--accent, var(--accent-blue));">⟳ Refresh in progress — shard 1: ${shards[0]?.today_count || 0} · shard 2: ${shards[1]?.today_count || 0} · shard 3: ${shards[2]?.today_count || 0} stocks today</span>`
@@ -12576,12 +12593,13 @@ async function loadPicks() {
 
 function renderPicksEmptyState() {
   return `
-    <div style="padding:32px; border:1px dashed var(--border-slate); border-radius:8px; text-align:center;">
-      <h3 style="margin-top:0;color:var(--text-primary);">No SWS scan data available</h3>
-      <p style="color:var(--text-muted); margin:12px 0 20px 0; max-width:680px; margin-left:auto; margin-right:auto;">
-        Run the SWS refresh pipeline from the CLI to populate this tab.
-        The data file lives at <code>data/sws/picks-latest.json</code>.
+    <div class="empty-state" style="padding:32px; border:1px dashed var(--border-slate); border-radius:8px; text-align:center;">
+      <h3 style="margin-top:0;color:var(--text-primary);">Picks are being prepared</h3>
+      <p style="color:var(--text-muted); margin:12px 0 8px 0; max-width:680px; margin-left:auto; margin-right:auto;">
+        The India buy-list publishes after the nightly Simply Wall Street scan
+        (around 00:30 IST). It will appear here once the latest scan lands.
       </p>
+      ${adminDetail("Populate: /sws-refresh-api → data/sws/picks-latest.json")}
     </div>
   `;
 }
@@ -13005,9 +13023,9 @@ function renderPicks(data) {
     } else if (filterActive) {
       msg = `No picks match ${uniLabel}${secLabel}. Widen the universe or pick a different sector.`;
     } else {
-      msg = `Scan completed but no stocks matched any section filters. Check thresholds in scripts/sws-scoring.mjs.`;
+      msg = `No stocks matched the current section filters.`;
     }
-    containerEl.innerHTML = renderPicksSearchStatus(0, 0) + `<div style="padding:24px;color:var(--text-muted);">${msg}</div>`;
+    containerEl.innerHTML = renderPicksSearchStatus(0, 0) + `<div class="empty-state" style="padding:24px;color:var(--text-muted);">${msg}${filterActive || picksSearchQuery ? "" : adminDetail("Scoring thresholds: scripts/sws-scoring.mjs")}</div>`;
     return;
 	  }
 
@@ -13161,7 +13179,7 @@ function renderPicksSearchStatus(totalShown, offSectionCount) {
   const q = escapeHtml(picksSearchQuery);
   let body;
   if (swsUniverseLoadFailed) {
-    body = `<span style="color:var(--text-muted);">Universe index unavailable — searching loaded sections only. Run <code>node scripts/sws-build-scored-universe.mjs</code> to backfill.</span>`;
+    body = `<span style="color:var(--text-muted);">Full universe search is temporarily unavailable — showing matches from the loaded sections only.</span>${adminDetail("Backfill: node scripts/sws-build-scored-universe.mjs")}`;
   } else if (!swsScoredUniverse) {
     body = `<span style="color:var(--text-muted);">Loading SWS universe… in-section matches shown for "<strong>${q}</strong>".</span>`;
   } else {
@@ -13571,7 +13589,7 @@ async function loadUSPicks() {
     const res = await fetch("/api/us-picks");
     if (res.status === 404) {
       currentUSPicksData = null;
-      container.innerHTML = `<div style="padding:48px;text-align:center;color:var(--text-muted);">No US Market data yet. Run <code>/sws-refresh-us</code> (or the seed scrape) to populate the US universe — the tab fills in as stocks are scored.</div>`;
+      container.innerHTML = `<div class="empty-state" style="padding:48px;text-align:center;color:var(--text-muted);">US coverage is being captured — sections appear here as stocks are scored.${adminDetail("Populate: /sws-refresh-us (or the seed scrape)")}</div>`;
       if (meta) meta.textContent = "No data yet";
       return;
     }

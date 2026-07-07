@@ -3002,6 +3002,9 @@
       padding: var(--space-150) var(--space-200);
     }
     .state-error-msg { font-size: 12.5px; }
+    /* PR6 — admin-only operational hint under an empty/error state. Owner sees
+       the pipeline command; a normal signed-in user never does. */
+    .state-detail { margin-top: 8px; font-family: var(--font-mono); font-size: 11px; opacity: 0.72; }
     @media (prefers-reduced-motion: reduce) {
       .state-skeleton { animation: none; }
     }
