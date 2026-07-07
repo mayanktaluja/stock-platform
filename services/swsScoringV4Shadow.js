@@ -38,9 +38,13 @@ function r1(v) { return v == null ? v : Math.round(v * 10) / 10; }
 // these, and recovers each pillar's 0..1 fraction from the live breakdown pts.
 export const LIVE_PILLAR_WEIGHTS = { health: 22, future: 20, valuation: 18, past: 16 };
 
-// Default reweight candidate: shave valuation, lift future + past (a quality-
-// growth tilt). Sums to the same 76 so the pillar block scale is preserved.
-const DEFAULT_A1_WEIGHTS = { health: 22, future: 22, valuation: 14, past: 18 };
+// Default reweight candidate: the pure Health↔Future swap. Chosen empirically
+// (scripts/backtest-pillar-reweight.mjs, 2026-07-07, 38 snapshots May 24→Jul 5):
+// at top-30 it beat live on hit-rate AND median alpha at BOTH 21d (53.6%/+0.74
+// vs 52.1%/+0.47) and 30d (58.7%/+2.27 vs 56.0%/+1.51) holds, while every
+// valuation-cut variant (V14/V16) degraded vs live. Single-regime, ~10-week,
+// autocorrelated evidence — a leading candidate, not proof. Sums to 76.
+const DEFAULT_A1_WEIGHTS = { health: 20, future: 22, valuation: 18, past: 16 };
 
 // A8: SWS fundamental briefs update on a quarterly cadence, so a week-old brief
 // is not meaningfully stale. Start penalising only past 21 days, ramp gently, cap
