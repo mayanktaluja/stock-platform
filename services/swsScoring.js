@@ -36,7 +36,7 @@ export const num = (v, fallback = 0) => (typeof v === "number" && Number.isFinit
 // PICKS_SCORING_VERSION when the scoring math changes (weights, gates,
 // imputation rules).
 export const PICKS_SCHEMA_VERSION = "picks-latest-v4";
-export const PICKS_SCORING_VERSION = "sws-v4-100pt-2026-05";
+export const PICKS_SCORING_VERSION = "sws-v4.1-100pt-2026-07";
 
 // 13 input fields the scoring engine looks at. Track which were populated
 // so we can flag thin-coverage names rather than silently scoring missing

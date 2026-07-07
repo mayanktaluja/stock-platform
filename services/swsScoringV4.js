@@ -13,6 +13,15 @@
 //   - Momentum 14->12 (1Y x7 + 3M x3 + 1M x2).
 //   - Risk overlay = V3's verbatim + a V4-only value-trap brake (the heavier
 //     value tilt needs a wider net than V3's narrow falling-knife).
+//
+// v4.1 (2026-07, owner-signed): Health/Future pillar weights SWAPPED to
+//   H20/F22 (V18/P16 unchanged, block still 76) on point-in-time re-rank
+//   evidence (scripts/backtest-pillar-reweight.mjs — swap beat old weights on
+//   hit-rate + median alpha at 21d AND 30d holds; every valuation-cut variant
+//   lost). Added the GROWTH-TRAP brake (future>=5/6 + 1M<=-15% -> -4, no-stack
+//   with falling-knife, MAY stack with value-trap) as the future-tilt's mirror
+//   of the value trap. Cutoffs deliberately kept frozen (accepted stricter
+//   book: ~-179 STRONG+, ~-30 TOP_PICK at promotion time).
 //   - Verdict uses ABSOLUTE frozen cutoffs (TOP_PICK>=59 / STRONG>=47 /
 //     ACCEPTABLE>=37 / WATCH>=28 / AVOID<28), calibrated once from the 2026-05
 //     V4 universe distribution and then frozen — NOT rank-based, no per-run
@@ -49,7 +58,7 @@ try {
   if (typeof mod.getSurveillanceFlag === "function") _getSurveillanceFlag = mod.getSurveillanceFlag;
 } catch {}
 
-export const V4_SCORING_VERSION = "sws-v4-100pt-2026-05";
+export const V4_SCORING_VERSION = "sws-v4.1-100pt-2026-07";
 
 const r1 = (v) => v == null || !Number.isFinite(v) ? null : Math.round(v * 10) / 10;
 const r3 = (v) => v == null || !Number.isFinite(v) ? null : Math.round(v * 1000) / 1000;
@@ -270,8 +279,15 @@ export function computeV4Score(stock, opts = {}) {
   const v_valuation = num(snow.valuation ?? snow.value, 0);
   const v_past = num(snow.past ?? snow.past_performance, 0);
   // Dividend pillar intentionally dropped in V4.
-  const pts_health = (v_health / 6) * 22;
-  const pts_future = (v_future / 6) * 20;
+  // v4.1 (2026-07): Health/Future weights SWAPPED (22/20 → 20/22). Evidence:
+  // scripts/backtest-pillar-reweight.mjs over 38 archived daily snapshots —
+  // the swap beat the old weighting on hit-rate AND median alpha at both 21d
+  // (53.6%/+0.74 vs 52.1%/+0.47) and 30d (58.7%/+2.27 vs 56.0%/+1.51) holds,
+  // while every valuation-cut variant degraded. Single-regime (~10-week bull
+  // window) evidence — owner signed off 2026-07-07; rollback = revert these
+  // two multipliers + the version stamp.
+  const pts_health = (v_health / 6) * 20;
+  const pts_future = (v_future / 6) * 22;
   const pts_valuation = (v_valuation / 6) * 18;
   const pts_past = (v_past / 6) * 16;
 
@@ -336,6 +352,19 @@ export function computeV4Score(stock, opts = {}) {
   if (!fellAsKnife && ret3m != null && ret3m < -20 && v_health <= 3 && v_valuation >= 4) {
     pts_overlay -= 4;
     overlay_reasons.push(`Value trap: 3M ${ret3m.toFixed(1)}% on cheap (${v_valuation}/6) name with health ${v_health}/6`);
+  }
+  // v4.1 growth-trap brake — the mirror of the value trap for the heavier
+  // FUTURE tilt: a high-expectation (future>=5/6) name breaking hard over 1M
+  // carries embedded-forecast risk (analyst estimates herd and lag the tape,
+  // so downgrades tend to FOLLOW the break). Calibrated on 632 archived top-30
+  // picks: fires rarely (11x) at zero measured return cost — regime insurance.
+  // Skipped when the falling-knife already fired (same no-stack rule as the
+  // value trap); MAY deliberately stack with the value trap (-8 total) — a
+  // cheap high-future name breaking on BOTH windows has two distinct failure
+  // modes, and the calibration measured it as stacked.
+  if (!fellAsKnife && v_future >= 5 && ret1m != null && ret1m <= -15) {
+    pts_overlay -= 4;
+    overlay_reasons.push(`Growth trap: 1M ${ret1m.toFixed(1)}% on high-expectation (${v_future}/6 future) name`);
   }
   pts_overlay = clamp(pts_overlay, -15, 0);
 

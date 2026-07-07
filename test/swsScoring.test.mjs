@@ -67,7 +67,7 @@ check("num undefined default 0",     () => assert.equal(num(undefined), 0));
 console.log("\nschema/scoring version constants\n");
 
 check("schema version is v4 string", () => assert.equal(PICKS_SCHEMA_VERSION, "picks-latest-v4"));
-check("scoring version stamp present", () => assert.ok(/sws-v4-100pt/.test(PICKS_SCORING_VERSION)));
+check("scoring version stamp present", () => assert.ok(/sws-v4(\.\d+)?-100pt/.test(PICKS_SCORING_VERSION)));
 
 console.log("\ndataCompletenessPct\n");
 

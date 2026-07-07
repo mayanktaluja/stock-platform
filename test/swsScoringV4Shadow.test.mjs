@@ -90,13 +90,16 @@ t("A8 haircuts a stale brief, graduated by age; fresh brief untouched", () => {
   assert.strictEqual(computeV4ShadowScore(fresh, { ...opts, now }, ["A8_freshness_demotion"]).delta, 0);
 });
 
-t("A1 reweight nudges the score and preserves the 76-pt pillar block sum", () => {
+t("A1 reweight is DORMANT post-promotion (identity candidate → delta 0)", () => {
+  // The H↔F swap was promoted to live v4.1, so LIVE_PILLAR_WEIGHTS is now
+  // 20/22/18/16 and DEFAULT_A1_WEIGHTS is identity → A1 must be a no-op until a
+  // fresh candidate is seeded. Guards against a stale swap double-applying.
   const s = mkStock();
   const a1 = computeV4ShadowScore(s, opts, ["A1_reweight"]);
-  // default candidate sums to 76 (22+22+14+18), same as live 22+20+18+16.
+  assert.strictEqual(a1.delta, 0);
   const sum = Object.values(LIVE_PILLAR_WEIGHTS).reduce((a, b) => a + b, 0);
   assert.strictEqual(sum, 76);
-  assert.ok(typeof a1.delta === "number");
+  assert.strictEqual(LIVE_PILLAR_WEIGHTS.future, 22); // live is the swap now
 });
 
 t("A11 DCF fallback is INERT until dcf_fair_value_inr is ingested", () => {

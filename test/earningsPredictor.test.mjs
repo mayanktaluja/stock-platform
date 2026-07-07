@@ -29,9 +29,9 @@ function makeV3(overrides = {}) {
     source: "computed",
     breakdown: {
       pts_health: 11,
-      pts_future: 10, // neutral = (3/6)*20
+      pts_future: 11, // v4.1 neutral = (3/6)*22
       pts_valuation: 6,
-      pts_past: 6, // neutral = (3/6)*12
+      pts_past: 8, // V4 neutral = (3/6)*16
       pts_dividends: 4,
       pts_fv_upside: 6, // neutral = fair value
       fv_imputed: false,
@@ -94,7 +94,7 @@ function makeSignals(overrides = {}) {
     signals: makeSignals({
       data_quality: "HIGH",
       v3: makeV3({
-        pts_future: 20, pts_past: 12, pts_fv_upside: 12, pts_overlay: 0,
+        pts_future: 22, pts_past: 16, pts_fv_upside: 12, pts_overlay: 0,
       }),
       momentum: { ret_1m_pct: -3, sector_avg_1m_pct: 5, pre_runup_signal: "lagging", runup_vs_sector_pct: -8 },
       trajectory: { eps_yoy_pct: 30 },
@@ -143,7 +143,7 @@ function makeSignals(overrides = {}) {
     signals: makeSignals({ data_quality: "HIGH", v3: makeV3({ pts_future: 0, pts_past: 0 }) }),
   });
   const strong = predictEarningsOutcome({
-    signals: makeSignals({ data_quality: "HIGH", v3: makeV3({ pts_future: 20, pts_past: 12 }) }),
+    signals: makeSignals({ data_quality: "HIGH", v3: makeV3({ pts_future: 22, pts_past: 16 }) }),
   });
   assert("weak V3 future/past → negative component", weak.score_breakdown.v3_future_past < 0, weak.score_breakdown);
   assert("strong V3 future/past → positive component", strong.score_breakdown.v3_future_past > 0, strong.score_breakdown);
@@ -163,7 +163,7 @@ function makeSignals(overrides = {}) {
 {
   const sig = makeSignals({
     data_quality: "HIGH",
-    v3: makeV3({ pts_future: 20, pts_past: 12, pts_fv_upside: 12, pts_overlay: 0 }),
+    v3: makeV3({ pts_future: 22, pts_past: 16, pts_fv_upside: 12, pts_overlay: 0 }),
     momentum: { ret_1m_pct: -5, sector_avg_1m_pct: 20, pre_runup_signal: "lagging", runup_vs_sector_pct: -25 },
     trajectory: { eps_yoy_pct: 100 },
     announcements: { top3: [{ classification: "ORDER_WIN", materiality_score: 8 }, { classification: "CAPACITY_EXPANSION", materiality_score: 7 }, { classification: "MA_DEAL", materiality_score: 7 }] },

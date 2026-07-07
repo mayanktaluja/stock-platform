@@ -190,7 +190,10 @@ check("orders section rows by experimental shadow V4 score before delta", () => 
     ],
   }));
   const higherShadowLowerDelta = stock("VALFUT", {
-    snow: { financial_health: 6, future: 0, valuation: 0, past: 6, dividends: 0 },
+    // v4.1 recalibration: the H↔F weight swap narrowed VALFUT's lead to a
+    // razor 0.7pt (it leaned on health-6). valuation 0→2 restores a robust
+    // higher-shadow-lower-delta lead (70.3/Δ10.3 vs MIDBASE 65/Δ11).
+    snow: { financial_health: 6, future: 0, valuation: 2, past: 6, dividends: 0 },
     checks: [
       row("Future", "F1", "no_data", "Future ROE"),
       row("Future", "F2", "no_data", "High Growth Earnings"),

@@ -1075,7 +1075,7 @@ export function scoreHolding(holding, portfolioContext = {}) {
       v4_score_100: scored.v4_score_100,
       v4_verdict: scored.v4_verdict,
       canonical_score: buildCanonicalScore(scored),
-      score_model: "sws-v4-100pt-2026-05",
+      score_model: "sws-v4.1-100pt-2026-07",
       score_source: "sws_v4",
       regulatory_flags: regulatoryFlags,
       risk_overlay: riskOverlay,

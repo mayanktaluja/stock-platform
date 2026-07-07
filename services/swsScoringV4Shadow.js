@@ -36,14 +36,15 @@ function r1(v) { return v == null ? v : Math.round(v * 10) / 10; }
 
 // Live pillar weights — the reweight candidate expresses new weights relative to
 // these, and recovers each pillar's 0..1 fraction from the live breakdown pts.
-export const LIVE_PILLAR_WEIGHTS = { health: 22, future: 20, valuation: 18, past: 16 };
+// v4.1 (2026-07): live is now the H↔F swap — MUST track computeV4Score exactly
+// or A1 recovers wrong fractions and every shadow report double-applies deltas.
+export const LIVE_PILLAR_WEIGHTS = { health: 20, future: 22, valuation: 18, past: 16 };
 
-// Default reweight candidate: the pure Health↔Future swap. Chosen empirically
-// (scripts/backtest-pillar-reweight.mjs, 2026-07-07, 38 snapshots May 24→Jul 5):
-// at top-30 it beat live on hit-rate AND median alpha at BOTH 21d (53.6%/+0.74
-// vs 52.1%/+0.47) and 30d (58.7%/+2.27 vs 56.0%/+1.51) holds, while every
-// valuation-cut variant (V14/V16) degraded vs live. Single-regime, ~10-week,
-// autocorrelated evidence — a leading candidate, not proof. Sums to 76.
+// Default reweight candidate: IDENTITY (dormant, delta always 0). The previous
+// candidate — the pure Health↔Future swap — was PROMOTED to live as v4.1 on
+// 2026-07-07 after winning the point-in-time re-rank backtest at both 21d and
+// 30d holds (scripts/backtest-pillar-reweight.mjs). Next candidate TBD from
+// fresh out-of-sample evidence; do not seed a speculative one.
 const DEFAULT_A1_WEIGHTS = { health: 20, future: 22, valuation: 18, past: 16 };
 
 // A8: SWS fundamental briefs update on a quarterly cadence, so a week-old brief

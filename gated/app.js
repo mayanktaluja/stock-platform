@@ -13388,7 +13388,7 @@ function renderPickCard(s, sectionKey, rank = null) {
     const fundSum = (b.pts_health || 0) + (b.pts_future || 0) + (b.pts_valuation || 0)
                   + (b.pts_past || 0) + (b.pts_fv_total || 0);
     const fundScore100 = (fundSum / 88) * 100;
-    fundBadge = `<span class="sws-fund-badge" title="Fundamentals score, rescaled to 100. Same definition as the score-breakdown modal's 'Pillars 76 + FV 12' lines: 4 SWS pillars (Health 22 + Future 20 + Valuation 18 + Past 16) + FV composite (12).">F ${fundScore100.toFixed(1)}/100</span>`;
+    fundBadge = `<span class="sws-fund-badge" title="Fundamentals score, rescaled to 100. Same definition as the score-breakdown modal's 'Pillars 76 + FV 12' lines: 4 SWS pillars (Health 20 + Future 22 + Valuation 18 + Past 16) + FV composite (12).">F ${fundScore100.toFixed(1)}/100</span>`;
   }
   const sectorTailwindBadge = (sectionKey === "growing_sector_value" && s.sector_tailwind_label)
     ? `<span class="sws-fund-badge" title="${escapeHtml(s.sector_tailwind_reason || "Sector Outlook 3-12m tailwind")}">${escapeHtml(String(s.sector_tailwind_label).replace(/_/g, " "))}${s.sector_tailwind_confidence ? ` · ${escapeHtml(s.sector_tailwind_confidence)}` : ""}</span>`
@@ -15110,7 +15110,7 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
       fvHintParts.push(`Total ${n1(v4bd.pts_fv_total)}/12`);
       const fvHint = fvHintParts.join(" · ");
       const items = [
-        { label: "Pillars 76", value: Math.round(pillarTotal * 10) / 10, max: 76, hint: "Health 22 · Future 20 · Valuation 18 · Past 16 (no dividend pillar in v4)" },
+        { label: "Pillars 76", value: Math.round(pillarTotal * 10) / 10, max: 76, hint: "Health 20 · Future 22 · Valuation 18 · Past 16 (no dividend pillar in v4)" },
         { label: "FV composite 12", value: v4bd.pts_fv_total, max: 12, hint: fvHint || "Relative analyst-upside + P/E-vs-industry, renormalised over present signals" },
         { label: "Momentum 12", value: Math.round(momTotal * 10) / 10, max: 12, hint: "Universe-percentile returns: 1Y (7) + 3M (3) + 1M (2)" },
         { label: "Safety overlay", value: v4bd.pts_overlay, max: 0, min: -15, negative: true, hint: (v4bd.overlay_reasons || []).join(" · ") || "No surveillance / value-trap / momentum-tail penalties triggered" },
@@ -15541,7 +15541,7 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
     <div class="sws-modal-section">
       <h4>Score breakdown — v4 quality-value blend (out of 100)</h4>
       ${barsHtml}
-      <div style="font-size:10px;color:var(--text-muted);margin-top:8px;">V4 = 4 SWS pillars (Health 22 + Future 20 + Valuation 18 + Past 16 = 76, dividend dropped) + a coverage-renormalised fair-value composite (relative analyst upside + P/E-vs-industry, 12) + universe-percentile momentum (12) - safety overlay (max -15). Stocks lacking analyst FV use an industry-average FV composite when covered peers exist; otherwise they get a neutral 6/12 (flagged fv_imputed in the breakdown).</div>
+      <div style="font-size:10px;color:var(--text-muted);margin-top:8px;">V4 = 4 SWS pillars (Health 20 + Future 22 + Valuation 18 + Past 16 = 76, dividend dropped) + a coverage-renormalised fair-value composite (relative analyst upside + P/E-vs-industry, 12) + universe-percentile momentum (12) - safety overlay (max -15). Stocks lacking analyst FV use an industry-average FV composite when covered peers exist; otherwise they get a neutral 6/12 (flagged fv_imputed in the breakdown).</div>
     </div>` : ""}
 
     ${hexHtml}
