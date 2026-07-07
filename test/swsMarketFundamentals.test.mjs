@@ -53,8 +53,8 @@ test("normalizes Yahoo raw ratios into modal-ready percentages", () => {
 
 test("Yahoo debtToEquity is treated as percent-like and not double-converted", () => {
   const record = normalizeYahooFundamentals({
-    ticker: "2330.TW",
-    yahooSymbol: "2330.TW",
+    ticker: "AAPL",
+    yahooSymbol: "AAPL",
     summary: { financialData: { debtToEquity: 18.4 } },
   });
   assert.equal(record.debt_to_equity_pct, 18.4);
@@ -62,9 +62,6 @@ test("Yahoo debtToEquity is treated as percent-like and not double-converted", (
 
 test("US dotted share classes get Yahoo hyphen fallback candidates", () => {
   assert.deepEqual(yahooSymbolCandidates("BRK.B", "us"), ["BRK.B", "BRK-B"]);
-  assert.deepEqual(yahooSymbolCandidates("005930.KS", "kr"), ["005930.KS"]);
-  assert.deepEqual(yahooSymbolCandidates("2330.TW", "tw"), ["2330.TW"]);
-  assert.deepEqual(yahooSymbolCandidates("8069.TWO", "tw"), ["8069.TWO"]);
 });
 
 test("missing Yahoo fields normalize to null, not zero", () => {

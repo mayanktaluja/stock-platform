@@ -1,8 +1,7 @@
 /**
- * Tests for services/regionIndexConstituents.js — the generic (US/KR/TW)
+ * Tests for services/regionIndexConstituents.js — the generic (US)
  * index-membership engine behind the universe dropdowns. Covers:
- *   • MARKET_NORMALISERS: US dotted share classes (-,/ → .), KR .KS/.KQ strip,
- *     TW .TW/.TWO strip (longest-first)
+ *   • MARKET_NORMALISERS: US dotted share classes (-,/ → .)
  *   • buildMarketIndexSets(): normalises list tickers to the picks-row form
  *   • stampMarketIndexFlags(): membership per market incl. share-class matching
  *     across source/picks ticker variants (BRK-B list vs BRK.B row)
@@ -39,16 +38,6 @@ assert("BRK/B → BRK.B", MARKET_NORMALISERS.us("BRK/B") === "BRK.B");
 assert("lower brk.b → BRK.B", MARKET_NORMALISERS.us("brk.b") === "BRK.B");
 assert("null → empty", MARKET_NORMALISERS.us(null) === "");
 
-console.log("\nMARKET_NORMALISERS — KR (.KS/.KQ strip)");
-assert("005930.KS → 005930", MARKET_NORMALISERS.kr("005930.KS") === "005930");
-assert("068270.KQ → 068270", MARKET_NORMALISERS.kr("068270.KQ") === "068270");
-assert("bare 005930 → 005930", MARKET_NORMALISERS.kr("005930") === "005930");
-
-console.log("\nMARKET_NORMALISERS — TW (.TW/.TWO strip, longest-first)");
-assert("2330.TW → 2330", MARKET_NORMALISERS.tw("2330.TW") === "2330");
-assert("6643.TWO → 6643 (not 6643O)", MARKET_NORMALISERS.tw("6643.TWO") === "6643");
-assert("bare 2330 → 2330", MARKET_NORMALISERS.tw("2330") === "2330");
-
 console.log("\nbuildMarketIndexSets() — US normalises list tickers");
 {
   const sets = buildMarketIndexSets({ sp500: ["AAPL", "BRK-B"], dow30: ["AAPL"], nasdaq100: [], russell2000: [] }, "us");
@@ -80,22 +69,6 @@ console.log("\nstampMarketIndexFlags() — US (incl. share-class variant match)"
   const out = { ticker: "ZZZZ" };
   stampMarketIndexFlags(out, sets, "us");
   assert("outsider all false", !out.sp500 && !out.dow30 && !out.nasdaq100 && !out.russell2000);
-}
-
-console.log("\nstampMarketIndexFlags() — KR / TW suffix reconciliation");
-{
-  const krSets = buildMarketIndexSets({ kospi200: ["005930"], kosdaq150: [], krx300: ["005930"], kospi: ["005930"] }, "kr");
-  const samsung = { ticker: "005930.KS" }; // picks row carries the suffix
-  stampMarketIndexFlags(samsung, krSets, "kr");
-  assert("005930.KS row matches bare 005930 kospi200", samsung.kospi200 === true, samsung.kospi200);
-  assert("005930.KS krx300", samsung.krx300 === true);
-  assert("005930.KS !kosdaq150", samsung.kosdaq150 === false);
-
-  const twSets = buildMarketIndexSets({ taiwan50: ["2330"], taiwanMidcap100: [], tpex50: [], twse: ["2330"] }, "tw");
-  const tsmc = { ticker: "2330.TW" };
-  stampMarketIndexFlags(tsmc, twSets, "tw");
-  assert("2330.TW row matches bare 2330 taiwan50", tsmc.taiwan50 === true, tsmc.taiwan50);
-  assert("2330.TW !tpex50", tsmc.tpex50 === false);
 }
 
 console.log("\nstampMarketIndexFlags() — guards");

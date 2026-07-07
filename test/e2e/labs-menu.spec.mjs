@@ -20,8 +20,6 @@ const PUBLIC_MENU_LABELS = [
   "Portfolio Analyzer",
   "Watchlist",
   "US Market",
-  "Korea Market",
-  "Taiwan Market",
   "Earnings Watch",
   "Risk Lab",
   "5x Lab",

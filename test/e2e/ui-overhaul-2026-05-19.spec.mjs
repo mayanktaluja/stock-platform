@@ -133,8 +133,6 @@ test.describe("UI/UX overhaul 2026-05-19", () => {
     await expect(page.locator("h1#liveTabHeading")).toHaveText(/India Market/);
     await expect(page.locator("#picksTabBtn")).toHaveText("India Market");
     await expect(page.locator("#usPicksTabBtn")).toHaveText("US Market");
-    await expect(page.locator("#krPicksTabBtn")).toHaveText("Korea Market");
-    await expect(page.locator("#twPicksTabBtn")).toHaveText("Taiwan Market");
     await page.evaluate(() => { void window.switchTab("usPicks"); });
     await expect(page).toHaveTitle(/US Market/);
     await page.evaluate(() => { void window.switchTab("track"); });
@@ -150,8 +148,6 @@ test.describe("UI/UX overhaul 2026-05-19", () => {
     expect(tabLabels).toEqual(expect.arrayContaining([
       "India Market",
       "US Market",
-      "Korea Market",
-      "Taiwan Market",
     ]));
 
     await page.evaluate(() => { void window.switchTab("usPicks"); });

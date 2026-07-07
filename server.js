@@ -17,6 +17,7 @@ import compression from "compression";
 import cors from "cors";
 import helmet from "helmet";
 import { createBreaker } from "./services/externalApiBreaker.js";
+import { resolveUserSub } from "./services/userIdentity.js";
 import { loadRiskLabViewMap, buildLabViewForEvent } from "./services/riskLab/earningsLabView.js";
 import { LAB_PROMOTION_STATUS, buildSizingDecision } from "./services/riskLab/positionSizing.js";
 import { loadHitRateSummary } from "./services/earnings/hitRateSummary.js";
@@ -131,7 +132,6 @@ import * as swsDal from "./services/swsDal/index.js";
 import { filterPicksWithDeepDataFailOpen } from "./services/swsPicksResponse.js";
 import { getExperimentalForecastForTicker } from "./services/experimentalForecastOverlay.js";
 import * as usPicksDal from "./services/usPicksDal.js";
-import { makeRegionPicksDal } from "./services/regionPicksDal.js";
 import { enrichMarketCardReturns, normaliseMarketReturns } from "./services/marketReturnNormalizer.js";
 import { loadIndexConstituentsFromFile, stampIndexFlags } from "./services/indexConstituents.js";
 import {
@@ -233,7 +233,6 @@ import {
   filterPublicTrackTrades,
 } from "./paperTrades.js";
 import { snapshotTrackRecordSections } from "./services/trackRecord/sectionSnapshotter.js";
-import { withSectionPills } from "./services/trackRecord/picksSectionBacktest.js";
 import { resolveOpenHorizons } from "./services/trackRecord/forwardReturnsResolver.js";
 import {
   buildAllSectionScorecards,
@@ -5207,7 +5206,6 @@ const trackCache = new NodeCache({ stdTTL: 300, checkperiod: 60 });
 const SECTION_PERFORMANCE_MODULE_PATH = "./services/trackRecord/sectionPerformance.js";
 const SECTION_PERFORMANCE_STORAGE_MODULE_PATH = "./services/trackRecord/sectionPerformanceStorage.js";
 const SECTION_PERFORMANCE_LATEST_PATH = path.join(__dirname, "data", "track-record", "section-performance-latest.json");
-const PICKS_SECTION_BACKTEST_LATEST_PATH = path.join(__dirname, "data", "track-record", "picks-section-backtest-latest.json");
 let _sectionPerformanceModulePromise = null;
 let _sectionPerformanceStorageModulePromise = null;
 
@@ -5342,29 +5340,6 @@ function readStoredSectionPerformancePayload({ windows, cohorts, picksData, mod 
     };
   } catch (err) {
     console.warn("[trackRecord:sectionPerformance] stored snapshot read failed:", err.message);
-    return null;
-  }
-}
-
-/**
- * Read the resolved-cohort picks-section backtest (hit-rate + alpha CIs) and
- * stamp each section with its header pill HTML. Null-safe: if the nightly hasn't
- * written the file, the Picks header silently falls back to the plain count.
- */
-function readPicksSectionBacktest() {
-  try {
-    if (!fs.existsSync(PICKS_SECTION_BACKTEST_LATEST_PATH)) return null;
-    const payload = JSON.parse(fs.readFileSync(PICKS_SECTION_BACKTEST_LATEST_PATH, "utf-8"));
-    const stat = fs.statSync(PICKS_SECTION_BACKTEST_LATEST_PATH);
-    const generatedAt = payload.generated_at || stat.mtime.toISOString();
-    const ageHours = (Date.now() - new Date(generatedAt).getTime()) / 3_600_000;
-    return {
-      ...withSectionPills(payload),
-      source_age_hours: Number.isFinite(ageHours) ? Math.round(ageHours * 10) / 10 : null,
-      source_stale: !Number.isFinite(ageHours) || ageHours > 48,
-    };
-  } catch (err) {
-    console.warn("[trackRecord:picksSectionBacktest] read failed:", err.message);
     return null;
   }
 }
@@ -5916,9 +5891,6 @@ app.get("/api/track/section-performance", async (req, res) => {
       windows: payload?.windows || windows,
       cohorts: payload?.cohorts || cohorts,
       lastComputedAt: payload?.lastComputedAt || new Date().toISOString(),
-      // Resolved-cohort per-section hit-rate + alpha CIs (with header pill HTML)
-      // for the Picks-tab section headers. Null when the nightly hasn't run.
-      resolved_backtest: readPicksSectionBacktest(),
       decision_contract: contextOnlyContract("Track Record is historical evidence; hindsight rows do not imply current action."),
     };
     if (!response.transient) trackCache.set(cacheKey, response);
@@ -6161,9 +6133,24 @@ async function savePortfolio(sub, data) {
 // Returns null if AUTH_ENABLED but no session — handler should 401.
 // Returns "_local_dev" when AUTH_ENABLED is false (dev without OAuth)
 // so endpoints don't crash on missing req.user.
+//
+// Test-only identity injection (auth iter 2): under NODE_ENV==='test' an
+// `X-Test-Sub` header selects the namespace, so the Playwright harness can
+// drive two distinct signed-in users from two browser contexts (the OAuth
+// flow can't run headless). This gate is SECURITY-LOAD-BEARING: NODE_ENV is
+// re-read from process.env on every call (never the module-load `isTestEnv`
+// cache) and is only ever 'test' under the test runner — in prod the header
+// is invisible and can never impersonate. Real sessions (req.user.sub) still
+// win over the header, so it can't override an authenticated user either.
 function userSub(req) {
-  if (req.user?.sub) return req.user.sub;
-  return AUTH_ENABLED ? null : "_local_dev";
+  // Delegates to the pure resolver (services/userIdentity.js) so the header
+  // gate is unit-tested in isolation. NODE_ENV is read here, per request.
+  return resolveUserSub({
+    reqUser: req.user,
+    headers: req.headers,
+    authEnabled: AUTH_ENABLED,
+    nodeEnv: process.env.NODE_ENV,
+  });
 }
 
 function sleep(ms) {
@@ -6400,6 +6387,7 @@ async function buildSwsInputReductionContext(sub, portfolio, ledger) {
     ltcgRealisedYtdRupees,
     freshCapitalInr,
     uploadedAtIso,
+    sub,
   });
   try {
     await applyAnalyzerMemory({
@@ -6814,8 +6802,10 @@ import { getWatchlistStorage } from "./watchlistStorage.js";
 
 app.get("/api/watchlist", async (req, res) => {
   try {
+    const sub = userSub(req);
+    if (!sub) return res.status(401).json({ error: "auth-required" });
     const storage = getWatchlistStorage();
-    const list = await storage.readAll();
+    const list = await storage.read(sub);
     // Enrich with live prices
     const enriched = await Promise.all(list.map(async (item) => {
       try {
@@ -6835,6 +6825,8 @@ app.get("/api/watchlist", async (req, res) => {
 });
 
 app.post("/api/watchlist/add", express.json(), async (req, res) => {
+  const sub = userSub(req);
+  if (!sub) return res.status(401).json({ error: "auth-required" });
   const { symbol, name, sector } = req.body || {};
   if (!symbol) return res.status(400).json({ error: "symbol required" });
 
@@ -6860,7 +6852,7 @@ app.post("/api/watchlist/add", express.json(), async (req, res) => {
     if (q && typeof q.regularMarketPrice === "number") addedPrice = q.regularMarketPrice;
   } catch { /* keep addedPrice null */ }
 
-  const result = await storage.add({
+  const result = await storage.add(sub, {
     symbol: resolved.symbol,
     name: resolved.name || name || resolved.symbol,
     sector: resolved.sector || sector || null,
@@ -6871,12 +6863,14 @@ app.post("/api/watchlist/add", express.json(), async (req, res) => {
 });
 
 app.post("/api/watchlist/remove", express.json(), async (req, res) => {
+  const sub = userSub(req);
+  if (!sub) return res.status(401).json({ error: "auth-required" });
   const { symbol } = req.body || {};
   if (!symbol) return res.status(400).json({ error: "symbol required" });
   const resolved = findBySymbol(symbol);
   const canonicalSymbol = resolved?.symbol || symbol;
   const storage = getWatchlistStorage();
-  const result = await storage.remove(canonicalSymbol);
+  const result = await storage.remove(sub, canonicalSymbol);
   res.json({ ok: true, ...result });
 });
 
@@ -6908,7 +6902,13 @@ app.get("/api/portfolio", async (req, res) => {
     // shared across lambdas, ~10-30ms). On a new cold lambda, NodeCache is
     // always empty but KV is almost always warm — this shaves the full
     // enrichment+intel pipeline off every second user after any cold start.
-    const cacheKey = `port_${portfolio.lastUpdated}`;
+    //
+    // The key MUST include `sub` (auth iter 2): without it, two users whose
+    // portfolios share a lastUpdated timestamp collide, and the cache serves
+    // one user's enriched portfolio to the other. sub is threaded into both
+    // tiers here — the L2 key derives from cacheKey (`portfolio:resp:${...}`)
+    // and both cache writes reuse cacheKey, so this single change covers all.
+    const cacheKey = `port_${sub}_${portfolio.lastUpdated}`;
     if (!req.query.bust) {
       const l1 = portfolioCache.get(cacheKey);
       if (l1) {
@@ -7648,6 +7648,7 @@ async function runSWSAnalysis({
   ltcgRealisedYtdRupees,
   freshCapitalInr,
   uploadedAtIso,
+  sub,
 }) {
   const swsT0 = Date.now();
   const swsTimings = {};
@@ -7879,6 +7880,9 @@ async function runSWSAnalysis({
 
   const sessionId = randomUUID();
   analyzerCache.set(sessionId, {
+    // sub stamps ownership so /api/portfolio/optimize can reject a sessionId
+    // presented by a different user (auth iter 2 defense-in-depth).
+    sub,
     engine: "sws",
     holdings: scoredHoldings,
     mfHoldings,
@@ -8353,6 +8357,7 @@ app.post("/api/portfolio/analyze", requireUploadQuota, requireRiskProfile, portf
       // MF-only books too.
       const sessionId = randomUUID();
       analyzerCache.set(sessionId, {
+        sub, // ownership stamp — see /api/portfolio/optimize validation
         holdings: report.holdings || [],
         mfHoldings,
         sectorAllocation: report.sectorAllocation || [],
@@ -8380,6 +8385,7 @@ app.post("/api/portfolio/analyze", requireUploadQuota, requireRiskProfile, portf
       ltcgRealisedYtdRupees,
       freshCapitalInr,
       uploadedAtIso: savable.parsedAt,
+      sub,
     });
 
     // Recommendation-memory pipeline: reconcile against prior snapshot,
@@ -8517,6 +8523,7 @@ app.post("/api/portfolio/analyze/rerun", requireRiskProfile, express.json(), asy
       ltcgRealisedYtdRupees,
       freshCapitalInr,
       uploadedAtIso: stored.uploadedAt || new Date().toISOString(),
+      sub,
     });
 
     // Memory pipeline (rerun-mode): suppression-only, no writes. Reads the
@@ -8603,12 +8610,18 @@ app.get("/api/portfolio/stance/:symbol", async (req, res) => {
 // Body: { sessionId, preset?, taxSlabPct?, assumedHoldingMonths?, ltcgRealisedYtd? }
 app.post("/api/portfolio/optimize", requireRiskProfile, express.json(), async (req, res) => {
   try {
+    const sub = userSub(req);
+    if (!sub) return res.status(401).json({ error: "auth-required" });
     const sessionId = String(req.body?.sessionId || "");
     if (!sessionId) {
       return res.status(400).json({ error: "Missing sessionId. Run /api/portfolio/analyze first." });
     }
     const cached = analyzerCache.get(sessionId);
-    if (!cached) {
+    // Ownership check (auth iter 2): the sessionId is an unguessable UUID, but
+    // validate it belongs to the caller so a leaked/guessed id can't optimize
+    // against another user's cached holdings. A mismatch is treated as
+    // not-found (410) so we don't confirm the id exists for someone else.
+    if (!cached || (cached.sub && cached.sub !== sub)) {
       return res.status(410).json({
         error: "Session expired or not found. Re-run /api/portfolio/analyze.",
         hint: "Analyzer sessions live 30 minutes; re-upload your portfolio file.",
@@ -8869,7 +8882,7 @@ function stampIndexFlagsOnRow(it) {
 // locally by scripts/refresh-<market>-index-constituents.mjs; an absent/empty
 // file → empty sets → the dropdown options disable gracefully.
 const MARKET_INDEX_STATE = {};
-for (const market of ["us", "kr", "tw"]) {
+for (const market of ["us"]) {
   const fp = path.join(__dirname, "data", `sws-${market}`, `${market}-index-constituents.json`);
   MARKET_INDEX_STATE[market] = loadMarketIndexConstituents(fp, market);
 }
@@ -10068,151 +10081,6 @@ app.get("/api/us-scan/status", async (req, res) => {
     shards,
   });
 });
-
-// ── Region picks (Korea / Taiwan) — generic route factory ──
-// Registers the same 3 read routes the US tab uses, bound to a region DAL:
-//   GET /api/<code>-picks, /api/<code>-stock/:ticker, /api/<code>-scan/status
-// requireSignedInRead (AUTH-off ⇒ allow) is reused so e2e + local dev reach the tab.
-// The US routes above are frozen — this is purely additive.
-const REGION_PICKS_MAX_LIMIT = 200;
-function registerRegionPicksRoutes(app, dal) {
-  const prefix = dal.code;
-
-  app.get(`/api/${prefix}-picks`, async (req, res) => {
-    if (!(await requireSignedInRead(req, res))) return;
-    const raw = dal.getPicksLatest();
-    if (!raw) {
-      return res.status(404).json({
-        error: `no_${prefix}_picks_yet`,
-        hint: `Run /sws-refresh-${prefix} (or the seed scrape) to populate ${dal.PATHS.dataDir}.`,
-      });
-    }
-    // Shallow-clone so we never mutate the mtime-cached object the DAL shares.
-    const data = { ...raw, sections: normaliseTopRankedSections({ ...(raw.sections || {}) }) };
-    filterSyntheticMarketFixtureRows(data);
-    const limit =
-      req.query.limit != null
-        ? Math.min(Math.max(parseInt(req.query.limit, 10) || 0, 0), REGION_PICKS_MAX_LIMIT)
-        : null;
-    const category =
-      typeof req.query.category === "string" && req.query.category.trim()
-        ? normaliseTopRankedCategory(req.query.category.trim())
-        : null;
-    if (data.sections && (limit !== null || category)) {
-      if (category) {
-        const keep = data.sections[category];
-        data.sections = keep ? { [category]: keep } : {};
-      }
-      if (limit !== null) {
-        const totals = {};
-        for (const k of Object.keys(data.sections)) {
-          const arr = data.sections[k];
-          if (Array.isArray(arr) && arr.length > limit) {
-            totals[`${k}_total`] = arr.length;
-            data.sections[k] = arr.slice(0, limit);
-          }
-        }
-        data._meta = { ...(data._meta || {}), ...totals, limit };
-      }
-      if (category) data._meta = { ...(data._meta || {}), category };
-    }
-    data.last_refresh = dal.getLastRefresh();
-    data.scan_progress = dal.getAllShardProgressApi();
-    data.scan_status_hint = buildMarketScanStatusHint(data.scan_progress);
-    // Dormant regions (KR/TW) have no refresh cron — flag it so the UI can tell
-    // users the leaderboard is a periodic snapshot, not a live feed.
-    data.dormant = dal.dormant === true;
-    data.refresh_note = dal.refreshNote || null;
-    stampMarketRows(data, prefix);
-    res.json(data);
-  });
-
-  app.get(`/api/${prefix}-stock/:ticker`, async (req, res) => {
-    if (!(await requireSignedInRead(req, res))) return;
-    // KR/TW canonical keys are dotted and may contain lower-case exchange ids
-    // (q500036.KS / 01001t.TW). Accept any case, then resolve through the
-    // scored-universe index so deep tarball lookup uses the on-disk filename.
-    const requestedTicker = String(req.params.ticker || "").trim();
-    if (!requestedTicker || !/^[A-Z0-9.\-]+$/i.test(requestedTicker)) {
-      return res.status(400).json({ error: "invalid_ticker" });
-    }
-    const ticker = dal.resolveCanonicalTicker?.(requestedTicker) || requestedTicker;
-    const picks = dal.getPicksLatest();
-    let card = null;
-    const sectionMemberships = [];
-    if (picks && picks.sections) {
-      for (const [key, items] of Object.entries(picks.sections)) {
-        if (!Array.isArray(items)) continue;
-        const found = items.find((c) => c.ticker === ticker);
-        if (found) {
-          sectionMemberships.push(key);
-          if (!card) card = { ...found };
-          else if (found.snowflake_gap_lab && !card.snowflake_gap_lab) {
-            card = { ...card, snowflake_gap_lab: found.snowflake_gap_lab };
-          }
-        }
-      }
-    }
-    // Fallback to the scored-universe card when the ticker isn't in a curated section.
-    if (!card) {
-      const idx = dal.getUniverseIndex();
-      if (idx) card = idx.get(String(ticker).toUpperCase()) || null;
-    }
-    if (isSyntheticMarketFixtureRow(card)) return res.status(404).json({ error: `no_${prefix}_data`, ticker });
-    if (!card) return res.status(404).json({ error: `no_${prefix}_data`, ticker });
-    const deep = dal.getStockByTicker(ticker);
-    if (isSyntheticMarketFixtureRow(deep)) return res.status(404).json({ error: `no_${prefix}_data`, ticker });
-    const returnsPct = normaliseMarketReturns({ deep, card });
-    const hydratedCard = hydrateMarketCardV4Breakdown(card, deep, dal, prefix);
-    const responseCard = enrichMarketCardReturns(normaliseV4ScoreContracts(hydratedCard), returnsPct);
-    const responseDeep = deep ? prepareSwsStockDeepForResponse(deep, responseCard) : null;
-    res.json({
-      ticker,
-      deep: responseDeep,
-      card: responseCard || null,
-      returns_pct: returnsPct,
-      fundamentals_fallback: dal.getFundamentalsFallback(ticker),
-      in_sections: sectionMemberships,
-      currency: (responseDeep && responseDeep.currency) || (responseCard && responseCard.currency) || dal.currencyIso,
-    });
-  });
-
-  app.get(`/api/${prefix}-scan/status`, async (req, res) => {
-    if (!(await requireSignedInRead(req, res))) return;
-    const now = Date.now();
-    const RECENT_MS = 5 * 60 * 1000;
-    const shards = [1, 2, 3].map((n) => {
-      const p = dal.getShardProgressApi(n);
-      if (!p) return { id: n, started: false };
-      const recent = p.last_run_at && now - new Date(p.last_run_at).getTime() < RECENT_MS;
-      return {
-        id: n,
-        done_count: p.done_count || 0,
-        next_local_index: p.next_local_index || 0,
-        last_ticker: p.last_ticker || null,
-        last_run_at: p.last_run_at || null,
-        complete: !recent && p.last_run_at != null,
-        today_count: p.today_count || 0,
-      };
-    });
-    const totalDone = shards.reduce((a, s) => a + (s.done_count || 0), 0);
-    const inProgress = shards.some((s) => s.last_run_at && now - new Date(s.last_run_at).getTime() < RECENT_MS);
-    const lr = dal.getLastRefresh();
-    res.set("Cache-Control", "private, no-store");
-    res.json({
-      in_progress: inProgress,
-      total_done: totalDone,
-      all_complete: !inProgress,
-      universe_size: lr?.universe_size ?? null,
-      scored_count: lr?.scored_count ?? null,
-      last_refresh_at: lr?.scanned_at ?? null,
-      shards,
-    });
-  });
-}
-
-registerRegionPicksRoutes(app, makeRegionPicksDal("kr"));
-registerRegionPicksRoutes(app, makeRegionPicksDal("tw"));
 
 // Latest PDF download (returns most recent Top-50-Buy-Now-*.pdf)
 app.get("/api/sws-pdf/latest", (req, res) => {

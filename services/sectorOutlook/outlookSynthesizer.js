@@ -300,11 +300,24 @@ export function synthesizeSectorAtHorizon(sectorAggregate, macroRegime, horizon,
   const td = topDownForSector(macroRegime, sectorAggregate.sector);
 
   const crossCheck = classifyCrossCheck(bottomUp, td.score);
-  // Composite is a weighted average of bottom-up + top-down so the label
-  // is symmetric. When DIVERGENT, the two cancel toward NEUTRAL — by
-  // design (we don't want a strongly-mixed signal to look like a
-  // confident TAILWIND).
-  const composite = clamp((bottomUp + td.score) / 2, -1, 1);
+  // Composite blends bottom-up news + top-down macro so the label is
+  // symmetric. When DIVERGENT, the two cancel toward NEUTRAL — by design
+  // (a strongly-mixed signal shouldn't look like a confident TAILWIND).
+  //
+  // When top-down is UNCORROBORATED (no macro signal for this sector — e.g.
+  // regime CALM), there is nothing to blend, so composite = bottom-up.
+  // Previously this averaged bottom-up with a phantom 0, halving every
+  // uncorroborated sector's signal toward NEUTRAL — a bug that flattened the
+  // board under a calm regime (~21/23 sectors). Corroboration remains a
+  // CONFIDENCE signal (it lifts trust via agreementFactor), not a magnitude
+  // penalty on the outlook.
+  const composite = td.status === "UNCORROBORATED"
+    ? clamp(bottomUp, -1, 1)
+    : clamp((bottomUp + td.score) / 2, -1, 1);
+  // Signed rank key the UI sorts on ("Growth outlook" — strongest tailwind
+  // first). Equal to composite today; kept as an explicit field so consumers
+  // don't re-derive the sort key and so future shrinkage can live here.
+  const growth_rank_score = composite;
 
   // Breadth + evidence count from the 90d window (the middle window
   // best reflects what's been happening "lately").
@@ -345,6 +358,7 @@ export function synthesizeSectorAtHorizon(sectorAggregate, macroRegime, horizon,
     },
     cross_check: crossCheck,
     composite,
+    growth_rank_score,
     outlook_label,
     confidence,
     evidence_top5: w90.evidence_top5 || [],
@@ -380,7 +394,7 @@ export function synthesizeAll(aggregatorResult, macroRegime, opts = {}) {
     sectors: [],
     audit: {
       taxonomy_version: opts.taxonomyVersion || "sector-theme-v1",
-      synthesizer_version: "sector-outlook-synthesizer-v2-trust",
+      synthesizer_version: "sector-outlook-synthesizer-v3-growth",
       trust_model_version: "sector-outlook-trust-v1",
       orphaned_tickers: aggregatorResult?.orphaned_tickers || 0,
       total_entries: aggregatorResult?.total_entries || 0,
@@ -415,24 +429,26 @@ export function synthesizeAll(aggregatorResult, macroRegime, opts = {}) {
     });
   }
 
-  const confidenceRank = { HIGH: 3, MED: 2, LOW: 1 };
-  const directionRank = {
-    STRONG_TAILWIND: 5,
-    STRONG_HEADWIND: 4,
-    TAILWIND: 3,
-    HEADWIND: 2,
-    NEUTRAL: 1,
+  // Array order is ADVISORY: the served array carries a single ordering, so it
+  // can't be right for both horizons at once. We default it to the 3-12m
+  // "Growth outlook" rank (strongest tailwind first) so non-browser consumers
+  // get a sane default; the UI re-sorts per horizon from `growth_rank_score`.
+  // Comparison via `>` (not subtraction) so a missing horizon sinks without NaN.
+  const growthKey = (h) => {
+    const v = Number(h?.growth_rank_score);
+    return Number.isFinite(v) ? v : -Infinity;
   };
   result.sectors.sort((a, b) => {
     const ah = a.horizons["3_12m"] || {};
     const bh = b.horizons["3_12m"] || {};
-    const cr = (confidenceRank[bh.confidence] || 0) - (confidenceRank[ah.confidence] || 0);
-    if (cr !== 0) return cr;
+    const ga = growthKey(ah);
+    const gb = growthKey(bh);
+    if (ga !== gb) return gb > ga ? 1 : -1;
     const tr = (bh.trust_score || 0) - (ah.trust_score || 0);
     if (tr !== 0) return tr;
-    const ar = Math.abs(bh.composite || 0) - Math.abs(ah.composite || 0);
-    if (ar !== 0) return ar;
-    return (directionRank[bh.outlook_label] || 0) - (directionRank[ah.outlook_label] || 0);
+    const br = (bh.bottom_up?.breadth_pct || 0) - (ah.bottom_up?.breadth_pct || 0);
+    if (br !== 0) return br;
+    return String(a.sector || "").localeCompare(String(b.sector || ""));
   });
 
   return result;

@@ -14,7 +14,6 @@ const read = (p) => readFileSync(resolve(REPO_ROOT, p), "utf-8");
 
 const autoShip = read("scripts/sws-auto-ship.sh");
 const us = read("scripts/sws-refresh-us.sh");
-const region = read("scripts/sws-refresh-region.sh");
 
 let pass = 0;
 let fail = 0;
@@ -90,34 +89,6 @@ assert(
 assert(
   "US refresh does not run India-only auxiliary refreshes",
   !/refresh-fundamentals\.mjs|refresh-fo-oi\.sh|refresh-earnings\.mjs/.test(us),
-  null,
-);
-
-assert(
-  "KR/TW refresh calls macro calendar, regional index, regional universe metadata, and shared auto-ship",
-  /refresh-macro-calendar\.mjs/.test(region) &&
-    /refresh-\$\{CODE\}-index-constituents\.mjs/.test(region) &&
-    /sws-universe-from-sitemap-region\.mjs --region "\$\{CODE\}" --write/.test(region) &&
-    /sws_auto_ship_market/.test(region),
-  null,
-);
-assert(
-  "KR/TW refresh ships only regional deployable artifacts plus global macro calendar",
-  /data\/sws-\$\{CODE\}/.test(region) &&
-    /deep-\$\{CODE\}\.tar\.gz/.test(region) &&
-    /\$\{CODE\}-index-constituents\.json/.test(region) &&
-    /universe-meta\.json/.test(region) &&
-    /data\/macroCalendar\.json/.test(region),
-  null,
-);
-assert(
-  "KR/TW refresh uses market-specific minimum scored count gates",
-  /kr\) MIN_SCORED=2000/.test(region) && /tw\) MIN_SCORED=1800/.test(region),
-  null,
-);
-assert(
-  "KR/TW refresh does not run India-only auxiliary refreshes",
-  !/refresh-fundamentals\.mjs|refresh-fo-oi\.sh|refresh-earnings\.mjs/.test(region),
   null,
 );
 

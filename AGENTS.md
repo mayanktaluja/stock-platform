@@ -54,7 +54,7 @@ allow-list of signed-in Google OAuth accounts. Production lives at
 ├── gated/                  # SPA (vanilla JS), session-required
 │   ├── index.html          # base tabs (picks, analyzer, news, track, watchlist,
 │   │                       #   risk lab, sector outlook) + a "More" dropdown for
-│   │                       #   privileged tabs (US/KR/TW picks, 5x Lab, Users),
+│   │                       #   privileged tabs (US picks, 5x Lab, Users),
 │   │                       #   unhidden on boot by role
 │   ├── app.js              # ~13K-LOC monolith — DO NOT parallelise edits
 │   ├── earnings.js         # Earnings Watch tab logic
@@ -90,7 +90,7 @@ npm install
 AUTH_ENABLED=false node server.js
 # Unit tests (~130 suites, ~30s):
 npm test
-# Playwright e2e (port 4011; pre-builds analyzer xlsx + US/KR/TW picks fixtures):
+# Playwright e2e (port 4011; pre-builds analyzer xlsx + US picks fixture):
 npm run test:e2e
 # Smoke import check (catches ESM resolution errors):
 npm run smoke
@@ -106,7 +106,6 @@ graceful-degrades. They're only needed if you're refreshing data.
 |---|---|---|
 | **India Market** (`picks` tab) | Indian equities scored on SWS's 6-pillar Snowflake distilled into a 100-pt **V4** composite (`swsScoringV4.js`; pillars 76 = **v4.1** H20/F22/V18/P16 + FV 12 + momentum 12 − overlay ≤15). v4.1 (2026-07, `sws-v4.1-100pt-2026-07`) swapped Health↔Future weights + added a growth-trap brake (future ≥5/6 + 1M ≤ −15% → −4); cutoffs stayed frozen. Sectioned by verdict band. Avoid List section was removed (#370). | `gated/swsV2Render.js`, `services/swsScoringV4.js`, `services/swsScoring.js`, `services/swsConvictionEngine.js` |
 | **US Market** (`usPicks` tab, signed-in read) | SWS-sourced US-equity leaderboard (NASDAQ/NYSE/NYSEMKT ~5,448 liquid names). Same Snowflake + 100-pt V4, but USD ($). Fully isolated `data/sws-us/` fork — imports the India scorer, never edits it. Manual `/sws-refresh-us`; ships empty until scraped. | `scripts/sws-scoring-us.mjs`, `services/usPicksDal.js`, `server.js` (`/api/us-picks`), `gated/app.js` (renderUSPicks/renderUSModal) |
-| **Korea / Taiwan Market** (`krPicks` / `twPicks` tabs, signed-in read) | SWS-sourced KOSPI+KOSDAQ (~2,623) and TWSE+TPEx (~2,335) leaderboards, in ₩ / NT$. Built on a **region registry** (`scripts/sws-regions.mjs`): generic config/universe/scrape/parse/score/DAL + a route factory + a generic render path, keyed by region code — KR/TW are config entries, NOT new forks; US + India pipelines are frozen. Numeric tickers are dot-suffixed at the universe builder (005930.KS / 2330.TW) so they survive the India BSE filters. Manual `/sws-refresh-kr` / `/sws-refresh-tw` (4-market co-run guard); ship empty until scraped. | `scripts/sws-regions.mjs`, `scripts/sws-scoring-region.mjs`, `services/regionPicksDal.js`, `server.js` (`registerRegionPicksRoutes`, `/api/{kr,tw}-picks`), `gated/app.js` (renderRegionPicks/renderRegionModal) |
 | **Portfolio Analyzer** (`analyzer` tab) | Upload portfolio xlsx → per-stock recommendation (KEEP/TRIM/SELL/TOP-UP) with SEBI-RA-style narrative, sized in ₹. Cooldown gate prevents duplicate trim flags. | `gated/app.js` (portfolio sections), `services/swsHoldingEngine.js`, `services/swsPortfolioHealth.js` |
 | **Earnings Watch** | Upcoming results dashboard. BEAT/INLINE/MISS predictions with confidence, 9-cell trading playbook, post-result T+1 plans. Open to every signed-in user. | `gated/earnings.js`, `services/earnings/*` (see CLAUDE.md for the 17-file breakdown) |
 | **Risk Lab** | Per-stock risk decomposition: macro overlay, counter-thesis, quality scorer, consecutive-miss detector, imputation penalty. Hover tooltips for every term. | `gated/riskLab.js`, `services/riskLab/*` |
@@ -184,7 +183,7 @@ Every signal that ships should have a backtest harness. Conventions:
 8. **V4 verdicts are absolute cutoffs, not rank-based.** TOP_PICK ≥59 / STRONG
    ≥47 / ACCEPTABLE ≥37 / WATCH ≥28 / else AVOID — frozen 2026-05 India
    percentiles. No universe band is loaded at runtime.
-9. **Regional deep briefs ship as tarballs.** `data/sws-{us,kr,tw}/deep-*.tar.gz`
+9. **US deep briefs ship as tarballs.** `data/sws-us/deep-*.tar.gz`
    (#393) — thousands of per-stock files packed into one to stay under Vercel's
    ~15k source-file cap. Don't expect loose `deep/*.json` to be deployed.
 

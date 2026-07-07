@@ -3,12 +3,12 @@
  * Refresh modal-ready Yahoo fundamentals for US/KR/TW SWS picks.
  *
  * Offline-only data job: this script imports yahoo-finance2, writes compact
- * fundamentals-latest.json snapshots under data/sws-{us,kr,tw}/, and the server
+ * fundamentals-latest.json snapshots under data/sws-us/, and the server
  * only reads the committed JSON. No modal-open runtime fetches.
  *
  * Examples:
  *   node scripts/refresh-sws-market-fundamentals.mjs --region all
- *   node scripts/refresh-sws-market-fundamentals.mjs --region kr --scope scored --limit 200
+ *   node scripts/refresh-sws-market-fundamentals.mjs --region us --scope scored --limit 200
  *   node scripts/refresh-sws-market-fundamentals.mjs --region us --only-missing
  */
 
@@ -54,7 +54,7 @@ function parseArgs(argv = process.argv.slice(2)) {
       throw new Error(`Unknown argument: ${a}`);
     }
   }
-  if (!["us", "kr", "tw", "all"].includes(opts.region)) throw new Error("--region must be us|kr|tw|all");
+  if (!["us", "all"].includes(opts.region)) throw new Error("--region must be us|all");
   if (!["picks", "scored"].includes(opts.scope)) throw new Error("--scope must be picks|scored");
   return opts;
 }
@@ -257,7 +257,7 @@ async function refreshRegion(yf, runtime, opts) {
 
 async function main() {
   const opts = parseArgs();
-  const codes = opts.region === "all" ? ["us", "kr", "tw"] : [opts.region];
+  const codes = opts.region === "all" ? ["us"] : [opts.region];
   const yf = new YahooFinance({ suppressNotices: ["yahooSurvey", "ripHistorical"] });
   for (const code of codes) {
     await refreshRegion(yf, regionRuntime(code), opts);

@@ -6,11 +6,11 @@
 // no Playwright import — so it is safe to import from scripts, services, the
 // server, and tests alike.
 //
-// The generic region pipeline (sws-*-region.mjs, services/regionPicksDal.js,
-// the server route factory, the gated/app.js render path) is driven entirely by
-// the "kr" and "tw" entries below. The "in" (India) and "us" pipelines are NOT
-// registry-driven yet — their entries are documented here for completeness and a
-// future migration; do not assume India's tokens are exhaustive.
+// The `in` (India) and `us` pipelines each have their own fork (data/sws,
+// data/sws-us) and are NOT registry-driven. These two entries are consumed only
+// by the shared market-fundamentals + config helpers (getRegion/makeRegionConfig);
+// they are kept for completeness and a future migration — do not assume India's
+// tokens are exhaustive.
 
 export const REGIONS = {
   // ── India (reference only — the India pipeline is its own fork, NOT consumed here) ──
@@ -71,90 +71,6 @@ export const REGIONS = {
     surveillanceEnabled: false,
     nseCalendar: false,
     avoidSection: false,
-  },
-
-  // ── Korea (KRX: KOSPI + KOSDAQ) ──
-  kr: {
-    code: "kr",
-    label: "Korea",
-    sitemapRegion: "as-asia", // KR lives in the same sitemap region as India
-    sitemapShardCount: 12,
-    sitemapShardUrl: (i) => `https://simplywall.st/sitemap/companies/as-asia/${i}.xml`,
-    urlHasSharesSuffix: true, // KR carries the -shares suffix (like India)
-    exchangeTokens: ["kose", "kosdaq"], // KOSPI + KOSDAQ
-    // KONEX (xkon) is the illiquid startup board — excluded by default (analogous
-    // to US OTC). The builder still MATCHES it so the count is logged; pass
-    // --include-konex to promote it.
-    excludedExchangeTokens: ["xkon"],
-    exchangePriority: { kose: 1, kosdaq: 2, xkon: 3 },
-    // SWS short ids are 'a'-prefixed (kose-a005930 → real ticker 005930). Strip the
-    // single leading 'a' and append a market suffix so the key is never pure-numeric
-    // (KOSPI .KS, KOSDAQ .KQ, KONEX .KN — Yahoo-style).
-    tickerKey: (exch, id) => {
-      const bare = String(id).replace(/^a/i, "");
-      const suffix = exch === "kosdaq" ? ".KQ" : exch === "xkon" ? ".KN" : ".KS";
-      return `${bare}${suffix}`;
-    },
-    currencyIso: "KRW",
-    currencySymbol: "₩",
-    currencyDecimals: 0, // KRW is conventionally shown with no decimals
-    locale: "ko-KR",
-    timezone: "Asia/Seoul",
-    mcapFloorNative: 50_000_000_000, // ₩50B ≈ $36M — TUNE-AT-SEED
-    smallcapCeilingNative: 2_000_000_000_000, // ₩2T ≈ $1.4B — TUNE-AT-SEED
-    dataDir: "data/sws-kr",
-    profilePrefix: ".sws-profile-kr",
-    routePrefix: "kr",
-    tabId: "krPicksTab",
-    domPrefix: "krPicks",
-    applyBseFilter: false,
-    surveillanceEnabled: false,
-    nseCalendar: false,
-    avoidSection: false,
-    expectedTotalApprox: 2760,
-    // Dormant: KR has no scheduled refresh cron (manual /sws-refresh-kr only) and
-    // is intentionally refreshed only occasionally. Surfaced to the UI so users
-    // know the leaderboard is a periodic snapshot, not a live feed.
-    dormant: true,
-    refreshNote: "Korea is refreshed occasionally (no daily cron) — treat these scores as a periodic snapshot, not a live feed.",
-  },
-
-  // ── Taiwan (TWSE + TPEx) ──
-  tw: {
-    code: "tw",
-    label: "Taiwan",
-    sitemapRegion: "as-asia",
-    sitemapShardCount: 12,
-    sitemapShardUrl: (i) => `https://simplywall.st/sitemap/companies/as-asia/${i}.xml`,
-    urlHasSharesSuffix: true,
-    exchangeTokens: ["twse", "tpex"], // main board + Taipei Exchange
-    excludedExchangeTokens: [],
-    exchangePriority: { twse: 1, tpex: 2 },
-    // TW short ids are bare numeric (twse-2330 → 2330). Append a market suffix so
-    // the key is never pure-numeric (TWSE .TW, TPEx .TWO — Yahoo-style).
-    tickerKey: (exch, id) => `${id}${exch === "tpex" ? ".TWO" : ".TW"}`,
-    currencyIso: "TWD",
-    currencySymbol: "NT$",
-    currencyDecimals: 2,
-    locale: "zh-TW",
-    timezone: "Asia/Taipei",
-    mcapFloorNative: 1_000_000_000, // NT$1B ≈ $31M — TUNE-AT-SEED
-    smallcapCeilingNative: 60_000_000_000, // NT$60B ≈ $1.9B — TUNE-AT-SEED
-    dataDir: "data/sws-tw",
-    profilePrefix: ".sws-profile-tw",
-    routePrefix: "tw",
-    tabId: "twPicksTab",
-    domPrefix: "twPicks",
-    applyBseFilter: false,
-    surveillanceEnabled: false,
-    nseCalendar: false,
-    avoidSection: false,
-    expectedTotalApprox: 2339,
-    // Dormant: TW has no scheduled refresh cron (manual /sws-refresh-tw only) and
-    // is intentionally refreshed only occasionally. Surfaced to the UI so users
-    // know the leaderboard is a periodic snapshot, not a live feed.
-    dormant: true,
-    refreshNote: "Taiwan is refreshed occasionally (no daily cron) — treat these scores as a periodic snapshot, not a live feed.",
   },
 };
 

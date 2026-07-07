@@ -8,7 +8,7 @@ the two lighter context files:
 - **[CLAUDE.md](../CLAUDE.md)** — Claude-specific multi-agent working patterns.
 
 This file goes deeper than AGENTS.md: the load-bearing design decisions, the request
-lifecycle, the V4 scoring internals, the region-registry generalization, the nightly data
+lifecycle, the V4 scoring internals, the India + US picks forks, the nightly data
 pipeline, every analytical subsystem, and the trade-offs behind each. Read it when you're
 about to change something structural and want to understand what you'll break.
 
@@ -27,7 +27,7 @@ about to change something structural and want to understand what you'll break.
 6. [HTTP API surface](#6-http-api-surface)
 7. [Frontend architecture](#7-frontend-architecture)
 8. [The SWS scoring engine (V4)](#8-the-sws-scoring-engine-v4)
-9. [Multi-region picks & the region registry](#9-multi-region-picks--the-region-registry)
+9. [Multi-market picks (India + US forks)](#9-multi-market-picks-india--us-forks)
 10. [Data ingestion pipelines](#10-data-ingestion-pipelines)
 11. [Analytical subsystems](#11-analytical-subsystems)
 12. [Data layout (`data/`)](#12-data-layout-data)
@@ -125,9 +125,9 @@ These are the decisions everything else hangs off. Violating them is how you bre
    ≥55% bucket hit-rate, Brier <0.20). Until the gate clears, the signal ships at conservative caps.
 
 6. **Test unproven ideas in isolation, never in-place.** New/experimental signals ship as **new
-   files + new tabs** (US/KR/TW picks, Risk Lab, Sector Outlook, 5x Lab), importing
-   the proven scorer rather than editing it. The India + US pipelines are explicitly *frozen*; KR/TW
-   were added as registry config, not forks. This is why the codebase has many parallel tabs.
+   files + new tabs** (US picks, Risk Lab, Sector Outlook, 5x Lab), importing
+   the proven scorer rather than editing it. The India + US pipelines are explicitly *frozen* — each
+   is its own fork that imports the proven scorer. This is why the codebase has many parallel tabs.
 
 7. **Honest framing over hype.** Return/strategy surfaces carry base-rate + pre-mortem framing
    (e.g. 5x Lab states a <10% base rate in its own UI copy). Disclaimers live once, site-wide, in
@@ -249,7 +249,7 @@ PROJECT_STATUS):
 | Tier | Mechanism | Gates |
 |---|---|---|
 | **Public** | session-gate exempt list | `/`, `/login.html`, `/healthz`, `/api/auth/*`, `/api/logout`, `/api/macro/regime/health`, all `/api/cron/*`, `/api/track/migrate` + `/api/track/snapshot-sws-now` (own `MACRO_OVERRIDE_TOKEN` gate) |
-| **Signed-in** | session gate (any valid Google session) | Everything not listed elsewhere. India Market, Earnings Watch, Risk Lab, Macro, Sector Outlook, News, Track Record, Portfolio Analyzer, US/KR/TW read routes, and 5x Lab. |
+| **Signed-in** | session gate (any valid Google session) | Everything not listed elsewhere. India Market, Earnings Watch, Risk Lab, Macro, Sector Outlook, News, Track Record, Portfolio Analyzer, US read routes, and 5x Lab. |
 | **Admin** | in-handler `isAdmin` check recomputed from hard-coded owner email `mtaluja11@gmail.com` | `/api/admin/*`; SWS write/refresh routes via `requireAdminForSwsRefresh` (`/api/sws-refresh/*`, `/api/sws-scan/initial-start`). |
 
 **Rate limiting:** `apiLimiter` (60/min) + `stockDetailLimiter` (30/min), key from
@@ -276,8 +276,6 @@ mutation routes noted. Backing modules in the right column.
 | **India Market** | `GET /api/sws-picks`, `/api/sws-universe`, `/api/sws-stock/:ticker`, `/api/sws-scan/status`, `/api/sws-pdf/latest` | `services/swsDal/`, `data/sws/` |
 | **SWS refresh** (admin-write) | `POST /api/sws-refresh/{quick,earnings,full}`, `/api/sws-scan/initial-start` | writes `data/sws/refresh-requested.json`; launchd/skills pick it up |
 | **US Market** | `GET /api/us-picks`, `/api/us-stock/:ticker`, `/api/us-scan/status` | `services/usPicksDal.js`, `data/sws-us/` |
-| **Korea Market** | `GET /api/kr-picks`, `/api/kr-stock/:ticker`, `/api/kr-scan/status` | `services/regionPicksDal.js` (`makeRegionPicksDal("kr")`) |
-| **Taiwan Market** | `GET /api/tw-picks`, `/api/tw-stock/:ticker`, `/api/tw-scan/status` | `services/regionPicksDal.js` (`makeRegionPicksDal("tw")`) |
 | **Portfolio Analyzer** | `POST /api/portfolio/analyze` (multer upload), `/analyze/rerun`, `GET /api/portfolio/stance/:symbol`, `POST /api/portfolio/optimize` | `swsPortfolioAggregate.js`, `swsHoldingEngine.js`, `portfolioIntelligence.js`, `xirrOptimizer.js` |
 | **Portfolio (basic)** | `GET/POST /api/portfolio`, `GET/POST/DELETE /api/risk-profile` | `portfolioParser.js`, `userStorage.js` |
 | **Earnings Watch** | `GET /api/earnings/upcoming[/stats]`, `/api/earnings/:symbol`, `/api/earnings/{calibration,backtest}`, `/api/audit/earnings/:symbol/:date` | `services/earnings/earningsWatchService.js`, `earningsHistoryArchive.js`, `hitRateSummary.js` |
@@ -347,8 +345,8 @@ This is the heart of the platform. As of #437 (merged to main, 2026-05), **V4 is
 score and V3 is deleted.**
 
 - **Canonical math:** `services/swsScoringV4.js` (`computeV4Score`, `_fvCompositeV4`,
-  `verdictV4FromScore`). `scripts/swsScoringV4.mjs` is a thin re-export so all four region scorers
-  (India/US/KR/TW) and the server share identical arithmetic.
+  `verdictV4FromScore`). `scripts/swsScoringV4.mjs` is a thin re-export so both region scorers
+  (India + US) and the server share identical arithmetic.
 - **Version string:** `sws-v4.1-100pt-2026-07` (v4.1 = the 2026-07 Health↔Future pillar-weight swap + growth-trap brake; see below).
 - **Orchestrator:** `services/swsScoring.js#scoreStock` calls `computeV4Score`; it also still
   computes legacy V1/V2 fields for back-compat, builds the leaderboard, and categorises stocks.
@@ -450,48 +448,47 @@ were kept frozen (accepted ~−179 STRONG+/−30 TOP_PICK). The candidate lab th
 
 ---
 
-## 9. Multi-region picks & the region registry
+## 9. Multi-market picks (India + US forks)
 
-There are four equity-picks markets: **India** (primary), **US**, **Korea**, **Taiwan**. The design
-history is a deliberate two-step:
+There are two equity-picks markets: **India** (primary) and **US**. Each is its own fork:
 
-1. **US was a hard fork** (#379/#386). New `data/sws-us/` namespace; US scorer/parser **import** the
+1. **India** is the primary pipeline — `data/sws/` namespace, the full nightly chain (§10).
+2. **US was a hard fork** (#379/#386). New `data/sws-us/` namespace; US scorer/parser **import** the
    India ones, never edit them; cloned `$`-currency render path.
-2. **KR + TW were added via a region registry** (#383) instead of two more forks.
 
-### The registry (`scripts/sws-regions.mjs` + `sws-config-region.mjs`)
+Both forks import the canonical scorer (`services/swsScoringV4.js`) rather than editing it, so the
+score arithmetic stays identical across markets. The server side keeps them separate:
+`services/usPicksDal.js` serves the US read routes (`/api/us-picks`, `/api/us-stock/:ticker`,
+`/api/us-scan/status`) against `data/sws-us/`, mirroring the India `services/swsDal/` path.
 
-`sws-regions.mjs` exports a `REGIONS` map keyed by 2-letter code (`in`/`us`/`kr`/`tw`). Each entry
-carries every region-varying fact:
+### The region registry (`scripts/sws-regions.mjs` + `sws-config-region.mjs`)
+
+`sws-regions.mjs` still exports a `REGIONS` map, but it now carries **only `in` and `us` reference
+entries** — kept for documentation/completeness and any future migration. India and US each run
+their **own fork** in production, NOT a generic registry-driven pipeline. Each entry documents the
+region-varying facts:
 
 - `sitemapRegion`, `sitemapShardCount`, `sitemapShardUrl(i)` — how to crawl SWS's public sitemap into `universe.json`
-- `exchangeTokens`, `excludedExchangeTokens`, `exchangePriority` — which SWS exchange tokens make the market (e.g. KR = `["kose","kosdaq"]`)
-- `tickerKey(exch, id)` — the canonical dotted ticker. India/US = bare uppercased ids. **KR** strips SWS's `a`-prefix (`kose-a005930` → `005930.KS`/`.KQ`/`.KN`). **TW** appends `.TW`/`.TWO`. This keeps every key non-pure-numeric so it survives the India BSE filters and matches Yahoo's format.
-- `currencyIso`, `currencySymbol`, `currencyDecimals` — stamped on every pick for UI formatting (₹/$/₩/NT$)
+- `exchangeTokens`, `excludedExchangeTokens`, `exchangePriority` — which SWS exchange tokens make the market
+- `tickerKey(exch, id)` — the canonical dotted ticker. India/US = bare uppercased ids.
+- `currencyIso`, `currencySymbol`, `currencyDecimals` — stamped on every pick for UI formatting (₹/$)
 - `mcapFloorNative`, `smallcapCeilingNative` — in local currency
 - `dataDir`, `profilePrefix`, `routePrefix`, `tabId`, `domPrefix` — namespacing knobs
-- `applyBseFilter`, `surveillanceEnabled`, `nseCalendar` — India-only flags, off for KR/TW
+- `applyBseFilter`, `surveillanceEnabled`, `nseCalendar` — India-only flags
 
 `makeRegionConfig(code)` (in `sws-config-region.mjs`) constructs the region's `PATHS`/`UNIVERSE`,
 then spreads in India's region-agnostic knobs (timing, rate caps, human-fingerprint, panic signals).
 
-**Crucial:** India + US are **frozen forks**, NOT registry-driven in production (their `REGIONS`
-entries are reference-only). **KR + TW are fully registry-driven** — `sws-api-scrape-region.mjs`,
-`sws-api-parser-region.mjs`, `sws-scoring-region.mjs`, `sws-refresh-region.sh` are code-identical
-across both regions, parameterised by `--region`. The server side mirrors this:
-`registerRegionPicksRoutes` factory + `makeRegionPicksDal(code)` + a generic `renderRegionPicks` path
-in `app.js`.
-
-**Co-run guard (`sws-corun-guard.sh`):** all four regions share **one SWS account** and one
+**Co-run guard (`sws-corun-guard.sh`):** India and US share **one SWS account** and one
 `cf_clearance` cookie. Running two scrapes concurrently doubles ban exposure and contends on the
-Chrome profile lock. India's `sws-refresh-api.sh`, US's `sws-refresh-us.sh`, and the region shells
-all source the guard and abort (exit 5) if another market's scraper is live.
+Chrome profile lock. India's `sws-refresh-api.sh` and US's `sws-refresh-us.sh` both source the guard
+and abort (exit 5) if the other market's scraper is live.
 
-**Tarball packing:** each region's `deep/*.json` (thousands of files) is packed into a single
+**Tarball packing:** each market's `deep/*.json` (thousands of files) is packed into a single
 `deep-<code>.tar.gz` for Vercel serving — avoids the platform's ~15k source-file cap (#393).
 
-Markets ship **empty** until scraped. Refresh is manual: `/sws-refresh-kr`, `/sws-refresh-tw`,
-`/sws-refresh-us` (skills). Narrate/PDF deferred for non-India regions.
+The US market ships **empty** until scraped. Refresh is manual: `/sws-refresh-us` (skill). Narrate/PDF
+deferred for the US region.
 
 ---
 
@@ -654,7 +651,7 @@ remain active and separate.
 | Path | Holds | Serves |
 |---|---|---|
 | `data/sws/` | India `picks-latest`, `sws-scored-universe`, `v3-universe-stats`, `deep/*` (~5.5k), `deep.tar.gz`, `universe*`, `news-latest`, `_sanity/` | India Market (primary) |
-| `data/sws-us/` · `data/sws-kr/` · `data/sws-tw/` | per-region `picks-latest`, `deep/*`, `deep-<code>.tar.gz`, `universe`, `<code>-index-constituents` | US / KR / TW Markets |
+| `data/sws-us/` | US `picks-latest`, `deep/*`, `deep-us.tar.gz`, `universe`, `us-index-constituents` | US Market |
 | `data/catalysts/` | `events-latest`, `nse-announcements-rolling`, `nse-bulk-block-rolling`, `earnings-watch-latest`+`-stats`, `earnings-history/<date>`, `llm-signal-cache`, `dividends-upcoming`, `earnings-health`, `predictor-weights-v1` | Earnings Watch, dividends |
 | `data/macroRegime.json` | current regime + severity + provider + `generatedAt` | macro banner (all tabs) |
 | `data/macro-headlines/`, `data/macroRegime-history/` | headline archive, regime snapshots | macro history (single-writer) |
@@ -675,8 +672,8 @@ remain active and separate.
   fixtures.
   The owner/admin identity contract is covered by `test/adminOwner.test.mjs`; signed-in lab route
   access is covered by `test/labRoutesSignedIn.test.mjs`.
-- **E2E:** Playwright, **100** specs in `test/e2e/`. `npm run test:e2e` pre-builds the analyzer XLSX
-  fixture + US/KR/TW picks fixtures, runs on **port 4011** via `webServer`, with `AUTH_ENABLED=false`
+- **E2E:** Playwright specs in `test/e2e/`. `npm run test:e2e` pre-builds the analyzer XLSX
+  fixture + US picks fixtures, runs on **port 4011** via `webServer`, with `AUTH_ENABLED=false`
   and `NODE_ENV=test` (rate-limits off). Specs self-skip when data preconditions (admin auth, live
   prices, populated paper-trades) aren't met. Spec *ordering* matters where module-level SPA caches
   are shared (see §7).
@@ -702,7 +699,7 @@ flowchart TD
   end
   subgraph svc["services/"]
     SCORE["swsScoringV4.js\n(canonical score)"]
-    DAL["swsDal / usPicksDal / regionPicksDal"]
+    DAL["swsDal / usPicksDal"]
     EARN["earnings/*"]
     RISK["riskLab/*"]
     MACRO["macroThesis/* + macroRegime.js"]
@@ -740,9 +737,9 @@ flowchart TD
   BT --> DATA
 ```
 
-**The choke point is `services/swsScoringV4.js`** — server, scripts, all four regions, the earnings
-predictor, Risk Lab, the portfolio engine, and the sleeves all funnel through it. Change it and
-re-run the V4 unit tests (`test/swsScoringV4.test.mjs`, `test/actionLadder.v4.test.mjs`) plus the
+**The choke point is `services/swsScoringV4.js`** — server, scripts, both markets (India + US), the
+earnings predictor, Risk Lab, the portfolio engine, and the sleeves all funnel through it. Change it
+and re-run the V4 unit tests (`test/swsScoringV4.test.mjs`, `test/actionLadder.v4.test.mjs`) plus the
 region/backtest paths.
 
 ---
@@ -757,9 +754,9 @@ region/backtest paths.
 | **V4 absolute verdict cutoffs (not rank-based)** | On-demand/holding paths don't load universe bands → no silent null collapse | Cutoffs are frozen 2026-05 India percentiles; universe drift isn't auto-recalibrated |
 | **Shipped V4 despite a lower backtest than V3** | Cleaner relative-FV model, fixes coverage/absent-FV traps, tunable | Live XIRR/Sharpe gap until weight tuning recovers it |
 | **Kept `v3` field/bus names as V4 aliases** | Renaming 80+ files is pure churn and risks the earnings bus | Grep is misleading; future readers must know the names lie |
-| **US = fork, KR/TW = registry** | US proved the shape; registry avoids fork #3/#4; India+US frozen for regression safety | Two code paths (fork vs registry) for the same concept |
+| **US = its own fork of India** | US scorer/parser import India's, never edit them; both frozen for regression safety | A second parallel code path to keep in sync with India |
 | **Experimental signals as new tabs/files** | Validate hit-rate in isolation before touching the proven scorer | Tab sprawl; ~13k-LOC app.js monolith |
-| **One shared SWS account + co-run guard** | One subscription; guard prevents ban | Scrapes are serialised across regions — no parallel market refresh |
+| **One shared SWS account + co-run guard** | One subscription; guard prevents ban | India and US scrapes are serialised — no parallel market refresh |
 | **Backtest-gated confidence** | Don't oversell an unproven signal | Earnings confidence capped 50–65% until the gate clears (months) |
 
 ---
@@ -779,8 +776,8 @@ region/backtest paths.
   resolved, ≥55% bucket hit-rate, Brier <0.20).
 - **Deep brief** — `data/sws/deep/<TICKER>.json`: the full SWS payload (snowflake, news[], risks[],
   rewards[], fiscal history, FV). The richest per-stock source on disk.
-- **Region registry** — `sws-regions.mjs` config map that parameterises the KR/TW pipelines by
-  2-letter code instead of forking.
-- **Co-run guard** — `sws-corun-guard.sh`, prevents two region scrapes from sharing the one SWS
+- **Region registry** — `sws-regions.mjs` config map, now holding only `in`/`us` reference entries
+  (kept for documentation and any future migration; India and US each run their own fork).
+- **Co-run guard** — `sws-corun-guard.sh`, prevents the India and US scrapes from sharing the one SWS
   account concurrently.
 - **The nightly chain** — `sws-nightly.sh`, the launchd-driven scrape→score→refresh→PR pipeline.

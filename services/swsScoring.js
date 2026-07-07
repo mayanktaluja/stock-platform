@@ -480,7 +480,7 @@ function shortReason(stock) {
   return bits.slice(0, 4).join(" · ");
 }
 
-export function pickCardFields(stock) {
+export function pickCardFields(stock, opts = {}) {
   const ov = stock.overview || {};
   const reconciled = reconcileFairValue(ov);
   return {
@@ -530,7 +530,7 @@ export function pickCardFields(stock) {
     counter_thesis: buildPickCounterThesis(stock),
     // Per-pick audit blob — slim, self-contained, ~250 bytes.
 	    audit_trail: buildPickAuditTrail(stock),
-	    entry_band: buildEntryBand(stock),
+	    entry_band: buildEntryBand(stock, { now: opts?.now }),
 	  };
 	}
 
@@ -548,18 +548,24 @@ export function buildLeaderboard(scoredStocks, opts = {}) {
 	    .filter((s) => !isPureBSEcode(s.ticker))
 	    .sort(compareIndiaSectionRank);
 
+	  // Bind entry-band freshness to the analysis clock (opts.now) so a fixed-
+	  // clock caller — and the actionability filter below — agree on the same
+	  // "now". Bare `.map(pickCardFields)` would leak the wall clock into
+	  // entry_band, flipping fresh_buy_eligible on rows the filter admitted.
+	  const card = (s) => pickCardFields(s, { now: opts.now });
+
 	  const bestToBuy = ordered
 	    .filter((s) => isActionableTodayCandidate(s, { now: opts.now }))
 	    .slice(0, 25)
-	    .map(pickCardFields);
+	    .map(card);
 
-	  const cat = (key) => ordered.filter((s) => (s.categories || []).includes(key)).map(pickCardFields);
+	  const cat = (key) => ordered.filter((s) => (s.categories || []).includes(key)).map(card);
 
 	  const upcoming = ordered
 	    .filter((s) => (s.categories || []).includes("upcoming_earnings"))
 	    .sort((a, b) => (a.overview?.next_earnings_date || "9999").localeCompare(b.overview?.next_earnings_date || "9999") || compareIndiaSectionRank(a, b))
     .map((s) => {
-      const c = pickCardFields(s);
+      const c = card(s);
       const d = s.overview?.next_earnings_date;
       c.days_until = d ? Math.ceil((new Date(d + "T00:00:00Z") - new Date()) / 86400000) : null;
       c.recent_analyst_revisions = s.overview?.recent_analyst_revisions || [];
@@ -574,7 +580,7 @@ export function buildLeaderboard(scoredStocks, opts = {}) {
     if (surv && surv.list === "GSM") return false;
     return true;
   };
-  const top30 = ordered.filter(hygiene).slice(0, 30).map(pickCardFields);
+  const top30 = ordered.filter(hygiene).slice(0, 30).map(card);
 
   // Best Fundamentals — matches the score-breakdown modal's "Fundamentals 74"
   // line exactly: 5 SWS pillars + AnalystConsensus FV upside (max 74 label,
@@ -585,16 +591,16 @@ export function buildLeaderboard(scoredStocks, opts = {}) {
 	    .filter(hygiene)
 	    .sort((a, b) => swsFundamentalsSubtotal(b) - swsFundamentalsSubtotal(a) || compareIndiaSectionRank(a, b))
     .slice(0, 100)
-    .map(pickCardFields);
+    .map(card);
 
   const growingSectorValue = buildGrowingSectorValueSection(scoredStocks, {
-    pickCardFields,
+    pickCardFields: card,
     sectorOutlook: opts.sectorOutlook || null,
     macroRegime: opts.macroRegime || null,
     now: opts.now,
   });
   const snowflakeGapLab = buildSnowflakeGapLabSection(scoredStocks, {
-    pickCardFields,
+    pickCardFields: card,
     universe: opts.universe || null,
   });
 
