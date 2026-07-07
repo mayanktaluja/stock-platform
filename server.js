@@ -5687,6 +5687,23 @@ app.get("/api/track/calibration", async (req, res) => {
   }
 });
 
+// Tier-3 Shadow Lab — serves the read-only shadow-scoring comparison report
+// (data/shadow/shadow-comparison-latest.json), rendered by /shadow-lab.html. This
+// is an internal candidate-testing surface; it reflects candidate scorers that are
+// NOT live and never touches picks. 404s cleanly when the report hasn't been built.
+app.get("/api/shadow/comparison", (req, res) => {
+  try {
+    const p = path.join(__dirname, "data", "shadow", "shadow-comparison-latest.json");
+    if (!fs.existsSync(p)) {
+      return res.status(404).json({ error: "shadow comparison not built yet — run scripts/build-shadow-comparison.mjs" });
+    }
+    res.type("application/json").send(fs.readFileSync(p, "utf8"));
+  } catch (err) {
+    console.error("[SHADOW] /api/shadow/comparison failed:", err && err.message);
+    res.status(500).json({ error: "shadow comparison failed: " + (err && err.message) });
+  }
+});
+
 /**
  * GET /api/track/stats
  *

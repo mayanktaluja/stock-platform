@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>V4 Shadow Lab — candidate scoring comparison</title>
+<style>
+  :root {
+    --bg: #0f1115; --panel: #171a21; --panel2: #1e222b; --border: #2a2f3a;
+    --text: #e6e9ef; --muted: #9aa3b2; --accent: #6ea8fe; --warn: #f5b74e;
+    --pos: #34d399; --neg: #f87171; --chip: #232834;
+  }
+  @media (prefers-color-scheme: light) {
+    :root { --bg:#f6f7f9; --panel:#fff; --panel2:#f0f2f5; --border:#dfe3ea; --text:#1a1d24; --muted:#5b6473; --accent:#2563eb; --warn:#b7791f; --pos:#0f9d6b; --neg:#dc2626; --chip:#eef1f5; }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
+  .wrap { max-width:1180px; margin:0 auto; padding:22px 18px 60px; }
+  h1 { font-size:22px; margin:0 0 2px; }
+  .sub { color:var(--muted); font-size:13px; margin-bottom:14px; }
+  .banner { background:rgba(245,183,78,0.12); border:1px solid var(--warn); color:var(--warn); border-radius:10px; padding:10px 14px; font-size:13px; font-weight:600; margin-bottom:18px; }
+  .banner b { color:var(--warn); }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:12px; margin-bottom:22px; }
+  .card { background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:13px 14px; cursor:pointer; transition:border-color .12s, transform .12s; }
+  .card:hover { border-color:var(--accent); }
+  .card.active { border-color:var(--accent); box-shadow:0 0 0 1px var(--accent) inset; }
+  .card h3 { margin:0 0 8px; font-size:13px; font-weight:700; line-height:1.3; }
+  .card .metrics { display:flex; gap:14px; font-size:12px; color:var(--muted); }
+  .card .big { font-size:20px; font-weight:800; color:var(--text); }
+  .delta-pos { color:var(--pos); } .delta-neg { color:var(--neg); }
+  .section-title { font-size:15px; font-weight:700; margin:22px 0 10px; }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th, td { text-align:left; padding:7px 10px; border-bottom:1px solid var(--border); white-space:nowrap; }
+  th { color:var(--muted); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:.04em; cursor:pointer; user-select:none; }
+  tbody tr:hover { background:var(--panel2); }
+  .num { text-align:right; font-variant-numeric:tabular-nums; }
+  .verdict { font-size:11px; font-weight:700; padding:1px 6px; border-radius:4px; background:var(--chip); }
+  .movers { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  @media (max-width:760px){ .movers{ grid-template-columns:1fr; } }
+  .movers h4 { margin:0 0 6px; font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; }
+  .panelbox { background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:12px 14px; overflow-x:auto; }
+  .mig { border-collapse:collapse; font-size:12px; }
+  .mig td, .mig th { border:1px solid var(--border); padding:4px 8px; text-align:center; }
+  .mig td.diag { color:var(--muted); }
+  .mig td.hot { background:rgba(110,168,254,0.16); font-weight:700; }
+  input[type=search]{ background:var(--panel); border:1px solid var(--border); color:var(--text); border-radius:8px; padding:7px 10px; width:220px; font-size:13px; }
+  .err { color:var(--neg); padding:20px 0; }
+  .foot { color:var(--muted); font-size:12px; margin-top:26px; border-top:1px solid var(--border); padding-top:12px; }
+  code { background:var(--chip); padding:1px 5px; border-radius:4px; font-size:12px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>V4 Shadow Lab</h1>
+  <div class="sub" id="meta">Loading candidate comparison…</div>
+  <div class="banner">⚠️ <b>NOT LIVE.</b> These are candidate (shadow) scorers running <b>beside</b> the frozen live V4 — advisory only. Nothing here changes the picks. Promotion to live needs out-of-sample proof on the Tier-0 backtest + explicit sign-off.</div>
+
+  <div id="cards" class="grid"></div>
+
+  <div id="detail"></div>
+
+  <div class="foot">
+    Built by <code>scripts/build-shadow-comparison.mjs</code> from the live universe. Δ is the shadow score minus the live V4 score.
+    Live V4 (<code>services/swsScoringV4.js</code>) is untouched; the shadow (<code>services/swsScoringV4Shadow.js</code>) only <em>reads</em> it.
+  </div>
+</div>
+
+<script>
+const VERDICTS = ["TOP_PICK","STRONG","ACCEPTABLE","WATCH","AVOID"];
+let DATA=null, active=null, sortKey="delta", sortDir=1, query="";
+
+function vChip(v){ return v ? '<span class="verdict">'+v.replace(/_/g," ")+'</span>' : '—'; }
+function dCls(d){ return d>0?'delta-pos':(d<0?'delta-neg':''); }
+function dFmt(d){ return (d>0?'+':'')+(d==null?'—':d.toFixed(1)); }
+
+function renderCards(){
+  const c=document.getElementById('cards'); c.innerHTML='';
+  for(const k of DATA.variant_keys){
+    const s=DATA.summary[k];
+    const el=document.createElement('div');
+    el.className='card'+(k===active?' active':'');
+    el.onclick=()=>{active=k; renderCards(); renderDetail();};
+    el.innerHTML='<h3>'+(DATA.variant_labels[k]||k)+'</h3>'+
+      '<div class="metrics">'+
+        '<div><div class="big">'+s.changed_verdict+'</div>verdict Δ ('+s.changed_verdict_pct+'%)</div>'+
+        '<div><div class="big '+dCls(s.mean_delta)+'">'+dFmt(s.mean_delta)+'</div>mean Δ</div>'+
+      '</div>';
+    c.appendChild(el);
+  }
+}
+
+function migTable(mig){
+  let h='<table class="mig"><tr><th>live ↓ / shadow →</th>'+VERDICTS.map(v=>'<th>'+v.replace(/_/g,' ')+'</th>').join('')+'</tr>';
+  for(const from of VERDICTS){
+    h+='<tr><th>'+from.replace(/_/g,' ')+'</th>';
+    for(const to of VERDICTS){
+      const n=(mig[from]&&mig[from][to])||0;
+      const cls=from===to?'diag':(n>0?'hot':'');
+      h+='<td class="'+cls+'">'+(n||'')+'</td>';
+    }
+    h+='</tr>';
+  }
+  return h+'</table>';
+}
+
+function moverRows(list){
+  if(!list.length) return '<tr><td colspan="4" style="color:var(--muted)">none</td></tr>';
+  return list.map(m=>'<tr><td>'+m.symbol+'</td><td class="num">'+m.live+'</td><td class="num '+dCls(m.delta)+'">'+dFmt(m.delta)+'</td><td>'+vChip(m.live_verdict)+' → '+vChip(m.shadow_verdict)+'</td></tr>').join('');
+}
+
+function renderDetail(){
+  const d=document.getElementById('detail');
+  if(!active){ d.innerHTML='<div class="sub">Select a candidate above to see its migration matrix, movers, and per-stock effect.</div>'; return; }
+  const s=DATA.summary[active];
+  d.innerHTML=
+    '<div class="section-title">'+(DATA.variant_labels[active]||active)+'</div>'+
+    '<div class="panelbox" style="margin-bottom:16px">'+migTable(s.migration)+'</div>'+
+    '<div class="movers">'+
+      '<div class="panelbox"><h4>Top downgrades (Δ &lt; 0)</h4><table><thead><tr><th>Sym</th><th class="num">Live</th><th class="num">Δ</th><th>Verdict</th></tr></thead><tbody>'+moverRows(s.top_down)+'</tbody></table></div>'+
+      '<div class="panelbox"><h4>Top upgrades (Δ &gt; 0)</h4><table><thead><tr><th>Sym</th><th class="num">Live</th><th class="num">Δ</th><th>Verdict</th></tr></thead><tbody>'+moverRows(s.top_up)+'</tbody></table></div>'+
+    '</div>'+
+    '<div class="section-title">Per-stock (live vs candidate) '+
+      '<input type="search" id="q" placeholder="filter symbol/name…" value="'+query+'"></div>'+
+    '<div class="panelbox"><table id="tbl"><thead><tr>'+
+      '<th data-k="symbol">Symbol</th><th data-k="sector">Sector</th>'+
+      '<th data-k="live_score" class="num">Live</th><th>Live verdict</th>'+
+      '<th data-k="shadow" class="num">Candidate</th><th>Cand. verdict</th>'+
+      '<th data-k="delta" class="num">Δ</th></tr></thead><tbody id="tbody"></tbody></table></div>';
+  document.getElementById('q').oninput=(e)=>{query=e.target.value; renderRows();};
+  document.querySelectorAll('#tbl th[data-k]').forEach(th=>th.onclick=()=>{const k=th.dataset.k; if(sortKey===k)sortDir*=-1; else {sortKey=k;sortDir=1;} renderRows();});
+  renderRows();
+}
+
+function renderRows(){
+  const tb=document.getElementById('tbody'); if(!tb) return;
+  const q=query.trim().toLowerCase();
+  let rows=DATA.rows.map(r=>({ symbol:r.symbol, name:r.name, sector:r.sector, live_score:r.live_score, live_verdict:r.live_verdict, shadow:r.variants[active].score, shadow_verdict:r.variants[active].verdict, delta:r.variants[active].delta }));
+  if(q) rows=rows.filter(r=>(r.symbol+' '+(r.name||'')).toLowerCase().includes(q));
+  rows.sort((a,b)=>{ let x=a[sortKey],y=b[sortKey]; if(typeof x==='string'){x=x||'';y=y||''; return x.localeCompare(y)*sortDir;} return ((x??0)-(y??0))*sortDir; });
+  rows=rows.slice(0,400);
+  tb.innerHTML=rows.map(r=>'<tr><td>'+r.symbol+'</td><td style="color:var(--muted)">'+(r.sector||'—')+'</td>'+
+    '<td class="num">'+r.live_score+'</td><td>'+vChip(r.live_verdict)+'</td>'+
+    '<td class="num">'+r.shadow+'</td><td>'+vChip(r.shadow_verdict)+'</td>'+
+    '<td class="num '+dCls(r.delta)+'">'+dFmt(r.delta)+'</td></tr>').join('');
+}
+
+fetch('/api/shadow/comparison').then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status+' — run scripts/build-shadow-comparison.mjs'); return r.json(); })
+  .then(j=>{ DATA=j; active=j.variant_keys.includes('__combined')?'__combined':j.variant_keys[0];
+    document.getElementById('meta').textContent='Scored '+j.scored.toLocaleString()+' stocks · universe stats '+(j.universe_stats_at||'?').slice(0,10)+' · built '+(j.generated_at||'').slice(0,16).replace('T',' ');
+    renderCards(); renderDetail(); })
+  .catch(e=>{ document.getElementById('detail').innerHTML='<div class="err">Could not load shadow comparison: '+e.message+'</div>'; document.getElementById('meta').textContent=''; });
+</script>
+</body>
+</html>
