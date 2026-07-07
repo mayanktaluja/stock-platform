@@ -58,7 +58,7 @@ console.log("synthesizer: horizon blend math");
 // ─── outlook label thresholds ────────────────────────────────────────
 console.log("synthesizer: outlook label thresholds");
 {
-  // Pure bottom-up at 0.6, top_down 0 → composite = 0.3 → TAILWIND
+  // Pure bottom-up 0.6, uncorroborated top_down → composite = 0.6 (de-biased) → TAILWIND
   const t = synthesizeSectorAtHorizon(
     buildAggregate("Pharma", {
       "30d": { signed_index: 0.6, breadth_pct: 0.6, n_news: 10 },
@@ -68,7 +68,7 @@ console.log("synthesizer: outlook label thresholds");
     null,
     "3_12m",
   );
-  assert("composite 0.3 → TAILWIND", t.outlook_label === "TAILWIND", t);
+  assert("uncorroborated composite 0.6 → TAILWIND", t.outlook_label === "TAILWIND", t);
 
   // Strong agreement without HIGH trust demotes to normal TAILWIND.
   const s = synthesizeSectorAtHorizon(
@@ -98,7 +98,7 @@ console.log("synthesizer: outlook label thresholds");
   );
   assert("strong both sides with HIGH confidence → STRONG_TAILWIND", shigh.outlook_label === "STRONG_TAILWIND", shigh);
 
-  // Negative composite → HEADWIND
+  // Negative bottom-up -0.4, uncorroborated → composite = -0.4 (de-biased) → HEADWIND
   const h = synthesizeSectorAtHorizon(
     buildAggregate("Pharma", {
       "30d": { signed_index: -0.4, breadth_pct: 0.5, n_news: 10 },
@@ -108,7 +108,7 @@ console.log("synthesizer: outlook label thresholds");
     null,
     "3_12m",
   );
-  assert("composite -0.2 → HEADWIND", h.outlook_label === "HEADWIND", h);
+  assert("uncorroborated composite -0.4 → HEADWIND", h.outlook_label === "HEADWIND", h);
 
   // Strong-negative both sides
   const sh = synthesizeSectorAtHorizon(
@@ -275,9 +275,72 @@ console.log("synthesizer: synthesizeAll output shape");
     assert(`${s.sector}: trust_factors set`, Array.isArray(s.horizons["3_12m"].trust_factors));
   }
 
-  // Sort order: trust first.
-  const trusts = out.sectors.map((s) => s.horizons["3_12m"].trust_score);
-  assert("sectors sorted by trust descending", trusts.every((v, i, arr) => i === 0 || arr[i - 1] >= v), trusts);
+  // Sort order: GROWTH outlook first (strongest tailwind on top), NOT trust.
+  for (const s of out.sectors) {
+    assert(`${s.sector}: growth_rank_score finite`, Number.isFinite(s.horizons["3_12m"].growth_rank_score));
+    assert(`${s.sector}: growth_rank_score === composite`, s.horizons["3_12m"].growth_rank_score === s.horizons["3_12m"].composite);
+    assert(`${s.sector}: growth_rank_score on 12_24m too`, Number.isFinite(s.horizons["12_24m"].growth_rank_score));
+  }
+  const grows = out.sectors.map((s) => s.horizons["3_12m"].growth_rank_score);
+  assert("sectors sorted by growth_rank_score descending", grows.every((v, i, arr) => i === 0 || arr[i - 1] >= v - 1e-9), grows);
+}
+
+// ─── de-bias + growth ranking regression guard (the user's complaint) ───────
+console.log("synthesizer: growth ranking beats trust ordering");
+{
+  // Uncorroborated top-down (regime CALM, no matching sectorImpacts) must NOT
+  // halve the bottom-up signal — composite = bottom_up, not bottom_up/2.
+  const uncorr = synthesizeSectorAtHorizon(
+    buildAggregate("Automobiles", {
+      "30d": { signed_index: 0.6, breadth_pct: 0.6, n_news: 10 },
+      "90d": { signed_index: 0.6, breadth_pct: 0.6, n_news: 10 },
+      "365d": { signed_index: 0.6, breadth_pct: 0.6, n_news: 10 },
+    }),
+    { regime: "CALM", sectorImpacts: [] },
+    "3_12m",
+  );
+  assert("uncorroborated composite = bottom_up (not halved)", Math.abs(uncorr.composite - 0.6) < 1e-9, uncorr.composite);
+  assert("uncorroborated top_down UNCORROBORATED", uncorr.top_down.status === "UNCORROBORATED", uncorr.top_down);
+
+  // Corroborated sector keeps the blended composite.
+  const corr = synthesizeSectorAtHorizon(
+    buildAggregate("Software", {
+      "30d": { signed_index: 0.6, breadth_pct: 0.6, n_news: 10 },
+      "90d": { signed_index: 0.6, breadth_pct: 0.6, n_news: 10 },
+      "365d": { signed_index: 0.6, breadth_pct: 0.6, n_news: 10 },
+    }),
+    { regime: "BOOM", sectorImpacts: [{ sector: "Software", impact: 3, reason: "x" }] },
+    "3_12m",
+  );
+  assert("corroborated composite stays blended ~0.8", Math.abs(corr.composite - 0.8) < 1e-9, corr.composite);
+
+  // A HEADWIND sector with genuinely HIGHER trust (more evidence/breadth) must
+  // still rank BELOW a TAILWIND sector. This is the exact bug the user hit:
+  // trust-sorting floated a headwind to the top.
+  const out = synthesizeAll(
+    {
+      sectors: {
+        Tailwind: buildAggregate("Tailwind", {
+          "30d": { signed_index: 0.5, breadth_pct: 0.3, n_news: 8 },
+          "90d": { signed_index: 0.5, breadth_pct: 0.3, n_news: 8 },
+          "365d": { signed_index: 0.5, breadth_pct: 0.3, n_news: 8 },
+        }),
+        Headwind: buildAggregate("Headwind", {
+          "30d": { signed_index: -0.5, breadth_pct: 0.9, n_news: 50, n_tickers: 9, avg_confidence: 0.95 },
+          "90d": { signed_index: -0.5, breadth_pct: 0.9, n_news: 50, n_tickers: 9, avg_confidence: 0.95 },
+          "365d": { signed_index: -0.5, breadth_pct: 0.9, n_news: 50, n_tickers: 9, avg_confidence: 0.95 },
+        }),
+      },
+      orphaned_tickers: 0,
+      total_entries: 58,
+    },
+    { regime: "CALM", sectorImpacts: [] },
+  );
+  const th = out.sectors.find((s) => s.sector === "Tailwind").horizons["3_12m"];
+  const hh = out.sectors.find((s) => s.sector === "Headwind").horizons["3_12m"];
+  assert("headwind earned higher trust than tailwind", hh.trust_score > th.trust_score, { tail: th.trust_score, head: hh.trust_score });
+  assert("tailwind still ranks first despite lower trust", out.sectors[0].sector === "Tailwind", out.sectors.map((s) => s.sector));
+  assert("headwind ranks last", out.sectors[out.sectors.length - 1].sector === "Headwind", out.sectors.map((s) => s.sector));
 }
 
 console.log("synthesizer: fills India Market sector universe");
