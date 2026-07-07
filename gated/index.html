@@ -4599,6 +4599,23 @@
     .sws-pick-card[data-conviction="medium"] { border-left: 3px solid var(--cyan); }
     .sws-pick-card[data-conviction="watch"]  { border-left: 3px solid var(--text-faint); }
     .sws-pick-card[data-conviction="avoid"]  { border-left: 3px solid var(--red); }
+    /* PR3 — second conviction cue beyond the left border: the strongest names
+       get a heavier score numeral so the eye lands on them first when scanning. */
+    .sws-pick-card[data-conviction="strong"] .sws-pick-card-score-num,
+    .sws-pick-card[data-conviction="high"] .sws-pick-card-score-num { font-weight: 800; }
+
+    /* PR3 Zone 2 — informational chip row (de-souped off the ticker line).
+       Chips past the 4th are hidden until the "+N" toggle sets data-expanded. */
+    .sws-pick-chiprow { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 8px 0 2px; }
+    .sws-pick-chiprow .swp-chip-slot { display: inline-flex; align-items: center; }
+    .sws-pick-chiprow:not([data-expanded]) .swp-chip-slot[data-overflow] { display: none; }
+    .swp-chip-more {
+      font-size: 10px; font-weight: 700; line-height: 1; letter-spacing: 0.02em;
+      color: var(--text-muted); background: var(--surface-raise);
+      border: 1px solid var(--border); border-radius: var(--radius-full, 999px);
+      padding: 3px 8px; cursor: pointer; min-width: 26px; text-align: center;
+    }
+    .swp-chip-more:hover { color: var(--text-primary); border-color: var(--border-focus); background: var(--surface-raise-strong); }
     .sws-pick-risk-row {
       display: flex;
       align-items: center;

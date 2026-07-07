@@ -13370,6 +13370,24 @@ function renderPickCard(s, sectionKey, rank = null) {
 	  const riskRow = riskFlags
 	    ? `<div class="sws-pick-risk-row" aria-label="Risk flags"><span class="sws-pick-risk-label">Risk</span>${riskFlags}</div>`
 	    : "";
+	  // PR3 Zone 2 — informational chips lifted OFF the ticker line so ticker +
+	  // score + verdict read as the focal point. Section-context + status +
+	  // freshness live here; risk flags stay in the always-visible risk row, and
+	  // the entry-state badge stays in the entry row (not duplicated up here).
+	  // Anything past the 4th chip collapses behind a count-based "+N" toggle
+	  // (deterministic for e2e; click is stopPropagation-guarded vs the card modal).
+	  const chipItems = [statusBadges, fundBadge, sectorTailwindBadge, macroFallbackBadge, futureBadge, fv30Badge, gapLabBadge, fresh].filter(Boolean);
+	  const CHIP_VISIBLE = 4;
+	  const chipOverflow = chipItems.length - CHIP_VISIBLE;
+	  const chipRow = chipItems.length
+	    ? `<div class="sws-pick-chiprow">${chipItems
+	        .map((c, i) => `<span class="swp-chip-slot"${i >= CHIP_VISIBLE ? " data-overflow" : ""}>${c}</span>`)
+	        .join("")}${
+	        chipOverflow > 0
+	          ? `<button type="button" class="swp-chip-more" aria-label="Show ${chipOverflow} more" onclick="event.stopPropagation();var r=this.closest('.sws-pick-chiprow');r.toggleAttribute('data-expanded');this.textContent=r.hasAttribute('data-expanded')?'−':'+${chipOverflow}';">+${chipOverflow}</button>`
+	          : ""
+	      }</div>`
+	    : "";
 
   let extraRow = "";
   if (sectionKey === "upcoming_earnings" && s.next_earnings_date) {
@@ -13403,8 +13421,8 @@ function renderPickCard(s, sectionKey, rank = null) {
         <div class="sws-pick-card-id">
           ${rankBadge}
           <div class="sws-pick-card-id-text">
-	            <div class="sws-pick-card-ticker">${s.ticker}${fundBadge}${sectorTailwindBadge}${macroFallbackBadge}${futureBadge}${fv30Badge}${gapLabBadge}${entryBadge}${statusBadges}${s.sector ? `<span class="sws-pick-card-sector">${escapeHtml(s.sector)}</span>` : ""}</div>
-            <div class="sws-pick-card-name">${s.name || ""}${fresh}</div>
+	            <div class="sws-pick-card-ticker">${s.ticker}${s.sector ? `<span class="sws-pick-card-sector">${escapeHtml(s.sector)}</span>` : ""}</div>
+            <div class="sws-pick-card-name">${s.name || ""}</div>
           </div>
         </div>
         <div class="sws-pick-card-score">
@@ -13413,6 +13431,7 @@ function renderPickCard(s, sectionKey, rank = null) {
           <div class="sws-pick-card-score-verdict" style="color:${verdictColor};">${verdict.replace(/_/g, " ")}${verdictTermId ? infoIcon(verdictTermId) : ""}</div>
         </div>
       </div>
+      ${chipRow}
       <div class="sws-pick-card-stats">
         <div class="sws-pick-stat"><span class="sws-pick-stat-label">Px</span> ${fmtInr(s.current_price_inr)}</div>
         <div class="sws-pick-stat"><span class="sws-pick-stat-label">FV${infoIcon("analyst_fair_value")}</span> ${
