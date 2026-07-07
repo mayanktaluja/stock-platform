@@ -33,6 +33,17 @@ experimental surface area and nightly refresh load.
 
 ## Recently shipped (themed, newest first — rolling ~4–6 week window; `git log` is the archive)
 
+### V4.1 pillar reweight + growth-trap brake — first live V4 score change (July 2026)
+Health↔Future pillar weights swapped (H22/F20 → **H20/F22**, valuation/past unchanged) on
+point-in-time re-rank evidence (`scripts/backtest-pillar-reweight.mjs`: the swap beat the old
+weighting on hit-rate + median alpha at both 21d and 30d holds; every valuation-cut variant lost).
+Added a **growth-trap brake** (future ≥5/6 + 1M ≤ −15% → −4, mirror of the value-trap brake). Version
+→ `sws-v4.1-100pt-2026-07`; cutoffs kept frozen (accepted a stricter book: ~−179 STRONG+, ~−30
+TOP_PICK). Applies to both markets (US inherits the shared scorer on next refresh). Candidate lab that
+produced it: `services/swsScoringV4Shadow.js` + `/shadow-lab.html`. Evidence is single-regime —
+re-confirm across a drawdown window before trusting it further. Ledger rows now carry
+`scoring_version` to split pre/post-reweight populations.
+
 ### Korea + Taiwan markets removed (July 2026)
 - **2026-07-07** — The Korea (KRX) and Taiwan (TWSE/TPEx) picks markets were
   fully removed: UI tabs, `/api/kr-*` + `/api/tw-*` routes,

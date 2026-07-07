@@ -347,7 +347,7 @@ score and V3 is deleted.**
 - **Canonical math:** `services/swsScoringV4.js` (`computeV4Score`, `_fvCompositeV4`,
   `verdictV4FromScore`). `scripts/swsScoringV4.mjs` is a thin re-export so both region scorers
   (India + US) and the server share identical arithmetic.
-- **Version string:** `sws-v4-100pt-2026-05`.
+- **Version string:** `sws-v4.1-100pt-2026-07` (v4.1 = the 2026-07 Health↔Future pillar-weight swap + growth-trap brake; see below).
 - **Orchestrator:** `services/swsScoring.js#scoreStock` calls `computeV4Score`; it also still
   computes legacy V1/V2 fields for back-compat, builds the leaderboard, and categorises stocks.
 
@@ -359,7 +359,7 @@ Snowflake/30 total and the `dividend_aristocrats` category, but contributes **0*
 
 | Block | Max pts | How |
 |---|---|---|
-| **Pillars** | **76** | `health/6×22 + future/6×20 + valuation/6×18 + past/6×16` |
+| **Pillars** | **76** | `health/6×20 + future/6×22 + valuation/6×18 + past/6×16` (v4.1: H/F swapped from 22/20) |
 | **FV composite** | **12** | coverage-renormalised weighted avg of value sub-signals that are present |
 | **Momentum** | **12** | `1Y_pctile×7 + 3M_pctile×3 + 1M_pctile×2` |
 | **Risk overlay** | **−15 → 0** | penalties only (never positive) |
@@ -382,7 +382,9 @@ Missing universe → imputed 50th percentile.
 
 **Risk overlay:** NSE GSM −15, ASM-short −12, ASM-long −10; falling-knife (1M < −25% AND health ≤
 2/6) −5; catalyst-chase (1M > +30% AND valuation ≤ 2/6) −3; **V4-only value-trap brake** (3M < −20%
-AND health ≤ 3/6 AND valuation ≥ 4/6) −4 (skipped if falling-knife already fired).
+AND health ≤ 3/6 AND valuation ≥ 4/6) −4 (skipped if falling-knife already fired); **v4.1 growth-trap
+brake** (1M ≤ −15% AND future ≥ 5/6) −4 — the future-tilt's mirror of the value trap; skipped if
+falling-knife fired, but MAY deliberately stack with the value-trap brake (−8).
 
 ### Verdicts are ABSOLUTE, not rank-based
 
@@ -435,6 +437,14 @@ than frozen. The migration also incidentally fixed three latent bugs (a `swsScor
 on every AVOID stock, a `swsSectorFit` crash in the Analyzer's Sector Gap Spotlight, an empty
 multibagger `catalystComposite` stream) and a follow-up (#438) fixed a stock-modal crash from a
 leftover `hasV3` reference; #439 added a CI modal-render e2e job to catch such regressions.
+
+**v4.1 (2026-07) — the first weight tuning actually landed.** A point-in-time re-rank backtest
+(`scripts/backtest-pillar-reweight.mjs`, 38 archived daily snapshots) found the Health↔Future swap
+(H22/F20 → H20/F22, valuation untouched — every valuation-cut variant lost) beat the old weighting
+on hit-rate AND median alpha at both 21d and 30d holds. Promoted to live with a new **growth-trap
+brake** (future ≥5/6 + 1M ≤ −15% → −4). Evidence is single-regime (~10-week bull window); cutoffs
+were kept frozen (accepted ~−179 STRONG+/−30 TOP_PICK). The candidate lab that produced it lives at
+`services/swsScoringV4Shadow.js` + `/shadow-lab.html` (never edits the live scorer).
 
 ---
 
@@ -756,7 +766,7 @@ region/backtest paths.
 - **SWS** — Simply Wall St, the upstream fundamentals provider (scraped, not API-partnered).
 - **Snowflake** — SWS's 6-axis 0–6 rating (Value, Future, Past, Health, Dividend, Management). V4
   scores 4 of the 6.
-- **V4** — the current 100-pt composite score (`swsScoringV4.js`, `sws-v4-100pt-2026-05`). Replaced
+- **V4** — the current 100-pt composite score (`swsScoringV4.js`, `sws-v4.1-100pt-2026-07`). Replaced
   V3 in #437. Pillars 76 + FV 12 + momentum 12 − overlay ≤15.
 - **FV** — fair value. `upside_pct` = (FV − price)/price. Beware: `fair_value_inr` is sometimes the
   analyst-range *max*, not consensus — V4 applies a haircut; cross-check the deep brief.
