@@ -318,7 +318,7 @@
       {
         style: {
           padding: "16px 18px",
-          background: "rgba(20,30,50,0.6)",
+          background: "var(--surface-navy-glass-60)",
           border: "1px solid rgba(255,255,255,0.08)",
           borderRadius: "10px",
           marginBottom: "18px",
@@ -537,7 +537,7 @@
       regimeValueAttrs.style.cursor = "help";
     }
     root.appendChild(el("div", {
-      style: { display: "flex", gap: "16px", flexWrap: "wrap", padding: "12px 16px", background: "rgba(15,20,34,0.5)", border: "1px solid var(--bg-graphite)", borderRadius: "8px", marginBottom: "16px" },
+      style: { display: "flex", gap: "16px", flexWrap: "wrap", padding: "12px 16px", background: "var(--surface-navy-glass-60)", border: "1px solid var(--bg-graphite)", borderRadius: "8px", marginBottom: "16px" },
     },
       el("div", null,
         thesisLabel("Current regime", null),
@@ -563,7 +563,7 @@
     if (r.reasoning || (Array.isArray(r.key_events) && r.key_events.length > 0)) {
       const why = el("div", {
         "data-testid": "thesis-why-regime",
-        style: { padding: "12px 14px", border: "1px solid rgba(96,165,250,0.25)", borderRadius: "8px", marginBottom: "16px", background: "rgba(15,20,34,0.5)" },
+        style: { padding: "12px 14px", border: "1px solid rgba(96,165,250,0.25)", borderRadius: "8px", marginBottom: "16px", background: "var(--surface-navy-glass-60)" },
       });
       why.appendChild(el("div", { style: { fontSize: "10px", color: "var(--text-muted)", letterSpacing: "0.05em", textTransform: "uppercase", marginBottom: "8px" } }, "Why this regime"));
       if (r.reasoning) {
@@ -605,7 +605,7 @@
         : null;
       const card = el("div", {
         "data-testid": `thesis-branch-${b.key}`,
-        style: { padding: "14px", border: "1px solid var(--bg-graphite)", borderRadius: "8px", background: "rgba(15,20,34,0.6)" },
+        style: { padding: "14px", border: "1px solid var(--bg-graphite)", borderRadius: "8px", background: "var(--surface-navy-glass-60)" },
       });
       const branchTermId = `thesis_branch_${b.key}`;
       const branchKeyNode = el("div", { style: { fontSize: "10px", color: "var(--text-muted)", letterSpacing: "0.05em", textTransform: "uppercase", display: "inline-flex", alignItems: "center", gap: "5px" } }, b.key);
@@ -725,7 +725,7 @@
     if (Array.isArray(thesis.upcoming_catalysts) && thesis.upcoming_catalysts.length > 0) {
       const cat = el("div", {
         "data-testid": "thesis-catalysts",
-        style: { marginTop: "16px", padding: "12px 14px", border: "1px solid var(--bg-graphite)", borderRadius: "6px", background: "rgba(15,20,34,0.6)" },
+        style: { marginTop: "16px", padding: "12px 14px", border: "1px solid var(--bg-graphite)", borderRadius: "6px", background: "var(--surface-navy-glass-60)" },
       });
       const catHeader = el("div", { style: { fontSize: "10px", color: "var(--text-muted)", letterSpacing: "0.05em", textTransform: "uppercase", marginBottom: "8px", display: "inline-flex", alignItems: "center", gap: "5px" } }, "Upcoming catalysts (next 30 days)");
       const catBubble = infoBubble("thesis_upcoming_catalysts");
@@ -749,7 +749,7 @@
 
     // SEBI Reg 16 caveats
     if (thesis.caveats?.length > 0) {
-      const cv = el("div", { "data-testid": "thesis-caveats", style: { marginTop: "16px", padding: "12px 14px", border: "1px solid rgba(148,163,184,0.3)", borderRadius: "6px", background: "rgba(15,20,34,0.4)" } });
+      const cv = el("div", { "data-testid": "thesis-caveats", style: { marginTop: "16px", padding: "12px 14px", border: "1px solid rgba(148,163,184,0.3)", borderRadius: "6px", background: "var(--surface-navy-glass-40)" } });
       const cvHeader = el("div", { style: { fontSize: "10px", color: "var(--text-muted)", letterSpacing: "0.05em", textTransform: "uppercase", marginBottom: "6px", display: "inline-flex", alignItems: "center", gap: "5px" } }, "SEBI Reg 16 caveats");
       const cvBubble = infoBubble("thesis_sebi_reg16");
       if (cvBubble) cvHeader.appendChild(cvBubble);
@@ -767,7 +767,7 @@
       const a = thesis.audit;
       const auditFooter = el("div", {
         "data-testid": "thesis-audit",
-        style: { marginTop: "12px", padding: "8px 12px", borderRadius: "6px", background: "rgba(15,20,34,0.3)", fontSize: "9.5px", color: "var(--text-muted)", fontStyle: "italic", lineHeight: "1.45" },
+        style: { marginTop: "12px", padding: "8px 12px", borderRadius: "6px", background: "var(--surface-navy-glass-40)", fontSize: "9.5px", color: "var(--text-muted)", fontStyle: "italic", lineHeight: "1.45" },
       });
       const parts = [];
       if (a.thesis_schema) parts.push(`schema: ${a.thesis_schema}`);
@@ -807,14 +807,14 @@
       if (list.length === 0) {
         return el(
           "div",
-          { style: { padding: "14px 16px", background: "rgba(20,30,50,0.4)", borderRadius: "8px", flex: "1" } },
+          { style: { padding: "14px 16px", background: "var(--surface-navy-glass-40)", borderRadius: "8px", flex: "1" } },
           titleNode,
           el("div", { style: { fontSize: "11px", color: "var(--text-muted)" } }, "No notable cases in current snapshot."),
         );
       }
       return el(
         "div",
-        { style: { padding: "14px 16px", background: "rgba(20,30,50,0.4)", borderRadius: "8px", flex: "1" } },
+        { style: { padding: "14px 16px", background: "var(--surface-navy-glass-40)", borderRadius: "8px", flex: "1" } },
         titleNode,
         el("div", { style: { fontSize: "11px", color: "var(--text-muted)", marginBottom: "10px" } }, subtitle),
         ...list.map((s) => el(
@@ -908,7 +908,7 @@
         boxSizing: "border-box",
         padding: "8px 12px",
         marginBottom: "10px",
-        background: "rgba(15,20,34,0.6)",
+        background: "var(--surface-navy-glass-60)",
         border: "1px solid rgba(255,255,255,0.08)",
         borderRadius: "6px",
         color: "var(--text-primary)",
@@ -936,7 +936,7 @@
           gridTemplateColumns: "100px 120px 80px 80px 100px 1fr",
           gap: "8px",
           padding: "10px 12px",
-          background: "rgba(20,30,50,0.6)",
+          background: "var(--surface-navy-glass-60)",
           borderRadius: "6px",
           marginBottom: "4px",
           fontSize: "10px",

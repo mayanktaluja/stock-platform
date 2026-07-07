@@ -476,7 +476,7 @@
     }
     el.hidden = false;
     el.innerHTML = `
-      <div style="padding:18px 22px; border:1px dashed var(--border-graphite); border-radius:10px; background:rgba(15,20,34,0.5); display:flex; flex-direction:column; gap:6px;">
+      <div style="padding:18px 22px; border:1px dashed var(--border-graphite); border-radius:10px; background:var(--surface-navy-glass-60); display:flex; flex-direction:column; gap:6px;">
         <div style="font-size:13px; color:var(--text-ice-soft); font-weight:500;">
           <span style="color:var(--warn-text); font-weight:600;">${escHtml(query)}</span> — no earnings in the next ${escHtml(_earningsSnapshot?.window_days ?? 60)} days or status tracker past ${escHtml(_earningsSnapshot?.past_window_days ?? 14)} days.
         </div>
@@ -1075,7 +1075,7 @@
       // Post-result variant — single resolved cell + gap-tactical.
       const tone = playbook.plan.confidence === "HIGH" ? "var(--positive-text-soft)" : playbook.plan.confidence === "MEDIUM" ? "var(--warn-text)" : "var(--text-slate-light)";
       return `
-        <div style="background:rgba(15,20,34,0.6); border:1px solid var(--bg-graphite); border-radius:8px; padding:10px 12px; font-size:11px; line-height:1.5;">
+        <div style="background:var(--surface-navy-glass-60); border:1px solid var(--bg-graphite); border-radius:8px; padding:10px 12px; font-size:11px; line-height:1.5;">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; gap:8px; flex-wrap:wrap;">
             <span style="color:${tone}; font-weight:600; letter-spacing:0.04em; text-transform:uppercase; font-size:10px;">${escHtml(playbook.cell_key || "")} · ${escHtml(playbook.plan.confidence || "")}</span>
             <div style="display:flex; gap:6px; align-items:center;">
@@ -1104,7 +1104,7 @@
       const highlightedBranch = branches.find((b) => b.is_highlighted) || branches[1] || null;
       const stanceLine = highlightedBranch?.plan?.stance || "Stance unresolved.";
       return `
-        <div style="background:rgba(15,20,34,0.5); border:1px solid var(--bg-graphite); border-radius:8px; padding:10px 12px; font-size:11px; line-height:1.5;">
+        <div style="background:var(--surface-navy-glass-60); border:1px solid var(--bg-graphite); border-radius:8px; padding:10px 12px; font-size:11px; line-height:1.5;">
           <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:4px; flex-wrap:wrap;">
             <div style="display:flex; gap:5px;">${branches.map(branchChip).join("")}</div>
             <div style="display:flex; gap:6px; align-items:center;">
@@ -1754,7 +1754,7 @@
       .map((p, i) => `<p style="margin:0 0 ${i < rationale.paragraphs.length - 1 ? "10px" : "0"}; font-size:13px; line-height:1.55; color:var(--text-slate-light);">${escHtml(p)}</p>`)
       .join("");
     return `
-      <div style="background:rgba(15,20,34,0.4); border:1px solid var(--bg-graphite); border-radius:8px; padding:14px 16px; margin-top:12px;">
+      <div style="background:var(--surface-navy-glass-40); border:1px solid var(--bg-graphite); border-radius:8px; padding:14px 16px; margin-top:12px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:10px;">Reasoning</div>
         ${paras}
       </div>`;
@@ -1799,7 +1799,7 @@
     }).join("");
 
     return `
-      <div style="background:rgba(15,20,34,0.4); border:1px solid var(--bg-graphite); border-radius:8px; padding:14px 16px; margin-top:12px;">
+      <div style="background:var(--surface-navy-glass-40); border:1px solid var(--bg-graphite); border-radius:8px; padding:14px 16px; margin-top:12px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:10px;">Trading playbook — three guidance scenarios</div>
         <div style="font-size:12px; color:var(--text-slate-light); line-height:1.5; margin-bottom:10px;">${escHtml(playbook.headline || "")}</div>
         <div style="display:flex; flex-direction:column; gap:8px;">${branchHtml}</div>
@@ -1823,7 +1823,7 @@
         </div>`;
     }).join("");
     return `
-      <div style="background:rgba(15,20,34,0.4); border:1px solid var(--bg-graphite); border-radius:8px; padding:14px 16px; margin-top:12px;">
+      <div style="background:var(--surface-navy-glass-40); border:1px solid var(--bg-graphite); border-radius:8px; padding:14px 16px; margin-top:12px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:6px;">Recent corporate announcements</div>
         ${rows}
       </div>`;
@@ -1845,7 +1845,7 @@
         </tr>`;
     }).join("");
     return `
-      <div style="background:rgba(15,20,34,0.4); border:1px solid var(--bg-graphite); border-radius:8px; padding:14px 16px; margin-top:12px; overflow-x:auto;">
+      <div style="background:var(--surface-navy-glass-40); border:1px solid var(--bg-graphite); border-radius:8px; padding:14px 16px; margin-top:12px; overflow-x:auto;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:6px;">Bulk / block deals — last 7 days</div>
         <table style="width:100%; border-collapse:collapse;">
           <thead><tr style="border-bottom:1px solid var(--bg-graphite);">
