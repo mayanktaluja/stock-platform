@@ -4876,8 +4876,9 @@ function _trackTypeLabel(type) {
 // under-performed the index, as we predicted.
 const TRACK_SHORT_TYPES = new Set(["scanner_sell_top10", "earnings_miss_top10"]);
 
-// PR B8 will populate this when the backtest endpoint ships; for now the
-// hero shows "—" with a backfilling sub-line.
+// Wired from /api/track/calibration (platform_brier) in loadTrackCalibration();
+// stays null until forecasts resolve, so the hero tile shows "—" with an
+// "awaiting resolved forecasts" sub-line rather than a fabricated number.
 let _trackLastBrier = null;
 
 // SEBI 10/10 — Wilson score 95% CI half-width for a proportion. Returns
@@ -4944,16 +4945,10 @@ function populateTrackHero(perf, data) {
     setText("trackBeatNiftySub", "—");
   }
 
-  // Brier — populated by PR B8 when the backtest endpoint ships. Honest
-  // empty state until then.
-  if (_trackLastBrier != null && Number.isFinite(_trackLastBrier)) {
-    const sub = _trackLastBrier <= 0.18 ? "target ≤ 0.18" : `closing on 0.18`;
-    setText("trackBrierValue", _trackLastBrier.toFixed(3));
-    setText("trackBrierSub", sub);
-  } else {
-    setText("trackBrierValue", "—");
-    setText("trackBrierSub", "backfilling — PR B8");
-  }
+  // Brier — the actual value is wired from /api/track/calibration
+  // (platform_brier) in loadTrackCalibration(); this initial paint shows the
+  // honest empty state until that fetch lands or when no forecasts have resolved.
+  renderBrierTile();
 
   // Subline below the hero strip — honest sample size + oldest snapshot.
   const oldestSnap = (Array.isArray(data.trades) && data.trades.length)
@@ -4989,6 +4984,21 @@ function populateTrackHero(perf, data) {
 // rendered below the Track Record hero. Thin buckets (n < 30) paint
 // greyed with a "thin data" badge so the UI never implies confidence in
 // a 4-sample bucket.
+// Paint the Brier hero tile from _trackLastBrier. Called on the initial hero
+// paint (empty state) and again once loadTrackCalibration wires the real value.
+function renderBrierTile() {
+  if (_trackLastBrier != null && Number.isFinite(_trackLastBrier)) {
+    setText("trackBrierValue", _trackLastBrier.toFixed(3));
+    setText("trackBrierSub", _trackLastBrier <= 0.18 ? "target ≤ 0.18" : "closing on 0.18");
+  } else {
+    setText("trackBrierValue", "—");
+    // Honest, self-explanatory empty state — not an internal PR reference. Brier
+    // needs resolved forecasts (a predicted confidence vs a realized outcome),
+    // and none have matured yet on the forward ledger.
+    setText("trackBrierSub", "awaiting resolved forecasts");
+  }
+}
+
 async function loadTrackCalibration() {
   const wrap = document.getElementById("trackCalibrationSvgWrap");
   if (!wrap) return;
@@ -4999,6 +5009,10 @@ async function loadTrackCalibration() {
       return;
     }
     const data = await res.json();
+    // Wire the Brier hero tile from the calibration snapshot (server exposes
+    // platform_brier). Null/absent until forecasts resolve → tile stays "—".
+    _trackLastBrier = Number.isFinite(data && data.platform_brier) ? data.platform_brier : null;
+    renderBrierTile();
     wrap.innerHTML = renderCalibrationSvg(data);
     const sub = document.getElementById("trackCalibrationSub");
     if (sub) {
@@ -5719,10 +5733,18 @@ function _sectionCardHTML(section, primaryHorizon) {
 
   // SEBI 10/10 — D5: snapshot date sub-line. Replaces the previous
   // "n_total · cum α" line with snapshot-date-first formatting.
+  // Thin-sample flag: below 30 tracked names the cumulative alpha is noisy, so
+  // mark the card provisional — mirrors the section header pill's n<30
+  // "measuring" state and the calibration plot's n<30 greying, which the
+  // scorecard cards previously lacked.
+  const SCORECARD_THIN_N = 30;
+  const thinBadge = (typeof nTracked === "number" && nTracked > 0 && nTracked < SCORECARD_THIN_N)
+    ? ` <span title="Fewer than ${SCORECARD_THIN_N} tracked names — cumulative alpha is a small, noisy sample; treat as provisional." style="color:var(--warn); font-weight:700;">· thin (n&lt;${SCORECARD_THIN_N})</span>`
+    : "";
   const subLine = `
     <div style="font-size:10px; color:var(--text-muted);">
       Snapshot: <strong style="color: var(--text-secondary);">${escapeHtml(snapshotDate)}</strong>
-      · n=${nTracked} tracked
+      · n=${nTracked} tracked${thinBadge}
       · cum α (${sparkHorizon}): ${cumPct != null ? `<span style="color:${cumPct >= 0 ? 'var(--green-bright)' : 'var(--red-bright)'}; font-weight:600;">${cumPct >= 0 ? '+' : ''}${cumPct}%</span>` : "—"}
     </div>`;
 
