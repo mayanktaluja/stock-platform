@@ -36,6 +36,10 @@ const { compileMarketGate, matchMarket } = await import("../services/alerts/mark
 const { routeMessage } = await import("../services/alerts/newsRouter.js");
 const { markIfNew } = await import("../services/alerts/sentLedger.js");
 const { dispatch } = await import("../services/alerts/alertDispatcher.js");
+// Market Wire persistence sink — captures each routed message to the on-disk
+// buffer so the wire builder can cluster/triage/rank it for the website. NO-OPs
+// when NEWS_WIRE_DIR is unset (never breaks the firehose). See services/newsWire.
+const { archiveWireMessages, pruneWireBuffer } = await import("../services/newsWire/wireArchive.js");
 
 const argv = process.argv.slice(2);
 const DRY_RUN = argv.includes("--dry-run");
@@ -76,6 +80,7 @@ async function main() {
   const marketGate = { match: (t) => matchMarket(t, marketCompiled) };
 
   let fetched = 0, fresh = 0, matched = 0, sent = 0, dup = 0;
+  const wireBatch = []; // Market Wire sink — flushed once per run after the channel loop.
 
   for (const c of sources) {
     const html = await fetchText(`https://t.me/s/${c.slug}`);
@@ -96,6 +101,15 @@ async function main() {
       );
       if (!alert) continue;
       matched += 1;
+
+      // Capture for the Market Wire BEFORE the Telegram dedup, so cross-channel
+      // copies of the same story are all archived (the clusterer counts distinct
+      // sources). Store raw row.text, not the HTML-wrapped alert.text.
+      wireBatch.push({
+        channel: c.name || c.slug, category: c.category, text: row.text, url: row.url,
+        publishedAt: row.publishedAt, breaking: alert.breaking, symbols: alert.symbols,
+        tags: alert.tags, routerKey: alert.key,
+      });
 
       if (!DRY_RUN && !markIfNew(alert.key).fresh) { dup += 1; continue; }
 
@@ -120,6 +134,20 @@ async function main() {
       }
     }
     await delay(400); // polite gap between channels
+  }
+
+  // Flush the Market Wire buffer once per run. Skipped under --dry-run so a
+  // manual smoke run never pollutes the builder's input. try/catch so a buffer
+  // failure can never break the firehose.
+  if (!DRY_RUN) {
+    try {
+      const w = archiveWireMessages(wireBatch);
+      pruneWireBuffer();
+      if (w.written) console.log(`[wire] archived ${w.written} (skipped ${w.skipped})${w.reason ? " — " + w.reason : ""}`);
+      else if (w.reason) console.log(`[wire] ${w.reason}`);
+    } catch (e) {
+      console.warn(`[wire] archive skipped: ${e?.message || e}`);
+    }
   }
 
   console.log(`[mirror] channels=${sources.length} parsed=${fetched} fresh<=${WINDOW_MIN}m=${fresh} matched=${matched} sent=${sent} dedup=${dup}`);

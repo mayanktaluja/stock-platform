@@ -21,6 +21,11 @@ REPO_DIR="/Users/mayanktaluja/code/stock-platform"
 LOCK_DIR="/tmp/starbhai-mirror-news.lock.d"
 LOG="${REPO_DIR}/data/mirror-news-poll.log"
 LEDGER_DIR="${REPO_DIR}/data/alerts"
+# Market Wire buffer — pinned to the CANONICAL repo (absolute). The node code
+# runs from a throwaway origin/main worktree that gets `git worktree remove
+# --force`d every run; an unpinned/relative path would write into that doomed
+# dir and be nuked. Same discipline as ALERTS_LEDGER_DIR.
+WIRE_DIR="${REPO_DIR}/data/news-wire/buffer"
 
 cleanup_lock() { rm -f "${LOCK_DIR}/pid" 2>/dev/null; rmdir "${LOCK_DIR}" 2>/dev/null; }
 acquire_lock() {
@@ -37,7 +42,7 @@ acquire_lock() {
 if ! acquire_lock; then echo "[mirror] another run holds the lock — exiting"; exit 0; fi
 cd "${REPO_DIR}" || { echo "[mirror] cannot cd ${REPO_DIR}"; exit 0; }
 if [ -f .env ]; then set -a; source .env; set +a; fi
-mkdir -p "${REPO_DIR}/data" "${LEDGER_DIR}"
+mkdir -p "${REPO_DIR}/data" "${LEDGER_DIR}" "${WIRE_DIR}"
 exec >> >(tee -a "${LOG}") 2>&1
 
 if ! git fetch origin main 2>&1 | sed 's/^/[git] /'; then echo "[mirror] fetch failed — exit"; exit 0; fi
@@ -54,5 +59,5 @@ if ! git worktree add --detach "${WORKTREE_DIR}" origin/main 2>&1 | sed 's/^/[gi
 [ -d "${REPO_DIR}/node_modules" ] && ln -snf "${REPO_DIR}/node_modules" "${WORKTREE_DIR}/node_modules"
 
 cd "${WORKTREE_DIR}" || { echo "[mirror] cannot cd worktree"; exit 0; }
-ALERTS_LEDGER_DIR="${LEDGER_DIR}" node scripts/refresh-mirror-news.mjs --window-min 3 "$@" 2>&1 | sed 's/^/[mirror] /'
+ALERTS_LEDGER_DIR="${LEDGER_DIR}" NEWS_WIRE_DIR="${WIRE_DIR}" node scripts/refresh-mirror-news.mjs --window-min 3 "$@" 2>&1 | sed 's/^/[mirror] /'
 exit 0
