@@ -14922,10 +14922,69 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
   const evEbitdaVal = pickVal(sane(mult.ev_ebitda, -500, 500), sane(fb.ev_ebitda, -500, 500));
   const pegSource = sourceMap["multiples.peg"] || sourceMap["multiples.peg_ratio"] || null;
   const pegRawVal = pickVal(sane(mult.peg, -500, 500), sane(mult.peg_ratio, -500, 500));
-  const pegVal = (pegSource?.provider === "groww_refinitiv" || (growwSource?.provider === "groww_refinitiv" && pegRawVal != null))
+  const pegFromGroww = (pegSource?.provider === "groww_refinitiv" || (growwSource?.provider === "groww_refinitiv" && pegRawVal != null))
     ? pegRawVal
     : null;
-  const pegDisplayVal = pegVal == null ? null : (pegVal > 0 ? pegVal.toFixed(2) : "Not meaningful");
+  // PEG display resolver — mirrors services/valuation/pegDisplay.js (the spec +
+  // unit tests live there; app.js is a plain script and can't import it, so
+  // test/pegDisplayAppParity.test.mjs guards the two copies against drift).
+  // Groww/Refinitiv's raw pegRatio is unstable: its growth denominator often
+  // dips to ~0 or negative, emitting meaningless negatives (POWERGRID -58; JSLL
+  // flipped negative despite +178% TTM profit growth). PEG is only defined for
+  // positive earnings growth, so a non-positive raw value is NOT a real signal —
+  // recompute PEG = P/E / growth% (smoothed net-income CAGR, else trailing YoY)
+  // before declaring "Not meaningful".
+  const PEG_DISPLAY_CAP = 20;
+  // Below ~3 a trailing P/E is almost always a data artefact (one-off EPS spike /
+  // stale price), so dividing it by growth manufactures a fake sub-0.1 PEG.
+  // Floor the recompute so those rows stay "Not meaningful" (RELINFRA 0.73,
+  // GENSOL 1.08…) while real deep-value names (IOC 4.4, BPCL 4.8) still resolve.
+  const PEG_MIN_PE = 3;
+  // Smoothed earnings CAGR% from a newest-first history of {year?, netIncome}.
+  // Uses actual year span when known so gaps don't distort annualisation;
+  // scale-invariant, so ₹ vs ₹-cr series are both fine. null unless >=3 points
+  // with positive endpoints.
+  const pegCagrPct = (rows) => {
+    const pts = (Array.isArray(rows) ? rows : [])
+      .map((r) => (r && Number.isFinite(Number(r.netIncome))
+        ? { year: Number.isFinite(Number(r.year)) ? Number(r.year) : null, ni: Number(r.netIncome) }
+        : null))
+      .filter(Boolean);
+    if (pts.length < 3) return null;
+    const newest = pts[0];
+    const oldest = pts[pts.length - 1];
+    if (!(newest.ni > 0) || !(oldest.ni > 0)) return null;
+    const span = (newest.year != null && oldest.year != null && newest.year - oldest.year >= 2)
+      ? newest.year - oldest.year
+      : pts.length - 1;
+    const cagr = (Math.pow(newest.ni / oldest.ni, 1 / span) - 1) * 100;
+    return Number.isFinite(cagr) ? cagr : null;
+  };
+  const pegNetIncomeCagrPct = pegCagrPct(deep?.fiscal?.yearly_history);
+  const pegGrowwProfitCagrPct = (() => {
+    const profit = deep?.financials?.groww?.yearly?.profit;
+    if (!profit || typeof profit !== "object") return null;
+    const rows = Object.keys(profit)
+      .map((y) => ({ year: Number(y), netIncome: Number(profit[y]) }))
+      .filter((r) => Number.isFinite(r.year) && Number.isFinite(r.netIncome))
+      .sort((a, b) => b.year - a.year);
+    return pegCagrPct(rows);
+  })();
+  const pegDisplayVal = (() => {
+    if (pegFromGroww == null) return null;                // no Groww coverage → PEG row omitted
+    if (pegFromGroww > 0) return pegFromGroww.toFixed(2); // trust good data (unchanged behaviour)
+    const growth = pickVal(
+      pegNetIncomeCagrPct,
+      pegGrowwProfitCagrPct,
+      sane(ov.earnings_growth_yoy_pct, -500, 1000),
+      sane(fb.earnings_growth_yoy_pct, -500, 1000),
+    );
+    if (peVal != null && peVal >= PEG_MIN_PE && growth != null && growth > 0) {
+      const computed = peVal / growth;
+      if (computed > 0 && computed <= PEG_DISPLAY_CAP) return computed.toFixed(2);
+    }
+    return "Not meaningful";                              // genuine: earnings flat/shrinking / bad P/E
+  })();
   // EPS: parser writes overview.latest_eps (rarely populated — SWS yearly
   // time series usually returns eps:null). Fall back to net_income / shares
   // when those are present, matching the same derivation extractMultiples()
