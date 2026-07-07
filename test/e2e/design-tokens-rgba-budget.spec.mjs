@@ -36,7 +36,7 @@ function countRgba(text) {
 
 // Post-PR2 actuals. LOWER as sweeps land; never raise.
 const MODULE_CAPS = {
-  "app.js": 504,           // PR2 swept 70 dark-locked fills (574 → 504)
+  "app.js": 486,           // PR2 swept 70 fills (574→504); PR4 tonePill/freshnessChip + dead VERDICT_PALETTE (504→486)
   "earnings.js": 108,      // PR5a target ~40
   "riskLab.js": 38,        // PR5b target ~10
   "sectorOutlook.js": 25,  // PR5c target ~8

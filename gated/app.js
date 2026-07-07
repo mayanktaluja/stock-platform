@@ -835,6 +835,53 @@ function toast(opts = {}) {
 }
 window.toast = toast;
 
+// ==================== SHARED UI PRIMITIVES ====================
+// One tone vocabulary for verdict-style pills and one freshness chip, so the
+// same concept looks the same on every tab (the audit found 6 verdict colour
+// systems + per-tab bespoke freshness). Both reuse the existing .badge system
+// rather than adding a parallel pill vocabulary, and both are exposed on window
+// because the satellite modules (earnings/riskLab/…) call them at render time.
+
+// Canonical verdict → tone. Single source for the V4 composite verdict wherever
+// it renders (watchlist pill today; more surfaces over time). Semantics are
+// untouched — only the colour is unified.
+const VERDICT_TONES = {
+  TOP_PICK: "gold", DEEP_VALUE: "gold",
+  STRONG: "success", QUALITY_GROWTH: "success",
+  ACCEPTABLE: "info", FAIR_VALUE: "info",
+  WATCH: "neutral", FULLY_VALUED: "neutral",
+  AVOID: "danger", OVERVALUED: "danger",
+};
+const PILL_TONES = new Set(["gold", "success", "info", "warn", "danger", "neutral"]);
+function tonePill(label, tone = "neutral", opts = {}) {
+  const t = PILL_TONES.has(tone) ? tone : "neutral";
+  const cls = `badge badge--${t}${opts.size === "sm" ? " badge--sm" : ""}`;
+  const title = opts.title ? ` title="${escapeHtml(opts.title)}"` : "";
+  const testid = opts.testId ? ` data-testid="${escapeHtml(opts.testId)}"` : "";
+  const term = opts.termId ? infoIcon(opts.termId) : "";
+  return `<span class="${cls}"${title}${testid}>${escapeHtml(String(label))}${term}</span>`;
+}
+window.tonePill = tonePill;
+
+// Unified freshness chip — generalises the market-intelligence _sourceChip and
+// the picks pickFreshnessPill: "live"/"3h"/"2d" age, success→warn past the
+// staleHours budget, "n/a" when the timestamp is missing. data-age-hours is
+// exposed for tests; an optional label prefixes the source name.
+function freshnessChip(iso, opts = {}) {
+  const { staleHours = 48, label = "", testId = "freshness-chip", title = "" } = opts;
+  const pre = label ? `${escapeHtml(label)} ` : "";
+  const titleAttr = title ? ` title="${escapeHtml(title)}"` : "";
+  const t = iso ? new Date(iso).getTime() : NaN;
+  if (!Number.isFinite(t)) {
+    return `<span class="badge badge--neutral badge--sm" data-testid="${escapeHtml(testId)}"${titleAttr} data-age-hours="">${pre}n/a</span>`;
+  }
+  const hours = (Date.now() - t) / 36e5;
+  const ageTxt = hours < 1 ? "live" : hours < 48 ? `${Math.round(hours)}h` : `${Math.round(hours / 24)}d`;
+  const tone = hours > staleHours ? "warn" : "success";
+  return `<span class="badge badge--${tone} badge--sm" data-testid="${escapeHtml(testId)}"${titleAttr} data-age-hours="${hours.toFixed(1)}">${pre}${ageTxt}</span>`;
+}
+window.freshnessChip = freshnessChip;
+
 // ==================== GLOSSARY TOOLTIP SYSTEM ====================
 //
 // Single-source-of-truth tooltip system. Two helper functions are exposed
@@ -4365,14 +4412,9 @@ window.setDiscoveryRadarFilter = setDiscoveryRadarFilter;
 // than its staleness budget (hours). Sources with no timestamp render "n/a"
 // rather than a fabricated "fresh".
 function _sourceChip(label, iso, staleHours) {
-  const t = iso ? new Date(iso).getTime() : NaN;
-  if (!Number.isFinite(t)) {
-    return `<span style="padding:3px 8px;border-radius:5px;background:var(--surface-raise);border:1px solid var(--border);color:var(--text-muted);font-size:10px;">${escapeHtml(label)}: n/a</span>`;
-  }
-  const hours = (Date.now() - t) / 36e5;
-  const ageTxt = hours < 1 ? "live" : hours < 48 ? `${Math.round(hours)}h` : `${Math.round(hours / 24)}d`;
-  const color = hours > staleHours ? "var(--yellow)" : "var(--green)";
-  return `<span data-testid="source-chip" style="padding:3px 8px;border-radius:5px;background:var(--surface-raise);border:1px solid ${color}33;color:${color};font-size:10px;font-weight:700;">${escapeHtml(label)} ${ageTxt}</span>`;
+  // Thin wrapper over the shared freshnessChip — keeps the source-chip testid
+  // the market-intelligence specs key on.
+  return freshnessChip(iso, { staleHours, label, testId: "source-chip" });
 }
 
 // Unified data-freshness line for the whole tab — replaces the per-section
@@ -6993,28 +7035,15 @@ async function loadPicksByTicker() {
   return _picksByTickerPromise;
 }
 
-// PR W3 — verdict → palette mapping for pill colours.
-// TOP_PICK stays gold (locked decision); STRONG green; WATCH muted;
-// AVOID red; ACCEPTABLE / FAIR_VALUE cyan (info-tone).
-const VERDICT_PALETTE = {
-  TOP_PICK:     { color: "var(--gold)",        bg: "rgba(224,176,96,0.10)", border: "rgba(224,176,96,0.35)" },
-  STRONG:       { color: "var(--positive)",    bg: "var(--positive-bg-soft)", border: "rgba(46,204,113,0.32)" },
-  ACCEPTABLE:   { color: "var(--cyan)",        bg: "rgba(111,195,216,0.08)", border: "rgba(111,195,216,0.28)" },
-  FAIR_VALUE:   { color: "var(--cyan)",        bg: "rgba(111,195,216,0.08)", border: "rgba(111,195,216,0.28)" },
-  DEEP_VALUE:   { color: "var(--gold)",        bg: "rgba(224,176,96,0.10)", border: "rgba(224,176,96,0.35)" },
-  QUALITY_GROWTH: { color: "var(--positive)",  bg: "var(--positive-bg-soft)", border: "rgba(46,204,113,0.32)" },
-  WATCH:        { color: "var(--text-muted)",  bg: "rgba(237,237,237,0.04)", border: "rgba(237,237,237,0.10)" },
-  FULLY_VALUED: { color: "var(--text-muted)",  bg: "rgba(237,237,237,0.04)", border: "rgba(237,237,237,0.10)" },
-  AVOID:        { color: "var(--negative)",    bg: "var(--negative-bg-soft)", border: "rgba(214,69,69,0.32)" },
-  OVERVALUED:   { color: "var(--negative)",    bg: "var(--negative-bg-soft)", border: "rgba(214,69,69,0.32)" },
-};
+// PR W3 verdict→palette map removed in PR4 — renderVerdictPill now delegates to
+// the shared tonePill() + VERDICT_TONES so every surface shares one vocabulary.
 function renderVerdictPill(verdict) {
   if (!verdict) {
     return `<span class="tx-meta" style="color:var(--text-muted); font-family:var(--font-mono); letter-spacing:0.02em;" aria-label="not curated">—</span>`;
   }
-  const palette = VERDICT_PALETTE[verdict] || { color: "var(--text-muted)", bg: "rgba(237,237,237,0.04)", border: "rgba(237,237,237,0.10)" };
-  const label = String(verdict).replace(/_/g, " ");
-  return `<span class="tx-micro" style="display:inline-block; padding:3px 8px; border-radius:var(--radius-100); color:${palette.color}; background:${palette.bg}; border:1px solid ${palette.border}; font-weight:700;">${label}</span>`;
+  // Delegates to the shared tone system so the watchlist verdict pill matches
+  // every other surface that shows a V4 verdict. Label text is preserved verbatim.
+  return tonePill(String(verdict).replace(/_/g, " "), VERDICT_TONES[verdict] || "neutral");
 }
 
 const ANALYZER_ACTION_COLORS = {
@@ -13171,15 +13200,13 @@ function pickFreshnessPill(parsedAtIso) {
   if (!parsedAtIso) return "";
   const ageMs = Date.now() - new Date(parsedAtIso).getTime();
   if (!Number.isFinite(ageMs) || ageMs < 0) return "";
-  const hours = ageMs / 3600000;
-  let label, cls = "";
-  if (hours < 48) label = `${Math.round(hours)}h ago`;
-  else {
-    const days = Math.round(hours / 24);
-    label = `${days}d ago`;
-    if (days > 7) cls = " stale";
-  }
-  return `<span class="sws-freshness-pill${cls}" title="Deep-scrape parsed ${new Date(parsedAtIso).toLocaleString()}">${label}</span>`;
+  // Shared freshnessChip so the picks card freshness reads identically to the
+  // market-intelligence source chips. 7-day stale budget (168h) matches the
+  // prior pick-card threshold; the deep-scrape timestamp stays in the tooltip.
+  return freshnessChip(parsedAtIso, {
+    staleHours: 168,
+    title: `Deep-scrape parsed ${new Date(parsedAtIso).toLocaleString()}`,
+  });
 }
 
 // Section-membership badges — driven by `section_status` stamped on each

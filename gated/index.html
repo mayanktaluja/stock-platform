@@ -2637,6 +2637,11 @@
     .badge--danger   { background: var(--red-bg);      color: var(--negative-text);    border-color: var(--red-border); }
     .badge--info     { background: var(--blue-bg);     color: var(--info-text);        border-color: rgba(74, 144, 226, 0.30); }
     .badge--neutral  { background: var(--surface-raise-strong); color: var(--text-secondary); border-color: var(--border); }
+    /* PR4 — gold tone (V4 TOP_PICK / DEEP_VALUE) + compact size, so tonePill()
+       can reuse the one badge system for every verdict/freshness pill instead of
+       the app growing a parallel pill vocabulary per tab. */
+    .badge--gold     { background: var(--yellow-bg);   color: var(--gold);             border-color: var(--gold-glow-30); }
+    .badge--sm       { font-size: 10px; padding: 2px 6px; font-weight: 700; }
 
     /* ============================================================
      * Legacy aliases — .refresh-btn was the highest-traffic legacy
