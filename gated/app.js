@@ -7760,9 +7760,16 @@ function swsReasonRow(h) {
   const sws = h.sws || {};
   const rec = sws.v2_recommendation || null;
   const ov = sws;
-  const fvLine = (ov.fair_value_inr != null && ov.current_price_inr != null)
+  // A11: when the current price is known but no analyst fair value exists (SWS
+  // published none and we don't yet ingest the DCF value), show the FV explicitly
+  // as "unavailable" rather than hiding the line — same honest treatment as the
+  // pick card's "unavailable" FV cell, so the user sees that it's missing, not a
+  // silently absent line. The whole line only disappears when we have no price at all.
+  const fvLine = (ov.current_price_inr != null)
     ? `<div style="font-size:11px; color:var(--text-muted); margin-bottom:6px;">
-        AnalystConsensus FV <strong style="color:var(--text);">₹${Number(ov.fair_value_inr).toFixed(0)}</strong> vs current
+        AnalystConsensus FV ${ov.fair_value_inr != null
+          ? `<strong style="color:var(--text);">₹${Number(ov.fair_value_inr).toFixed(0)}</strong>`
+          : `<span title="SWS did not publish a finite fair value for this stock; no discount-to-FV claim is made.">unavailable</span>`} vs current
         <strong style="color:var(--text);">₹${Number(ov.current_price_inr).toFixed(0)}</strong>
         ${ov.upside_pct != null ? `<span style="color:${ov.upside_pct >= 0 ? 'var(--positive-text-soft)' : 'var(--negative-text)'};"> · ${ov.upside_pct >= 0 ? '+' : ''}${ov.upside_pct.toFixed(1)}% to FV</span>` : ""}
       </div>`
