@@ -54,7 +54,7 @@ it("prevents story bonus alone from lifting weak-quality rows into top tier", ()
       last_close_inr: 100,
     },
     v4_breakdown: {
-      pts_future: 20,
+      pts_future: 22, // v4.1: Future pillar max is 0–22 (was 20 = old max; keep max so the quality cap still bites)
       pts_valuation: 18,
       pts_mom_1y: 7,
       pts_mom_3m: 3,

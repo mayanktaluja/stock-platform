@@ -932,7 +932,7 @@
             SWS V4 breakdown · ${escHtml(v4Verdict)} ${v4Score != null ? `(${v4Score}/100)` : ""} · ${escHtml(v3.source || "")}
           </div>
           <div style="display:flex; flex-direction:column; gap:4px;">
-            ${v3Bar("Future", b.pts_future, 20)}
+            ${v3Bar("Future", b.pts_future, 22)}
             ${v3Bar("Past", b.pts_past, 16)}
             ${v3Bar("Valuation", b.pts_fv_total, 12)}
             ${v3Bar("Risk overlay", b.pts_overlay, 15, { negative: true })}

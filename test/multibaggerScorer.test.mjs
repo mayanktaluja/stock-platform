@@ -29,7 +29,7 @@ const strongRow = () => ({
     last_close_inr: 96,
   },
   v4_breakdown: {
-    pts_future: 18,
+    pts_future: 20, // v4.1: Future pillar is 0–22 (was 18 on the old 0–20 scale — same ~0.9 "strong" fraction)
     pts_valuation: 10,
     pts_mom_1y: 2,
     pts_mom_3m: 1,

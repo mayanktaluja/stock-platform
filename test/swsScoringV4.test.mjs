@@ -3,7 +3,7 @@
  *
  * Covers:
  *   • V4_SCORING_VERSION stamp
- *   • pillar scaling H22/F20/V18/P16 + dividend dropped (zero weight)
+ *   • pillar scaling H20/F22/V18/P16 (v4.1 H↔F swap) + dividend dropped (zero weight)
  *   • _fvCompositeV4 — renormalised over present subs, industry fallback for
  *     missing analyst FV, MAX-inflation guard, both-absent neutral
  *   • momentum 7/3/2 + imputation
@@ -41,17 +41,17 @@ const approx = (a, b, eps = 0.06) => Math.abs(a - b) <= eps;
 const mk = (snow, extra = {}) => ({ ticker: "T", overview: { snowflake: snow, ...extra } });
 
 console.log("\nversion stamp\n");
-check("V4_SCORING_VERSION is sws-v4-100pt", () => assert.ok(/sws-v4-100pt/.test(V4_SCORING_VERSION)));
+check("V4_SCORING_VERSION is sws-v4(.x)-100pt", () => assert.ok(/sws-v4(\.\d+)?-100pt/.test(V4_SCORING_VERSION)));
 
 console.log("\npillar scaling + dividend dropped\n");
 check("all pillars 6/6, no FV/momentum data → 88 (76 pillars + 6 FV + 6 mom)", () => {
   const s = mk({ financial_health: 6, future: 6, valuation: 6, past: 6, dividends: 6 });
   const { v4_score_100, v4_breakdown } = computeV4Score(s, { surveillanceFlag: null });
-  assert.equal(v4_breakdown.pts_health, 22);
-  assert.equal(v4_breakdown.pts_future, 20);
+  assert.equal(v4_breakdown.pts_health, 20);   // v4.1: was 22
+  assert.equal(v4_breakdown.pts_future, 22);   // v4.1: was 20
   assert.equal(v4_breakdown.pts_valuation, 18);
   assert.equal(v4_breakdown.pts_past, 16);
-  assert.equal(v4_score_100, 88); // 76 + 6 (FV imputed) + 6 (momentum imputed)
+  assert.equal(v4_score_100, 88); // 76 + 6 (FV imputed) + 6 (momentum imputed) — block sum unchanged
 });
 check("dividend pillar has ZERO weight (two stocks differing only in dividends score equal)", () => {
   const base = { financial_health: 4, future: 3, valuation: 5, past: 4 };
@@ -271,6 +271,19 @@ check("universe present + missing 1Y return → that window scores 0, not median
   assert.ok(b.pts_mom_3m > 2 && b.pts_mom_1m > 1); // windows it DOES have still score
   assert.equal(b.momentum_imputed, true);  // flagged because 1Y is missing
 });
+check("populated universe + NO returns at all → 0 momentum, not a free 5.5 (anti-phantom-quality lock)", () => {
+  // A thinly-traded / no-price-history name against a real universe must earn
+  // ZERO momentum, not the 0.5-median 5.5/12 gift. The 0.5 fallback is ONLY for
+  // an absent stats file (infra gap), never for a stock that simply has no data.
+  const peers = [-30, -10, 0, 10, 30].map((x) => ({ overview: { returns_pct: { "1Y": x, "3M": x, "1M": x } } }));
+  const universe = buildUniverseStats(peers);
+  const noHist = mk({}, { returns_pct: {} }); // populated universe, empty stock returns
+  const b = computeV4Score(noHist, { universe, surveillanceFlag: null }).v4_breakdown;
+  assert.equal(b.pts_mom_1y, 0);
+  assert.equal(b.pts_mom_3m, 0);
+  assert.equal(b.pts_mom_1m, 0);
+  assert.equal(b.momentum_imputed, true);
+});
 
 console.log("\nvalue-trap brake + falling-knife precedence\n");
 check("cheap + 3M bleed + mediocre health → -4 value-trap", () => {
@@ -289,6 +302,42 @@ check("falling-knife fires and SUPPRESSES the value-trap (no double-count)", () 
 check("no brake when valuation isn't cheap", () => {
   const s = mk({ financial_health: 2, valuation: 2 }, { returns_pct: { "1M": -10, "3M": -25 } });
   assert.equal(computeV4Score(s, { surveillanceFlag: null }).v4_breakdown.pts_overlay, 0);
+});
+
+console.log("\nv4.1 growth-trap brake\n");
+check("high-future (5+) + 1M <= -15 → -4 growth-trap", () => {
+  const s = mk({ financial_health: 5, future: 6, valuation: 3 }, { returns_pct: { "1M": -18, "3M": -8 } });
+  const b = computeV4Score(s, { surveillanceFlag: null }).v4_breakdown;
+  assert.equal(b.pts_overlay, -4);
+  assert.ok(b.overlay_reasons.some((r) => /Growth trap/.test(r)));
+  assert.ok(!b.overlay_reasons.some((r) => /Value trap/.test(r))); // distinct reason, won't match shadow A5 /value trap/i
+});
+check("does NOT fire below the future gate (future 4)", () => {
+  const s = mk({ financial_health: 5, future: 4, valuation: 3 }, { returns_pct: { "1M": -18 } });
+  assert.equal(computeV4Score(s, { surveillanceFlag: null }).v4_breakdown.pts_overlay, 0);
+});
+check("does NOT fire above the 1M threshold (-14.9%)", () => {
+  const s = mk({ financial_health: 5, future: 6, valuation: 3 }, { returns_pct: { "1M": -14.9 } });
+  assert.equal(computeV4Score(s, { surveillanceFlag: null }).v4_breakdown.pts_overlay, 0);
+});
+check("falling-knife SUPPRESSES growth-trap (no stack with knife)", () => {
+  const s = mk({ financial_health: 2, future: 6, valuation: 3 }, { returns_pct: { "1M": -30, "3M": -10 } });
+  const b = computeV4Score(s, { surveillanceFlag: null }).v4_breakdown;
+  assert.equal(b.pts_overlay, -5); // knife only
+  assert.ok(!b.overlay_reasons.some((r) => /Growth trap/.test(r)));
+});
+check("growth-trap DELIBERATELY stacks with value-trap → -8", () => {
+  // cheap (val 5) + high future (6) + 3M<-20 + health<=3 + 1M<=-15, but NOT a knife (health 3 > 2)
+  const s = mk({ financial_health: 3, future: 6, valuation: 5 }, { returns_pct: { "1M": -18, "3M": -25 } });
+  const b = computeV4Score(s, { surveillanceFlag: null }).v4_breakdown;
+  assert.equal(b.pts_overlay, -8);
+  assert.ok(b.overlay_reasons.some((r) => /Growth trap/.test(r)));
+  assert.ok(b.overlay_reasons.some((r) => /Value trap/.test(r)));
+});
+check("overlay stays clamped at -15 even with stacked brakes + surveillance", () => {
+  const s = mk({ financial_health: 3, future: 6, valuation: 5 }, { returns_pct: { "1M": -18, "3M": -25 } });
+  const b = computeV4Score(s, { surveillanceFlag: { list: "GSM" } }).v4_breakdown;
+  assert.equal(b.pts_overlay, -15); // -15 GSM -4 -4 → clamped to -15
 });
 
 console.log("\nsurveillance overlay parity with V3\n");

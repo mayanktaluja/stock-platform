@@ -4912,8 +4912,9 @@ function _trackTypeLabel(type) {
 // under-performed the index, as we predicted.
 const TRACK_SHORT_TYPES = new Set(["scanner_sell_top10", "earnings_miss_top10"]);
 
-// PR B8 will populate this when the backtest endpoint ships; for now the
-// hero shows "—" with a backfilling sub-line.
+// Wired from /api/track/calibration (platform_brier) in loadTrackCalibration();
+// stays null until forecasts resolve, so the hero tile shows "—" with an
+// "awaiting resolved forecasts" sub-line rather than a fabricated number.
 let _trackLastBrier = null;
 
 // SEBI 10/10 — Wilson score 95% CI half-width for a proportion. Returns
@@ -4980,16 +4981,10 @@ function populateTrackHero(perf, data) {
     setText("trackBeatNiftySub", "—");
   }
 
-  // Brier — populated by PR B8 when the backtest endpoint ships. Honest
-  // empty state until then.
-  if (_trackLastBrier != null && Number.isFinite(_trackLastBrier)) {
-    const sub = _trackLastBrier <= 0.18 ? "target ≤ 0.18" : `closing on 0.18`;
-    setText("trackBrierValue", _trackLastBrier.toFixed(3));
-    setText("trackBrierSub", sub);
-  } else {
-    setText("trackBrierValue", "—");
-    setText("trackBrierSub", "backfilling — PR B8");
-  }
+  // Brier — the actual value is wired from /api/track/calibration
+  // (platform_brier) in loadTrackCalibration(); this initial paint shows the
+  // honest empty state until that fetch lands or when no forecasts have resolved.
+  renderBrierTile();
 
   // Subline below the hero strip — honest sample size + oldest snapshot.
   const oldestSnap = (Array.isArray(data.trades) && data.trades.length)
@@ -5025,6 +5020,28 @@ function populateTrackHero(perf, data) {
 // rendered below the Track Record hero. Thin buckets (n < 30) paint
 // greyed with a "thin data" badge so the UI never implies confidence in
 // a 4-sample bucket.
+// Paint the Brier hero tile from _trackLastBrier. Called on the initial hero
+// paint (empty state) and again once loadTrackCalibration wires the real value.
+function renderBrierTile() {
+  // setText is a local of populateTrackHero; this function is top-level and is
+  // also called standalone from loadTrackCalibration(), so it needs its own
+  // helper. Without it, renderBrierTile threw `ReferenceError: setText is not
+  // defined`, which — thrown inside loadTrackRecord's try — silently aborted
+  // the whole Track Record render before the by-type / by-regime / history
+  // sections painted.
+  const setText = (id, value) => { const el = document.getElementById(id); if (el) el.textContent = value; };
+  if (_trackLastBrier != null && Number.isFinite(_trackLastBrier)) {
+    setText("trackBrierValue", _trackLastBrier.toFixed(3));
+    setText("trackBrierSub", _trackLastBrier <= 0.18 ? "target ≤ 0.18" : "closing on 0.18");
+  } else {
+    setText("trackBrierValue", "—");
+    // Honest, self-explanatory empty state — not an internal PR reference. Brier
+    // needs resolved forecasts (a predicted confidence vs a realized outcome),
+    // and none have matured yet on the forward ledger.
+    setText("trackBrierSub", "awaiting resolved forecasts");
+  }
+}
+
 async function loadTrackCalibration() {
   const wrap = document.getElementById("trackCalibrationSvgWrap");
   if (!wrap) return;
@@ -5035,6 +5052,10 @@ async function loadTrackCalibration() {
       return;
     }
     const data = await res.json();
+    // Wire the Brier hero tile from the calibration snapshot (server exposes
+    // platform_brier). Null/absent until forecasts resolve → tile stays "—".
+    _trackLastBrier = Number.isFinite(data && data.platform_brier) ? data.platform_brier : null;
+    renderBrierTile();
     wrap.innerHTML = renderCalibrationSvg(data);
     const sub = document.getElementById("trackCalibrationSub");
     if (sub) {
@@ -5755,10 +5776,18 @@ function _sectionCardHTML(section, primaryHorizon) {
 
   // SEBI 10/10 — D5: snapshot date sub-line. Replaces the previous
   // "n_total · cum α" line with snapshot-date-first formatting.
+  // Thin-sample flag: below 30 tracked names the cumulative alpha is noisy, so
+  // mark the card provisional — mirrors the section header pill's n<30
+  // "measuring" state and the calibration plot's n<30 greying, which the
+  // scorecard cards previously lacked.
+  const SCORECARD_THIN_N = 30;
+  const thinBadge = (typeof nTracked === "number" && nTracked > 0 && nTracked < SCORECARD_THIN_N)
+    ? ` <span title="Fewer than ${SCORECARD_THIN_N} tracked names — cumulative alpha is a small, noisy sample; treat as provisional." style="color:var(--warn); font-weight:700;">· thin (n&lt;${SCORECARD_THIN_N})</span>`
+    : "";
   const subLine = `
     <div style="font-size:10px; color:var(--text-muted);">
       Snapshot: <strong style="color: var(--text-secondary);">${escapeHtml(snapshotDate)}</strong>
-      · n=${nTracked} tracked
+      · n=${nTracked} tracked${thinBadge}
       · cum α (${sparkHorizon}): ${cumPct != null ? `<span style="color:${cumPct >= 0 ? 'var(--green-bright)' : 'var(--red-bright)'}; font-weight:600;">${cumPct >= 0 ? '+' : ''}${cumPct}%</span>` : "—"}
     </div>`;
 
@@ -7778,9 +7807,16 @@ function swsReasonRow(h) {
   const sws = h.sws || {};
   const rec = sws.v2_recommendation || null;
   const ov = sws;
-  const fvLine = (ov.fair_value_inr != null && ov.current_price_inr != null)
+  // A11: when the current price is known but no analyst fair value exists (SWS
+  // published none and we don't yet ingest the DCF value), show the FV explicitly
+  // as "unavailable" rather than hiding the line — same honest treatment as the
+  // pick card's "unavailable" FV cell, so the user sees that it's missing, not a
+  // silently absent line. The whole line only disappears when we have no price at all.
+  const fvLine = (ov.current_price_inr != null)
     ? `<div style="font-size:11px; color:var(--text-muted); margin-bottom:6px;">
-        AnalystConsensus FV <strong style="color:var(--text);">₹${Number(ov.fair_value_inr).toFixed(0)}</strong> vs current
+        AnalystConsensus FV ${ov.fair_value_inr != null
+          ? `<strong style="color:var(--text);">₹${Number(ov.fair_value_inr).toFixed(0)}</strong>`
+          : `<span title="SWS did not publish a finite fair value for this stock; no discount-to-FV claim is made.">unavailable</span>`} vs current
         <strong style="color:var(--text);">₹${Number(ov.current_price_inr).toFixed(0)}</strong>
         ${ov.upside_pct != null ? `<span style="color:${ov.upside_pct >= 0 ? 'var(--positive-text-soft)' : 'var(--negative-text)'};"> · ${ov.upside_pct >= 0 ? '+' : ''}${ov.upside_pct.toFixed(1)}% to FV</span>` : ""}
       </div>`
@@ -12097,7 +12133,14 @@ const PICKS_SECTIONS = [
   { key: "midterm", term_id: "section_midterm", emoji: "⚡", label: "⚡ Midterm Picks (3-12 months)", chip_label: "Midterm", subtitle: "Trend-following — momentum already on side, with FV upside ≥ 15% remaining." },
   { key: "dividend_aristocrats", term_id: "section_dividend_aristocrats", emoji: "💰", label: "💰 Dividend Aristocrats", chip_label: "Dividend", subtitle: "Sustainable payers: Dividend pillar ≥ 5, payout < 70%, yield ≥ 1.5%." },
   { key: "smallcap_gems", term_id: "section_smallcap_gems", emoji: "🔍", label: "🔍 Smallcap Hidden Gems", chip_label: "Smallcap Gems", subtitle: "True smallcap quality: mcap < ₹15,000cr (NSE rank 251+) + Snowflake ≥ 22 + upside ≥ 15%." },
-  { key: "insider_buying", term_id: "section_insider_buying", emoji: "👁", label: "👁 Insider Buying", chip_label: "Insider", subtitle: "Material insider / MD buys in last 90 days. Data field not yet captured." },
+  // insider_buying retired from the India homepage (B8): SWS ships no insider
+  // data (ov.insider_activity is null universe-wide) so the section was always
+  // empty — showing an always-empty "Data field not yet captured" screen was
+  // dead coverage. Removed from PICKS_SECTIONS so it never renders a section or
+  // a chip. The scorers still emit an empty `insider_buying: []` key (read-side
+  // consumers — swsDiscoveryFeed, the track-record snapshotter — iterate section
+  // keys), and the track-record registry keeps `sws_insider_buying` as a
+  // discontinued type so historical rows still filter correctly.
 ];
 
 // PR2 declutter — the curated "core" screens shown on the homepage by default.
@@ -13357,7 +13400,7 @@ function renderPickCard(s, sectionKey, rank = null) {
     const fundSum = (b.pts_health || 0) + (b.pts_future || 0) + (b.pts_valuation || 0)
                   + (b.pts_past || 0) + (b.pts_fv_total || 0);
     const fundScore100 = (fundSum / 88) * 100;
-    fundBadge = `<span class="sws-fund-badge" title="Fundamentals score, rescaled to 100. Same definition as the score-breakdown modal's 'Pillars 76 + FV 12' lines: 4 SWS pillars (Health 22 + Future 20 + Valuation 18 + Past 16) + FV composite (12).">F ${fundScore100.toFixed(1)}/100</span>`;
+    fundBadge = `<span class="sws-fund-badge" title="Fundamentals score, rescaled to 100. Same definition as the score-breakdown modal's 'Pillars 76 + FV 12' lines: 4 SWS pillars (Health 20 + Future 22 + Valuation 18 + Past 16) + FV composite (12).">F ${fundScore100.toFixed(1)}/100</span>`;
   }
   const sectorTailwindBadge = (sectionKey === "growing_sector_value" && s.sector_tailwind_label)
     ? `<span class="sws-fund-badge" title="${escapeHtml(s.sector_tailwind_reason || "Sector Outlook 3-12m tailwind")}">${escapeHtml(String(s.sector_tailwind_label).replace(/_/g, " "))}${s.sector_tailwind_confidence ? ` · ${escapeHtml(s.sector_tailwind_confidence)}` : ""}</span>`
@@ -14754,7 +14797,7 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
       fvHintParts.push(`Total ${n1(v4bd.pts_fv_total)}/12`);
       const fvHint = fvHintParts.join(" · ");
       const items = [
-        { label: "Pillars 76", value: Math.round(pillarTotal * 10) / 10, max: 76, hint: "Health 22 · Future 20 · Valuation 18 · Past 16 (no dividend pillar in v4)" },
+        { label: "Pillars 76", value: Math.round(pillarTotal * 10) / 10, max: 76, hint: "Health 20 · Future 22 · Valuation 18 · Past 16 (no dividend pillar in v4)" },
         { label: "FV composite 12", value: v4bd.pts_fv_total, max: 12, hint: fvHint || "Relative analyst-upside + P/E-vs-industry, renormalised over present signals" },
         { label: "Momentum 12", value: Math.round(momTotal * 10) / 10, max: 12, hint: "Universe-percentile returns: 1Y (7) + 3M (3) + 1M (2)" },
         { label: "Safety overlay", value: v4bd.pts_overlay, max: 0, min: -15, negative: true, hint: (v4bd.overlay_reasons || []).join(" · ") || "No surveillance / value-trap / momentum-tail penalties triggered" },
@@ -15185,7 +15228,7 @@ function renderSwsModalCore(data, opts = INDIA_MODAL_OPTS) {
     <div class="sws-modal-section">
       <h4>Score breakdown — v4 quality-value blend (out of 100)</h4>
       ${barsHtml}
-      <div style="font-size:10px;color:var(--text-muted);margin-top:8px;">V4 = 4 SWS pillars (Health 22 + Future 20 + Valuation 18 + Past 16 = 76, dividend dropped) + a coverage-renormalised fair-value composite (relative analyst upside + P/E-vs-industry, 12) + universe-percentile momentum (12) - safety overlay (max -15). Stocks lacking analyst FV use an industry-average FV composite when covered peers exist; otherwise they get a neutral 6/12 (flagged fv_imputed in the breakdown).</div>
+      <div style="font-size:10px;color:var(--text-muted);margin-top:8px;">V4 = 4 SWS pillars (Health 20 + Future 22 + Valuation 18 + Past 16 = 76, dividend dropped) + a coverage-renormalised fair-value composite (relative analyst upside + P/E-vs-industry, 12) + universe-percentile momentum (12) - safety overlay (max -15). Stocks lacking analyst FV use an industry-average FV composite when covered peers exist; otherwise they get a neutral 6/12 (flagged fv_imputed in the breakdown).</div>
     </div>` : ""}
 
     ${hexHtml}

@@ -183,7 +183,7 @@ export function scoreCandidate({
 
   // Components (additive)
   const c_mcap = mcapBandPts(market_cap_inr);
-  const c_future = isFiniteNumber(v4_breakdown.pts_future) ? Math.round(v4_breakdown.pts_future / 20 * 12 * 10) / 10 : 0;
+  const c_future = isFiniteNumber(v4_breakdown.pts_future) ? Math.round(v4_breakdown.pts_future / 22 * 12 * 10) / 10 : 0; // v4.1: Future pillar is now 0–22
   const c_valuation = isFiniteNumber(v4_breakdown.pts_valuation) ? Math.round(v4_breakdown.pts_valuation / 18 * 10 * 10) / 10 : 0;
   const c_fv_upside = fvUpsidePts(upside_pct, fv_imputed);
   const inflection = scoreInflection({ yearly_history, news, most_recent_reported_date });

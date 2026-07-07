@@ -110,8 +110,8 @@ const V3_VERDICT_NUDGE = {
  * blunt composite verdict — the thing that made 73% of predictions
  * cluster on INLINE) with the decomposed SWS V4 100-pt breakdown.
  *
- * `pts_future` (0–20, SWS forward-earnings-growth pillar) and
- * `pts_past` (0–12, earnings-trajectory pillar) are the two V3 pillars
+ * `pts_future` (0–22 since v4.1, SWS forward-earnings-growth pillar) and
+ * `pts_past` (0–16, earnings-trajectory pillar) are the two V4 pillars
  * most predictive of a next-quarter beat/miss. They are anchored at
  * their neutral midpoint (a 3/6 snowflake pillar) so a weak-future
  * stock scores genuinely NEGATIVE rather than merely zero — the old
@@ -128,10 +128,12 @@ function scoreV3FuturePast(signals) {
   const b = swsSignal?.breakdown;
   if (!b) return { pts: 0, breakdown: { futurePts: 0, pastPts: 0 }, why: "no V4 signal" };
 
-  const ptsFuture = num(b.pts_future) ?? 10; // neutral = (3/6)*20
+  const ptsFuture = num(b.pts_future) ?? 11; // v4.1: neutral = (3/6)*22
   const ptsPast = num(b.pts_past) ?? 8; // V4: neutral = (3/6)*16 (Past is 0–16)
-  // Anchor at the neutral midpoint, scale to ±12 / ±6.
-  const futureContrib = clamp(((ptsFuture - 10) / 10) * 12, -12, 12);
+  // Anchor at the neutral midpoint, scale to ±12 / ±6. (v4.1: Future is now
+  // 0–22, so the neutral anchor + scale move 10→11 — else a neutral 3/6 stock
+  // lands at 11 and reads as a phantom +1.2 BEAT bias.)
+  const futureContrib = clamp(((ptsFuture - 11) / 11) * 12, -12, 12);
   const pastContrib = clamp(((ptsPast - 8) / 8) * 6, -6, 6); // V4 Past 0–16, neutral 8
   const verdict = swsSignal.v4_verdict || swsSignal.v3_verdict;
   const verdictNudge = num(V3_VERDICT_NUDGE[verdict]) ?? 0;
@@ -144,7 +146,7 @@ function scoreV3FuturePast(signals) {
       pastPts: Math.round(pastContrib * 10) / 10,
       verdictNudge,
     },
-    why: `V4 future ${ptsFuture.toFixed(0)}/20 · past ${ptsPast.toFixed(0)}/16` +
+    why: `V4 future ${ptsFuture.toFixed(0)}/22 · past ${ptsPast.toFixed(0)}/16` +
       (verdict ? ` (${verdict})` : ""),
   };
 }

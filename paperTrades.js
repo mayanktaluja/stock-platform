@@ -211,6 +211,10 @@ export function buildTradeEntry(pick, type, context) {
         : "smallcap250_tri")
       : "nifty50_tri",
     market_cap_inr_at_snapshot: marketCapInr,
+    // Scoring-model stamp so the section backtest can split populations across a
+    // deliberate score change (e.g. the v4.1 H↔F pillar reweight, 2026-07). Old
+    // rows lack this field → treated as the pre-v4.1 era by snapshotAt date.
+    scoring_version: context.scoring_version || null,
     target_horizons: horizons,
     returns_by_horizon: returnsByHorizon,
   };
@@ -452,8 +456,9 @@ export async function snapshotSwsAllSections(picksData, context = {}) {
     const sliced = items.slice(0, SECTION_TOP_N);
     const picks = sliced.map(swsPickToTradeShape).filter(Boolean);
     if (picks.length === 0) continue;
+    const scoringVersion = context.scoring_version || picksData.scoring_version || null;
     const entries = picks
-      .map((p, idx) => buildTradeEntry(p, type, { ...context, snapshotAt, section_rank: idx + 1 }))
+      .map((p, idx) => buildTradeEntry(p, type, { ...context, snapshotAt, scoring_version: scoringVersion, section_rank: idx + 1 }))
       .filter(Boolean);
     if (entries.length === 0) continue;
     const result = await appendTrades(entries);
