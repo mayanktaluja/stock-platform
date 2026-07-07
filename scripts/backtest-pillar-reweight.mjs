@@ -48,15 +48,27 @@ const PICKS_PATH = "data/sws/picks-latest.json";
 const LEDGER = path.join(REPO, "data", "track-record", "paper-trades-live.jsonl");
 const SEED_LEDGER = path.join(REPO, "data", "track-record", "paper-trades-seed.jsonl");
 
-const LIVE_W = { health: 22, future: 20, valuation: 18, past: 16 };
-// Candidates all sum to 76 — same block scale, so score bands stay comparable.
+// The pillar weights each scoring_version scored its cards under. Fraction
+// recovery MUST use the era the card was scored in — else, once post-v4.1 cards
+// accrue in the git history, applying the swap to an already-swapped card
+// double-counts it. (Ripple-map finding #10.)
+const WEIGHTS_BY_VERSION = {
+  "sws-v4-100pt-2026-05": { health: 22, future: 20, valuation: 18, past: 16 },   // pre-v4.1
+  "sws-v4.1-100pt-2026-07": { health: 20, future: 22, valuation: 18, past: 16 }, // v4.1 (now LIVE)
+};
+const PRE_V41 = WEIGHTS_BY_VERSION["sws-v4-100pt-2026-05"];
+const LIVE_NOW = WEIGHTS_BY_VERSION["sws-v4.1-100pt-2026-07"]; // the v4.1 swap is live
+function recoveryWeightsFor(version) {
+  return WEIGHTS_BY_VERSION[version] || PRE_V41; // absent stamp = pre-v4.1 era
+}
+// Candidates all sum to 76. LIVE = the CURRENT production weighting (the swap was
+// promoted, so it is the baseline now, not a candidate). The rest are the next
+// hypotheses to explore against fresh out-of-sample evidence.
 const CANDIDATES = {
-  LIVE: LIVE_W,
-  "SWAP_20/22/18/16": { health: 20, future: 22, valuation: 18, past: 16 },
-  "USER_MID_20/22/16/18": { health: 20, future: 22, valuation: 16, past: 18 },
-  "USER_MAX_20/24/14/18": { health: 20, future: 24, valuation: 14, past: 18 },
-  "V3_SHAPE_22/20/14/20": { health: 22, future: 20, valuation: 14, past: 20 },
-  "GROWTH_DF_22/22/14/18": { health: 22, future: 22, valuation: 14, past: 18 },
+  LIVE: LIVE_NOW,
+  "GROWTH_MORE_20/24/18/14": { health: 20, future: 24, valuation: 18, past: 14 },
+  "PAST_TILT_20/22/16/18": { health: 20, future: 22, valuation: 16, past: 18 },
+  "HEALTH_BACK_21/21/18/16": { health: 21, future: 21, valuation: 18, past: 16 },
 };
 
 function parseArgs() {
@@ -108,15 +120,17 @@ function poolFromSnapshot(hash) {
       });
     }
   }
-  return seen.size ? seen : null;
+  return seen.size ? { pool: seen, scoringVersion: j.scoring_version || null } : null;
 }
 
-function adjustedScore(card, w) {
+// Recover each pillar's 0..1 fraction using the weights the card was SCORED
+// under (recoveryW = its era), then re-apply the candidate target weights.
+function adjustedScore(card, targetW, recoveryW) {
   return card.v4
-    + (card.h / LIVE_W.health) * (w.health - LIVE_W.health)
-    + (card.f / LIVE_W.future) * (w.future - LIVE_W.future)
-    + (card.v / LIVE_W.valuation) * (w.valuation - LIVE_W.valuation)
-    + (card.p / LIVE_W.past) * (w.past - LIVE_W.past);
+    + (card.h / recoveryW.health) * (targetW.health - recoveryW.health)
+    + (card.f / recoveryW.future) * (targetW.future - recoveryW.future)
+    + (card.v / recoveryW.valuation) * (targetW.valuation - recoveryW.valuation)
+    + (card.p / recoveryW.past) * (targetW.past - recoveryW.past);
 }
 
 // Nifty level per date. Primary: Yahoo ^NSEI daily closes (the ledger's
@@ -170,8 +184,8 @@ async function main() {
   const snaps = dailySnapshots();
   const pools = [];
   for (const s of snaps) {
-    const pool = poolFromSnapshot(s.hash);
-    if (pool) pools.push({ ...s, pool });
+    const snap = poolFromSnapshot(s.hash);
+    if (snap) pools.push({ ...s, pool: snap.pool, recoveryW: recoveryWeightsFor(snap.scoringVersion) });
   }
   const nifty = pools.length
     ? await niftyByDate(pools[0].date, new Date(Date.parse(pools[pools.length - 1].date) + 3 * 86400000).toISOString().slice(0, 10))
@@ -197,12 +211,13 @@ async function main() {
     const niftyRet = nEntry && nExit ? ((nExit - nEntry) / nEntry) * 100 : null;
 
     const cards = [...entry.pool.values()];
-    const liveTop = cards.slice().sort((a, b) => adjustedScore(b, LIVE_W) - adjustedScore(a, LIVE_W)).slice(0, TOP_N);
+    const rw = entry.recoveryW; // era the cards in this snapshot were scored under
+    const liveTop = cards.slice().sort((a, b) => adjustedScore(b, LIVE_NOW, rw) - adjustedScore(a, LIVE_NOW, rw)).slice(0, TOP_N);
     const liveSet = new Set(liveTop.map((c) => c.ticker));
 
     for (const [k, w] of Object.entries(CANDIDATES)) {
       const top = k === "LIVE" ? liveTop
-        : cards.slice().sort((a, b) => adjustedScore(b, w) - adjustedScore(a, w)).slice(0, TOP_N);
+        : cards.slice().sort((a, b) => adjustedScore(b, w, rw) - adjustedScore(a, w, rw)).slice(0, TOP_N);
       if (k !== "LIVE") {
         const overlap = top.filter((c) => liveSet.has(c.ticker)).length;
         res[k].overlapSum += overlap / TOP_N; res[k].overlapN++;
