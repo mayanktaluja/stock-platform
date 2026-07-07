@@ -65,6 +65,46 @@
       </span>`;
   }
 
+  // ── ranking model ──────────────────────────────────────────────
+  // The tab ranks sectors by EXPECTED OUTLOOK DIRECTION (strongest tailwind
+  // first), NOT by the trust/data-quality score. Trust is a confidence signal,
+  // shown as its own column + the "Trust" sort mode, and used only as a
+  // tie-break in the growth sort.
+  const SORT_STORAGE_KEY = "sectorOutlookSort_v1";
+  // Thin-evidence flag thresholds (90-day window). Soft: flag, don't hide.
+  const NEWS_FLOOR = 40;
+  const BREADTH_FLOOR = 0.2;
+
+  const numOr = (v, fallback) => {
+    const n = Number(v);
+    return Number.isFinite(n) ? n : fallback;
+  };
+
+  // Signed growth-rank key for one horizon object. Prefers the authoritative
+  // backend field (present after the PR2 regen); falls back to a client-side
+  // de-bias for older payloads where `composite` still halves an uncorroborated
+  // sector's signal toward NEUTRAL against a phantom-zero top-down.
+  function growthKey(h) {
+    if (!h || typeof h !== "object") return -Infinity;
+    if (Number.isFinite(Number(h.growth_rank_score))) return Number(h.growth_rank_score);
+    const raw = h.top_down?.status === "UNCORROBORATED"
+      ? Number(h.bottom_up?.score)
+      : Number(h.composite);
+    return Number.isFinite(raw) ? raw : -Infinity;
+  }
+
+  function isThinEvidence(h) {
+    const n = Number(h?.bottom_up?.n_news);
+    const b = Number(h?.bottom_up?.breadth_pct);
+    return (Number.isFinite(n) && n < NEWS_FLOOR) || (Number.isFinite(b) && b < BREADTH_FLOOR);
+  }
+
+  function thinPill(h) {
+    if (!isThinEvidence(h)) return "";
+    return `<span data-testid="thin-evidence" title="Thin evidence: under ${NEWS_FLOOR} classified news items or below ${Math.round(BREADTH_FLOOR * 100)}% sector breadth in the 90-day window — treat this rank as lower-confidence." style="display:inline-flex; align-items:center; gap:4px; margin-left:6px; font-size:10px; font-weight:600; color:var(--text-gray); background:rgba(156,163,175,0.10); border:1px solid rgba(156,163,175,0.30); padding:1px 6px; border-radius:10px;">⚠ thin</span>`;
+  }
+
+  // Legacy trust-first sort (kept behind the "Trust" sort mode).
   function sortSectorsByTrust(sectors, horizon) {
     const confidenceRank = { HIGH: 3, MED: 2, LOW: 1 };
     const directionRank = { STRONG_TAILWIND: 5, STRONG_HEADWIND: 4, TAILWIND: 3, HEADWIND: 2, NEUTRAL: 1 };
@@ -79,6 +119,62 @@
       if (ar) return ar;
       return (directionRank[bh.outlook_label] || 0) - (directionRank[ah.outlook_label] || 0);
     });
+  }
+
+  // Default sort: signed growth key desc → trust → breadth → name (stable).
+  // Comparison via `>` (not subtraction) so -Infinity sinks cleanly without NaN.
+  function sortSectorsByGrowth(sectors, horizon) {
+    return [...(sectors || [])].sort((a, b) => {
+      const ah = a.horizons?.[horizon] || {};
+      const bh = b.horizons?.[horizon] || {};
+      const ga = growthKey(ah);
+      const gb = growthKey(bh);
+      if (ga !== gb) return gb > ga ? 1 : -1;
+      const tr = (Number(bh.trust_score) || 0) - (Number(ah.trust_score) || 0);
+      if (tr) return tr;
+      const br = (Number(bh.bottom_up?.breadth_pct) || 0) - (Number(ah.bottom_up?.breadth_pct) || 0);
+      if (br) return br;
+      return String(a.sector || "").localeCompare(String(b.sector || ""));
+    });
+  }
+
+  // Single-column accessors for click-to-sort headers.
+  const COLUMN_ACCESSORS = {
+    composite: (h) => growthKey(h),
+    trust: (h) => numOr(h?.trust_score, -Infinity),
+    breadth: (h) => numOr(h?.bottom_up?.breadth_pct, -Infinity),
+    news: (h) => numOr(h?.bottom_up?.n_news, -Infinity),
+  };
+
+  function sortSectors(sectors, horizon, sortState) {
+    const st = sortState || { key: "growth", dir: "desc" };
+    if (st.key === "trustLegacy") return sortSectorsByTrust(sectors, horizon);
+    if (st.key === "growth" || !COLUMN_ACCESSORS[st.key]) return sortSectorsByGrowth(sectors, horizon);
+    const accessor = COLUMN_ACCESSORS[st.key];
+    const mult = st.dir === "asc" ? -1 : 1; // desc default (highest on top)
+    return [...(sectors || [])].sort((a, b) => {
+      const va = accessor(a.horizons?.[horizon] || {});
+      const vb = accessor(b.horizons?.[horizon] || {});
+      if (va !== vb) return (vb > va ? 1 : -1) * mult;
+      return String(a.sector || "").localeCompare(String(b.sector || ""));
+    });
+  }
+
+  function readSortState() {
+    try {
+      const raw = localStorage.getItem(SORT_STORAGE_KEY);
+      if (raw) {
+        const p = JSON.parse(raw);
+        if (p && typeof p.key === "string") {
+          return { key: p.key, dir: p.dir === "asc" ? "asc" : "desc" };
+        }
+      }
+    } catch { /* ignore */ }
+    return { key: "growth", dir: "desc" };
+  }
+
+  function writeSortState(st) {
+    try { localStorage.setItem(SORT_STORAGE_KEY, JSON.stringify(st)); } catch { /* ignore */ }
   }
 
   function renderTrustFactors(factors) {
@@ -98,7 +194,8 @@
       </div>`;
   }
 
-  function renderHeader(doc) {
+  function renderHeader(doc, horizon) {
+    const h = horizon || "3_12m";
     const ts = doc.generated_at
       ? new Date(doc.generated_at).toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" })
       : "—";
@@ -106,7 +203,7 @@
     const regimeSeverity = doc.regime_at_generation?.severity ?? "—";
     const tally = { STRONG_TAILWIND: 0, TAILWIND: 0, NEUTRAL: 0, HEADWIND: 0, STRONG_HEADWIND: 0 };
     for (const s of doc.sectors || []) {
-      const l = s.horizons?.["3_12m"]?.outlook_label || "NEUTRAL";
+      const l = s.horizons?.[h]?.outlook_label || "NEUTRAL";
       tally[l] = (tally[l] || 0) + 1;
     }
     const tiles = [
@@ -168,12 +265,14 @@
     const topThemes = (h.bottom_up?.top_themes || []).slice(0, 2);
     const topThemesStr = topThemes.map((t) => `${escapeHtml(t.theme.replace(/_/g, " "))} ${FMT_PCT(t.pct)}`).join(", ") || "—";
     const drillId = rowIdFor(sectorRow.sector, horizon);
+    const gScore = growthKey(h);
+    const gScoreAttr = Number.isFinite(gScore) ? gScore.toFixed(4) : "";
     return `
-      <tr data-testid="sector-outlook-row" data-sector="${escapeHtml(sectorRow.sector)}" tabindex="0" role="button" aria-expanded="false" aria-controls="${escapeHtml(drillId)}" style="border-bottom:1px solid var(--bg-graphite); cursor:pointer;" onclick="window.__sectorOutlookToggleDrillDown(this)" onkeydown="window.__sectorOutlookToggleDrillDown(this, event)">
+      <tr data-testid="sector-outlook-row" data-sector="${escapeHtml(sectorRow.sector)}" data-growth-score="${escapeHtml(gScoreAttr)}" tabindex="0" role="button" aria-expanded="false" aria-controls="${escapeHtml(drillId)}" style="border-bottom:1px solid var(--bg-graphite); cursor:pointer;" onclick="window.__sectorOutlookToggleDrillDown(this)" onkeydown="window.__sectorOutlookToggleDrillDown(this, event)">
         <td style="padding:10px 8px; font-weight:600;">${escapeHtml(sectorRow.sector)}</td>
         <td data-trust-score="${escapeHtml(Number.isFinite(Number(trustScore)) ? Number(trustScore).toFixed(2) : "")}" style="padding:10px 8px;">${trustBadge(trustScore)}</td>
         <td style="padding:10px 8px;">${labelBadge(label)} <span style="margin-left:6px;">${decisionStateBadge()}</span></td>
-        <td style="padding:10px 8px;">${confidenceDot(conf)}</td>
+        <td style="padding:10px 8px;">${confidenceDot(conf)}${thinPill(h)}</td>
         <td style="padding:10px 8px; text-align:right; font-variant-numeric:tabular-nums; color:${composite > 0 ? "var(--positive-text-emerald)" : composite < 0 ? "var(--orange-bright)" : "var(--text-muted)"};">${FMT_NUM(composite, 2)}</td>
         <td style="padding:10px 8px; text-align:right; font-variant-numeric:tabular-nums; color:var(--text-muted);">${FMT_NUM(bottomUp, 2)}</td>
         <td style="padding:10px 8px; text-align:right; font-variant-numeric:tabular-nums; color:var(--text-muted);">${FMT_NUM(topDown, 2)}</td>
@@ -239,8 +338,18 @@
     rowEl.setAttribute("aria-expanded", String(opening));
   };
 
-  function renderMatrix(doc, horizon) {
-    const sectors = sortSectorsByTrust(doc.sectors || [], horizon);
+  // `iconHtml` is passed pre-rendered (e.g. infoIcon("sector_trust_score")) so the
+  // glossary-id literal stays in the render source for the coverage scanner.
+  function sortableTh(label, iconHtml, sortKey, sortState, align) {
+    const isActive = sortState?.key === sortKey;
+    const ariaSort = isActive ? (sortState.dir === "asc" ? "ascending" : "descending") : "none";
+    const arrow = isActive ? (sortState.dir === "asc" ? " ▲" : " ▼") : "";
+    const color = isActive ? "var(--purple-bright)" : "inherit";
+    return `<th data-sort-key="${sortKey}" aria-sort="${ariaSort}" class="sector-outlook-sortable-th" title="Click to sort by ${escapeHtml(label)}" style="padding:10px 8px; text-align:${align}; cursor:pointer; user-select:none; color:${color};">${label}${iconHtml || ""}${arrow}</th>`;
+  }
+
+  function renderMatrix(doc, horizon, sortState) {
+    const sectors = sortSectors(doc.sectors || [], horizon, sortState);
     if (!sectors.length) {
       return `<div style="padding:32px; text-align:center; color:var(--text-muted);">No sectors classified yet — run scripts/refresh-sector-outlook.mjs.</div>`;
     }
@@ -251,19 +360,34 @@
           <thead>
             <tr style="border-bottom:2px solid var(--bg-graphite); color:var(--text-muted); font-size:11px; letter-spacing:0.04em; text-transform:uppercase;">
               <th style="padding:10px 8px; text-align:left;">Sector</th>
-              <th style="padding:10px 8px; text-align:left;">Trust${infoIcon("sector_trust_score")}</th>
+              ${sortableTh("Trust", infoIcon("sector_trust_score"), "trust", sortState, "left")}
               <th style="padding:10px 8px; text-align:left;">Outlook${infoIcon("sector_outlook_label")}</th>
               <th style="padding:10px 8px; text-align:left;">Confidence${infoIcon("sector_outlook_confidence")}</th>
-              <th style="padding:10px 8px; text-align:right;">Composite${infoIcon("sector_composite")}</th>
+              ${sortableTh("Composite", infoIcon("sector_composite"), "composite", sortState, "right")}
               <th style="padding:10px 8px; text-align:right;">Bottom-up${infoIcon("sector_bottom_up")}</th>
               <th style="padding:10px 8px; text-align:right;">Top-down${infoIcon("sector_top_down")}</th>
-              <th style="padding:10px 8px; text-align:right;">Breadth${infoIcon("sector_breadth")}</th>
-              <th style="padding:10px 8px; text-align:right;">News (90d)${infoIcon("sector_news_90d")}</th>
+              ${sortableTh("Breadth", infoIcon("sector_breadth"), "breadth", sortState, "right")}
+              ${sortableTh("News (90d)", infoIcon("sector_news_90d"), "news", sortState, "right")}
               <th style="padding:10px 8px; text-align:left;">Top themes${infoIcon("sector_top_themes")}</th>
             </tr>
           </thead>
           <tbody>${rows}</tbody>
         </table>
+      </div>`;
+  }
+
+  function renderSortToggle(sortState) {
+    const key = sortState?.key || "growth";
+    const btn = (mode, label, tip) => {
+      const on = key === mode;
+      return `<button type="button" class="sector-outlook-sort-btn" data-sort-mode="${mode}" aria-pressed="${on}" title="${escapeHtml(tip)}"
+        style="padding:6px 14px; border-radius:14px; font-size:12px; font-weight:500; border:1px solid ${on ? "rgba(167,139,250,0.4)" : "var(--bg-graphite)"}; background:${on ? "rgba(167,139,250,0.10)" : "transparent"}; color:${on ? "var(--purple-bright)" : "var(--text-muted)"}; cursor:pointer;">${escapeHtml(label)}</button>`;
+    };
+    return `
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px; flex-wrap:wrap;">
+        <span style="font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em;">Sort${infoIcon("sector_growth_sort")}</span>
+        ${btn("growth", "Growth outlook", "Strongest tailwind first — ranked by the bottom-up news signal cross-checked with the macro regime. Indicative context, not a forecast.")}
+        ${btn("trustLegacy", "Trust", "Rank by data-confidence (evidence volume, breadth, freshness) instead of outlook direction.")}
       </div>`;
   }
 
@@ -291,7 +415,8 @@
           <p><strong>Inputs.</strong> Per-stock news arrays from SWS deep briefs (data/sws/deep/&lt;TICKER&gt;.json:news[]), with the current macro regime classification (data/macroRegime.json) as the cross-check signal.</p>
           <p><strong>Bottom-up.</strong> Every SWS news item is classified into one of 8 themes (Capacity/Capex, M&amp;A, Order Wins, Regulatory Event, Margin Move, Earnings Move, Strategic/Geopolitical, Neutral) plus a directional sign and intensity. A deterministic keyword classifier produces the first pass; an LLM refines the ambiguous items within a 365-day recency window. Each India Market sector aggregates its news across three rolling windows (30d / 90d / 365d) into a market-cap-weighted signal, with a 15% single-issuer breadth cap so no one ticker can dominate. Macro-bucket consumers can still use conglomerate routing, but this tab preserves the user-visible India Market sector label.</p>
           <p><strong>Top-down.</strong> Indian regulator + global wire RSS headlines (RBI, SEBI, Reuters, Bloomberg, Moneycontrol, Economic Times, etc.) are classified into one of 9 macro regimes with per-sector impact scores. Sector rows keep the same labels as India Market; the macro cross-check normalizes those labels to broader macro buckets. The Sector Outlook reads only the CURRENT regime (v1 deliberately doesn&apos;t smooth across history).</p>
-          <p><strong>Trust model.</strong> Rows are ranked by a 0–100 trust score before outlook direction. The score blends evidence volume, breadth, 30/90/365-day stability, macro/external agreement, classifier confidence, available sector-index confirmation, and freshness. Missing macro or index context is marked UNCORROBORATED; true opposite-sign evidence is marked DIVERGENT and reduces trust.</p>
+          <p><strong>Ranking.</strong> Rows are ranked by outlook direction — the bottom-up news signal cross-checked with the macro regime — strongest tailwind first, so the sectors where the observed news and macro flow lean most positive sit on top. This is indicative context, not a forecast. When the macro regime is neutral for a sector (uncorroborated), the composite uses the bottom-up signal directly rather than halving it toward neutral against an absent macro read.</p>
+          <p><strong>Trust model.</strong> Trust is a separate 0–100 confidence score, shown in its own column — it does <em>not</em> set the rank order. It blends evidence volume, breadth, 30/90/365-day stability, macro/external agreement, classifier confidence, available sector-index confirmation, and freshness. Switch the Sort control to "Trust" to rank by confidence instead of outlook. Rows with thin evidence (few news items or low breadth) are flagged. Missing macro or index context is marked UNCORROBORATED; true opposite-sign evidence is marked DIVERGENT and reduces trust.</p>
           <p><strong>What v1 does NOT do.</strong> No formal walk-forward backtest. No named stock recommendations within a sector. No 24-36 month horizon. The macro regime history is too thin for honest analog signal at multi-year scales — that&apos;s a v2 scope decision.</p>
           ${caveats.length ? `<div style="margin-top:14px; padding:12px 14px; background:rgba(167,139,250,0.06); border:1px solid rgba(167,139,250,0.22); border-radius:6px; font-size:11px;"><strong style="color:var(--purple-bright);">Important caveats:</strong><ul style="margin:6px 0 0 0; padding-left:20px;">${caveats.map((c) => `<li>${escapeHtml(c)}</li>`).join("")}</ul></div>` : ""}
           <p style="margin-top:18px; font-size:11px; color:var(--text-muted);">Audit: classifier ${escapeHtml(doc.audit?.taxonomy_version || "—")} · synthesizer ${escapeHtml(doc.audit?.synthesizer_version || "—")} · ${escapeHtml(doc.audit?.sector_count ?? 0)} sectors · ${escapeHtml(doc.audit?.orphaned_tickers ?? 0)} orphaned tickers (sector taxonomy drift canary).</p>
@@ -315,26 +440,50 @@
     return `<div style="padding:32px; text-align:center; color:var(--negative-text-soft); font-size:13px;">${escapeHtml(message)}</div>`;
   }
 
-  function attachHorizonHandlers(rootEl, doc, currentHorizon) {
+  function attachHorizonHandlers(rootEl, doc, currentHorizon, sortState) {
     rootEl.querySelectorAll(".sector-outlook-horizon-tab").forEach((btn) => {
       btn.addEventListener("click", () => {
         const next = btn.getAttribute("data-horizon");
         if (next === currentHorizon) return;
-        renderInto(rootEl, doc, next);
+        renderInto(rootEl, doc, next, sortState); // preserve the active sort across horizons
       });
     });
   }
 
-  function renderInto(rootEl, doc, horizon) {
+  function attachSortHandlers(rootEl, doc, horizon, sortState) {
+    rootEl.querySelectorAll(".sector-outlook-sort-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const mode = btn.getAttribute("data-sort-mode");
+        if (sortState?.key === mode) return;
+        const next = { key: mode, dir: "desc" };
+        writeSortState(next);
+        renderInto(rootEl, doc, horizon, next);
+      });
+    });
+    rootEl.querySelectorAll(".sector-outlook-sortable-th").forEach((th) => {
+      th.addEventListener("click", () => {
+        const colKey = th.getAttribute("data-sort-key");
+        const dir = sortState?.key === colKey && sortState.dir === "desc" ? "asc" : "desc";
+        const next = { key: colKey, dir };
+        writeSortState(next);
+        renderInto(rootEl, doc, horizon, next);
+      });
+    });
+  }
+
+  function renderInto(rootEl, doc, horizon, sortState) {
     const h = horizon || "3_12m";
+    const st = sortState || readSortState();
     rootEl.innerHTML =
-      renderHeader(doc) +
+      renderHeader(doc, h) +
       renderRuntimeAudit(doc) +
       renderHorizonTabs(h) +
-      renderMatrix(doc, h) +
+      renderSortToggle(st) +
+      renderMatrix(doc, h, st) +
       renderMethodologySection(doc) +
       renderBacktestPanel(doc);
-    attachHorizonHandlers(rootEl, doc, h);
+    attachHorizonHandlers(rootEl, doc, h, st);
+    attachSortHandlers(rootEl, doc, h, st);
   }
 
   async function loadSectorOutlook() {
@@ -353,7 +502,7 @@
         el.innerHTML = renderError("Sector Outlook payload is malformed.");
         return;
       }
-      renderInto(el, doc, "3_12m");
+      renderInto(el, doc, "3_12m", readSortState());
     } catch (err) {
       console.error("[sectorOutlook] load failed:", err);
       el.innerHTML = renderError(`Failed to load Sector Outlook: ${err.message}`);
