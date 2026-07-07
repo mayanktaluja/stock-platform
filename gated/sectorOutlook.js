@@ -351,7 +351,7 @@
   function renderMatrix(doc, horizon, sortState) {
     const sectors = sortSectors(doc.sectors || [], horizon, sortState);
     if (!sectors.length) {
-      return `<div style="padding:32px; text-align:center; color:var(--text-muted);">No sectors classified yet — run scripts/refresh-sector-outlook.mjs.</div>`;
+      return `<div class="empty-state" style="padding:32px; text-align:center; color:var(--text-muted);">No sector outlooks published yet — they appear after the nightly SWS news classification.${(window.adminDetail && window.adminDetail("Refresh: scripts/refresh-sector-outlook.mjs")) || ""}</div>`;
     }
     const rows = sectors.map((s) => renderMatrixRow(s, horizon) + renderDrillDownRow(s, horizon)).join("");
     return `

@@ -1,6 +1,6 @@
 # PROJECT_STATUS.md — stock-platform
 
-**Last updated: 2026-07-03**
+**Last updated: 2026-07-07**
 
 Living snapshot of where the project is right now. Update this file whenever
 you ship a meaningful PR or change direction. The point is that a fresh AI
@@ -32,6 +32,45 @@ Compounder Lab and Earnings Edge were retired in June 2026 to remove unused
 experimental surface area and nightly refresh load.
 
 ## Recently shipped (themed, newest first — rolling ~4–6 week window; `git log` is the archive)
+
+### UI/UX polish pass — light-mode fidelity + one design language (July 2026)
+- **8-PR series (branch `claude/mystifying-dubinsky-4532f2`, awaiting push)** —
+  presentation-only pass to fix "friends say it's not attractive." No V4 /
+  verdict / ranking / data-semantics changes. Root cause found: the app has
+  defaulted to **light** since #790, but the render layer was still dark-tuned
+  (~750 raw `rgba()` fills, of which translucent-white + navy panels were
+  invisible/muddy on the cream surface). PRs:
+  1. **Login** (`public/login.html`) — theme-aware (was hardcoded dark, the true
+     first impression); first-timers get light, stored-dark users get dark.
+  2. **Surface tokens + rgba ratchet** — new `--surface-raise/-raise-strong/
+     -inset/-navy-glass-40/-60` in both `@tokens` regions; swept 70 dark-locked
+     fills in app.js + 30 in index.html. New `design-tokens-rgba-budget.spec`
+     (ratchet: rgba can only go down) + `theme-contrast-smoke.spec` (composited
+     luminance — "no navy-on-paper"). The old no-raw-hex gate only caught `#hex`.
+  3. **Pick card hierarchy** — `renderPickCard` de-souped: ticker+score+verdict
+     are the focal decision row; informational badges move to a `.sws-pick-chiprow`
+     (`.swp-chip`, NOT the section-nav `.sws-pick-chip`) with a `+N` overflow;
+     risk row stays always-visible. De-duped the entry-state badge.
+  4. **Shared primitives** — `window.tonePill()` (reuses `.badge`, adds
+     `.badge--gold/--sm`) + `window.freshnessChip()`; migrated watchlist verdict
+     pill, `_sourceChip`, `pickFreshnessPill`. Deliberately did NOT flatten the
+     analyzer action severity-gradient maps.
+  5. **Satellite navy sweep** — earnings.js (7) + riskLab.js (11) navy panels →
+     glass tokens; sector/multibagger had no dark-locked backgrounds.
+  6. **Honest empty states** — killed user-facing CLI leaks ("run scripts/…",
+     red "stale, run /sws-refresh-api"); pipeline hints now behind an
+     admin-only `adminDetail()` (`window.__starbhai_isAdmin`).
+  7. **Calm tab flags + Track Record** — replaced pulsing EXPERIMENTAL dots with
+     a static `.tab-flag`; grouped the 3 stacked SEBI disclosure boxes into one
+     `.track-disclosure-band` (every legal class/id/text byte-identical).
+  8. **z-index tokens + watchlist mobile lock** — tokenised the two above-ladder
+     overlays (`--z-max`/`--z-overlay-high`, value-preserving); locked the
+     ≤480px watchlist collapse with a spec. Radius normalisation deferred
+     (would visibly snap 6px→8px).
+- Verified in-browser both themes + 375px: first-time→light, stored/legacy
+  dark honored, earnings/picks no longer wash out. New specs added per PR;
+  visual baselines (`picks-dark/light`) need `--update-snapshots` on a fixture
+  machine (macOS-local, CI-skipped).
 
 ### V4.1 pillar reweight + growth-trap brake — first live V4 score change (July 2026)
 Health↔Future pillar weights swapped (H22/F20 → **H20/F22**, valuation/past unchanged) on

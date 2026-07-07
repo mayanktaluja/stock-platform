@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,13 +34,78 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600&family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Theme boot — mirrors gated/index.html:11-26 so the login page opens in
+       the SAME theme the app will. Resolution: explicit stored choice >
+       legacy 'theme' > light default (OS preference intentionally ignored).
+       First-time visitors get light (consistent with the post-auth default);
+       returning dark users get a dark login with no light→dark whiplash. Placed
+       after the meta tags so the theme-color swap can find its element, and
+       before <style> so data-theme resolves the cascade on the first paint
+       (<html data-theme="light"> is the hardcoded default, so light never
+       flashes). -->
+  <script>
+    (function () {
+      var root = document.documentElement;
+      try {
+        var stored = localStorage.getItem('starbhaiTheme');
+        var legacy = localStorage.getItem('theme');
+        var theme = stored === 'dark' ? 'dark' : (stored === 'light' ? 'light' : (legacy === 'dark' ? 'dark' : 'light'));
+        root.setAttribute('data-theme', theme);
+        if (theme === 'dark') {
+          var m = document.querySelector('meta[name="theme-color"]');
+          if (m) m.setAttribute('content', '#0B0C10');
+        }
+      } catch (e) {
+        root.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
+
   <style>
+    /* Dual-palette login. Values mirror the app's design tokens
+       (gated/index.html) so login and app share one brand:
+         --lg-bg      ← --bg-primary   (#FBFAF7 light / #0B0C10 dark)
+         --lg-card    ← --bg-card      (#FFFFFF light / #13151C dark)
+         --lg-ink     ← --text-primary (#1A1C22 light / #EDEDED dark)
+         --lg-accent  ← --gold         (#B07A1E light AA / #E0B060 dark)
+       Light is the default; [data-theme="dark"] restores the original look. */
+    :root {
+      --lg-bg: #FBFAF7;
+      --lg-card: #FFFFFF;
+      --lg-card-border: rgba(20, 22, 28, 0.10);
+      --lg-card-shadow: 0 1px 3px rgba(20, 22, 28, 0.06), 0 12px 34px rgba(20, 22, 28, 0.07);
+      --lg-ink: #1A1C22;
+      --lg-sub: rgba(26, 28, 34, 0.60);
+      --lg-footer: rgba(26, 28, 34, 0.44);
+      --lg-accent: #B07A1E;
+      --lg-btn-bg: #FFFFFF;
+      --lg-btn-ink: #1A1C22;
+      --lg-btn-border: rgba(20, 22, 28, 0.18);
+      --lg-btn-hover: #F6F4EE;
+    }
+
+    [data-theme="dark"] {
+      --lg-bg: #0B0C10;
+      --lg-card: #13151C;
+      --lg-card-border: rgba(255, 255, 255, 0.06);
+      --lg-card-shadow: none;
+      --lg-ink: #EDEDED;
+      --lg-sub: rgba(237, 237, 237, 0.55);
+      --lg-footer: rgba(237, 237, 237, 0.35);
+      --lg-accent: #E0B060;
+      --lg-btn-bg: #FFFFFF;
+      --lg-btn-ink: #13151C;
+      --lg-btn-border: rgba(255, 255, 255, 0.06);
+      --lg-btn-hover: #F2F2F2;
+    }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     html, body {
       height: 100%;
-      background: #0B0C10;
-      color: #EDEDED;
+      background: var(--lg-bg);
+      color: var(--lg-ink);
       font-family: "Geist", -apple-system, system-ui, sans-serif;
       -webkit-font-smoothing: antialiased;
     }
@@ -54,9 +119,10 @@
     .card {
       width: 100%;
       max-width: 380px;
-      background: #13151C;
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 12px;
+      background: var(--lg-card);
+      border: 1px solid var(--lg-card-border);
+      border-radius: 14px;
+      box-shadow: var(--lg-card-shadow);
       padding: 36px 32px 32px;
     }
 
@@ -65,7 +131,7 @@
       height: 32px;
       margin: 0 auto 18px;
       display: block;
-      color: #E0B060;
+      color: var(--lg-accent);
     }
 
     h1 {
@@ -79,7 +145,7 @@
 
     .sub {
       text-align: center;
-      color: rgba(237, 237, 237, 0.55);
+      color: var(--lg-sub);
       font-size: 13px;
       margin-bottom: 28px;
     }
@@ -90,9 +156,9 @@
       justify-content: center;
       gap: 12px;
       width: 100%;
-      background: #FFFFFF;
-      color: #13151C;
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: var(--lg-btn-bg);
+      color: var(--lg-btn-ink);
+      border: 1px solid var(--lg-btn-border);
       border-radius: 8px;
       padding: 12px 14px;
       font-family: inherit;
@@ -101,18 +167,26 @@
       letter-spacing: 0.01em;
       cursor: pointer;
       text-decoration: none;
-      transition: background 120ms ease, transform 120ms ease;
+      transition: background 120ms ease, transform 120ms ease, border-color 120ms ease;
     }
-    .google-btn:hover { background: #F2F2F2; }
+    .google-btn:hover { background: var(--lg-btn-hover); }
     .google-btn:active { transform: translateY(1px); }
+    .google-btn:focus-visible {
+      outline: 2px solid var(--lg-accent);
+      outline-offset: 2px;
+    }
     .google-btn svg { width: 18px; height: 18px; flex-shrink: 0; }
 
     .footer {
       margin-top: 24px;
       text-align: center;
       font-size: 11px;
-      color: rgba(237, 237, 237, 0.35);
+      color: var(--lg-footer);
       letter-spacing: 0.04em;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .google-btn { transition: none; }
     }
   </style>
 </head>
