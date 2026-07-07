@@ -73,7 +73,7 @@ function makeFixtureRoot(market = "us", opts = {}) {
   return { root, dataDir, deepDir };
 }
 
-function healthySummary(market = "kr", overrides = {}) {
+function healthySummary(market = "us", overrides = {}) {
   const canaries = Object.fromEntries(MARKET_CANARIES[market].map((ticker) => [ticker, {
     present: true,
     news_count: 1,
@@ -136,12 +136,12 @@ test("quality summary scans deployable tarball before loose deep fallback", () =
 });
 
 test("quality summary falls back to loose deep only when tarball is missing", () => {
-  const { root } = makeFixtureRoot("tw", { skipTarball: true });
+  const { root } = makeFixtureRoot("us", { skipTarball: true });
   try {
-    const summary = summarizeMarketQuality({ market: "tw", root });
+    const summary = summarizeMarketQuality({ market: "us", root });
     assert.equal(summary.source, "loose");
     assert.equal(summary.tarball_mtime, null);
-    assert.equal(summary.deep_files_scanned, MARKET_CANARIES.tw.length);
+    assert.equal(summary.deep_files_scanned, MARKET_CANARIES.us.length);
     assert.ok(summary.source_problems.some((p) => p.code === "missing_tarball"));
   } finally {
     fs.rmSync(root, { recursive: true, force: true });
@@ -149,18 +149,18 @@ test("quality summary falls back to loose deep only when tarball is missing", ()
 });
 
 test("quality gate accepts healthy modal enrichment with zero risks as WARN only", () => {
-  const report = evaluateQualityGate(healthySummary("kr"), { market: "kr" });
+  const report = evaluateQualityGate(healthySummary("us"), { market: "us" });
   assert.equal(report.failures.length, 0);
   assert.ok(report.warnings.some((w) => w.name === "risks_populated_visibility"));
 });
 
 test("quality gate blocks collapsed rewards and canaries without enrichment", () => {
-  const summary = healthySummary("tw", {
+  const summary = healthySummary("us", {
     deep_files_scanned: 1000,
     rewards_populated_count: 1,
     canary_results: {
-      ...healthySummary("tw").canary_results,
-      "2451.TW": {
+      ...healthySummary("us").canary_results,
+      FSM: {
         present: true,
         news_count: 0,
         rewards_count: 0,
@@ -171,10 +171,10 @@ test("quality gate blocks collapsed rewards and canaries without enrichment", ()
       },
     },
   });
-  const report = evaluateQualityGate(summary, { market: "tw" });
+  const report = evaluateQualityGate(summary, { market: "us" });
   assert.ok(report.failures.some((f) => f.name === "rewards_not_near_zero"));
-  assert.ok(report.failures.some((f) => f.name === "canary_has_news:2451.TW"));
-  assert.ok(report.failures.some((f) => f.name === "canary_has_rewards:2451.TW"));
+  assert.ok(report.failures.some((f) => f.name === "canary_has_news:FSM"));
+  assert.ok(report.failures.some((f) => f.name === "canary_has_rewards:FSM"));
 });
 
 test("quality gate blocks missing canaries and missing or aborted news signals", () => {
@@ -194,7 +194,7 @@ test("quality gate blocks missing canaries and missing or aborted news signals",
 });
 
 test("quality gate blocks source problems, including stale tarball summaries", () => {
-  const report = evaluateQualityGate(healthySummary("kr", {
+  const report = evaluateQualityGate(healthySummary("us", {
     source_problems: [{
       code: "tarball_older_than_news_progress",
       detail: {
@@ -202,7 +202,7 @@ test("quality gate blocks source problems, including stale tarball summaries", (
         news_progress_at: "2026-06-01T00:10:00.000Z",
       },
     }],
-  }), { market: "kr" });
+  }), { market: "us" });
   assert.ok(report.failures.some((f) => f.name === "no_source_problems"));
 });
 

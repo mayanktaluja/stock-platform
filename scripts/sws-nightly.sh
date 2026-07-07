@@ -634,7 +634,7 @@ pack_regional_deep_tarball() {
 }
 
 run_market_news_refresh() {
-  # run_market_news_refresh <in|us|kr|tw>
+  # run_market_news_refresh <in|us>
   local market="$1"
   local label="${market}"
 
@@ -733,8 +733,6 @@ run_sws_primary_branch() {
 
   run_market_news_refresh in
   run_market_news_refresh us
-  run_market_news_refresh kr
-  run_market_news_refresh tw
 
   return 0
 }
@@ -1501,8 +1499,6 @@ CHANGED_FILES=$(git status --short \
   data/track-record/section-performance-latest.json \
   data/track-record/paper-trades-live.jsonl \
   data/sws-us/deep-us.tar.gz \
-  data/sws-kr/deep-kr.tar.gz \
-  data/sws-tw/deep-tw.tar.gz \
   data/sectorOutlook/outlook-latest.json \
   data/coverage/bse_equity_active.json \
   data/risk-lab/picks-adjusted-latest.json \
@@ -1578,8 +1574,6 @@ git add data/sws/deep.tar.gz \
         data/track-record/section-performance-latest.json \
         data/track-record/paper-trades-live.jsonl \
         data/sws-us/deep-us.tar.gz \
-        data/sws-kr/deep-kr.tar.gz \
-        data/sws-tw/deep-tw.tar.gz \
         data/sectorOutlook/outlook-latest.json \
         data/coverage/bse_equity_active.json \
         data/risk-lab/picks-adjusted-latest.json \
@@ -1830,8 +1824,6 @@ republish_conflicted_pr_on_latest_main() {
     data/sws/chronos-forecast-health.json
     data/sws/nightly-timings-latest.json
     data/sws-us/deep-us.tar.gz
-    data/sws-kr/deep-kr.tar.gz
-    data/sws-tw/deep-tw.tar.gz
     data/sectorOutlook/outlook-latest.json
     data/coverage/bse_equity_active.json
     data/risk-lab/picks-adjusted-latest.json

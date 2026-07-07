@@ -152,8 +152,6 @@ try {
   for (const route of [
     "/api/sws-picks?limit=1",
     "/api/us-picks?limit=1",
-    "/api/kr-picks?limit=1",
-    "/api/tw-picks?limit=1",
     "/api/watchlist",
     "/api/portfolio",
     "/api/admin/users",

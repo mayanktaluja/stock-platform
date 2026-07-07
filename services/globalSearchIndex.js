@@ -10,8 +10,6 @@ const DEFAULT_ROOT = process.env.SWS_REPO_ROOT_OVERRIDE
 const MARKET_CONFIGS = [
   { market: "india", marketLabel: "India", currency: "INR", relPath: "data/sws/sws-scored-universe.json", symbolFor: (ticker) => `${ticker}.NS` },
   { market: "us", marketLabel: "US", currency: "USD", relPath: "data/sws-us/sws-scored-universe.json", symbolFor: (ticker) => ticker },
-  { market: "kr", marketLabel: "Korea", currency: "KRW", relPath: "data/sws-kr/sws-scored-universe.json", symbolFor: (ticker) => ticker },
-  { market: "tw", marketLabel: "Taiwan", currency: "TWD", relPath: "data/sws-tw/sws-scored-universe.json", symbolFor: (ticker) => ticker },
 ];
 
 const fileCache = new Map(); // abs path -> { mtimeMs, data }
@@ -64,7 +62,7 @@ function scoreMatch(row, q) {
 }
 
 function marketOrder(market) {
-  return { india: 0, us: 1, kr: 2, tw: 3 }[market] ?? 99;
+  return { india: 0, us: 1 }[market] ?? 99;
 }
 
 function rowToSearchResult(raw, config) {

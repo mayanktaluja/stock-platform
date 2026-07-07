@@ -1,12 +1,10 @@
 /**
- * Generic index-membership stamp for the US + region (KR/TW) picks tabs.
+ * Generic index-membership stamp for the US picks tab.
  *
  * The India equivalent (services/indexConstituents.js) is hardcoded to the four
  * Nifty keys and a .NS/.BO normaliser. This module is parametrised by a market's
  * index keys + a per-market ticker normaliser, so the SAME machinery powers the
- * universe dropdowns on the US (S&P 500 / NASDAQ-100 / Russell 2000 / Dow 30),
- * Korea (KOSPI 200 / KOSDAQ 150 / KRX 300 / KOSPI) and Taiwan (Taiwan 50 /
- * Taiwan Mid-Cap 100 / TPEx 50 / TWSE) tabs.
+ * universe dropdowns on the US (S&P 500 / NASDAQ-100 / Russell 2000 / Dow 30) tab.
  *
  * Pure + unit-testable; server.js calls loadMarketIndexConstituents() once at
  * module init and stampMarketIndexFlags() per row. The JSON files live at
@@ -20,27 +18,19 @@ import fs from "node:fs";
 // Per-market index keys = the dropdown option values, in dropdown order.
 export const MARKET_INDEX_KEYS = {
   us: ["sp500", "nasdaq100", "russell2000", "dow30"],
-  kr: ["kospi200", "kosdaq150", "krx300", "kospi"],
-  tw: ["taiwan50", "taiwanMidcap100", "tpex50", "twse"],
 };
 
 // Human labels for the dropdown options (the "All scored" default is added
 // client-side). Keep in sync with MARKET_INDEX_KEYS.
 export const MARKET_INDEX_LABELS = {
   us: { sp500: "S&P 500", nasdaq100: "NASDAQ-100", russell2000: "Russell 2000", dow30: "Dow Jones 30" },
-  kr: { kospi200: "KOSPI 200", kosdaq150: "KOSDAQ 150", krx300: "KRX 300", kospi: "KOSPI (all)" },
-  tw: { taiwan50: "Taiwan 50", taiwanMidcap100: "Taiwan Mid-Cap 100", tpex50: "TPEx 50", twse: "TWSE (all)" },
 };
 
 // Per-market ticker normaliser → a canonical key shared by BOTH the constituent
 // list and the picks-row ticker. US: dotted share classes (BRK.B / KELY.A) — fold
-// '-' and '/' to '.' so source variants (BRK-B) match. KR: picks rows carry
-// .KS/.KQ but constituent lists are bare 6-digit codes — strip the suffix. TW:
-// 4-digit + .TW/.TWO (longest alternative first so .TWO isn't half-matched).
+// '-' and '/' to '.' so source variants (BRK-B) match.
 export const MARKET_NORMALISERS = {
   us: (t) => (typeof t === "string" ? t.trim().toUpperCase().replace(/[-/]/g, ".") : ""),
-  kr: (t) => (typeof t === "string" ? t.trim().toUpperCase().replace(/\.(KS|KQ)$/, "") : ""),
-  tw: (t) => (typeof t === "string" ? t.trim().toUpperCase().replace(/\.(TWO|TW)$/, "") : ""),
 };
 
 function emptySets(keys) {

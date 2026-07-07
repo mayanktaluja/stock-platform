@@ -8,9 +8,9 @@
  * brief (price, FV, snowflake, rewards, news…) goes blank.
  *
  * Regional market modals use the same packed-deep contract now: loose
- * data/sws-{us,kr,tw}/deep/*.json stays out of the deployment, but each
+ * data/sws-us/deep/*.json stays out of the deployment, but each
  * committed regional deep tarball must be uploaded and included so
- * /api/{us,kr,tw}-stock can lazy-extract the deep brief on demand.
+ * /api/us-stock can lazy-extract the deep brief on demand.
  *
  * The symptom is invisible locally (the tarballs are on disk and `tar` works in
  * dev), so only a deploy surfaces it. This test makes the contract fail at
@@ -264,8 +264,6 @@ check("excludeFiles trims non-runtime trace bloat without hiding packed deep bri
   }
   assert.ok(!isExcluded("data/sws/deep.tar.gz"), "India deep.tar.gz must stay bundled for lazy /tmp extraction");
   assert.ok(!isExcluded("data/sws-us/deep-us.tar.gz"), "US deep tarball must stay bundled for lazy /tmp extraction");
-  assert.ok(!isExcluded("data/sws-kr/deep-kr.tar.gz"), "KR deep tarball must stay bundled for lazy /tmp extraction");
-  assert.ok(!isExcluded("data/sws-tw/deep-tw.tar.gz"), "TW deep tarball must stay bundled for lazy /tmp extraction");
   assert.ok(isExcluded("data/sws/deep/20MICRONS.json"), "loose India deep files should be excluded from Lambda trace bloat");
   assert.ok(isExcluded("data/sws-us/deep/AAPL.json"), "loose US deep files should be excluded from Lambda trace bloat");
   assert.ok(isExcluded("data/sws/chronos-ohlcv-cache/JSLL.NS.json"), "Chronos OHLCV cache should be excluded from Lambda trace bloat");
@@ -279,8 +277,6 @@ check(".vercelignore excludes loose SWS deep artifacts but keeps packed deep tar
   for (const pattern of [
     "data/sws/deep/**",
     "data/sws-us/deep/**",
-    "data/sws-kr/deep/**",
-    "data/sws-tw/deep/**",
     "data/sws/chronos-ohlcv-cache/**",
     "data/sws/chronos-model-cache/**",
     "data/sws/chronos-debug/**",
@@ -299,8 +295,6 @@ check(".vercelignore excludes loose SWS deep artifacts but keeps packed deep tar
   assert.ok(!isIgnored("data/sws/alerts/input-signatures-latest.json"), "SWS input signatures must remain deployable");
   assert.ok(!isIgnored("data/sws/alerts/fundamental-changes-latest.json"), "SWS input changes must remain deployable");
   assert.ok(!isIgnored("data/sws-us/deep-us.tar.gz"), "US deep tarball must remain deployable");
-  assert.ok(!isIgnored("data/sws-kr/deep-kr.tar.gz"), "KR deep tarball must remain deployable");
-  assert.ok(!isIgnored("data/sws-tw/deep-tw.tar.gz"), "TW deep tarball must remain deployable");
   assert.ok(isIgnored("data/sectorOutlook/classified-news/RELIANCE.jsonl"), "classified-news cache must not be uploaded");
   assert.ok(isIgnored("data/nse-fo/history/RELIANCE.json"), "F&O rolling history cache must not be uploaded");
 });
@@ -308,10 +302,8 @@ check(".vercelignore excludes loose SWS deep artifacts but keeps packed deep tar
 check("discovery sanity: found the market deep tarballs + regional picks (else git/glob is broken)", () => {
   assert.ok(required.includes("data/sws/deep.tar.gz"), "India deep.tar.gz not discovered");
   assert.ok(required.includes("data/sws-us/deep-us.tar.gz"), "US deep-us.tar.gz not discovered");
-  assert.ok(required.includes("data/sws-kr/deep-kr.tar.gz"), "KR deep-kr.tar.gz not discovered");
-  assert.ok(required.includes("data/sws-tw/deep-tw.tar.gz"), "TW deep-tw.tar.gz not discovered");
   assert.ok(required.includes("data/sws-us/picks-latest.json"), "US picks-latest.json not discovered");
-  assert.ok(required.length >= 8, `expected ≥8 required artifacts (market tarballs + ≥4 picks), found ${required.length}`);
+  assert.ok(required.length >= 4, `expected ≥4 required artifacts (market tarballs + picks), found ${required.length}`);
 });
 
 check("the glob matcher discriminates (covers sws tarballs, rejects unrelated paths)", () => {
@@ -319,8 +311,6 @@ check("the glob matcher discriminates (covers sws tarballs, rejects unrelated pa
   // collapses to /.*/  ) can't silently mask a real coverage gap.
   assert.ok(isCovered("data/sws/deep.tar.gz"), "matcher failed on a pattern that IS present");
   assert.ok(isCovered("data/sws-us/deep-us.tar.gz"), "US deep tarball must be bundled");
-  assert.ok(isCovered("data/sws-kr/deep-kr.tar.gz"), "KR deep tarball must be bundled");
-  assert.ok(isCovered("data/sws-tw/deep-tw.tar.gz"), "TW deep tarball must be bundled");
   // ...but broad runtime directories must still be trimmed by excludeFiles.
   assert.ok(
     isCovered("data/nse-fo/history/RELIANCE.json") && isExcluded("data/nse-fo/history/RELIANCE.json"),

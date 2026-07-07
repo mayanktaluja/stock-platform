@@ -15,7 +15,7 @@ test.describe("F1 modal focus trap", () => {
       contentType: "application/json",
       body: JSON.stringify({
         ticker: "FOCUS",
-        currency: endpoint.includes("kr") ? "KRW" : endpoint.includes("tw") ? "TWD" : "USD",
+        currency: "USD",
         in_sections: ["top_ranked_30_v4"],
         card: {
           ticker: "FOCUS",
@@ -78,8 +78,6 @@ test.describe("F1 modal focus trap", () => {
 
   for (const cfg of [
     { name: "US", open: "openUSModal", close: "closeUSModal", route: "**/api/us-stock/FOCUS", modal: "#usModalBackdrop" },
-    { name: "KR", open: "openRegionModal", close: "closeRegionModal", arg: "kr", route: "**/api/kr-stock/FOCUS", modal: "#krModalBackdrop" },
-    { name: "TW", open: "openRegionModal", close: "closeRegionModal", arg: "tw", route: "**/api/tw-stock/FOCUS", modal: "#twModalBackdrop" },
   ]) {
     test(`${cfg.name} modal traps Tab and restores focus on close`, async ({ page }) => {
       await routeMarketDetail(page, cfg.route);
