@@ -4510,7 +4510,7 @@ function renderMarketWire(wire) {
 
   const tag = (t, sector) =>
     `<span style="display:inline-block;margin:2px 4px 0 0;padding:1px 7px;border-radius:5px;font-size:10px;font-weight:700;` +
-    `background:${sector ? "rgba(96,165,250,0.10)" : "rgba(148,163,184,0.12)"};color:${sector ? "var(--blue,#60a5fa)" : "var(--text-secondary,#94a3b8)"};` +
+    `background:${sector ? "rgba(96,165,250,0.10)" : "rgba(148,163,184,0.12)"};color:${sector ? "var(--blue)" : "var(--text-secondary)"};` +
     `border:1px solid var(--border);">${escapeHtml(t)}</span>`;
 
   const cards = items.map((it) => {
@@ -4529,11 +4529,11 @@ function renderMarketWire(wire) {
     ).join(" &middot; ");
     const detail = (it.why || srcLinks)
       ? `<details data-testid="market-wire-why" style="margin-top:8px;"><summary style="cursor:pointer;font-size:11px;color:var(--text-muted);list-style:none;">Why &amp; sources</summary>` +
-        `<div style="margin-top:6px;font-size:12px;color:var(--text-secondary,#94a3b8);line-height:1.5;">${it.why ? escapeHtml(it.why) : ""}` +
+        `<div style="margin-top:6px;font-size:12px;color:var(--text-secondary);line-height:1.5;">${it.why ? escapeHtml(it.why) : ""}` +
         `${srcLinks ? `<div style="margin-top:6px;font-size:11px;">${srcLinks}</div>` : ""}</div></details>`
       : "";
     return `
-      <div data-testid="market-wire-card" style="padding:12px 14px;border:1px solid var(--border);border-radius:10px;background:var(--surface-1,var(--card,transparent));">
+      <div data-testid="market-wire-card" style="padding:12px 14px;border:1px solid var(--border);border-radius:var(--card-radius);background:var(--surface-raise);">
         <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
           <span data-testid="market-wire-heat" style="padding:1px 8px;border-radius:5px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.4px;background:${hm.bg};color:${hm.c};border:1px solid ${hm.bd};">${hm.label} heat</span>
           <span data-testid="market-wire-direction" style="color:${dm.c};font-size:13px;font-weight:800;">${dm.a}</span>
