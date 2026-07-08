@@ -15,6 +15,33 @@ import { normalizeSector } from "../../macroRegime.js";
 export const WIRE_SIGNAL_VERSION = "news-wire-v1";
 const MODEL_ID = "news-wire-heuristic-v1";
 
+/**
+ * The CLOSED category vocabulary. These are exactly the channel categories in
+ * data/alerts/news-sources.json, which the heuristic path has always emitted.
+ *
+ * It lives here (and not in wireImpactSignal.js) because wireImpactSignal
+ * already imports from this module and this module imports nothing from it —
+ * so there is no cycle, and both classifiers can share one source of truth.
+ */
+export const WIRE_CATEGORIES = Object.freeze(["markets", "crypto", "trump", "geopolitics", "india"]);
+
+/**
+ * Coerce any category into the closed vocabulary: model value → channel value → "markets".
+ *
+ * This exists because the LLM prompt's JSON template used to read
+ * `"category": "short"` as a *placeholder*, and Gemini faithfully echoed the
+ * string "short" as the value — on 19 of 19 LLM-scored items in production,
+ * while all 21 heuristic items were correct. The prompt is only a hint; THIS is
+ * the guarantee.
+ */
+export function normaliseWireCategory(raw, fallback) {
+  const c = String(raw ?? "").toLowerCase().trim();
+  if (WIRE_CATEGORIES.includes(c)) return c;
+  const f = String(fallback ?? "").toLowerCase().trim();
+  if (WIRE_CATEGORIES.includes(f)) return f;
+  return "markets";
+}
+
 const BULL = [
   "rally", "rallies", "rallied", "surge", "surges", "surged", "gain", "gains", "gained",
   "jump", "jumps", "jumped", "rise", "rises", "rose", "rising", "bull", "buy",
@@ -126,7 +153,7 @@ export function heuristicClassifyCluster(cluster, { now = Date.now() } = {}) {
       }
     }
 
-    const category = (Array.isArray(cluster.categories) && cluster.categories[0]) || "markets";
+    const category = normaliseWireCategory(Array.isArray(cluster.categories) ? cluster.categories[0] : null);
     const parts = [];
     parts.push(`${sourceCount} source${sourceCount === 1 ? "" : "s"}`);
     parts.push(direction === "neutral" ? "no clear lean" : `${direction} tone`);
@@ -153,4 +180,4 @@ export function heuristicClassifyCluster(cluster, { now = Date.now() } = {}) {
   }
 }
 
-export default { heuristicClassifyCluster, WIRE_SIGNAL_VERSION };
+export default { heuristicClassifyCluster, WIRE_SIGNAL_VERSION, WIRE_CATEGORIES, normaliseWireCategory };
