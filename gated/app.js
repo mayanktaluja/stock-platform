@@ -4063,7 +4063,11 @@ async function loadMarketNews(opts = {}) {
     const updatedEl = document.getElementById("newsLastUpdated");
     if (updatedEl) updatedEl.textContent = `Updated: ${new Date(data.lastUpdated).toLocaleTimeString("en-IN")}`;
 
-    renderNewsPage(_newsDigest, heatmap, macroRegime, catalysts, discovery, data.fiiDii || null, indexIntraday, marketWire);
+    // D4: adopt the incoming feed only when it is safe (first paint, manual
+    // refresh, or collapsed). Otherwise hold it behind the "N new stories" pill
+    // and keep rendering the pinned one, so nothing moves under the reader.
+    adoptWireFeed(marketWire, { expanded: _wireExpanded, force: !silent });
+    renderNewsPage(_newsDigest, heatmap, macroRegime, catalysts, discovery, data.fiiDii || null, indexIntraday, _wireFeed);
   } catch (err) {
     container.innerHTML = `<div class="empty-state"><div class="empty-icon">&#9888;</div><div class="empty-text">Failed to load news. Try again.</div></div>`;
   } finally {
@@ -4489,75 +4493,357 @@ function renderSourceHealth(macroRegime, heatmap, catalysts, discovery, fiiDii) 
     </div>`;
 }
 
+// ═══════════════════════════════════════════════════════════════════════════════
 // Live Market Wire — the ranked, clustered, impact-tagged view of the Telegram
-// newswire firehose (served by /api/news/wire). Honest by construction (D3):
-// shows a BUCKETED heat (Low/Med/High), never a precise numeral, on unverified
-// scraped chatter; the source-count chip is the corroboration/trust cue; channel
-// names are shown so the reader can weigh the source. Self-hides when empty.
-function renderMarketWire(wire) {
-  const items = Array.isArray(wire?.items) ? wire.items : [];
-  if (!items.length) return "";
+// newswire firehose (served by /api/news/wire).
+//
+// Honest by construction (D3): a BUCKETED heat (Low/Med/High), never a precise
+// numeral, on unverified scraped chatter; the source-count chip is the
+// corroboration cue; channel names are shown so the reader can weigh the source.
+//
+// Two surfaces, one renderer:
+//   "teaser" — collapsed <details> on Market Intelligence, below the Market Digest.
+//   "full"   — the dedicated Market Wire tab.
+// Element ids are VARIANT-SCOPED because tab panels are display:none, not removed:
+// once a user has visited both surfaces they are BOTH mounted, and an unscoped id
+// would be a duplicate.
+//
+// Filtering is PURE CSS (see .wire-list[data-wire-filter] in index.html). A chip
+// click flips one attribute and never re-renders, so scroll position and every
+// open <details> survive it — and so does the 10-minute silent page rebuild.
+// ═══════════════════════════════════════════════════════════════════════════════
 
-  const gen = wire.generatedAt ? timeAgo(wire.generatedAt) : null;
-  const dirMeta = (d) =>
-    d === "bullish" ? { c: "var(--green)", a: "&#9650;" } :
-    d === "bearish" ? { c: "var(--red)", a: "&#9660;" } :
-    { c: "var(--text-muted)", a: "&mdash;" };
-  const heatMeta = (h) =>
-    h === "high" ? { c: "var(--red)", bg: "rgba(239,68,68,0.12)", bd: "rgba(239,68,68,0.35)", label: "High" } :
-    h === "med" ? { c: "var(--yellow)", bg: "rgba(224,176,96,0.14)", bd: "rgba(224,176,96,0.35)", label: "Med" } :
-    { c: "var(--text-muted)", bg: "rgba(100,116,139,0.10)", bd: "var(--border)", label: "Low" };
+const WIRE_LS = {
+  open: "marketWireOpen_v1",
+  filter: "marketWireFilter_v1",
+  toggles: "marketWireToggles_v1",
+  sort: "marketWireSort_v1",
+};
+const WIRE_HEAT_FILTERS = ["highmed", "high", "med", "low", "all"];
+const WIRE_TEASER_LABEL = { highmed: "Top", high: "High", med: "Med", low: "Low", all: "All" };
 
-  const tag = (t, sector) =>
-    `<span style="display:inline-block;margin:2px 4px 0 0;padding:1px 7px;border-radius:5px;font-size:10px;font-weight:700;` +
-    `background:${sector ? "rgba(96,165,250,0.10)" : "rgba(148,163,184,0.12)"};color:${sector ? "var(--blue)" : "var(--text-secondary)"};` +
-    `border:1px solid var(--border);">${escapeHtml(t)}</span>`;
+const _lsGet = (k, dflt) => { try { const v = localStorage.getItem(k); return v == null ? dflt : v; } catch { return dflt; } };
+const _lsSet = (k, v) => { try { localStorage.setItem(k, v); } catch { /* private mode */ } };
 
-  const cards = items.map((it) => {
-    const dm = dirMeta(it.direction);
-    const hm = heatMeta(it.heat_bucket);
-    const chans = (it.sources || []).map((s) => s.channel).filter(Boolean);
-    const chanLine = chans.length ? chans.slice(0, 4).join(", ") + (chans.length > 4 ? ` +${chans.length - 4}` : "") : "";
-    const when = it.last_seen ? timeAgo(it.last_seen) : "";
-    const tickers = (it.tickers || []).slice(0, 6).map((t) => tag(t, false)).join("");
-    const sectors = (it.sectors || []).slice(0, 4).map((s) => tag(s.sector, true)).join("");
-    const breakingPill = it.breaking
-      ? `<span data-testid="market-wire-breaking" style="padding:1px 6px;border-radius:4px;background:rgba(239,68,68,0.14);color:var(--red);font-size:10px;font-weight:800;letter-spacing:0.3px;">&#128308; BREAKING</span>`
-      : "";
-    const srcLinks = (it.sources || []).map((s) =>
-      `<a href="${escapeHtml(s.url || "#")}" target="_blank" rel="noopener" style="color:var(--text-muted);text-decoration:underline;">${escapeHtml(s.channel || "source")}</a>`
-    ).join(" &middot; ");
-    const detail = (it.why || srcLinks)
-      ? `<details data-testid="market-wire-why" style="margin-top:8px;"><summary style="cursor:pointer;font-size:11px;color:var(--text-muted);list-style:none;">Why &amp; sources</summary>` +
-        `<div style="margin-top:6px;font-size:12px;color:var(--text-secondary);line-height:1.5;">${it.why ? escapeHtml(it.why) : ""}` +
-        `${srcLinks ? `<div style="margin-top:6px;font-size:11px;">${srcLinks}</div>` : ""}</div></details>`
-      : "";
-    return `
-      <div data-testid="market-wire-card" style="padding:12px 14px;border:1px solid var(--border);border-radius:var(--card-radius);background:var(--surface-raise);">
-        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-          <span data-testid="market-wire-heat" style="padding:1px 8px;border-radius:5px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.4px;background:${hm.bg};color:${hm.c};border:1px solid ${hm.bd};">${hm.label} heat</span>
-          <span data-testid="market-wire-direction" style="color:${dm.c};font-size:13px;font-weight:800;">${dm.a}</span>
-          ${breakingPill}
-          <span data-testid="market-wire-source-chip" style="margin-left:auto;font-size:10px;font-weight:700;color:var(--text-muted);padding:1px 7px;border-radius:5px;border:1px solid var(--border);">${it.source_count} source${it.source_count === 1 ? "" : "s"}</span>
-        </div>
-        <div style="margin-top:8px;font-size:13.5px;font-weight:600;color:var(--text-primary);line-height:1.4;">${escapeHtml(it.headline)}</div>
-        <div style="margin-top:5px;font-size:11px;color:var(--text-muted);">${chanLine ? escapeHtml(chanLine) : ""}${chanLine && when ? " &middot; " : ""}${when}</div>
-        ${(tickers || sectors) ? `<div style="margin-top:6px;">${tickers}${sectors}</div>` : ""}
-        ${detail}
-      </div>`;
-  }).join("");
+// Module state. Survives the wholesale #newsContainer rebuild for exactly the same
+// reason _discoveryRadarFilter does: the renderer reads it on every pass.
+let _wireFeed = null;                                   // the feed currently RENDERED
+let _wirePendingFeed = null;                            // a newer feed, held back (D4)
+let _wireNewCount = 0;
+let _wireExpanded = _lsGet(WIRE_LS.open, "0") === "1";
+let _wireFilter = WIRE_HEAT_FILTERS.includes(_lsGet(WIRE_LS.filter, "highmed")) ? _lsGet(WIRE_LS.filter, "highmed") : "highmed";
+let _wireSort = _lsGet(WIRE_LS.sort, "rank") === "newest" ? "newest" : "rank";
+let _wireBreakingOnly = false;
+let _wireWatchlistOnly = false;
+try {
+  const t = JSON.parse(_lsGet(WIRE_LS.toggles, "{}"));
+  _wireBreakingOnly = !!t.breaking; _wireWatchlistOnly = !!t.watchlist;
+} catch { /* ignore */ }
+const _wireWhyOpen = new Set();                         // item ids whose per-card <details> is open
+const _wireScroll = { teaser: 0, full: 0 };
+
+/** Variant-scoped element handles. */
+function wireEls(variant) {
+  const p = variant === "full" ? "marketWireFull" : "marketWireTeaser";
+  return {
+    prefix: p,
+    list: document.getElementById(`${p}List`),
+    body: document.getElementById(`${p}Body`),
+    pill: document.getElementById(`${p}Pill`),
+    chips: document.getElementById(`${p}Chips`),
+  };
+}
+
+// Wire tickers are bare NSE symbols from the LLM; the watchlist Set is whatever
+// /api/watchlist stored. Normalise both sides rather than betting on the format.
+const _wireNormTicker = (s) => String(s || "").toUpperCase().replace(/\.(NS|BO|BSE)$/, "");
+function _wireWatchlistSet() {
+  const out = new Set();
+  try { for (const s of watchlist) out.add(_wireNormTicker(s)); } catch { /* not hydrated */ }
+  return out;
+}
+const _wireInWatchlist = (it, wl) => (it.tickers || []).some((t) => wl.has(_wireNormTicker(t)));
+
+/** Does this item survive the ACTIVE filter combination? Mirrors the CSS exactly. */
+function wireItemVisible(it, wl) {
+  if (_wireFilter === "highmed" && it.heat_bucket === "low") return false;
+  if (["high", "med", "low"].includes(_wireFilter) && it.heat_bucket !== _wireFilter) return false;
+  if (_wireBreakingOnly && !it.breaking) return false;
+  if (_wireWatchlistOnly && !_wireInWatchlist(it, wl)) return false;
+  return true;
+}
+
+function wireHeatBadgeClass(h) {
+  return h === "high" ? "badge--danger" : h === "med" ? "badge--warn" : "badge--neutral";
+}
+function wireHeatLabel(h) {
+  return h === "high" ? "High" : h === "med" ? "Med" : "Low";
+}
+
+function renderWireCard(it, orderRank, orderNewest, wl, variant) {
+  const dir = it.direction === "bullish" ? { c: "var(--green)", a: "&#9650;" }
+    : it.direction === "bearish" ? { c: "var(--red)", a: "&#9660;" }
+      : { c: "var(--text-muted)", a: "&mdash;" };
+  const chans = (it.sources || []).map((s) => s.channel).filter(Boolean);
+  const chanLine = chans.length ? chans.slice(0, 4).join(", ") + (chans.length > 4 ? ` +${chans.length - 4}` : "") : "";
+  const when = it.last_seen ? timeAgo(it.last_seen) : "";
+
+  // Ticker chips open the stock modal, but only on the full tab — inside the
+  // collapsed teaser they would be extra tab-stops for no benefit.
+  const tickerTags = (it.tickers || []).slice(0, 6).map((t) => (variant === "full"
+    ? `<button type="button" class="wire-tag wire-tag--ticker" onclick="${jsHandlerAttr(`openStockDetailModal(${jsStringLiteral(t)}, 'market-wire')`)}">${escapeHtml(t)}</button>`
+    : `<span class="wire-tag">${escapeHtml(t)}</span>`)).join("");
+  const sectorTags = (it.sectors || []).slice(0, 4).map((s) => `<span class="wire-tag wire-tag--sector">${escapeHtml(s.sector)}</span>`).join("");
+
+  const breakingPill = it.breaking
+    ? `<span data-testid="market-wire-breaking" class="badge badge--danger badge--sm">&#128308; BREAKING</span>` : "";
+  const srcLinks = (it.sources || []).map((s) =>
+    `<a href="${escapeHtml(s.url || "#")}" target="_blank" rel="noopener" style="color:var(--text-muted);text-decoration:underline;">${escapeHtml(s.channel || "source")}</a>`
+  ).join(" &middot; ");
+  const detail = (it.why || srcLinks)
+    ? `<details class="wire-why" data-testid="market-wire-why" style="margin-top:8px;" ontoggle="onWireWhyToggle(this)"${_wireWhyOpen.has(it.id) ? " open" : ""}>` +
+      `<summary>Why &amp; sources</summary>` +
+      `<div class="wire-why-body">${it.why ? escapeHtml(it.why) : ""}` +
+      `${srcLinks ? `<div style="margin-top:6px;font-size:11px;">${srcLinks}</div>` : ""}</div></details>`
+    : "";
 
   return `
-    <div data-testid="market-wire-section" style="margin-bottom:24px;">
-      <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:6px;">
-        <h3 style="margin:0;font-size:14px;font-weight:800;color:var(--text-primary);">Live Market Wire</h3>
-        <span style="font-size:11px;font-weight:700;color:var(--text-muted);padding:1px 7px;border-radius:5px;background:rgba(148,163,184,0.12);">${items.length}</span>
-        ${gen ? `<span style="margin-left:auto;font-size:11px;color:var(--text-muted);">Updated ${gen}</span>` : ""}
+    <div class="wire-card" data-testid="market-wire-card" data-wire-id="${escapeHtml(it.id || "")}"
+         data-heat="${escapeHtml(it.heat_bucket || "low")}"${it.breaking ? ' data-breaking="1"' : ""}${_wireInWatchlist(it, wl) ? ' data-watchlist="1"' : ""}
+         style="--order-rank:${orderRank};--order-newest:${orderNewest};">
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+        <span data-testid="market-wire-heat" class="badge ${wireHeatBadgeClass(it.heat_bucket)} badge--sm">${wireHeatLabel(it.heat_bucket)} heat</span>
+        <span data-testid="market-wire-direction" style="color:${dir.c};font-size:13px;font-weight:800;">${dir.a}</span>
+        ${breakingPill}
+        <span data-testid="market-wire-source-chip" style="margin-left:auto;font-size:10px;font-weight:700;color:var(--text-muted);padding:1px 7px;border-radius:5px;border:1px solid var(--border);">${it.source_count} source${it.source_count === 1 ? "" : "s"}</span>
       </div>
-      <div style="font-size:11px;color:var(--text-muted);margin-bottom:10px;line-height:1.5;">Unverified newswire chatter, clustered &amp; impact-tagged. Source count is the corroboration cue &mdash; not investment advice.</div>
-      <div style="display:flex;flex-direction:column;gap:8px;">${cards}</div>
+      <div class="wire-headline">${escapeHtml(it.headline)}</div>
+      <div class="wire-meta">${chanLine ? escapeHtml(chanLine) : ""}${chanLine && when ? " &middot; " : ""}${when}</div>
+      ${(tickerTags || sectorTags) ? `<div style="margin-top:6px;">${tickerTags}${sectorTags}</div>` : ""}
+      ${detail}
     </div>`;
 }
+
+/** The swap target. Re-rendered only on a pill click or a sort change — never on a filter. */
+function renderWireList(feed, variant) {
+  const items = Array.isArray(feed?.items) ? feed.items : [];
+  const wl = _wireWatchlistSet();
+  // Rank order IS the array order (the server sorts by rank). Precompute the
+  // newest-first index so `order:` can re-sort visually without moving a node.
+  const byNewest = [...items].sort((a, b) => new Date(b.last_seen || 0) - new Date(a.last_seen || 0));
+  const newestIdx = new Map(byNewest.map((it, i) => [it.id, i]));
+  const visible = items.filter((it) => wireItemVisible(it, wl)).length;
+  const cards = items.map((it, i) => renderWireCard(it, i, newestIdx.get(it.id) ?? i, wl, variant)).join("");
+  const { prefix } = wireEls(variant);
+  return `<div id="${prefix}List" class="wire-list" data-wire-variant="${variant}"` +
+    ` data-wire-filter="${escapeHtml(_wireFilter)}" data-wire-sort="${escapeHtml(_wireSort)}"` +
+    `${_wireBreakingOnly ? ' data-wire-breaking="1"' : ""}${_wireWatchlistOnly ? ' data-wire-watchlist="1"' : ""}` +
+    `${visible === 0 ? " data-wire-empty" : ""}>${cards}</div>`;
+}
+
+function renderWireChips(feed, variant) {
+  const items = Array.isArray(feed?.items) ? feed.items : [];
+  const wl = _wireWatchlistSet();
+  // Counts come from the UNFILTERED set, so they stay stable as you click around.
+  const n = {
+    all: items.length,
+    high: items.filter((i) => i.heat_bucket === "high").length,
+    med: items.filter((i) => i.heat_bucket === "med").length,
+    low: items.filter((i) => i.heat_bucket === "low").length,
+  };
+  n.highmed = n.high + n.med;
+  const chip = (key) => {
+    const active = _wireFilter === key;
+    return `<button type="button" class="sws-pick-chip${active ? " active" : ""}" data-wire-chip="${key}"` +
+      ` aria-pressed="${active}" onclick="${jsHandlerAttr(`setWireHeatFilter(${jsStringLiteral(key)}, ${jsStringLiteral(variant)})`)}">` +
+      `${WIRE_TEASER_LABEL[key]} <span class="sws-pick-chip-count">${n[key]}</span></button>`;
+  };
+  const toggle = (flag, label, count, on) =>
+    `<button type="button" class="sws-pick-chip${on ? " active" : ""}" data-wire-toggle="${flag}" aria-pressed="${on}"` +
+    ` onclick="${jsHandlerAttr(`toggleWireFlag(${jsStringLiteral(flag)}, ${jsStringLiteral(variant)})`)}">` +
+    `${label} <span class="sws-pick-chip-count">${count}</span></button>`;
+
+  const { prefix } = wireEls(variant);
+  const sort = variant === "full"
+    ? `<button type="button" class="sws-pick-chip" data-wire-sortbtn onclick="${jsHandlerAttr(`toggleWireSort(${jsStringLiteral(variant)})`)}">` +
+      `Sort: ${_wireSort === "newest" ? "Newest" : "Rank"}</button>`
+    : "";
+  return `<div id="${prefix}Chips" class="wire-chip-row">` +
+    ["highmed", "high", "med", "low", "all"].map(chip).join("") +
+    toggle("breaking", "&#128308; Breaking", items.filter((i) => i.breaking).length, _wireBreakingOnly) +
+    toggle("watchlist", "&#9733; Watchlist", items.filter((i) => _wireInWatchlist(i, wl)).length, _wireWatchlistOnly) +
+    sort + `</div>`;
+}
+
+const WIRE_DISCLAIMER = `<div class="wire-disclaimer">Unverified newswire chatter, clustered &amp; impact-tagged. Source count is the corroboration cue.</div>`;
+
+function renderMarketWire(wire, opts = {}) {
+  const variant = opts.variant === "full" ? "full" : "teaser";
+  const items = Array.isArray(wire?.items) ? wire.items : [];
+  if (!items.length) {
+    // The teaser self-hides; a blank TAB would read as broken, so it says so.
+    return variant === "full"
+      ? `<div class="empty-state"><div class="empty-text">No wire items in the last 6h.</div></div>`
+      : "";
+  }
+
+  const { prefix } = wireEls(variant);
+  const gen = wire.generatedAt ? timeAgo(wire.generatedAt) : null;
+  const high = items.filter((i) => i.heat_bucket === "high").length;
+  const med = items.filter((i) => i.heat_bucket === "med").length;
+  const brk = items.filter((i) => i.breaking).length;
+  const summary = `${high} high &middot; ${med} med &middot; ${brk} breaking${gen ? ` &middot; updated ${gen}` : ""}`;
+
+  const pill = `<button type="button" class="wire-new-pill" id="${prefix}Pill" data-testid="market-wire-new-pill"` +
+    ` onclick="${jsHandlerAttr(`promoteWireFeed(${jsStringLiteral(variant)})`)}"${_wireNewCount ? "" : " hidden"}>` +
+    `${_wireNewCount} new ${_wireNewCount === 1 ? "story" : "stories"} &mdash; click to load</button>`;
+
+  const body = `<div class="wire-scroll${variant === "full" ? " wire-scroll--full" : ""}" id="${prefix}Body">` +
+    `${pill}${renderWireList(wire, variant)}` +
+    `<div class="wire-empty">No stories match this filter.</div></div>`;
+
+  if (variant === "full") {
+    return `<div data-testid="market-wire-full">${WIRE_DISCLAIMER}${renderWireChips(wire, variant)}${body}</div>`;
+  }
+
+  // Teaser. `market-wire-section` sits on the OUTER div, not inside the <details>,
+  // so it stays visible while collapsed (market-wire.spec.mjs asserts toBeVisible).
+  return `
+    <div data-testid="market-wire-section" style="margin-bottom:24px;">
+      <div class="wire-section-head">
+        <h3 style="margin:0;font-size:14px;font-weight:800;color:var(--text-primary);">Live Market Wire</h3>
+        <span class="badge badge--neutral badge--sm">${items.length}</span>
+      </div>
+      <details class="analyzer-tier-details" data-testid="market-wire-details" ontoggle="onMarketWireToggle(this)"${_wireExpanded ? " open" : ""}>
+        <summary class="tx-title" style="cursor:pointer;padding:10px 0;border-bottom:1px solid var(--border);list-style:none;font-size:13px;font-weight:800;color:var(--text-primary);">Newswire <span style="color:var(--text-muted);font-weight:500;font-size:12px;">(${summary})</span></summary>
+        ${WIRE_DISCLAIMER}
+        ${renderWireChips(wire, variant)}
+        ${body}
+      </details>
+    </div>`;
+}
+
+// ── Interaction: none of these re-render the card list ────────────────────────
+
+/** Recompute the empty-state flag + chip active states after a filter change. */
+function syncWireFilterUi(variant) {
+  const { list, chips } = wireEls(variant);
+  if (list) {
+    list.setAttribute("data-wire-filter", _wireFilter);
+    list.toggleAttribute("data-wire-breaking", _wireBreakingOnly);
+    list.toggleAttribute("data-wire-watchlist", _wireWatchlistOnly);
+    const wl = _wireWatchlistSet();
+    const visible = (_wireFeed?.items || []).filter((it) => wireItemVisible(it, wl)).length;
+    list.toggleAttribute("data-wire-empty", visible === 0);
+  }
+  if (chips) {
+    chips.querySelectorAll("[data-wire-chip]").forEach((b) => {
+      const on = b.dataset.wireChip === _wireFilter;
+      b.classList.toggle("active", on);
+      b.setAttribute("aria-pressed", String(on));
+    });
+    chips.querySelectorAll("[data-wire-toggle]").forEach((b) => {
+      const on = b.dataset.wireToggle === "breaking" ? _wireBreakingOnly : _wireWatchlistOnly;
+      b.classList.toggle("active", on);
+      b.setAttribute("aria-pressed", String(on));
+    });
+  }
+}
+
+function setWireHeatFilter(key, variant) {
+  if (!WIRE_HEAT_FILTERS.includes(key)) return;
+  _wireFilter = key;
+  _lsSet(WIRE_LS.filter, key);
+  syncWireFilterUi(variant);
+}
+function toggleWireFlag(flag, variant) {
+  if (flag === "breaking") _wireBreakingOnly = !_wireBreakingOnly;
+  else if (flag === "watchlist") _wireWatchlistOnly = !_wireWatchlistOnly;
+  else return;
+  _lsSet(WIRE_LS.toggles, JSON.stringify({ breaking: _wireBreakingOnly, watchlist: _wireWatchlistOnly }));
+  syncWireFilterUi(variant);
+}
+function toggleWireSort(variant) {
+  _wireSort = _wireSort === "rank" ? "newest" : "rank";
+  _lsSet(WIRE_LS.sort, _wireSort);
+  // Pure CSS `order:` — no node moves, so scroll and open cards survive.
+  const { list, chips } = wireEls(variant);
+  if (list) list.setAttribute("data-wire-sort", _wireSort);
+  const btn = chips?.querySelector("[data-wire-sortbtn]");
+  if (btn) btn.textContent = `Sort: ${_wireSort === "newest" ? "Newest" : "Rank"}`;
+}
+function onMarketWireToggle(el) {
+  _wireExpanded = !!(el && el.open);
+  _lsSet(WIRE_LS.open, _wireExpanded ? "1" : "0");
+  // Collapsing with a feed held back? Nothing is visible, so adopt it silently.
+  if (!_wireExpanded && _wirePendingFeed) promoteWireFeed("teaser", { silent: true });
+}
+function onWireWhyToggle(el) {
+  const id = el?.closest("[data-wire-id]")?.dataset.wireId;
+  if (!id) return;
+  if (el.open) _wireWhyOpen.add(id); else _wireWhyOpen.delete(id);
+}
+function captureWireScroll(variant) {
+  const { body } = wireEls(variant);
+  if (body) _wireScroll[variant] = body.scrollTop || 0;
+}
+function restoreWireScroll(variant) {
+  const top = _wireScroll[variant];
+  if (!top) return;
+  // Wait one frame so layout settles — scrollHeight is still the old value on this
+  // tick and the assignment would be clipped. (Same trick as swsModalScrollMemory.)
+  requestAnimationFrame(() => { const { body } = wireEls(variant); if (body) body.scrollTop = top; });
+}
+
+// ── D4: never change content under the reader ─────────────────────────────────
+//
+// loadMarketNews({silent:true}) fires every 10 min, and `silent` only suppresses
+// the loading banner — the page still rebuilds wholesale. So the renderer always
+// draws the PINNED feed (_wireFeed) and a newer one waits in _wirePendingFeed
+// behind an "N new stories" pill. Because the markup regenerated from the pinned
+// feed is byte-identical, and because open/filter/why/scroll are all restored from
+// module state, the rebuild is invisible. The only visible delta is the pill.
+
+/** How many stories in `next` did `prev` not have? Diffed by stable cluster id. */
+function wireDiff(prev, next) {
+  const seen = new Set((prev?.items || []).map((i) => i.id));
+  return (next?.items || []).reduce((n, it) => n + (seen.has(it.id) ? 0 : 1), 0);
+}
+
+function adoptWireFeed(incoming, { expanded = false, force = false } = {}) {
+  if (!incoming) return;
+  // First paint, a manual refresh, or a collapsed wire: nothing is on screen to
+  // disturb, so take the new feed immediately.
+  if (!_wireFeed || force || !expanded) {
+    _wireFeed = incoming; _wirePendingFeed = null; _wireNewCount = 0;
+    return;
+  }
+  const n = wireDiff(_wireFeed, incoming);
+  if (!n) { _wireFeed = incoming; _wirePendingFeed = null; _wireNewCount = 0; return; }
+  _wirePendingFeed = incoming;
+  _wireNewCount = n;
+}
+
+/** Swap ONLY the list. The <details>, chips and pill are siblings outside it. */
+function promoteWireFeed(variant, { silent = false } = {}) {
+  if (!_wirePendingFeed) return;
+  _wireFeed = _wirePendingFeed;
+  _wirePendingFeed = null;
+  _wireNewCount = 0;
+  const { list, body, pill } = wireEls(variant);
+  if (list) list.outerHTML = renderWireList(_wireFeed, variant);
+  if (pill) pill.hidden = true;
+  syncWireFilterUi(variant);
+  // An explicit click means "show me the new stories" — jumping to the top is right.
+  if (!silent && body) body.scrollTop = 0;
+}
+
+window.setWireHeatFilter = setWireHeatFilter;
+window.toggleWireFlag = toggleWireFlag;
+window.toggleWireSort = toggleWireSort;
+window.onMarketWireToggle = onMarketWireToggle;
+window.onWireWhyToggle = onWireWhyToggle;
+window.promoteWireFeed = promoteWireFeed;
 
 function renderNewsPage(digest, heatmap, macroRegime, catalysts, discovery, fiiDii, indexIntraday, wire) {
   const container = document.getElementById("newsContainer");
@@ -4565,14 +4851,19 @@ function renderNewsPage(digest, heatmap, macroRegime, catalysts, discovery, fiiD
   let html = "";
 
   // Index sparkline strip, then the honest source-health line, then the section
-  // hierarchy: macro context → live wire → today's synthesis → event calendar →
-  // sector breadth → review queue (collapsed). The wire sits right below the
-  // macro regime card as the freshest actionable layer; it self-hides when empty.
+  // hierarchy: macro context → today's synthesis → live wire → event calendar →
+  // sector breadth → review queue (collapsed).
+  //
+  // The wire sits BELOW the Market Digest, collapsed by default. The digest is the
+  // settled, deterministic read of the day; the wire is an unverified live tape that
+  // saturates its 40-item cap. Putting 40 cards above the digest buried everything
+  // under them. (market-intelligence.spec.mjs chains macro < digest < catalysts <
+  // heatmap < radar and never mocks the wire, so all four inequalities still hold.)
   html += renderIndexStrip(indexIntraday);
   html += renderSourceHealth(macroRegime, heatmap, catalysts, discovery, fiiDii);
   html += renderMacroRegimeCard(macroRegime);
-  html += renderMarketWire(wire);
   html += renderMarketDigest(digest, fiiDii);
+  html += renderMarketWire(wire, { variant: "teaser" });
   html += renderUpcomingCatalysts(catalysts);
   html += renderSectorHeatmap(heatmap);
 
@@ -4599,7 +4890,11 @@ function renderNewsPage(digest, heatmap, macroRegime, catalysts, discovery, fiiD
       ${renderDiscoveryRadar(discovery)}
     </details>`;
 
+  // The rebuild destroys the wire's scroll position. Content is unchanged (we
+  // render the pinned _wireFeed), so capture + restore makes the tick invisible.
+  captureWireScroll("teaser");
   container.innerHTML = html;
+  restoreWireScroll("teaser");
 }
 
 function renderMacroRegimeCard(macroRegime) {

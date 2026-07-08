@@ -2023,6 +2023,95 @@
       gap: 12px;
     }
 
+    /* ============================================================
+     * Live Market Wire — teaser (Market Intelligence) + dedicated tab.
+     *
+     * Filtering and sorting are PURE CSS: a chip click only flips a data-*
+     * attribute on .wire-list, never re-renders. That is what preserves scroll
+     * position and every open <details> across a filter change — and it is what
+     * lets the 10-min silent rebuild of #newsContainer stay invisible.
+     *
+     * Every colour here is a semantic token. gated/app.js sits on a raw-rgba
+     * ratchet (test/e2e/design-tokens-rgba-budget.spec.mjs, cap 486) which the
+     * original renderMarketWire quietly broke by hardcoding 9 literal fills.
+     * Moving them here as tokens repays that debt; do NOT add literal colours below.
+     * ============================================================ */
+    .wire-list { display: flex; flex-direction: column; gap: 8px; }
+
+    .wire-card {
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--card-radius);
+      background: var(--surface-raise);
+    }
+
+    /* Heat filter — mutually exclusive. "all" (or absent) matches no rule. */
+    .wire-list[data-wire-filter="highmed"] > .wire-card[data-heat="low"]        { display: none; }
+    .wire-list[data-wire-filter="high"]    > .wire-card:not([data-heat="high"]) { display: none; }
+    .wire-list[data-wire-filter="med"]     > .wire-card:not([data-heat="med"])  { display: none; }
+    .wire-list[data-wire-filter="low"]     > .wire-card:not([data-heat="low"])  { display: none; }
+
+    /* Additive toggles, AND-ed with the heat filter above. */
+    .wire-list[data-wire-breaking="1"]  > .wire-card:not([data-breaking="1"])  { display: none; }
+    .wire-list[data-wire-watchlist="1"] > .wire-card:not([data-watchlist="1"]) { display: none; }
+
+    /* Sort via flex `order`, so no DOM node ever moves: scroll position and open
+       <details> survive. DOM order IS rank order, so "rank" is the identity map
+       and only the opt-in "newest" diverges (WCAG 1.3.2 acceptable at that scale). */
+    .wire-list[data-wire-sort="rank"]   > .wire-card { order: var(--order-rank); }
+    .wire-list[data-wire-sort="newest"] > .wire-card { order: var(--order-newest); }
+
+    .wire-scroll {
+      max-height: min(520px, 60vh);
+      overflow-y: auto;
+      overscroll-behavior: contain;   /* don't scroll-chain into the page */
+      padding-right: 4px;             /* keep the scrollbar off the card border */
+    }
+    .wire-scroll--full { max-height: min(72vh, 900px); }
+
+    .wire-new-pill {
+      position: sticky; top: 0; z-index: 1;
+      display: block; width: 100%;
+      margin-bottom: 8px; padding: 7px 12px;
+      border: 1px solid var(--border-slate-blue);
+      border-radius: var(--card-radius);
+      background: var(--blue-bg); color: var(--info-text);
+      font-size: 11px; font-weight: 700; cursor: pointer; text-align: center;
+    }
+    .wire-new-pill:hover { border-color: var(--blue); }
+    /* REQUIRED: our display:block would otherwise defeat the UA [hidden] rule. */
+    .wire-new-pill[hidden] { display: none; }
+
+    /* Shown only when the active filter combination matches nothing. */
+    .wire-empty { display: none; font-size: 12px; color: var(--text-muted); padding: 14px 2px; }
+    .wire-list[data-wire-empty] + .wire-empty { display: block; }
+
+    .wire-chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+
+    .wire-tag {
+      display: inline-block; margin: 2px 4px 0 0; padding: 1px 7px;
+      border: 1px solid var(--border); border-radius: 5px;
+      font-size: 10px; font-weight: 700;
+      background: var(--surface-raise-strong); color: var(--text-secondary);
+    }
+    .wire-tag--sector { background: var(--blue-bg); color: var(--info-text-soft); }
+    .wire-tag--ticker { cursor: pointer; }
+    .wire-tag--ticker:hover { border-color: var(--border-slate-blue); color: var(--text-primary); }
+
+    .wire-section-head { display: flex; align-items: baseline; gap: 8px; margin-bottom: 6px; }
+    .wire-viewall {
+      margin-left: auto; background: none; border: 0; padding: 2px 4px; cursor: pointer;
+      font-size: 11px; font-weight: 700; color: var(--info-text-soft);
+    }
+    .wire-viewall:hover { text-decoration: underline; }
+
+    .wire-disclaimer { font-size: 11px; color: var(--text-muted); margin-bottom: 10px; line-height: 1.5; }
+    .wire-headline { margin-top: 8px; font-size: 13.5px; font-weight: 600; color: var(--text-primary); line-height: 1.4; }
+    .wire-meta { margin-top: 5px; font-size: 11px; color: var(--text-muted); }
+    .wire-why-body { margin-top: 6px; font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+    .wire-why > summary { cursor: pointer; font-size: 11px; color: var(--text-muted); list-style: none; }
+    .wire-why > summary::-webkit-details-marker { display: none; }
+
     /* Dashboard Sections */
     .dashboard,
     .tab-content { margin-top: 24px; }
