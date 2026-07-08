@@ -1,5 +1,9 @@
 import { strict as assert } from "node:assert";
-import { normalizeTokens, jaccard, clusterMessages } from "../services/newsWire/wireClusterer.js";
+import {
+  normalizeTokens, jaccard, clusterMessages,
+  clusterTokens, stripBoilerplate, containment, contradicts, pairScore,
+  CONTAINMENT_CUT, CONTAINMENT_MIN_OVERLAP,
+} from "../services/newsWire/wireClusterer.js";
 
 let pass = 0;
 let fail = 0;
@@ -109,6 +113,91 @@ test("cluster aggregates breaking, symbols, categories, first/last seen", () => 
   assert.equal(c.first_seen, "2026-07-08T09:00:00.000Z");
   assert.equal(c.last_seen, "2026-07-08T09:00:30.000Z");
   assert.ok(c.categories.includes("india") && c.categories.includes("markets"));
+});
+
+// ══════════════════════════════════════════════════════════════════════════════
+// Cross-channel corroboration recovery. Before this, source_count was 1 on ALL 40
+// live items — the "N sources" chip and the rank's (1+log2(source_count)) multiplier
+// were both dead.
+// ══════════════════════════════════════════════════════════════════════════════
+
+test("stripBoilerplate removes channel branding, not payload", () => {
+  assert.equal(stripBoilerplate("JUST IN: Trump orders trade halt").trim(), "Trump orders trade halt");
+  assert.equal(stripBoilerplate("BREAKING: Trump: Cut off trade").trim(), "Trump: Cut off trade", "nested markers");
+  assert.equal(stripBoilerplate("Trump: Cut off trade.|FJ").trim(), "Trump: Cut off trade.");
+  assert.ok(!stripBoilerplate("Fed cuts @WalterBloomberg").includes("@Walter"));
+  assert.ok(!/for more news/i.test(stripBoilerplate("Fed cuts rates. Follow @x for more news and updates")));
+  assert.ok(!/https/.test(stripBoilerplate("Fed cuts https://t.me/x/1")));
+});
+
+test("[anti-regression] stripBoilerplate does NOT truncate a 'Sources:' clause", () => {
+  // A tempting /\bsources?:.*$/ regex would reduce this to "Sources" and destroy the story.
+  const t = clusterTokens("Sources: Fed to cut rates in March, says Reuters");
+  for (const w of ["fed", "cut", "rates", "march", "reuters"]) assert.ok(t.has(w), `lost "${w}"`);
+  assert.ok(!t.has("sources"), "the word itself is stopworded, the payload survives");
+});
+
+test("containment is immune to length asymmetry where jaccard is not", () => {
+  const short = new Set(["trump", "cut", "trade", "spain", "visits"]);
+  const long = new Set([
+    "president", "trump", "orders", "us", "cut", "trade", "spain", "visits",
+    "immediately", "official", "statement", "madrid",
+  ]);
+  // 5 shared / 12 union = 0.417 → below the 0.5 Jaccard cut, even though the short
+  // headline is entirely contained in the long one. That gap is the whole bug.
+  assert.ok(jaccard(short, long) < 0.5, `jaccard rejects the same story (got ${jaccard(short, long)})`);
+  assert.equal(containment(short, long), 1, "containment sees the subset");
+});
+
+test("[veto] opposite events never merge, on either similarity path", () => {
+  const t = (s) => clusterTokens(s);
+  assert.equal(contradicts(t("Fed cuts rates by 25 bps"), t("Fed hikes rates by 25 bps")), "antonym");
+  assert.equal(contradicts(t("Fed cuts rates by 25 bps"), t("Fed cuts rates by 50 bps")), "numeric");
+  assert.equal(contradicts(t("Reliance beats Q1 estimates"), t("Reliance misses Q1 estimates")), "antonym");
+  assert.equal(pairScore(t("Fed cuts rates by 25 bps"), t("Fed hikes rates by 25 bps")).mode, "veto");
+});
+
+test("[veto] fails OPEN — same-pole synonyms and shared numbers never veto", () => {
+  const t = (s) => clusterTokens(s);
+  assert.equal(contradicts(t("Fed slashes rates"), t("Fed cuts rates")), null, "slash and cut are the same pole");
+  assert.equal(contradicts(t("Nifty up 1 percent"), t("Nifty rises 1 percent")), null);
+  assert.equal(contradicts(t("Fed holds rates steady, signals one cut"), t("Fed keeps rates steady, signals one cut")), null);
+});
+
+test("[asymmetry gate] equal-length pairs stay on jaccard, never containment", () => {
+  const a = clusterTokens("alpha bravo charlie delta echo foxtrot");
+  const b = clusterTokens("alpha bravo charlie delta echo golf");
+  assert.equal(pairScore(a, b).mode, "jaccard", "containment is only licensed by length asymmetry");
+});
+
+test("[overlap floor] a small set 80% contained in an unrelated long one does NOT merge", () => {
+  // The real false positive: "Trump says MoU with Iran is over" vs a Bitcoin headline
+  // that happened to mention Trump. Intersection was 4 — below the floor of 5.
+  const small = new Set(["alpha", "bravo", "charlie", "delta", "echo"]);
+  const long = new Set(["alpha", "bravo", "charlie", "delta", "zulu", "yankee", "xray", "whiskey", "victor"]);
+  assert.ok(containment(small, long) >= CONTAINMENT_CUT - 0.01, "containment alone would pass");
+  assert.ok(4 < CONTAINMENT_MIN_OVERLAP);
+  assert.notEqual(pairScore(small, long).mode, "containment", "the absolute overlap floor blocks it");
+});
+
+test("[the whole point] one story across four channels → source_count 4", () => {
+  const t0 = "2026-07-08T11:00:00Z";
+  const { clusters } = clusterMessages([
+    msg("FinancialJuice", "Trump: Cut off all trade with Spain, all visits.|FJ", t0),
+    msg("Clash Report", "BREAKING: Trump: Cut off all trade with Spain, please, including visits", "2026-07-08T11:00:20Z"),
+    msg("Watcher.Guru", "JUST IN: President Trump orders US to cut off all trade with Spain and all visits", "2026-07-08T11:01:00Z"),
+    msg("Insider Paper", "Spain is taking US President Donald Trump's threat to cut off all trade and visits seriously", "2026-07-08T11:02:00Z"),
+  ]);
+  assert.equal(clusters.length, 1, "four channels, one story");
+  assert.equal(clusters[0].source_count, 4);
+});
+
+test("[veto in the pipeline] a rate cut and a rate hike stay separate clusters", () => {
+  const { clusters } = clusterMessages([
+    msg("A", "Fed cuts benchmark rate by 25 bps at todays meeting", "2026-07-08T11:00:00Z"),
+    msg("B", "Fed hikes benchmark rate by 25 bps at todays meeting", "2026-07-08T11:00:30Z"),
+  ]);
+  assert.equal(clusters.length, 2, "opposite events must never fuse into one card");
 });
 
 console.log(`\n${pass} pass, ${fail} fail`);
