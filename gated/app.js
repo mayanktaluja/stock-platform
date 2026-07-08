@@ -4595,6 +4595,27 @@ function wireItemVisible(it, wl) {
   return true;
 }
 
+/**
+ * Presentation-only headline cleanup. The stored headline is the raw Telegram
+ * message, and the India channels append their own tracking URL to every post:
+ *
+ *   "Dow futures plunge over 500 points as Trump declares Iran ceasefire 'over'
+ *    https://www.cnbctv18.com/market/...?utm_medium=social&utm_source=telegram&..."
+ *
+ * On a card that URL is longer than the news. Strip it (plus the "#MintMarkets |"
+ * channel prefix and a now-dangling "Read More:") for DISPLAY only — the wire item,
+ * the cluster and the per-source links keep the original.
+ */
+function wireCleanHeadline(text) {
+  const cleaned = String(text || "")
+    .replace(/https?:\/\/\S+/g, " ")
+    .replace(/^\s*#\w+\s*\|\s*/, "")
+    .replace(/\s*\bRead\s+More\b\s*:?\s*$/i, "")
+    .replace(/\s+/g, " ")
+    .trim();
+  return cleaned.length > 220 ? `${cleaned.slice(0, 219).trimEnd()}…` : cleaned;
+}
+
 function wireHeatBadgeClass(h) {
   return h === "high" ? "badge--danger" : h === "med" ? "badge--warn" : "badge--neutral";
 }
@@ -4639,7 +4660,7 @@ function renderWireCard(it, orderRank, orderNewest, wl, variant) {
         ${breakingPill}
         <span data-testid="market-wire-source-chip" style="margin-left:auto;font-size:10px;font-weight:700;color:var(--text-muted);padding:1px 7px;border-radius:5px;border:1px solid var(--border);">${it.source_count} source${it.source_count === 1 ? "" : "s"}</span>
       </div>
-      <div class="wire-headline">${escapeHtml(it.headline)}</div>
+      <div class="wire-headline">${escapeHtml(wireCleanHeadline(it.headline))}</div>
       <div class="wire-meta">${chanLine ? escapeHtml(chanLine) : ""}${chanLine && when ? " &middot; " : ""}${when}</div>
       ${(tickerTags || sectorTags) ? `<div style="margin-top:6px;">${tickerTags}${sectorTags}</div>` : ""}
       ${detail}

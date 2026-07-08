@@ -34,7 +34,9 @@ const FEED_A = {
     item({ id: "hi", headline: "Fed cuts rates, markets rally", heat_bucket: "high", breaking: true, direction: "bullish", source_count: 3, rank: 9,
       sources: [{ channel: "FinancialJuice", url: "https://t.me/a/1", publishedAt: nowIso }, { channel: "Walter Bloomberg", url: "https://t.me/b/1", publishedAt: nowIso }, { channel: "Clash Report", url: "https://t.me/c/1", publishedAt: nowIso }] }),
     item({ id: "md", headline: "Reliance jumps on Q1 beat", heat_bucket: "med", direction: "bullish", tickers: ["RELIANCE"], rank: 5, last_seen: older }),
-    item({ id: "lo", headline: "Some quiet altcoin note", heat_bucket: "low", rank: 1, last_seen: older }),
+    item({ id: "lo", heat_bucket: "low", rank: 1, last_seen: older,
+      // Exactly what the India channels post: a tracking URL longer than the news.
+      headline: "#MintMarkets | Stock market falls as crude rises https://www.livemint.com/market/x-1178.html?utm_medium=social&utm_source=telegram&utm_campaign=regular-editorial Read More:" }),
   ],
 };
 // Same three stories plus one genuinely new id.
@@ -59,6 +61,14 @@ test.describe("Market Wire tab", () => {
     // Honesty (D3): bucketed heat only, never a raw 0-10 numeral.
     await expect(panel).not.toContainText(/impact\s*[:=]\s*\d/i);
     await expect(panel.locator('[data-wire-id="hi"]').getByTestId("market-wire-source-chip")).toContainText("3 sources");
+
+    // Headlines are the raw Telegram message; the India channels append a tracking URL
+    // that is longer than the news. It must never reach a card.
+    await panel.locator('[data-wire-chip="all"]').click();
+    const lo = panel.locator('[data-wire-id="lo"] .wire-headline');
+    await expect(lo).toHaveText("Stock market falls as crude rises");
+    await expect(panel).not.toContainText("utm_source");
+    await expect(panel).not.toContainText("https://www.livemint.com");
   });
 
   test("[contract] chips filter with pure CSS — no re-render, scroll and open cards survive", async ({ page }) => {
