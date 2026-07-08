@@ -164,6 +164,16 @@ export async function buildPortfolioSwsInputAlerts(sub, marketChanges, stores = 
     generated_at: marketChanges?.generated_at || null,
     source,
     holdings_count: holdings.length,
+    // Every held ticker, canonical + bare — not just the alert-matched ones.
+    // Exposed as an ARRAY, not the internal Set: `portfolio` is re-spread and
+    // fed to ledger events, and a Set JSON-stringifies to `{}`.
+    //
+    // UNFILTERED by design: zero-quantity/exited positions are included, and
+    // canonicalizeHoldingTicker() falls through symbol → ticker → stock → name,
+    // so a row with no symbol yields something like "RELIANCE INDUSTRIES LTD"
+    // (which simply never matches). Series suffixes (-EQ/-BE) are not stripped
+    // and must not be — BAJAJ-AUTO and UMIYA-MRO are real NSE symbols.
+    held_tickers: [...heldTickers],
     alerts,
     suppressed_count: Math.max(0, heldAlerts.length - alerts.length),
     digest: digestPortfolioChanges(alerts),
@@ -401,6 +411,110 @@ function buildReductionHighlightsHtml(highlights) {
         </tr>`;
 }
 
+// ──── Upcoming-earnings section ────
+// Optional bottom section, same contract as the reduction highlights above:
+// returns "" / [] when there are no rows, so callers interpolate it blindly.
+// Rows come from services/earnings/portfolioEarningsSection.js and carry
+// scalars only — no price bands, no position sizing, no entry/stop/target.
+// The footer below asserts "no buy/sell instruction"; keep it true.
+
+const EARNINGS_SECTION_TITLE = "Upcoming results in your portfolio";
+const EARNINGS_SECTION_NOTE =
+  "Guidance (Raise / Maintain / Cut) is disclosed at the concall, not before — all three scenarios stay open until then.";
+
+// Verdict direction reuses the existing impact palette rather than adding a
+// second colour system: BEAT reads positive, MISS negative, everything else neutral.
+function verdictStyle(verdict) {
+  if (verdict === "BEAT") return impactStyle("positive");
+  if (verdict === "MISS") return impactStyle("negative");
+  return impactStyle("neutral");
+}
+
+function formatEarningsRowLabel(row) {
+  const symbol = String(row?.symbol || "").trim();
+  const company = String(row?.company || "").trim();
+  if (symbol && company && company.toUpperCase() !== symbol) return `${company} (${symbol})`;
+  return symbol || company || "Unknown stock";
+}
+
+function formatEarningsWhen(row) {
+  // days_until_label is always a non-empty string — a raw 0 would vanish
+  // through escapeHtml's `String(s || "")`. See portfolioEarningsSection.js.
+  const when = String(row?.days_until_label || "").trim() || "—";
+  const iso = String(row?.event_iso_date || "").trim();
+  return iso ? `${when} (${iso})` : when;
+}
+
+function formatEarningsModelView(row) {
+  const verdict = String(row?.verdict_label || "").trim() || "Insufficient data";
+  const confidence = String(row?.confidence_label || "").trim();
+  return confidence && confidence !== "—" ? `${verdict}, ${confidence} confidence` : verdict;
+}
+
+export function buildEarningsSectionText(rows, earningsUrl = "") {
+  const list = Array.isArray(rows) ? rows : [];
+  if (!list.length) return [];
+  const lines = [EARNINGS_SECTION_TITLE, EARNINGS_SECTION_NOTE];
+  if (earningsUrl) lines.push(`Earnings Watch: ${earningsUrl}`);
+  lines.push("");
+  for (const row of list) {
+    lines.push(`${formatEarningsRowLabel(row)} - ${formatEarningsWhen(row)}, ${row?.fiscal_quarter || "—"}`);
+    lines.push(`- Model view: ${formatEarningsModelView(row)}`);
+    if (row?.branch_tree) lines.push(`- Scenarios: ${row.branch_tree}`);
+    lines.push("");
+  }
+  return lines;
+}
+
+export function buildEarningsSectionHtml(rows, earningsUrl = "") {
+  const list = Array.isArray(rows) ? rows : [];
+  if (!list.length) return "";
+  const link = earningsUrl
+    ? ` <a href="${escapeAttr(earningsUrl)}" style="color:#2563eb;text-decoration:underline;">Open Earnings Watch</a>`
+    : "";
+  const bodyRows = list.map((row) => {
+    const style = verdictStyle(row?.verdict);
+    const confidence = String(row?.confidence_label || "").trim();
+    const confidenceCell = confidence && confidence !== "—"
+      ? ` <span style="color:#374151;">${escapeHtml(confidence)} confidence</span>`
+      : "";
+    const tree = row?.branch_tree
+      ? `<div style="margin-top:5px;color:#6b7280;">${escapeHtml(row.branch_tree)}</div>`
+      : "";
+    return `
+      <tr>
+        <td style="padding:10px 12px;border-top:1px solid #bfdbfe;font-family:Arial,sans-serif;font-size:13px;color:#111827;font-weight:700;">${escapeHtml(formatEarningsRowLabel(row))}</td>
+        <td style="padding:10px 12px;border-top:1px solid #bfdbfe;font-family:Arial,sans-serif;font-size:13px;color:#374151;">${escapeHtml(formatEarningsWhen(row))}</td>
+        <td style="padding:10px 12px;border-top:1px solid #bfdbfe;font-family:Arial,sans-serif;font-size:13px;color:#374151;">${escapeHtml(row?.fiscal_quarter || "—")}</td>
+        <td style="padding:10px 12px;border-top:1px solid #bfdbfe;font-family:Arial,sans-serif;font-size:13px;color:#374151;"><span style="display:inline-block;padding:3px 8px;border-radius:999px;border:1px solid ${style.border};background:${style.bg};color:${style.color};font-weight:700;font-size:12px;">${escapeHtml(row?.verdict_label || "Insufficient data")}</span>${confidenceCell}${tree}</td>
+      </tr>`;
+  }).join("\n");
+  return `
+        <tr>
+          <td style="padding:0 20px 16px;">
+            <table width="100%" cellspacing="0" cellpadding="0" border="0" style="border-collapse:collapse;border:1px solid #bfdbfe;background:#f8fbff;">
+              <thead>
+                <tr>
+                  <th colspan="4" align="left" style="padding:12px;background:#dbeafe;font-family:Arial,sans-serif;font-size:14px;color:#1e3a8a;">${escapeHtml(EARNINGS_SECTION_TITLE)}</th>
+                </tr>
+                <tr>
+                  <td colspan="4" style="padding:10px 12px;font-family:Arial,sans-serif;font-size:13px;color:#1e3a8a;">${escapeHtml(EARNINGS_SECTION_NOTE)}${link}</td>
+                </tr>
+                <tr>
+                  <th align="left" style="padding:10px 12px;background:#eff6ff;font-family:Arial,sans-serif;font-size:12px;color:#1e3a8a;">Holding</th>
+                  <th align="left" style="padding:10px 12px;background:#eff6ff;font-family:Arial,sans-serif;font-size:12px;color:#1e3a8a;">Reports</th>
+                  <th align="left" style="padding:10px 12px;background:#eff6ff;font-family:Arial,sans-serif;font-size:12px;color:#1e3a8a;">Quarter</th>
+                  <th align="left" style="padding:10px 12px;background:#eff6ff;font-family:Arial,sans-serif;font-size:12px;color:#1e3a8a;">Model view &amp; guidance scenarios</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${bodyRows}
+              </tbody>
+            </table>
+          </td>
+        </tr>`;
+}
+
 export function formatAlertStockLabel(alert) {
   const ticker = canonicalSwsTicker(alert?.ticker);
   const name = String(alert?.name || "").trim();
@@ -415,15 +529,21 @@ export function formatAlertChangeSummary(change) {
   return `${field} changed from ${formatAlertChangeValue(change, "previous")} to ${formatAlertChangeValue(change, "current")}${suffix}`;
 }
 
-export function buildSwsInputAlertEmail({ alerts, runId, generatedAt, appUrl = "https://starbhai-stock-platform.vercel.app/", reductionHighlights = [] }) {
+export function buildSwsInputAlertEmail({ alerts, runId, generatedAt, appUrl = "https://starbhai-stock-platform.vercel.app/", reductionHighlights = [], earningsRows = [] }) {
   const alertList = Array.isArray(alerts) ? alerts : [];
   const normalizedReductionHighlights = normalizeReductionHighlights(reductionHighlights);
+  const earningsList = Array.isArray(earningsRows) ? earningsRows : [];
   const count = alertList.length;
   const stockLabels = alertList.map(formatAlertStockLabel);
   const subject = count === 1
     ? `SWS inputs changed for ${stockLabels[0]}`
     : `SWS inputs changed for ${count} portfolio holding(s)`;
-  const analyzerUrl = `${appUrl.replace(/\/$/, "")}/?tab=analyzer`;
+  // gated/app.js routes on the hash fragment (parseHash() reads location.hash
+  // only, never location.search). The old "?tab=analyzer" silently dropped
+  // users on the default picks tab.
+  const baseUrl = appUrl.replace(/\/$/, "");
+  const analyzerUrl = `${baseUrl}/#tab=analyzer`;
+  const earningsUrl = `${baseUrl}/#tab=earnings`;
   const timestamp = runId || generatedAt || "unknown";
   const lines = [
     subject,
@@ -443,14 +563,27 @@ export function buildSwsInputAlertEmail({ alerts, runId, generatedAt, appUrl = "
     lines.push("");
   }
 
+  lines.push(...buildEarningsSectionText(earningsList, earningsUrl));
+
   lines.push("Review the Starbhai score/report before taking any decision. This email contains no buy/sell instruction.");
+  if (earningsList.length) {
+    lines.push("Earnings scenarios are conditional on guidance disclosed at the concall. Open Earnings Watch for methodology and measured hit-rate.");
+  }
   lines.push("Preferences: open Portfolio Analyzer in Starbhai to turn SWS input alert emails off.");
   const text = lines.join("\n");
-  const html = buildSwsInputAlertEmailHtml({ alertList, subject, timestamp, analyzerUrl, reductionHighlights: normalizedReductionHighlights });
+  const html = buildSwsInputAlertEmailHtml({
+    alertList,
+    subject,
+    timestamp,
+    analyzerUrl,
+    earningsUrl,
+    reductionHighlights: normalizedReductionHighlights,
+    earningsRows: earningsList,
+  });
   return { subject, text, html };
 }
 
-function buildSwsInputAlertEmailHtml({ alertList, subject, timestamp, analyzerUrl, reductionHighlights = [] }) {
+function buildSwsInputAlertEmailHtml({ alertList, subject, timestamp, analyzerUrl, earningsUrl = "", reductionHighlights = [], earningsRows = [] }) {
   const rows = [];
   for (const alert of alertList) {
     const stock = formatAlertStockLabel(alert);
@@ -503,9 +636,13 @@ function buildSwsInputAlertEmailHtml({ alertList, subject, timestamp, analyzerUr
             </table>
           </td>
         </tr>
+        ${buildEarningsSectionHtml(earningsRows, earningsUrl)}
         <tr>
           <td style="padding:16px 20px;border-top:1px solid #e5e7eb;font-family:Arial,sans-serif;font-size:12px;color:#6b7280;">
             Review the Starbhai score/report before taking any decision. This email contains no buy/sell instruction.
+            ${(Array.isArray(earningsRows) && earningsRows.length)
+              ? "<br>Earnings scenarios are conditional on guidance disclosed at the concall. Open Earnings Watch for methodology and measured hit-rate."
+              : ""}
             <br>Preferences: open Portfolio Analyzer in Starbhai to turn SWS input alert emails off.
           </td>
         </tr>

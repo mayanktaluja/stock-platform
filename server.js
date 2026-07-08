@@ -6134,6 +6134,7 @@ import {
   normalizeSwsInputAlert,
   normalizeSwsInputAlertPrefs,
 } from "./services/swsPortfolioInputAlerts.js";
+import { buildPortfolioEarningsRows } from "./services/earnings/portfolioEarningsSection.js";
 import { mailProvider, sendMail, validateBulkMailerConfig } from "./services/resendMailer.js";
 
 // Lazy @vercel/kv client for the portfolio response cache L2. Memoised
@@ -6519,6 +6520,34 @@ app.post("/api/admin/sws-input-alerts/sample-email", express.json(), async (req,
       changes: [{ field: "snowflake.future", previous: 4, current: 3, severity: "medium" }],
     };
     const sampleReductionAlert = sampleAlerts[0] || fallbackAlert;
+
+    // Earnings rows for the sample come from an explicit `symbols` body param,
+    // NOT from the alert tickers above — those are BSE numeric codes ("517437")
+    // and `fallbackAlert.ticker` is the literal "SAMPLE", so they never overlap
+    // the earnings universe and the section could never be exercised.
+    // Falls back to the admin's own book when no symbols are supplied.
+    //   curl -d '{"symbols":["INDBANK","GANGOTRI","TCS"]}'   → forces the d=0
+    //   and INSUFFICIENT_DATA rows that break a naive renderer.
+    const requestedSymbols = Array.isArray(req.body?.symbols)
+      ? req.body.symbols.map((s) => String(s || "").trim()).filter(Boolean)
+      : null;
+    let sampleEarningsRows = [];
+    try {
+      const heldTickers = requestedSymbols?.length
+        ? requestedSymbols
+        : (await buildPortfolioSwsInputAlerts(req.user.sub, market, {
+            analyzerStore: getAnalyzerStorage(),
+            portfolioStore: getPortfolioStorage(),
+          })).held_tickers;
+      const snapshot = normalizeEarningsSnapshot(recomputeDaysUntil(loadEarningsSnapshot()));
+      // Explicit symbols widen the window so an out-of-window row (GANGOTRI is
+      // d=16 today) is still reachable for a render check.
+      const maxDays = requestedSymbols?.length ? 60 : undefined;
+      sampleEarningsRows = buildPortfolioEarningsRows(snapshot, heldTickers, maxDays ? { maxDays } : {}).rows;
+    } catch (err) {
+      console.warn("[SWS-INPUT-ALERTS] sample earnings rows failed:", err.message);
+    }
+
     const email = buildSwsInputAlertEmail({
       alerts: sampleAlerts.length ? sampleAlerts : [fallbackAlert],
       runId: market.run_id || new Date().toISOString(),
@@ -6531,9 +6560,15 @@ app.post("/api/admin/sws-input-alerts/sample-email", express.json(), async (req,
         tradeRupees: 25000,
         reasons: ["Sample only: confirmed Portfolio Analyzer reduction reviews appear here when the same holding also has material SWS input changes."],
       }],
+      earningsRows: sampleEarningsRows,
     });
     const result = await sendMail({ to: "mtaluja11@gmail.com", ...email });
-    res.status(result.ok ? 200 : 502).json({ ok: result.ok, result, requested_by: req.user?.email || null });
+    res.status(result.ok ? 200 : 502).json({
+      ok: result.ok,
+      result,
+      earnings_row_count: sampleEarningsRows.length,
+      requested_by: req.user?.email || null,
+    });
   } catch (err) {
     console.error("[SWS-INPUT-ALERTS] sample email failed:", err.message);
     res.status(500).json({ error: err.message });
@@ -6582,6 +6617,7 @@ app.all("/api/cron/sws-input-alerts/send", express.json(), async (req, res) => {
         run_id: market.run_id || null,
         market_change_count: 0,
         recipient_count: 0,
+        earnings_suppressed_reason: null,
         counts: {
           eligible: 0,
           sent: 0,
@@ -6592,6 +6628,7 @@ app.all("/api/cron/sws-input-alerts/send", express.json(), async (req, res) => {
           no_alerts: 0,
           skipped: 0,
           transition_suppressed: 0,
+          earnings_rows_attached: 0,
         },
         results: [],
       });
@@ -6636,7 +6673,32 @@ app.all("/api/cron/sws-input-alerts/send", express.json(), async (req, res) => {
       no_alerts: 0,
       skipped: 0,
       transition_suppressed: 0,
+      earnings_rows_attached: 0,
     };
+
+    // Upcoming-earnings section. Admin-only until the widen gate clears — see
+    // ~/.claude/plans/iterative-finding-wind.md. Loaded lazily and memoized:
+    // parsing the 2.83MB snapshot plus loadFrozenPredictionRecords()'s walk over
+    // 24MB of earnings-history costs ~155ms cold, and the overwhelmingly common
+    // path (no admin recipient with alerts) should pay none of it.
+    //
+    // Read in-process, never over HTTP — /api/earnings/* sits behind the global
+    // session gate and would 401 without a cookie.
+    let _earningsSnapshot;
+    let earningsSuppressedReason = null;
+    const getEarningsSnapshot = () => {
+      if (_earningsSnapshot === undefined) {
+        try {
+          _earningsSnapshot = normalizeEarningsSnapshot(recomputeDaysUntil(loadEarningsSnapshot()));
+        } catch (err) {
+          console.warn("[SWS-INPUT-ALERTS] earnings snapshot load failed:", err.message);
+          _earningsSnapshot = null;
+        }
+      }
+      return _earningsSnapshot;
+    };
+    const earningsSectionEnabled = (email) =>
+      boolEnv("EARNINGS_EMAIL_ALL_USERS") || computeIsAdmin(email);
 
     for (const user of users) {
       const email = String(user?.email || "").trim().toLowerCase();
@@ -6716,12 +6778,31 @@ app.all("/api/cron/sws-input-alerts/send", express.json(), async (req, res) => {
           continue;
         }
 
+        // Upcoming-earnings rows. Isolated in their own try/catch, exactly like
+        // buildSwsInputReductionContext above: the enclosing per-user catch
+        // writes EMAIL_FAILED and drops the email, and because EMAIL_SENT never
+        // lands, `alreadySent` stays false and the next run re-throws on the
+        // same row. A decorative section must never be able to suppress the
+        // SWS input alert — degrade to [] instead.
+        let earningsRows = [];
+        if (earningsSectionEnabled(email)) {
+          try {
+            const built = buildPortfolioEarningsRows(getEarningsSnapshot(), portfolio.held_tickers);
+            earningsRows = built.rows;
+            if (built.suppressed_reason) earningsSuppressedReason = built.suppressed_reason;
+            counts.earnings_rows_attached += earningsRows.length;
+          } catch (err) {
+            console.warn(`[SWS-INPUT-ALERTS] earnings rows failed for ${email || user.sub}:`, err.message);
+          }
+        }
+
         const emailBody = buildSwsInputAlertEmail({
           alerts: portfolio.alerts,
           runId: portfolio.run_id,
           generatedAt: portfolio.generated_at,
           appUrl: SWS_INPUT_ALERT_APP_URL,
           reductionHighlights: reductionContext.reductionHighlights,
+          earningsRows,
         });
         const sendResult = await sendMail({ to: email, ...emailBody }, { dryRun, rejectSandboxSender: !dryRun });
         if (sendResult.ok && !sendResult.skipped && !dryRun) {
@@ -6764,6 +6845,7 @@ app.all("/api/cron/sws-input-alerts/send", express.json(), async (req, res) => {
           email,
           alert_count: portfolio.alerts.length,
           reduction_highlight_count: reductionContext.reductionHighlights.length,
+          earnings_row_count: earningsRows.length,
           sent: sendResult.ok && !sendResult.skipped && !dryRun,
           dry_run: dryRun || !!sendResult.dry_run,
           skipped: !!sendResult.skipped,
@@ -6821,6 +6903,11 @@ app.all("/api/cron/sws-input-alerts/send", express.json(), async (req, res) => {
       state_seeded: market.state_seeded === true,
       market_change_count: market.alerts.length,
       recipient_count: counts.sent + counts.dry_run,
+      // Non-null means the earnings section was withheld from every recipient
+      // (snapshot missing, or built_at older than 72h). earnings-watch-latest.json
+      // is baked into the immutable Vercel deployment, so a stalled refresh would
+      // otherwise vanish silently — indistinguishable from "nobody reports soon".
+      earnings_suppressed_reason: earningsSuppressedReason,
       counts,
       results,
     });

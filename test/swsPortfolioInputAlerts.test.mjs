@@ -17,6 +17,8 @@ import {
   formatAlertChangeSummary,
   formatAlertFieldLabel,
   formatAlertImpactLabel,
+  buildEarningsSectionHtml,
+  buildEarningsSectionText,
   buildPortfolioSwsInputAlerts,
   buildSwsInputAlertEmail,
   canonicalizeHoldingTicker,
@@ -28,6 +30,7 @@ import {
   normalizeReductionHighlights,
   normalizeSwsInputAlertPrefs,
 } from "../services/swsPortfolioInputAlerts.js";
+import { buildPortfolioEarningsRows } from "../services/earnings/portfolioEarningsSection.js";
 import { stableHash } from "../services/swsInputSnapshot.js";
 
 // --- filterSignalChanges --------------------------------------------------
@@ -327,5 +330,130 @@ const transitionKeys = buildSwsInputAlertTransitionKeys(analyzerFirst.alerts);
 assert.equal(transitionKeys.length, 1);
 assert.deepEqual(filterAlertsByTransitionKeys(analyzerFirst.alerts, new Set(transitionKeys)), []);
 assert.equal(filterAlertsByTransitionKeys(analyzerFirst.alerts, new Set()).length, 1);
+
+// --- upcoming-earnings section --------------------------------------------
+// Rows are produced by the real selector rather than hand-rolled literals, so
+// the two modules cannot drift apart silently.
+
+const EARNINGS_MARKER = "Upcoming results in your portfolio";
+const NOW = Date.parse("2026-07-08T04:00:00.000Z");
+
+function previewPlaybook(verdict) {
+  const cells = { RAISE: "Raise", MAINTAIN: "Maintain", CUT: "Cut" };
+  return {
+    mode: "preview",
+    tradable: true,
+    branches: Object.entries(cells).map(([guidance, word]) => ({
+      guidance,
+      plan: { key: `${verdict}_${guidance}`, label: `${verdict} + ${word}` },
+    })),
+    position_size_tier: { label: "Reduced size", min_confidence: 48 },
+  };
+}
+
+const earningsSnapshot = {
+  built_at: "2026-07-08T01:55:24.496Z",
+  events: [
+    {
+      symbol: "INDBANK", company: "Indbank Merchant Banking", event_iso_date: "2026-07-08",
+      days_until: 0, fiscal_quarter: "Q1 FY27",
+      prediction: { verdict: "INLINE", confidence_pct: 51 }, playbook: previewPlaybook("INLINE"),
+    },
+    {
+      symbol: "MMFIN", company: "M&M Financial", event_iso_date: "2026-07-09",
+      days_until: 1, fiscal_quarter: "Q1 FY27",
+      prediction: { verdict: "BEAT", confidence_pct: 63 }, playbook: previewPlaybook("BEAT"),
+    },
+    {
+      // reactionPlaybook.js:249-258 — six keys, no position_size_tier.
+      symbol: "GANGOTRI", company: "Gangotri Textiles", event_iso_date: "2026-07-11",
+      days_until: 3, fiscal_quarter: "Q1 FY27",
+      prediction: { verdict: "INSUFFICIENT_DATA", confidence_pct: null },
+      playbook: { mode: "preview", tradable: false, primary: null, branches: [], headline: "Insufficient data — no playbook." },
+    },
+  ],
+};
+
+const { rows: earningsRows } = buildPortfolioEarningsRows(
+  earningsSnapshot,
+  ["INDBANK.NS", "MMFIN.NS", "GANGOTRI.NS"],
+  { nowMs: NOW },
+);
+assert.equal(earningsRows.length, 3);
+
+// Absent rows → the section is omitted entirely (same contract as reduction highlights).
+assert.deepEqual(buildEarningsSectionText([]), []);
+assert.equal(buildEarningsSectionHtml([]), "");
+assert.doesNotMatch(email.text, new RegExp(EARNINGS_MARKER), "no earningsRows → no section in text");
+assert.doesNotMatch(email.html, new RegExp(EARNINGS_MARKER), "no earningsRows → no section in html");
+assert.doesNotMatch(email.text, /concall/i, "earnings footer line is conditional");
+
+const earningsEmail = buildSwsInputAlertEmail({
+  alerts: analyzerFirst.alerts,
+  runId: "run-1",
+  earningsRows,
+});
+
+assert.match(earningsEmail.text, new RegExp(EARNINGS_MARKER));
+assert.match(earningsEmail.html, new RegExp(EARNINGS_MARKER));
+
+// Section order: after the SWS change detail, before the footer.
+assert.ok(
+  earningsEmail.text.indexOf("TCS - Negative impact") < earningsEmail.text.indexOf(EARNINGS_MARKER),
+  "earnings section renders after the input-change detail",
+);
+assert.ok(
+  earningsEmail.text.indexOf(EARNINGS_MARKER) < earningsEmail.text.indexOf("Preferences:"),
+  "earnings section renders before the footer",
+);
+assert.ok(
+  earningsEmail.html.indexOf(">Signal<") < earningsEmail.html.indexOf(EARNINGS_MARKER),
+  "earnings HTML section sits below the change table",
+);
+
+// Deep link is a hash fragment. gated/app.js parseHash() never reads location.search.
+assert.match(earningsEmail.text, /#tab=earnings/);
+assert.match(earningsEmail.html, /#tab=earnings/);
+assert.match(earningsEmail.text, /#tab=analyzer/);
+assert.doesNotMatch(earningsEmail.html, /\?tab=/, "?tab= is a no-op and must not resurface");
+assert.doesNotMatch(email.html, /\?tab=/);
+
+// days_until 0 survives escapeHtml's `String(s || "")` coercion.
+assert.match(earningsEmail.text, /Indbank Merchant Banking \(INDBANK\) - Today \(2026-07-08\), Q1 FY27/);
+assert.match(earningsEmail.html, />Today \(2026-07-08\)</);
+assert.match(earningsEmail.text, /- Model view: INLINE, 51% confidence/);
+
+// Verdict pill colours reuse the existing impact palette.
+assert.match(earningsEmail.html, /#dcfce7/, "BEAT pill is positive-green");
+
+// INSUFFICIENT_DATA: em-dash, no scenarios, and above all no throw.
+assert.match(earningsEmail.text, /Gangotri Textiles \(GANGOTRI\) - in 3 days/);
+assert.match(earningsEmail.text, /- Model view: Insufficient data\n/);
+assert.doesNotMatch(earningsEmail.text, /Scenarios: $/m);
+
+// Scenario tree renders all three guidance branches, with the separators intact.
+assert.match(earningsEmail.text, /- Scenarios: RAISE → BEAT \+ Raise · MAINTAIN → BEAT \+ Maintain · CUT → BEAT \+ Cut/);
+assert.match(earningsEmail.html, /RAISE → BEAT \+ Raise · MAINTAIN/);
+
+// HTML escaping: "M&M Financial" must not emit a bare ampersand.
+assert.match(earningsEmail.html, /M&amp;M Financial \(MMFIN\)/);
+assert.doesNotMatch(earningsEmail.html, /M&M Financial/, "raw & would break strict HTML mail clients");
+
+// The footer's promise must stay true: nothing in the earnings section is a
+// trade instruction, a price target, or a position size.
+const sectionText = earningsEmail.text.slice(
+  earningsEmail.text.indexOf(EARNINGS_MARKER),
+  earningsEmail.text.indexOf("Review the Starbhai score/report"),
+);
+assert.ok(sectionText.length > 0);
+assert.doesNotMatch(sectionText, /\b(buy|sell)\b/i, "earnings section carries no trade instruction");
+assert.doesNotMatch(sectionText, /stoploss|stop loss|entry|target/i);
+assert.doesNotMatch(sectionText, /Reduced size|Full size|Token size|position size/i);
+assert.doesNotMatch(sectionText, /₹|INR /, "no price bands in the email");
+assert.match(earningsEmail.text, /no buy\/sell instruction/i, "existing disclaimer survives");
+
+// The earnings footer line appears only alongside the section.
+assert.match(earningsEmail.text, /conditional on guidance disclosed at the concall/);
+assert.match(earningsEmail.html, /conditional on guidance disclosed at the concall/);
 
 console.log("swsPortfolioInputAlerts tests passed");
