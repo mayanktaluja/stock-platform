@@ -164,6 +164,16 @@ export async function buildPortfolioSwsInputAlerts(sub, marketChanges, stores = 
     generated_at: marketChanges?.generated_at || null,
     source,
     holdings_count: holdings.length,
+    // Every held ticker, canonical + bare — not just the alert-matched ones.
+    // Exposed as an ARRAY, not the internal Set: `portfolio` is re-spread and
+    // fed to ledger events, and a Set JSON-stringifies to `{}`.
+    //
+    // UNFILTERED by design: zero-quantity/exited positions are included, and
+    // canonicalizeHoldingTicker() falls through symbol → ticker → stock → name,
+    // so a row with no symbol yields something like "RELIANCE INDUSTRIES LTD"
+    // (which simply never matches). Series suffixes (-EQ/-BE) are not stripped
+    // and must not be — BAJAJ-AUTO and UMIYA-MRO are real NSE symbols.
+    held_tickers: [...heldTickers],
     alerts,
     suppressed_count: Math.max(0, heldAlerts.length - alerts.length),
     digest: digestPortfolioChanges(alerts),

@@ -17,6 +17,42 @@ const LEDGER = path.join(ROOT, "sws-input-alert-ledger.json");
 const PORTFOLIO_HISTORY = path.join(ROOT, "portfolio-history.json");
 const ALERT_DIR = path.join(ROOT, "data", "sws", "alerts");
 const CHANGES = path.join(ALERT_DIR, "fundamental-changes-latest.json");
+const EARNINGS = path.join(ROOT, "data", "catalysts", "earnings-watch-latest.json");
+
+// The committed earnings snapshot changes daily, so counts asserted against it
+// would be date-dependent. Swap in a deterministic 2-event snapshot (restored
+// in the finally block via `priors`).
+const IST_NOW = new Date(Date.now() + 5.5 * 3600 * 1000);
+const TOMORROW_ISO = new Date(IST_NOW.getTime() + 86_400_000).toISOString().slice(0, 10);
+
+function earningsEvent(symbol, company) {
+  return {
+    symbol,
+    company,
+    event_iso_date: TOMORROW_ISO, // future ⇒ no prediction-freeze overlay
+    days_until: 1,
+    fiscal_quarter: "Q1 FY27",
+    prediction: { verdict: "BEAT", confidence_pct: 63, score_100: 69.1 },
+    signals: {
+      sector: "IT",
+      momentum: { pre_runup_signal: "lagging" },
+      sws_upcoming_earnings: { current_price_inr: 100 },
+    },
+  };
+}
+
+function syntheticEarningsSnapshot(builtAt = new Date().toISOString()) {
+  return {
+    schema_version: "earnings-watch-v4",
+    built_at: builtAt,
+    window_days: 60,
+    event_count: 2,
+    // TCS is held by the admin (_local_dev); INFY by the non-admin
+    // (user_default_on). Only the admin's row may render.
+    events: [earningsEvent("TCS", "Tata Consultancy Services"), earningsEvent("INFY", "Infosys")],
+    recent_results: [],
+  };
+}
 
 function backup(file) {
   return fs.existsSync(file) ? fs.readFileSync(file, "utf-8") : null;
@@ -57,7 +93,7 @@ function signTestSession(sub, secret) {
   return `${payload}.${sig}`;
 }
 
-const priors = new Map([[USERS, backup(USERS)], [ANALYZER, backup(ANALYZER)], [LEDGER, backup(LEDGER)], [PORTFOLIO_HISTORY, backup(PORTFOLIO_HISTORY)], [CHANGES, backup(CHANGES)]]);
+const priors = new Map([[USERS, backup(USERS)], [ANALYZER, backup(ANALYZER)], [LEDGER, backup(LEDGER)], [PORTFOLIO_HISTORY, backup(PORTFOLIO_HISTORY)], [CHANGES, backup(CHANGES)], [EARNINGS, backup(EARNINGS)]]);
 let child;
 async function startServer(envOverrides = {}) {
   child = spawn(process.execPath, ["server.js"], {
@@ -200,6 +236,7 @@ try {
     },
   });
   fs.rmSync(LEDGER, { force: true });
+  writeJson(EARNINGS, syntheticEarningsSnapshot());
 
   const port = await startServer({
     SWS_INPUT_ALERTS_SUPPRESS_EMAILS: " vikrant.deshmukh16@gmail.com ",
@@ -263,7 +300,10 @@ try {
     no_alerts: 0,
     skipped: 2,
     transition_suppressed: 0,
+    // Only the admin's TCS row. INFY is in-window but its holder is gated out.
+    earnings_rows_attached: 1,
   });
+  assert.equal(cron.json.earnings_suppressed_reason, null);
   assert.equal(cron.json.artifact_email_eligible, true);
   assert.equal(cron.json.schema_version, 2);
   assert.equal(cron.json.confirmation_policy, "two_consecutive_full_runs");
@@ -292,6 +332,54 @@ try {
   assert.doesNotMatch(cronByEmail.get("portfolio-reader@example.com").payload.text, /sell\s+NTPC/i);
   assert.match(cronByEmail.get("portfolio-reader@example.com").payload.html, /Portfolio Analyzer reduction review/);
   assert.equal(cronByEmail.get("portfolio-reader@example.com").reduction_highlight_count, 1);
+
+  // --- upcoming-earnings section: admin-gated -------------------------------
+  const EARNINGS_MARKER = /Upcoming results in your portfolio/;
+  const adminResult = cronByEmail.get("mtaluja11@gmail.com");
+  const readerResult = cronByEmail.get("portfolio-reader@example.com");
+
+  assert.equal(adminResult.earnings_row_count, 1);
+  assert.match(adminResult.payload.text, EARNINGS_MARKER, "admin sees the earnings section");
+  assert.match(adminResult.payload.html, EARNINGS_MARKER);
+  assert.match(adminResult.payload.text, /Tata Consultancy Services \(TCS\) - Tomorrow/);
+  assert.match(adminResult.payload.text, /- Model view: BEAT, 63% confidence/);
+  assert.match(adminResult.payload.text, /- Scenarios: RAISE → .+ · MAINTAIN → .+ · CUT → /);
+  assert.match(adminResult.payload.text, /#tab=earnings/);
+
+  // The non-admin holds INFY, which IS in the same window. The gate — not the
+  // data — is what withholds the section.
+  assert.equal(readerResult.earnings_row_count, 0);
+  assert.doesNotMatch(readerResult.payload.text, EARNINGS_MARKER, "non-admin must not receive the earnings section");
+  assert.doesNotMatch(readerResult.payload.html, EARNINGS_MARKER);
+  assert.doesNotMatch(readerResult.payload.text, /concall/i, "earnings footer line is gated too");
+
+  // The dead `?tab=` deep link must never come back (gated/app.js parseHash()
+  // reads location.hash only).
+  assert.doesNotMatch(adminResult.payload.html, /\?tab=/);
+  assert.doesNotMatch(readerResult.payload.html, /\?tab=/);
+  assert.match(readerResult.payload.text, /#tab=analyzer/);
+
+  // A stale snapshot suppresses the section, says so, and CANNOT suppress the
+  // SWS input alert itself. Same for a missing snapshot. earnings-watch-latest
+  // .json ships inside the immutable Vercel deployment, so a stalled refresh
+  // must surface rather than look like "nothing reports this week".
+  for (const [label, mutate, expectedReason] of [
+    ["stale", () => writeJson(EARNINGS, syntheticEarningsSnapshot(new Date(Date.now() - 5 * 86_400_000).toISOString())), "stale"],
+    ["missing", () => fs.rmSync(EARNINGS, { force: true }), "missing"],
+  ]) {
+    mutate();
+    const degraded = await request(port, "POST", "/api/cron/sws-input-alerts/send", {
+      headers: { authorization: "Bearer test-cron-secret" },
+    });
+    assert.equal(degraded.status, 200, `${label}: cron still succeeds`);
+    assert.equal(degraded.json.earnings_suppressed_reason, expectedReason, `${label}: reason is observable`);
+    assert.equal(degraded.json.counts.earnings_rows_attached, 0, `${label}: no rows attached`);
+    assert.equal(degraded.json.recipient_count, 2, `${label}: the SWS alert email still ships`);
+    const degradedAdmin = new Map(degraded.json.results.map((r) => [r.email, r])).get("mtaluja11@gmail.com");
+    assert.doesNotMatch(degradedAdmin.payload.text, EARNINGS_MARKER, `${label}: section withheld`);
+    assert.match(degradedAdmin.payload.text, /Future growth changed from 4 to 3/, `${label}: the product survives`);
+  }
+  writeJson(EARNINGS, syntheticEarningsSnapshot());
 
   writeJson(LEDGER, {
     _local_dev: {
