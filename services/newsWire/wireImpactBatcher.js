@@ -142,6 +142,10 @@ export async function classifyClusters(rankedClusters, {
       });
     }
     stats.provider = results.find((r) => r.res.provider === "gemini" || r.res.provider === "groq")?.res.provider || "heuristic";
+  } else if (!skipLlm && stats.cache_hits > 0) {
+    // Everything was already scored by a real provider — say so rather than
+    // reporting "heuristic", which would misread as a quality degradation.
+    stats.provider = "cache";
   }
 
   if (cache) {
