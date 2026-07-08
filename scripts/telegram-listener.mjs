@@ -44,6 +44,12 @@ const { markIfNew } = await import("../services/alerts/sentLedger.js");
 const { dispatch } = await import("../services/alerts/alertDispatcher.js");
 const { ensureTopics } = await import("../services/alerts/topicManager.js");
 const { createThrottleQueue } = await import("../services/alerts/throttleQueue.js");
+// Parity with the mirror poller: severity-aware loudness + cross-channel near-dup
+// collapse. Without these the listener would silently bypass the de-noise if this
+// host ever became the live ingestion path.
+const { makeLoudGate } = await import("../services/alerts/loudGate.js");
+const { loadRecentStories, findNearDup, recordStory, normalizeTokens, DEFAULT_WINDOW_MS } =
+  await import("../services/alerts/nearDupGate.js");
 
 const apiId = Number(process.env.TG_API_ID);
 const apiHash = process.env.TG_API_HASH;
@@ -90,11 +96,21 @@ let topicState = { groupId: null, topics: {} };
 // unknown — M2) rather than by channel id, which GramJS marks inconsistently.
 const bySlug = new Map(sources.map((c) => [String(c.slug).toLowerCase(), { name: c.name || c.slug, category: c.category }]));
 
-async function sendWithFallback(alert) {
+const loudGate = makeLoudGate();
+// Rolling near-dup window, seeded from disk so a restart doesn't re-blast the
+// stories the previous process already delivered.
+let recentStories = loadRecentStories({});
+
+async function sendWithFallback(alert, tokens) {
   const res = await dispatch(alert);
   // L2: a stale/invalid topic thread → retry once at the group root.
   if (!res.ok && alert.messageThreadId != null && /thread|topic/i.test(res.reason || "")) {
     await dispatch({ ...alert, messageThreadId: undefined });
+  }
+  // Record only after a confirmed delivery (never claim-before-send).
+  if (res.ok && !res.skipped && tokens) {
+    recordStory(alert.key, tokens);
+    recentStories.push({ key: alert.key, ts: Date.now(), tokens });
   }
 }
 
@@ -114,7 +130,7 @@ async function handleMessage(event) {
 
     const alert = routeMessage(
       { text, channel: src.name, category: src.category, link, date },
-      { compiledWatchlist, macroGate, noiseGate, marketGate },
+      { compiledWatchlist, macroGate, noiseGate, marketGate, loudGate },
     );
     if (!alert) return;
 
@@ -122,13 +138,20 @@ async function handleMessage(event) {
     // channels near-simultaneously before either is sent.
     if (!markIfNew(alert.key).fresh) return;
 
+    // Cross-channel NEAR-dup collapse (reworded copies the exact-hash key misses).
+    // Prune the window first, then compare. Fails open.
+    const cutoff = Date.now() - DEFAULT_WINDOW_MS;
+    recentStories = recentStories.filter((r) => r.ts >= cutoff);
+    const tokens = normalizeTokens(text);
+    if (findNearDup(tokens, recentStories).matched) return;
+
     // Route to the GROUP topic (C1) when topics are ready; else DM root fallback.
     const threadId = topicState.topics?.[alert.topic];
     if (topicState.groupId && threadId != null) {
       alert.chatId = topicState.groupId;
       alert.messageThreadId = threadId;
     }
-    queue.enqueue(() => sendWithFallback(alert));
+    queue.enqueue(() => sendWithFallback(alert, tokens));
 
     // Cross-post BREAKING to the IMPORTANT priority group (separate, loud).
     const impGroup = process.env.TG_IMPORTANT_GROUP_ID;

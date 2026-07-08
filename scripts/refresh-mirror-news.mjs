@@ -40,6 +40,11 @@ const { dispatch } = await import("../services/alerts/alertDispatcher.js");
 // buffer so the wire builder can cluster/triage/rank it for the website. NO-OPs
 // when NEWS_WIRE_DIR is unset (never breaks the firehose). See services/newsWire.
 const { archiveWireMessages, pruneWireBuffer } = await import("../services/newsWire/wireArchive.js");
+// Alert de-noise: severity-aware loudness + cross-channel near-duplicate collapse.
+// Both reuse the Market Wire's brain (heuristic scorer + token-set clusterer).
+const { makeLoudGate } = await import("../services/alerts/loudGate.js");
+const { loadRecentStories, findNearDup, recordStory, pruneRecentStories, normalizeTokens } =
+  await import("../services/alerts/nearDupGate.js");
 
 const argv = process.argv.slice(2);
 const DRY_RUN = argv.includes("--dry-run");
@@ -78,8 +83,15 @@ async function main() {
   const noiseGate = { match: (t) => matchNoise(t, noiseCompiled) };
   const marketCompiled = compileMarketGate((loadJson("data/alerts/market-keywords.json") || {}).keywords || []);
   const marketGate = { match: (t) => matchMarket(t, marketCompiled) };
+  // Severity+intensity loudness gate. Without it every "trump"/"nifty" mention
+  // pinged loudly; now only HIGH-severity events, strongly-worded MED ones, and
+  // watchlist tickers do. Non-loud messages still post silently to their topic.
+  const loudGate = makeLoudGate();
 
-  let fetched = 0, fresh = 0, matched = 0, sent = 0, dup = 0;
+  // Cross-channel near-dup window (reworded copies the exact-hash ledger misses).
+  const recent = loadRecentStories({ now });
+
+  let fetched = 0, fresh = 0, matched = 0, sent = 0, dup = 0, nearDup = 0, loud = 0;
   const wireBatch = []; // Market Wire sink — flushed once per run after the channel loop.
 
   for (const c of sources) {
@@ -97,10 +109,11 @@ async function main() {
 
       const alert = routeMessage(
         { text: row.text, channel: c.name || c.slug, category: c.category, link: row.url, date: row.publishedAt },
-        { compiledWatchlist, macroGate, noiseGate, marketGate },
+        { compiledWatchlist, macroGate, noiseGate, marketGate, loudGate },
       );
       if (!alert) continue;
       matched += 1;
+      if (alert.breaking) loud += 1;
 
       // Capture for the Market Wire BEFORE the Telegram dedup, so cross-channel
       // copies of the same story are all archived (the clusterer counts distinct
@@ -111,6 +124,18 @@ async function main() {
         tags: alert.tags, routerKey: alert.key,
       });
 
+      // Cross-channel near-dup collapse. The wire buffer above already captured
+      // this copy (so the website still shows an honest "N sources"); we only
+      // suppress the redundant TELEGRAM send. Fails open — a load/parse error
+      // yields matched:false and the alert goes out.
+      const tokens = normalizeTokens(row.text);
+      const nd = findNearDup(tokens, recent);
+      if (nd.matched) {
+        nearDup += 1;
+        if (DRY_RUN) console.log(`[mirror] would SUPPRESS near-dup (sim=${nd.similarity.toFixed(2)}): ${row.text.slice(0, 60)}`);
+        continue;
+      }
+
       if (!DRY_RUN && !markIfNew(alert.key).fresh) { dup += 1; continue; }
 
       // Route to the group's category topic.
@@ -119,9 +144,22 @@ async function main() {
         alert.messageThreadId = topicMap.topics?.[alert.topic];
       }
       const res = await dispatch(alert, { dryRun: DRY_RUN });
+      const delivered = (res.ok && !res.skipped) || (DRY_RUN && res.skipped);
       if (res.ok && !res.skipped) { sent += 1; await delay(1100); } // ~1 msg/s into the group (Bot API per-chat limit)
       else if (DRY_RUN && res.skipped) sent += 1;
-      if (DRY_RUN) console.log(`[mirror] would send [${alert.topic}]${alert.breaking ? " 🔴" : ""}: ${row.text.slice(0, 80)}`);
+      if (DRY_RUN) {
+        const sev = alert.severity ? ` sev=${alert.severity}` : "";
+        const imp = alert.impact != null ? ` impact=${alert.impact}` : "";
+        console.log(`[mirror] would send [${alert.topic}]${alert.breaking ? " 🔴 LOUD" : " (silent)"}${sev}${imp}: ${row.text.slice(0, 80)}`);
+      }
+
+      // Record the story ONLY after a confirmed delivery — never claim-before-send,
+      // or a skipped/failed send would permanently swallow the story. The in-memory
+      // push makes later channels in THIS SAME run dedup against it.
+      if (delivered) {
+        if (!DRY_RUN) recordStory(alert.key, tokens);
+        recent.push({ key: alert.key, ts: Date.now(), tokens });
+      }
 
       // Cross-post BREAKING (macro-moving or watchlist) to the IMPORTANT priority
       // group — a separate, loud destination the user keeps unmuted. Separate
@@ -143,6 +181,7 @@ async function main() {
     try {
       const w = archiveWireMessages(wireBatch);
       pruneWireBuffer();
+      pruneRecentStories();
       if (w.written) console.log(`[wire] archived ${w.written} (skipped ${w.skipped})${w.reason ? " — " + w.reason : ""}`);
       else if (w.reason) console.log(`[wire] ${w.reason}`);
     } catch (e) {
@@ -150,7 +189,10 @@ async function main() {
     }
   }
 
-  console.log(`[mirror] channels=${sources.length} parsed=${fetched} fresh<=${WINDOW_MIN}m=${fresh} matched=${matched} sent=${sent} dedup=${dup}`);
+  console.log(
+    `[mirror] channels=${sources.length} parsed=${fetched} fresh<=${WINDOW_MIN}m=${fresh} matched=${matched} ` +
+    `loud=${loud} sent=${sent} dedup=${dup} near_dup_suppressed=${nearDup}`,
+  );
   return 0;
 }
 

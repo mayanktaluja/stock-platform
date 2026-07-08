@@ -441,6 +441,42 @@ Flow: `routeMessage` → cross-channel dedup (`hasKey`) → `dispatch(messageThr
 | `services/alerts/macroBreakingGate.js` | Pure. Curated breaking-macro keyword set (seeded from `macroRegime` REGIME_KEYWORDS, owned/independent). |
 | `services/alerts/topicManager.js` | Idempotent forum-topic creator + `topic-map.json` persister (Bot API `createForumTopic`). |
 
+### Phase 3c — alert de-noise (severity-aware loudness + near-dup collapse)
+
+Reuses the **Market Wire's brain** (heuristic scorer + token-set clusterer) inside
+the live alert path. Coverage is untouched — every market-relevant message still
+posts to its category topic. What changed is **loudness** and **redundancy**.
+
+- **`services/alerts/loudGate.js`** — `breaking` (which drives the 🔴 prefix, the
+  loud notification, AND the IMPORTANT cross-post) was `macroKeywordHit ||
+  watchlistHit`. Since `macroBreakingGate` includes broad terms (`trump`, `nifty`,
+  `sensex`, `oil price`), nearly every routine update pinged loudly.
+  **A flat `impact >= 6` gate does NOT fix this** — the heuristic scores sentiment
+  *prose*, not event severity. Verified on live data: `"Iran: Won't allow
+  interference in the Strait of Hormuz"` scores **impact 1.5** (no sentiment words)
+  and would be silenced, while `"shares jump 5%"` fluff scores 5.1.
+  So loudness is scored on **two axes**: a `MACRO_SEVERITY` tier map (HIGH: war /
+  missile / nuclear / market crash / circuit breaker / rate decision · MED: fed /
+  rbi / tariff / cpi / recession · LOW: trump / nifty / sensex / oil price) **×**
+  intrinsic prose intensity. Policy in `shouldGoLoud()`:
+  watchlist → always · HIGH → always · MED → `impact >= ALERTS_LOUD_MED_MIN` (5) ·
+  LOW → `impact >= ALERTS_LOUD_LOW_MIN` (7) · no macro hit → never.
+  `scoreIntrinsicImpact` deliberately passes `breaking:false` into the heuristic —
+  feeding the macro hit back in would add +2 to every macro item and defeat the gate.
+
+- **`services/alerts/nearDupGate.js`** — the sent-ledger dedups on an EXACT
+  normalized-text hash, so a reworded copy ("Fed cuts" vs "Fed lowers") sends twice.
+  This Jaccard-matches (`0.6`, 45-min window) against recently-**delivered** stories,
+  reusing `wireClusterer`'s `normalizeTokens`/`jaccard`. **The wire buffer is written
+  BEFORE this gate**, so the website still renders an honest "3 sources" chip while
+  Telegram gets one alert. Stories are recorded only AFTER a confirmed send (never
+  claim-before-send). Fails OPEN. Daily NDJSON at the canonical `ALERTS_LEDGER_DIR`
+  (`data/alerts/recent-stories-<UTC-date>.ndjson`, gitignored).
+
+`routeMessage` takes `loudGate` as an OPTIONAL injected dep — absent it, behaviour is
+byte-identical to before (existing callers/specs unchanged). Both the mirror poller
+and the dormant GramJS listener wire it, so neither can bypass the de-noise.
+
 ### Smoke / test
 
 ```bash
