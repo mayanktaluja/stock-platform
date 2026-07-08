@@ -1,18 +1,33 @@
 {
   "$comment": "Telegram news-source registry for the breaking-news listener. Categories are markets|macro|trump|geopolitics|traders|crypto|india. The listener subscribes to each enabled channel and routes its messages into the matching category topic. Set enabled:false to mute a source without deleting it. Per-source slug is the public Telegram @handle WITHOUT the leading @. Broad-macro breaking keywords live in services/alerts/macroBreakingGate.js, NOT here — this file only declares which channels to listen to.",
-  "as_of": "2026-06-25",
+  "$verification": "NEVER add a slug without running: curl -s -A 'Mozilla/5.0' https://t.me/s/<slug> | grep -c tgme_widget_message_wrap. A count>0 proves the preview renders — it does NOT prove the handle is who you think. Verified squats that PASS the wrap check: 'zerodha' (1.55M subs, actually a binary-options scam called 'Quotex Trading'), 'etmarkets' (Ethiopian marketplace), 'Faytuks' (Persian channel). Always read the og:title and the bio before enabling. See test/newsSourcesRegistry.test.mjs, which fails the build if a known squat appears here.",
+  "as_of": "2026-07-08",
   "channels": [
     { "name": "FinancialJuice", "slug": "financialjuice", "category": "markets", "enabled": true },
     { "name": "Walter Bloomberg", "slug": "WalterBloomberg", "category": "markets", "enabled": true },
     { "name": "Watcher.Guru", "slug": "WatcherGuru", "category": "crypto", "enabled": true },
     { "name": "Insider Paper", "slug": "insiderpaper", "category": "trump", "enabled": true },
     { "name": "Disclose.tv", "slug": "disclosetv", "category": "geopolitics", "enabled": true },
-    { "name": "Tree News", "slug": "tree_news", "category": "markets", "enabled": false, "note": "verify handle live before enabling" },
-    { "name": "Visegrad24", "slug": "visegrad24", "category": "geopolitics", "enabled": false, "note": "verify handle live before enabling" },
-    { "name": "ZeroHedge", "slug": "REPLACE_WITH_REAL_ZEROHEDGE_HANDLE", "category": "traders", "enabled": false, "note": "verify handle live before enabling — the bare 'zerohedge' slug is a FAKE impostor; find the real official handle" },
+    { "name": "Clash Report", "slug": "clashreport", "category": "geopolitics", "enabled": true, "note": "verified 2026-07-08: 110K subs, og:title 'Clash Report', bio self-declares x.com/clashreport, posting today. Fastest readable conflict tape; Middle-East/oil shocks transmit to Indian equity via crude. ~197 raw posts/day but the relevance gate drops ~80% -> ~39 ingested." },
     { "name": "Moneycontrol", "slug": "moneycontrolcom", "category": "india", "enabled": true },
     { "name": "CNBC-TV18", "slug": "cnbc_tv18", "category": "india", "enabled": true },
     { "name": "Mint", "slug": "livemint", "category": "india", "enabled": true },
-    { "name": "Trump Truth Social Mirror", "slug": "REPLACE_WITH_TRUTHSOCIAL_TELEGRAM_MIRROR", "category": "trump", "enabled": false, "note": "verify handle live before enabling — Truth Social→Telegram mirror of Trump's own posts" }
-  ]
+
+    { "name": "Tree News", "slug": "treenewsfeed", "category": "markets", "enabled": false, "note": "verified 2026-07-08: REAL handle is 'treenewsfeed' (34.5K subs, tree.news in bio), NOT 'tree_news' (unregistered, 0 wraps). But last post 2026-06-16 = 22 days stale. Recheck before enabling." },
+    { "name": "Cointelegraph", "slug": "Cointelegraph", "category": "crypto", "enabled": false, "note": "verified 2026-07-08: real, 352K subs, live, ~13 posts/day. Left off because WatcherGuru already covers crypto and marginal Indian-equity relevance. Enable if the crypto topic feels thin." },
+    { "name": "Trump Truth Social Mirror", "slug": "DonaldJTrumpTruth", "category": "trump", "enabled": false, "note": "verified 2026-07-08: genuinely mirrors Trump's Truth Social (bio says so), fresh, ~60 posts/day — BUT only 3 subscribers. A 3-sub channel is silently repointable with zero accountability or recourse. Impostor risk MEDIUM. If enabled, audit the wire for a week." },
+    { "name": "Visegrad24", "slug": "visegrad24", "category": "geopolitics", "enabled": false, "note": "verified 2026-07-08: handle UNREGISTERED (0 wraps). Visegrad 24 operates on X, not Telegram. Do not re-add." }
+  ],
+  "$rejected": {
+    "zerohedge": "Real channel (15K subs) but t.me/s preview is DISABLED -> this poller physically cannot read it. No usable official ZeroHedge Telegram exists ('Zerohedge_Official' is an abandoned auto-RSS mirror, dead since 2025-07-14). The old REPLACE_WITH_REAL_ZEROHEDGE_HANDLE placeholder was deleted 2026-07-08.",
+    "zerodha": "SQUAT. Renders 20 wraps + 1.55M subs, but og:title is 'Quotex Trading' — a binary-options scam squatting India's most-trusted broker name. NEVER ADD.",
+    "etmarkets": "SQUAT. Ethiopian marketplace, dead since 2023. Renders 20 wraps.",
+    "Faytuks": "SQUAT. Persian-language channel. Renders 20 wraps.",
+    "warmonitors": "Bio reads 'Sponsored by @rainbetcom' + 'Buy ads: @WarMonitorsAds_bot'. Paid gambling ads would be clustered and LLM-triaged at real cost.",
+    "MarketTwits": "Live and fast but Russian-language, Russian-market-scoped. ~138 posts/day of near-zero Indian-equity signal. Pure cost sink.",
+    "bloomberg": "Real (160K subs) but dormant since 2026-03-12.",
+    "india_bucket": "moneycontrolcom / cnbc_tv18 / livemint appear to be the ONLY legitimate, live, readable Indian financial channels on Telegram. Every other official handle (ndtvprofit, economictimes, zeebusiness, nseindia, bseindia, trendlyne, smallcase, businesstoday...) is unregistered, squatted, or dead. Indian stock-market Telegram is dominated by tip/pump channels.",
+    "preview_disabled": "cnbc, tier10k, sentdefender, CoinDesk — real channels whose t.me/s preview is off. Unreadable by this poller.",
+    "no_public_channel": "firstsquawk, livesquawk, themarketear, unusual_whales, Reuters, FinancialTimes, MarketWatch, YahooFinance, StockTwits, Polymarket — no public channel at the handle."
+  }
 }

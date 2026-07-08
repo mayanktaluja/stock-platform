@@ -24,7 +24,7 @@ export function routeMessage(message, deps = {}) {
   const text = String(message?.text || "").trim();
   if (!text) return null;
 
-  const { compiledWatchlist, macroGate, noiseGate, marketGate } = deps;
+  const { compiledWatchlist, macroGate, noiseGate, marketGate, loudGate } = deps;
 
   // Mute filter: drop disaster/weather spam (earthquake/tsunami/…) before it can
   // become an alert.
@@ -50,7 +50,32 @@ export function routeMessage(message, deps = {}) {
   if (!marketRelevant) return null;
 
   // A big macro headline OR one about the owner's own stock pings loud.
-  const breaking = Boolean(macroResult?.matched) || Boolean(watchlistHit.matched);
+  //
+  // When a `loudGate` is injected, loudness becomes severity+intensity aware:
+  // a broad keyword like "trump" or "nifty" no longer pings on its own, while
+  // war/crash/rate-decision always do and a watchlist ticker always does. Absent
+  // the dep, behaviour is EXACTLY as before (backwards compatible — the existing
+  // callers and specs keep today's semantics). `breaking` drives the 🔴 prefix,
+  // the loud notification, and the IMPORTANT cross-post, so gating it here gates
+  // all three at once. Non-loud messages still post SILENTLY to their topic.
+  let breaking;
+  let impact = null;
+  let severity = null;
+  if (loudGate && typeof loudGate.decide === "function") {
+    const d = loudGate.decide({
+      text,
+      macroHits: macroResult?.hits || [],
+      macroHit: Boolean(macroResult?.matched),
+      watchlistHit: Boolean(watchlistHit.matched),
+      symbols: Array.isArray(watchlistHit.symbols) ? watchlistHit.symbols : [],
+      category,
+    }) || {};
+    breaking = Boolean(d.loud);
+    impact = Number.isFinite(d.impact) ? d.impact : null;
+    severity = d.tier ?? null;
+  } else {
+    breaking = Boolean(macroResult?.matched) || Boolean(watchlistHit.matched);
+  }
 
   const tags = watchlistHit.matched ? ["⭐"] : [];
   const symbols = Array.isArray(watchlistHit.symbols) ? watchlistHit.symbols : [];
@@ -74,5 +99,5 @@ export function routeMessage(message, deps = {}) {
   const normTitle = text.toLowerCase().replace(/[^a-z0-9]/g, "");
   const key = ledgerKey(["router", normTitle]);
 
-  return { topic: category, breaking, text: lines.join("\n"), key, buttons, tags, symbols };
+  return { topic: category, breaking, text: lines.join("\n"), key, buttons, tags, symbols, impact, severity };
 }

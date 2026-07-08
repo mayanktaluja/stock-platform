@@ -4030,13 +4030,14 @@ async function loadMarketNews(opts = {}) {
     // Market Intelligence combines digest, macro, catalysts, sector heatmap, and the SWS discovery review queue.
     // (The legacy /api/market-verdict "Mixed evidence" card was removed — the market
     //  digest below is the single authoritative backdrop synthesis. The route stays.)
-    const [newsRes, macroRes, heatmapRes, catalystsRes, discoveryRes, indexRes] = await Promise.all([
+    const [newsRes, macroRes, heatmapRes, catalystsRes, discoveryRes, indexRes, wireRes] = await Promise.all([
       fetch("/api/news/market"),
       fetch("/api/macro/regime").catch(() => null),
       fetch("/api/sector-heatmap").catch(() => null),
       fetch("/api/catalysts/today").catch(() => null),
       fetch("/api/sws-discovery-feed").catch(() => null),
       fetch("/api/index-intraday").catch(() => null),
+      fetch("/api/news/wire").catch(() => null),
     ]);
     const data = await newsRes.json();
     const macroRegime = macroRes && macroRes.ok ? await macroRes.json().catch(() => null) : null;
@@ -4048,6 +4049,9 @@ async function loadMarketNews(opts = {}) {
       ? await discoveryRes.json().catch(() => null)
       : { available: false, items: [], sections: {} };
     const indexIntraday = indexRes && indexRes.ok ? await indexRes.json().catch(() => null) : null;
+    // Market Wire — its own local var, deliberately NOT stored on the module-level
+    // _newsDigest, so specs and the digest never race on shared module state.
+    const marketWire = wireRes && wireRes.ok ? await wireRes.json().catch(() => null) : null;
 
     if (data.error) {
       container.innerHTML = `<div class="empty-state"><div class="empty-icon">&#9888;</div><div class="empty-text">${escapeHtml(data.error)}</div></div>`;
@@ -4059,7 +4063,7 @@ async function loadMarketNews(opts = {}) {
     const updatedEl = document.getElementById("newsLastUpdated");
     if (updatedEl) updatedEl.textContent = `Updated: ${new Date(data.lastUpdated).toLocaleTimeString("en-IN")}`;
 
-    renderNewsPage(_newsDigest, heatmap, macroRegime, catalysts, discovery, data.fiiDii || null, indexIntraday);
+    renderNewsPage(_newsDigest, heatmap, macroRegime, catalysts, discovery, data.fiiDii || null, indexIntraday, marketWire);
   } catch (err) {
     container.innerHTML = `<div class="empty-state"><div class="empty-icon">&#9888;</div><div class="empty-text">Failed to load news. Try again.</div></div>`;
   } finally {
@@ -4485,17 +4489,89 @@ function renderSourceHealth(macroRegime, heatmap, catalysts, discovery, fiiDii) 
     </div>`;
 }
 
-function renderNewsPage(digest, heatmap, macroRegime, catalysts, discovery, fiiDii, indexIntraday) {
+// Live Market Wire — the ranked, clustered, impact-tagged view of the Telegram
+// newswire firehose (served by /api/news/wire). Honest by construction (D3):
+// shows a BUCKETED heat (Low/Med/High), never a precise numeral, on unverified
+// scraped chatter; the source-count chip is the corroboration/trust cue; channel
+// names are shown so the reader can weigh the source. Self-hides when empty.
+function renderMarketWire(wire) {
+  const items = Array.isArray(wire?.items) ? wire.items : [];
+  if (!items.length) return "";
+
+  const gen = wire.generatedAt ? timeAgo(wire.generatedAt) : null;
+  const dirMeta = (d) =>
+    d === "bullish" ? { c: "var(--green)", a: "&#9650;" } :
+    d === "bearish" ? { c: "var(--red)", a: "&#9660;" } :
+    { c: "var(--text-muted)", a: "&mdash;" };
+  const heatMeta = (h) =>
+    h === "high" ? { c: "var(--red)", bg: "rgba(239,68,68,0.12)", bd: "rgba(239,68,68,0.35)", label: "High" } :
+    h === "med" ? { c: "var(--yellow)", bg: "rgba(224,176,96,0.14)", bd: "rgba(224,176,96,0.35)", label: "Med" } :
+    { c: "var(--text-muted)", bg: "rgba(100,116,139,0.10)", bd: "var(--border)", label: "Low" };
+
+  const tag = (t, sector) =>
+    `<span style="display:inline-block;margin:2px 4px 0 0;padding:1px 7px;border-radius:5px;font-size:10px;font-weight:700;` +
+    `background:${sector ? "rgba(96,165,250,0.10)" : "rgba(148,163,184,0.12)"};color:${sector ? "var(--blue,#60a5fa)" : "var(--text-secondary,#94a3b8)"};` +
+    `border:1px solid var(--border);">${escapeHtml(t)}</span>`;
+
+  const cards = items.map((it) => {
+    const dm = dirMeta(it.direction);
+    const hm = heatMeta(it.heat_bucket);
+    const chans = (it.sources || []).map((s) => s.channel).filter(Boolean);
+    const chanLine = chans.length ? chans.slice(0, 4).join(", ") + (chans.length > 4 ? ` +${chans.length - 4}` : "") : "";
+    const when = it.last_seen ? timeAgo(it.last_seen) : "";
+    const tickers = (it.tickers || []).slice(0, 6).map((t) => tag(t, false)).join("");
+    const sectors = (it.sectors || []).slice(0, 4).map((s) => tag(s.sector, true)).join("");
+    const breakingPill = it.breaking
+      ? `<span data-testid="market-wire-breaking" style="padding:1px 6px;border-radius:4px;background:rgba(239,68,68,0.14);color:var(--red);font-size:10px;font-weight:800;letter-spacing:0.3px;">&#128308; BREAKING</span>`
+      : "";
+    const srcLinks = (it.sources || []).map((s) =>
+      `<a href="${escapeHtml(s.url || "#")}" target="_blank" rel="noopener" style="color:var(--text-muted);text-decoration:underline;">${escapeHtml(s.channel || "source")}</a>`
+    ).join(" &middot; ");
+    const detail = (it.why || srcLinks)
+      ? `<details data-testid="market-wire-why" style="margin-top:8px;"><summary style="cursor:pointer;font-size:11px;color:var(--text-muted);list-style:none;">Why &amp; sources</summary>` +
+        `<div style="margin-top:6px;font-size:12px;color:var(--text-secondary,#94a3b8);line-height:1.5;">${it.why ? escapeHtml(it.why) : ""}` +
+        `${srcLinks ? `<div style="margin-top:6px;font-size:11px;">${srcLinks}</div>` : ""}</div></details>`
+      : "";
+    return `
+      <div data-testid="market-wire-card" style="padding:12px 14px;border:1px solid var(--border);border-radius:10px;background:var(--surface-1,var(--card,transparent));">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+          <span data-testid="market-wire-heat" style="padding:1px 8px;border-radius:5px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.4px;background:${hm.bg};color:${hm.c};border:1px solid ${hm.bd};">${hm.label} heat</span>
+          <span data-testid="market-wire-direction" style="color:${dm.c};font-size:13px;font-weight:800;">${dm.a}</span>
+          ${breakingPill}
+          <span data-testid="market-wire-source-chip" style="margin-left:auto;font-size:10px;font-weight:700;color:var(--text-muted);padding:1px 7px;border-radius:5px;border:1px solid var(--border);">${it.source_count} source${it.source_count === 1 ? "" : "s"}</span>
+        </div>
+        <div style="margin-top:8px;font-size:13.5px;font-weight:600;color:var(--text-primary);line-height:1.4;">${escapeHtml(it.headline)}</div>
+        <div style="margin-top:5px;font-size:11px;color:var(--text-muted);">${chanLine ? escapeHtml(chanLine) : ""}${chanLine && when ? " &middot; " : ""}${when}</div>
+        ${(tickers || sectors) ? `<div style="margin-top:6px;">${tickers}${sectors}</div>` : ""}
+        ${detail}
+      </div>`;
+  }).join("");
+
+  return `
+    <div data-testid="market-wire-section" style="margin-bottom:24px;">
+      <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:6px;">
+        <h3 style="margin:0;font-size:14px;font-weight:800;color:var(--text-primary);">Live Market Wire</h3>
+        <span style="font-size:11px;font-weight:700;color:var(--text-muted);padding:1px 7px;border-radius:5px;background:rgba(148,163,184,0.12);">${items.length}</span>
+        ${gen ? `<span style="margin-left:auto;font-size:11px;color:var(--text-muted);">Updated ${gen}</span>` : ""}
+      </div>
+      <div style="font-size:11px;color:var(--text-muted);margin-bottom:10px;line-height:1.5;">Unverified newswire chatter, clustered &amp; impact-tagged. Source count is the corroboration cue &mdash; not investment advice.</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">${cards}</div>
+    </div>`;
+}
+
+function renderNewsPage(digest, heatmap, macroRegime, catalysts, discovery, fiiDii, indexIntraday, wire) {
   const container = document.getElementById("newsContainer");
 
   let html = "";
 
   // Index sparkline strip, then the honest source-health line, then the section
-  // hierarchy: macro context → today's synthesis → event calendar → sector
-  // breadth → review queue (collapsed).
+  // hierarchy: macro context → live wire → today's synthesis → event calendar →
+  // sector breadth → review queue (collapsed). The wire sits right below the
+  // macro regime card as the freshest actionable layer; it self-hides when empty.
   html += renderIndexStrip(indexIntraday);
   html += renderSourceHealth(macroRegime, heatmap, catalysts, discovery, fiiDii);
   html += renderMacroRegimeCard(macroRegime);
+  html += renderMarketWire(wire);
   html += renderMarketDigest(digest, fiiDii);
   html += renderUpcomingCatalysts(catalysts);
   html += renderSectorHeatmap(heatmap);

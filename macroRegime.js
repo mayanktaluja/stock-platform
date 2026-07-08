@@ -18,7 +18,7 @@
 import OpenAI from "openai";
 import { checkBudget, recordUsage } from "./openaiBudget.js";
 
-const MACRO_MODEL = process.env.MACRO_MODEL || "llama-3.3-70b-versatile";
+const MACRO_MODEL = process.env.MACRO_MODEL || "openai/gpt-oss-120b";
 const GROQ_BASE_URL = "https://api.groq.com/openai/v1";
 const MACRO_GEMINI_MODEL = process.env.MACRO_GEMINI_MODEL || "gemini-2.5-flash";
 const GEMINI_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/openai/";

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.starbhai.news-wire</string>
+
+    <!--
+      Market Wire builder (market-wire Phase 5). Reads the on-disk Telegram
+      buffer the mirror poller writes, clusters + LLM-triages + ranks the last
+      6h of messages, and publishes the ranked feed to Vercel KV
+      (news:wire:latest) for the Market Intelligence tab.
+
+      StartInterval 300 = every 5 min. The wrapper gates itself to the active
+      IST window (07:00 → 02:00) — the channels are global and peak overnight
+      IST (US/Fed/Trump session), so the dead 02:00–07:00 window is skipped.
+      caffeinate -imsu keeps an asleep Mac awake for that overnight window.
+
+      Depends on nothing but the buffer + .env (GEMINI/GROQ + KV keys). The LLM
+      funnel floors to a deterministic heuristic, so a missing key degrades
+      quality, never availability.
+
+      INSTALL — the wrapper runs from a STABLE COPY outside the repo, exactly like
+      com.starbhai.mirror-news. The canonical checkout floats across feature
+      branches; if launchd invoked scripts/news-wire-build.sh directly, a branch
+      that predates this feature would make the cron vanish. Re-copy after any
+      change to the wrapper:
+
+        mkdir -p ~/Library/Application\ Support/starbhai
+        cp scripts/news-wire-build.sh ~/Library/Application\ Support/starbhai/
+        cp scripts/com.starbhai.news-wire.plist ~/Library/LaunchAgents/
+        launchctl unload ~/Library/LaunchAgents/com.starbhai.news-wire.plist 2>/dev/null
+        launchctl load  ~/Library/LaunchAgents/com.starbhai.news-wire.plist
+    -->
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/caffeinate</string>
+        <string>-imsu</string>
+        <string>/bin/bash</string>
+        <string>/Users/mayanktaluja/Library/Application Support/starbhai/news-wire-build.sh</string>
+    </array>
+
+    <key>StartInterval</key>
+    <integer>300</integer>
+
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>WorkingDirectory</key>
+    <string>/Users/mayanktaluja/code/stock-platform</string>
+
+    <key>StandardOutPath</key>
+    <string>/Users/mayanktaluja/code/stock-platform/data/news-wire-launchd-stdout.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/Users/mayanktaluja/code/stock-platform/data/news-wire-launchd-stderr.log</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+        <key>HOME</key>
+        <string>/Users/mayanktaluja</string>
+        <key>LANG</key>
+        <string>en_US.UTF-8</string>
+    </dict>
+
+    <key>ProcessType</key>
+    <string>Background</string>
+</dict>
+</plist>
