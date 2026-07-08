@@ -5478,6 +5478,11 @@
       <button class="tab" id="multibaggerLabTabBtn" role="tab" aria-selected="false" aria-controls="multibaggerLabTab" onclick="switchTab('multibaggerLab')" style="display:inline-flex; align-items:center; gap:6px;">5x Lab<span class="tab-flag tab-flag--lab">EXPERIMENTAL</span></button>
       <!-- Sector Outlook (experimental) — bottom-up SWS news theme aggregation × current macro regime. Sector-level only; no named stock recommendations in v1. Hidden when localStorage.sectorOutlookEnabled_v1 === "false". -->
       <button class="tab" id="sectorOutlookTabBtn" role="tab" aria-selected="false" aria-controls="sectorOutlookTab" onclick="switchTab('sectorOutlook')" style="display:inline-flex; align-items:center; gap:6px;">Sector Outlook<span class="tab-flag tab-flag--lab">EXPERIMENTAL</span></button>
+      <!-- Market Wire sits immediately BEFORE Track Record: ui-overhaul-2026-05-19.spec.mjs
+           pins trackTabBtn as the last visible tab (a last-child assertion plus the
+           End-key roving-focus assertion). No .tab-flag chip — tab-flags.spec.mjs asserts
+           exactly 3, and the wire is live, not experimental. -->
+      <button class="tab" id="marketWireTabBtn" role="tab" aria-selected="false" aria-controls="marketWireTab" onclick="switchTab('marketWire')">Market Wire</button>
       <button class="tab" id="trackTabBtn" role="tab" aria-selected="false" aria-controls="trackTab" onclick="switchTab('track')">Track Record</button>
       </div>
       <button type="button" class="scroll-rail-btn scroll-rail-btn-right" data-scroll-dir="right" aria-label="Scroll platform tabs right" hidden>&rsaquo;</button>
@@ -5964,6 +5969,30 @@
       </div>
     </div>
 
+    <!-- Market Wire tab — the full, filterable newswire feed. It runs its own 2-min poll
+         against ONLY /api/news/wire. The Market Intelligence teaser cannot do that: there
+         the wire is one of seven parallel fetches in loadMarketNews, so refreshing it
+         would refetch macro, heatmap, catalysts, discovery and indices too. -->
+    <div id="marketWireTab" class="tab-content" role="tabpanel" aria-labelledby="marketWireTabBtn" style="display:none;">
+      <div id="marketWireLoadingBanner" class="sws-loading-banner" hidden>Loading Market Wire…</div>
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px; flex-wrap:wrap; gap:12px;">
+        <div>
+          <h2 class="editorial-headline" style="font-size:30px; font-weight:500; letter-spacing:-0.02em;">Market Wire</h2>
+          <p style="color:var(--text-muted); font-size:13px; margin-top:4px;">Breaking newswire chatter, clustered across channels and impact-tagged.</p>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div class="auto-refresh-indicator"><span class="dot"></span><span style="font-size:11px;color:var(--cyan);">Auto-refresh every 2 min</span></div>
+          <button class="refresh-btn" onclick="loadMarketWire()">Refresh</button>
+        </div>
+      </div>
+      <div id="marketWireContainer">
+        <div class="loading">
+          <div class="loading-spinner"></div>
+          <div class="loading-text">Fetching the wire&hellip;</div>
+        </div>
+      </div>
+    </div>
+
     <!-- India Market tab — categorised buy-list driven by Simply Wall Street deep-scrape -->
     <div id="picksTab" class="tab-content" role="tabpanel" aria-labelledby="picksTabBtn" style="display:none;">
       <div id="picksLoadingBanner" class="sws-loading-banner" hidden>Loading India Market…</div>
@@ -6336,6 +6365,7 @@
           <tr><th><kbd>g</kbd> <kbd>a</kbd></th><td>Jump to Analyzer</td></tr>
           <tr><th><kbd>g</kbd> <kbd>e</kbd></th><td>Jump to Earnings Watch</td></tr>
           <tr><th><kbd>g</kbd> <kbd>r</kbd></th><td>Jump to Risk Lab</td></tr>
+          <tr><th><kbd>g</kbd> <kbd>m</kbd></th><td>Jump to Market Wire</td></tr>
           <tr><th><kbd>?</kbd></th><td>Show / hide this cheatsheet</td></tr>
           <tr><th><kbd>Esc</kbd></th><td>Close modal / cheatsheet</td></tr>
         </tbody>

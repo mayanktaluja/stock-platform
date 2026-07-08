@@ -7,6 +7,13 @@ let currentView = "dashboard"; // dashboard | stock
 let currentSymbol = null;
 let refreshTimer = null;
 let newsRefreshTimer = null;
+let marketWireRefreshTimer = null;
+let marketWirePollStarted = false;
+let _wireTabLoading = false;
+// The builder publishes every 5 min and /api/news/wire is NodeCache'd for 90s, so a
+// faster poll only burns requests on the same cached object. 120s surfaces the
+// "N new stories" pill within one builder cycle.
+const MARKET_WIRE_POLL_MS = 120 * 1000;
 let searchTimeout = null;
 let searchAbortController = null;
 const searchClientCache = new Map(); // FIFO, capped at SEARCH_CLIENT_CACHE_MAX
@@ -2925,6 +2932,18 @@ const TAB_CONFIG = {
       );
     },
   },
+  // The wire is a live tape, not a daily backdrop. It gets its own tab and its own
+  // poll because on the news tab it is one of seven parallel fetches and cannot be
+  // refreshed alone. No `guard` — visible to every signed-in user, like `news`.
+  marketWire: {
+    elId: "marketWireTab",
+    label: "Market Wire",
+    enter: () => {
+      loadMarketWire();
+      startMarketWireTimer();
+      marketWirePollStarted = true;
+    },
+  },
   portfolio: { elId: "portfolioTab", label: "My Portfolio",        enter: () => loadPortfolio() },
   track:     { elId: "trackTab",     label: "Track Record",        enter: () => loadTrackRecord() },
   analyzer:  {
@@ -3022,6 +3041,9 @@ async function switchTab(tab) {
     if (el) el.style.display = "none";
   }
   if (newsRefreshTimer) { clearInterval(newsRefreshTimer); newsRefreshTimer = null; }
+  // TAB_CONFIG has no onLeave hook, so every polling tab must clear its own timer
+  // here or the poll survives every subsequent tab switch. (grep clearInterval.)
+  clearMarketWireTimer();
 
   // Activate the matching bar button by stable id / panel wiring. Avoid
   // brittle exact inline-onclick string matching; menu and tab rail can now
@@ -4713,6 +4735,10 @@ function renderMarketWire(wire, opts = {}) {
       <div class="wire-section-head">
         <h3 style="margin:0;font-size:14px;font-weight:800;color:var(--text-primary);">Live Market Wire</h3>
         <span class="badge badge--neutral badge--sm">${items.length}</span>
+        <!-- Deliberately OUTSIDE the <summary>: a focusable button inside a summary
+             (implicit role=button) trips axe's nested-interactive rule, and
+             axe-clean.spec.mjs scans the news tab. It also stays reachable collapsed. -->
+        <button type="button" class="wire-viewall" onclick="switchTab('marketWire')">View all in Market Wire &rarr;</button>
       </div>
       <details class="analyzer-tier-details" data-testid="market-wire-details" ontoggle="onMarketWireToggle(this)"${_wireExpanded ? " open" : ""}>
         <summary class="tx-title" style="cursor:pointer;padding:10px 0;border-bottom:1px solid var(--border);list-style:none;font-size:13px;font-weight:800;color:var(--text-primary);">Newswire <span style="color:var(--text-muted);font-weight:500;font-size:12px;">(${summary})</span></summary>
@@ -4730,8 +4756,11 @@ function syncWireFilterUi(variant) {
   const { list, chips } = wireEls(variant);
   if (list) {
     list.setAttribute("data-wire-filter", _wireFilter);
-    list.toggleAttribute("data-wire-breaking", _wireBreakingOnly);
-    list.toggleAttribute("data-wire-watchlist", _wireWatchlistOnly);
+    // NOT toggleAttribute(): that sets the value to "", and the CSS matches
+    // [data-wire-breaking="1"]. The toggles would silently do nothing.
+    if (_wireBreakingOnly) list.setAttribute("data-wire-breaking", "1"); else list.removeAttribute("data-wire-breaking");
+    if (_wireWatchlistOnly) list.setAttribute("data-wire-watchlist", "1"); else list.removeAttribute("data-wire-watchlist");
+    // data-wire-empty IS presence-based, so toggleAttribute is correct here.
     const wl = _wireWatchlistSet();
     const visible = (_wireFeed?.items || []).filter((it) => wireItemVisible(it, wl)).length;
     list.toggleAttribute("data-wire-empty", visible === 0);
@@ -4838,12 +4867,70 @@ function promoteWireFeed(variant, { silent = false } = {}) {
   if (!silent && body) body.scrollTop = 0;
 }
 
+// ── The dedicated Market Wire tab ─────────────────────────────────────────────
+
+function clearMarketWireTimer() {
+  if (marketWireRefreshTimer) { clearInterval(marketWireRefreshTimer); marketWireRefreshTimer = null; }
+}
+function startMarketWireTimer() {
+  clearMarketWireTimer(); // idempotent: re-entering the tab must not double-arm
+  marketWireRefreshTimer = setInterval(() => loadMarketWire({ silent: true }), MARKET_WIRE_POLL_MS);
+}
+
+/**
+ * The tab's loader. Fetches ONLY /api/news/wire — that is the entire reason the tab
+ * exists, since the Market Intelligence teaser is one of seven parallel fetches.
+ *
+ * A silent tick NEVER touches the DOM when there is something new: it just reveals
+ * the pill. Zero churn, so scroll, open cards, chips and filter are untouched by
+ * construction rather than by restoration.
+ */
+async function loadMarketWire(opts = {}) {
+  if (_wireTabLoading) return;
+  _wireTabLoading = true;
+  const silent = !!opts.silent;
+  const banner = document.getElementById("marketWireLoadingBanner");
+  if (!silent && banner) banner.hidden = false;
+  try {
+    // data-watchlist must be accurate before the first render, or the Watchlist
+    // toggle ships dead.
+    await ensureWatchlistHydrated();
+    const res = await fetch("/api/news/wire");
+    const feed = res && res.ok ? await res.json().catch(() => null) : null;
+    if (!feed) return;
+
+    adoptWireFeed(feed, { expanded: true, force: !silent });
+
+    if (silent && _wirePendingFeed) {
+      const { pill } = wireEls("full");
+      if (pill) {
+        pill.hidden = false;
+        pill.textContent = `${_wireNewCount} new ${_wireNewCount === 1 ? "story" : "stories"} — click to load`;
+      }
+      return; // no re-render at all
+    }
+
+    const container = document.getElementById("marketWireContainer");
+    if (!container) return;
+    captureWireScroll("full");
+    container.replaceChildren();
+    container.insertAdjacentHTML("afterbegin", renderMarketWire(_wireFeed, { variant: "full" }));
+    restoreWireScroll("full");
+  } catch {
+    /* never throw out of a poll */
+  } finally {
+    if (!silent && banner) banner.hidden = true;
+    _wireTabLoading = false;
+  }
+}
+
 window.setWireHeatFilter = setWireHeatFilter;
 window.toggleWireFlag = toggleWireFlag;
 window.toggleWireSort = toggleWireSort;
 window.onMarketWireToggle = onMarketWireToggle;
 window.onWireWhyToggle = onWireWhyToggle;
 window.promoteWireFeed = promoteWireFeed;
+window.loadMarketWire = loadMarketWire;
 
 function renderNewsPage(digest, heatmap, macroRegime, catalysts, discovery, fiiDii, indexIntraday, wire) {
   const container = document.getElementById("newsContainer");
@@ -14517,6 +14604,13 @@ function syncScanStatusPollers() {
   if (usPicksStatusPollStarted) {
     if (isActiveVisibleTab("usPicks")) scheduleUSScanStatusPoll(0);
     else clearUSScanStatusTimer();
+  }
+  // Extend here rather than adding a local visibilitychange listener: this function is
+  // already called from the end of switchTab AND from the single visibilitychange
+  // handler below, so a background tab stops polling for free.
+  if (marketWirePollStarted) {
+    if (isActiveVisibleTab("marketWire")) startMarketWireTimer();
+    else clearMarketWireTimer();
   }
 }
 
