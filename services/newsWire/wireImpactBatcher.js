@@ -20,9 +20,22 @@ import {
   touch, isFreshLlm, failedRecently, stripCacheMeta, pruneCache, FAILED_RETRY_MS,
 } from "./wireImpactCache.js";
 
-export const MAX_LLM_CLUSTERS = 18; // hard per-build cap → ceil(18/8)=3 chunks, trivial spend
-export const DEFAULT_CHUNK_SIZE = 8;
-export const DEFAULT_CONCURRENCY = 2;
+// Requests/day is the cap that actually binds on the Gemini free tier (Google
+// deleted the published RPD table on 2025-12-06 — the live number is auth-gated
+// and unknowable from outside, so plan against the ceiling, not a guess).
+//
+// The build cron fires ~228×/day (5-min interval over the 19h IST active window).
+// chunkSize 18 means ceil(18/18) = ONE request per build instead of three:
+// worst case 684 → 228 RPD at IDENTICAL cluster coverage, and FEWER total tokens
+// (the system prompt is paid once per build, not three times). Lowering
+// MAX_LLM_CLUSTERS would hit the same RPD by dropping 10 clusters to the
+// heuristic — strictly worse. In steady state the content-keyed cache means most
+// builds fire zero requests anyway.
+//
+// All three are env-tunable so the cadence can be throttled without a deploy.
+export const MAX_LLM_CLUSTERS = Number(process.env.WIRE_MAX_LLM_CLUSTERS) || 18;
+export const DEFAULT_CHUNK_SIZE = Number(process.env.WIRE_LLM_CHUNK_SIZE) || 18;
+export const DEFAULT_CONCURRENCY = Number(process.env.WIRE_LLM_CONCURRENCY) || 2;
 
 /**
  * Relevance floor — only corroborated / breaking / watchlist-tagged clusters are

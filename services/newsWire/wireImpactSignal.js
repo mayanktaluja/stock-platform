@@ -16,8 +16,20 @@ import { heuristicClassifyCluster, WIRE_SIGNAL_VERSION } from "./wireHeuristic.j
 
 const GROQ_BASE_URL = "https://api.groq.com/openai/v1";
 const GEMINI_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/openai/";
-const GROQ_MODEL = process.env.WIRE_LLM_MODEL || "llama-3.3-70b-versatile";
+// llama-3.3-70b-versatile SHUTS DOWN 2026-08-16 (console.groq.com/docs/deprecations).
+// Groq's own recommended replacement is openai/gpt-oss-120b. NOT qwen/qwen3.6-27b —
+// that is a Preview model and Groq's own disclaimer says preview models "should not
+// be used in production environments as they may be discontinued at short notice."
+const GROQ_MODEL = process.env.WIRE_LLM_MODEL || "openai/gpt-oss-120b";
 const GEMINI_MODEL = process.env.WIRE_LLM_GEMINI_MODEL || "gemini-2.5-flash";
+
+// One strict-JSON signal object runs ~90-110 output tokens (why <=200 chars +
+// sectors + tickers). A fixed 1800 cap silently TRUNCATES an 18-item chunk, and a
+// truncated response parses as "missing rows" → every one of them falls back to the
+// heuristic. Scale the budget with the chunk and keep a floor for tiny batches.
+function maxTokensFor(n) {
+  return Math.max(1800, Math.min(8000, 600 + 200 * n));
+}
 
 let _groq = null;
 function getGroqClient() {
@@ -155,7 +167,7 @@ async function classifyViaProvider({ client, model, label, extraParams = {} }, c
     () => client.chat.completions.create({
       model,
       temperature: 0,
-      max_tokens: 1800,
+      max_tokens: maxTokensFor(ctxs.length),
       response_format: { type: "json_object" },
       messages: [
         { role: "system", content: buildWireSystemPrompt() },
@@ -224,7 +236,10 @@ export async function classifyWireBatch(ctxs, { providerOverride = null, now = D
   return heuristicBatch(ctxs, now, attempted);
 }
 
+export { maxTokensFor };
+
 export default {
   buildClusterContext, buildWireSystemPrompt, buildWireBatchUserMessage,
   normaliseWireSignal, parseWireBatchResponse, classifyWireBatch, wireLlmAvailable,
+  maxTokensFor,
 };
