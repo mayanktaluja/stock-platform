@@ -558,14 +558,47 @@ channels peak overnight on the US/Fed/Trump session).
 | File | Role |
 |------|------|
 | `services/newsWire/wireArchive.js` | Append-only NDJSON sink; no-op when `NEWS_WIRE_DIR` unset; trailing-2-UTC-file window read + buffer prune. |
-| `services/newsWire/wireClusterer.js` | Deterministic token-set Jaccard; stable earliest-`publishedAt` cluster key (H3). |
-| `services/newsWire/wireHeuristic.js` | Never-throw floor emitting the exact wire-signal schema the LLM also emits. |
+| `services/newsWire/wireClusterer.js` | `clusterTokens` (boilerplate-stripped) → Jaccard **OR** containment; contradiction veto; stable earliest-`publishedAt` key (H3). |
+| `services/newsWire/wireHeuristic.js` | Never-throw floor + the closed `WIRE_CATEGORIES` vocabulary and `normaliseWireCategory`. |
 | `services/newsWire/wireImpactSignal.js` | Gemini→Groq→heuristic; `sanitiseText` + `<news_body>` wrap (untrusted Telegram bodies). |
 | `services/newsWire/wireImpactBatcher.js` | Floor gate + per-build LLM cap + concurrency pool + cache tri-state (H1). |
 | `services/newsWire/wireImpactCache.js` | Schema-versioned atomic cache; content-only key; `none/failed/below_floor/succeeded` + backoff (H2). |
 | `services/newsWire/wireBuilder.js` | Orchestrator + `rankClusters` (impact × recency × corroboration) + KV/mirror publish. |
 | `server.js` `GET /api/news/wire` | KV→FS→cache; never 500 → `{items:[]}` so the UI self-hides. |
-| `gated/app.js` `renderMarketWire` | Bucketed-heat cards; 7th fetch in `loadMarketNews`; own var (not `_newsDigest`). |
+| `gated/app.js` `renderMarketWire(wire,{variant})` | Two surfaces, one renderer: `"teaser"` + `"full"`. Variant-scoped ids. |
+
+### Two surfaces (2026-07-08 consumption redesign)
+
+Live data saturates `MAX_ITEMS = 40` and is ~73% low-heat, so an always-expanded block
+buried the page.
+
+- **Teaser** — collapsed `<details>` on Market Intelligence, **below** `renderMarketDigest`
+  (the digest is the settled read; the wire is an unverified tape). Summary line carries
+  "N high · N med · N breaking · updated Xm ago".
+- **Tab** — `#marketWireTab`, button immediately **before** `trackTabBtn`, no `.tab-flag`.
+  Its own 120s poll hitting only `/api/news/wire`. On Market Intelligence the wire is 1 of
+  **7 parallel fetches** in `loadMarketNews`, so it cannot be refreshed alone — that, not
+  taxonomy, is why the tab exists.
+
+**Load-bearing UI invariants:**
+- **Filtering + sorting are pure CSS** (`.wire-list[data-wire-filter]`, `order:`). A chip
+  click flips one attribute and never re-renders — that is the only thing preserving scroll
+  position and open `<details>`. Use `setAttribute(...,"1")`, **never** `toggleAttribute`
+  (it sets `""`, and the CSS matches `="1"`).
+- **D4, never change content under the reader.** The 10-min silent tick rebuilds
+  `#newsContainer` wholesale, so the renderer draws the pinned `_wireFeed` while newer data
+  waits in `_wirePendingFeed` behind an "N new stories" pill. Open state / filter /
+  `_wireWhyOpen` / `scrollTop` are all restored from module state.
+- **`TAB_CONFIG` has NO `onLeave` hook** — `grep clearInterval gated/app.js` returns one
+  hand-written line. Every polling tab must add its own clear or the timer leaks across
+  every subsequent tab switch. Visibility pausing extends `syncScanStatusPollers`.
+- **Variant-scoped ids.** Tab panels are `display:none`, not removed; once both surfaces have
+  been visited both are mounted, so an unscoped id or testid matches twice.
+- `gated/app.js` sits on a **raw-rgba ratchet (cap 486)**. Use semantic tokens; the original
+  wire quietly broke it with 9 literal fills and CI never noticed (it runs one e2e spec).
+- Headlines are the raw Telegram message. `wireCleanHeadline()` strips the channels'
+  tracking URL / `#MintMarkets |` prefix **for display only** — rewriting `representative`
+  server-side would churn every cluster id and cold-flush the impact cache.
 
 ### Tests
 
@@ -574,5 +607,5 @@ node test/wireArchive.test.mjs && node test/wireClusterer.test.mjs \
   && node test/wireHeuristic.test.mjs && node test/wireImpactCache.test.mjs \
   && node test/wireImpactSignal.test.mjs && node test/wireImpactBatcher.test.mjs \
   && node test/wireBuilder.test.mjs          # all wired into `npm test`
-npx playwright test market-wire.spec.mjs     # renders cards + self-hides when empty
+npx playwright test market-wire.spec.mjs market-wire-tab.spec.mjs
 ```
