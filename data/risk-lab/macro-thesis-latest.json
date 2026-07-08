@@ -1,19 +1,19 @@
 {
   "schema_version": "macro-thesis-v1",
-  "generated_at": "2026-07-07T04:11:36.089Z",
+  "generated_at": "2026-07-08T02:10:52.501Z",
   "regime": {
     "regime": "CALM",
     "severity": 1,
     "confidence": 0.8,
     "label": "Calm",
-    "generated_at": "2026-07-06T12:30:21.372Z",
+    "generated_at": "2026-07-07T06:55:31.762Z",
     "days_in_state": 0,
     "stale": false,
-    "reasoning": "Mixed market signals",
+    "reasoning": "Mixed headlines, no clear trend",
     "key_events": [
-      "Nifty closes above 24,400 as rally extends to fourth straight session (Business Standard)",
-      "Rupee hits three-week low at 95.39 vs USD as firmer dollar, NDF maturities pinch (Economic Times)",
-      "Sensex settles 521 pts higher; Nifty ends above 24,400 level (Business Standard)"
+      "Nifty trades above 24,500 level; consumer durables shares in demand (Business Standard)",
+      "India's finished steel production up around 6% in June quarter, consumption spurts 8.3% (Business Standard)",
+      "Info Edge surges as Q1 billings rise 14% YoY to Rs 737 crore (Business Standard)"
     ],
     "classifier_provider": "groq",
     "source_health": {
@@ -40,37 +40,32 @@
     },
     "sector_impacts": [
       {
-        "sector": "Banking",
+        "sector": "IT Services",
         "impact": 1,
-        "reason": "Steady growth in advances and deposits"
-      },
-      {
-        "sector": "Automobile",
-        "impact": 1,
-        "reason": "Record June sales"
+        "reason": "Q1 updates"
       },
       {
         "sector": "Metals",
         "impact": 1,
-        "reason": "Metal shares advance"
+        "reason": "Steel production up"
       }
     ]
   },
-  "catalyst_proximity_days": 23,
+  "catalyst_proximity_days": 22,
   "upcoming_catalysts": [
     {
       "date": "2026-07-30",
       "kind": "FOMC",
       "label": "US FOMC Meeting — July 2026",
       "severity_potential": 3,
-      "days_until": 23
+      "days_until": 22
     },
     {
       "date": "2026-08-06",
       "kind": "RBI_MPC",
       "label": "RBI Monetary Policy Committee — August 2026",
       "severity_potential": 3,
-      "days_until": 30
+      "days_until": 29
     }
   ],
   "position_cap_pct": 10,
@@ -250,7 +245,7 @@
   "indeterminate": false,
   "audit": {
     "thesis_schema": "macro-thesis-v1",
-    "regime_generated_at": "2026-07-06T12:30:21.372Z",
+    "regime_generated_at": "2026-07-07T06:55:31.762Z",
     "regime_classifier": "groq",
     "scenario_engine_version": "scenario-prob-v1"
   }
