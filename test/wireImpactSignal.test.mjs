@@ -3,6 +3,7 @@ import {
   buildClusterContext, buildWireSystemPrompt, buildWireBatchUserMessage,
   normaliseWireSignal, parseWireBatchResponse,
 } from "../services/newsWire/wireImpactSignal.js";
+import { WIRE_CATEGORIES, normaliseWireCategory } from "../services/newsWire/wireHeuristic.js";
 
 let pass = 0;
 let fail = 0;
@@ -68,6 +69,41 @@ test("parseWireBatchResponse on garbage → all heuristic, never throws", () => 
   const ctxs = [buildClusterContext(cluster())];
   const out = parseWireBatchResponse("not json at all", ctxs, { provider: "gemini", now: 0 });
   assert.equal(out[0].classifier_provider, "heuristic");
+});
+
+// ── Closed category vocabulary ────────────────────────────────────────────────
+// Production shipped `category:"short"` on 19 of 19 LLM-scored items because the
+// prompt's JSON template literally contained `"category": "short"` as a placeholder.
+
+test("[regression] the system prompt never contains the literal placeholder 'short'", () => {
+  const p = buildWireSystemPrompt();
+  assert.ok(!/"category":\s*"short"/.test(p), "the placeholder that Gemini echoed must be gone");
+  for (const c of WIRE_CATEGORIES) assert.ok(p.includes(c), `prompt must enumerate ${c}`);
+});
+
+test("normaliseWireCategory: valid value passes through, case-insensitively", () => {
+  assert.equal(normaliseWireCategory("india"), "india");
+  assert.equal(normaliseWireCategory("GEOPOLITICS"), "geopolitics");
+  assert.equal(normaliseWireCategory("  Trump "), "trump");
+});
+
+test("normaliseWireCategory: junk falls back to the channel category, then to markets", () => {
+  assert.equal(normaliseWireCategory("short", "geopolitics"), "geopolitics");
+  assert.equal(normaliseWireCategory("short", "also-junk"), "markets");
+  assert.equal(normaliseWireCategory(null, null), "markets");
+});
+
+test("[regression] normaliseWireSignal coerces category:'short' to the channel category", () => {
+  const s = normaliseWireSignal({ category: "short" }, { category: "geopolitics" }, { provider: "gemini", now: 0 });
+  assert.equal(s.category, "geopolitics");
+  assert.ok(WIRE_CATEGORIES.includes(s.category));
+});
+
+test("normaliseWireSignal never emits an out-of-vocabulary category", () => {
+  for (const junk of ["short", "", null, undefined, "<canonical>", "Politics", 42]) {
+    const s = normaliseWireSignal({ category: junk }, {}, { provider: "gemini", now: 0 });
+    assert.ok(WIRE_CATEGORIES.includes(s.category), `got ${s.category} for ${junk}`);
+  }
 });
 
 console.log(`\n${pass} pass, ${fail} fail`);

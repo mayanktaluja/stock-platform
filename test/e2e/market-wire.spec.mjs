@@ -56,18 +56,40 @@ const WIRE_FIXTURE = {
 };
 
 test.describe("Live Market Wire", () => {
-  test("renders ranked wire cards with bucketed heat, source count, breaking + expandable why", async ({ page }) => {
+  test("teaser is collapsed by default and summarises the feed", async ({ page }) => {
     await mockSiblings(page);
     await page.route("**/api/news/wire", j(WIRE_FIXTURE));
+    await gotoApp(page);
+    await switchTab(page, "news");
 
+    // `market-wire-section` is the OUTER wrapper, so it stays visible while the
+    // <details> body is collapsed. The cards are in the DOM but not rendered.
+    const section = page.getByTestId("market-wire-section");
+    await expect(section).toBeVisible({ timeout: 10_000 });
+    const details = page.getByTestId("market-wire-details");
+    expect(await details.evaluate((el) => el.open)).toBe(false);
+    await expect(details.locator("> summary")).toContainText(/1 high/);
+    await expect(details.locator("> summary")).toContainText(/1 med/);
+    await expect(details.locator("> summary")).toContainText(/1 breaking/);
+    // Cards exist in the DOM even collapsed (that is what lets CSS filter them).
+    await expect(page.getByTestId("market-wire-card")).toHaveCount(2);
+    await expect(page.getByTestId("market-wire-card").first()).not.toBeVisible();
+  });
+
+  test("expanded: bucketed heat, source count, breaking + expandable why", async ({ page }) => {
+    await mockSiblings(page);
+    await page.route("**/api/news/wire", j(WIRE_FIXTURE));
     await gotoApp(page);
     await switchTab(page, "news");
 
     const section = page.getByTestId("market-wire-section");
     await expect(section).toBeVisible({ timeout: 10_000 });
+    // A card inside a closed <details> has no bounding box, so every toBeVisible()
+    // and .click() below requires the wrapper to be open first.
+    await page.getByTestId("market-wire-details").locator("> summary").click();
+
     await expect(page.getByTestId("market-wire-card")).toHaveCount(2);
 
-    // First card: high heat, breaking, 3 sources, channel names shown.
     const first = page.getByTestId("market-wire-card").first();
     await expect(first.getByTestId("market-wire-heat")).toContainText(/High/i);
     await expect(first.getByTestId("market-wire-source-chip")).toContainText("3 sources");
@@ -75,32 +97,64 @@ test.describe("Live Market Wire", () => {
     await expect(first).toContainText("FinancialJuice");
     await expect(first).toContainText("Fed cuts rates");
 
-    // Honesty (D3): a bucketed heat label, never a raw 0-10 numeral on the card.
+    // Honesty (D3): a bucketed heat label, never a raw 0-10 numeral anywhere.
     await expect(section).not.toContainText(/impact\s*[:=]\s*\d/i);
 
-    // Second card: medium heat, single source, ticker tag.
     const second = page.getByTestId("market-wire-card").nth(1);
     await expect(second.getByTestId("market-wire-heat")).toContainText(/Med/i);
     await expect(second.getByTestId("market-wire-source-chip")).toContainText("1 source");
     await expect(second).toContainText("RELIANCE");
 
-    // Expand the first card's "Why & sources".
     const why = first.getByTestId("market-wire-why");
     expect(await why.evaluate((el) => el.open)).toBe(false);
     await why.locator("summary").click();
     await expect(why).toContainText("Corroborated across three wires");
+  });
 
-    // Position: wire sits below the macro regime card and above the digest.
+  test("heat chips filter with pure CSS — no re-render, open cards survive", async ({ page }) => {
+    await mockSiblings(page);
+    await page.route("**/api/news/wire", j(WIRE_FIXTURE));
+    await gotoApp(page);
+    await switchTab(page, "news");
+    await page.getByTestId("market-wire-details").locator("> summary").click();
+
+    const cards = page.getByTestId("market-wire-card");
+    // Default filter is High+Med, and the fixture is one of each: both show.
+    await expect(cards.first()).toBeVisible();
+    await expect(cards.nth(1)).toBeVisible();
+
+    // Open a card's <details> and stamp a sentinel on the DOM node. If a chip click
+    // re-rendered the list, both would be lost. That is the real contract.
+    await cards.first().getByTestId("market-wire-why").locator("summary").click();
+    await cards.first().evaluate((el) => { el.dataset.sentinel = "kept"; });
+
+    await page.locator('[data-wire-chip="high"]').click();
+    await expect(cards.first()).toBeVisible();
+    await expect(cards.nth(1)).not.toBeVisible();          // the Med card is filtered out
+    await expect(cards.first()).toHaveAttribute("data-sentinel", "kept");
+    expect(await cards.first().getByTestId("market-wire-why").evaluate((el) => el.open)).toBe(true);
+
+    await page.locator('[data-wire-chip="all"]').click();
+    await expect(cards.nth(1)).toBeVisible();
+  });
+
+  test("wire sits BELOW the market digest", async ({ page }) => {
+    await mockSiblings(page);
+    await page.route("**/api/news/wire", j(WIRE_FIXTURE));
+    await gotoApp(page);
+    await switchTab(page, "news");
+    await expect(page.getByTestId("market-wire-section")).toBeVisible({ timeout: 10_000 });
+
     const tops = await page.evaluate(() => {
       const top = (sel) => { const el = document.querySelector(sel); return el ? el.getBoundingClientRect().top : Number.NaN; };
       return {
         macro: top('[data-testid="market-macro-regime-card"]'),
-        wire: top('[data-testid="market-wire-section"]'),
         digest: top('[data-testid="market-digest-card"]'),
+        wire: top('[data-testid="market-wire-section"]'),
       };
     });
-    expect(tops.macro).toBeLessThan(tops.wire);
-    expect(tops.wire).toBeLessThan(tops.digest);
+    expect(tops.macro).toBeLessThan(tops.digest);
+    expect(tops.digest).toBeLessThan(tops.wire);
   });
 
   test("self-hides the wire section when the feed is empty", async ({ page }) => {

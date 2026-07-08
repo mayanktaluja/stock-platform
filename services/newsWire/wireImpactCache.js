@@ -25,7 +25,15 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const REPO_ROOT = path.resolve(__dirname, "..", "..");
 export const DEFAULT_CACHE_PATH = path.join(REPO_ROOT, "data", "news-wire", "impact-cache.json");
-export const CACHE_SCHEMA_VERSION = "news-wire-impact-cache-v1";
+// v1 → v2 (2026-07-08): every v1 entry written by the LLM carries
+// `category:"short"` — the literal string Gemini echoed out of the prompt's JSON
+// placeholder. `loadCache` cold-flushes on a schema mismatch, so bumping the
+// version IS the whole migration. Cost is one batch over the ~23 clusters that
+// clear the LLM floor (the other ~70 are below_floor and get re-scored by the
+// heuristic, which always emitted a correct category) — a few thousand output
+// tokens, sub-cent. Cluster keys are content-only, and source_count is applied
+// OUTSIDE the cache in rankClusters, so a re-cluster never invalidates a score.
+export const CACHE_SCHEMA_VERSION = "news-wire-impact-cache-v2";
 export const FAILED_RETRY_MS = 6 * 3600 * 1000; // a failed LLM attempt is retry-eligible after 6h
 export const CACHE_TTL_MS = 4 * 24 * 3600 * 1000; // drop entries unused for 4 days
 

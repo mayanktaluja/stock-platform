@@ -96,5 +96,21 @@ test("pruneCache drops unused stale entries, keeps used ones", () => {
   assert.ok(!getEntry(cache, "staleUnused"));
 });
 
+test("[migration] a v1 cache carrying category:'short' cold-flushes to empty", () => {
+  withTmp((dir) => {
+    const p = path.join(dir, "impact-cache.json");
+    // Exactly what production holds today: v1 entries whose LLM-written category
+    // is the literal placeholder string the prompt leaked.
+    fs.writeFileSync(p, JSON.stringify({
+      schema_version: "news-wire-impact-cache-v1",
+      entries: { abc: sig({ category: "short" }) },
+    }));
+    const c = loadCache(p);
+    assert.equal(c.schema_version, CACHE_SCHEMA_VERSION);
+    assert.deepEqual(c.entries, {}, "poisoned v1 entries must not survive the bump");
+    assert.equal(getEntry(c, "abc"), null);
+  });
+});
+
 console.log(`\n${pass} pass, ${fail} fail`);
 process.exit(fail > 0 ? 1 : 0);
