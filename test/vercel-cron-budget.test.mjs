@@ -67,8 +67,14 @@ assert.deepEqual(
 
 assert.deepEqual(
   schedulesFor("/api/cron/sws-input-alerts/send"),
-  ["0 3 * * *"],
-  "SWS input alerts fallback at 03:00 UTC keeps user emails near 08:30 IST; local post-deploy trigger remains primary",
+  ["30 5 * * *"],
+  "SWS input alerts fallback at 05:30 UTC (11:00 IST) lands AFTER the nightly normally deploys a fresh run_id, so the backup can actually deliver instead of deduping the prior already-sent run; local post-deploy trigger remains primary",
+);
+
+assert.deepEqual(
+  schedulesFor("/api/cron/sws-input-alerts/heartbeat"),
+  ["0 12 * * *"],
+  "SWS input-alert watchdog at 12:00 UTC (17:30 IST) pages the owner when no fresh run_id exists for today — clears the observed worst-case nightly deploy (~15:49 IST)",
 );
 
 assert.ok(
