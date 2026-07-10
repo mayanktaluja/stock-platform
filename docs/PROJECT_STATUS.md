@@ -1,6 +1,6 @@
 # PROJECT_STATUS.md — stock-platform
 
-**Last updated: 2026-07-07**
+**Last updated: 2026-07-10**
 
 Living snapshot of where the project is right now. Update this file whenever
 you ship a meaningful PR or change direction. The point is that a fresh AI
@@ -32,6 +32,30 @@ Compounder Lab and Earnings Edge were retired in June 2026 to remove unused
 experimental surface area and nightly refresh load.
 
 ## Recently shipped (themed, newest first — rolling ~4–6 week window; `git log` is the archive)
+
+### Daily portfolio email — silent-outage fix + "what's new in Earnings Watch" (July 2026)
+- **PR #1020 (merged, live)** — the daily SWS-input-alert email had **no schedule
+  of its own**: it rides on the SWS nightly minting a new `run_id`, and the send
+  route dedups **per run**, so a stale run_id silently deduped *every* recipient
+  (zero mail on 2026-07-10, nothing surfaced it). The 03:00-UTC "safety net" cron
+  was decorative — it fired mid-scrape and deduped the prior run. Added an
+  independent Vercel **watchdog** (`/api/cron/sws-input-alerts/heartbeat`, 17:30
+  IST) that pages Telegram when no fresh run exists for today, keyed on the
+  `run_id`'s IST calendar date rather than `generated_at` build-age (build-age
+  cannot separate a healthy-but-late nightly from a real outage — the healthy
+  07-06 artifact was *older* at check time than the true 07-10 outage). Also
+  added an in-trigger heartbeat on 0-delivered / failed / timed-out sends, and
+  moved the fallback send cron to 11:00 IST so it lands after the nightly.
+  **Dormant until `TG_*` + `CRON_SECRET` are set in the Vercel project env.**
+- **PR #1021 (merged, live)** — new admin-gated **"New in Earnings Watch today"**
+  section on the same email: calendar-wide additions (⭐ on the owner's holdings,
+  held rows never truncated, header reports "N of total") plus **material
+  `BEAT↔MISS` verdict flips only**. Adjacent drift and `INSUFFICIENT_DATA` churn
+  are filtered out — the verdict is as uncalibrated as `confidence_pct` (live
+  data: ~31 additions + 14 adjacent flips/day; this shows the 31 and none of the
+  noise). Diffs today's live snapshot against the prior
+  `earnings-history/<date>.json` — no new persisted file. The #1008 widen gate is
+  unchanged: **do not set `EARNINGS_EMAIL_ALL_USERS`.**
 
 ### UI/UX polish pass — light-mode fidelity + one design language (July 2026)
 - **8-PR series (branch `claude/mystifying-dubinsky-4532f2`, awaiting push)** —

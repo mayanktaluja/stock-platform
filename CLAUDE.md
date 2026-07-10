@@ -304,11 +304,116 @@ after the backtest so a silent failure in any stage surfaces.
 | `services/earnings/reactionPlaybook.js` | 9-cell BEAT/INLINE/MISS × Raise/Maintain/Cut matrix |
 | `services/earnings/nseAnnouncementsIngester.js` | NSE corporate-announcements (rolling 30d) |
 | `services/earnings/nseBulkBlockIngester.js` | NSE bulk + block deals (rolling 7d) |
-| `services/earnings/earningsHistoryArchive.js` | Per-day prediction snapshots + dedup/calibration for backtest |
+| `services/earnings/earningsHistoryArchive.js` | Per-day prediction snapshots + dedup/calibration for backtest. `loadPriorArchivePredictions(beforeIso)` serves the daily email's "what's new today" diff. |
 | `services/earnings/actualsIngester.js` | Post-result `actual_*` resolution (SWS news brief + Yahoo fallback) |
 | `services/earnings/weightTuner.js` | Multiplier-sweep logic for data-tuning predictor weights (gated on resolved actuals) |
 | `services/earnings/earningsHealth.js` | Pure aggregator for the daily pipeline health summary + alert rules |
 | `services/earnings/earningsWatchService.js` | Read-side service for the API |
+| `services/earnings/portfolioEarningsSection.js` | Pure selector for the daily email's "Upcoming results in your portfolio" section (holdings × 0–7d). Exports the shared `formatDaysUntil` / `formatConfidence` / `VERDICT_LABELS`. |
+| `services/earnings/earningsWatchDiff.js` | Pure selector for the daily email's "New in Earnings Watch today" section — calendar additions + material `BEAT↔MISS` flips, diffed against the prior day's archive. |
+
+---
+
+## SWS input-alert email (the daily portfolio digest)
+
+The daily email to every signed-in user holding a portfolio, listing the SWS
+input changes on their holdings. Send route `POST /api/cron/sws-input-alerts/send`
+(`server.js`); template in `services/swsPortfolioInputAlerts.js`.
+
+### Delivery model — load-bearing, and the source of a real outage
+
+**The email has NO schedule of its own.** It fires only when the SWS full nightly
+produces a **new `run_id`** in `data/sws/alerts/fundamental-changes-latest.json`
+AND the nightly's post-deploy trigger fires (`sws-nightly.sh`
+`trigger_input_alerts_after_deploy` → `scripts/sws-trigger-input-alerts-after-deploy.mjs`).
+
+The send route dedups **per run** — `hasEmailSentForRun(sub, run_id)` — so on a
+stale/unchanged `run_id` **every recipient is deduped**, `counts.sent === 0`, and
+(before 2026-07-10) nothing surfaced it. On 2026-07-10 the nightly was still
+scraping when the fallback cron fired: zero mail, silently.
+
+> **Do NOT "fix" this by weakening the per-run dedup** — it is the anti-spam
+> guarantee. The fix is to make the silence observable (below).
+
+Two Vercel crons (`vercel.json`; both pinned by `test/vercel-cron-budget.test.mjs`):
+
+| Cron | Schedule | Role |
+|------|----------|------|
+| `/api/cron/sws-input-alerts/send` | `30 5 * * *` (11:00 IST) | Fallback sender. Lands AFTER the nightly normally deploys a fresh run_id, so it can actually deliver when the local trigger failed. (Was `0 3` = 08:30 IST, which always fired mid-scrape and deduped the prior run — decorative.) |
+| `/api/cron/sws-input-alerts/heartbeat` | `0 12 * * *` (17:30 IST) | **Watchdog.** Pages Telegram when NO fresh SWS run exists for today. |
+
+### Heartbeat / watchdog (#1020)
+
+Freshness is measured on the artifact's **`run_id` IST calendar date**, never on
+`generated_at` build-age. Build-age cannot separate a healthy-but-late nightly
+from a real outage (on real data the healthy 2026-07-06 artifact was 30h old at
+07:00 UTC while the true 2026-07-10 outage was 28h old). A fresh nightly stamps a
+run_id whose IST date == today; a stuck pipeline leaves yesterday's.
+
+- `artifact_email_eligible !== true` alone is **not** an outage — a fresh-run day
+  still pending `two_consecutive_full_runs` confirmation is a legitimate
+  no-mail-*yet* day. Don't page on it.
+- The **in-trigger** heartbeat (secondary) fires when a send that DID run
+  delivered 0 / failed / timed out. It cannot cover "nightly died before the
+  trigger ever launched" — that is the watchdog's job.
+
+> **⚠️ The watchdog is DORMANT until `TG_BOT_TOKEN`, `TG_CHAT_ID`,
+> `ALERTS_ENABLED=1` and `CRON_SECRET` exist in the Vercel project env.**
+> `dispatch()` self-skips silently without them (same posture as every alert path),
+> so the route returns `alerted: false` and nobody is paged. The Mac crons already
+> have these — they must be copied into Vercel.
+
+### Admin-gated earnings sections
+
+Both are **append-only garnishes** on a different email, each isolated in its own
+try/catch — a decorative section must never suppress the SWS input alert. Both
+gated on `boolEnv("EARNINGS_EMAIL_ALL_USERS") || computeIsAdmin(email)`.
+
+1. **"Upcoming results in your portfolio"** (#1008) — the recipient's holdings
+   reporting in the next 7 days: verdict + confidence + the 3-branch guidance tree.
+   Suppressed when the snapshot is missing or >72h stale.
+2. **"New in Earnings Watch today"** (#1021) — **global** (calendar-wide) additions
+   with a ⭐ on the recipient's holdings, plus **material `BEAT↔MISS` verdict flips
+   only**. Adjacent drift (`INLINE↔BEAT/MISS`) and `INSUFFICIENT_DATA` churn are
+   excluded — the verdict is as uncalibrated as `confidence_pct`. Live data: ~31
+   additions + 14 adjacent flips/day → this surfaces the 31 (bounded, held-first,
+   never silently truncated — the header reports "N of total") and 0 of the noise.
+   Diffs today's live snapshot against the most recent **prior**
+   `data/catalysts/earnings-history/<date>.json` — no new persisted file. The delta
+   is built ONCE per cron (global, memoized); the ⭐ is applied per-user at render
+   from canonicalized held tickers. Suppressed on the first run (`no_prior`) and on
+   a >72h-stale snapshot.
+
+> **WIDEN GATE — do NOT set `EARNINGS_EMAIL_ALL_USERS`.** Unchanged from #1008:
+> `confidence_pct` has zero calibration imports, there is no distinct
+> `notificationPrefs.earningsWatch.email` pref key, and neither section has its own
+> trigger + dedup. See the Earnings Watch section above.
+
+**`normalizeEarningsSnapshot()` rewrites `today_iso` to the real IST date.** Don't
+pin it in a fixture to steer the prior-archive pick — steer via the archive
+*filename* instead (write a synthetic prior at `today − 1`).
+
+### Modules
+
+| File | Role |
+|------|------|
+| `services/swsPortfolioInputAlerts.js` | Artifact load + per-user join + `buildSwsInputAlertEmail` (text + HTML) + both earnings section renderers. `escapeHtml` is `String(s \|\| "")`, so **`escapeHtml(0) === ""`** — pre-format every number to a non-empty string before it reaches a cell. |
+| `services/alerts/emailHeartbeatAlert.js` | Pure. `buildStalenessVerdict(artifact, nowMs)` (run_id IST-date), `formatEmailHeartbeat` (0-delivered ping), `formatStalenessAlert` (watchdog page). |
+| `services/earnings/portfolioEarningsSection.js` | Pure. Holdings × 0–7d window; shared `formatDaysUntil` / `formatConfidence` / `VERDICT_LABELS`. |
+| `services/earnings/earningsWatchDiff.js` | Pure. `buildEarningsWatchDelta(currentEvents, priorEvents)` → `{added, added_total, verdict_changed, suppressed_reason}`. Material flip = `BEAT↔MISS` (the archive's off-by-2 "catastrophic"). |
+| `services/earnings/earningsHistoryArchive.js` | `loadPriorArchivePredictions(beforeIso)` — most recent per-day archive **strictly before** `beforeIso`. |
+| `scripts/sws-trigger-input-alerts-after-deploy.mjs` | Polls prod until the deployed `run_id` matches, POSTs the send, fires the in-trigger heartbeat on 0-delivered / failure / timeout. `--no-heartbeat` / `SWS_ALERT_HEARTBEAT=0`. |
+
+### Tests
+
+```bash
+node test/swsPortfolioInputAlerts.test.mjs           # template + both earnings sections
+node test/emailHeartbeatAlert.test.mjs               # staleness verdict (07-06 vs 07-10 fixtures)
+node test/earningsWatchDiff.test.mjs                 # additions + material-flip-only
+node test/swsTriggerInputAlertsAfterDeploy.test.mjs  # in-trigger heartbeat fire/no-fire
+node test/swsInputAlertsApi.test.mjs                 # spawns a real server; dry-run send; admin gating
+node test/vercel-cron-budget.test.mjs                # pins both cron schedules
+```
 
 ---
 
@@ -352,6 +457,7 @@ mirroring `resendMailer.js`'s `mailerState()` posture. See `.env.example`.
 | `services/alerts/telegramSender.js` | Pure-fetch Bot-API sender. HTML parse_mode, escape helper, link-preview off, inline-button deep-link, 429 `retry_after` honoring, 4096→3900 truncation, 400 non-retryable. Runs unchanged on Mac + Vercel. |
 | `services/alerts/regimeAlert.js` | Formats a regime object → `{text, breaking, key, buttons}`. `breaking = severity ≥ 4`. Top-3 most-negative sector impacts; transition arrow vs prev. Pure/deterministic. Footer covers disclaimer — none inlined. |
 | `services/alerts/alertDispatcher.js` | The single non-throwing choke-point: state-gate → send. Always resolves (`{ok}`), never unwinds the caller. P2 adds dedup/quiet-hours here. |
+| `services/alerts/emailHeartbeatAlert.js` | Pure. Pages when the daily SWS-input-alert email delivers to nobody / no fresh `run_id` exists for today. Also consumed server-side by the Vercel watchdog cron — so `TG_*` must be set in the **Vercel** env, not just `.env`. See the SWS input-alert email section above. |
 | `scripts/send-regime-alert.mjs` | CLI the cron calls post-commit. Reads worktree `macroRegime.json` + `git show origin/main:` prev → format → dispatch. Trusts the caller's ship-gate (no re-derived dedup). `--dry-run` / `--file <path>` for smoke. Always exits 0. |
 
 ### Phase 2 — watchlist news poller (NEWS class)
