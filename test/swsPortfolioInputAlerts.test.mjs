@@ -19,6 +19,9 @@ import {
   formatAlertImpactLabel,
   buildEarningsSectionHtml,
   buildEarningsSectionText,
+  buildEarningsAddedSectionHtml,
+  buildEarningsAddedSectionText,
+  hasEarningsAddedContent,
   buildPortfolioSwsInputAlerts,
   buildSwsInputAlertEmail,
   canonicalizeHoldingTicker,
@@ -455,5 +458,51 @@ assert.match(earningsEmail.text, /no buy\/sell instruction/i, "existing disclaim
 // The earnings footer line appears only alongside the section.
 assert.match(earningsEmail.text, /conditional on guidance disclosed at the concall/);
 assert.match(earningsEmail.html, /conditional on guidance disclosed at the concall/);
+
+// --- "New in Earnings Watch today" digest section -------------------------
+const ADDED_MARKER = "New in Earnings Watch today";
+const addedDelta = {
+  added: [
+    { symbol: "TCS", company: "Tata Consultancy", event_iso_date: "2026-07-14", days_until: 4, days_until_label: "in 4 days", fiscal_quarter: "Q1 FY27", verdict: "MISS", verdict_label: "MISS", confidence_label: "65%" },
+    { symbol: "WIPRO", company: "Wipro Limited", event_iso_date: "2026-07-15", days_until: 5, days_until_label: "in 5 days", fiscal_quarter: "Q1 FY27", verdict: "BEAT", verdict_label: "BEAT", confidence_label: "60%" },
+  ],
+  added_total: 2,
+  verdict_changed: [
+    { symbol: "INFY", company: "Infosys", event_iso_date: "2026-07-16", days_until: 6, days_until_label: "in 6 days", fiscal_quarter: "Q1 FY27", verdict: "MISS", verdict_label: "MISS", prev_verdict: "BEAT", prev_verdict_label: "BEAT", confidence_label: "—" },
+  ],
+  suppressed_reason: null,
+};
+const heldTcs = new Set(["TCS"]);
+
+// Empty contract mirrors the other optional sections.
+assert.equal(hasEarningsAddedContent(null), false);
+assert.equal(hasEarningsAddedContent({ added: [], verdict_changed: [], suppressed_reason: "no_prior" }), false);
+assert.equal(hasEarningsAddedContent(addedDelta), true);
+assert.deepEqual(buildEarningsAddedSectionText(null, new Set()), []);
+assert.equal(buildEarningsAddedSectionHtml({ added: [], verdict_changed: [] }, new Set()), "");
+
+const addedText = buildEarningsAddedSectionText(addedDelta, heldTcs).join("\n");
+assert.match(addedText, new RegExp(ADDED_MARKER));
+assert.match(addedText, /⭐ Tata Consultancy \(TCS\)/, "held holding is starred");
+const wiproLine = addedText.split("\n").find((l) => l.includes("(WIPRO)"));
+assert.ok(wiproLine && !wiproLine.includes("⭐"), "non-held WIPRO row is NOT starred");
+assert.match(addedText, /Infosys \(INFY\).*BEAT → MISS/, "material verdict flip renders was → now");
+
+const addedHtml = buildEarningsAddedSectionHtml(addedDelta, heldTcs);
+assert.match(addedHtml, new RegExp(ADDED_MARKER));
+assert.ok(addedHtml.includes("⭐ Tata Consultancy (TCS)"), "html stars the held holding");
+assert.match(addedHtml, /Verdict changed since the last snapshot/);
+
+// Integrated: the ⭐ set is canonicalized, so a .NS-suffixed holding still stars.
+const addedEmail = buildSwsInputAlertEmail({ alerts: analyzerFirst.alerts, runId: "run-1", earningsAdded: addedDelta, heldTickers: ["TCS.NS"] });
+assert.match(addedEmail.text, new RegExp(ADDED_MARKER));
+assert.match(addedEmail.text, /⭐ Tata Consultancy \(TCS\)/, "TCS.NS holding stars the canonical TCS row");
+assert.ok(addedEmail.text.indexOf(ADDED_MARKER) < addedEmail.text.indexOf("Preferences:"), "added section sits before the footer");
+assert.match(addedEmail.html, /no buy\/sell instruction/, "no-instruction footer stays true");
+
+// A suppressed (first-run) delta renders nothing and never breaks the base mail.
+const noAdded = buildSwsInputAlertEmail({ alerts: analyzerFirst.alerts, runId: "run-1", earningsAdded: { added: [], added_total: 0, verdict_changed: [], suppressed_reason: "no_prior" }, heldTickers: [] });
+assert.doesNotMatch(noAdded.text, new RegExp(ADDED_MARKER));
+assert.doesNotMatch(noAdded.html, new RegExp(ADDED_MARKER));
 
 console.log("swsPortfolioInputAlerts tests passed");

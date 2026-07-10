@@ -6135,6 +6135,8 @@ import {
   normalizeSwsInputAlertPrefs,
 } from "./services/swsPortfolioInputAlerts.js";
 import { buildPortfolioEarningsRows } from "./services/earnings/portfolioEarningsSection.js";
+import { buildEarningsWatchDelta } from "./services/earnings/earningsWatchDiff.js";
+import { loadPriorArchivePredictions } from "./services/earnings/earningsHistoryArchive.js";
 import { mailProvider, sendMail, validateBulkMailerConfig } from "./services/resendMailer.js";
 import { dispatch } from "./services/alerts/alertDispatcher.js";
 import { buildStalenessVerdict, formatStalenessAlert } from "./services/alerts/emailHeartbeatAlert.js";
@@ -6534,6 +6536,8 @@ app.post("/api/admin/sws-input-alerts/sample-email", express.json(), async (req,
       ? req.body.symbols.map((s) => String(s || "").trim()).filter(Boolean)
       : null;
     let sampleEarningsRows = [];
+    let sampleEarningsAdded = null;
+    let sampleHeldTickers = [];
     try {
       const heldTickers = requestedSymbols?.length
         ? requestedSymbols
@@ -6541,11 +6545,15 @@ app.post("/api/admin/sws-input-alerts/sample-email", express.json(), async (req,
             analyzerStore: getAnalyzerStorage(),
             portfolioStore: getPortfolioStorage(),
           })).held_tickers;
+      sampleHeldTickers = heldTickers;
       const snapshot = normalizeEarningsSnapshot(recomputeDaysUntil(loadEarningsSnapshot()));
       // Explicit symbols widen the window so an out-of-window row (GANGOTRI is
       // d=16 today) is still reachable for a render check.
       const maxDays = requestedSymbols?.length ? 60 : undefined;
       sampleEarningsRows = buildPortfolioEarningsRows(snapshot, heldTickers, maxDays ? { maxDays } : {}).rows;
+      const beforeIso = snapshot?.today_iso
+        || new Date(Date.now() + 5.5 * 3600 * 1000).toISOString().slice(0, 10);
+      sampleEarningsAdded = buildEarningsWatchDelta(snapshot?.events, loadPriorArchivePredictions(beforeIso), {});
     } catch (err) {
       console.warn("[SWS-INPUT-ALERTS] sample earnings rows failed:", err.message);
     }
@@ -6563,12 +6571,15 @@ app.post("/api/admin/sws-input-alerts/sample-email", express.json(), async (req,
         reasons: ["Sample only: confirmed Portfolio Analyzer reduction reviews appear here when the same holding also has material SWS input changes."],
       }],
       earningsRows: sampleEarningsRows,
+      earningsAdded: sampleEarningsAdded,
+      heldTickers: sampleHeldTickers,
     });
     const result = await sendMail({ to: "mtaluja11@gmail.com", ...email });
     res.status(result.ok ? 200 : 502).json({
       ok: result.ok,
       result,
       earnings_row_count: sampleEarningsRows.length,
+      earnings_added_count: (sampleEarningsAdded?.added_total || 0) + (sampleEarningsAdded?.verdict_changed?.length || 0),
       requested_by: req.user?.email || null,
     });
   } catch (err) {
@@ -6699,6 +6710,37 @@ app.all("/api/cron/sws-input-alerts/send", express.json(), async (req, res) => {
       }
       return _earningsSnapshot;
     };
+    // "New in Earnings Watch today" — GLOBAL (calendar-wide) additions + material
+    // BEAT<->MISS verdict flips, diffed against the most recent PRIOR per-day
+    // archive. Built ONCE per invocation (same for every recipient); the owner's
+    // holdings are starred per-user at render time. Null-guards the snapshot and
+    // never throws — a decorative section must not suppress the base mail.
+    let _earningsDelta;
+    let earningsAddedSuppressedReason = null;
+    const getEarningsDelta = () => {
+      if (_earningsDelta === undefined) {
+        try {
+          const snap = getEarningsSnapshot();
+          const builtAtMs = snap ? Date.parse(snap.built_at) : NaN;
+          if (!snap || !Array.isArray(snap.events)) {
+            _earningsDelta = { added: [], added_total: 0, verdict_changed: [], suppressed_reason: "missing" };
+          } else if (!Number.isFinite(builtAtMs) || Date.now() - builtAtMs > 72 * 60 * 60 * 1000) {
+            // Same 72h staleness bound as the upcoming-results section: a stalled
+            // refresh must not emit a stale "what's new today" diff.
+            _earningsDelta = { added: [], added_total: 0, verdict_changed: [], suppressed_reason: "stale" };
+          } else {
+            const beforeIso = snap.today_iso
+              || new Date(Date.now() + 5.5 * 3600 * 1000).toISOString().slice(0, 10);
+            _earningsDelta = buildEarningsWatchDelta(snap.events, loadPriorArchivePredictions(beforeIso), {});
+          }
+        } catch (err) {
+          console.warn("[SWS-INPUT-ALERTS] earnings delta build failed:", err.message);
+          _earningsDelta = { added: [], added_total: 0, verdict_changed: [], suppressed_reason: "error" };
+        }
+        earningsAddedSuppressedReason = _earningsDelta.suppressed_reason || null;
+      }
+      return _earningsDelta;
+    };
     const earningsSectionEnabled = (email) =>
       boolEnv("EARNINGS_EMAIL_ALL_USERS") || computeIsAdmin(email);
 
@@ -6787,6 +6829,7 @@ app.all("/api/cron/sws-input-alerts/send", express.json(), async (req, res) => {
         // same row. A decorative section must never be able to suppress the
         // SWS input alert — degrade to [] instead.
         let earningsRows = [];
+        let earningsAdded = null;
         if (earningsSectionEnabled(email)) {
           try {
             const built = buildPortfolioEarningsRows(getEarningsSnapshot(), portfolio.held_tickers);
@@ -6795,6 +6838,13 @@ app.all("/api/cron/sws-input-alerts/send", express.json(), async (req, res) => {
             counts.earnings_rows_attached += earningsRows.length;
           } catch (err) {
             console.warn(`[SWS-INPUT-ALERTS] earnings rows failed for ${email || user.sub}:`, err.message);
+          }
+          try {
+            earningsAdded = getEarningsDelta();
+            // Global count — same for every recipient; assignment is idempotent.
+            counts.earnings_added_count = (earningsAdded.added_total || 0) + (earningsAdded.verdict_changed?.length || 0);
+          } catch (err) {
+            console.warn(`[SWS-INPUT-ALERTS] earnings delta attach failed for ${email || user.sub}:`, err.message);
           }
         }
 
@@ -6805,6 +6855,8 @@ app.all("/api/cron/sws-input-alerts/send", express.json(), async (req, res) => {
           appUrl: SWS_INPUT_ALERT_APP_URL,
           reductionHighlights: reductionContext.reductionHighlights,
           earningsRows,
+          earningsAdded,
+          heldTickers: portfolio.held_tickers,
         });
         const sendResult = await sendMail({ to: email, ...emailBody }, { dryRun, rejectSandboxSender: !dryRun });
         if (sendResult.ok && !sendResult.skipped && !dryRun) {
@@ -6910,6 +6962,11 @@ app.all("/api/cron/sws-input-alerts/send", express.json(), async (req, res) => {
       // is baked into the immutable Vercel deployment, so a stalled refresh would
       // otherwise vanish silently — indistinguishable from "nobody reports soon".
       earnings_suppressed_reason: earningsSuppressedReason,
+      // "New in Earnings Watch today" section: how many additions + material
+      // verdict flips were attached (0 if no admin recipient / no prior archive),
+      // plus why it was withheld ("no_prior" on the first run, "missing"/"error").
+      earnings_added_count: counts.earnings_added_count || 0,
+      earnings_added_suppressed_reason: earningsAddedSuppressedReason,
       counts,
       results,
     });
