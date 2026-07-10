@@ -107,7 +107,8 @@ graceful-degrades. They're only needed if you're refreshing data.
 | **India Market** (`picks` tab) | Indian equities scored on SWS's 6-pillar Snowflake distilled into a 100-pt **V4** composite (`swsScoringV4.js`; pillars 76 = **v4.1** H20/F22/V18/P16 + FV 12 + momentum 12 − overlay ≤15). v4.1 (2026-07, `sws-v4.1-100pt-2026-07`) swapped Health↔Future weights + added a growth-trap brake (future ≥5/6 + 1M ≤ −15% → −4); cutoffs stayed frozen. Sectioned by verdict band. Avoid List section was removed (#370). | `gated/swsV2Render.js`, `services/swsScoringV4.js`, `services/swsScoring.js`, `services/swsConvictionEngine.js` |
 | **US Market** (`usPicks` tab, signed-in read) | SWS-sourced US-equity leaderboard (NASDAQ/NYSE/NYSEMKT ~5,448 liquid names). Same Snowflake + 100-pt V4, but USD ($). Fully isolated `data/sws-us/` fork — imports the India scorer, never edits it. Manual `/sws-refresh-us`; ships empty until scraped. | `scripts/sws-scoring-us.mjs`, `services/usPicksDal.js`, `server.js` (`/api/us-picks`), `gated/app.js` (renderUSPicks/renderUSModal) |
 | **Portfolio Analyzer** (`analyzer` tab) | Upload portfolio xlsx → per-stock recommendation (KEEP/TRIM/SELL/TOP-UP) with SEBI-RA-style narrative, sized in ₹. Cooldown gate prevents duplicate trim flags. | `gated/app.js` (portfolio sections), `services/swsHoldingEngine.js`, `services/swsPortfolioHealth.js` |
-| **Earnings Watch** | Upcoming results dashboard. BEAT/INLINE/MISS predictions with confidence, 9-cell trading playbook, post-result T+1 plans. Open to every signed-in user. | `gated/earnings.js`, `services/earnings/*` (see CLAUDE.md for the 17-file breakdown) |
+| **Earnings Watch** | Upcoming results dashboard. BEAT/INLINE/MISS predictions with confidence, 9-cell trading playbook, post-result T+1 plans. Open to every signed-in user. | `gated/earnings.js`, `services/earnings/*` (see CLAUDE.md for the module breakdown) |
+| **Daily portfolio email** | SWS input-change digest mailed to every signed-in user with uploaded holdings, plus two **admin-gated** earnings garnishes ("Upcoming results in your portfolio"; "New in Earnings Watch today"). Delivery rides the SWS nightly's `run_id` — read the gotcha below before touching it. | `services/swsPortfolioInputAlerts.js`, `server.js` (`/api/cron/sws-input-alerts/*`), `services/alerts/emailHeartbeatAlert.js` |
 | **Risk Lab** | Per-stock risk decomposition: macro overlay, counter-thesis, quality scorer, consecutive-miss detector, imputation penalty. Hover tooltips for every term. | `gated/riskLab.js`, `services/riskLab/*` |
 | **Macro Thesis** | India macro-regime classifier — **10 regimes** (Oil Shock, Rate Hike/Cut, War Escalation/De-escalation, Currency Weakness, Policy Stimulus, Regulatory Shock, Global Risk-Off, Calm) over 20 canonical sectors, LLM-classified (Gemini→Groq→heuristic), auto-refresh every 2h, plus a scenario engine + historical analogs. | `macroRegime.js`, `services/macroThesis/*`, `data/macroRegime.json` |
 | **Track Record** | Public-facing performance log: every recommendation, when issued, what it returned vs Nifty. | `gated/index.html#trackTab`, `services/recommendationLedger.js` |
@@ -186,6 +187,16 @@ Every signal that ships should have a backtest harness. Conventions:
 9. **US deep briefs ship as tarballs.** `data/sws-us/deep-*.tar.gz`
    (#393) — thousands of per-stock files packed into one to stay under Vercel's
    ~15k source-file cap. Don't expect loose `deep/*.json` to be deployed.
+10. **The daily portfolio email has no schedule of its own.** It only fires when
+    the SWS nightly mints a new `run_id` *and* its post-deploy trigger runs. The
+    send route dedups **per run**, so a stale `run_id` silently deduped *every*
+    recipient — the 2026-07-10 zero-mail outage. A Vercel watchdog
+    (`/api/cron/sws-input-alerts/heartbeat`, 17:30 IST) now pages on run_id
+    staleness, but it is **dormant until `TG_*` + `CRON_SECRET` are set in the
+    Vercel project env.** Freshness is the run_id's IST date, *never*
+    `generated_at` build-age (build-age can't tell a late-but-healthy nightly
+    from a real outage). Don't weaken the per-run dedup — it's the anti-spam
+    guarantee.
 
 ## Where to look next
 
