@@ -39,7 +39,7 @@ export const DEFAULT_MAX_STALENESS_MS = 72 * 60 * 60 * 1000;
 
 const GUIDANCE_ORDER = Object.freeze(["RAISE", "MAINTAIN", "CUT"]);
 
-const VERDICT_LABELS = Object.freeze({
+export const VERDICT_LABELS = Object.freeze({
   BEAT: "BEAT",
   INLINE: "INLINE",
   MISS: "MISS",

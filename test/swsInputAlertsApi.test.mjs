@@ -24,6 +24,11 @@ const EARNINGS = path.join(ROOT, "data", "catalysts", "earnings-watch-latest.jso
 // in the finally block via `priors`).
 const IST_NOW = new Date(Date.now() + 5.5 * 3600 * 1000);
 const TOMORROW_ISO = new Date(IST_NOW.getTime() + 86_400_000).toISOString().slice(0, 10);
+// normalizeEarningsSnapshot() rewrites `today_iso` to the real IST date, so the
+// "what's new" diff picks the archive dated yesterday. Pin a synthetic prior
+// there (date-robust: yesterday relative to whatever day the suite runs).
+const PRIOR_ISO = new Date(IST_NOW.getTime() - 86_400_000).toISOString().slice(0, 10);
+const PRIOR_ARCHIVE = path.join(ROOT, "data", "catalysts", "earnings-history", `${PRIOR_ISO}.json`);
 
 function earningsEvent(symbol, company) {
   return {
@@ -93,7 +98,7 @@ function signTestSession(sub, secret) {
   return `${payload}.${sig}`;
 }
 
-const priors = new Map([[USERS, backup(USERS)], [ANALYZER, backup(ANALYZER)], [LEDGER, backup(LEDGER)], [PORTFOLIO_HISTORY, backup(PORTFOLIO_HISTORY)], [CHANGES, backup(CHANGES)], [EARNINGS, backup(EARNINGS)]]);
+const priors = new Map([[USERS, backup(USERS)], [ANALYZER, backup(ANALYZER)], [LEDGER, backup(LEDGER)], [PORTFOLIO_HISTORY, backup(PORTFOLIO_HISTORY)], [CHANGES, backup(CHANGES)], [EARNINGS, backup(EARNINGS)], [PRIOR_ARCHIVE, backup(PRIOR_ARCHIVE)]]);
 let child;
 async function startServer(envOverrides = {}) {
   child = spawn(process.execPath, ["server.js"], {
@@ -237,6 +242,14 @@ try {
   });
   fs.rmSync(LEDGER, { force: true });
   writeJson(EARNINGS, syntheticEarningsSnapshot());
+  // Prior archive (dated yesterday) for the "New in Earnings Watch today" diff.
+  // TCS is absent → it renders as ADDED; INFY is present as MISS while the live
+  // snapshot has it BEAT → a material MISS→BEAT flip.
+  writeJson(PRIOR_ARCHIVE, {
+    schema_version: "earnings-history-v5",
+    today_iso: PRIOR_ISO,
+    predictions: [{ symbol: "INFY", event_iso_date: TOMORROW_ISO, predicted_verdict: "MISS" }],
+  });
 
   const port = await startServer({
     SWS_INPUT_ALERTS_SUPPRESS_EMAILS: " vikrant.deshmukh16@gmail.com ",
@@ -302,8 +315,12 @@ try {
     transition_suppressed: 0,
     // Only the admin's TCS row. INFY is in-window but its holder is gated out.
     earnings_rows_attached: 1,
+    // Global "new in Earnings Watch" tally: 1 added (TCS) + 1 material flip (INFY).
+    earnings_added_count: 2,
   });
   assert.equal(cron.json.earnings_suppressed_reason, null);
+  assert.equal(cron.json.earnings_added_count, 2);
+  assert.equal(cron.json.earnings_added_suppressed_reason, null);
   assert.equal(cron.json.artifact_email_eligible, true);
   assert.equal(cron.json.schema_version, 2);
   assert.equal(cron.json.confirmation_policy, "two_consecutive_full_runs");
@@ -345,6 +362,18 @@ try {
   assert.match(adminResult.payload.text, /- Model view: BEAT, 63% confidence/);
   assert.match(adminResult.payload.text, /- Scenarios: RAISE → .+ · MAINTAIN → .+ · CUT → /);
   assert.match(adminResult.payload.text, /#tab=earnings/);
+
+  // --- "New in Earnings Watch today" section: admin-gated + global ----------
+  const ADDED_MARKER = /New in Earnings Watch today/;
+  assert.match(adminResult.payload.text, ADDED_MARKER, "admin sees the new-in-earnings section");
+  assert.match(adminResult.payload.html, ADDED_MARKER);
+  // TCS is newly on the calendar AND held by the admin → added + ⭐ starred.
+  assert.match(adminResult.payload.text, /⭐ Tata Consultancy Services \(TCS\)/, "admin's held addition is starred");
+  // INFY flipped MISS→BEAT since the prior snapshot (a material reversal).
+  assert.match(adminResult.payload.text, /Infosys \(INFY\).*MISS → BEAT/, "material verdict flip is listed");
+  // The section is GLOBAL but the GATE is per-user: the non-admin never sees it.
+  assert.doesNotMatch(readerResult.payload.text, ADDED_MARKER, "non-admin is gated out of the new-in-earnings section");
+  assert.doesNotMatch(readerResult.payload.html, ADDED_MARKER);
 
   // The non-admin holds INFY, which IS in the same window. The gate — not the
   // data — is what withholds the section.

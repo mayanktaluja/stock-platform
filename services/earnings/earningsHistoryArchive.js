@@ -247,6 +247,36 @@ export function loadAllHistory() {
 }
 
 /**
+ * Load the `predictions[]` of the most recent per-day archive whose date is
+ * STRICTLY BEFORE `beforeIso` (an IST YYYY-MM-DD string, e.g. a snapshot's
+ * `today_iso`). Used by the "what's new in Earnings Watch" email digest to diff
+ * today's live snapshot against the last committed snapshot.
+ *
+ * Strictly-before is deliberate: the archiver writes today's file keyed to
+ * today's IST date, so a `<=` would pick today and the diff would be empty. On
+ * the first day (no prior file) this returns [] and the digest self-suppresses.
+ * Returns [] on any read/parse error — the digest degrades to hidden, never
+ * throws into the mail path.
+ */
+export function loadPriorArchivePredictions(beforeIso) {
+  if (!beforeIso || !fs.existsSync(HISTORY_DIR)) return [];
+  const dates = fs
+    .readdirSync(HISTORY_DIR)
+    .filter((f) => /^\d{4}-\d{2}-\d{2}\.json$/.test(f))
+    .map((f) => f.slice(0, 10))
+    .filter((d) => d < beforeIso)
+    .sort();
+  const pick = dates[dates.length - 1];
+  if (!pick) return [];
+  try {
+    const content = JSON.parse(fs.readFileSync(path.join(HISTORY_DIR, `${pick}.json`), "utf8"));
+    return Array.isArray(content.predictions) ? content.predictions : [];
+  } catch {
+    return [];
+  }
+}
+
+/**
  * Deduplicate predictions across daily snapshots.
  *
  * The same (symbol, event_iso_date) event is archived into every
