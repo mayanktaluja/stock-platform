@@ -43,6 +43,7 @@ process.on("SIGINT", () => { restoreFile(); process.exit(130); });
 process.on("uncaughtException", (err) => { restoreFile(); console.error(err); process.exit(1); });
 
 const {
+  buildSurveillance,
   getSurveillance,
   getSurveillanceStatus,
   saveSurveillance,
@@ -233,6 +234,30 @@ await it("normal non-empty snapshot writes to disk and updates status totals", a
   const status = getSurveillanceStatus();
   assert.equal(status.total, 2);
   assert.equal(status.counts.ASM, 2);
+});
+
+await it("buildSurveillance marks a throwing fetcher as failed (strict refresh can refuse)", async () => {
+  const asmRow = { symbol: "OK.NS", list: "ASM", stage: null, stage_num: null, timeframe: "longterm", series: null, source_time: null };
+  const built = await buildSurveillance({
+    fetchAsm: async () => [asmRow],
+    fetchGsm: async () => { throw new Error("NSE returned no data for /api/reportGSM after 3 attempts"); },
+  });
+
+  assert.equal(built.fetchStatus.ASM, "ok");
+  assert.equal(built.fetchStatus.GSM, "failed");
+  assert.match(built.fetchErrors.GSM, /no data for \/api\/reportGSM/);
+});
+
+await it("buildSurveillance marks a zero-row 'success' as failed — NSE never has zero ASM/GSM stocks", async () => {
+  const built = await buildSurveillance({
+    fetchAsm: async () => [],
+    fetchGsm: async () => [],
+  });
+
+  assert.equal(built.fetchStatus.ASM, "failed");
+  assert.equal(built.fetchStatus.GSM, "failed");
+  assert.match(built.fetchErrors.ASM, /parsed 0 rows/);
+  assert.match(built.fetchErrors.GSM, /parsed 0 rows/);
 });
 
 _resetSurveillanceCacheForTests();

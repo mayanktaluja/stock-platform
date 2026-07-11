@@ -149,7 +149,11 @@ async function nseGetWithRetry(pathname, { attempts = 3, baseDelayMs = 750 } = {
     if (i < attempts - 1) await sleep(baseDelayMs * (i + 1));
   }
   if (lastErr) throw lastErr;
-  return null;
+  // nseGet swallows HTTP-level failures (404/500/blocked/cookie miss) into a
+  // null return. A null here is a failed fetch, not "zero stocks flagged" —
+  // reporting it as ok/empty let a broken endpoint masquerade as a healthy
+  // fetch for a full grace window (2026-07-09 → 11 outage).
+  throw new Error(`NSE returned no data for ${pathname} after ${attempts} attempts (blocked, non-OK status, or cookie failure)`);
 }
 
 function romanToNumber(raw) {
@@ -263,21 +267,30 @@ async function fetchGSM() {
  * last-known snapshot rather than trusting an empty result (NSE had
  * an outage, not zero surveillance).
  */
-export async function buildSurveillance() {
+export async function buildSurveillance({ fetchAsm = fetchASM, fetchGsm = fetchGSM } = {}) {
   const [asmResult, gsmResult] = await Promise.all([
-    fetchASM()
+    fetchAsm()
       .then((rows) => ({ ok: true, rows, error: null }))
       .catch((e) => {
         console.warn("[SURVEILLANCE] ASM fetch failed:", e.message);
         return { ok: false, rows: [], error: e.message };
       }),
-    fetchGSM()
+    fetchGsm()
       .then((rows) => ({ ok: true, rows, error: null }))
       .catch((e) => {
         console.warn("[SURVEILLANCE] GSM fetch failed:", e.message);
         return { ok: false, rows: [], error: e.message };
       }),
   ]);
+  // Zero parsed rows from a "successful" fetch is an outage or schema drift,
+  // never reality — NSE always has hundreds of stocks under ASM/GSM. Count it
+  // as a failed source so --strict refuses to call the refresh healthy.
+  for (const result of [asmResult, gsmResult]) {
+    if (result.ok && result.rows.length === 0) {
+      result.ok = false;
+      result.error = "parsed 0 rows (empty payload or NSE schema drift)";
+    }
+  }
   const asm = asmResult.rows;
   const gsm = gsmResult.rows;
   const fetchErrors = {};
