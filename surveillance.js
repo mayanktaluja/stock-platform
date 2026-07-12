@@ -42,7 +42,10 @@
 import { readFileSync, existsSync, writeFileSync } from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import { nseGet } from "./nse.js";
+import { nseGetDetailed } from "./nse.js";
+import { fetchRegIndCsv, parseRegIndCsv } from "./services/surveillanceRegindFetcher.js";
+
+const NSE_BASE = "https://www.nseindia.com";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -137,23 +140,29 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-async function nseGetWithRetry(pathname, { attempts = 3, baseDelayMs = 750 } = {}) {
-  let lastErr = null;
+async function nseGetWithRetry(pathname, { referers = [], attempts = 3, baseDelayMs = 750 } = {}) {
+  let last = null;
   for (let i = 0; i < attempts; i++) {
+    // Rotate the Referer across attempts — the report endpoints may enforce a
+    // page-scoped referer the default market-data one doesn't satisfy.
+    const referer = referers.length ? referers[Math.min(i, referers.length - 1)] : undefined;
     try {
-      const data = await nseGet(pathname);
-      if (data != null) return data;
+      const r = await nseGetDetailed(pathname, referer);
+      if (r.ok) return r.data;
+      last = r;
     } catch (err) {
-      lastErr = err;
+      last = { error: err.message, attempt: "throw" };
     }
     if (i < attempts - 1) await sleep(baseDelayMs * (i + 1));
   }
-  if (lastErr) throw lastErr;
-  // nseGet swallows HTTP-level failures (404/500/blocked/cookie miss) into a
-  // null return. A null here is a failed fetch, not "zero stocks flagged" —
-  // reporting it as ok/empty let a broken endpoint masquerade as a healthy
-  // fetch for a full grace window (2026-07-09 → 11 outage).
-  throw new Error(`NSE returned no data for ${pathname} after ${attempts} attempts (blocked, non-OK status, or cookie failure)`);
+  // Surface the REAL failure (HTTP status / non-JSON / cookie) instead of a
+  // bare null. A null was reported as "zero stocks flagged", letting a broken
+  // endpoint masquerade as a healthy fetch for a full grace window
+  // (2026-07-09 → 11 outage).
+  const detail = last
+    ? `${last.error || "no data"}${last.attempt ? ` (${last.attempt})` : ""}`
+    : "no response";
+  throw new Error(`NSE ${pathname} failed after ${attempts} attempts: ${detail}`);
 }
 
 function romanToNumber(raw) {
@@ -245,7 +254,9 @@ function parseGsmRows(data) {
  * so we pull fields defensively.
  */
 async function fetchASM() {
-  return parseAsmRows(await nseGetWithRetry("/api/reportASM"));
+  return parseAsmRows(await nseGetWithRetry("/api/reportASM", {
+    referers: [`${NSE_BASE}/reports/asm`, undefined, `${NSE_BASE}/reports/asm`],
+  }));
 }
 
 /**
@@ -254,7 +265,52 @@ async function fetchASM() {
  * GSM stages run I → VI; IV+ is where trading becomes highly constrained.
  */
 async function fetchGSM() {
-  return parseGsmRows(await nseGetWithRetry("/api/reportGSM"));
+  return parseGsmRows(await nseGetWithRetry("/api/reportGSM", {
+    referers: [`${NSE_BASE}/reports/gsm`, undefined, `${NSE_BASE}/reports/gsm`],
+  }));
+}
+
+// ==================== REG_IND CSV FALLBACK ADAPTER ====================
+
+/**
+ * Adapt REG_IND CSV records into the exact row shape parseAsmRows/parseGsmRows
+ * emit, so the fallback path feeds the identical `flagged` builder. One record
+ * can produce up to three rows (ASM long-term + ASM short-term + GSM).
+ */
+function regIndRecordsToRows(records, dateUsed) {
+  const asmRows = [];
+  const gsmRows = [];
+  for (const rec of records || []) {
+    const sym = toNseKey(rec.symbol);
+    if (!sym) continue;
+    const base = { symbol: sym, series: rec.series || null, source_time: dateUsed || null };
+    if (rec.asmLtStage) {
+      asmRows.push({ ...base, list: "ASM", ...normalizeStage(rec.asmLtStage), timeframe: "longterm" });
+    }
+    if (rec.asmStStage) {
+      asmRows.push({ ...base, list: "ASM", ...normalizeStage(rec.asmStStage), timeframe: "shortterm" });
+    }
+    if (rec.gsmStage) {
+      gsmRows.push({ ...base, list: "GSM", ...normalizeStage(rec.gsmStage), timeframe: null });
+    }
+  }
+  return { asmRows, gsmRows };
+}
+
+/**
+ * Fetch + parse the REG_IND CSV fallback. Throws (with a descriptive message)
+ * on any failure so buildSurveillance can record it in fetchErrors; the caller
+ * always wraps this in try/catch.
+ */
+async function fetchRegIndFallback() {
+  const res = await fetchRegIndCsv();
+  if (!res.ok) throw new Error(res.error || "REG_IND fetch failed");
+  const parsed = parseRegIndCsv(res.csv);
+  if (parsed.records.length === 0) {
+    throw new Error(`REG_IND parsed 0 rows${parsed.error ? ` (${parsed.error})` : ""}`);
+  }
+  const { asmRows, gsmRows } = regIndRecordsToRows(parsed.records, res.dateUsed);
+  return { asmRows, gsmRows, dateUsed: res.dateUsed, url: res.url };
 }
 
 // ==================== BUILD + LOAD ====================
@@ -267,7 +323,11 @@ async function fetchGSM() {
  * last-known snapshot rather than trusting an empty result (NSE had
  * an outage, not zero surveillance).
  */
-export async function buildSurveillance({ fetchAsm = fetchASM, fetchGsm = fetchGSM } = {}) {
+export async function buildSurveillance({
+  fetchAsm = fetchASM,
+  fetchGsm = fetchGSM,
+  fetchRegInd = fetchRegIndFallback,
+} = {}) {
   const [asmResult, gsmResult] = await Promise.all([
     fetchAsm()
       .then((rows) => ({ ok: true, rows, error: null }))
@@ -290,7 +350,36 @@ export async function buildSurveillance({ fetchAsm = fetchASM, fetchGsm = fetchG
       result.ok = false;
       result.error = "parsed 0 rows (empty payload or NSE schema drift)";
     }
+    result.source = result.ok ? "nse-api" : null;
   }
+
+  // Fallback: if either report endpoint failed, try the REG_IND CSV once —
+  // one file serves both lists. A failed list backfilled with >0 rows recovers.
+  let regind = null;
+  if (!asmResult.ok || !gsmResult.ok) {
+    try {
+      const fb = await fetchRegInd();
+      regind = { dateUsed: fb.dateUsed, url: fb.url };
+      const backfill = (result, rows, list) => {
+        if (result.ok) return;
+        if (rows && rows.length > 0) {
+          result.rows = rows;
+          result.ok = true;
+          result.source = "nse-regind-csv";
+          result.error = null;
+        } else {
+          result.error = `${result.error}; fallback REG_IND: 0 ${list} rows`;
+        }
+      };
+      backfill(asmResult, fb.asmRows, "ASM");
+      backfill(gsmResult, fb.gsmRows, "GSM");
+    } catch (e) {
+      console.warn("[SURVEILLANCE] REG_IND fallback failed:", e.message);
+      if (!asmResult.ok) asmResult.error = `${asmResult.error}; fallback REG_IND: ${e.message}`;
+      if (!gsmResult.ok) gsmResult.error = `${gsmResult.error}; fallback REG_IND: ${e.message}`;
+    }
+  }
+
   const asm = asmResult.rows;
   const gsm = gsmResult.rows;
   const fetchErrors = {};
@@ -318,15 +407,19 @@ export async function buildSurveillance({ fetchAsm = fetchASM, fetchGsm = fetchG
     }
   }
 
+  const usedFallback = asmResult.source === "nse-regind-csv" || gsmResult.source === "nse-regind-csv";
+
   return {
     fetchedAt: new Date().toISOString(),
-    source: "nse",
+    source: usedFallback ? "nse-regind-csv" : "nse",
     flagged,
     counts: { ASM: asm.length, GSM: gsm.length },
     fetchStatus: {
       ASM: asmResult.ok ? "ok" : "failed",
       GSM: gsmResult.ok ? "ok" : "failed",
     },
+    sources: { ASM: asmResult.source, GSM: gsmResult.source },
+    ...(regind ? { regind } : {}),
     fetchErrors: Object.keys(fetchErrors).length ? fetchErrors : undefined,
   };
 }
@@ -479,4 +572,5 @@ export const _surveillanceParserForTests = {
   normalizeStage,
   parseAsmRows,
   parseGsmRows,
+  regIndRecordsToRows,
 };

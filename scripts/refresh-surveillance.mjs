@@ -18,6 +18,13 @@ async function main() {
   const strict = process.argv.includes("--strict") || process.env.SWS_SURVEILLANCE_STRICT === "1";
   console.log("Fetching NSE ASM + GSM lists...");
   const snap = await buildSurveillance();
+  const sources = snap.sources || {};
+  for (const list of ["ASM", "GSM"]) {
+    const status = snap.fetchStatus?.[list] || "unknown";
+    const via = sources[list] || "none";
+    const dateNote = via === "nse-regind-csv" && snap.regind?.dateUsed ? ` (data date ${snap.regind.dateUsed})` : "";
+    console.log(`  ${list}: ${status} via ${via}${dateNote}`);
+  }
   const failedSources = Object.entries(snap.fetchStatus || {})
     .filter(([, status]) => status !== "ok")
     .map(([source]) => source);

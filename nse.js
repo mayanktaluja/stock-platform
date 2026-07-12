@@ -82,7 +82,22 @@ async function getCookies() {
  * full NSE coverage on Vercel while preserving the cookie fallback for
  * the paths that do need it.
  */
-async function nseGet(path, referer) {
+/**
+ * Structured variant of nseGet. Returns a discriminated result instead of
+ * collapsing every failure to `null`, so callers that need to SEE why a
+ * fetch failed (e.g. surveillance's --strict gate) can log a real HTTP
+ * status instead of silently treating a 404/blocked/HTML response as
+ * "zero rows". `nseGet` is a thin wrapper preserving the legacy null contract.
+ *
+ * Shape: { ok, status, data, error, errorClass, attempt }
+ *   ok:         boolean
+ *   status:     number|null  — last HTTP status seen (null on pure network error)
+ *   data:       parsed JSON on ok:true, else null
+ *   error:      human string on ok:false ("HTTP 404", "non-JSON body", ...)
+ *   errorClass: "http" | "timeout" | "network" | "non-json" | "cookie"
+ *   attempt:    "unauth" | "cookie"  — which leg produced the result
+ */
+async function nseGetDetailed(path, referer) {
   const url = `${NSE_BASE}${path}`;
   const baseHeaders = {
     "User-Agent": NSE_UA,
@@ -91,23 +106,54 @@ async function nseGet(path, referer) {
     Referer: referer || `${NSE_BASE}/market-data/live-equity-market`,
   };
 
+  // NSE occasionally serves an HTML block/interstitial page with a 200 —
+  // parse defensively so those masquerade as failures, not empty JSON.
+  async function readJson(res, attempt) {
+    try {
+      const data = await res.json();
+      return { ok: true, status: res.status, data, error: null, errorClass: null, attempt };
+    } catch {
+      return {
+        ok: false, status: res.status, data: null,
+        error: "non-JSON body (HTML block page?)", errorClass: "non-json", attempt,
+      };
+    }
+  }
+
+  let lastStatus = null;
+  let lastError = null;
+  let lastClass = null;
+
   // Attempt 1: no cookies. Fast path for Vercel.
   try {
     const res = await fetchNseWithTimeout(url, { headers: baseHeaders }, 10000);
-    if (res.ok) return res.json();
+    if (res.ok) return await readJson(res, "unauth");
+    lastStatus = res.status;
+    lastError = `HTTP ${res.status}`;
+    lastClass = "http";
     // Only fall back to the cookie dance for auth-style rejections. A 404
     // or 500 is a real upstream error, retrying with cookies won't help.
-    if (![401, 403, 412].includes(res.status)) return null;
+    if (![401, 403, 412].includes(res.status)) {
+      return { ok: false, status: res.status, data: null, error: lastError, errorClass: "http", attempt: "unauth" };
+    }
   } catch (err) {
     // Network failure — let the cookie path try, maybe the TLS/DNS
     // negotiation just glitched once.
     console.warn(`NSE unauth attempt failed for ${path}:`, err.message);
+    lastError = err.message;
+    lastClass = err.code === "TIMEOUT" ? "timeout" : "network";
   }
 
   // Attempt 2: cookie-gated. Restores access for the few endpoints that
   // do enforce a session check (e.g. some report downloads).
   const cookies = await getCookies();
-  if (!cookies) return null;
+  if (!cookies) {
+    return {
+      ok: false, status: lastStatus, data: null,
+      error: lastError ? `${lastError}; cookie priming failed` : "cookie priming failed",
+      errorClass: "cookie", attempt: "cookie",
+    };
+  }
   try {
     let res = await fetchNseWithTimeout(
       url,
@@ -117,23 +163,44 @@ async function nseGet(path, referer) {
     if (res.status === 401 || res.status === 403) {
       await refreshCookies();
       const refreshed = await getCookies();
-      if (!refreshed) return null;
+      if (!refreshed) {
+        return {
+          ok: false, status: res.status, data: null,
+          error: `HTTP ${res.status}; cookie refresh failed`, errorClass: "cookie", attempt: "cookie",
+        };
+      }
       res = await fetchNseWithTimeout(
         url,
         { headers: { ...baseHeaders, Cookie: refreshed } },
         12000,
       );
     }
-    if (!res.ok) return null;
-    return res.json();
+    if (!res.ok) {
+      return { ok: false, status: res.status, data: null, error: `HTTP ${res.status}`, errorClass: "http", attempt: "cookie" };
+    }
+    return await readJson(res, "cookie");
   } catch (err) {
     console.error(`NSE cookie fetch failed for ${path}:`, err.message);
-    return null;
+    return {
+      ok: false, status: lastStatus, data: null, error: err.message,
+      errorClass: err.code === "TIMEOUT" ? "timeout" : "network", attempt: "cookie",
+    };
   }
 }
 
-// Export nseGet so other modules (like refresh-fundamentals.mjs) can reuse it
-export { nseGet };
+/**
+ * Legacy null-or-data contract. Thin wrapper over nseGetDetailed so the
+ * dozens of existing callers (fetchNseIndex, refresh-*.mjs, ...) are
+ * unchanged: parsed JSON on success, null on any failure.
+ */
+async function nseGet(path, referer) {
+  const r = await nseGetDetailed(path, referer);
+  return r.ok ? r.data : null;
+}
+
+// Export nseGet + nseGetDetailed so other modules (refresh-fundamentals.mjs,
+// surveillance.js) can reuse them.
+export { nseGet, nseGetDetailed };
 
 /**
  * Build a progressively-shorter list of name variants for NSE autocomplete.
