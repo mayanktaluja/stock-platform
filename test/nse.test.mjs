@@ -31,6 +31,7 @@
 
 import {
   nseGet,
+  nseGetDetailed,
   nseGetUnauthed,
   resolveNseStockLive,
   fetchNseIndex,
@@ -182,6 +183,52 @@ console.log("\nnseGet()");
     cookieCall && /nsit=abc123/.test(cookieCall.headers.Cookie) && /nseappid=xyz/.test(cookieCall.headers.Cookie),
     cookieCall?.headers?.Cookie,
   );
+}
+
+// ──────────────────── nseGetDetailed — structured result ────────────────────
+
+console.log("\nnseGetDetailed()");
+
+{
+  installFetch(() => ({ body: { data: [{ symbol: "OK" }] } }));
+  const r = await nseGetDetailed("/api/reportASM");
+  assert("200 → ok with parsed data + status", r.ok === true && r.status === 200 && r.data?.data?.[0]?.symbol === "OK", r);
+  assert("200 result attempt is 'unauth'", r.attempt === "unauth", r.attempt);
+}
+
+{
+  installFetch(() => ({ status: 404, body: { error: "gone" } }));
+  const r = await nseGetDetailed("/api/reportASM");
+  assert("404 → ok:false, no cookie leg", r.ok === false && r.status === 404 && calls.length === 1, r);
+  assert("404 error is 'HTTP 404' with class http", r.error === "HTTP 404" && r.errorClass === "http", r);
+}
+
+{
+  // 403 escalates to the cookie leg, which then 200s.
+  installFetch((url, options) => {
+    if (url === "https://www.nseindia.com") return { body: "<html>ok</html>", setCookies: ["nsit=abc; Path=/"] };
+    if (!("Cookie" in (options.headers || {}))) return { status: 403, body: {} };
+    return { body: { data: [1] } };
+  });
+  const r = await nseGetDetailed("/api/reportGSM");
+  assert("403 → cookie leg recovers, attempt 'cookie'", r.ok === true && r.attempt === "cookie", r);
+}
+
+{
+  // 200 with a non-JSON (HTML block page) body → non-json failure.
+  installFetch(() => ({ status: 200, body: "<html>Access Denied</html>" }));
+  const r = await nseGetDetailed("/api/reportASM");
+  assert("200 HTML body → ok:false, errorClass non-json", r.ok === false && r.errorClass === "non-json", r);
+  // Legacy wrapper collapses the same case to null.
+  installFetch(() => ({ status: 200, body: "<html>Access Denied</html>" }));
+  const legacy = await nseGet("/api/reportASM");
+  assert("nseGet wrapper returns null on non-JSON 200", legacy === null, legacy);
+}
+
+{
+  installFetch(() => ({ throwError: Object.assign(new Error("aborted"), { code: "TIMEOUT" }) }));
+  const r = await nseGetDetailed("/api/reportASM");
+  assert("network/timeout throw → ok:false with a class", r.ok === false && ["timeout", "network", "cookie"].includes(r.errorClass), r);
 }
 
 // ──────────────────── fetchNseIndex + mapNseStock shape ────────────────────

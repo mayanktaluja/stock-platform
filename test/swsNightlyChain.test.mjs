@@ -53,6 +53,27 @@ assert(
   { lateSurveillanceIdx, healthGateIdx },
 );
 
+// 2026-07-09 → 11 outage pins: a health-gate hard failure must still ship the
+// independent fresh non-SWS data, and a DEGRADED (band) pass must page but
+// NOT block. Both keep one stale input from freezing the whole platform.
+const gateFailBlock = (nightly.match(/if \[ "\$\{HEALTH_GATE_RC\}" -ne 0 \]; then[\s\S]*?exit 8\nfi/) || [""])[0];
+assert(
+  "health-gate hard failure ships the data-only PR before exiting",
+  gateFailBlock.includes("ship_nightly_data_only"),
+  gateFailBlock.slice(0, 200),
+);
+const shipFnIdx = nightly.indexOf("ship_nightly_data_only() {");
+assert(
+  "ship_nightly_data_only is defined before the health gate uses it",
+  shipFnIdx > -1 && healthGateIdx > shipFnIdx,
+  { shipFnIdx, healthGateIdx },
+);
+assert(
+  "a DEGRADED health-gate pass sends a warning mail without blocking",
+  /grep -q "DEGRADED "[\s\S]{0,400}publishing with a degraded snapshot input/.test(nightly),
+  null,
+);
+
 const catalystInvocations = nightly.match(/node scripts\/refresh-catalysts\.mjs/g) || [];
 const nseCorpInvocations = nightly.match(/node scripts\/refresh-nse-corporate\.mjs/g) || [];
 const dividendInvocations = nightly.match(/node scripts\/refresh-dividends\.mjs/g) || [];

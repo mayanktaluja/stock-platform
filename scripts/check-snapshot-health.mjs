@@ -17,7 +17,14 @@ const DEFAULT_ROOT = path.resolve(__dirname, "..");
 
 const SNAPSHOTS = [
   { key: "fundamentals", label: "Fundamentals", relPath: "fundamentals.json", field: "generatedAt", maxAgeHours: 48, critical: true },
-  { key: "surveillance", label: "Surveillance (ASM/GSM)", relPath: "surveillance.json", field: "fetchedAt", maxAgeHours: 36, critical: true },
+  // Surveillance gets a degraded band (36h → 168h) instead of an immediate
+  // hard block: production serves the same last-good surveillance.json either
+  // way, so refusing to publish does not make prod's ASM/GSM flags any
+  // fresher — it only freezes every OTHER fresh input alongside them
+  // (the 2026-07-09 → 11 whole-platform staleness outage). Inside the band
+  // the run publishes with the last-good flags and pages a warning; past
+  // hardFailHours (or with the file missing) it hard-blocks as before.
+  { key: "surveillance", label: "Surveillance (ASM/GSM)", relPath: "surveillance.json", field: "fetchedAt", maxAgeHours: 36, hardFailHours: 168, critical: true },
   { key: "governance", label: "Governance (shareholding)", relPath: "governance.json", field: "fetchedAt", maxAgeHours: 2400, critical: false },
   { key: "picks_latest", label: "SWS picks", relPath: "data/sws/picks-latest.json", field: "scanned_at", maxAgeHours: 48, critical: false },
   { key: "macro_regime", label: "Macro regime", relPath: "data/macroRegime.json", field: "generatedAt", maxAgeHours: 14, critical: false },
@@ -90,7 +97,11 @@ function assess(root, nowMs, criticalOnly) {
     .map((spec) => {
       const generatedAt = readTimestamp(root, spec);
       const age = ageHours(generatedAt, nowMs);
-      const stale = age == null || age > spec.maxAgeHours;
+      const exceeded = age == null || age > spec.maxAgeHours;
+      // Missing/unparseable timestamps never qualify for the degraded band —
+      // only a real last-good snapshot that has aged past maxAgeHours does.
+      const degraded = exceeded && age != null && spec.hardFailHours != null && age <= spec.hardFailHours;
+      const stale = exceeded && !degraded;
       return {
         key: spec.key,
         label: spec.label,
@@ -99,8 +110,10 @@ function assess(root, nowMs, criticalOnly) {
         generatedAt,
         age_hours: age,
         max_age_hours: spec.maxAgeHours,
+        hard_fail_hours: spec.hardFailHours ?? null,
         critical: spec.critical,
         stale,
+        degraded,
       };
     });
   rows.push(assessGrowingSectorValueGate(root));
@@ -139,6 +152,7 @@ function assessGrowingSectorValueGate(root) {
 const args = parseArgs(process.argv);
 const rows = assess(args.root, args.now, args.criticalOnly);
 const stale = rows.filter((row) => row.stale);
+const degraded = rows.filter((row) => row.degraded);
 
 if (args.json) {
   console.log(JSON.stringify({
@@ -147,6 +161,7 @@ if (args.json) {
     root: args.root,
     criticalOnly: args.criticalOnly,
     staleKeys: stale.map((row) => row.key),
+    degradedKeys: degraded.map((row) => row.key),
     snapshots: Object.fromEntries(rows.map((row) => [row.key, row])),
   }, null, 2));
 } else {
@@ -154,17 +169,21 @@ if (args.json) {
   console.log(`[snapshot-health] checkedAt=${new Date(args.now).toISOString()}`);
   for (const row of rows) {
     const age = row.age_hours == null ? "no data" : `${row.age_hours}h`;
-    const status = row.stale ? "STALE" : "OK";
+    const status = row.stale ? "STALE" : row.degraded ? "DEGRADED" : "OK";
     const maxAge = row.max_age_hours == null ? "n/a" : `${row.max_age_hours}h`;
+    const hardFail = row.degraded ? `, hard-fail ${row.hard_fail_hours}h` : "";
     console.log(
       `[snapshot-health] ${status} ${row.key}: ${age} ` +
-      `(max ${maxAge}, ${row.relPath}.${row.field}=${row.generatedAt || "null"})` +
+      `(max ${maxAge}${hardFail}, ${row.relPath}.${row.field}=${row.generatedAt || "null"})` +
       (row.detail ? ` ${row.detail}` : ""),
     );
   }
+  if (degraded.length > 0) {
+    console.log(`[snapshot-health] degradedKeys=${degraded.map((row) => row.key).join(",")} — publishing with last-good data; investigate the refresh`);
+  }
   if (stale.length > 0) {
     console.log(`[snapshot-health] staleKeys=${stale.map((row) => row.key).join(",")}`);
-  } else {
+  } else if (degraded.length === 0) {
     console.log("[snapshot-health] all monitored snapshots fresh");
   }
 }

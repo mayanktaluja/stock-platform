@@ -43,6 +43,7 @@ process.on("SIGINT", () => { restoreFile(); process.exit(130); });
 process.on("uncaughtException", (err) => { restoreFile(); console.error(err); process.exit(1); });
 
 const {
+  buildSurveillance,
   getSurveillance,
   getSurveillanceStatus,
   saveSurveillance,
@@ -233,6 +234,118 @@ await it("normal non-empty snapshot writes to disk and updates status totals", a
   const status = getSurveillanceStatus();
   assert.equal(status.total, 2);
   assert.equal(status.counts.ASM, 2);
+});
+
+// A REG_IND fallback that always fails — injected so the primary-failure
+// tests stay hermetic (no live nsearchives fetch) and assert the primary error.
+const noFallback = async () => { throw new Error("no fallback"); };
+
+await it("buildSurveillance marks a throwing fetcher as failed (strict refresh can refuse)", async () => {
+  const asmRow = { symbol: "OK.NS", list: "ASM", stage: null, stage_num: null, timeframe: "longterm", series: null, source_time: null };
+  const built = await buildSurveillance({
+    fetchAsm: async () => [asmRow],
+    fetchGsm: async () => { throw new Error("NSE returned no data for /api/reportGSM after 3 attempts"); },
+    fetchRegInd: noFallback,
+  });
+
+  assert.equal(built.fetchStatus.ASM, "ok");
+  assert.equal(built.fetchStatus.GSM, "failed");
+  assert.equal(built.sources.ASM, "nse-api");
+  assert.match(built.fetchErrors.GSM, /no data for \/api\/reportGSM/);
+});
+
+await it("buildSurveillance marks a zero-row 'success' as failed — NSE never has zero ASM/GSM stocks", async () => {
+  const built = await buildSurveillance({
+    fetchAsm: async () => [],
+    fetchGsm: async () => [],
+    fetchRegInd: noFallback,
+  });
+
+  assert.equal(built.fetchStatus.ASM, "failed");
+  assert.equal(built.fetchStatus.GSM, "failed");
+  assert.match(built.fetchErrors.ASM, /parsed 0 rows/);
+  assert.match(built.fetchErrors.GSM, /parsed 0 rows/);
+});
+
+// ─────────────────── REG_IND fallback strategy chain ───────────────────
+
+const asmRowOk = { symbol: "AAA.NS", list: "ASM", stage: null, stage_num: null, timeframe: "longterm", series: "EQ", source_time: null };
+const gsmRowOk = { symbol: "BBB.NS", list: "GSM", stage: "II", stage_num: 2, timeframe: null, series: "EQ", source_time: null };
+
+await it("both primaries ok → REG_IND fallback is NOT called", async () => {
+  let called = 0;
+  const built = await buildSurveillance({
+    fetchAsm: async () => [asmRowOk],
+    fetchGsm: async () => [gsmRowOk],
+    fetchRegInd: async () => { called++; return { asmRows: [], gsmRows: [], dateUsed: "x", url: "x" }; },
+  });
+
+  assert.equal(called, 0);
+  assert.equal(built.source, "nse");
+  assert.equal(built.sources.ASM, "nse-api");
+  assert.equal(built.sources.GSM, "nse-api");
+  assert.equal(built.regind, undefined);
+});
+
+await it("primary ASM fails → REG_IND backfills ASM only, GSM stays on the API", async () => {
+  let called = 0;
+  const built = await buildSurveillance({
+    fetchAsm: async () => { throw new Error("HTTP 404 (unauth)"); },
+    fetchGsm: async () => [gsmRowOk],
+    fetchRegInd: async () => {
+      called++;
+      return { asmRows: [asmRowOk], gsmRows: [], dateUsed: "2026-07-10", url: "https://.../REG_IND100726.csv" };
+    },
+  });
+
+  assert.equal(called, 1);
+  assert.equal(built.fetchStatus.ASM, "ok");
+  assert.equal(built.fetchStatus.GSM, "ok");
+  assert.equal(built.sources.ASM, "nse-regind-csv");
+  assert.equal(built.sources.GSM, "nse-api");
+  assert.equal(built.source, "nse-regind-csv");
+  assert.equal(built.regind.dateUsed, "2026-07-10");
+  assert.ok(built.flagged["AAA.NS"]);
+});
+
+await it("both primaries fail + fallback throws → both failed, combined fetchErrors", async () => {
+  const built = await buildSurveillance({
+    fetchAsm: async () => { throw new Error("HTTP 404 (unauth)"); },
+    fetchGsm: async () => { throw new Error("HTTP 404 (unauth)"); },
+    fetchRegInd: async () => { throw new Error("REG_IND blocked (HTTP 403)"); },
+  });
+
+  assert.equal(built.fetchStatus.ASM, "failed");
+  assert.equal(built.fetchStatus.GSM, "failed");
+  assert.match(built.fetchErrors.ASM, /HTTP 404.*fallback REG_IND: REG_IND blocked/);
+});
+
+await it("buildSurveillance never throws even when the fallback rejects", async () => {
+  const built = await buildSurveillance({
+    fetchAsm: async () => { throw new Error("boom"); },
+    fetchGsm: async () => { throw new Error("boom"); },
+    fetchRegInd: async () => { throw new Error("also boom"); },
+  });
+  assert.equal(typeof built, "object");
+  assert.equal(built.fetchStatus.ASM, "failed");
+});
+
+await it("regIndRecordsToRows emits ASM-LT + ASM-ST + GSM rows in parseAsmRows/parseGsmRows shape", () => {
+  const { regIndRecordsToRows, parseAsmRows } = _surveillanceParserForTests;
+  const { asmRows, gsmRows } = regIndRecordsToRows(
+    [{ symbol: "ZEE", series: "EQ", asmLtStage: "1", asmStStage: "2", gsmStage: "IV" }],
+    "2026-07-10",
+  );
+  assert.equal(asmRows.length, 2);
+  assert.equal(gsmRows.length, 1);
+  // Shape parity with the API parser's rows.
+  const apiRow = parseAsmRows({ longterm: { data: [{ symbol: "ZEE", asmSurvIndicator: "1", series: "EQ" }] } })[0];
+  assert.deepEqual(Object.keys(asmRows[0]).sort(), Object.keys(apiRow).sort());
+  assert.equal(asmRows[0].symbol, "ZEE.NS");
+  assert.equal(asmRows[0].timeframe, "longterm");
+  assert.equal(asmRows[1].timeframe, "shortterm");
+  assert.equal(gsmRows[0].symbol, "ZEE.NS");
+  assert.equal(gsmRows[0].stage_num, 4);
 });
 
 _resetSurveillanceCacheForTests();

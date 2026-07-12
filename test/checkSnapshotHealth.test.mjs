@@ -42,7 +42,8 @@ test("check-snapshot-health passes fresh critical fixtures", () => {
 
 test("check-snapshot-health fails stale critical fixtures", () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "snapshot-health-stale-"));
-  seedCritical(root, "2026-05-25T00:00:00.000Z");
+  // 228h old — past every threshold including surveillance's 168h hard-fail band.
+  seedCritical(root, "2026-05-20T00:00:00.000Z");
 
   const res = spawnSync(process.execPath, [
     SCRIPT,
@@ -59,6 +60,45 @@ test("check-snapshot-health fails stale critical fixtures", () => {
   assert.match(res.stdout, /STALE oi_deltas:/);
   assert.match(res.stdout, /STALE earnings_watch:/);
   assert.match(res.stdout, /staleKeys=fundamentals,surveillance,fundamentals_history,oi_deltas,earnings_watch/);
+});
+
+test("check-snapshot-health degrades (not blocks) surveillance inside the 36h-168h band", () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "snapshot-health-degraded-"));
+  seedCritical(root, "2026-05-29T06:00:00.000Z");
+  // 108h old: past the 36h freshness target, inside the 168h hard-fail band.
+  writeJson(root, "surveillance.json", { fetchedAt: "2026-05-25T00:00:00.000Z" });
+
+  const out = execFileSync(process.execPath, [
+    SCRIPT,
+    "--root", root,
+    "--now", NOW,
+    "--strict",
+    "--critical-only",
+  ], { encoding: "utf-8" });
+
+  assert.match(out, /DEGRADED surveillance: 108h \(max 36h, hard-fail 168h/);
+  assert.match(out, /degradedKeys=surveillance/);
+  assert.doesNotMatch(out, /STALE surveillance:/);
+  assert.doesNotMatch(out, /all monitored snapshots fresh/);
+});
+
+test("check-snapshot-health hard-fails surveillance past the 168h band", () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "snapshot-health-hardfail-"));
+  seedCritical(root, "2026-05-29T06:00:00.000Z");
+  // 216h old: past the 168h hard-fail band — blocks like any stale critical.
+  writeJson(root, "surveillance.json", { fetchedAt: "2026-05-20T12:00:00.000Z" });
+
+  const res = spawnSync(process.execPath, [
+    SCRIPT,
+    "--root", root,
+    "--now", NOW,
+    "--strict",
+    "--critical-only",
+  ], { encoding: "utf-8" });
+
+  assert.equal(res.status, 1);
+  assert.match(res.stdout, /STALE surveillance:/);
+  assert.match(res.stdout, /staleKeys=surveillance/);
 });
 
 test("check-snapshot-health reports missing critical fixtures as stale", () => {
