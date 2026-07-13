@@ -1,29 +1,29 @@
 {
   "schema_version": "earnings-health-v1",
-  "generated_at": "2026-07-09T04:01:49.410Z",
+  "generated_at": "2026-07-13T02:10:37.041Z",
   "resolved": {
-    "count": 446,
-    "delta_vs_prior": 0,
+    "count": 452,
+    "delta_vs_prior": 6,
     "prior_count": 446
   },
   "llm_providers": {
-    "groq": 0,
+    "groq": 6,
     "gemini": 0,
-    "heuristic": 195,
+    "heuristic": 240,
     "none": 1,
-    "total": 196
+    "total": 247
   },
-  "llm_offline": true,
-  "llm_heuristic_share_pct": 89,
+  "llm_offline": false,
+  "llm_heuristic_share_pct": 85,
   "llm_stats": {
-    "total": 196,
-    "classified": 195,
-    "cache_hits": 11,
-    "llm_calls": 13,
-    "heuristic": 184,
+    "total": 247,
+    "classified": 246,
+    "cache_hits": 13,
+    "llm_calls": 15,
+    "heuristic": 227,
     "heuristic_cache_invalidations": 0,
     "cross_floor_invalidations": 0,
-    "below_v3_floor": 87,
+    "below_v3_floor": 115,
     "composite_floor": 47,
     "llm_available": true,
     "skip_llm": false
@@ -31,9 +31,9 @@
   "cap_lift_gate": {
     "state": false,
     "enough_data_to_lift_cap": false,
-    "days_in_current_state": 61,
+    "days_in_current_state": 62,
     "current_resolved": 0,
-    "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (446 across all versions)",
+    "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (452 across all versions)",
     "detail": {
       "resolved_required": 30,
       "bucket_60_64_hit_rate_required": 55,
@@ -45,16 +45,17 @@
     }
   },
   "weight_tuning_gate": {
-    "met": false,
-    "resolved_count": 339,
-    "distinct_quarters": 1,
-    "sectors_with_min_events": 12,
+    "met": true,
+    "resolved_count": 345,
+    "distinct_quarters": 2,
+    "sectors_with_min_events": 13,
     "detail": {
       "need_resolved": 80,
       "need_quarters": 2,
       "need_sectors_with_events": 5,
       "sector_min_events": 10,
       "quarters": [
+        "Q1 FY27",
         "Q4 FY26"
       ],
       "by_sector": {
@@ -64,7 +65,7 @@
         "Food, Beverage & Tobacco": 14,
         "Materials": 58,
         "Consumer Services": 12,
-        "Diversified Financials": 17,
+        "Diversified Financials": 18,
         "Automobiles": 23,
         "Healthcare": 18,
         "Utilities": 12,
@@ -74,16 +75,16 @@
         "Telecom": 1,
         "Commercial Services": 9,
         "Energy": 5,
-        "Software": 9,
-        "Banks": 1,
+        "Software": 11,
+        "Banks": 2,
         "Tech": 5,
-        "Media": 5,
-        "Consumer Retailing": 2,
+        "Media": 6,
+        "Consumer Retailing": 3,
         "Household": 4,
         "Insurance": 1
       }
     },
-    "gate_met": false
+    "gate_met": true
   },
   "decision_contracts": {
     "cap_lift": {
@@ -93,9 +94,9 @@
       "gate": {
         "state": false,
         "enough_data_to_lift_cap": false,
-        "days_in_current_state": 61,
+        "days_in_current_state": 62,
         "current_resolved": 0,
-        "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (446 across all versions)",
+        "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (452 across all versions)",
         "detail": {
           "resolved_required": 30,
           "bucket_60_64_hit_rate_required": 55,
@@ -108,20 +109,21 @@
       }
     },
     "weight_tuning": {
-      "gate_met": false,
-      "state": "insufficient_evidence",
-      "reason": "Weight tuning remains blocked by the separate tuning sample gate.",
+      "gate_met": true,
+      "state": "review_ready",
+      "reason": "Weight tuning review is eligible from the separate tuning sample gate.",
       "gate": {
-        "met": false,
-        "resolved_count": 339,
-        "distinct_quarters": 1,
-        "sectors_with_min_events": 12,
+        "met": true,
+        "resolved_count": 345,
+        "distinct_quarters": 2,
+        "sectors_with_min_events": 13,
         "detail": {
           "need_resolved": 80,
           "need_quarters": 2,
           "need_sectors_with_events": 5,
           "sector_min_events": 10,
           "quarters": [
+            "Q1 FY27",
             "Q4 FY26"
           ],
           "by_sector": {
@@ -131,7 +133,7 @@
             "Food, Beverage & Tobacco": 14,
             "Materials": 58,
             "Consumer Services": 12,
-            "Diversified Financials": 17,
+            "Diversified Financials": 18,
             "Automobiles": 23,
             "Healthcare": 18,
             "Utilities": 12,
@@ -141,16 +143,16 @@
             "Telecom": 1,
             "Commercial Services": 9,
             "Energy": 5,
-            "Software": 9,
-            "Banks": 1,
+            "Software": 11,
+            "Banks": 2,
             "Tech": 5,
-            "Media": 5,
-            "Consumer Retailing": 2,
+            "Media": 6,
+            "Consumer Retailing": 3,
             "Household": 4,
             "Insurance": 1
           }
         },
-        "gate_met": false
+        "gate_met": true
       }
     },
     "risk_lab": {
@@ -164,10 +166,10 @@
     }
   },
   "archive_schema": {
-    "earnings-history-v5": 48
+    "earnings-history-v5": 49
   },
   "predictor_versions": {
-    "earnings-predict-v3-2026-05": 196
+    "earnings-predict-v3-2026-05": 247
   },
   "restatements": {
     "count": 0,
@@ -183,60 +185,59 @@
     "count_total": 51,
     "count_7d": 1,
     "count_30d": 2,
-    "count_prior_30d": 46,
-    "trend_pct_30d_vs_prior": -95.7
+    "count_prior_30d": 33,
+    "trend_pct_30d_vs_prior": -93.9
   },
   "macro_regime": {
     "present": true,
-    "generated_at": "2026-07-08T10:30:28.123Z",
-    "age_hours": 18,
+    "generated_at": "2026-07-12T16:30:21.217Z",
+    "age_hours": 10,
     "classifier_provider": "groq",
-    "regime": "OIL_SHOCK",
-    "stale": true,
-    "alert": "Macro regime is 18h old (threshold 18h) — com.starbhai.macro-only cron is unhealthy; check data/macroRegime-refresh.log"
+    "regime": "CALM",
+    "stale": false,
+    "alert": null
   },
   "picks_snapshot_fv_drift": {
     "pipeline": null,
     "runtime_24h": null,
     "alert": null
   },
-  "history_files": 48,
+  "history_files": 49,
   "hit_rate_summary": {
     "schema_version": "hit-rate-summary-v1",
-    "generated_at": "2026-07-09T04:01:49.726Z",
-    "resolved_count": 349,
-    "unresolved_count": 1528,
+    "generated_at": "2026-07-13T02:10:37.262Z",
+    "resolved_count": 355,
+    "unresolved_count": 1589,
     "strict": {
-      "hit_rate_pct": 35,
-      "ci_low_pct": 29.8,
-      "ci_high_pct": 40.1,
-      "sample_size": 349
+      "hit_rate_pct": 35.2,
+      "ci_low_pct": 30.4,
+      "ci_high_pct": 40,
+      "sample_size": 355
     },
     "lenient": {
-      "hit_rate_pct": 81.6,
-      "ci_low_pct": 77.6,
+      "hit_rate_pct": 81.9,
+      "ci_low_pct": 77.7,
       "ci_high_pct": 85.6,
-      "sample_size": 348
+      "sample_size": 354
     },
     "catastrophic": {
-      "rate_pct": 18.4,
-      "ci_low_pct": 14.1,
-      "ci_high_pct": 22.4,
-      "sample_size": 348
+      "rate_pct": 18.1,
+      "ci_low_pct": 14.4,
+      "ci_high_pct": 22,
+      "sample_size": 354
     },
     "rolling_30": {
       "window": 30,
-      "catastrophic_count": 7,
-      "catastrophic_rate_pct": 23.3
+      "catastrophic_count": 6,
+      "catastrophic_rate_pct": 20
     },
     "catastrophic_alert": true,
     "catastrophic_alert_threshold_pct": 12
   },
   "alerts": [
-    "LLM signal is 100% heuristic (195/196) — GROQ_API_KEY / GEMINI_API_KEY likely not configured on the refresh host, OR every cached entry is from a no-keys run and the cache hasn't been re-classified (try `node scripts/refresh-earnings.mjs --purge-heuristic-cache --yes` followed by a refresh)",
-    "LLM heuristic share (above V3 floor): 97/109 = 89% (threshold 20%; 87 below-floor skips excluded by design) — LLM tier may be failing on eligible events; check earningsLlmSignal.js logs",
-    "Macro regime is 18h old (threshold 18h) — com.starbhai.macro-only cron is unhealthy; check data/macroRegime-refresh.log",
-    "Catastrophic rate alert: rolling-30 23.3% (7/30) exceeds 12% threshold — Risk Lab promotion gate cannot clear"
+    "LLM heuristic share (above V3 floor): 112/132 = 85% (threshold 20%; 115 below-floor skips excluded by design) — LLM tier may be failing on eligible events; check earningsLlmSignal.js logs",
+    "Weight-tuning gate just CLEARED — scripts/tune-earnings-weights.mjs review is now actionable",
+    "Catastrophic rate alert: rolling-30 20% (6/30) exceeds 12% threshold — Risk Lab promotion gate cannot clear"
   ],
   "healthy": false
 }
