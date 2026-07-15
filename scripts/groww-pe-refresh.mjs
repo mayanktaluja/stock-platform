@@ -81,6 +81,52 @@ function ratio(value, max = 1000) {
   return saneNumber(value, { min: 0, max });
 }
 
+// Groww migrated stockData.stats (a keyed object: stats.peRatio, stats.epsTtm,
+// stats.industryPe, ...) to stockData.fundamentals (an array of
+// {name, shortName, value} with DISPLAY-STRING values, e.g. "18.31", "8.94%",
+// "₹17,53,005Cr") around 2026-07-14. That silently nulled every valuation field
+// and dropped groww_pe coverage to 0%, hard-blocking the nightly sanity gate.
+// These helpers parse the display strings and rebuild the legacy `stats` shape
+// so the rest of parseGrowwNextData keeps reading stats.* unchanged.
+function displayNum(raw) {
+  if (raw == null) return null;
+  const s = String(raw).replace(/[₹,%\s]/g, "");
+  if (!s) return null;
+  const n = Number(s);
+  return Number.isFinite(n) ? n : null;
+}
+
+function displayCrore(raw) {
+  if (raw == null) return null;
+  let s = String(raw).replace(/[₹,\s]/g, "");
+  let mult = 1;
+  if (/cr$/i.test(s)) s = s.replace(/cr$/i, "");
+  else if (/(lakh|lac|l)$/i.test(s)) { s = s.replace(/(lakh|lac|l)$/i, ""); mult = 0.01; }
+  const n = Number(s);
+  return Number.isFinite(n) ? n * mult : null;
+}
+
+function statsFromFundamentals(fundamentals) {
+  if (!Array.isArray(fundamentals)) return {};
+  const byName = {};
+  for (const f of fundamentals) {
+    if (f && typeof f.name === "string") byName[f.name.trim().toLowerCase()] = f.value;
+  }
+  const get = (name) => byName[name];
+  return {
+    peRatio: displayNum(get("p/e ratio(ttm)")),
+    epsTtm: displayNum(get("eps(ttm)")),
+    pbRatio: displayNum(get("p/b ratio")),
+    industryPe: displayNum(get("industry p/e")),
+    marketCap: displayCrore(get("market cap")),
+    roe: displayNum(get("roe")),
+    dividendYieldInPercent: displayNum(get("dividend yield")),
+    bookValue: displayNum(get("book value")),
+    debtToEquity: displayNum(get("debt to equity")),
+    faceValue: displayNum(get("face value")),
+  };
+}
+
 export function normalizeTicker(value) {
   if (value == null) return null;
   const t = String(value).trim().toUpperCase();
@@ -211,7 +257,12 @@ export function parseGrowwNextData(html, url = null, fetchedAt = new Date().toIS
   const pageProps = next?.props?.pageProps || {};
   const stockData = pageProps.stockData;
   const header = stockData?.header || {};
-  const stats = stockData?.stats || {};
+  // Prefer the legacy keyed stats object when present; fall back to the new
+  // fundamentals array (Groww schema change 2026-07-14). Forward-compatible:
+  // if Groww restores stats.*, that path wins again.
+  const stats = stockData?.stats && Object.keys(stockData.stats).length
+    ? stockData.stats
+    : statsFromFundamentals(stockData?.fundamentals);
   const quote = pickLiveQuote(pageProps, header);
   const priceData = pickPriceData(stockData, header);
   const peRatio = sanePe(stats.peRatio);

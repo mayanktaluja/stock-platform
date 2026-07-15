@@ -152,6 +152,52 @@ check("JSLL Groww parser extracts inline/non-expensive P/E inputs", () => {
   assert.ok(ratio > 0.8 && ratio <= 1.2, `expected inline ratio, got ${ratio}`);
 });
 
+check("Groww fundamentals-ARRAY shape (2026-07-14 schema change) yields P/E when stats object is gone", () => {
+  // Groww dropped stockData.stats and moved fundamentals to an array of
+  // {name, shortName, value} display strings. Verbatim shape from the live
+  // Reliance page. Before the fix this nulled every valuation field (pe 0%).
+  const html = htmlWithPageProps({
+    livePriceData: { RELIANCE: { ltp: 1295.5 } },
+    stockData: {
+      header: { searchId: "reliance-industries-ltd", nseScriptCode: "RELIANCE", bseScriptCode: 500325 },
+      priceData: { nse: {} },
+      fundamentals: [
+        { name: "Market Cap", shortName: "Mkt Cap", value: "₹17,53,005Cr" },
+        { name: "ROE", shortName: "ROE", value: "8.94%" },
+        { name: "P/E Ratio(TTM)", shortName: "P/E Ratio(TTM)", value: "18.31" },
+        { name: "EPS(TTM)", shortName: "EPS(TTM)", value: "70.76" },
+        { name: "P/B Ratio", shortName: "P/B Ratio", value: "1.94" },
+        { name: "Dividend Yield", shortName: "Div Yield", value: "0.46%" },
+        { name: "Industry P/E", shortName: "Industry P/E", value: "13.35" },
+        { name: "Book Value", shortName: "Book Value", value: "668.04" },
+        { name: "Debt to Equity", shortName: "Debt to Equity", value: "0.44" },
+        { name: "Face Value", shortName: "Face Value", value: "10" },
+      ],
+    },
+  });
+  const parsed = parseGrowwNextData(html, null, "2026-07-16T00:00:00.000Z");
+  assert.equal(parsed.peRatio, 18.31, "P/E from fundamentals array");
+  assert.equal(parsed.industryPe, 13.35, "Industry P/E from fundamentals array");
+  assert.equal(parsed.epsTtm, 70.76);
+  assert.equal(parsed.pbRatio, 1.94);
+  assert.equal(parsed.marketCapCr, 1753005, "₹17,53,005Cr → 1753005 (Indian digit grouping stripped)");
+  assert.equal(parsed.roePct, 8.94, "ROE % strips the % suffix");
+  assert.equal(parsed.faceValue, 10);
+});
+
+check("legacy stats object still wins when Groww provides it (forward-compatible)", () => {
+  const html = htmlWithPageProps({
+    stockData: {
+      header: { searchId: "x-ltd", nseScriptCode: "X" },
+      stats: { peRatio: 22.5, industryPe: 18.0, epsTtm: 5 },
+      fundamentals: [{ name: "P/E Ratio(TTM)", value: "99.9" }],
+    },
+  });
+  const parsed = parseGrowwNextData(html);
+  assert.equal(parsed.peRatio, 22.5, "stats.peRatio takes precedence over the fundamentals array");
+  assert.equal(parsed.industryPe, 18.0);
+});
+
 check("Groww screener parser extracts records and ticker map keys", () => {
   const html = htmlWithPageProps({
     screenerData: {
