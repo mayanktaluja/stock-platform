@@ -58,7 +58,13 @@ export const KV_SURVEILLANCE_KEY = "surveillance:snapshot";
 let _cached = null;
 let _cachedSource = null;
 
+// `undefined` = not overridden (read env); any other value (client or null) is
+// returned verbatim so tests can exercise the KV-present path hermetically
+// without real @vercel/kv creds. See _setKVClientForTests.
+let _kvClientOverride;
+
 async function getKVClient() {
+  if (_kvClientOverride !== undefined) return _kvClientOverride;
   const hasKV = !!process.env.KV_REST_API_URL && !!process.env.KV_REST_API_TOKEN;
   if (!hasKV) return null;
   const mod = await import("@vercel/kv");
@@ -456,16 +462,25 @@ export async function saveSurveillance(snapshot) {
     }
   }
 
-  const kv = await getKVClient();
-  if (kv) {
-    await kv.set(KV_SURVEILLANCE_KEY, snapshot);
-    _cached = snapshot;
-    _cachedSource = "kv";
-    return { status: "saved", target: "kv" };
-  }
+  // Always write the on-disk snapshot. surveillance.json is BOTH the artifact
+  // the nightly commits (Vercel deploys the file) AND the freshness input the
+  // publish health gate reads (scripts/check-snapshot-health.mjs, disk-only).
+  // KV is an additional prod hot-read cache, never a substitute for disk.
+  //
+  // Writing ONLY to KV when creds are present (as this did before) froze
+  // surveillance.json on disk from 2026-07-08 — when KV creds landed in .env —
+  // and the nightly's health gate hard-failed 7 days later (2026-07-15,
+  // hardFailHours=168), withholding the whole SWS rescan. Disk-first mirrors
+  // the fundamentals pipeline and is the one pattern the gate can rely on.
   writeFileSync(SURVEILLANCE_PATH, JSON.stringify(snapshot, null, 2));
   _cached = snapshot;
   _cachedSource = "disk";
+
+  const kv = await getKVClient();
+  if (kv) {
+    await kv.set(KV_SURVEILLANCE_KEY, snapshot);
+    return { status: "saved", target: "kv+disk", path: SURVEILLANCE_PATH };
+  }
   return { status: "saved", target: "disk", path: SURVEILLANCE_PATH };
 }
 
@@ -566,6 +581,13 @@ export function _resetSurveillanceCacheForTests() {
 export function _setSurveillanceCacheForTests(snapshot, source = "test") {
   _cached = snapshot;
   _cachedSource = source;
+}
+
+// Inject a fake KV client (or null) so tests can exercise the KV-present save
+// path without real @vercel/kv creds. Pass `undefined` to restore env-based
+// resolution. Lets the disk-write regression assert both sinks receive the snapshot.
+export function _setKVClientForTests(client) {
+  _kvClientOverride = client;
 }
 
 export const _surveillanceParserForTests = {

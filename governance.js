@@ -105,7 +105,12 @@ export const KV_GOVERNANCE_KEY = "governance:snapshot";
 let _cached = null;
 let _cachedSource = null;
 
+// `undefined` = not overridden (read env); any other value (client or null) is
+// returned verbatim so tests can exercise the KV-present save path hermetically.
+let _kvClientOverride;
+
 async function getKVClient() {
+  if (_kvClientOverride !== undefined) return _kvClientOverride;
   const hasKV = !!process.env.KV_REST_API_URL && !!process.env.KV_REST_API_TOKEN;
   if (!hasKV) return null;
   const mod = await import("@vercel/kv");
@@ -472,16 +477,20 @@ export async function saveGovernance(snapshot) {
     // payload so the diagnostics surface tells the truth about the failure.
   }
 
-  const kv = await getKVClient();
-  if (kv) {
-    await kv.set(KV_GOVERNANCE_KEY, snapshot);
-    _cached = snapshot;
-    _cachedSource = "kv";
-    return { target: "kv" };
-  }
+  // Always write disk. governance.json is both the committed/deployed artifact
+  // and the health-gate freshness input (check-snapshot-health.mjs, disk-only);
+  // KV is an additional prod hot-read cache, never a substitute. Writing KV-only
+  // when creds are present freezes the disk file — the exact failure that took
+  // out surveillance.json on 2026-07-15. Disk-first mirrors the fundamentals pipeline.
   writeFileSync(GOVERNANCE_PATH, JSON.stringify(snapshot, null, 2));
   _cached = snapshot;
   _cachedSource = "disk";
+
+  const kv = await getKVClient();
+  if (kv) {
+    await kv.set(KV_GOVERNANCE_KEY, snapshot);
+    return { target: "kv+disk", path: GOVERNANCE_PATH };
+  }
   return { target: "disk", path: GOVERNANCE_PATH };
 }
 
@@ -551,6 +560,13 @@ export function getGovernance(symbol) {
 export function _resetGovernanceCacheForTests() {
   _cached = null;
   _cachedSource = null;
+}
+
+// TEST-ONLY: inject a fake KV client (or null) so the KV-present save path can
+// be exercised without real @vercel/kv creds. Pass `undefined` to restore
+// env-based resolution.
+export function _setKVClientForTests(client) {
+  _kvClientOverride = client;
 }
 
 /**

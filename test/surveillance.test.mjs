@@ -49,6 +49,7 @@ const {
   saveSurveillance,
   _resetSurveillanceCacheForTests,
   _setSurveillanceCacheForTests,
+  _setKVClientForTests,
   _surveillanceParserForTests,
 } = await import("../surveillance.js");
 
@@ -234,6 +235,37 @@ await it("normal non-empty snapshot writes to disk and updates status totals", a
   const status = getSurveillanceStatus();
   assert.equal(status.total, 2);
   assert.equal(status.counts.ASM, 2);
+});
+
+await it("writes disk EVEN when KV is configured — mirrors both, never KV-only (2026-07-15 gate regression)", async () => {
+  // Regression for the nightly outage: when KV creds are present the old
+  // saveSurveillance short-circuited to KV and never touched surveillance.json,
+  // so the disk-only health gate saw a frozen file and hard-failed after 168h.
+  // The disk write is what the gate + the committed artifact depend on.
+  seedDisk(snap({ fetchedAt: "2026-07-08T00:00:00.000Z", symbols: ["FROZEN.NS"] }));
+
+  const kvStore = new Map();
+  _setKVClientForTests({
+    set: async (key, value) => { kvStore.set(key, value); },
+    get: async (key) => kvStore.get(key) ?? null,
+  });
+  try {
+    const result = await saveSurveillance(
+      snap({ fetchedAt: "2026-07-15T02:30:00.000Z", symbols: ["FRESH1.NS", "FRESH2.NS"] }),
+    );
+
+    // Disk must be updated to the fresh snapshot — this is the assertion that
+    // fails against the buggy KV-only path.
+    const onDisk = JSON.parse(fs.readFileSync(REAL_FILE, "utf-8"));
+    assert.equal(onDisk.fetchedAt, "2026-07-15T02:30:00.000Z");
+    assert.equal(Object.keys(onDisk.flagged).length, 2);
+    assert.equal(onDisk.flagged["FROZEN.NS"], undefined);
+    // KV must also receive it (prod hot-read cache), and the target reflects both.
+    assert.equal(result.target, "kv+disk");
+    assert.equal(kvStore.get("surveillance:snapshot")?.fetchedAt, "2026-07-15T02:30:00.000Z");
+  } finally {
+    _setKVClientForTests(undefined);
+  }
 });
 
 // A REG_IND fallback that always fails — injected so the primary-failure
