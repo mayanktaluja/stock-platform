@@ -1,29 +1,29 @@
 {
   "schema_version": "earnings-health-v1",
-  "generated_at": "2026-07-15T02:25:57.054Z",
+  "generated_at": "2026-07-15T17:19:47.967Z",
   "resolved": {
     "count": 458,
-    "delta_vs_prior": 5,
-    "prior_count": 453
+    "delta_vs_prior": 0,
+    "prior_count": 458
   },
   "llm_providers": {
-    "groq": 1,
+    "groq": 0,
     "gemini": 0,
-    "heuristic": 313,
+    "heuristic": 338,
     "none": 1,
-    "total": 315
+    "total": 339
   },
   "llm_offline": false,
-  "llm_heuristic_share_pct": 75,
+  "llm_heuristic_share_pct": 61,
   "llm_stats": {
-    "total": 315,
-    "classified": 314,
-    "cache_hits": 48,
-    "llm_calls": 20,
-    "heuristic": 265,
-    "heuristic_cache_invalidations": 2,
+    "total": 339,
+    "classified": 338,
+    "cache_hits": 96,
+    "llm_calls": 19,
+    "heuristic": 242,
+    "heuristic_cache_invalidations": 0,
     "cross_floor_invalidations": 0,
-    "below_v3_floor": 113,
+    "below_v3_floor": 91,
     "composite_floor": 47,
     "llm_available": true,
     "skip_llm": false
@@ -31,7 +31,7 @@
   "cap_lift_gate": {
     "state": false,
     "enough_data_to_lift_cap": false,
-    "days_in_current_state": 64,
+    "days_in_current_state": 65,
     "current_resolved": 0,
     "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (458 across all versions)",
     "detail": {
@@ -94,7 +94,7 @@
       "gate": {
         "state": false,
         "enough_data_to_lift_cap": false,
-        "days_in_current_state": 64,
+        "days_in_current_state": 65,
         "current_resolved": 0,
         "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (458 across all versions)",
         "detail": {
@@ -169,7 +169,7 @@
     "earnings-history-v5": 51
   },
   "predictor_versions": {
-    "earnings-predict-v3-2026-05": 315
+    "earnings-predict-v3-2026-05": 339
   },
   "restatements": {
     "count": 0,
@@ -190,10 +190,10 @@
   },
   "macro_regime": {
     "present": true,
-    "generated_at": "2026-07-14T18:47:55.603Z",
-    "age_hours": 8,
+    "generated_at": "2026-07-15T10:30:23.164Z",
+    "age_hours": 7,
     "classifier_provider": "groq",
-    "regime": "OIL_SHOCK",
+    "regime": "CALM",
     "stale": false,
     "alert": null
   },
@@ -205,19 +205,19 @@
   "history_files": 51,
   "hit_rate_summary": {
     "schema_version": "hit-rate-summary-v1",
-    "generated_at": "2026-07-15T02:25:57.324Z",
+    "generated_at": "2026-07-15T17:19:48.031Z",
     "resolved_count": 361,
-    "unresolved_count": 1672,
+    "unresolved_count": 1696,
     "strict": {
       "hit_rate_pct": 35.7,
-      "ci_low_pct": 30.7,
+      "ci_low_pct": 31,
       "ci_high_pct": 40.4,
       "sample_size": 361
     },
     "lenient": {
       "hit_rate_pct": 81.9,
       "ci_low_pct": 78.1,
-      "ci_high_pct": 85.8,
+      "ci_high_pct": 85.6,
       "sample_size": 360
     },
     "catastrophic": {
@@ -235,7 +235,8 @@
     "catastrophic_alert_threshold_pct": 12
   },
   "alerts": [
-    "LLM heuristic share (above V3 floor): 152/202 = 75% (threshold 20%; 113 below-floor skips excluded by design) — LLM tier may be failing on eligible events; check earningsLlmSignal.js logs",
+    "LLM signal is 100% heuristic (338/339) — GROQ_API_KEY / GEMINI_API_KEY likely not configured on the refresh host, OR every cached entry is from a no-keys run and the cache hasn't been re-classified (try `node scripts/refresh-earnings.mjs --purge-heuristic-cache --yes` followed by a refresh)",
+    "LLM heuristic share (above V3 floor): 151/248 = 61% (threshold 20%; 91 below-floor skips excluded by design) — LLM tier may be failing on eligible events; check earningsLlmSignal.js logs",
     "Catastrophic rate alert: rolling-30 13.3% (4/30) exceeds 12% threshold — Risk Lab promotion gate cannot clear"
   ],
   "healthy": false
