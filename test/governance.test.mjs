@@ -67,6 +67,7 @@ const {
   saveGovernance,
   getGovernanceSnapshot,
   _resetGovernanceCacheForTests,
+  _setKVClientForTests,
 } = await import("../governance.js");
 
 let pass = 0, fail = 0;
@@ -300,6 +301,31 @@ await it("full ok=744/total=744 healthy snapshot IS written", async () => {
   assert.equal(result.skipped, undefined);
   const onDisk = JSON.parse(fs.readFileSync(REAL_FILE, "utf-8"));
   assert.equal(onDisk.counts.ok, 744);
+});
+
+await it("writes disk EVEN when KV is configured — mirrors both, never KV-only (twin of the surveillance gate regression)", async () => {
+  // governance.json is a disk-only health-gate input + committed artifact, same
+  // as surveillance.json. A KV-only save would freeze the disk file and (given
+  // enough time) hard-fail the nightly. Assert both sinks get the fresh snapshot.
+  seedDisk(snap(150, 500, "2026-07-08T00:00:00.000Z"));
+
+  const kvStore = new Map();
+  _setKVClientForTests({
+    set: async (key, value) => { kvStore.set(key, value); },
+    get: async (key) => kvStore.get(key) ?? null,
+  });
+  try {
+    const result = await saveGovernance(snap(744, 744, "2026-07-15T02:30:00.000Z"));
+
+    const onDisk = JSON.parse(fs.readFileSync(REAL_FILE, "utf-8"));
+    assert.equal(onDisk.fetchedAt, "2026-07-15T02:30:00.000Z");
+    assert.equal(onDisk.counts.ok, 744);
+    assert.equal(result.target, "kv+disk");
+    const inKv = [...kvStore.values()][0];
+    assert.equal(inKv?.fetchedAt, "2026-07-15T02:30:00.000Z");
+  } finally {
+    _setKVClientForTests(undefined);
+  }
 });
 
 // ── (d) saveGovernance side-effect: outage WRITES when no existing
