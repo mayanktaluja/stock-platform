@@ -416,6 +416,11 @@ function parseArgs(argv) {
     universe: DEFAULT_UNIVERSE_PATH,
     maxAgeDays: 1,
     staleGraceDays: 3,
+    // P/E-alias stale grace: how old the last-good groww-pe-latest.json may be and
+    // still be preserved when a fresh fetch's P/E collapses to zero. Defaults to 21
+    // to match sws-sanity-gate.mjs GROWW_PE_STALE_GRACE_DAYS, so an ad-hoc run stays
+    // consistent with the gate even when --stale-grace-days (stock) is left at 3.
+    peStaleGraceDays: 21,
     concurrency: 6,
     retries: 2,
     timeoutMs: 15000,
@@ -437,6 +442,7 @@ function parseArgs(argv) {
     else if (arg === "--universe") opts.universe = path.resolve(argv[++i]);
     else if (arg === "--max-age-days") opts.maxAgeDays = Number(argv[++i]);
     else if (arg === "--stale-grace-days") opts.staleGraceDays = Number(argv[++i]);
+    else if (arg === "--pe-stale-grace-days") opts.peStaleGraceDays = Number(argv[++i]);
     else if (arg === "--concurrency") opts.concurrency = Number(argv[++i]);
     else if (arg === "--retries") opts.retries = Number(argv[++i]);
     else if (arg === "--timeout-ms") opts.timeoutMs = Number(argv[++i]);
@@ -590,7 +596,7 @@ async function refreshCache(opts) {
   return cache;
 }
 
-function buildPeAliasCache(cache) {
+export function buildPeAliasCache(cache) {
   const byTicker = {};
   const source = cache?.by_ticker || {};
   let usableCount = 0;
@@ -657,9 +663,46 @@ function writeFailureReports(opts, report) {
   }
 }
 
-function writeCacheOutputs(opts, cache) {
+// Is the on-disk P/E alias good enough to keep instead of clobbering it with a
+// zero-usable fresh fetch? True iff it has usable P/E rows AND is still within the
+// caller's stale grace. Pure — the temporal input is `now` so tests can pin it.
+export function peAliasPreservable(peAlias, staleGraceDays, now = Date.now()) {
+  if (!peAlias || typeof peAlias !== "object") return false;
+  const usable = Number(peAlias.coverage?.usable_count ?? 0);
+  if (!(usable > 0)) return false; // nothing worth keeping
+  const fetchedMs = Date.parse(peAlias.fetched_at || "");
+  if (!Number.isFinite(fetchedMs)) return false; // undatable → cannot prove freshness
+  return (now - fetchedMs) / 86400000 <= staleGraceDays;
+}
+
+// The stock cache always ships fresh (we only reach here once its coverage cleared
+// the floor). The P/E ALIAS gets a guard the stock cache lacks: when a schema break
+// nulls every peRatio (cache.coverage.pe_usable_count === 0) but stock scraping is
+// otherwise healthy, overwriting groww-pe-latest.json with a 0-usable file would
+// destroy the last-good P/E and defeat sws-sanity-gate.mjs's 21-day stale-grace net
+// (which passes the groww_pe block only via staleFallbackUsable at ~11% steady-state
+// coverage). So on a total P/E collapse we preserve the existing in-grace alias
+// untouched — keeping its real fetched_at so the grace still counts down — rather
+// than rebuild it from `cache` (whose stock cache was itself just overwritten with
+// null P/E). Returns whether the alias was preserved so main() can report it.
+export function writeCacheOutputs(opts, cache) {
   writeJsonAtomic(opts.out, cache);
-  if (opts.peOut) writeJsonAtomic(opts.peOut, buildPeAliasCache(cache));
+  if (!opts.peOut) return { pePreserved: false };
+
+  const freshPeUsable = Number(cache?.coverage?.pe_usable_count ?? 0);
+  if (freshPeUsable === 0) {
+    const existingPe = readJson(opts.peOut);
+    if (peAliasPreservable(existingPe, opts.peStaleGraceDays)) {
+      return {
+        pePreserved: true,
+        preservedFrom: existingPe.fetched_at || null,
+        preservedUsable: existingPe.coverage?.usable_count ?? null,
+      };
+    }
+  }
+
+  writeJsonAtomic(opts.peOut, buildPeAliasCache(cache));
+  return { pePreserved: false };
 }
 
 async function main() {
@@ -735,10 +778,19 @@ async function main() {
   if (opts.dryRun) {
     console.log(`[groww-stock] dry-run: would write ${opts.out}`);
   } else {
-    writeCacheOutputs(opts, cache);
+    const peResult = writeCacheOutputs(opts, cache);
     writeFailureReports(opts, {
-      status: "ok",
+      status: peResult.pePreserved ? "ok_pe_collapse_preserved_stale_pe_alias" : "ok",
       coverage: cache.coverage,
+      ...(peResult.pePreserved
+        ? {
+            pe_alias_preserved: {
+              fetched_at: peResult.preservedFrom,
+              usable_count: peResult.preservedUsable,
+              fresh_pe_usable_count: cache.coverage.pe_usable_count,
+            },
+          }
+        : {}),
       missing: {
         unmapped_count: cache.missing.unmapped.length,
         fetch_failed_count: cache.missing.fetch_failed.length,
@@ -746,6 +798,9 @@ async function main() {
         fetch_failed_sample: cache.missing.fetch_failed.slice(0, 10),
       },
     });
+    if (peResult.pePreserved) {
+      console.warn(`[groww-stock] P/E collapse: fresh pe_usable=0; preserved last-good pe alias (${peResult.preservedFrom}, usable=${peResult.preservedUsable}) — stock cache shipped fresh, groww-pe-latest.json untouched`);
+    }
   }
   console.log(`[groww-stock] cache ${opts.dryRun ? "validated" : "written"}: usable=${cache.coverage.usable_count}/${cache.coverage.target_count}, coverage=${cache.coverage.coverage_pct}%, pe=${cache.coverage.pe_coverage_pct}%`);
 }
