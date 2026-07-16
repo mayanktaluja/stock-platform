@@ -5,12 +5,17 @@
  */
 
 import assert from "node:assert/strict";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
 import {
   parseGrowwNextData,
   parseGrowwScreenerRecords,
   isCacheFresh,
   isCacheUsable,
   buildTickerMap,
+  writeCacheOutputs,
+  peAliasPreservable,
 } from "../scripts/groww-pe-refresh.mjs";
 
 let pass = 0, fail = 0;
@@ -235,6 +240,126 @@ check("cache freshness respects TTL and force-stale grace helper", () => {
   assert.equal(isCacheFresh(staleButUsable, now, 7), false);
   assert.equal(isCacheUsable(staleButUsable, now, 21), true);
   assert.equal(isCacheUsable(ancient, now, 21), false);
+});
+
+// ---------------------------------------------------------------------------
+// P/E last-good preservation (writeCacheOutputs + peAliasPreservable).
+//
+// Regression coverage for the 2026-07-14 Groww schema break: when peRatio parses
+// to 0% but stock scraping stays healthy, the fresh 0-usable P/E alias must NOT
+// clobber the last-good groww-pe-latest.json — else sws-sanity-gate.mjs's 21-day
+// stale-grace net (staleFallbackUsable) has no input to fall back on and hard-
+// blocks the whole nightly rescan. writeCacheOutputs is synchronous, so these run
+// against a throwaway temp dir with no async.
+// ---------------------------------------------------------------------------
+const DAY_MS = 86400000;
+
+// A groww-stock-v1 cache as refreshCache() builds it: `peUsable` tickers carry a
+// valid peRatio+industryPe, plus one all-null ticker so buildPeAliasCache always
+// has at least one row even at peUsable=0.
+function makeStockCache({ fetchedAt, peUsable }) {
+  const by_ticker = { NULLPE: { peRatio: null, industryPe: null, epsTtm: null, nseScriptCode: "NULLPE" } };
+  for (let i = 0; i < peUsable; i++) {
+    by_ticker["T" + i] = { peRatio: 20 + i, industryPe: 18, epsTtm: 5, nseScriptCode: "T" + i };
+  }
+  return {
+    schema_version: "groww-stock-v1",
+    source: "groww_refinitiv",
+    fetched_at: fetchedAt,
+    coverage: {
+      target_count: 5500,
+      usable_count: Object.keys(by_ticker).length,
+      coverage_pct: 100,
+      pe_usable_count: peUsable,
+      pe_coverage_pct: peUsable,
+    },
+    by_ticker,
+    missing: { unmapped: [], fetch_failed: [] },
+  };
+}
+
+// Seed an on-disk groww-pe-v1 alias (the last-good file writeCacheOutputs reads).
+function writeAlias(file, { fetchedAt, usable }) {
+  const by_ticker = {};
+  for (let i = 0; i < usable; i++) by_ticker["T" + i] = { peRatio: 20 + i, industryPe: 18 };
+  fs.writeFileSync(file, JSON.stringify({
+    schema_version: "groww-pe-v1",
+    source: "groww_refinitiv",
+    fetched_at: fetchedAt,
+    coverage: { target_count: 5500, usable_count: usable, coverage_pct: usable },
+    by_ticker,
+    missing: { unmapped: [], fetch_failed: [] },
+  }));
+}
+
+function withTmp(fn) {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "groww-pe-"));
+  const opts = { out: path.join(dir, "stock.json"), peOut: path.join(dir, "pe.json"), peStaleGraceDays: 21 };
+  try { fn(opts); }
+  finally { fs.rmSync(dir, { recursive: true, force: true }); }
+}
+
+check("P/E collapse + healthy in-grace alias → alias preserved untouched, stock ships fresh", () => {
+  withTmp((opts) => {
+    const seededAt = new Date(Date.now() - 3 * DAY_MS).toISOString(); // 3d old, within 21d grace
+    writeAlias(opts.peOut, { fetchedAt: seededAt, usable: 621 });
+    const res = writeCacheOutputs(opts, makeStockCache({ fetchedAt: new Date().toISOString(), peUsable: 0 }));
+    assert.equal(res.pePreserved, true, "should report preservation");
+    assert.equal(res.preservedUsable, 621);
+    const pe = JSON.parse(fs.readFileSync(opts.peOut, "utf-8"));
+    assert.equal(pe.coverage.usable_count, 621, "last-good P/E kept");
+    assert.equal(pe.fetched_at, seededAt, "fetched_at untouched so grace keeps counting down");
+    const stock = JSON.parse(fs.readFileSync(opts.out, "utf-8"));
+    assert.equal(stock.coverage.pe_usable_count, 0, "stock cache still shipped fresh");
+  });
+});
+
+check("P/E collapse + NO usable existing alias → no resurrection (fresh 0-usable written)", () => {
+  // (i) alias file absent entirely
+  withTmp((opts) => {
+    const res = writeCacheOutputs(opts, makeStockCache({ fetchedAt: new Date().toISOString(), peUsable: 0 }));
+    assert.equal(res.pePreserved, false);
+    const pe = JSON.parse(fs.readFileSync(opts.peOut, "utf-8"));
+    assert.equal(pe.coverage.usable_count, 0, "nothing invented when there was no good cache");
+  });
+  // (ii) alias present but already 0-usable
+  withTmp((opts) => {
+    writeAlias(opts.peOut, { fetchedAt: new Date(Date.now() - 2 * DAY_MS).toISOString(), usable: 0 });
+    const res = writeCacheOutputs(opts, makeStockCache({ fetchedAt: new Date().toISOString(), peUsable: 0 }));
+    assert.equal(res.pePreserved, false);
+    assert.equal(JSON.parse(fs.readFileSync(opts.peOut, "utf-8")).coverage.usable_count, 0);
+  });
+});
+
+check("healthy fresh P/E → normal overwrite still happens (fresh wins over old alias)", () => {
+  withTmp((opts) => {
+    writeAlias(opts.peOut, { fetchedAt: new Date(Date.now() - 5 * DAY_MS).toISOString(), usable: 621 });
+    const freshAt = new Date().toISOString();
+    const res = writeCacheOutputs(opts, makeStockCache({ fetchedAt: freshAt, peUsable: 300 }));
+    assert.equal(res.pePreserved, false);
+    const pe = JSON.parse(fs.readFileSync(opts.peOut, "utf-8"));
+    assert.equal(pe.coverage.usable_count, 300, "fresh P/E overwrote the old alias");
+    assert.equal(pe.fetched_at, freshAt);
+  });
+});
+
+check("P/E collapse + existing alias older than grace → NOT preserved (gate should block)", () => {
+  withTmp((opts) => {
+    writeAlias(opts.peOut, { fetchedAt: new Date(Date.now() - 30 * DAY_MS).toISOString(), usable: 621 });
+    const res = writeCacheOutputs(opts, makeStockCache({ fetchedAt: new Date().toISOString(), peUsable: 0 }));
+    assert.equal(res.pePreserved, false, "expired grace must not resurrect a 30d-old cache");
+    assert.equal(JSON.parse(fs.readFileSync(opts.peOut, "utf-8")).coverage.usable_count, 0);
+  });
+});
+
+check("peAliasPreservable predicate — usable/grace/datability boundaries", () => {
+  const NOW = Date.parse("2026-07-16T00:00:00.000Z");
+  const at = (days) => new Date(NOW - days * DAY_MS).toISOString();
+  assert.equal(peAliasPreservable({ coverage: { usable_count: 0 }, fetched_at: at(1) }, 21, NOW), false, "0 usable → false");
+  assert.equal(peAliasPreservable({ coverage: { usable_count: 621 }, fetched_at: at(20) }, 21, NOW), true, "20d < 21 grace → true");
+  assert.equal(peAliasPreservable({ coverage: { usable_count: 621 }, fetched_at: at(22) }, 21, NOW), false, "22d > 21 grace → false");
+  assert.equal(peAliasPreservable(null, 21, NOW), false, "null → false");
+  assert.equal(peAliasPreservable({ coverage: { usable_count: 621 }, fetched_at: "garbage" }, 21, NOW), false, "undatable → false");
 });
 
 console.log(`\n${pass} pass, ${fail} fail`);
