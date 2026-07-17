@@ -1,19 +1,23 @@
 {
   "schema_version": "macro-thesis-v1",
-  "generated_at": "2026-07-14T02:07:40.938Z",
+  "generated_at": "2026-07-17T02:45:46.756Z",
   "regime": {
-    "regime": "CURRENCY_WEAKNESS",
-    "severity": 2,
-    "confidence": 0.3675,
-    "label": "Currency Weakness",
-    "generated_at": "2026-07-13T18:30:29.255Z",
+    "regime": "OIL_SHOCK",
+    "severity": 4,
+    "confidence": 0.78,
+    "label": "Oil Shock",
+    "generated_at": "2026-07-16T18:30:21.884Z",
     "days_in_state": 0,
     "stale": false,
-    "reasoning": "1 of 40 recent headlines fit a \"Currency Weakness\" pattern (keyword-based read; switch happens automatically when full classifiers refresh).",
+    "reasoning": "West Asia conflict spikes oil prices, hits INR and Indian equities",
     "key_events": [
-      "Thomas Cook launches Zero Markup Forex Card"
+      "Chevron and Iraq seek to bypass Strait of Hormuz with Syria pipeline (FT Markets)",
+      "Russian strikes threaten Ukraine’s Black Sea grain trade (FT Markets)",
+      "Oil price surge derails FPI return to Indian equities amid West Asia crisis (Business Standard)",
+      "INR lingers near record low levels amid volatility in global crude oil prices (Business Standard)",
+      "Fed's Logan calls for 'modestly higher' interest rates (Economic Times)"
     ],
-    "classifier_provider": "heuristic",
+    "classifier_provider": "groq",
     "source_health": {
       "RBI Press": "blocked",
       "SEBI Press": "ok",
@@ -38,191 +42,169 @@
     },
     "sector_impacts": [
       {
-        "sector": "IT Services",
-        "impact": 3,
-        "reason": "Weak rupee inflates USD revenue in INR"
-      },
-      {
-        "sector": "Pharma",
-        "impact": 2,
-        "reason": "Dollar exporters benefit"
-      },
-      {
         "sector": "Oil & Gas",
+        "impact": 3,
+        "reason": "Higher crude prices boost revenues"
+      },
+      {
+        "sector": "Energy",
+        "impact": 2,
+        "reason": "Energy demand and storage projects gain from price surge"
+      },
+      {
+        "sector": "Metals",
         "impact": -2,
-        "reason": "Higher import costs for crude"
+        "reason": "Rising energy costs squeeze margins"
+      },
+      {
+        "sector": "Automobile",
+        "impact": -2,
+        "reason": "Higher fuel and input costs pressure sales"
+      },
+      {
+        "sector": "FMCG",
+        "impact": -1,
+        "reason": "Inflation erodes consumer spending"
       }
     ]
   },
-  "catalyst_proximity_days": 16,
+  "catalyst_proximity_days": 13,
   "upcoming_catalysts": [
     {
       "date": "2026-07-30",
       "kind": "FOMC",
       "label": "US FOMC Meeting — July 2026",
       "severity_potential": 3,
-      "days_until": 16
+      "days_until": 13
     },
     {
       "date": "2026-08-06",
       "kind": "RBI_MPC",
       "label": "RBI Monetary Policy Committee — August 2026",
       "severity_potential": 3,
-      "days_until": 23
+      "days_until": 20
+    },
+    {
+      "date": "2026-08-15",
+      "kind": "INDIA_INDEPENDENCE",
+      "label": "Indian Independence Day (PM address)",
+      "severity_potential": 1,
+      "days_until": 29
     }
   ],
   "position_cap_pct": 10,
   "branches": [
     {
       "key": "continue",
-      "label": "CURRENCY_WEAKNESS continues at current severity",
-      "probability": 0.58,
+      "label": "OIL_SHOCK continues at current severity",
+      "probability": 0.55,
       "duration_days": 14,
       "n_analogs": 0,
       "indeterminate": true,
       "beneficiaries": [
         {
           "sector_index_key": null,
-          "sector_label": "Software",
-          "sector_bucket": "Software",
+          "sector_label": "Energy",
+          "sector_bucket": "Energy",
           "expected_return_pct": null,
-          "template_delta": 2,
+          "template_delta": 3,
           "n_analogs": 0,
           "source": "template",
           "direction": "BENEFICIARY",
           "stock_candidates": {
-            "sector": "Software",
-            "candidates_total": 95,
-            "passed_filters": 30,
-            "excluded_conglomerates": [],
+            "sector": "Energy",
+            "candidates_total": 23,
+            "passed_filters": 10,
+            "excluded_conglomerates": [
+              "RELIANCE"
+            ],
             "stocks": [
               {
-                "ticker": "EXCELSOFT",
-                "name": "Excelsoft Technologies Limited",
-                "sector": "Software",
-                "v4_score_100": 73.7,
-                "composite_score": 58,
+                "ticker": "DEEPINDS",
+                "name": "Deep Industries Limited",
+                "sector": "Energy",
+                "v4_score_100": 58.8,
+                "composite_score": 43.6,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 61.1,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "RSYSTEMS",
-                "name": "R Systems International Limited",
-                "sector": "Software",
-                "v4_score_100": 69.1,
-                "composite_score": 49,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 64.4,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "ZAGGLE",
-                "name": "Zaggle Prepaid Ocean Services Limited",
-                "sector": "Software",
-                "v4_score_100": 67.8,
-                "composite_score": 48.8,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 97.4,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "BLACKBUCK",
-                "name": "BlackBuck Limited",
-                "sector": "Software",
-                "v4_score_100": 62.8,
-                "composite_score": 48.8,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 22.6,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "UNIECOM",
-                "name": "Unicommerce eSolutions Limited",
-                "sector": "Software",
-                "v4_score_100": 52.2,
-                "composite_score": 48.2,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 45.2,
+                "upside_pct": 37,
                 "verdict": "STRONG"
+              },
+              {
+                "ticker": "CHENNPETRO",
+                "name": "Chennai Petroleum Corporation Limited",
+                "sector": "Energy",
+                "v4_score_100": 81.4,
+                "composite_score": 41.2,
+                "valuation_band": "FAIR",
+                "upside_pct": 1.9,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "ONGC",
+                "name": "Oil and Natural Gas Corporation Limited",
+                "sector": "Energy",
+                "v4_score_100": 57.7,
+                "composite_score": 38.5,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 23.9,
+                "verdict": "STRONG"
+              },
+              {
+                "ticker": "AEGISLOG",
+                "name": "Aegis Logistics Limited",
+                "sector": "Energy",
+                "v4_score_100": 54.3,
+                "composite_score": 29.9,
+                "valuation_band": "PREMIUM",
+                "upside_pct": -17.6,
+                "verdict": "STRONG"
+              },
+              {
+                "ticker": "GESHIP",
+                "name": "The Great Eastern Shipping Company Limited",
+                "sector": "Energy",
+                "v4_score_100": 60.5,
+                "composite_score": 27.2,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 37.9,
+                "verdict": "TOP_PICK"
               }
             ]
           }
         },
         {
           "sector_index_key": null,
-          "sector_label": "Pharmaceuticals",
-          "sector_bucket": "Pharmaceuticals",
+          "sector_label": "Consumer Staples",
+          "sector_bucket": "Consumer Staples",
           "expected_return_pct": null,
           "template_delta": 1,
           "n_analogs": 0,
           "source": "template",
           "direction": "BENEFICIARY",
           "stock_candidates": {
-            "sector": "Pharmaceuticals",
-            "candidates_total": 77,
-            "passed_filters": 28,
+            "sector": "Consumer Staples",
+            "candidates_total": 0,
+            "passed_filters": 0,
             "excluded_conglomerates": [],
-            "stocks": [
-              {
-                "ticker": "STAR",
-                "name": "Strides Pharma Science Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 80.7,
-                "composite_score": 49.3,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 24.6,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "SYNGENE",
-                "name": "Syngene International Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 50,
-                "composite_score": 44.3,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 33.1,
-                "verdict": "STRONG"
-              },
-              {
-                "ticker": "INDGN",
-                "name": "Indegene Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 63.8,
-                "composite_score": 41.1,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 18.3,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "PGHL",
-                "name": "Procter & Gamble Health Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 64.1,
-                "composite_score": 40.4,
-                "valuation_band": "FAIR",
-                "upside_pct": 9.8,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "ANTHEM",
-                "name": "Anthem Biosciences Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 59,
-                "composite_score": 38.8,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 17.6,
-                "verdict": "TOP_PICK"
-              }
-            ]
+            "stocks": []
           }
         }
       ],
       "losers": [
         {
           "sector_index_key": null,
-          "sector_label": "Energy",
-          "sector_bucket": "Energy",
+          "sector_label": "Automobiles",
+          "sector_bucket": "Automobiles",
+          "expected_return_pct": null,
+          "template_delta": -2,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Software",
+          "sector_bucket": "Software",
           "expected_return_pct": null,
           "template_delta": -1,
           "n_analogs": 0,
@@ -231,8 +213,8 @@
         },
         {
           "sector_index_key": null,
-          "sector_label": "Consumer Staples",
-          "sector_bucket": "Consumer Staples",
+          "sector_label": "Real Estate",
+          "sector_bucket": "Real Estate",
           "expected_return_pct": null,
           "template_delta": -1,
           "n_analogs": 0,
@@ -241,9 +223,9 @@
         }
       ],
       "reasoning": {
-        "modulator_applied": 1,
+        "modulator_applied": 1.15,
         "base_probability": 0.55,
-        "analog_pool_regime": "CURRENCY_WEAKNESS",
+        "analog_pool_regime": "OIL_SHOCK",
         "analog_warnings": [
           "n_analogs=0 < 3 — INDETERMINATE; do not act on these sector ranges",
           "only 0/15 sectors had data — partial analog"
@@ -253,154 +235,115 @@
     },
     {
       "key": "escalate",
-      "label": "CURRENCY_WEAKNESS escalates (severity +1)",
-      "probability": 0.11,
+      "label": "OIL_SHOCK escalates (severity +1)",
+      "probability": 0.18,
       "duration_days": 7,
       "n_analogs": 0,
       "indeterminate": true,
       "beneficiaries": [
         {
           "sector_index_key": null,
-          "sector_label": "Software",
-          "sector_bucket": "Software",
+          "sector_label": "Energy",
+          "sector_bucket": "Energy",
           "expected_return_pct": null,
-          "template_delta": 2,
+          "template_delta": 3,
           "n_analogs": 0,
           "source": "template",
           "direction": "BENEFICIARY",
           "stock_candidates": {
-            "sector": "Software",
-            "candidates_total": 95,
-            "passed_filters": 30,
-            "excluded_conglomerates": [],
+            "sector": "Energy",
+            "candidates_total": 23,
+            "passed_filters": 10,
+            "excluded_conglomerates": [
+              "RELIANCE"
+            ],
             "stocks": [
               {
-                "ticker": "EXCELSOFT",
-                "name": "Excelsoft Technologies Limited",
-                "sector": "Software",
-                "v4_score_100": 73.7,
-                "composite_score": 58,
+                "ticker": "DEEPINDS",
+                "name": "Deep Industries Limited",
+                "sector": "Energy",
+                "v4_score_100": 58.8,
+                "composite_score": 43.6,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 61.1,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "RSYSTEMS",
-                "name": "R Systems International Limited",
-                "sector": "Software",
-                "v4_score_100": 69.1,
-                "composite_score": 49,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 64.4,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "ZAGGLE",
-                "name": "Zaggle Prepaid Ocean Services Limited",
-                "sector": "Software",
-                "v4_score_100": 67.8,
-                "composite_score": 48.8,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 97.4,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "BLACKBUCK",
-                "name": "BlackBuck Limited",
-                "sector": "Software",
-                "v4_score_100": 62.8,
-                "composite_score": 48.8,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 22.6,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "UNIECOM",
-                "name": "Unicommerce eSolutions Limited",
-                "sector": "Software",
-                "v4_score_100": 52.2,
-                "composite_score": 48.2,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 45.2,
+                "upside_pct": 37,
                 "verdict": "STRONG"
+              },
+              {
+                "ticker": "CHENNPETRO",
+                "name": "Chennai Petroleum Corporation Limited",
+                "sector": "Energy",
+                "v4_score_100": 81.4,
+                "composite_score": 41.2,
+                "valuation_band": "FAIR",
+                "upside_pct": 1.9,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "ONGC",
+                "name": "Oil and Natural Gas Corporation Limited",
+                "sector": "Energy",
+                "v4_score_100": 57.7,
+                "composite_score": 38.5,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 23.9,
+                "verdict": "STRONG"
+              },
+              {
+                "ticker": "AEGISLOG",
+                "name": "Aegis Logistics Limited",
+                "sector": "Energy",
+                "v4_score_100": 54.3,
+                "composite_score": 29.9,
+                "valuation_band": "PREMIUM",
+                "upside_pct": -17.6,
+                "verdict": "STRONG"
+              },
+              {
+                "ticker": "GESHIP",
+                "name": "The Great Eastern Shipping Company Limited",
+                "sector": "Energy",
+                "v4_score_100": 60.5,
+                "composite_score": 27.2,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 37.9,
+                "verdict": "TOP_PICK"
               }
             ]
           }
         },
         {
           "sector_index_key": null,
-          "sector_label": "Pharmaceuticals",
-          "sector_bucket": "Pharmaceuticals",
+          "sector_label": "Consumer Staples",
+          "sector_bucket": "Consumer Staples",
           "expected_return_pct": null,
           "template_delta": 1,
           "n_analogs": 0,
           "source": "template",
           "direction": "BENEFICIARY",
           "stock_candidates": {
-            "sector": "Pharmaceuticals",
-            "candidates_total": 77,
-            "passed_filters": 28,
+            "sector": "Consumer Staples",
+            "candidates_total": 0,
+            "passed_filters": 0,
             "excluded_conglomerates": [],
-            "stocks": [
-              {
-                "ticker": "STAR",
-                "name": "Strides Pharma Science Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 80.7,
-                "composite_score": 49.3,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 24.6,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "SYNGENE",
-                "name": "Syngene International Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 50,
-                "composite_score": 44.3,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 33.1,
-                "verdict": "STRONG"
-              },
-              {
-                "ticker": "INDGN",
-                "name": "Indegene Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 63.8,
-                "composite_score": 41.1,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 18.3,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "PGHL",
-                "name": "Procter & Gamble Health Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 64.1,
-                "composite_score": 40.4,
-                "valuation_band": "FAIR",
-                "upside_pct": 9.8,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "ANTHEM",
-                "name": "Anthem Biosciences Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 59,
-                "composite_score": 38.8,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 17.6,
-                "verdict": "TOP_PICK"
-              }
-            ]
+            "stocks": []
           }
         }
       ],
       "losers": [
         {
           "sector_index_key": null,
-          "sector_label": "Energy",
-          "sector_bucket": "Energy",
+          "sector_label": "Automobiles",
+          "sector_bucket": "Automobiles",
+          "expected_return_pct": null,
+          "template_delta": -2,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Software",
+          "sector_bucket": "Software",
           "expected_return_pct": null,
           "template_delta": -1,
           "n_analogs": 0,
@@ -409,8 +352,8 @@
         },
         {
           "sector_index_key": null,
-          "sector_label": "Consumer Staples",
-          "sector_bucket": "Consumer Staples",
+          "sector_label": "Real Estate",
+          "sector_bucket": "Real Estate",
           "expected_return_pct": null,
           "template_delta": -1,
           "n_analogs": 0,
@@ -419,9 +362,9 @@
         }
       ],
       "reasoning": {
-        "modulator_applied": 0.7,
+        "modulator_applied": 1.4,
         "base_probability": 0.15,
-        "analog_pool_regime": "CURRENCY_WEAKNESS (severity +1)",
+        "analog_pool_regime": "OIL_SHOCK (severity +1)",
         "analog_warnings": [
           "n_analogs=0 < 3 — INDETERMINATE; do not act on these sector ranges",
           "only 0/15 sectors had data — partial analog"
@@ -431,15 +374,15 @@
     },
     {
       "key": "de_escalate",
-      "label": "CURRENCY_WEAKNESS de-escalates → CALM",
-      "probability": 0.21,
+      "label": "OIL_SHOCK de-escalates → CALM",
+      "probability": 0.15,
       "duration_days": 21,
       "n_analogs": 9,
       "indeterminate": false,
       "beneficiaries": [],
       "losers": [],
       "reasoning": {
-        "modulator_applied": 1,
+        "modulator_applied": 0.85,
         "base_probability": 0.2,
         "analog_pool_regime": "CALM",
         "analog_warnings": [
@@ -481,154 +424,115 @@
     },
     {
       "key": "new_shock",
-      "label": "New unrelated shock supersedes CURRENCY_WEAKNESS",
-      "probability": 0.1,
+      "label": "New unrelated shock supersedes OIL_SHOCK",
+      "probability": 0.12,
       "duration_days": 7,
       "n_analogs": 0,
       "indeterminate": false,
       "beneficiaries": [
         {
           "sector_index_key": null,
-          "sector_label": "Software",
-          "sector_bucket": "Software",
+          "sector_label": "Energy",
+          "sector_bucket": "Energy",
           "expected_return_pct": null,
-          "template_delta": 2,
+          "template_delta": 3,
           "n_analogs": 0,
           "source": "template",
           "direction": "BENEFICIARY",
           "stock_candidates": {
-            "sector": "Software",
-            "candidates_total": 95,
-            "passed_filters": 30,
-            "excluded_conglomerates": [],
+            "sector": "Energy",
+            "candidates_total": 23,
+            "passed_filters": 10,
+            "excluded_conglomerates": [
+              "RELIANCE"
+            ],
             "stocks": [
               {
-                "ticker": "EXCELSOFT",
-                "name": "Excelsoft Technologies Limited",
-                "sector": "Software",
-                "v4_score_100": 73.7,
-                "composite_score": 58,
+                "ticker": "DEEPINDS",
+                "name": "Deep Industries Limited",
+                "sector": "Energy",
+                "v4_score_100": 58.8,
+                "composite_score": 43.6,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 61.1,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "RSYSTEMS",
-                "name": "R Systems International Limited",
-                "sector": "Software",
-                "v4_score_100": 69.1,
-                "composite_score": 49,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 64.4,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "ZAGGLE",
-                "name": "Zaggle Prepaid Ocean Services Limited",
-                "sector": "Software",
-                "v4_score_100": 67.8,
-                "composite_score": 48.8,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 97.4,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "BLACKBUCK",
-                "name": "BlackBuck Limited",
-                "sector": "Software",
-                "v4_score_100": 62.8,
-                "composite_score": 48.8,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 22.6,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "UNIECOM",
-                "name": "Unicommerce eSolutions Limited",
-                "sector": "Software",
-                "v4_score_100": 52.2,
-                "composite_score": 48.2,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 45.2,
+                "upside_pct": 37,
                 "verdict": "STRONG"
+              },
+              {
+                "ticker": "CHENNPETRO",
+                "name": "Chennai Petroleum Corporation Limited",
+                "sector": "Energy",
+                "v4_score_100": 81.4,
+                "composite_score": 41.2,
+                "valuation_band": "FAIR",
+                "upside_pct": 1.9,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "ONGC",
+                "name": "Oil and Natural Gas Corporation Limited",
+                "sector": "Energy",
+                "v4_score_100": 57.7,
+                "composite_score": 38.5,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 23.9,
+                "verdict": "STRONG"
+              },
+              {
+                "ticker": "AEGISLOG",
+                "name": "Aegis Logistics Limited",
+                "sector": "Energy",
+                "v4_score_100": 54.3,
+                "composite_score": 29.9,
+                "valuation_band": "PREMIUM",
+                "upside_pct": -17.6,
+                "verdict": "STRONG"
+              },
+              {
+                "ticker": "GESHIP",
+                "name": "The Great Eastern Shipping Company Limited",
+                "sector": "Energy",
+                "v4_score_100": 60.5,
+                "composite_score": 27.2,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 37.9,
+                "verdict": "TOP_PICK"
               }
             ]
           }
         },
         {
           "sector_index_key": null,
-          "sector_label": "Pharmaceuticals",
-          "sector_bucket": "Pharmaceuticals",
+          "sector_label": "Consumer Staples",
+          "sector_bucket": "Consumer Staples",
           "expected_return_pct": null,
           "template_delta": 1,
           "n_analogs": 0,
           "source": "template",
           "direction": "BENEFICIARY",
           "stock_candidates": {
-            "sector": "Pharmaceuticals",
-            "candidates_total": 77,
-            "passed_filters": 28,
+            "sector": "Consumer Staples",
+            "candidates_total": 0,
+            "passed_filters": 0,
             "excluded_conglomerates": [],
-            "stocks": [
-              {
-                "ticker": "STAR",
-                "name": "Strides Pharma Science Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 80.7,
-                "composite_score": 49.3,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 24.6,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "SYNGENE",
-                "name": "Syngene International Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 50,
-                "composite_score": 44.3,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 33.1,
-                "verdict": "STRONG"
-              },
-              {
-                "ticker": "INDGN",
-                "name": "Indegene Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 63.8,
-                "composite_score": 41.1,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 18.3,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "PGHL",
-                "name": "Procter & Gamble Health Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 64.1,
-                "composite_score": 40.4,
-                "valuation_band": "FAIR",
-                "upside_pct": 9.8,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "ANTHEM",
-                "name": "Anthem Biosciences Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 59,
-                "composite_score": 38.8,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 17.6,
-                "verdict": "TOP_PICK"
-              }
-            ]
+            "stocks": []
           }
         }
       ],
       "losers": [
         {
           "sector_index_key": null,
-          "sector_label": "Energy",
-          "sector_bucket": "Energy",
+          "sector_label": "Automobiles",
+          "sector_bucket": "Automobiles",
+          "expected_return_pct": null,
+          "template_delta": -2,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Software",
+          "sector_bucket": "Software",
           "expected_return_pct": null,
           "template_delta": -1,
           "n_analogs": 0,
@@ -637,8 +541,8 @@
         },
         {
           "sector_index_key": null,
-          "sector_label": "Consumer Staples",
-          "sector_bucket": "Consumer Staples",
+          "sector_label": "Real Estate",
+          "sector_bucket": "Real Estate",
           "expected_return_pct": null,
           "template_delta": -1,
           "n_analogs": 0,
@@ -647,7 +551,7 @@
         }
       ],
       "reasoning": {
-        "modulator_applied": 1,
+        "modulator_applied": 1.4,
         "base_probability": 0.1,
         "analog_pool_regime": "n/a (new regime — projection suppressed by design)",
         "analog_warnings": [],
@@ -657,15 +561,14 @@
   ],
   "caveats": [
     "Position-sizing cap: max 10% of portfolio per thesis — multi-thesis diversification mandatory.",
-    "Regime confidence 37% — below the 60% high-conviction threshold; treat outlook as speculative.",
     "INDETERMINATE branches (n<3 analogs): continue, escalate — sector projections suppressed for these branches.",
     "Analog backtester is heuristic-seeded (~12 events); recommendations require user judgement, not auto-trading."
   ],
   "indeterminate": false,
   "audit": {
     "thesis_schema": "macro-thesis-v1",
-    "regime_generated_at": "2026-07-13T18:30:29.255Z",
-    "regime_classifier": "heuristic",
+    "regime_generated_at": "2026-07-16T18:30:21.884Z",
+    "regime_classifier": "groq",
     "scenario_engine_version": "scenario-prob-v1"
   }
 }
