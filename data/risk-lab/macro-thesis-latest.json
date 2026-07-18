@@ -1,21 +1,20 @@
 {
   "schema_version": "macro-thesis-v1",
-  "generated_at": "2026-07-17T02:45:46.756Z",
+  "generated_at": "2026-07-18T01:56:12.115Z",
   "regime": {
     "regime": "OIL_SHOCK",
-    "severity": 4,
+    "severity": 3,
     "confidence": 0.78,
     "label": "Oil Shock",
-    "generated_at": "2026-07-16T18:30:21.884Z",
+    "generated_at": "2026-07-17T18:30:16.166Z",
     "days_in_state": 0,
     "stale": false,
-    "reasoning": "West Asia conflict spikes oil prices, hits INR and Indian equities",
+    "reasoning": "Multiple recent headlines link oil price spikes and Middle East tension to market moves, dominating the news flow",
     "key_events": [
-      "Chevron and Iraq seek to bypass Strait of Hormuz with Syria pipeline (FT Markets)",
-      "Russian strikes threaten Ukraine’s Black Sea grain trade (FT Markets)",
-      "Oil price surge derails FPI return to Indian equities amid West Asia crisis (Business Standard)",
-      "INR lingers near record low levels amid volatility in global crude oil prices (Business Standard)",
-      "Fed's Logan calls for 'modestly higher' interest rates (Economic Times)"
+      "How long can oil markets absorb the Hormuz shock? (FT Markets)",
+      "India bonds sink on oil spike, index-entry uncertainty (Economic Times)",
+      "ConocoPhillips joins BP on redevelopment of supergiant Kirkuk oilfield (FT Markets)",
+      "Directors’ Deals: Middle East conflict casts shadow over Energean (FT Markets)"
     ],
     "classifier_provider": "groq",
     "source_health": {
@@ -44,52 +43,47 @@
       {
         "sector": "Oil & Gas",
         "impact": 3,
-        "reason": "Higher crude prices boost revenues"
+        "reason": "Higher crude prices boost earnings"
       },
       {
         "sector": "Energy",
         "impact": 2,
-        "reason": "Energy demand and storage projects gain from price surge"
+        "reason": "Oil price rally lifts sector outlook"
+      },
+      {
+        "sector": "Power",
+        "impact": -1,
+        "reason": "Rising fuel costs pressure margins"
       },
       {
         "sector": "Metals",
-        "impact": -2,
-        "reason": "Rising energy costs squeeze margins"
-      },
-      {
-        "sector": "Automobile",
-        "impact": -2,
-        "reason": "Higher fuel and input costs pressure sales"
-      },
-      {
-        "sector": "FMCG",
         "impact": -1,
-        "reason": "Inflation erodes consumer spending"
+        "reason": "Higher energy costs increase production expenses"
       }
     ]
   },
-  "catalyst_proximity_days": 13,
+  "catalyst_proximity_days": 12,
   "upcoming_catalysts": [
     {
       "date": "2026-07-30",
       "kind": "FOMC",
       "label": "US FOMC Meeting — July 2026",
       "severity_potential": 3,
-      "days_until": 13
+      "days_until": 12
     },
     {
       "date": "2026-08-06",
       "kind": "RBI_MPC",
       "label": "RBI Monetary Policy Committee — August 2026",
       "severity_potential": 3,
-      "days_until": 20
+      "days_until": 19
     },
     {
       "date": "2026-08-15",
       "kind": "INDIA_INDEPENDENCE",
       "label": "Indian Independence Day (PM address)",
       "severity_potential": 1,
-      "days_until": 29
+      "days_until": 28
     }
   ],
   "position_cap_pct": 10,
@@ -97,10 +91,10 @@
     {
       "key": "continue",
       "label": "OIL_SHOCK continues at current severity",
-      "probability": 0.55,
+      "probability": 0.53,
       "duration_days": 14,
-      "n_analogs": 0,
-      "indeterminate": true,
+      "n_analogs": 6,
+      "indeterminate": false,
       "beneficiaries": [
         {
           "sector_index_key": null,
@@ -114,49 +108,47 @@
           "stock_candidates": {
             "sector": "Energy",
             "candidates_total": 23,
-            "passed_filters": 10,
-            "excluded_conglomerates": [
-              "RELIANCE"
-            ],
+            "passed_filters": 11,
+            "excluded_conglomerates": [],
             "stocks": [
               {
                 "ticker": "DEEPINDS",
                 "name": "Deep Industries Limited",
                 "sector": "Energy",
-                "v4_score_100": 58.8,
-                "composite_score": 43.6,
+                "v4_score_100": 59.2,
+                "composite_score": 43.5,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 37,
-                "verdict": "STRONG"
+                "upside_pct": 36.6,
+                "verdict": "TOP_PICK"
               },
               {
                 "ticker": "CHENNPETRO",
                 "name": "Chennai Petroleum Corporation Limited",
                 "sector": "Energy",
-                "v4_score_100": 81.4,
-                "composite_score": 41.2,
+                "v4_score_100": 82.1,
+                "composite_score": 42.6,
                 "valuation_band": "FAIR",
-                "upside_pct": 1.9,
+                "upside_pct": 5.5,
                 "verdict": "TOP_PICK"
               },
               {
                 "ticker": "ONGC",
                 "name": "Oil and Natural Gas Corporation Limited",
                 "sector": "Energy",
-                "v4_score_100": 57.7,
-                "composite_score": 38.5,
+                "v4_score_100": 57.9,
+                "composite_score": 38.4,
                 "valuation_band": "DISCOUNT",
-                "upside_pct": 23.9,
+                "upside_pct": 23.6,
                 "verdict": "STRONG"
               },
               {
                 "ticker": "AEGISLOG",
                 "name": "Aegis Logistics Limited",
                 "sector": "Energy",
-                "v4_score_100": 54.3,
+                "v4_score_100": 54.4,
                 "composite_score": 29.9,
-                "valuation_band": "PREMIUM",
-                "upside_pct": -17.6,
+                "valuation_band": "EXPENSIVE",
+                "upside_pct": -20.8,
                 "verdict": "STRONG"
               },
               {
@@ -164,9 +156,9 @@
                 "name": "The Great Eastern Shipping Company Limited",
                 "sector": "Energy",
                 "v4_score_100": 60.5,
-                "composite_score": 27.2,
+                "composite_score": 28.5,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 37.9,
+                "upside_pct": 41.3,
                 "verdict": "TOP_PICK"
               }
             ]
@@ -223,20 +215,50 @@
         }
       ],
       "reasoning": {
-        "modulator_applied": 1.15,
+        "modulator_applied": 1,
         "base_probability": 0.55,
         "analog_pool_regime": "OIL_SHOCK",
         "analog_warnings": [
-          "n_analogs=0 < 3 — INDETERMINATE; do not act on these sector ranges",
-          "only 0/15 sectors had data — partial analog"
+          "no sector-index data found for any analog date — run scripts/refresh-sector-indices.mjs --backfill-months=24"
         ],
-        "analogs": []
+        "analogs": [
+          {
+            "date": "2026-05-20",
+            "label": "Oil Shock",
+            "severity": 2,
+            "source": "heuristic"
+          },
+          {
+            "date": "2026-05-26",
+            "label": "Oil Shock",
+            "severity": 2,
+            "source": "heuristic"
+          },
+          {
+            "date": "2026-05-28",
+            "label": "Oil Shock",
+            "severity": 2,
+            "source": "heuristic"
+          },
+          {
+            "date": "2026-05-31",
+            "label": "Oil Shock",
+            "severity": 2,
+            "source": "heuristic"
+          },
+          {
+            "date": "2026-06-02",
+            "label": "Oil Shock",
+            "severity": 2,
+            "source": "heuristic"
+          }
+        ]
       }
     },
     {
       "key": "escalate",
       "label": "OIL_SHOCK escalates (severity +1)",
-      "probability": 0.18,
+      "probability": 0.14,
       "duration_days": 7,
       "n_analogs": 0,
       "indeterminate": true,
@@ -253,49 +275,47 @@
           "stock_candidates": {
             "sector": "Energy",
             "candidates_total": 23,
-            "passed_filters": 10,
-            "excluded_conglomerates": [
-              "RELIANCE"
-            ],
+            "passed_filters": 11,
+            "excluded_conglomerates": [],
             "stocks": [
               {
                 "ticker": "DEEPINDS",
                 "name": "Deep Industries Limited",
                 "sector": "Energy",
-                "v4_score_100": 58.8,
-                "composite_score": 43.6,
+                "v4_score_100": 59.2,
+                "composite_score": 43.5,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 37,
-                "verdict": "STRONG"
+                "upside_pct": 36.6,
+                "verdict": "TOP_PICK"
               },
               {
                 "ticker": "CHENNPETRO",
                 "name": "Chennai Petroleum Corporation Limited",
                 "sector": "Energy",
-                "v4_score_100": 81.4,
-                "composite_score": 41.2,
+                "v4_score_100": 82.1,
+                "composite_score": 42.6,
                 "valuation_band": "FAIR",
-                "upside_pct": 1.9,
+                "upside_pct": 5.5,
                 "verdict": "TOP_PICK"
               },
               {
                 "ticker": "ONGC",
                 "name": "Oil and Natural Gas Corporation Limited",
                 "sector": "Energy",
-                "v4_score_100": 57.7,
-                "composite_score": 38.5,
+                "v4_score_100": 57.9,
+                "composite_score": 38.4,
                 "valuation_band": "DISCOUNT",
-                "upside_pct": 23.9,
+                "upside_pct": 23.6,
                 "verdict": "STRONG"
               },
               {
                 "ticker": "AEGISLOG",
                 "name": "Aegis Logistics Limited",
                 "sector": "Energy",
-                "v4_score_100": 54.3,
+                "v4_score_100": 54.4,
                 "composite_score": 29.9,
-                "valuation_band": "PREMIUM",
-                "upside_pct": -17.6,
+                "valuation_band": "EXPENSIVE",
+                "upside_pct": -20.8,
                 "verdict": "STRONG"
               },
               {
@@ -303,9 +323,9 @@
                 "name": "The Great Eastern Shipping Company Limited",
                 "sector": "Energy",
                 "v4_score_100": 60.5,
-                "composite_score": 27.2,
+                "composite_score": 28.5,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 37.9,
+                "upside_pct": 41.3,
                 "verdict": "TOP_PICK"
               }
             ]
@@ -362,7 +382,7 @@
         }
       ],
       "reasoning": {
-        "modulator_applied": 1.4,
+        "modulator_applied": 1,
         "base_probability": 0.15,
         "analog_pool_regime": "OIL_SHOCK (severity +1)",
         "analog_warnings": [
@@ -375,14 +395,14 @@
     {
       "key": "de_escalate",
       "label": "OIL_SHOCK de-escalates → CALM",
-      "probability": 0.15,
+      "probability": 0.19,
       "duration_days": 21,
       "n_analogs": 9,
       "indeterminate": false,
       "beneficiaries": [],
       "losers": [],
       "reasoning": {
-        "modulator_applied": 0.85,
+        "modulator_applied": 1,
         "base_probability": 0.2,
         "analog_pool_regime": "CALM",
         "analog_warnings": [
@@ -425,7 +445,7 @@
     {
       "key": "new_shock",
       "label": "New unrelated shock supersedes OIL_SHOCK",
-      "probability": 0.12,
+      "probability": 0.13,
       "duration_days": 7,
       "n_analogs": 0,
       "indeterminate": false,
@@ -442,49 +462,47 @@
           "stock_candidates": {
             "sector": "Energy",
             "candidates_total": 23,
-            "passed_filters": 10,
-            "excluded_conglomerates": [
-              "RELIANCE"
-            ],
+            "passed_filters": 11,
+            "excluded_conglomerates": [],
             "stocks": [
               {
                 "ticker": "DEEPINDS",
                 "name": "Deep Industries Limited",
                 "sector": "Energy",
-                "v4_score_100": 58.8,
-                "composite_score": 43.6,
+                "v4_score_100": 59.2,
+                "composite_score": 43.5,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 37,
-                "verdict": "STRONG"
+                "upside_pct": 36.6,
+                "verdict": "TOP_PICK"
               },
               {
                 "ticker": "CHENNPETRO",
                 "name": "Chennai Petroleum Corporation Limited",
                 "sector": "Energy",
-                "v4_score_100": 81.4,
-                "composite_score": 41.2,
+                "v4_score_100": 82.1,
+                "composite_score": 42.6,
                 "valuation_band": "FAIR",
-                "upside_pct": 1.9,
+                "upside_pct": 5.5,
                 "verdict": "TOP_PICK"
               },
               {
                 "ticker": "ONGC",
                 "name": "Oil and Natural Gas Corporation Limited",
                 "sector": "Energy",
-                "v4_score_100": 57.7,
-                "composite_score": 38.5,
+                "v4_score_100": 57.9,
+                "composite_score": 38.4,
                 "valuation_band": "DISCOUNT",
-                "upside_pct": 23.9,
+                "upside_pct": 23.6,
                 "verdict": "STRONG"
               },
               {
                 "ticker": "AEGISLOG",
                 "name": "Aegis Logistics Limited",
                 "sector": "Energy",
-                "v4_score_100": 54.3,
+                "v4_score_100": 54.4,
                 "composite_score": 29.9,
-                "valuation_band": "PREMIUM",
-                "upside_pct": -17.6,
+                "valuation_band": "EXPENSIVE",
+                "upside_pct": -20.8,
                 "verdict": "STRONG"
               },
               {
@@ -492,9 +510,9 @@
                 "name": "The Great Eastern Shipping Company Limited",
                 "sector": "Energy",
                 "v4_score_100": 60.5,
-                "composite_score": 27.2,
+                "composite_score": 28.5,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 37.9,
+                "upside_pct": 41.3,
                 "verdict": "TOP_PICK"
               }
             ]
@@ -561,13 +579,13 @@
   ],
   "caveats": [
     "Position-sizing cap: max 10% of portfolio per thesis — multi-thesis diversification mandatory.",
-    "INDETERMINATE branches (n<3 analogs): continue, escalate — sector projections suppressed for these branches.",
+    "INDETERMINATE branches (n<3 analogs): escalate — sector projections suppressed for these branches.",
     "Analog backtester is heuristic-seeded (~12 events); recommendations require user judgement, not auto-trading."
   ],
   "indeterminate": false,
   "audit": {
     "thesis_schema": "macro-thesis-v1",
-    "regime_generated_at": "2026-07-16T18:30:21.884Z",
+    "regime_generated_at": "2026-07-17T18:30:16.166Z",
     "regime_classifier": "groq",
     "scenario_engine_version": "scenario-prob-v1"
   }
