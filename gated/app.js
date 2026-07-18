@@ -6441,6 +6441,7 @@ function _credibilityBannerCopy(best, windowPayload, label) {
   if (!best || !Number.isFinite(alpha)) {
     return {
       tone: "neutral",
+      building: true,
       headline: "Track Record is building section-alpha evidence vs Nifty 50",
       evidence: "Section alpha will appear here once enough eligible cohorts and benchmark data are available.",
       showAlpha: false,
@@ -6467,15 +6468,15 @@ function _credibilityBannerCopy(best, windowPayload, label) {
 
   // latest_available (non-resolved) spotlight: the "cohort" is today's top-ranked
   // picks applied BACKWARD — survivorship, not a cohort actually held since then.
-  // That is not evidence, so we no longer headline the backfilled alpha number
-  // (previously shown with an "Illustrative" chip). Show a building state instead;
-  // the banner flips to a realized figure automatically once forward windows mature
-  // (sampleStatus === "resolved"). The Track tab keeps the full illustrative
+  // That is not evidence, so we neither headline the backfilled alpha number nor
+  // render a placeholder in its place — `building` suppresses the banner outright
+  // (see renderPicksCredibilityBanner). The Track tab keeps the full illustrative
   // methodology + disclaimer for anyone who wants the backfilled context.
   return {
     tone: "neutral",
+    building: true,
     headline: "Track Record is building — tracking picks live vs Nifty 50",
-    evidence: "Verified forward returns begin maturing on a rolling 1m/3m/6m/12m basis; this banner switches to a realized figure automatically. No hindsight outperformance is being claimed.",
+    evidence: "Verified forward returns begin maturing on a rolling 1m/3m/6m/12m basis. No hindsight outperformance is being claimed.",
     showAlpha: false,
   };
 }
@@ -6535,6 +6536,26 @@ function renderPicksCredibilityBanner(payload) {
   const sectionReturn = Number(best?.sectionReturnPct);
   const benchmark = Number(best?.benchmarkReturnPct ?? windowPayload.benchmarkReturnPct);
   const copy = _credibilityBannerCopy(best, windowPayload, label);
+  // A building state carries no evidence — either there is no eligible cohort at
+  // all, or the only positive alpha is a hindsight backfill. Neither earns
+  // first-screen real estate, so the banner renders nothing rather than a
+  // placeholder. The host is emptied as well as hidden: a hide-without-clear
+  // would strand a stale "beat Nifty 50 by X%" headline in the DOM on a
+  // resolved -> building transition.
+  //
+  // This is currently a DORMANT state, not a transient one. Nothing in the
+  // pipeline emits sampleStatus === "resolved": build-section-performance-
+  // snapshot.mjs only calls buildLatestSamplePayloadFromPicks, and server.js
+  // readSectionPerformanceSafe returns that fresh artifact before it can reach
+  // getSectionPerformancePayload (the sole resolved producer). The banner stays
+  // dark until that path is wired. track-section-performance.spec.mjs pins the
+  // resolved-state contract against a fixture so the reappear path cannot rot
+  // unnoticed while production can't exercise it.
+  if (copy.building === true) {
+    host.style.display = "none";
+    host.replaceChildren();
+    return;
+  }
   const alphaColor = copy.tone === "positive" ? "var(--green)" : "var(--gold)";
   const statusText = _spotlightLabel(windowPayload);
   const cohortText = _cohortLabel(best);
@@ -13107,7 +13128,12 @@ async function loadPicks() {
   } catch (e) {
     containerEl.innerHTML = `<div style="padding:24px;color:var(--red);">Failed to load picks: ${e.message}</div>`;
     const banner = document.getElementById("picksCredibilityBanner");
-    if (banner) banner.style.display = "none";
+    // Clear as well as hide, matching loadPicksCredibilityBanner's catch — a bare
+    // display:none leaves the previous render's markup live in the DOM.
+    if (banner) {
+      banner.style.display = "none";
+      banner.replaceChildren();
+    }
   } finally {
     setPicksLoadingBanner(false);
   }

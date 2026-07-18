@@ -487,7 +487,10 @@ re-confirm across a drawdown window before trusting it further. Ledger rows now 
   single best 7d/30d proof point from `bestOverall` instead of showing manual
   timeframe chips. The banner still names the selected window/cohort (for
   example, `30d · Best to Buy Now top 3 +5.0%`) while the Track Record tab
-  keeps the full 7d/30d and cohort audit controls.
+  keeps the full 7d/30d and cohort audit controls. *(Superseded — the numeric
+  chip is now suppressed unless the window is resolved, and the whole banner is
+  suppressed in a building state. See the July 2026 entry at the end of this
+  section.)*
 - **This PR** — India Market section track record now stores daily SWS cohorts
   for official Top 3 / Top 5 / Top 10 / Top 20 samples per section, keeps a
   shared Nifty 500 benchmark per timeframe, preserves legacy top-10 API
@@ -496,6 +499,22 @@ re-confirm across a drawdown window before trusting it further. Ledger rows now 
   Duplicate partial cohorts cannot win under a misleading larger label; Track
   Record now exposes Best / Top 3 / Top 5 / Top 10 / Top 20 controls as the
   audit view.
+- **July 2026** — the Spotlight banner is now evidence-only. Its copy state
+  machine (`_credibilityBannerCopy`) marks the two no-evidence states with
+  `building: true` — no eligible cohort at all, or a positive alpha that is only
+  a `latest_available` hindsight backfill — and `renderPicksCredibilityBanner`
+  hides and empties the host for those, rather than rendering a placeholder.
+  Only a `resolved` window with positive alpha renders.
+  **Known dormancy:** nothing in the pipeline currently emits
+  `sampleStatus === "resolved"` — `scripts/build-section-performance-snapshot.mjs`
+  only calls `buildLatestSamplePayloadFromPicks`, and `readSectionPerformanceSafe`
+  (`server.js`) returns that fresh artifact before it can reach
+  `getSectionPerformancePayload`, the sole resolved producer. The banner is
+  therefore dark in production until that path is wired (prefer a resolved
+  payload in the route + make the row store accumulate). The reappear contract is
+  pinned against a fixture in `test/e2e/track-section-performance.spec.mjs`
+  ("credibility banner returns when a resolved window carries positive alpha")
+  so the dormancy cannot rot unnoticed.
 
 ### Branded Vercel URL (May 2026)
 - **Vercel-only platform link** — the canonical public link is

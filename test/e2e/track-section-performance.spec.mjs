@@ -24,6 +24,36 @@ async function probePicksCredibilityPerformance(request) {
   return { ok: true, status: res.status(), data };
 }
 
+// In a building state the banner renders NOTHING, so there is no positive DOM
+// sentinel to wait on and a naive "is hidden" assertion would pass against the
+// pre-render initial state (index.html ships the host display:none) — proving
+// nothing. Register this BEFORE gotoApp, then settle: wait for the
+// section-performance response the render consumes, then flush two frames so
+// the synchronous render following res.json() has definitely run.
+function watchSectionPerformanceResponses(page) {
+  const seen = { count: 0 };
+  page.on("response", (res) => {
+    if (res.url().includes("/api/track/section-performance")) seen.count += 1;
+  });
+  return seen;
+}
+
+async function settleCredibilityBanner(page, seen) {
+  await expect.poll(() => seen.count, { timeout: 20_000 }).toBeGreaterThan(0);
+  await page.evaluate(
+    () => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))),
+  );
+}
+
+// The banner is evidence-only: it renders exactly when a RESOLVED forward window
+// carries positive alpha. Every other state (no eligible cohort, or a
+// latest_available hindsight backfill) is a building state and must render
+// nothing at all.
+async function expectBannerSuppressed(banner) {
+  await expect(banner).toBeHidden();
+  await expect(banner).toBeEmpty();
+}
+
 test.describe("India Market credibility banner and section alpha", () => {
   test("section-performance API returns schema-valid short and long horizon windows", async ({ request }) => {
     const { ok, status, data } = await probeSectionPerformance(request);
@@ -81,45 +111,42 @@ test.describe("India Market credibility banner and section alpha", () => {
     const bestWindow = probe.data?.windows?.find((w) => w.window === best?.window);
     const hasPositiveAlpha = Number.isFinite(Number(best?.alphaPct)) && Number(best.alphaPct) > 0 && best.outperformed !== false;
 
+    const seen = watchSectionPerformanceResponses(page);
     await gotoApp(page, { tab: "picks" });
     await waitForPicksLoaded(page);
+    await settleCredibilityBanner(page, seen);
 
     const banner = page.locator("#picksCredibilityBanner");
-    await expect(banner).toBeVisible({ timeout: 20_000 });
-    await expect(banner).toContainText(/Track Record Spotlight/i);
-    await expect(banner).toContainText(/Nifty 50/i);
-    await expect(banner).not.toContainText(/Nifty 500|N500|N50/i);
-    await expect(banner).toContainText(/Methodology/i);
-    await expect(banner.getByRole("button", { name: /^7d\b/i })).toHaveCount(0);
-    await expect(banner.getByRole("button", { name: /^30d\b/i })).toHaveCount(0);
-    for (const pattern of SPOTLIGHT_COPY_REGRESSIONS) {
-      await expect(banner).not.toContainText(pattern);
-    }
-    expect(await page.evaluate(() => typeof window.__picksCredibilitySelect)).toBe("undefined");
-    if (best?.window) {
+    // Only a genuinely RESOLVED forward window with positive alpha is evidence.
+    // Against live data that is currently never true (nothing in the pipeline
+    // emits sampleStatus === "resolved"), so this test normally takes the
+    // suppressed arm — the visible arm is pinned against a fixture in
+    // "credibility banner returns when a resolved window carries positive alpha".
+    const expectsEvidence = hasPositiveAlpha && bestWindow?.sampleStatus === "resolved";
+
+    if (!expectsEvidence) {
+      await expectBannerSuppressed(banner);
+    } else {
+      await expect(banner).toBeVisible({ timeout: 20_000 });
+      await expect(banner).toContainText(/Track Record Spotlight/i);
+      await expect(banner).toContainText(/Nifty 50/i);
+      await expect(banner).not.toContainText(/Nifty 500|N500|N50/i);
+      await expect(banner).toContainText(/Methodology/i);
+      await expect(banner.getByRole("button", { name: /^7d\b/i })).toHaveCount(0);
+      await expect(banner.getByRole("button", { name: /^30d\b/i })).toHaveCount(0);
+      for (const pattern of SPOTLIGHT_COPY_REGRESSIONS) {
+        await expect(banner).not.toContainText(pattern);
+      }
+      await expect(banner).toContainText(/top (3|5|10|20|\d+ available)/i);
+      await expect(banner.locator('[data-testid="picks-credibility-alpha"]')).toContainText(/[+-]\d/);
+      await expect(banner.locator('[data-testid="picks-credibility-headline"]')).toContainText(/beat Nifty 50/i);
       const selected = banner.locator('[data-testid="picks-credibility-selected-window"]');
       await expect(selected).toHaveCount(1);
       await expect(selected).not.toContainText(/\b(3m|1y|3y|5y)\b/i);
       await expect(selected).toContainText(best.window);
       await expect(selected).toContainText(best.cohortLabel || `top ${best.requestedCohortSize || 10}`);
     }
-    if (hasPositiveAlpha && bestWindow?.sampleStatus === "resolved") {
-      // Only a genuinely RESOLVED forward window may headline a realized alpha.
-      await expect(banner).toContainText(/top (3|5|10|20|\d+ available)/i);
-      await expect(banner.locator('[data-testid="picks-credibility-alpha"]')).toContainText(/[+-]\d/);
-      await expect(banner.locator('[data-testid="picks-credibility-headline"]')).toContainText(/beat Nifty 50/i);
-    } else {
-      // Non-resolved (survivorship / latest_available) or no positive alpha → the
-      // banner must be in its BUILDING state: no headline alpha number, no
-      // Illustrative-backfill chip, and no "beat Nifty 50" claim. A hindsight %
-      // is never surfaced as evidence on the homepage.
-      await expect(banner.locator('[data-testid="picks-credibility-alpha"]')).toHaveCount(0);
-      await expect(banner.locator('[data-testid="picks-credibility-illustrative"]')).toHaveCount(0);
-      await expect(banner.locator('[data-testid="picks-credibility-headline"]')).not.toContainText(/beat Nifty 50/i);
-      if (bestWindow?.sampleStatus === "latest_available") {
-        await expect(banner.locator('[data-testid="picks-credibility-headline"]')).toContainText(/building/i);
-      }
-    }
+    expect(await page.evaluate(() => typeof window.__picksCredibilitySelect)).toBe("undefined");
 
     const order = await page.evaluate(() => {
       const status = document.getElementById("picksStatusBanner");
@@ -277,35 +304,26 @@ test.describe("India Market credibility banner and section alpha", () => {
       });
     });
 
+    const seen = watchSectionPerformanceResponses(page);
     await gotoApp(page, { tab: "picks" });
     await waitForPicksLoaded(page);
+    await settleCredibilityBanner(page, seen);
 
     const banner = page.locator("#picksCredibilityBanner");
-    await expect(banner).toBeVisible({ timeout: 20_000 });
+    // The request contract is this test's primary teeth and is asserted inside
+    // the route handler above: only 7d,30d are ever fetched.
     expect(sawShortWindowRequest).toBe(true);
-    // latest_available spotlight → building state. The survivorship +6.2% is NOT
-    // headlined, NOT shown as an alpha number, and NOT tagged Illustrative — it's
-    // hindsight, not evidence. The banner flips to a realized figure automatically
-    // once a forward window resolves.
-    await expect(banner.locator('[data-testid="picks-credibility-headline"]')).toContainText(/building/i);
-    await expect(banner.locator('[data-testid="picks-credibility-headline"]')).not.toContainText(/\+6\.2%|alpha vs Nifty 50/i);
-    await expect(banner.locator('[data-testid="picks-credibility-alpha"]')).toHaveCount(0);
-    await expect(banner.locator('[data-testid="picks-credibility-illustrative"]')).toHaveCount(0);
-    await expect(banner.locator('[data-testid="picks-credibility-evidence"]')).toContainText(/maturing|No hindsight/i);
-    for (const pattern of SPOTLIGHT_COPY_REGRESSIONS) {
-      await expect(banner).not.toContainText(pattern);
-    }
-    await expect(banner).not.toContainText(/Nifty 500|N500|N50/i);
-    // The window chip may still show the window · label · cohort, but never the %.
-    await expect(banner.locator('[data-testid="picks-credibility-selected-window"]')).not.toContainText(/\+6\.2%/);
-    await expect(banner.locator('[data-testid="picks-credibility-selected-window"]')).not.toContainText(/\b(3m|1y|3y|5y)\b/i);
-    await expect(banner).not.toContainText(/Mid-Term|1y|3m/);
-    await expect(banner.getByRole("button", { name: /^7d\b/i })).toHaveCount(0);
-    await expect(banner.getByRole("button", { name: /^30d\b/i })).toHaveCount(0);
+    // The strongest eligible candidate here is 30d +6.2% at sampleStatus
+    // latest_available — today's top-ranked picks applied BACKWARD, i.e.
+    // survivorship, not a cohort held since then. That is a building state, so
+    // the banner renders nothing at all. An empty host is what makes this
+    // non-vacuous: the +6.2% cannot leak as a headline, an alpha number, an
+    // "Illustrative" chip, or a window chip, because no markup exists.
+    await expectBannerSuppressed(banner);
     expect(await page.evaluate(() => typeof window.__picksCredibilitySelect)).toBe("undefined");
   });
 
-  test("India Market uses neutral banner copy when no section has positive alpha", async ({ page, request }) => {
+  test("India Market suppresses the banner when no cohort is eligible for a positive-alpha claim", async ({ page, request }) => {
     const picks = await request.get("/api/sws-picks");
     test.skip(picks.status() === 404, "no SWS scan committed yet — credibility banner has no sample source");
 
@@ -360,17 +378,95 @@ test.describe("India Market credibility banner and section alpha", () => {
       });
     });
 
+    const seen = watchSectionPerformanceResponses(page);
     await gotoApp(page, { tab: "picks" });
     await waitForPicksLoaded(page);
+    await settleCredibilityBanner(page, seen);
+
+    const banner = page.locator("#picksCredibilityBanner");
+    // No cohort clears eligibleForBanner, so there is no spotlight at all — the
+    // state live data sits in today. Nothing renders, not even the former
+    // "Track Record is building section-alpha evidence" placeholder.
+    await expectBannerSuppressed(banner);
+  });
+
+  test("credibility banner returns when a resolved window carries positive alpha", async ({ page, request }) => {
+    const picks = await request.get("/api/sws-picks");
+    test.skip(picks.status() === 404, "no SWS scan committed yet — credibility banner has no sample source");
+
+    // Nothing in the current pipeline emits sampleStatus === "resolved":
+    // build-section-performance-snapshot.mjs only calls
+    // buildLatestSamplePayloadFromPicks, and server.js readSectionPerformanceSafe
+    // returns that fresh artifact before reaching getSectionPerformancePayload.
+    // So production cannot exercise this path and every live-data assertion in
+    // this file takes the suppressed arm. Without this fixture, the building-state
+    // hide would be indistinguishable from the banner being permanently dead
+    // code — this is the test that keeps the reappear contract honest.
+    const resolvedRow = {
+      window: "30d",
+      sampleStatus: "resolved",
+      label: "SWS - Best Fundamentals",
+      cohortLabel: "top 5",
+      requestedCohortSize: 5,
+      actualCohortSize: 5,
+      eligibleForBanner: true,
+      spotlightEligible: true,
+      alphaPct: 4.4,
+      sectionReturnPct: 7.3,
+      benchmarkReturnPct: 2.9,
+      outperformed: true,
+    };
+    await page.route("**/api/track/section-performance?**", async (route) => {
+      await route.fulfill({
+        contentType: "application/json",
+        body: JSON.stringify({
+          schema_version: "sws-section-performance-v1",
+          mode: "resolved",
+          generatedAt: "2026-05-25T00:00:00.000Z",
+          spotlightSection: resolvedRow,
+          bestOverall: resolvedRow,
+          windows: [
+            {
+              window: "7d",
+              sampleStatus: "insufficient_history",
+              benchmarkReturnPct: null,
+              bestSection: null,
+              sections: [],
+            },
+            {
+              window: "30d",
+              sampleStatus: "resolved",
+              benchmarkReturnPct: 2.9,
+              bestSection: resolvedRow,
+              sections: [resolvedRow],
+            },
+          ],
+        }),
+      });
+    });
+
+    const seen = watchSectionPerformanceResponses(page);
+    await gotoApp(page, { tab: "picks" });
+    await waitForPicksLoaded(page);
+    await settleCredibilityBanner(page, seen);
 
     const banner = page.locator("#picksCredibilityBanner");
     await expect(banner).toBeVisible({ timeout: 20_000 });
-    await expect(banner).toContainText(/Track Record is building section-alpha evidence vs Nifty 50/i);
-    await expect(banner).toContainText(/Section alpha will appear here once enough eligible cohorts and benchmark data are available/i);
-    await expect(banner.locator('[data-testid="picks-credibility-headline"]')).not.toContainText(/beat Nifty 50/i);
+    await expect(banner).toContainText(/Track Record Spotlight/i);
+    await expect(banner).toContainText(/Methodology/i);
+    await expect(banner.locator('[data-testid="picks-credibility-headline"]')).toContainText(
+      /beat Nifty 50 by \+4\.4%/i,
+    );
+    await expect(banner.locator('[data-testid="picks-credibility-alpha"]')).toContainText("+4.4%");
+    await expect(banner.locator('[data-testid="picks-credibility-selected-window"]')).toContainText("30d");
+    // A resolved claim must never be dressed as a building state, and the
+    // hindsight chip belongs only to latest_available rows.
+    await expect(banner).not.toContainText(/building/i);
+    await expect(banner.locator('[data-testid="picks-credibility-illustrative"]')).toHaveCount(0);
     await expect(banner).not.toContainText(/Nifty 500|N500|N50/i);
-    await expect(banner.locator('[data-testid="picks-credibility-alpha"]')).toHaveCount(0);
-    await expect(banner.locator('[data-testid="picks-credibility-selected-window"]')).toHaveCount(0);
+    for (const pattern of SPOTLIGHT_COPY_REGRESSIONS) {
+      await expect(banner).not.toContainText(pattern);
+    }
   });
 
   test("Track Record panel renders Nifty 50 as the sole Section Alpha benchmark", async ({ page }) => {
