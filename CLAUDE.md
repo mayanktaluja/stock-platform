@@ -329,39 +329,38 @@ AND the nightly's post-deploy trigger fires (`sws-nightly.sh`
 
 The send route dedups **per run** — `hasEmailSentForRun(sub, run_id)` — so on a
 stale/unchanged `run_id` **every recipient is deduped**, `counts.sent === 0`, and
-(before 2026-07-10) nothing surfaced it. On 2026-07-10 the nightly was still
-scraping when the fallback cron fired: zero mail, silently.
+nothing is delivered. On 2026-07-10 the nightly was still scraping when the
+fallback cron fired: zero mail, silently.
 
 > **Do NOT "fix" this by weakening the per-run dedup** — it is the anti-spam
-> guarantee. The fix is to make the silence observable (below).
+> guarantee. The failure mode to design against is *unobserved* silence, not the
+> dedup itself.
 
-Two Vercel crons (`vercel.json`; both pinned by `test/vercel-cron-budget.test.mjs`):
+One Vercel cron (`vercel.json`, pinned by `test/vercel-cron-budget.test.mjs`):
 
 | Cron | Schedule | Role |
 |------|----------|------|
 | `/api/cron/sws-input-alerts/send` | `30 5 * * *` (11:00 IST) | Fallback sender. Lands AFTER the nightly normally deploys a fresh run_id, so it can actually deliver when the local trigger failed. (Was `0 3` = 08:30 IST, which always fired mid-scrape and deduped the prior run — decorative.) |
-| `/api/cron/sws-input-alerts/heartbeat` | `0 12 * * *` (17:30 IST) | **Watchdog.** Pages Telegram when NO fresh SWS run exists for today. |
 
-### Heartbeat / watchdog (#1020)
+### Observability — what is left after the Telegram removal
 
-Freshness is measured on the artifact's **`run_id` IST calendar date**, never on
-`generated_at` build-age. Build-age cannot separate a healthy-but-late nightly
+A Telegram watchdog cron (#1020) and an in-trigger Telegram ping used to page the
+owner when a send delivered to nobody. Both were removed with the rest of the
+Telegram stack; **there is currently no push alerting on this pipeline.** What
+remains is inside `scripts/sws-trigger-input-alerts-after-deploy.mjs`:
+
+- A failed send and a timeout still **throw**, so the nightly fails loudly.
+- A 0-recipient send on a real (non-dry-run) delivery logs a `WARNING` line —
+  visible in the nightly log, but nothing pushes it anywhere.
+
+If push alerting is ever rebuilt, the load-bearing lesson from #1020 is that
+freshness must be measured on the artifact's **`run_id` IST calendar date**, never
+on `generated_at` build-age: build-age cannot separate a healthy-but-late nightly
 from a real outage (on real data the healthy 2026-07-06 artifact was 30h old at
-07:00 UTC while the true 2026-07-10 outage was 28h old). A fresh nightly stamps a
-run_id whose IST date == today; a stuck pipeline leaves yesterday's.
-
-- `artifact_email_eligible !== true` alone is **not** an outage — a fresh-run day
-  still pending `two_consecutive_full_runs` confirmation is a legitimate
-  no-mail-*yet* day. Don't page on it.
-- The **in-trigger** heartbeat (secondary) fires when a send that DID run
-  delivered 0 / failed / timed out. It cannot cover "nightly died before the
-  trigger ever launched" — that is the watchdog's job.
-
-> **⚠️ The watchdog is DORMANT until `TG_BOT_TOKEN`, `TG_CHAT_ID`,
-> `ALERTS_ENABLED=1` and `CRON_SECRET` exist in the Vercel project env.**
-> `dispatch()` self-skips silently without them (same posture as every alert path),
-> so the route returns `alerted: false` and nobody is paged. The Mac crons already
-> have these — they must be copied into Vercel.
+07:00 UTC while the true 2026-07-10 outage was 28h old). Also,
+`artifact_email_eligible !== true` alone is **not** an outage — a fresh-run day
+still pending `two_consecutive_full_runs` confirmation is a legitimate
+no-mail-*yet* day.
 
 ### Admin-gated earnings sections
 
@@ -398,320 +397,17 @@ pin it in a fixture to steer the prior-archive pick — steer via the archive
 | File | Role |
 |------|------|
 | `services/swsPortfolioInputAlerts.js` | Artifact load + per-user join + `buildSwsInputAlertEmail` (text + HTML) + both earnings section renderers. `escapeHtml` is `String(s \|\| "")`, so **`escapeHtml(0) === ""`** — pre-format every number to a non-empty string before it reaches a cell. |
-| `services/alerts/emailHeartbeatAlert.js` | Pure. `buildStalenessVerdict(artifact, nowMs)` (run_id IST-date), `formatEmailHeartbeat` (0-delivered ping), `formatStalenessAlert` (watchdog page). |
 | `services/earnings/portfolioEarningsSection.js` | Pure. Holdings × 0–7d window; shared `formatDaysUntil` / `formatConfidence` / `VERDICT_LABELS`. |
 | `services/earnings/earningsWatchDiff.js` | Pure. `buildEarningsWatchDelta(currentEvents, priorEvents)` → `{added, added_total, verdict_changed, suppressed_reason}`. Material flip = `BEAT↔MISS` (the archive's off-by-2 "catastrophic"). |
 | `services/earnings/earningsHistoryArchive.js` | `loadPriorArchivePredictions(beforeIso)` — most recent per-day archive **strictly before** `beforeIso`. |
-| `scripts/sws-trigger-input-alerts-after-deploy.mjs` | Polls prod until the deployed `run_id` matches, POSTs the send, fires the in-trigger heartbeat on 0-delivered / failure / timeout. `--no-heartbeat` / `SWS_ALERT_HEARTBEAT=0`. |
+| `scripts/sws-trigger-input-alerts-after-deploy.mjs` | Polls prod until the deployed `run_id` matches, then POSTs the send once. Throws on send-failure / timeout; logs a WARNING on a 0-delivered real send. |
 
 ### Tests
 
 ```bash
 node test/swsPortfolioInputAlerts.test.mjs           # template + both earnings sections
-node test/emailHeartbeatAlert.test.mjs               # staleness verdict (07-06 vs 07-10 fixtures)
 node test/earningsWatchDiff.test.mjs                 # additions + material-flip-only
-node test/swsTriggerInputAlertsAfterDeploy.test.mjs  # in-trigger heartbeat fire/no-fire
+node test/swsTriggerInputAlertsAfterDeploy.test.mjs  # poll-then-POST; stale run_id must not send
 node test/swsInputAlertsApi.test.mjs                 # spawns a real server; dry-run send; admin gating
-node test/vercel-cron-budget.test.mjs                # pins both cron schedules
-```
-
----
-
-## Telegram market-moving-news alerts (fast-news-alerts)
-
-Personal, low-latency push alerts to the owner's phone (Telegram bot) for
-market-moving events — built to fix "I hear the news too late to react". Plan
-lives at `~/.claude/plans/fast-news-alerts.md`. Phased: **P1** macro-regime
-flips (shipped), **P2** watchlist news poller, P3 Telegram-channel push source,
-P4 LLM triage funnel, P5 Pushover loud-BREAKING, P6 price/volume anomaly.
-
-### Phase 1 — regime-transition alerts (live)
-
-Fires a Telegram DM **only when the macro regime materially flips**. The
-trigger is wired into `scripts/refresh-macro-only.sh` (the every-2h cron),
-gated on `SHIP_DECISION == ship:material_change` — the SAME comparison the
-commit uses. **This gating is the dedup, and it is load-bearing:**
-
-> **Do NOT move the trigger into `refresh-macro-regime.mjs` on
-> `appendRegimeIfChanged → {appended:true}`.** That re-fires every 2h on any
-> confidence/sector/reasoning drift, because (a) the history NDJSON append
-> happens inside the throwaway worktree and is never committed (the cron only
-> `git add data/macroRegime.json`), and (b) `appended:true` keys on a content
-> hash while the ship-gate keys on `regime|severity`. The shell-post-commit
-> hook sidesteps both. (See the adversarial findings C1/C2 in the plan.)
-
-The send is `|| true` and `send-regime-alert.mjs` always exits 0 — a Telegram
-outage can never abort the cron's push/PR.
-
-### Config
-
-`.env` (gitignored) — `TG_BOT_TOKEN`, `TG_CHAT_ID`, `ALERTS_ENABLED`. When
-unset, every alert path self-skips silently (logs a reason, never throws),
-mirroring `resendMailer.js`'s `mailerState()` posture. See `.env.example`.
-
-### Modules
-
-| File | Role |
-|------|------|
-| `services/alerts/alertsState.js` | Config gate — `alertsState(env)` → `{enabled, reason}`; self-skip when `TG_*` absent or `ALERTS_ENABLED=0`. |
-| `services/alerts/telegramSender.js` | Pure-fetch Bot-API sender. HTML parse_mode, escape helper, link-preview off, inline-button deep-link, 429 `retry_after` honoring, 4096→3900 truncation, 400 non-retryable. Runs unchanged on Mac + Vercel. |
-| `services/alerts/regimeAlert.js` | Formats a regime object → `{text, breaking, key, buttons}`. `breaking = severity ≥ 4`. Top-3 most-negative sector impacts; transition arrow vs prev. Pure/deterministic. Footer covers disclaimer — none inlined. |
-| `services/alerts/alertDispatcher.js` | The single non-throwing choke-point: state-gate → send. Always resolves (`{ok}`), never unwinds the caller. P2 adds dedup/quiet-hours here. |
-| `services/alerts/emailHeartbeatAlert.js` | Pure. Pages when the daily SWS-input-alert email delivers to nobody / no fresh `run_id` exists for today. Also consumed server-side by the Vercel watchdog cron — so `TG_*` must be set in the **Vercel** env, not just `.env`. See the SWS input-alert email section above. |
-| `scripts/send-regime-alert.mjs` | CLI the cron calls post-commit. Reads worktree `macroRegime.json` + `git show origin/main:` prev → format → dispatch. Trusts the caller's ship-gate (no re-derived dedup). `--dry-run` / `--file <path>` for smoke. Always exits 0. |
-
-### Phase 2 — watchlist news poller (NEWS class)
-
-`scripts/refresh-news-alerts.mjs` (wrapper `scripts/news-alerts-poll.sh`, plist
-`com.starbhai.news-alerts`, ~every 30 min IST market hours) reads fresh RSS via
-`fetchMacroHeadlines`, keeps headlines mentioning a `data/alerts/watchlist.json`
-ticker, dedups against the sent-ledger, and pushes Telegram. It commits nothing.
-
-**Runs the poller CODE from a short-lived `origin/main` worktree** so it's
-independent of whatever branch the canonical checkout is parked on (the user's
-`~/code/stock-platform` is often on a feature branch). It deliberately does NOT
-call `git worktree prune` — that's the operation H1 flagged as racing the macro
-cron's worktree; each run adds/removes only its own mktemp worktree. The
-sent-LEDGER is pinned to the canonical repo via `ALERTS_LEDGER_DIR` (absolute)
-so it survives across runs (C2 — a worktree-relative ledger would vanish). Own
-PID-lock (`/tmp/starbhai-news-alerts.lock.d`), distinct from the macro cron's.
-
-Refresh / manual:
-```bash
-node scripts/refresh-news-alerts.mjs              # poll + send
-node scripts/refresh-news-alerts.mjs --dry-run    # match + log, no send, no ledger write
-```
-
-**Class boundary (C3, load-bearing):** the watchlist is NEWS-class — tickers +
-aliases only. **Do NOT add broad macro terms** (Fed/rate/war/oil-shock/risk-off)
-to `watchlist.json`; those are the REGIME class from the macro cron, and
-duplicating them double-fires across both classes.
-
-Known limitation: `isFresh` drops headlines with no parseable `publishedAt`
-(L3-safe — can't prove freshness, don't replay stale), so the poller only fires
-on dated items. Widening coverage = a follow-up (conditional-GET + source
-freshness), tracked in the plan.
-
-| File | Role |
-|------|------|
-| `data/alerts/watchlist.json` | Tracked config: tickers/aliases/sectorKeywords. Edit by hand. |
-| `services/alerts/watchlistGate.js` | Word-boundary-anchored match; sectorKeyword counts only when co-occurring with a ticker (M2). |
-| `services/alerts/sentLedger.js` | Check-and-set dedup at an **absolute** `ALERTS_LEDGER_DIR` (default `<repo>/data/alerts`, C2), PID-locked, monthly NDJSON, 24h TTL, fails OPEN. |
-| `services/alerts/quietHours.js` | NEWS-only overnight-IST suppression; REGIME never calls it (M1); `breaking` bypasses. |
-| `services/alerts/newsAlert.js` | Formats a matched headline → alert; dedup key collapses the same story across wires. |
-
-### Phase 3b — news router → Telegram Topics (COVERAGE-FIRST)
-
-Routes news from `data/alerts/news-sources.json` channels into per-category **topics** of a
-Topics-enabled delivery group, coverage-first (forward all; ⭐ watchlist; 🔴 macro-breaking;
-cross-channel deduped). Two ingestion engines share the SAME `routeMessage` → dedup →
-`dispatch(chatId=group, messageThreadId=topic)` pipeline:
-
-- **PRIMARY — `scripts/refresh-mirror-news.mjs` (the `t.me/s/` poller).** Polls each channel's
-  PUBLIC web preview (`https://t.me/s/<slug>`) over plain HTTPS — no MTProto, no session.
-  `scripts/telegramMirrorParser.js` regex-parses the page. Cron `com.starbhai.mirror-news`
-  (`StartInterval 60` = ~1 min, 3-min freshness window). **This is the reliable path** and the
-  one actually wired live, because the listener's persistent connection (below) won't hold on
-  this host.
-- **ALTERNATIVE — `scripts/telegram-listener.mjs` (GramJS MTProto, real-time push ~1s).**
-  Needs a Telegram user `TG_SESSION` + a host that can hold a long-lived MTProto connection.
-  In the dev/sandbox env the update stream only delivered `UpdateConnectionState` (no message
-  updates — RPC works, the persistent stream drops), so it's kept as the lower-latency option
-  for a stable-connection box (VPS), not the default. Plist `com.starbhai.telegram-listener`
-  (KeepAlive `SuccessfulExit:false`), `client.start()` + `getDialogs` prime, route by username.
-
-Both reuse the no-prune origin/main worktree + canonical `ALERTS_LEDGER_DIR` + PID-lock pattern.
-
-Flow: `routeMessage` → cross-channel dedup (`hasKey`) → `dispatch(messageThreadId)` → `recordSent`.
-
-- **Coverage-first, not filtered:** forwards all non-empty messages; **⭐** tags watchlist
-  hits, **🔴 breaking** (loud) on `macroBreakingGate` keyword hits, everything else posts
-  SILENTLY into its topic. No quiet-hours *drop* (that would lose coverage) — loud/quiet is
-  `disable_notification`; the user mutes topics natively to tune volume.
-- **Cross-channel dedup key is channel-agnostic** (`ledgerKey(["router", normTitle])`) so the
-  same wire seen on N channels posts once. Shares the canonical ledger with the RSS poller.
-- **Topic routing:** `topicManager.ensureTopics` creates one forum topic per category via the
-  Bot API (bot must be admin of a Topics group; `TG_GROUP_ID` in `.env`) and persists
-  `data/alerts/topic-map.json` (category → `message_thread_id`). If topics aren't ready, the
-  router posts to the chat root until configured — nothing is lost.
-- **Dormant-safe:** exits 0 (no hot-loop, `SuccessfulExit:false`) when api creds / `TG_SESSION`
-  / channels are missing. Session is owner-minted via `scripts/telegram-session-login.mjs`.
-- **Macro keywords live in `macroBreakingGate.js`, NOT `watchlist.json`** (the C3 boundary
-  still holds for the RSS/regime classes).
-
-| File | Role |
-|------|------|
-| `data/alerts/news-sources.json` | Tracked: `{channels:[{name,slug,category,enabled}]}`. Categories: markets/macro/trump/geopolitics/traders/crypto/india. `enabled:false` mutes a source. |
-| `data/alerts/topic-map.json` | Tracked: `{groupId, topics:{category→thread_id}}`, written by `ensureTopics`. |
-| `services/alerts/newsRouter.js` | Pure. `routeMessage(msg,{compiledWatchlist,macroGate})` → routed alert (topic, breaking, ⭐ tags, channel-agnostic dedup key) or null. |
-| `services/alerts/macroBreakingGate.js` | Pure. Curated breaking-macro keyword set (seeded from `macroRegime` REGIME_KEYWORDS, owned/independent). |
-| `services/alerts/topicManager.js` | Idempotent forum-topic creator + `topic-map.json` persister (Bot API `createForumTopic`). |
-
-### Phase 3c — alert de-noise (severity-aware loudness + near-dup collapse)
-
-Reuses the **Market Wire's brain** (heuristic scorer + token-set clusterer) inside
-the live alert path. Coverage is untouched — every market-relevant message still
-posts to its category topic. What changed is **loudness** and **redundancy**.
-
-- **`services/alerts/loudGate.js`** — `breaking` (which drives the 🔴 prefix, the
-  loud notification, AND the IMPORTANT cross-post) was `macroKeywordHit ||
-  watchlistHit`. Since `macroBreakingGate` includes broad terms (`trump`, `nifty`,
-  `sensex`, `oil price`), nearly every routine update pinged loudly.
-  **A flat `impact >= 6` gate does NOT fix this** — the heuristic scores sentiment
-  *prose*, not event severity. Verified on live data: `"Iran: Won't allow
-  interference in the Strait of Hormuz"` scores **impact 1.5** (no sentiment words)
-  and would be silenced, while `"shares jump 5%"` fluff scores 5.1.
-  So loudness is scored on **two axes**: a `MACRO_SEVERITY` tier map (HIGH: war /
-  missile / nuclear / market crash / circuit breaker / rate decision · MED: fed /
-  rbi / tariff / cpi / recession · LOW: trump / nifty / sensex / oil price) **×**
-  intrinsic prose intensity. Policy in `shouldGoLoud()`:
-  watchlist → always · HIGH → always · MED → `impact >= ALERTS_LOUD_MED_MIN` (5) ·
-  LOW → `impact >= ALERTS_LOUD_LOW_MIN` (7) · no macro hit → never.
-  `scoreIntrinsicImpact` deliberately passes `breaking:false` into the heuristic —
-  feeding the macro hit back in would add +2 to every macro item and defeat the gate.
-
-- **`services/alerts/nearDupGate.js`** — the sent-ledger dedups on an EXACT
-  normalized-text hash, so a reworded copy ("Fed cuts" vs "Fed lowers") sends twice.
-  This Jaccard-matches (`0.6`, 45-min window) against recently-**delivered** stories,
-  reusing `wireClusterer`'s `normalizeTokens`/`jaccard`. **The wire buffer is written
-  BEFORE this gate**, so the website still renders an honest "3 sources" chip while
-  Telegram gets one alert. Stories are recorded only AFTER a confirmed send (never
-  claim-before-send). Fails OPEN. Daily NDJSON at the canonical `ALERTS_LEDGER_DIR`
-  (`data/alerts/recent-stories-<UTC-date>.ndjson`, gitignored).
-
-`routeMessage` takes `loudGate` as an OPTIONAL injected dep — absent it, behaviour is
-byte-identical to before (existing callers/specs unchanged). Both the mirror poller
-and the dormant GramJS listener wire it, so neither can bypass the de-noise.
-
-### Smoke / test
-
-```bash
-# All wired into `npm test`:
-node test/alertsState.test.mjs && node test/telegramSender.test.mjs \
-  && node test/regimeAlert.test.mjs && node test/alertDispatcher.test.mjs \
-  && node test/sentLedger.test.mjs && node test/watchlistGate.test.mjs \
-  && node test/quietHours.test.mjs && node test/newsAlert.test.mjs \
-  && node test/newsRouter.test.mjs && node test/macroBreakingGate.test.mjs \
-  && node test/topicManager.test.mjs
-node scripts/send-regime-alert.mjs --dry-run --file data/macroRegime.json    # render regime alert
-node scripts/refresh-news-alerts.mjs --dry-run                               # render RSS watchlist alerts
-# Phase 3b router needs TG_SESSION + a Topics group (bot admin) + TG_GROUP_ID; then:
-node scripts/telegram-listener.mjs                                           # live router (dormant until configured)
-```
-
----
-
-## Market Wire (Market Intelligence tab)
-
-The **digested, on-site consumption layer** on top of the Telegram firehose. The
-mirror poller (Phase 3b, above) stays the instant raw stream; the Market Wire
-persists those messages, clusters duplicates across channels, LLM-triages each
-cluster for Indian-equity impact, ranks, and surfaces the top ~40 as a **"Live
-Market Wire"** section on the Market Intelligence tab (below the macro regime
-card, above the deterministic Market Digest). It is ADDITIVE — the Digest is
-untouched.
-
-### Data flow (two independent crons, two PID locks)
-
-```
-mirror poller (60s) → [NEW sink] data/news-wire/buffer/<UTC-date>.jsonl   (gitignored, per-machine)
-news-wire builder (5min) → cluster → heuristic-score all → rank → LLM-refine top-N → re-rank → publish
-                         → Vercel KV  news:wire:latest   (prod source of truth; + local mirror for dev)
-server.js GET /api/news/wire (KV → FS fallback → 90s NodeCache; never 500) → gated/app.js renderMarketWire()
-```
-
-### Refresh (local; the builder needs GEMINI/GROQ + KV keys for full fidelity)
-
-```bash
-node scripts/refresh-news-wire.mjs                 # build 6h window → publish to KV
-node scripts/refresh-news-wire.mjs --skip-llm      # heuristic only (CI/offline)
-node scripts/refresh-news-wire.mjs --dry-run       # build + log, no mirror, no KV
-```
-
-The persistence sink is a single guarded line in `scripts/refresh-mirror-news.mjs`
-(archives BEFORE the Telegram dedup so cross-channel copies are all captured for
-source-counting). It **NO-OPs unless `NEWS_WIRE_DIR` is set** — the poller runs
-in a throwaway `git worktree` that's force-removed each run, so an unpinned path
-would be nuked; `scripts/mirror-news-poll.sh` pins it to the canonical repo,
-exactly like `ALERTS_LEDGER_DIR`. The builder cron is
-`scripts/news-wire-build.sh` (own lock, origin/main worktree, buffer + mirror +
-cache all pinned to canonical) + `scripts/com.starbhai.news-wire.plist`
-(StartInterval 300, self-gated to the active IST window 07:00→02:00 since the
-channels peak overnight on the US/Fed/Trump session).
-
-### Design invariants (load-bearing — from the adversarial pass)
-
-- **Publish is Vercel KV, not git** — a 5-min commit cadence would be ~200+
-  auto-merged PRs + deploys/day (the rank's recency term rewrites every item
-  every build). Nothing under `data/news-wire/` is committed; it needs no
-  `vercel.json` includeFiles entry.
-- **Rank-first, LLM only the top-N.** The floor gate (`source_count≥2 OR breaking
-  OR watchlist ticker`) inverts under a storm (breaking correlates with storms),
-  so spend is bounded by a hard per-build cap (`MAX_LLM_CLUSTERS=18`), not the
-  floor. A failed LLM attempt backs off (`FAILED_RETRY_MS`) instead of being
-  re-hammered every 5 min.
-- **Content-only cache key** (the cluster's stable earliest-member anchor). A new
-  corroborating source never invalidates a cached score — corroboration/recency
-  are rank multipliers applied OUTSIDE the cache (`wireBuilder.rankClusters`).
-- **Honest display (D3):** cards show a BUCKETED heat (Low/Med/High) + direction
-  + a source-count corroboration chip + channel names — never a precise 0-10
-  numeral on unverified scraped chatter. `#sebiSiteFooter` covers the disclaimer.
-- **Never-throw:** every LLM path floors to the deterministic `wireHeuristic`, so
-  a missing key / quota outage degrades quality, never availability.
-
-### Modules
-
-| File | Role |
-|------|------|
-| `services/newsWire/wireArchive.js` | Append-only NDJSON sink; no-op when `NEWS_WIRE_DIR` unset; trailing-2-UTC-file window read + buffer prune. |
-| `services/newsWire/wireClusterer.js` | `clusterTokens` (boilerplate-stripped) → Jaccard **OR** containment; contradiction veto; stable earliest-`publishedAt` key (H3). |
-| `services/newsWire/wireHeuristic.js` | Never-throw floor + the closed `WIRE_CATEGORIES` vocabulary and `normaliseWireCategory`. |
-| `services/newsWire/wireImpactSignal.js` | Gemini→Groq→heuristic; `sanitiseText` + `<news_body>` wrap (untrusted Telegram bodies). |
-| `services/newsWire/wireImpactBatcher.js` | Floor gate + per-build LLM cap + concurrency pool + cache tri-state (H1). |
-| `services/newsWire/wireImpactCache.js` | Schema-versioned atomic cache; content-only key; `none/failed/below_floor/succeeded` + backoff (H2). |
-| `services/newsWire/wireBuilder.js` | Orchestrator + `rankClusters` (impact × recency × corroboration) + KV/mirror publish. |
-| `server.js` `GET /api/news/wire` | KV→FS→cache; never 500 → `{items:[]}` so the UI self-hides. |
-| `gated/app.js` `renderMarketWire(wire,{variant})` | Two surfaces, one renderer: `"teaser"` + `"full"`. Variant-scoped ids. |
-
-### Two surfaces (2026-07-08 consumption redesign)
-
-Live data saturates `MAX_ITEMS = 40` and is ~73% low-heat, so an always-expanded block
-buried the page.
-
-- **Teaser** — collapsed `<details>` on Market Intelligence, **below** `renderMarketDigest`
-  (the digest is the settled read; the wire is an unverified tape). Summary line carries
-  "N high · N med · N breaking · updated Xm ago".
-- **Tab** — `#marketWireTab`, button immediately **before** `trackTabBtn`, no `.tab-flag`.
-  Its own 120s poll hitting only `/api/news/wire`. On Market Intelligence the wire is 1 of
-  **7 parallel fetches** in `loadMarketNews`, so it cannot be refreshed alone — that, not
-  taxonomy, is why the tab exists.
-
-**Load-bearing UI invariants:**
-- **Filtering + sorting are pure CSS** (`.wire-list[data-wire-filter]`, `order:`). A chip
-  click flips one attribute and never re-renders — that is the only thing preserving scroll
-  position and open `<details>`. Use `setAttribute(...,"1")`, **never** `toggleAttribute`
-  (it sets `""`, and the CSS matches `="1"`).
-- **D4, never change content under the reader.** The 10-min silent tick rebuilds
-  `#newsContainer` wholesale, so the renderer draws the pinned `_wireFeed` while newer data
-  waits in `_wirePendingFeed` behind an "N new stories" pill. Open state / filter /
-  `_wireWhyOpen` / `scrollTop` are all restored from module state.
-- **`TAB_CONFIG` has NO `onLeave` hook** — `grep clearInterval gated/app.js` returns one
-  hand-written line. Every polling tab must add its own clear or the timer leaks across
-  every subsequent tab switch. Visibility pausing extends `syncScanStatusPollers`.
-- **Variant-scoped ids.** Tab panels are `display:none`, not removed; once both surfaces have
-  been visited both are mounted, so an unscoped id or testid matches twice.
-- `gated/app.js` sits on a **raw-rgba ratchet (cap 486)**. Use semantic tokens; the original
-  wire quietly broke it with 9 literal fills and CI never noticed (it runs one e2e spec).
-- Headlines are the raw Telegram message. `wireCleanHeadline()` strips the channels'
-  tracking URL / `#MintMarkets |` prefix **for display only** — rewriting `representative`
-  server-side would churn every cluster id and cold-flush the impact cache.
-
-### Tests
-
-```bash
-node test/wireArchive.test.mjs && node test/wireClusterer.test.mjs \
-  && node test/wireHeuristic.test.mjs && node test/wireImpactCache.test.mjs \
-  && node test/wireImpactSignal.test.mjs && node test/wireImpactBatcher.test.mjs \
-  && node test/wireBuilder.test.mjs          # all wired into `npm test`
-npx playwright test market-wire.spec.mjs market-wire-tab.spec.mjs
+node test/vercel-cron-budget.test.mjs                # pins the send cron schedule
 ```
