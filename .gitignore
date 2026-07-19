@@ -173,11 +173,6 @@ data/alerts/sent-*.ndjson
 # Near-dup story window (per-machine runtime state, same posture as the ledger).
 data/alerts/recent-stories-*.ndjson
 
-# Market Wire: the whole news-wire dir is per-machine runtime state. The raw
-# Telegram buffer, the LLM impact-cache, and the wire-latest.json local mirror
-# are all rebuildable — production reads the wire from Vercel KV, never off the
-# serverless bundle (so nothing here needs a vercel.json includeFiles entry).
-data/news-wire/
 
 # Tier-0 buildLeaderboard backtest output (regenerated on demand, not source)
 data/track-record/buildleaderboard-backtest-latest.json
