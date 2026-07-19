@@ -23,7 +23,6 @@
     a: "analyzer",
     e: "earnings",
     r: "riskLab",
-    m: "marketWire",
   };
 
   let _gPrefixTimer = null;

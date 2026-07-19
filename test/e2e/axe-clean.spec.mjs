@@ -15,7 +15,7 @@ import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import { gotoApp, switchTab } from "./helpers/app.mjs";
 
-const TABS = ["picks", "news", "marketWire", "track", "analyzer", "watchlist"];
+const TABS = ["picks", "news", "track", "analyzer", "watchlist"];
 const THEMES = ["dark", "light"];
 
 async function mockBoundedTrackRecord(page) {
