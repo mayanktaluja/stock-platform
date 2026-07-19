@@ -1,29 +1,29 @@
 {
   "schema_version": "earnings-health-v1",
-  "generated_at": "2026-07-18T01:52:10.592Z",
+  "generated_at": "2026-07-19T02:00:54.337Z",
   "resolved": {
-    "count": 482,
-    "delta_vs_prior": 7,
-    "prior_count": 475
+    "count": 484,
+    "delta_vs_prior": 2,
+    "prior_count": 482
   },
   "llm_providers": {
-    "groq": 0,
-    "gemini": 0,
-    "heuristic": 404,
-    "none": 2,
-    "total": 406
+    "groq": 8,
+    "gemini": 8,
+    "heuristic": 385,
+    "none": 3,
+    "total": 404
   },
   "llm_offline": false,
-  "llm_heuristic_share_pct": 72,
+  "llm_heuristic_share_pct": 53,
   "llm_stats": {
-    "total": 406,
-    "classified": 404,
-    "cache_hits": 81,
-    "llm_calls": 27,
-    "heuristic": 323,
-    "heuristic_cache_invalidations": 0,
+    "total": 404,
+    "classified": 401,
+    "cache_hits": 162,
+    "llm_calls": 28,
+    "heuristic": 223,
+    "heuristic_cache_invalidations": 41,
     "cross_floor_invalidations": 0,
-    "below_v3_floor": 108,
+    "below_v3_floor": 17,
     "composite_floor": 47,
     "llm_available": true,
     "skip_llm": false
@@ -31,9 +31,9 @@
   "cap_lift_gate": {
     "state": false,
     "enough_data_to_lift_cap": false,
-    "days_in_current_state": 68,
+    "days_in_current_state": 69,
     "current_resolved": 0,
-    "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (482 across all versions)",
+    "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (484 across all versions)",
     "detail": {
       "resolved_required": 30,
       "bucket_60_64_hit_rate_required": 55,
@@ -46,7 +46,7 @@
   },
   "weight_tuning_gate": {
     "met": true,
-    "resolved_count": 375,
+    "resolved_count": 377,
     "distinct_quarters": 2,
     "sectors_with_min_events": 14,
     "detail": {
@@ -76,7 +76,7 @@
         "Commercial Services": 10,
         "Energy": 5,
         "Software": 15,
-        "Banks": 4,
+        "Banks": 6,
         "Tech": 5,
         "Media": 6,
         "Consumer Retailing": 3,
@@ -94,9 +94,9 @@
       "gate": {
         "state": false,
         "enough_data_to_lift_cap": false,
-        "days_in_current_state": 68,
+        "days_in_current_state": 69,
         "current_resolved": 0,
-        "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (482 across all versions)",
+        "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (484 across all versions)",
         "detail": {
           "resolved_required": 30,
           "bucket_60_64_hit_rate_required": 55,
@@ -114,7 +114,7 @@
       "reason": "Weight tuning review is eligible from the separate tuning sample gate.",
       "gate": {
         "met": true,
-        "resolved_count": 375,
+        "resolved_count": 377,
         "distinct_quarters": 2,
         "sectors_with_min_events": 14,
         "detail": {
@@ -144,7 +144,7 @@
             "Commercial Services": 10,
             "Energy": 5,
             "Software": 15,
-            "Banks": 4,
+            "Banks": 6,
             "Tech": 5,
             "Media": 6,
             "Consumer Retailing": 3,
@@ -166,10 +166,10 @@
     }
   },
   "archive_schema": {
-    "earnings-history-v5": 54
+    "earnings-history-v5": 55
   },
   "predictor_versions": {
-    "earnings-predict-v3-2026-05": 406
+    "earnings-predict-v3-2026-05": 404
   },
   "restatements": {
     "count": 0,
@@ -182,18 +182,18 @@
     "examples": []
   },
   "insufficient_data": {
-    "count_total": 53,
-    "count_7d": 2,
-    "count_30d": 4,
-    "count_prior_30d": 22,
-    "trend_pct_30d_vs_prior": -81.8
+    "count_total": 54,
+    "count_7d": 3,
+    "count_30d": 5,
+    "count_prior_30d": 21,
+    "trend_pct_30d_vs_prior": -76.2
   },
   "macro_regime": {
     "present": true,
-    "generated_at": "2026-07-17T18:30:16.166Z",
-    "age_hours": 7,
+    "generated_at": "2026-07-18T12:30:19.734Z",
+    "age_hours": 14,
     "classifier_provider": "groq",
-    "regime": "OIL_SHOCK",
+    "regime": "CALM",
     "stale": false,
     "alert": null
   },
@@ -202,29 +202,29 @@
     "runtime_24h": null,
     "alert": null
   },
-  "history_files": 54,
+  "history_files": 55,
   "hit_rate_summary": {
     "schema_version": "hit-rate-summary-v1",
-    "generated_at": "2026-07-18T01:52:10.798Z",
-    "resolved_count": 385,
-    "unresolved_count": 1808,
+    "generated_at": "2026-07-19T02:00:54.585Z",
+    "resolved_count": 387,
+    "unresolved_count": 1821,
     "strict": {
-      "hit_rate_pct": 36.1,
-      "ci_low_pct": 31.4,
-      "ci_high_pct": 40.8,
-      "sample_size": 385
+      "hit_rate_pct": 36.4,
+      "ci_low_pct": 31.5,
+      "ci_high_pct": 41.1,
+      "sample_size": 387
     },
     "lenient": {
-      "hit_rate_pct": 81.5,
-      "ci_low_pct": 77.3,
-      "ci_high_pct": 85.2,
-      "sample_size": 384
+      "hit_rate_pct": 81.6,
+      "ci_low_pct": 78,
+      "ci_high_pct": 85.5,
+      "sample_size": 386
     },
     "catastrophic": {
-      "rate_pct": 18.5,
-      "ci_low_pct": 14.6,
-      "ci_high_pct": 22.4,
-      "sample_size": 384
+      "rate_pct": 18.4,
+      "ci_low_pct": 14.8,
+      "ci_high_pct": 22,
+      "sample_size": 386
     },
     "rolling_30": {
       "window": 30,
@@ -235,8 +235,7 @@
     "catastrophic_alert_threshold_pct": 12
   },
   "alerts": [
-    "LLM signal is 100% heuristic (404/406) — GROQ_API_KEY / GEMINI_API_KEY likely not configured on the refresh host, OR every cached entry is from a no-keys run and the cache hasn't been re-classified (try `node scripts/refresh-earnings.mjs --purge-heuristic-cache --yes` followed by a refresh)",
-    "LLM heuristic share (above V3 floor): 215/298 = 72% (threshold 20%; 108 below-floor skips excluded by design) — LLM tier may be failing on eligible events; check earningsLlmSignal.js logs",
+    "LLM heuristic share (above V3 floor): 206/387 = 53% (threshold 20%; 17 below-floor skips excluded by design) — LLM tier may be failing on eligible events; check earningsLlmSignal.js logs",
     "Catastrophic rate alert: rolling-30 23.3% (7/30) exceeds 12% threshold — Risk Lab promotion gate cannot clear"
   ],
   "healthy": false
