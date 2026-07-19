@@ -1,7 +1,7 @@
 {
   "schemaVersion": "fo-screener-v1",
   "asOf": "2026-07-17",
-  "fetchedAt": "2026-07-17T19:27:19.175Z",
+  "fetchedAt": "2026-07-18T19:27:24.214Z",
   "urlUsed": "https://nsearchives.nseindia.com/content/fo/BhavCopy_NSE_FO_0_0_0_20260717_F_0000.csv.zip",
   "methodology": "OI aggregated across all stock-futures expiries (avoids rollover-Thursday phantoms); Δ vs prior session = ChngInOpnIntrst / (OI − ChngInOpnIntrst). Volume confirmation: today's vol vs 20-session mean. Decoupling co-flag: |OI Δ| ≥ 20% with |price Δ| < 0.5%. Score 0–100 = scaled OI move × volume confirmation × decouple boost × direction consistency. Educational content only.",
   "stats": {
@@ -171,25 +171,6 @@
         "interpretation": "Bears adding fresh shorts — OI up while price drops."
       },
       {
-        "underlying": "ICICIGI",
-        "instrumentType": "STF",
-        "expiryCount": 3,
-        "nearMonthExpiry": "2026-07-28",
-        "nearMonthSettle": 1608.1,
-        "underlyingPrice": 1612.2,
-        "oiTotal": 7066150,
-        "oiChangeTotal": 433550,
-        "volumeTotal": 6342,
-        "oiDeltaPct": 6.536652293218345,
-        "priceDeltaPct": -0.7713192644699494,
-        "volumeRatio": null,
-        "volumeBucket": "unknown",
-        "signal": "short_buildup",
-        "decoupled": false,
-        "score": 7,
-        "interpretation": "Bears adding fresh shorts — OI up while price drops."
-      },
-      {
         "underlying": "SUNPHARMA",
         "instrumentType": "STF",
         "expiryCount": 3,
@@ -302,6 +283,25 @@
         "decoupled": false,
         "score": 5,
         "interpretation": "Bulls adding fresh longs — OI up with price."
+      },
+      {
+        "underlying": "POWERINDIA",
+        "instrumentType": "STF",
+        "expiryCount": 3,
+        "nearMonthExpiry": "2026-07-28",
+        "nearMonthSettle": 32150,
+        "underlyingPrice": 32075,
+        "oiTotal": 516450,
+        "oiChangeTotal": 23025,
+        "volumeTotal": 5247,
+        "oiDeltaPct": 4.666362669098647,
+        "priceDeltaPct": -4.1871554164804055,
+        "volumeRatio": null,
+        "volumeBucket": "unknown",
+        "signal": "short_buildup",
+        "decoupled": false,
+        "score": 5,
+        "interpretation": "Bears adding fresh shorts — OI up while price drops."
       }
     ],
     "broader": [
@@ -361,6 +361,25 @@
         "decoupled": false,
         "score": 7,
         "interpretation": "Longs being booked — OI falling with price."
+      },
+      {
+        "underlying": "ICICIGI",
+        "instrumentType": "STF",
+        "expiryCount": 3,
+        "nearMonthExpiry": "2026-07-28",
+        "nearMonthSettle": 1608.1,
+        "underlyingPrice": 1612.2,
+        "oiTotal": 7066150,
+        "oiChangeTotal": 433550,
+        "volumeTotal": 6342,
+        "oiDeltaPct": 6.536652293218345,
+        "priceDeltaPct": -0.7713192644699494,
+        "volumeRatio": null,
+        "volumeBucket": "unknown",
+        "signal": "short_buildup",
+        "decoupled": false,
+        "score": 7,
+        "interpretation": "Bears adding fresh shorts — OI up while price drops."
       },
       {
         "underlying": "PFC",
@@ -436,25 +455,6 @@
         "signal": "neutral",
         "decoupled": false,
         "score": 5,
-        "interpretation": "No meaningful conviction — OI/price moves both within noise."
-      },
-      {
-        "underlying": "DALBHARAT",
-        "instrumentType": "STF",
-        "expiryCount": 2,
-        "nearMonthExpiry": "2026-07-28",
-        "nearMonthSettle": 1830.2,
-        "underlyingPrice": 1823.2,
-        "oiTotal": 5042700,
-        "oiChangeTotal": 190125,
-        "volumeTotal": 2039,
-        "oiDeltaPct": 3.918022905364678,
-        "priceDeltaPct": -0.15820195297582584,
-        "volumeRatio": null,
-        "volumeBucket": "unknown",
-        "signal": "neutral",
-        "decoupled": false,
-        "score": 4,
         "interpretation": "No meaningful conviction — OI/price moves both within noise."
       },
       {
@@ -572,22 +572,22 @@
         "interpretation": "No meaningful conviction — OI/price moves both within noise."
       },
       {
-        "underlying": "SBICARD",
+        "underlying": "HCLTECH",
         "instrumentType": "STF",
         "expiryCount": 3,
         "nearMonthExpiry": "2026-07-28",
-        "nearMonthSettle": 654.35,
-        "underlyingPrice": 654.7,
-        "oiTotal": 28696800,
-        "oiChangeTotal": -1025600,
-        "volumeTotal": 8914,
-        "oiDeltaPct": -3.4505961833499312,
-        "priceDeltaPct": 1.292569659442728,
+        "nearMonthSettle": 1202.7,
+        "underlyingPrice": 1203.9,
+        "oiTotal": 41368800,
+        "oiChangeTotal": -1284800,
+        "volumeTotal": 16976,
+        "oiDeltaPct": -3.012172477821333,
+        "priceDeltaPct": 2.4795501022495006,
         "volumeRatio": null,
         "volumeBucket": "unknown",
         "signal": "short_covering",
         "decoupled": false,
-        "score": 4,
+        "score": 3,
         "interpretation": "Shorts covering — OI falling as price recovers."
       }
     ]
