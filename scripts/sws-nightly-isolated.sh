@@ -157,11 +157,6 @@ if [ -z "${RESEND_API_KEY:-}" ] && [ ! -f "${WORKTREE_DIR}/.env" ] && [ ! -f "${
 fi
 
 echo "[isolated-nightly] launching sws-nightly.sh from isolated worktree"
-# ALERTS_LEDGER_DIR pins alert state (sent-ledger + the entry-transitions pending
-# queue written by sws-scoring) to the CANONICAL repo — this worktree is hard-reset
-# to origin/main every run, so anything written here would vanish before the 08:30
-# dispatcher drains it (same C2 rule as the news-alerts poller).
 SWS_NIGHTLY_REPO_DIR="${WORKTREE_DIR}" \
 SWS_NIGHTLY_BASE_BRANCH="${BASE_BRANCH}" \
-ALERTS_LEDGER_DIR="${ALERTS_LEDGER_DIR:-${PRIMARY_REPO}/data/alerts}" \
   bash "${WORKTREE_DIR}/scripts/sws-nightly.sh" "$@"
