@@ -1005,26 +1005,6 @@ export function runFullScoring() {
     });
     console.log(`Entry timing stamped: ${stampStats.stamped} rows (${stampStats.eligibleRows} plan-eligible)`);
 
-    // PR-3: dwell-passed transitions → the alert pending queue. MUST live at the
-    // ABSOLUTE canonical path (ALERTS_LEDGER_DIR, exported by the nightly wrapper) —
-    // the nightly runs in a throwaway worktree that is hard-reset every run, so a
-    // worktree-relative queue would vanish before the 08:30 dispatcher drains it.
-    // Env absent (manual/dev runs) → skip silently with a log line.
-    if (stampStats.transitions.length && process.env.ALERTS_LEDGER_DIR) {
-      const queuePath = path.join(process.env.ALERTS_LEDGER_DIR, "entry-transitions-pending.json");
-      const existing = readJsonIfExists(queuePath);
-      const merged = new Map(); // (ticker|to) → transition, newest wins, prior unsent survive
-      for (const t of existing?.transitions || []) merged.set(`${t.ticker}|${t.to}`, t);
-      for (const t of stampStats.transitions) merged.set(`${t.ticker}|${t.to}`, t);
-      fs.mkdirSync(path.dirname(queuePath), { recursive: true });
-      writeJsonAtomic(queuePath, {
-        generated_at: new Date().toISOString(),
-        transitions: [...merged.values()],
-      });
-      console.log(`Entry transitions queued: ${stampStats.transitions.length} new → ${queuePath}`);
-    } else if (stampStats.transitions.length) {
-      console.log(`Entry transitions detected (${stampStats.transitions.length}) but ALERTS_LEDGER_DIR unset — queue skipped (dev run)`);
-    }
   } catch (e) {
     console.error(`Entry-timing stamp failed (non-fatal, rows ship unstamped): ${e.message}`);
   }

@@ -1,6 +1,6 @@
 # PROJECT_STATUS.md — stock-platform
 
-**Last updated: 2026-07-10**
+**Last updated: 2026-07-19**
 
 Living snapshot of where the project is right now. Update this file whenever
 you ship a meaningful PR or change direction. The point is that a fresh AI
@@ -29,9 +29,31 @@ V3 (cleaner FV model, fixed coverage traps), so the active work is recovering
 that gap through weight tuning rather than chasing new features.
 
 Compounder Lab and Earnings Edge were retired in June 2026 to remove unused
-experimental surface area and nightly refresh load.
+experimental surface area and nightly refresh load. The Market Wire tab and the
+whole Telegram alerting stack were retired in July 2026 — **the platform now has
+no push-notification channel of any kind.**
 
 ## Recently shipped (themed, newest first — rolling ~4–6 week window; `git log` is the archive)
+
+### Market Wire + the entire Telegram alerting stack removed (2026-07-19)
+- **Removed end-to-end**, not flag-suppressed: the `#marketWireTab` and its
+  Market Intelligence teaser, `/api/news/wire`, `services/newsWire/`, and all of
+  `services/alerts/` — every one of the four alert classes (channel ROUTER, RSS
+  watchlist NEWS, macro-regime REGIME, email-heartbeat WATCHDOG), their scripts,
+  shell wrappers, launchd plists, `data/alerts/` config, and the `telegram`
+  (GramJS) dependency. `npm test` went 242 → 213 segments; Vercel crons 7 → 6.
+- **Ordering was load-bearing**: `loudGate`/`nearDupGate` imported the wire's
+  `wireHeuristic`/`wireClusterer` (the Phase 3c de-noise reused the wire's brain),
+  so Telegram had to go first before `services/newsWire/` could be deleted whole.
+- **Deliberately kept**: the daily SWS portfolio email and its `/send` cron, the
+  macro-regime refresh cron (it feeds the live Market Intelligence page),
+  `macroHeadlineFetcher.js`, and the Vercel KV credentials (KV also backs
+  portfolio / watchlist / user / paper-trade storage — it was only *documented*
+  under a Market Wire heading).
+- **Observability regression, accepted knowingly**: the #1020 watchdog below is
+  gone. A 0-delivered daily email now only logs a WARNING from the nightly's
+  trigger; send failures and timeouts still throw. See CLAUDE.md
+  "Observability — what is left after the Telegram removal".
 
 ### Daily portfolio email — silent-outage fix + "what's new in Earnings Watch" (July 2026)
 - **PR #1020 (merged, live)** — the daily SWS-input-alert email had **no schedule
@@ -46,7 +68,10 @@ experimental surface area and nightly refresh load.
   07-06 artifact was *older* at check time than the true 07-10 outage). Also
   added an in-trigger heartbeat on 0-delivered / failed / timed-out sends, and
   moved the fallback send cron to 11:00 IST so it lands after the nightly.
-  **Dormant until `TG_*` + `CRON_SECRET` are set in the Vercel project env.**
+  **⚠️ SUPERSEDED 2026-07-19** — both heartbeats were removed with the Telegram
+  stack (see the entry above). The 11:00 IST send cron and the per-run dedup
+  survive; the paging does not. The run_id-vs-build-age lesson still stands and
+  is preserved in CLAUDE.md.
 - **PR #1021 (merged, live)** — new admin-gated **"New in Earnings Watch today"**
   section on the same email: calendar-wide additions (⭐ on the owner's holdings,
   held rows never truncated, header reports "N of total") plus **material
@@ -129,10 +154,12 @@ re-confirm across a drawdown window before trusting it further. Ledger rows now 
   git-replays picks-latest history (real result: knife-classified flags T+5
   median MAE −3.39% vs −0.06% confirmed). Tier-2: Yahoo-direct
   `sws-enrich-technicals.mjs` sidecar (RSI/DMA/reclaim/ATR/RS) + demote-only
-  confirm gate. Alerts: dwell-filtered transitions → canonical
-  `ALERTS_LEDGER_DIR` queue → drained by the news-alerts poller's 08:30 IST
-  tick (→CONFIRMED is breaking, carries the ladder). Modules under
-  `services/entry/`; plan at `~/.claude/plans/entry-timing-final.md`.
+  confirm gate. Alerts: dwell-filtered transitions were queued to
+  `ALERTS_LEDGER_DIR` and drained by the news-alerts poller — **that push path
+  was removed 2026-07-19 with the Telegram stack**, and the queue writer in
+  `sws-scoring.mjs` went with it; the entry-timing badges themselves are
+  unaffected and still render. Modules under `services/entry/`; plan at
+  `~/.claude/plans/entry-timing-final.md`.
 
 ### Portfolio Analyzer — Top-up cap + capital-aware actions (July 2026)
 - **This series (6 commits)** — Top-up badges are now a ranked shortlist, not a

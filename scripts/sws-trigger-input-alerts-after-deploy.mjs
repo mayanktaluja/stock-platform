@@ -6,9 +6,6 @@
 
 import { pathToFileURL } from "node:url";
 
-import { dispatch } from "../services/alerts/alertDispatcher.js";
-import { formatEmailHeartbeat } from "../services/alerts/emailHeartbeatAlert.js";
-
 const DEFAULT_PRODUCTION_URL = "https://starbhai-stock-platform.vercel.app";
 
 function readFlag(argv, name, fallback = null) {
@@ -31,18 +28,12 @@ export function parseArgs(argv = process.argv.slice(2), env = process.env) {
   const cronSecret = readFlag(argv, "--cron-secret", env.CRON_SECRET || "");
   const timeoutMs = readNumberFlag(argv, "--timeout-ms", Number(env.SWS_ALERT_TRIGGER_TIMEOUT_MS) || 900_000);
   const intervalMs = readNumberFlag(argv, "--interval-ms", Number(env.SWS_ALERT_TRIGGER_INTERVAL_MS) || 15_000);
-  // Heartbeat (Telegram ping when a send that DID run delivered to nobody, or the
-  // trigger timed out / failed). Default on; disable with --no-heartbeat or
-  // SWS_ALERT_HEARTBEAT=0. The dispatch self-skips when TG_* is unset, so this is
-  // a no-op until the owner configures the bot.
-  const heartbeat = !argv.includes("--no-heartbeat") && String(env.SWS_ALERT_HEARTBEAT || "") !== "0";
   return {
     expectedRunId: String(expectedRunId || "").trim(),
     productionUrl: String(productionUrl || DEFAULT_PRODUCTION_URL).replace(/\/+$/, ""),
     cronSecret: String(cronSecret || ""),
     timeoutMs,
     intervalMs,
-    heartbeat,
   };
 }
 
@@ -67,9 +58,6 @@ export async function triggerAlertsAfterDeploy({
   fetchImpl = globalThis.fetch,
   sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms)),
   log = console.log,
-  dispatchImpl = dispatch,
-  heartbeat = true,
-  env = process.env,
 } = {}) {
   if (!expectedRunId) throw new Error("--expected-run-id is required");
   if (!cronSecret) throw new Error("--cron-secret or CRON_SECRET is required");
@@ -79,20 +67,6 @@ export async function triggerAlertsAfterDeploy({
   const started = Date.now();
   let lastProbe = null;
   let attempts = 0;
-
-  // Fire the Telegram heartbeat when a send that reached the route delivered to
-  // nobody, or the trigger failed/timed out. Never throws — a heartbeat failure
-  // must not change the trigger's exit code (the dispatch is itself never-throw,
-  // and this is belt-and-suspenders).
-  const fireHeartbeat = async (payload) => {
-    if (!heartbeat) return;
-    try {
-      const alert = formatEmailHeartbeat(payload);
-      if (alert) await dispatchImpl(alert, { env });
-    } catch (err) {
-      log(`[sws-alert-trigger] heartbeat dispatch error (swallowed): ${err.message}`);
-    }
-  };
 
   while (Date.now() - started <= timeoutMs) {
     attempts += 1;
@@ -109,11 +83,6 @@ export async function triggerAlertsAfterDeploy({
       });
       if (!send.ok || send.body?.ok !== true) {
         const msg = JSON.stringify(send.body || {});
-        await fireHeartbeat({
-          runId: send.body?.run_id || expectedRunId,
-          recipientCount: 0,
-          reason: `send failed status=${send.status}`,
-        });
         throw new Error(`alert send failed status=${send.status} body=${msg}`);
       }
       log(
@@ -122,13 +91,12 @@ export async function triggerAlertsAfterDeploy({
       );
       // Delivered to nobody on a real send = the silent-outage shape (every
       // recipient deduped on a stale run_id, or artifact-not-email-eligible).
+      // Log-only: this used to also page the owner, but that channel is gone.
       if (Number(send.body.recipient_count) === 0 && send.body.dry_run !== true) {
-        await fireHeartbeat({
-          runId: send.body.run_id || expectedRunId,
-          recipientCount: 0,
-          reason: send.body.reason || null,
-          counts: send.body.counts,
-        });
+        log(
+          `[sws-alert-trigger] WARNING delivered to nobody run_id=${send.body.run_id || expectedRunId} ` +
+            `reason=${send.body.reason || "<none>"}`,
+        );
       }
       return { matched: true, attempts, probe: probe.body, send: send.body };
     }
@@ -142,12 +110,8 @@ export async function triggerAlertsAfterDeploy({
 
   const deployed = lastProbe?.run_id || "<none>";
   // Never matched the expected run_id within the window — production never served
-  // a fresh artifact (nightly produced no new run_id). That is an outage.
-  await fireHeartbeat({
-    runId: expectedRunId,
-    recipientCount: 0,
-    reason: `trigger timed out; production deployed=${deployed}`,
-  });
+  // a fresh artifact (nightly produced no new run_id). That is an outage, and it
+  // surfaces as this throw plus the nightly's own non-zero exit.
   throw new Error(`timed out waiting for production run_id=${expectedRunId}; deployed=${deployed}`);
 }
 

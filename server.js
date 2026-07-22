@@ -4094,11 +4094,6 @@ app.get("/api/market-calendar", async (req, res) => {
  */
 const newsAggregatorCache = new NodeCache({ stdTTL: 300, checkperiod: 60 });
 
-// Market Wire cache — the ranked Telegram-derived feed. Built locally every ~5
-// min and published to Vercel KV (news:wire:latest); this in-process cache keeps
-// a 90s TTL so a tab open doesn't hit KV on every request.
-const wireCache = new NodeCache({ stdTTL: 90, checkperiod: 30 });
-
 app.get("/api/news/market", async (req, res) => {
   try {
     const cached = newsAggregatorCache.get("market_news");
@@ -4213,37 +4208,6 @@ app.get("/api/news/market", async (req, res) => {
   } catch (err) {
     console.error("News aggregator error:", err.message);
     res.status(500).json({ error: "Failed to fetch news" });
-  }
-});
-
-// Market Wire feed — the ranked, clustered, impact-tagged view of the Telegram
-// firehose (services/newsWire). Production source of truth is Vercel KV; a local
-// gitignored mirror is the dev/KV-outage fallback. NEVER 500s — returns an empty
-// feed on any miss so the Market Intelligence tab self-hides the section.
-app.get("/api/news/wire", async (req, res) => {
-  const EMPTY = { schema_version: "news-wire-v1", generatedAt: null, items: [] };
-  try {
-    const cached = wireCache.get("wire");
-    if (cached) return res.json(cached);
-
-    let wire = null;
-    if (process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN) {
-      try {
-        const { kv } = await import("@vercel/kv");
-        wire = await kv.get("news:wire:latest");
-      } catch (e) {
-        console.warn("[wire] KV read failed:", e.message);
-      }
-    }
-    // FS mirror fallback (local dev only — gitignored, absent from the Vercel bundle).
-    if (!wire) wire = readJsonSafe(path.join(__dirname, "data", "news-wire", "wire-latest.json"));
-    if (!wire || !Array.isArray(wire.items)) wire = EMPTY;
-
-    wireCache.set("wire", wire);
-    res.json(wire);
-  } catch (err) {
-    console.error("[wire] route error:", err.message);
-    res.json(EMPTY);
   }
 });
 
@@ -6138,8 +6102,6 @@ import { buildPortfolioEarningsRows } from "./services/earnings/portfolioEarning
 import { buildEarningsWatchDelta } from "./services/earnings/earningsWatchDiff.js";
 import { loadPriorArchivePredictions } from "./services/earnings/earningsHistoryArchive.js";
 import { mailProvider, sendMail, validateBulkMailerConfig } from "./services/resendMailer.js";
-import { dispatch } from "./services/alerts/alertDispatcher.js";
-import { buildStalenessVerdict, formatStalenessAlert } from "./services/alerts/emailHeartbeatAlert.js";
 
 // Lazy @vercel/kv client for the portfolio response cache L2. Memoised
 // so we don't re-import on every request. Returns null when KV isn't
@@ -6973,46 +6935,6 @@ app.all("/api/cron/sws-input-alerts/send", express.json(), async (req, res) => {
   } catch (err) {
     console.error("[SWS-INPUT-ALERTS] cron send failed:", err.message);
     res.status(500).json({ error: err.message });
-  }
-});
-
-// Independent daily watchdog for the SWS-input-alert email. Mac-independent
-// (Vercel cron), it pages the owner via Telegram when NO fresh SWS run exists
-// for today — the load-bearing catch for the reported outage (nightly slow /
-// died early / Mac asleep), which the local post-deploy trigger cannot cover
-// because it never launches. The signal is run_id's IST calendar date, not
-// generated_at build-age (build-age can't separate a healthy-but-late nightly
-// from a real outage). Never 500 — a watchdog must not itself alarm on a bug.
-app.all("/api/cron/sws-input-alerts/heartbeat", async (req, res) => {
-  if (!checkCronBearer(req, res)) return;
-  if (!boolEnv("SWS_INPUT_ALERTS_ENABLED")) {
-    return res.json({ ok: true, enabled: false, reason: "SWS_INPUT_ALERTS_ENABLED not set" });
-  }
-  try {
-    const market = loadMarketWideSwsInputChanges(SWS_INPUT_ALERT_ARTIFACT);
-    const verdict = buildStalenessVerdict(market, Date.now());
-    let alerted = false;
-    if (verdict.stale) {
-      const alert = formatStalenessAlert(verdict);
-      if (alert) {
-        const sent = await dispatch(alert, {});
-        alerted = !!(sent && sent.ok && !sent.skipped);
-      }
-    }
-    return res.json({
-      ok: true,
-      enabled: true,
-      stale: verdict.stale,
-      reason: verdict.reason,
-      run_id: verdict.run_id,
-      run_id_ist_date: verdict.run_id_ist_date,
-      today_ist_date: verdict.today_ist_date,
-      artifact_missing: market.artifact_missing === true,
-      alerted,
-    });
-  } catch (err) {
-    console.error("[SWS-INPUT-ALERTS] heartbeat failed:", err.message);
-    return res.json({ ok: false, enabled: true, error: err.message, alerted: false });
   }
 });
 
