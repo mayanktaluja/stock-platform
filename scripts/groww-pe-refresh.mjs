@@ -26,6 +26,13 @@ export const DEFAULT_PE_FAILURE_PATH = path.join(REPO_ROOT, "data/sws/groww-pe-f
 const DEFAULT_UNIVERSE_PATH = path.join(REPO_ROOT, "data/sws/universe.json");
 const BASE_URL = "https://groww.in";
 const FILTER_URL = `${BASE_URL}/stocks/filter`;
+const SEARCH_URL = `${BASE_URL}/v1/api/search/v3/query/global/st_p_query`;
+export const DEFAULT_SEARCHID_MAP_PATH = path.join(REPO_ROOT, "data/sws/groww-searchid-map.json");
+
+// How long a "this ticker cannot be resolved" verdict is trusted before we retry
+// it. Bounded so a newly-listed SME that Groww hasn't indexed yet gets picked up
+// within a week instead of being negative-cached forever.
+const SEARCHID_NEGATIVE_TTL_DAYS = 7;
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const jitter = (minMs = 120, maxMs = 550) =>
@@ -423,6 +430,12 @@ function parseArgs(argv) {
     peStaleGraceDays: 21,
     concurrency: 6,
     retries: 2,
+    // Bound the search-fallback request budget per run. Overflow is deferred to
+    // the next run rather than dropped, and already-resolved tickers come from
+    // the persisted map at zero cost, so steady state is near-zero lookups.
+    maxSearchLookups: 900,
+    searchIdMap: DEFAULT_SEARCHID_MAP_PATH,
+    noSearchFallback: false,
     timeoutMs: 15000,
     minCoveragePct: 70,
     force: false,
@@ -447,6 +460,9 @@ function parseArgs(argv) {
     else if (arg === "--retries") opts.retries = Number(argv[++i]);
     else if (arg === "--timeout-ms") opts.timeoutMs = Number(argv[++i]);
     else if (arg === "--min-coverage-pct") opts.minCoveragePct = Number(argv[++i]);
+    else if (arg === "--max-search-lookups") opts.maxSearchLookups = Number(argv[++i]);
+    else if (arg === "--searchid-map") opts.searchIdMap = path.resolve(argv[++i]);
+    else if (arg === "--no-search-fallback") opts.noSearchFallback = true;
     else if (arg === "--tickers") {
       while (argv[i + 1] && !argv[i + 1].startsWith("--")) opts.tickers.push(argv[++i]);
     } else if (!arg.startsWith("--")) {
@@ -512,6 +528,150 @@ async function mapLimit(items, limit, worker) {
   return out;
 }
 
+/**
+ * Is this ticker even a candidate for search-based resolution?
+ *
+ * The search endpoint is keyed on the NSE scrip code, so anything that isn't
+ * NSE-symbol-shaped can never match: `BSE_500041`-style pseudo-tickers (our
+ * universe's placeholder for BSE-only listings) and bare numeric BSE codes have
+ * no NSE code to compare against. Skipping them is not a shortcut — it removes
+ * ~52% of the unmapped set from the request budget for zero lost coverage.
+ */
+export function isSearchResolvableTicker(ticker) {
+  const t = String(ticker || "").trim().toUpperCase();
+  if (!t) return false;
+  if (t.startsWith("BSE_")) return false;
+  if (/^\d+$/.test(t)) return false;
+  return /^[A-Z0-9][A-Z0-9&-]{0,19}$/.test(t);
+}
+
+/**
+ * Resolve one ticker to a Groww searchId — STRICTLY.
+ *
+ * Accepts a hit ONLY when its `nse_scrip_code` equals the ticker we asked for.
+ *
+ * This exactness is the whole safety property, not a nicety. Groww's search for
+ * the retired `TATAMOTORS` returns `tata-motors-ltd`, whose nse_scrip_code is
+ * **TMPV** — Tata Motors demerged into TMPV/TMCV. Taking the first hit (or a
+ * fuzzy/name match) would silently file TMPV's P/E under TATAMOTORS, i.e. write
+ * one company's valuation into another's row, in a field that feeds V4 scoring.
+ * A miss here is cheap (the ticker stays unmapped, exactly as today); a wrong
+ * match is silent data corruption. So: exact NSE code, or nothing.
+ */
+export async function resolveSearchIdStrict(ticker, { timeoutMs = 15000, retries = 1, fetchImpl } = {}) {
+  const want = String(ticker || "").trim().toUpperCase();
+  if (!want) return null;
+  const url = `${SEARCH_URL}?page=0&query=${encodeURIComponent(want)}&size=5`;
+  let raw;
+  try {
+    raw = fetchImpl ? await fetchImpl(url) : await fetchText(url, { timeoutMs, retries });
+  } catch {
+    return null;
+  }
+  let json;
+  try {
+    json = JSON.parse(raw);
+  } catch {
+    return null;
+  }
+  const list = json?.data?.content || json?.content || [];
+  if (!Array.isArray(list)) return null;
+  for (const hit of list) {
+    const code = String(hit?.nse_scrip_code || "").trim().toUpperCase();
+    const searchId = hit?.search_id || hit?.searchId;
+    if (code && code === want && searchId) return String(searchId);
+  }
+  return null;
+}
+
+function loadSearchIdMap(file) {
+  try {
+    const parsed = JSON.parse(fs.readFileSync(file, "utf-8"));
+    return {
+      resolved: parsed?.resolved && typeof parsed.resolved === "object" ? parsed.resolved : {},
+      unresolved: parsed?.unresolved && typeof parsed.unresolved === "object" ? parsed.unresolved : {},
+    };
+  } catch {
+    return { resolved: {}, unresolved: {} };
+  }
+}
+
+/**
+ * Recover tickers the screener omits, via the strict resolver.
+ *
+ * Groww's /stocks/filter endpoint serves only ~4476 records while reporting
+ * `totalRecords: 5019`, and exhausting its pagination does not change that — so a
+ * chunk of the universe (notably recent SME/small-cap listings) simply has no
+ * screener row to map from. Before this, those tickers were dropped outright,
+ * which pushed coverage under the 70% floor and hard-blocked the whole SWS ship.
+ *
+ * Results persist to disk so a resolved ticker costs one search call ever, and
+ * failures are negative-cached with a short TTL so we neither hammer the endpoint
+ * nightly nor permanently write off a newly-listed name.
+ */
+async function resolveUnmappedSearchIds(unmapped, opts) {
+  const out = { resolved: [], attempted: 0, fromCache: 0, skipped: 0, map: null };
+  if (!unmapped.length || opts.noSearchFallback) return out;
+
+  const mapFile = opts.searchIdMap || DEFAULT_SEARCHID_MAP_PATH;
+  const store = loadSearchIdMap(mapFile);
+  const nowMs = Date.now();
+  const negativeTtlMs = daysToMs(SEARCHID_NEGATIVE_TTL_DAYS);
+
+  const toQuery = [];
+  for (const ticker of unmapped) {
+    const cachedId = store.resolved[ticker];
+    if (cachedId) {
+      out.resolved.push({ ticker, searchId: cachedId });
+      out.fromCache += 1;
+      continue;
+    }
+    if (!isSearchResolvableTicker(ticker)) {
+      out.skipped += 1;
+      continue;
+    }
+    const negAt = Date.parse(store.unresolved[ticker] || "");
+    if (Number.isFinite(negAt) && nowMs - negAt < negativeTtlMs) {
+      out.skipped += 1;
+      continue;
+    }
+    toQuery.push(ticker);
+  }
+
+  const budget = toQuery.slice(0, opts.maxSearchLookups);
+  const deferred = toQuery.length - budget.length;
+  console.log(
+    `[groww-stock] searchId fallback: ${out.fromCache} from map, ${budget.length} to look up, ` +
+      `${out.skipped} skipped (not NSE-shaped / negative-cached)${deferred > 0 ? `, ${deferred} deferred past budget` : ""}`
+  );
+
+  const looked = await mapLimit(budget, Math.min(opts.concurrency, 6), async (ticker) => {
+    await sleep(jitter(120, 400));
+    const searchId = await resolveSearchIdStrict(ticker, {
+      timeoutMs: opts.timeoutMs,
+      retries: opts.retries,
+    });
+    return { ticker, searchId };
+  });
+  out.attempted = budget.length;
+
+  const stamp = new Date().toISOString();
+  for (const row of looked) {
+    if (!row) continue;
+    if (row.searchId) {
+      store.resolved[row.ticker] = row.searchId;
+      delete store.unresolved[row.ticker];
+      out.resolved.push(row);
+    } else {
+      store.unresolved[row.ticker] = stamp;
+    }
+  }
+
+  out.map = { file: mapFile, store, stamp };
+  console.log(`[groww-stock] searchId fallback recovered ${out.resolved.length} ticker(s)`);
+  return out;
+}
+
 async function refreshCache(opts) {
   const now = new Date();
   const fetchedAt = now.toISOString();
@@ -539,6 +699,17 @@ async function refreshCache(opts) {
     }
     targets.push({ ticker, rec });
   }
+
+  // Second pass: the screener does not cover the full universe (it serves ~4476
+  // of a claimed 5019), so ask the search endpoint for what it missed.
+  const screenerMappedCount = targets.length;
+  const fallback = await resolveUnmappedSearchIds(unmapped, opts);
+  const recoveredTickers = new Set();
+  for (const { ticker, searchId } of fallback.resolved) {
+    targets.push({ ticker, rec: { searchId, source: "search_fallback" } });
+    recoveredTickers.add(ticker);
+  }
+  const stillUnmapped = unmapped.filter((t) => !recoveredTickers.has(t));
 
   const byTicker = {};
   const fetchFailed = [];
@@ -580,6 +751,14 @@ async function refreshCache(opts) {
       screener_records_count: records.length,
       screener_total_records: totalRecords,
       mapped_count: targets.length,
+      // Split out so a future coverage drop is attributable: a falling
+      // screener_mapped_count means Groww's filter shrank, whereas a falling
+      // search_recovered_count means the fallback or the search endpoint broke.
+      screener_mapped_count: screenerMappedCount,
+      search_recovered_count: fallback.resolved.length,
+      search_lookups_attempted: fallback.attempted,
+      search_map_hits: fallback.fromCache,
+      unmapped_count: stillUnmapped.length,
       fetched_count: Object.keys(byTicker).length,
       usable_count: usableCount,
       coverage_pct: Math.round(coveragePct * 100) / 100,
@@ -588,10 +767,29 @@ async function refreshCache(opts) {
     },
     by_ticker: byTicker,
     missing: {
-      unmapped,
+      // Post-fallback: tickers the screener missed AND the strict resolver could
+      // not confirm. Reporting the pre-fallback list here would overstate the gap
+      // and hide whether the fallback is working.
+      unmapped: stillUnmapped,
       fetch_failed: fetchFailed,
     },
   };
+
+  // Persist the learned map only after a successful build, so a run that dies
+  // mid-flight cannot leave behind negative verdicts it never really tested.
+  if (fallback.map && !opts.dryRun) {
+    writeJsonAtomic(fallback.map.file, {
+      schema_version: "groww-searchid-map-v1",
+      updated_at: fallback.map.stamp,
+      note:
+        "ticker -> Groww searchId, resolved by STRICT nse_scrip_code equality for tickers " +
+        "the /stocks/filter screener does not serve. `unresolved` is negative-cached with a " +
+        `${SEARCHID_NEGATIVE_TTL_DAYS}-day TTL. Never populate this by name/fuzzy match: ` +
+        "Groww search for the retired TATAMOTORS returns TMPV's page.",
+      resolved: fallback.map.store.resolved,
+      unresolved: fallback.map.store.unresolved,
+    });
+  }
 
   return cache;
 }
