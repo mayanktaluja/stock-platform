@@ -176,6 +176,16 @@ const DATA_CONTENT_TESTS = [
 ];
 
 function runDataContentTests(problems) {
+  // --skip-content-tests exists for ONE caller: test/prePushDataScope.test.mjs,
+  // which exercises the hook end-to-end from inside `npm test`. Without it that
+  // test spawns these four suites nested, mid-run — and any suite member that
+  // mutates a shared fixture then corrupts state for whatever runs later in the
+  // chain, surfacing as a failure far from its cause. The real hook never passes
+  // this flag, so the prod protection is unaffected.
+  if (process.argv.includes("--skip-content-tests")) {
+    console.log("[validate-data-push] content tests skipped (--skip-content-tests)");
+    return;
+  }
   for (const t of DATA_CONTENT_TESTS) {
     if (!fs.existsSync(path.resolve(t))) continue;
     try {

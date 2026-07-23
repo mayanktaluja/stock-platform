@@ -9,6 +9,7 @@
  */
 
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import { spawnSync, execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
@@ -62,13 +63,40 @@ console.log("prePushDataScope: exit-code dispatch is fail-safe");
 
 console.log("prePushDataScope: end-to-end against real commits");
 
-function runHook(localSha, remoteSha, { timeoutMs = 90_000 } = {}) {
+/**
+ * Stub `npm` so the hook's slow path does NOT recursively run the real suite.
+ *
+ * Without this, asserting the fall-through spawns a nested `npm test` that gets
+ * killed mid-flight — and several suite members mutate shared fixtures
+ * (users.json, data/sws/alerts/*.json) which they only restore on a clean exit.
+ * The nested run therefore corrupts state for whatever runs after THIS test,
+ * producing failures far away from the cause. Stubbing keeps the assertion
+ * ("did the hook reach the full suite?") without paying for or polluting it.
+ */
+const stubBin = fs.mkdtempSync(path.join(os.tmpdir(), "prepush-stub-"));
+fs.writeFileSync(
+  path.join(stubBin, "npm"),
+  '#!/usr/bin/env bash\necho "[stub npm] $*"\nexit 0\n',
+  { mode: 0o755 }
+);
+process.on("exit", () => {
+  try {
+    fs.rmSync(stubBin, { recursive: true, force: true });
+  } catch {}
+});
+
+function runHook(localSha, remoteSha, { timeoutMs = 90_000, stubNpm = false, skipContentTests = false } = {}) {
   const res = spawnSync("bash", [HOOK, "origin", "git@github.com:mayanktaluja/stock-platform.git"], {
     input: `refs/heads/t ${localSha} refs/heads/t ${remoteSha}\n`,
     cwd: REPO_ROOT,
     encoding: "utf-8",
     timeout: timeoutMs,
     killSignal: "SIGKILL",
+    env: {
+      ...process.env,
+      ...(stubNpm ? { PATH: `${stubBin}:${process.env.PATH}` } : {}),
+      ...(skipContentTests ? { PREPUSH_VALIDATE_EXTRA_ARGS: "--skip-content-tests" } : {}),
+    },
   });
   return { code: res.status, out: `${res.stdout || ""}${res.stderr || ""}` };
 }
@@ -91,10 +119,12 @@ if (!dataCommit) {
   const allData = changed.every((f) => f.startsWith("data/") || /^(fundamentals|surveillance|governance|fundamentalsHistory)\.json$/.test(f));
   assert(`the sampled commit ${dataCommit.slice(0, 8)} is genuinely data-only`, allData, changed.filter((f) => !f.startsWith("data/")));
 
-  const r = runHook(dataCommit, parent);
+  // PREPUSH_VALIDATE_EXTRA_ARGS keeps this end-to-end run from spawning the four
+  // content-test suites nested inside `npm test` (see validate-data-push.mjs).
+  const r = runHook(dataCommit, parent, { skipContentTests: true });
   assert("a real data-only push takes the fast path", r.code === 0, { code: r.code, out: r.out.slice(-400) });
   assert("the fast path says it skipped the suite", /skipping the full suite/.test(r.out), r.out.slice(0, 300));
-  assert("the fast path reports what it validated", /validate-data-push\] OK/.test(r.out));
+  assert("the fast path reports what it validated", /validate-data-push\] OK/.test(r.out), r.out.slice(-300));
   assert("the fast path did NOT run the unit suite", !/Running unit tests/.test(r.out));
 }
 
@@ -103,7 +133,8 @@ if (!dataCommit) {
   // the full suite, which is slow — assert on the classification line and stop.
   const head = git("rev-parse", "HEAD");
   const prev = git("rev-parse", "HEAD~1");
-  const r = runHook(head, prev, { timeoutMs: 25_000 }); // killed mid-suite by design
+  // stubNpm: assert the hook REACHES the suite without actually running it.
+  const r = runHook(head, prev, { timeoutMs: 60_000, stubNpm: true });
   assert("a code push is classified as not-pure-data", /Not a pure-data push/.test(r.out), r.out.slice(0, 300));
   assert("a code push proceeds to the unit suite", /Running unit tests/.test(r.out), r.out.slice(0, 400));
 }

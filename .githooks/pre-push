@@ -97,32 +97,36 @@ done
 # and ANY other status — including a crash or a missing node — falls through to
 # the full suite. Ambiguity always degrades toward MORE testing, never less.
 if [ "$SCOPE_AMBIGUOUS" = "0" ] && [ "$NON_DELETE_REFS" -gt 0 ]; then
+  # Unique log path: the nightly cron and a developer can push concurrently, and
+  # a fixed /tmp name means one run's `rm` deletes the other's log mid-read.
+  DATA_LOG="$(mktemp "${TMPDIR:-/tmp}/prepush-data.XXXXXX")"
   set +e
-  printf '%s' "$CHANGED_FILES" | node scripts/validate-data-push.mjs --files-from - >/tmp/prepush-data.log 2>&1
+  printf '%s' "$CHANGED_FILES" | node scripts/validate-data-push.mjs --files-from - ${PREPUSH_VALIDATE_EXTRA_ARGS:-} >"$DATA_LOG" 2>&1
   DATA_RC=$?
   set -e
   case "$DATA_RC" in
     0)
       echo "[pre-push] Data-only push — validated the changed data; skipping the full suite."
-      cat /tmp/prepush-data.log
-      rm -f /tmp/prepush-data.log
+      cat "$DATA_LOG"
+      rm -f "$DATA_LOG"
       echo "[pre-push] ✓ Pre-push checks passed — pushing"
       exit 0
       ;;
     3)
       echo "[pre-push] ✗ Data validation FAILED"
       echo
-      cat /tmp/prepush-data.log
+      cat "$DATA_LOG"
+      rm -f "$DATA_LOG"
       echo
       echo "[pre-push] Push blocked. The data being pushed is malformed (bad JSON, or a leftover git conflict marker)."
       exit 1
       ;;
     *)
       echo "[pre-push] Not a pure-data push (rc=$DATA_RC) — running the full suite."
-      [ -s /tmp/prepush-data.log ] && head -25 /tmp/prepush-data.log
+      [ -s "$DATA_LOG" ] && head -25 "$DATA_LOG"
       ;;
   esac
-  rm -f /tmp/prepush-data.log
+  rm -f "$DATA_LOG"
 fi
 
 # Always run the unit tests — they're fast (<2s) and catch the broadest
