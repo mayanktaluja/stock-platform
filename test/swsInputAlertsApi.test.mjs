@@ -7,10 +7,13 @@ import { createHmac } from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { spawn } from "node:child_process";
+import { allocatePort } from "./helpers/freePort.mjs";
 
 process.env.NODE_ENV = "test";
 const ROOT = process.cwd();
-const PORT = 4138;
+// Hardcoded ports collide when suites run concurrently. Allocate from the OS
+// ephemeral range instead — see test/helpers/freePort.mjs.
+const PORT = await allocatePort();
 const USERS = path.join(ROOT, "users.json");
 const ANALYZER = path.join(ROOT, "analyzer-last.json");
 const LEDGER = path.join(ROOT, "sws-input-alert-ledger.json");

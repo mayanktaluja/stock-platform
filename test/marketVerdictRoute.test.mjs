@@ -14,6 +14,15 @@ process.env.KV_REST_API_TOKEN = "";
 
 const { default: app } = await import(`../server.js?market-verdict-route=${Date.now()}`);
 
+// server.js:13 runs `dotenv.config({ override: true })`, which re-reads .env and
+// OVERWRITES the neutralisation above. In any environment that has a real .env
+// (the nightly's worktree symlinks one) this in-process app would otherwise talk
+// to live KV. Re-strip AFTER the import — getKVClient() reads process.env at call
+// time, so this is what actually takes effect. Don't "fix" this by disabling
+// dotenv's override: the nightly relies on it to pick up rotated credentials.
+delete process.env.KV_REST_API_URL;
+delete process.env.KV_REST_API_TOKEN;
+
 const server = http.createServer(app);
 server.listen(0, "127.0.0.1");
 await once(server, "listening");

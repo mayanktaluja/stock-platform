@@ -24,11 +24,14 @@ import { spawn } from "node:child_process";
 import { readdirSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { allocatePort } from "../helpers/freePort.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, "..", "..");
 
-const PORT = process.env.REGRESSION_PORT || 4022;
+// Hardcoded ports collide when suites run concurrently. Allocate from the OS
+// ephemeral range instead — see test/helpers/freePort.mjs.
+const PORT = process.env.REGRESSION_PORT || (await allocatePort());
 const BASE_URL = `http://localhost:${PORT}`;
 const CRON_SECRET = "regression-test-secret";
 

@@ -32,15 +32,102 @@ URL="$2"
 # heavier smoke step (Vercel only deploys main).
 PROTECTED_BRANCH="main"
 
-# Read each ref being pushed — git pipes them on stdin
+# Read each ref being pushed — git pipes them on stdin.
+#
+# Stdin is readable exactly ONCE, so the changed-file computation for the
+# data-only fast path (below) must happen in THIS loop. Do not add a second one.
 PUSH_TO_PROTECTED=0
+CHANGED_FILES=""
+SCOPE_AMBIGUOUS=0
+NON_DELETE_REFS=0
+ZERO_RE='^0*$'   # length-agnostic: correct for both sha1 and sha256 repos
+
 while read -r local_ref local_sha remote_ref remote_sha; do
   case "$remote_ref" in
     refs/heads/$PROTECTED_BRANCH)
       PUSH_TO_PROTECTED=1
       ;;
   esac
+
+  # All-zero local_sha = branch deletion. Contributes no files.
+  if printf '%s' "$local_sha" | grep -Eq "$ZERO_RE"; then
+    continue
+  fi
+  NON_DELETE_REFS=$((NON_DELETE_REFS + 1))
+
+  if printf '%s' "$remote_sha" | grep -Eq "$ZERO_RE"; then
+    # Brand-new branch — diff against the merge-base with the protected branch.
+    # This is the ONLY path the nightly ever takes: it builds a uniquely-named
+    # chore/sws-auto-refresh-<date>-<time> branch per run and pushes it with -u.
+    #
+    # Deliberately NO `git fetch` here: network inside a pre-push hook is a new
+    # failure mode, and the nightly's wrapper already fetches origin/main (and
+    # hard-fails the run if it can't) before any of this executes.
+    if ! base="$(git merge-base "origin/$PROTECTED_BRANCH" "$local_sha" 2>/dev/null)" || [ -z "$base" ]; then
+      SCOPE_AMBIGUOUS=1
+      break
+    fi
+  else
+    # remote_sha can be absent locally (stale ref, force-push). Verify before diffing.
+    if ! git cat-file -e "${remote_sha}^{commit}" 2>/dev/null; then
+      SCOPE_AMBIGUOUS=1
+      break
+    fi
+    base="$remote_sha"
+  fi
+
+  # Two-dot diff on a resolved base handles merge commits correctly. No
+  # --diff-filter: deletions are changes too and must be classified.
+  if ! files="$(git diff --name-only "$base" "$local_sha" 2>/dev/null)"; then
+    SCOPE_AMBIGUOUS=1
+    break
+  fi
+  CHANGED_FILES="${CHANGED_FILES}${files}
+"
 done
+
+# ── Data-only fast path ──────────────────────────────────────────────────────
+# The full suite is ~200 chained commands, several of which boot HTTP servers and
+# read the environment. Running all of it to push a scraped JSON file made an
+# unrelated test failure able to block market data from reaching prod — which is
+# what happened on 2026-07-20/21/22. When every changed path is data, validate
+# the DATA instead (JSON parses, no conflict markers, includeFiles coverage).
+#
+# Fail-safe by construction: exit 0 = skip the suite, 3 = data is broken (block),
+# and ANY other status — including a crash or a missing node — falls through to
+# the full suite. Ambiguity always degrades toward MORE testing, never less.
+if [ "$SCOPE_AMBIGUOUS" = "0" ] && [ "$NON_DELETE_REFS" -gt 0 ]; then
+  # Unique log path: the nightly cron and a developer can push concurrently, and
+  # a fixed /tmp name means one run's `rm` deletes the other's log mid-read.
+  DATA_LOG="$(mktemp "${TMPDIR:-/tmp}/prepush-data.XXXXXX")"
+  set +e
+  printf '%s' "$CHANGED_FILES" | node scripts/validate-data-push.mjs --files-from - ${PREPUSH_VALIDATE_EXTRA_ARGS:-} >"$DATA_LOG" 2>&1
+  DATA_RC=$?
+  set -e
+  case "$DATA_RC" in
+    0)
+      echo "[pre-push] Data-only push — validated the changed data; skipping the full suite."
+      cat "$DATA_LOG"
+      rm -f "$DATA_LOG"
+      echo "[pre-push] ✓ Pre-push checks passed — pushing"
+      exit 0
+      ;;
+    3)
+      echo "[pre-push] ✗ Data validation FAILED"
+      echo
+      cat "$DATA_LOG"
+      rm -f "$DATA_LOG"
+      echo
+      echo "[pre-push] Push blocked. The data being pushed is malformed (bad JSON, or a leftover git conflict marker)."
+      exit 1
+      ;;
+    *)
+      echo "[pre-push] Not a pure-data push (rc=$DATA_RC) — running the full suite."
+      [ -s "$DATA_LOG" ] && head -25 "$DATA_LOG"
+      ;;
+  esac
+  rm -f "$DATA_LOG"
+fi
 
 # Always run the unit tests — they're fast (<2s) and catch the broadest
 # class of regressions
