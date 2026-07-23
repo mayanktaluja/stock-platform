@@ -102,17 +102,30 @@ function runHook(localSha, remoteSha, { timeoutMs = 90_000, stubNpm = false, ski
 }
 
 function git(...args) {
-  return execFileSync("git", args, { cwd: REPO_ROOT, encoding: "utf-8" }).trim();
+  return execFileSync("git", args, { cwd: REPO_ROOT, encoding: "utf-8", stdio: ["ignore", "pipe", "pipe"] }).trim();
 }
 
+/** null instead of throwing, for history that may not exist in a shallow clone. */
+function gitOrNull(...args) {
+  try {
+    return git(...args);
+  } catch {
+    return null;
+  }
+}
+
+// CI checks out with actions/checkout@v4, which is a depth-1 SHALLOW clone: there
+// is no HEAD~1 and no origin/main history to diff against. The structural
+// assertions above still run there (they only read the hook source); the
+// end-to-end cases need real commits, so skip them rather than fail. Same
+// self-skip convention as test/riskLabApi.test.mjs and backtestRiskLab.
+const HAS_HISTORY = gitOrNull("rev-parse", "HEAD~1") !== null;
+
 // A real nightly auto-refresh commit — the exact shape that has been blocked.
-let dataCommit = null;
-try {
-  dataCommit = git("rev-list", "-1", "--grep=auto-refresh", "origin/main");
-} catch {}
+const dataCommit = HAS_HISTORY ? gitOrNull("rev-list", "-1", "--grep=auto-refresh", "origin/main") : null;
 
 if (!dataCommit) {
-  console.log("  ↷ skip — no auto-refresh commit found on origin/main");
+  console.log("  ↷ skip — no auto-refresh commit reachable (shallow clone or no history)");
 } else {
   const parent = git("rev-parse", `${dataCommit}^`);
   const changed = git("diff", "--name-only", parent, dataCommit).split("\n").filter(Boolean);
@@ -128,7 +141,9 @@ if (!dataCommit) {
   assert("the fast path did NOT run the unit suite", !/Running unit tests/.test(r.out));
 }
 
-{
+if (!HAS_HISTORY) {
+  console.log("  ↷ skip — shallow clone, no HEAD~1 to build a code-push diff from");
+} else {
   // A commit that touches code must never take the fast path. The hook then runs
   // the full suite, which is slow — assert on the classification line and stop.
   const head = git("rev-parse", "HEAD");
