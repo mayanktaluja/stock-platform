@@ -1,87 +1,87 @@
 {
   "schema_version": "earnings-watch-stats-v4",
-  "built_at": "2026-07-19T01:50:38.995Z",
-  "today_iso": "2026-07-19",
+  "built_at": "2026-07-23T09:28:21.950Z",
+  "today_iso": "2026-07-23",
   "window_days": 60,
-  "upstream_event_count": 419,
-  "upstream_fetched_at": "2026-07-18T19:00:22.731Z",
-  "event_count": 404,
-  "recent_results_count": 124,
+  "upstream_event_count": 506,
+  "upstream_fetched_at": "2026-07-23T05:36:10.020Z",
+  "event_count": 482,
+  "recent_results_count": 240,
   "past_window_days": 14,
   "bucket_by_days": {
-    "d0": 0,
-    "d1to3": 117,
-    "d4to7": 100,
-    "d8to14": 113,
-    "d15to30": 74,
+    "d0": 48,
+    "d1to3": 76,
+    "d4to7": 199,
+    "d8to14": 122,
+    "d15to30": 37,
     "d31to60": 0
   },
   "signals": {
     "by_data_quality": {
-      "HIGH": 399,
-      "MEDIUM": 2,
-      "LOW": 3
+      "HIGH": 283,
+      "MEDIUM": 193,
+      "LOW": 6
     },
     "by_pre_runup": {
-      "spike": 67,
-      "smooth": 70,
-      "lagging": 74,
-      "neutral": 193
+      "spike": 56,
+      "smooth": 89,
+      "lagging": 151,
+      "neutral": 186
     },
     "sector_count": 23,
     "top_sectors": [
       {
         "sector": "Materials",
-        "count": 69
-      },
-      {
-        "sector": "Diversified Financials",
-        "count": 53
+        "count": 97
       },
       {
         "sector": "Capital Goods",
-        "count": 50
+        "count": 60
       },
       {
-        "sector": "Software",
-        "count": 29
+        "sector": "Diversified Financials",
+        "count": 59
+      },
+      {
+        "sector": "Pharmaceuticals & Biotech",
+        "count": 34
       },
       {
         "sector": "Food, Beverage & Tobacco",
-        "count": 24
+        "count": 33
       }
     ]
   },
   "predictions": {
     "by_verdict": {
-      "BEAT": 187,
-      "INLINE": 135,
-      "MISS": 79,
-      "INSUFFICIENT_DATA": 3
+      "BEAT": 189,
+      "INLINE": 186,
+      "MISS": 101,
+      "INSUFFICIENT_DATA": 6
     },
-    "avg_confidence_pct": 58,
+    "avg_confidence_pct": 57,
     "confidence_cap_pct": 65,
     "predictor_version": "earnings-predict-v3-2026-05"
   },
   "playbooks": {
-    "tradable_count": 401,
+    "tradable_count": 476,
     "by_highlighted_branch": {
-      "RAISE": 144,
-      "MAINTAIN": 190,
-      "CUT": 67,
-      "none": 3
+      "RAISE": 240,
+      "MAINTAIN": 180,
+      "CUT": 56,
+      "none": 6
     },
     "playbook_version": "earnings-playbook-v1-2026-05"
   },
   "llm_stats": {
-    "total": 404,
-    "classified": 401,
-    "cache_hits": 162,
-    "llm_calls": 28,
-    "heuristic": 223,
-    "heuristic_cache_invalidations": 41,
+    "total": 482,
+    "classified": 476,
+    "cache_hits": 39,
+    "llm_calls": 33,
+    "heuristic": 265,
+    "heuristic_cache_invalidations": 16,
     "cross_floor_invalidations": 0,
-    "below_v3_floor": 17,
+    "below_v3_floor": 177,
     "composite_floor": 47,
     "llm_available": true,
     "skip_llm": false
