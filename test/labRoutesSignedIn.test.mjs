@@ -13,10 +13,13 @@ import fs from "node:fs";
 import path from "node:path";
 import { spawn } from "node:child_process";
 import { createHmac } from "node:crypto";
+import { allocatePort } from "./helpers/freePort.mjs";
 
 const ROOT = process.cwd();
 const USERS_PATH = path.join(ROOT, "users.json");
-const PORT = 4127;
+// Hardcoded ports collide when suites run concurrently. Allocate from the OS
+// ephemeral range instead — see test/helpers/freePort.mjs.
+const PORT = await allocatePort();
 const BASE = `http://127.0.0.1:${PORT}`;
 const SECRET = "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef";
 const SUB = "signed-in-lab-reader";

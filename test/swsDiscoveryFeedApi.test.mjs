@@ -2,10 +2,13 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 import { spawn } from "node:child_process";
+import { allocatePort } from "./helpers/freePort.mjs";
 
 process.env.NODE_ENV = "test";
 const ROOT = process.cwd();
-const PORT = 4142;
+// Hardcoded ports collide when suites run concurrently. Allocate from the OS
+// ephemeral range instead — see test/helpers/freePort.mjs.
+const PORT = await allocatePort();
 const FEED = path.join(ROOT, "data", "sws", "discovery-feed-latest.json");
 
 function backup(file) {

@@ -10,12 +10,21 @@
  * means refresh-risk-lab.mjs hasn't been run since the data dir was wiped.
  */
 
-import { spawn } from "child_process";
 import { existsSync } from "fs";
 import path from "path";
+import { spawnServer, httpReady } from "./helpers/freePort.mjs";
 
-const BASE_PORT = Number(process.env.RISK_LAB_API_TEST_PORT || 4111 + (process.pid % 1000));
-let nextPort = BASE_PORT;
+// Port used to be `4111 + (process.pid % 1000)` — a range spanning 5000, which
+// macOS ControlCenter/AirPlay holds permanently. On 2026-07-22 the pid landed in
+// that bucket, server.js died with EADDRINUSE, and the nightly data push was
+// blocked. Ports are now OS-assigned; see test/helpers/freePort.mjs.
+//
+// RISK_LAB_API_TEST_PORT still pins the port when set, offset per boot so the
+// three sequential boots below stay distinct.
+const PINNED_BASE_PORT = process.env.RISK_LAB_API_TEST_PORT
+  ? Number(process.env.RISK_LAB_API_TEST_PORT)
+  : null;
+let bootIndex = 0;
 const PICKS_FILE = path.resolve("data/risk-lab/picks-adjusted-latest.json");
 
 let _failed = 0;
@@ -36,55 +45,26 @@ if (!existsSync(PICKS_FILE)) {
 // Boot server with NODE_ENV=test and AUTH_ENABLED=false so we don't need
 // fake credentials. Use the same env-shape the playwright harness uses.
 async function bootServer(extraEnv = {}) {
-  const port = nextPort++;
-  const output = [];
-  const collect = (chunk) => {
-    output.push(String(chunk));
-    if (output.length > 80) output.shift();
-  };
-  const proc = spawn("node", ["server.js"], {
-    env: {
-      ...process.env,
-      NODE_ENV: "test",
-      PORT: String(port),
-      AUTH_ENABLED: "false",
-      ...extraEnv,
-    },
-    stdio: ["ignore", "pipe", "pipe"],
-  });
-  proc.stdout.on("data", collect);
-  proc.stderr.on("data", collect);
-  let exitInfo = null;
-  const exited = new Promise((resolve) => {
-    proc.once("exit", (code, signal) => {
-      exitInfo = { code, signal };
-      resolve(exitInfo);
-    });
-  });
-  // Wait until /api/risk-lab/regime-context responds (lab API is always
-  // available regardless of which other tabs/routes happen to need DB init)
   const defaultTimeoutMs = process.env.CI ? 60000 : 30000;
   const timeoutMs = Number(process.env.RISK_LAB_API_BOOT_TIMEOUT_MS || defaultTimeoutMs);
-  const deadline = Date.now() + timeoutMs;
-  while (Date.now() < deadline) {
-    try {
-      const res = await fetch(`http://localhost:${port}/api/risk-lab/regime-context`);
-      if (res.status === 200 || res.status === 404 || res.status === 503) {
-        return { proc, port };
-      }
-    } catch {}
-    if (exitInfo) {
-      throw new Error(
-        `server exited before boot on port ${port}: ${JSON.stringify(exitInfo)}\n${output.join("").trim()}`
-      );
-    }
-    await new Promise((r) => setTimeout(r, 200));
-  }
-  proc.kill();
-  await Promise.race([exited, new Promise((r) => setTimeout(r, 2000))]);
-  throw new Error(
-    `server failed to boot within ${Math.round(timeoutMs / 1000)}s on port ${port}\n${output.join("").trim()}`
-  );
+  const offset = bootIndex++;
+  return spawnServer({
+    port: PINNED_BASE_PORT === null ? undefined : PINNED_BASE_PORT + offset,
+    env: { NODE_ENV: "test", AUTH_ENABLED: "false", ...extraEnv },
+    // Wait until /api/risk-lab/regime-context responds (the lab API is always
+    // available regardless of which other tabs/routes need DB init).
+    //
+    // 404 IS a valid boot signal and must stay: the kill-switch case below boots
+    // with RISK_LAB_ENABLED=false, where server.js:4793 makes every Risk Lab
+    // route return 404 — that is the only response it can give. This was only
+    // ever risky because a colliding port could return a FOREIGN 404 (macOS
+    // AirPlay on 5000 does exactly that); OS-assigned ports remove that hazard.
+    ready: httpReady({
+      path: "/api/risk-lab/regime-context",
+      accept: (s) => s === 200 || s === 404 || s === 503,
+    }),
+    timeoutMs,
+  });
 }
 
 async function safeKill(server) {

@@ -1,42 +1,33 @@
 import assert from "node:assert/strict";
-import { spawn } from "node:child_process";
 import { test } from "node:test";
+import { spawnServer, httpReady } from "./helpers/freePort.mjs";
 
 const TEXT_MARKERS = [/Quality Growth Co/i, /nasdaq-growth/i, /fixture-news-/i];
-const PORT = Number(process.env.SWS_MARKET_DATA_GUARD_PORT || 4311 + (process.pid % 1000));
+
+// Port used to be `4311 + (process.pid % 1000)` — a range spanning 5000, which
+// macOS ControlCenter/AirPlay holds permanently. See test/helpers/freePort.mjs.
+const PINNED_PORT = process.env.SWS_MARKET_DATA_GUARD_PORT
+  ? Number(process.env.SWS_MARKET_DATA_GUARD_PORT)
+  : undefined;
 
 async function bootServer() {
-  const proc = spawn("node", ["server.js"], {
-    env: {
-      ...process.env,
-      NODE_ENV: "test",
-      PORT: String(PORT),
-      AUTH_ENABLED: "false",
-    },
-    stdio: ["ignore", "pipe", "pipe"],
+  return spawnServer({
+    port: PINNED_PORT,
+    env: { NODE_ENV: "test", AUTH_ENABLED: "false" },
+    ready: httpReady({ path: "/healthz", accept: (s) => s >= 200 && s < 300 }),
+    timeoutMs: 20_000,
   });
-  const deadline = Date.now() + 20_000;
-  while (Date.now() < deadline) {
-    try {
-      const res = await fetch(`http://localhost:${PORT}/healthz`);
-      if (res.ok) return proc;
-    } catch {}
-    await new Promise((resolve) => setTimeout(resolve, 200));
-  }
-  proc.kill();
-  throw new Error("server failed to boot within 20s");
 }
 
-async function stopServer(proc) {
-  if (!proc || proc.killed) return;
-  proc.kill();
-  await new Promise((resolve) => setTimeout(resolve, 200));
+async function stopServer(server) {
+  if (server) await server.stop();
 }
 
 test("served market APIs quarantine known synthetic e2e fixture markers", async () => {
-  let proc;
+  let server;
   try {
-    proc = await bootServer();
+    server = await bootServer();
+    const PORT = server.port;
     const picksRes = await fetch(`http://localhost:${PORT}/api/us-picks`);
     assert.equal(picksRes.status, 200);
     const picks = await picksRes.json();
@@ -52,6 +43,6 @@ test("served market APIs quarantine known synthetic e2e fixture markers", async 
     const stockRes = await fetch(`http://localhost:${PORT}/api/us-stock/GROWTH`);
     assert.equal(stockRes.status, 404);
   } finally {
-    await stopServer(proc);
+    await stopServer(server);
   }
 });
