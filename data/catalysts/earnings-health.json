@@ -1,29 +1,29 @@
 {
   "schema_version": "earnings-health-v1",
-  "generated_at": "2026-07-19T02:00:54.337Z",
+  "generated_at": "2026-07-23T09:40:03.027Z",
   "resolved": {
-    "count": 484,
-    "delta_vs_prior": 2,
-    "prior_count": 482
+    "count": 549,
+    "delta_vs_prior": 65,
+    "prior_count": 484
   },
   "llm_providers": {
-    "groq": 8,
-    "gemini": 8,
-    "heuristic": 385,
-    "none": 3,
-    "total": 404
+    "groq": 4,
+    "gemini": 146,
+    "heuristic": 326,
+    "none": 6,
+    "total": 482
   },
   "llm_offline": false,
-  "llm_heuristic_share_pct": 53,
+  "llm_heuristic_share_pct": 29,
   "llm_stats": {
-    "total": 404,
-    "classified": 401,
-    "cache_hits": 162,
-    "llm_calls": 28,
-    "heuristic": 223,
-    "heuristic_cache_invalidations": 41,
+    "total": 482,
+    "classified": 476,
+    "cache_hits": 39,
+    "llm_calls": 33,
+    "heuristic": 265,
+    "heuristic_cache_invalidations": 16,
     "cross_floor_invalidations": 0,
-    "below_v3_floor": 17,
+    "below_v3_floor": 177,
     "composite_floor": 47,
     "llm_available": true,
     "skip_llm": false
@@ -31,9 +31,9 @@
   "cap_lift_gate": {
     "state": false,
     "enough_data_to_lift_cap": false,
-    "days_in_current_state": 69,
+    "days_in_current_state": 70,
     "current_resolved": 0,
-    "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (484 across all versions)",
+    "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (549 across all versions)",
     "detail": {
       "resolved_required": 30,
       "bucket_60_64_hit_rate_required": 55,
@@ -46,9 +46,9 @@
   },
   "weight_tuning_gate": {
     "met": true,
-    "resolved_count": 377,
+    "resolved_count": 442,
     "distinct_quarters": 2,
-    "sectors_with_min_events": 14,
+    "sectors_with_min_events": 15,
     "detail": {
       "need_resolved": 80,
       "need_quarters": 2,
@@ -59,27 +59,27 @@
         "Q4 FY26"
       ],
       "by_sector": {
-        "Pharmaceuticals & Biotech": 27,
-        "Consumer Durables": 33,
-        "Capital Goods": 63,
-        "Food, Beverage & Tobacco": 15,
-        "Materials": 63,
-        "Consumer Services": 13,
-        "Diversified Financials": 25,
-        "Automobiles": 24,
+        "Pharmaceuticals & Biotech": 28,
+        "Consumer Durables": 34,
+        "Capital Goods": 67,
+        "Food, Beverage & Tobacco": 18,
+        "Materials": 69,
+        "Consumer Services": 16,
+        "Diversified Financials": 35,
+        "Automobiles": 29,
         "Healthcare": 18,
-        "Utilities": 12,
+        "Media": 9,
+        "Utilities": 16,
         "Semiconductors": 3,
-        "Retail": 10,
-        "Transportation": 11,
-        "Telecom": 1,
+        "Retail": 13,
+        "Transportation": 13,
+        "Telecom": 2,
         "Commercial Services": 10,
-        "Energy": 5,
-        "Software": 15,
-        "Banks": 6,
-        "Tech": 5,
-        "Media": 6,
-        "Consumer Retailing": 3,
+        "Energy": 8,
+        "Software": 20,
+        "Banks": 15,
+        "Tech": 6,
+        "Consumer Retailing": 4,
         "Household": 5,
         "Insurance": 4
       }
@@ -94,9 +94,9 @@
       "gate": {
         "state": false,
         "enough_data_to_lift_cap": false,
-        "days_in_current_state": 69,
+        "days_in_current_state": 70,
         "current_resolved": 0,
-        "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (484 across all versions)",
+        "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (549 across all versions)",
         "detail": {
           "resolved_required": 30,
           "bucket_60_64_hit_rate_required": 55,
@@ -114,9 +114,9 @@
       "reason": "Weight tuning review is eligible from the separate tuning sample gate.",
       "gate": {
         "met": true,
-        "resolved_count": 377,
+        "resolved_count": 442,
         "distinct_quarters": 2,
-        "sectors_with_min_events": 14,
+        "sectors_with_min_events": 15,
         "detail": {
           "need_resolved": 80,
           "need_quarters": 2,
@@ -127,27 +127,27 @@
             "Q4 FY26"
           ],
           "by_sector": {
-            "Pharmaceuticals & Biotech": 27,
-            "Consumer Durables": 33,
-            "Capital Goods": 63,
-            "Food, Beverage & Tobacco": 15,
-            "Materials": 63,
-            "Consumer Services": 13,
-            "Diversified Financials": 25,
-            "Automobiles": 24,
+            "Pharmaceuticals & Biotech": 28,
+            "Consumer Durables": 34,
+            "Capital Goods": 67,
+            "Food, Beverage & Tobacco": 18,
+            "Materials": 69,
+            "Consumer Services": 16,
+            "Diversified Financials": 35,
+            "Automobiles": 29,
             "Healthcare": 18,
-            "Utilities": 12,
+            "Media": 9,
+            "Utilities": 16,
             "Semiconductors": 3,
-            "Retail": 10,
-            "Transportation": 11,
-            "Telecom": 1,
+            "Retail": 13,
+            "Transportation": 13,
+            "Telecom": 2,
             "Commercial Services": 10,
-            "Energy": 5,
-            "Software": 15,
-            "Banks": 6,
-            "Tech": 5,
-            "Media": 6,
-            "Consumer Retailing": 3,
+            "Energy": 8,
+            "Software": 20,
+            "Banks": 15,
+            "Tech": 6,
+            "Consumer Retailing": 4,
             "Household": 5,
             "Insurance": 4
           }
@@ -166,10 +166,10 @@
     }
   },
   "archive_schema": {
-    "earnings-history-v5": 55
+    "earnings-history-v5": 56
   },
   "predictor_versions": {
-    "earnings-predict-v3-2026-05": 404
+    "earnings-predict-v3-2026-05": 482
   },
   "restatements": {
     "count": 0,
@@ -182,61 +182,63 @@
     "examples": []
   },
   "insufficient_data": {
-    "count_total": 54,
-    "count_7d": 3,
-    "count_30d": 5,
-    "count_prior_30d": 21,
-    "trend_pct_30d_vs_prior": -76.2
+    "count_total": 58,
+    "count_7d": 7,
+    "count_30d": 9,
+    "count_prior_30d": 6,
+    "trend_pct_30d_vs_prior": 50
   },
   "macro_regime": {
     "present": true,
-    "generated_at": "2026-07-18T12:30:19.734Z",
-    "age_hours": 14,
+    "generated_at": "2026-07-19T02:30:29.886Z",
+    "age_hours": 103,
     "classifier_provider": "groq",
     "regime": "CALM",
-    "stale": false,
-    "alert": null
+    "stale": true,
+    "alert": "Macro regime is 103h old (threshold 18h) — com.starbhai.macro-only cron is unhealthy; check data/macroRegime-refresh.log"
   },
   "picks_snapshot_fv_drift": {
     "pipeline": null,
     "runtime_24h": null,
     "alert": null
   },
-  "history_files": 55,
+  "history_files": 56,
   "hit_rate_summary": {
     "schema_version": "hit-rate-summary-v1",
-    "generated_at": "2026-07-19T02:00:54.585Z",
-    "resolved_count": 387,
-    "unresolved_count": 1821,
+    "generated_at": "2026-07-23T09:40:03.321Z",
+    "resolved_count": 452,
+    "unresolved_count": 1951,
     "strict": {
-      "hit_rate_pct": 36.4,
-      "ci_low_pct": 31.5,
-      "ci_high_pct": 41.1,
-      "sample_size": 387
+      "hit_rate_pct": 37.8,
+      "ci_low_pct": 33.6,
+      "ci_high_pct": 42.3,
+      "sample_size": 452
     },
     "lenient": {
-      "hit_rate_pct": 81.6,
-      "ci_low_pct": 78,
-      "ci_high_pct": 85.5,
-      "sample_size": 386
+      "hit_rate_pct": 81.2,
+      "ci_low_pct": 77.8,
+      "ci_high_pct": 84.5,
+      "sample_size": 451
     },
     "catastrophic": {
-      "rate_pct": 18.4,
-      "ci_low_pct": 14.8,
-      "ci_high_pct": 22,
-      "sample_size": 386
+      "rate_pct": 18.8,
+      "ci_low_pct": 15.5,
+      "ci_high_pct": 22.6,
+      "sample_size": 451
     },
     "rolling_30": {
       "window": 30,
-      "catastrophic_count": 7,
-      "catastrophic_rate_pct": 23.3
+      "catastrophic_count": 8,
+      "catastrophic_rate_pct": 26.7
     },
     "catastrophic_alert": true,
     "catastrophic_alert_threshold_pct": 12
   },
   "alerts": [
-    "LLM heuristic share (above V3 floor): 206/387 = 53% (threshold 20%; 17 below-floor skips excluded by design) — LLM tier may be failing on eligible events; check earningsLlmSignal.js logs",
-    "Catastrophic rate alert: rolling-30 23.3% (7/30) exceeds 12% threshold — Risk Lab promotion gate cannot clear"
+    "LLM heuristic share (above V3 floor): 88/305 = 29% (threshold 20%; 177 below-floor skips excluded by design) — LLM tier may be failing on eligible events; check earningsLlmSignal.js logs",
+    "INSUFFICIENT_DATA predictions trending UP: 9 in last 30d vs 6 prior 30d (+50%) — predictor coverage may be degrading",
+    "Macro regime is 103h old (threshold 18h) — com.starbhai.macro-only cron is unhealthy; check data/macroRegime-refresh.log",
+    "Catastrophic rate alert: rolling-30 26.7% (8/30) exceeds 12% threshold — Risk Lab promotion gate cannot clear"
   ],
   "healthy": false
 }
