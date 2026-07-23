@@ -22,6 +22,12 @@ execSync("node scripts/prepare-public-assets.mjs", { stdio: "inherit" });
 
 const { default: app } = await import(`../server.js?static-cache-headers=${Date.now()}`);
 
+// server.js:13 runs `dotenv.config({ override: true })`, which re-reads .env and
+// OVERWRITES the neutralisation above. Re-strip AFTER the import so this
+// in-process app can never reach live KV. See test/marketVerdictRoute.test.mjs.
+delete process.env.KV_REST_API_URL;
+delete process.env.KV_REST_API_TOKEN;
+
 let pass = 0;
 let fail = 0;
 

@@ -19,9 +19,26 @@ const __dirname = path.dirname(__filename);
 const REPO_ROOT = path.resolve(__dirname, "..");
 const REAL_FILE = path.join(REPO_ROOT, "surveillance.json");
 
+// Neutralise remote-KV credentials IN-PROCESS, before ../surveillance.js is
+// imported below. This used to be a hard assert, which made the test refuse to
+// run whenever KV was configured — and that blocked the nightly data push for
+// three consecutive nights (2026-07-20/21/22).
+//
+// The creds arrive via env INHERITANCE, not a stray shell export:
+// scripts/sws-nightly.sh:67-70 does `set -a; source .env; set +a`, so every
+// child down to the pre-push hook's `npm test` sees them. Asserting there was
+// self-defeating — the one environment that always trips it is the one that
+// most needs the suite to pass.
+//
+// Stripping is safe: getKVClient() (surveillance.js:66-71) reads process.env at
+// CALL time with no memoisation, and this module's graph never loads dotenv
+// (nse.js and services/surveillanceRegindFetcher.js have zero imports). Same
+// idiom as test/swsInputAlertLedgerStorage.test.mjs:15-16.
+delete process.env.KV_REST_API_URL;
+delete process.env.KV_REST_API_TOKEN;
 assert(
-  !process.env.KV_REST_API_URL || !process.env.KV_REST_API_TOKEN,
-  "test refuses to run with @vercel/kv configured — would write to remote KV"
+  !process.env.KV_REST_API_URL && !process.env.KV_REST_API_TOKEN,
+  "KV env must be stripped before ../surveillance.js is imported — would write to remote KV"
 );
 
 const HAD_ORIGINAL = fs.existsSync(REAL_FILE);

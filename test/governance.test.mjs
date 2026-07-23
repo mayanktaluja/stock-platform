@@ -37,11 +37,21 @@ const REAL_FILE = path.join(REPO_ROOT, "governance.json");
 
 // Tests run against the real disk path. To keep the suite safe we
 // snapshot the file up-front and restore it on every exit (success,
-// failure, or uncaught throw). KV must NOT be configured in the test
-// env — assert that before we touch anything.
+// failure, or uncaught throw).
+//
+// KV must NOT be configured when ../governance.js runs. This used to be a hard
+// assert, which made the test refuse to run whenever KV was present — and that
+// blocked the nightly data push (see test/surveillance.test.mjs for the full
+// write-up; the creds arrive via `set -a; source .env` at
+// scripts/sws-nightly.sh:67-70 and are inherited all the way to `npm test`).
+//
+// Stripping is safe: getKVClient() (governance.js:112-118) reads process.env at
+// CALL time with no memoisation, and this module's graph never loads dotenv.
+delete process.env.KV_REST_API_URL;
+delete process.env.KV_REST_API_TOKEN;
 assert(
-  !process.env.KV_REST_API_URL || !process.env.KV_REST_API_TOKEN,
-  "test refuses to run with @vercel/kv configured — would write to remote KV"
+  !process.env.KV_REST_API_URL && !process.env.KV_REST_API_TOKEN,
+  "KV env must be stripped before ../governance.js is imported — would write to remote KV"
 );
 
 const HAD_ORIGINAL = fs.existsSync(REAL_FILE);
