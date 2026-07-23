@@ -76,6 +76,36 @@ echo "[isolated-nightly] primary=${PRIMARY_REPO}"
 echo "[isolated-nightly] worktree=${WORKTREE_DIR}"
 echo "[isolated-nightly] base_branch=${BASE_BRANCH}"
 
+# ── Self-heal: always run origin/main's reviewed copy of THIS wrapper ─────────
+# launchd (scripts/com.starbhai.sws-nightly.plist) and /sws-refresh both exec
+# THIS file straight out of the canonical dev checkout — which floats on whatever
+# feature branch the user is working on. On 2026-07-24 that checkout was parked on
+# a branch that predated the single-instance lock below, so the lock simply was
+# not present in the running code: the 00:30 cron collided with an in-flight
+# manual /sws-refresh, its `git reset --hard origin/main` reverted the manual
+# run's freshly-scored picks-latest.json + deep/*.json mid-flight, and that run's
+# sanity gate then failed on stale artifacts (picks_recent 114h, price freshness).
+#
+# The worktree the nightly BODY runs in is always reset to origin/main, so
+# sws-nightly.sh is never stale — only THIS wrapper (the lock + the destructive
+# reset) can be. Re-exec origin/main's version before touching anything so the
+# reviewed logic always wins, no matter which branch the checkout sits on.
+# Guarded by SWS_NIGHTLY_REEXECED against loops, and fail-open: a fetch/show hiccup
+# falls through to the local copy rather than skipping the nightly.
+if [ -z "${SWS_NIGHTLY_REEXECED:-}" ] && [ "${SWS_NIGHTLY_NO_REEXEC:-0}" != "1" ]; then
+  self_path="${BASH_SOURCE[0]:-$0}"
+  git -C "${PRIMARY_REPO}" fetch origin main --quiet 2>/dev/null || true
+  canonical_wrapper="$(git -C "${PRIMARY_REPO}" show origin/main:scripts/sws-nightly-isolated.sh 2>/dev/null || true)"
+  if [ -n "${canonical_wrapper}" ] && [ "${canonical_wrapper}" != "$(cat "${self_path}" 2>/dev/null)" ]; then
+    rm -f /tmp/sws-nightly-isolated.reexec.*.sh 2>/dev/null || true
+    reexec_path="$(mktemp /tmp/sws-nightly-isolated.reexec.XXXXXX.sh)"
+    printf '%s' "${canonical_wrapper}" > "${reexec_path}"
+    echo "[isolated-nightly] canonical checkout wrapper differs from origin/main — re-exec'ing the reviewed version (has the single-instance lock)"
+    SWS_NIGHTLY_REEXECED=1 exec /bin/bash "${reexec_path}" "$@"
+  fi
+fi
+# ── end self-heal (extracted verbatim by test/swsNightlyReexec.test.sh) ──────
+
 # Single-instance guard. The launchd cron and a manual /sws-refresh both enter
 # here and DESTRUCTIVELY reset the shared WORKTREE_DIR (git reset --hard +
 # clean). Two concurrent runs would stomp each other's tree mid-flight. Take an
