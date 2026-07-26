@@ -20,6 +20,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { calibrationFor } from "./earningsHistoryArchive.js";
+import { earningsHistoryReadDir } from "./earningsHistoryStore.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -87,7 +88,9 @@ export function summarizeFromHistoryFiles(historyFiles) {
   return _buildSummary([...seen.values()]);
 }
 
-export function loadHitRateSummary({ historyDir = HISTORY_DIR, force = false } = {}) {
+// historyDir defaults lazily (evaluated per call, not at module load) so the
+// Vercel tarball extract happens on first read rather than at import time.
+export function loadHitRateSummary({ historyDir = earningsHistoryReadDir(), force = false } = {}) {
   const mtime = _maxMtime(historyDir);
   if (!force && _cache && _cache.mtime === mtime && _cache.historyDir === historyDir) {
     return _cache.value;

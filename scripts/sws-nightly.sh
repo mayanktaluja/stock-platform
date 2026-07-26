@@ -1070,6 +1070,19 @@ else
     echo "[sws-nightly] resolve-earnings-actuals.mjs FAILED — continuing (non-fatal)"
 fi
 
+# Step 9a0: repack the earnings-history archive. MUST run after both the
+# archiver (step 8) and the actuals resolver above, which mutate the daily
+# snapshots in place — packing earlier would ship yesterday's verdicts.
+#
+# Prod reads the archive from this tarball, not the loose directory: the loose
+# snapshots grow ~5 MB/day and on 2026-07-25 pushed the Vercel function past its
+# 250 MB limit, failing every deploy for two days. Non-fatal on its own, but
+# test/vercel-bundle-size.test.mjs blocks the push if the tarball goes stale, so
+# a failure here surfaces at the pre-push gate rather than silently on prod.
+echo "[sws-nightly] pack-earnings-history.sh (timeout 120s)"
+with_timeout 120 bash scripts/pack-earnings-history.sh 2>&1 | sed 's/^/[pack-earnings] /' || \
+  echo "[sws-nightly] pack-earnings-history.sh FAILED — continuing; the pre-push bundle gate will block a stale tarball"
+
 # Step 9a1: earnings-health-summary — daily rollup of pipeline state into
 # data/catalysts/earnings-health.json. Per CLAUDE.md this is meant to "surface
 # silent failures in any stage", but it had silently never been wired into the

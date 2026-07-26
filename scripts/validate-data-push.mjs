@@ -170,6 +170,12 @@ function validateFile(rel, problems) {
  */
 const DATA_CONTENT_TESTS = [
   "test/vercel-include-files.test.mjs",
+  // vercel-bundle-size is here for the same reason, and learned the harder way:
+  // the nightly's data pushes are exactly what grew the function bundle past
+  // Vercel's 250 MB limit on 2026-07-25, and they all take this fast path. A
+  // size gate wired only into `npm test` would never have run on a single one
+  // of the commits that caused that outage.
+  "test/vercel-bundle-size.test.mjs",
   "test/swsFailedSchema.test.mjs",
   "test/nseBulkBlockSchema.test.mjs",
   "test/indexConstituents.test.mjs",

@@ -205,7 +205,6 @@ const REQUIRED_NESTED_RUNTIME_FILES = [
   "data/strategy/multibagger-health-latest.json",
   "data/strategy/multibagger-portfolio.json",
   "data/disclosures/holdings.json",
-  "data/sws/alerts/input-signatures-latest.json",
   "data/sws/alerts/fundamental-changes-latest.json",
   "data/track-record/section-performance-latest.json",
 ];
@@ -223,6 +222,10 @@ const LOCAL_ONLY_GENERATED_WORKSETS = [
   "data/risk-lab/llm-disagreement-cache.json",
   "data/strategy/history/2026-06-01.json",
   "data/strategy/decisions.ndjson",
+  "data/sws/alerts/input-signatures-latest.json",
+  "data/sws/alerts/input-alert-confirmation-state.json",
+  "data/catalysts/llm-signal-cache.json",
+  "data/catalysts/earnings-history/2026-07-26.json",
 ];
 
 console.log("\nvercel.json includeFiles — market deep tarballs + regional picks must be bundled\n");
@@ -292,7 +295,10 @@ check(".vercelignore excludes loose SWS deep artifacts but keeps packed deep tar
   assert.ok(!isIgnored("data/sws/deep.tar.gz"), "India deep tarball must remain deployable");
   assert.ok(!isIgnored("data/sws/chronos-forecast-latest.json"), "Chronos forecast latest must remain deployable");
   assert.ok(isIgnored("data/sws/chronos-debug/JSLL.json"), "Chronos debug traces must not be uploaded");
-  assert.ok(!isIgnored("data/sws/alerts/input-signatures-latest.json"), "SWS input signatures must remain deployable");
+  // input-signatures + input-alert-confirmation-state are the LOCAL input-diff
+  // builder's working set (21.2 MB). Prod reads only the diff's output below.
+  assert.ok(isIgnored("data/sws/alerts/input-signatures-latest.json"), "SWS input signatures are a local-only workset");
+  assert.ok(isIgnored("data/sws/alerts/input-alert-confirmation-state.json"), "SWS confirmation state is a local-only workset");
   assert.ok(!isIgnored("data/sws/alerts/fundamental-changes-latest.json"), "SWS input changes must remain deployable");
   assert.ok(!isIgnored("data/sws-us/deep-us.tar.gz"), "US deep tarball must remain deployable");
   assert.ok(isIgnored("data/sectorOutlook/classified-news/RELIANCE.jsonl"), "classified-news cache must not be uploaded");

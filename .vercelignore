@@ -24,6 +24,27 @@ data/sws/chronos-debug/**
 # Local generator caches. Prod consumes the aggregate snapshots/tarballs or
 # KV-restored state instead of these rolling working sets.
 data/sws/groww-stock-latest.json
+
+# The nightly input-diff builder's working set (scripts/sws-build-input-diff.mjs).
+# Both are inputs to the LOCAL diff, never read by the function: prod reads only
+# the diff's OUTPUT, data/sws/alerts/fundamental-changes-latest.json, and the
+# two_consecutive_full_runs verdict is baked into that artifact as a scalar.
+# The per-run email dedup is Upstash-KV-backed, not disk-backed, so neither file
+# participates in the anti-spam guarantee. Together they were 21.2 MB of the
+# function bundle.
+data/sws/alerts/input-signatures-latest.json
+data/sws/alerts/input-alert-confirmation-state.json
+
+# Hash cache for the LOCAL scripts/refresh-earnings.mjs LLM step. The signal it
+# caches is already serialised inline into earnings-watch-latest.json, which is
+# what the /api/earnings/* routes read.
+data/catalysts/llm-signal-cache.json
+
+# Per-day prediction snapshots (~5 MB/day, 64 MB and climbing). Prod reads them
+# from the sibling earnings-history.tar.gz via lazy /tmp extraction — see
+# services/earnings/earningsHistoryStore.js. The loose files stay in git for the
+# local backtest / weight-tuning / actuals-resolution scripts.
+data/catalysts/earnings-history/**
 data/sectorOutlook/classified-news/**
 data/sectorOutlook/llm-theme-cache.json
 data/nse-fo/history/**

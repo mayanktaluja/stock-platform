@@ -10,9 +10,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 import { loadAllHistory } from "./earningsHistoryArchive.js";
-
-const ROOT = process.cwd();
-const HISTORY_DIR = path.join(ROOT, "data", "catalysts", "earnings-history");
+import { earningsHistoryReadDir } from "./earningsHistoryStore.js";
 
 function eventKey(row) {
   return row && row.symbol && row.event_iso_date ? `${row.symbol}|${row.event_iso_date}` : null;
@@ -26,10 +24,11 @@ function archiveIsoForDay(day) {
 
 function historySignature() {
   try {
-    const files = fs.readdirSync(HISTORY_DIR).filter((f) => f.endsWith(".json"));
+    const historyDir = earningsHistoryReadDir();
+    const files = fs.readdirSync(historyDir).filter((f) => f.endsWith(".json"));
     let maxMtime = 0;
     for (const f of files) {
-      const st = fs.statSync(path.join(HISTORY_DIR, f));
+      const st = fs.statSync(path.join(historyDir, f));
       if (st.mtimeMs > maxMtime) maxMtime = st.mtimeMs;
     }
     return `${files.length}:${Math.round(maxMtime)}`;
