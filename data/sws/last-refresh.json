@@ -1,8 +1,8 @@
 {
-  "started_at": "2026-07-25T19:00:16.000Z",
-  "finished_at": "2026-07-25T23:52:53.311Z",
+  "started_at": "2026-07-26T19:00:26.000Z",
+  "finished_at": "2026-07-26T23:54:28.035Z",
   "pipeline": "api",
-  "duration_seconds": 8695,
+  "duration_seconds": 8622,
   "shards_failed": 0,
   "scrape_skipped": false,
   "scored_count": 6178,
@@ -10,44 +10,44 @@
     "top_ranked_30_v4": 30,
     "top_ranked_30_v3": 30,
     "best_to_buy_now": 25,
-    "deep_value": 66,
-    "growing_sector_value": 72,
+    "deep_value": 69,
+    "growing_sector_value": 98,
     "snowflake_gap_lab": 500,
-    "quality_growth": 272,
+    "quality_growth": 277,
     "best_fundamentals": 100,
-    "midterm": 160,
+    "midterm": 168,
     "dividend_aristocrats": 23,
-    "smallcap_gems": 7,
+    "smallcap_gems": 8,
     "upcoming_earnings": 513,
-    "avoid": 1481
+    "avoid": 1483
   },
   "per_shard_progress": {
     "1": {
-      "done_count": 95600,
+      "done_count": 96882,
       "next_local_index": 1282,
       "today_count": 1282,
       "last_ticker": "544500"
     },
     "2": {
-      "done_count": 95663,
+      "done_count": 96944,
       "next_local_index": 1282,
       "today_count": 1281,
       "last_ticker": "GATECHDVR"
     },
     "3": {
-      "done_count": 95281,
+      "done_count": 96564,
       "next_local_index": 1283,
       "today_count": 1283,
       "last_ticker": "ZYDUSWELL"
     }
   },
   "news_populated_count": 6096,
-  "news_items_total": 48260,
-  "rewards_populated_count": 5175,
-  "risks_populated_count": 5824,
+  "news_items_total": 47989,
+  "rewards_populated_count": 5172,
+  "risks_populated_count": 5822,
   "groww_stock_cache": {
-    "fetched_at": "2026-07-25T21:25:13.296Z",
-    "expires_at": "2026-07-26T21:25:13.296Z",
+    "fetched_at": "2026-07-26T21:24:10.471Z",
+    "expires_at": "2026-07-27T21:24:10.471Z",
     "status": "fresh",
     "age_days": 0.1,
     "coverage": {
@@ -55,21 +55,21 @@
       "screener_records_count": 4477,
       "screener_total_records": 5023,
       "mapped_count": 2881,
-      "screener_mapped_count": 2449,
-      "search_recovered_count": 432,
-      "search_lookups_attempted": 446,
+      "screener_mapped_count": 2448,
+      "search_recovered_count": 433,
+      "search_lookups_attempted": 447,
       "search_map_hits": 0,
       "unmapped_count": 966,
       "fetched_count": 2880,
       "usable_count": 2877,
       "coverage_pct": 74.79,
-      "pe_usable_count": 2194,
-      "pe_coverage_pct": 57.03
+      "pe_usable_count": 2196,
+      "pe_coverage_pct": 57.08
     }
   },
   "groww_pe_cache": {
-    "fetched_at": "2026-07-25T21:25:13.296Z",
-    "expires_at": "2026-07-26T21:25:13.296Z",
+    "fetched_at": "2026-07-26T21:24:10.471Z",
+    "expires_at": "2026-07-27T21:24:10.471Z",
     "status": "fresh",
     "age_days": 0.1,
     "coverage": {
@@ -78,136 +78,136 @@
       "screener_total_records": 5023,
       "mapped_count": 2881,
       "fetched_count": 2880,
-      "usable_count": 2194,
-      "coverage_pct": 57.03
+      "usable_count": 2196,
+      "coverage_pct": 57.08
     }
   },
   "endpoint_timing": {
     "graphql:CompanySummary": {
       "count": 6065,
       "failures": 0,
-      "bytes": 13498070,
-      "total_ms": 2031877,
-      "p50_ms": 309,
-      "p95_ms": 424,
+      "bytes": 13497820,
+      "total_ms": 2264988,
+      "p50_ms": 311,
+      "p95_ms": 434,
       "parser_consumed": true
     },
     "graphql:getNarrativeValuation": {
       "count": 6065,
-      "failures": 1,
-      "bytes": 17005262,
-      "total_ms": 2136369,
+      "failures": 0,
+      "bytes": 17012019,
+      "total_ms": 2174754,
       "p50_ms": 323,
-      "p95_ms": 450,
+      "p95_ms": 458,
+      "parser_consumed": true
+    },
+    "graphql:getCompanyPeers": {
+      "count": 6065,
+      "failures": 1,
+      "bytes": 30370520,
+      "total_ms": 2198049,
+      "p50_ms": 320,
+      "p95_ms": 471,
       "parser_consumed": true
     },
     "graphql:getCompanyTimeSeries": {
       "count": 6065,
       "failures": 1,
       "bytes": 160310266,
-      "total_ms": 2080209,
-      "p50_ms": 315,
-      "p95_ms": 439,
-      "parser_consumed": false
-    },
-    "graphql:getCompanyPeers": {
-      "count": 6065,
-      "failures": 2,
-      "bytes": 30365513,
-      "total_ms": 2108147,
+      "total_ms": 2161682,
       "p50_ms": 317,
       "p95_ms": 451,
+      "parser_consumed": false
+    },
+    "graphql:CompanyNarrativesWithHistogram": {
+      "count": 6065,
+      "failures": 1,
+      "bytes": 15727686,
+      "total_ms": 2307276,
+      "p50_ms": 340,
+      "p95_ms": 492,
+      "parser_consumed": true
+    },
+    "graphql:getCompanyDividends": {
+      "count": 6065,
+      "failures": 0,
+      "bytes": 7529677,
+      "total_ms": 2864118,
+      "p50_ms": 435,
+      "p95_ms": 575,
       "parser_consumed": true
     },
     "graphql:NarrativeValuationHistory": {
       "count": 6065,
       "failures": 2,
-      "bytes": 13315961,
-      "total_ms": 2344512,
-      "p50_ms": 355,
-      "p95_ms": 534,
-      "parser_consumed": true
-    },
-    "graphql:getCompanyDividends": {
-      "count": 6065,
-      "failures": 2,
-      "bytes": 7528105,
-      "total_ms": 2811328,
-      "p50_ms": 437,
-      "p95_ms": 564,
-      "parser_consumed": true
-    },
-    "graphql:CompanyNarrativesWithHistogram": {
-      "count": 6065,
-      "failures": 2,
-      "bytes": 15698320,
-      "total_ms": 2255814,
-      "p50_ms": 343,
-      "p95_ms": 485,
-      "parser_consumed": true
-    },
-    "rest:estimates": {
-      "count": 6065,
-      "failures": 0,
-      "bytes": 7840336,
-      "total_ms": 2051954,
-      "p50_ms": 314,
-      "p95_ms": 428,
-      "parser_consumed": false
-    },
-    "rest:ownership": {
-      "count": 6065,
-      "failures": 0,
-      "bytes": 37170372,
-      "total_ms": 868607,
-      "p50_ms": 60,
-      "p95_ms": 376,
+      "bytes": 13318274,
+      "total_ms": 2406756,
+      "p50_ms": 353,
+      "p95_ms": 539,
       "parser_consumed": true
     },
     "rest:price": {
       "count": 6065,
       "failures": 0,
-      "bytes": 47219543,
-      "total_ms": 2812112,
-      "p50_ms": 437,
-      "p95_ms": 559,
+      "bytes": 47103834,
+      "total_ms": 2915443,
+      "p50_ms": 442,
+      "p95_ms": 593,
       "parser_consumed": true
     },
-    "rest:dashboard_company": {
+    "rest:ownership": {
       "count": 6065,
       "failures": 0,
-      "bytes": 380223083,
-      "total_ms": 2964618,
-      "p50_ms": 465,
-      "p95_ms": 621,
+      "bytes": 37174154,
+      "total_ms": 734305,
+      "p50_ms": 57,
+      "p95_ms": 345,
       "parser_consumed": true
-    },
-    "rest:competitors": {
-      "count": 6065,
-      "failures": 0,
-      "bytes": 11342101,
-      "total_ms": 2980249,
-      "p50_ms": 470,
-      "p95_ms": 627,
-      "parser_consumed": false
     },
     "rest:industry": {
       "count": 6065,
       "failures": 0,
-      "bytes": 349891123,
-      "total_ms": 2072768,
-      "p50_ms": 163,
-      "p95_ms": 771,
+      "bytes": 349902491,
+      "total_ms": 1027764,
+      "p50_ms": 60,
+      "p95_ms": 665,
       "parser_consumed": true
     },
     "rest:statements": {
       "count": 6065,
       "failures": 0,
-      "bytes": 430477559,
-      "total_ms": 2121815,
-      "p50_ms": 129,
-      "p95_ms": 832,
+      "bytes": 430476090,
+      "total_ms": 1380163,
+      "p50_ms": 68,
+      "p95_ms": 759,
       "parser_consumed": true
+    },
+    "rest:estimates": {
+      "count": 6065,
+      "failures": 0,
+      "bytes": 7846444,
+      "total_ms": 2131541,
+      "p50_ms": 314,
+      "p95_ms": 453,
+      "parser_consumed": false
+    },
+    "rest:dashboard_company": {
+      "count": 6065,
+      "failures": 0,
+      "bytes": 380322259,
+      "total_ms": 3100655,
+      "p50_ms": 473,
+      "p95_ms": 653,
+      "parser_consumed": true
+    },
+    "rest:competitors": {
+      "count": 6065,
+      "failures": 0,
+      "bytes": 11341956,
+      "total_ms": 3099101,
+      "p50_ms": 475,
+      "p95_ms": 651,
+      "parser_consumed": false
     }
   },
   "price_freshness_gate": {
