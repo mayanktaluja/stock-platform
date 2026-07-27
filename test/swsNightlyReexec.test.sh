@@ -22,6 +22,18 @@
 
 set -uo pipefail
 
+# This test builds throwaway git repos under $WORK. git hooks export GIT_DIR,
+# GIT_WORK_TREE and friends into every child process, so when `npm test` runs
+# from .githooks/pre-push those vars leak in here and every `git init` /
+# `git remote add` / `git commit` below silently retargets the REAL repository
+# instead of the fixture — surfacing as "remote origin already exists" and
+# "fatal: this operation must be run in a work tree", and failing the push.
+# The suite passes standalone and fails only under `git push`, so scrub the
+# inherited git environment before touching git at all.
+unset GIT_DIR GIT_WORK_TREE GIT_INDEX_FILE GIT_OBJECT_DIRECTORY \
+      GIT_ALTERNATE_OBJECT_DIRECTORIES GIT_PREFIX GIT_COMMON_DIR \
+      GIT_QUARANTINE_PATH GIT_INTERNAL_SUPER_PREFIX
+
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 WRAPPER="${REPO_ROOT}/scripts/sws-nightly-isolated.sh"
 WORK="$(mktemp -d "/tmp/sws-reexec-test-$$.XXXXXX")"
