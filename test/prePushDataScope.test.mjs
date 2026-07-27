@@ -124,12 +124,37 @@ const HAS_HISTORY = gitOrNull("rev-parse", "HEAD~1") !== null;
 // A real nightly auto-refresh commit — the exact shape that has been blocked.
 const dataCommit = HAS_HISTORY ? gitOrNull("rev-list", "-1", "--grep=auto-refresh", "origin/main") : null;
 
+const isDataPath = (f) =>
+  f.startsWith("data/") || /^(fundamentals|surveillance|governance|fundamentalsHistory)\.json$/.test(f);
+
+/**
+ * The newest commit that actually touches a non-data path, with its parent.
+ *
+ * This used to just diff HEAD against HEAD~1 and assume the result contained
+ * code. It does not: the tip of main is a nightly `chore(macro): auto-refresh`
+ * data commit most of the time, so the "code push" case was silently handed a
+ * pure-data diff, watched it take the fast path, and failed — on a clean
+ * checkout of main, with nothing wrong with the hook.
+ */
+function findCodeCommit(limit = 80) {
+  const shas = gitOrNull("rev-list", `-${limit}`, "origin/main");
+  if (!shas) return null;
+  for (const sha of shas.split("\n").filter(Boolean)) {
+    const parent = gitOrNull("rev-parse", `${sha}^`);
+    if (!parent) continue;
+    const changed = gitOrNull("diff", "--name-only", parent, sha);
+    if (!changed) continue;
+    if (changed.split("\n").filter(Boolean).some((f) => !isDataPath(f))) return { sha, parent };
+  }
+  return null;
+}
+
 if (!dataCommit) {
   console.log("  ↷ skip — no auto-refresh commit reachable (shallow clone or no history)");
 } else {
   const parent = git("rev-parse", `${dataCommit}^`);
   const changed = git("diff", "--name-only", parent, dataCommit).split("\n").filter(Boolean);
-  const allData = changed.every((f) => f.startsWith("data/") || /^(fundamentals|surveillance|governance|fundamentalsHistory)\.json$/.test(f));
+  const allData = changed.every(isDataPath);
   assert(`the sampled commit ${dataCommit.slice(0, 8)} is genuinely data-only`, allData, changed.filter((f) => !f.startsWith("data/")));
 
   // PREPUSH_VALIDATE_EXTRA_ARGS keeps this end-to-end run from spawning the four
@@ -141,14 +166,17 @@ if (!dataCommit) {
   assert("the fast path did NOT run the unit suite", !/Running unit tests/.test(r.out));
 }
 
-if (!HAS_HISTORY) {
-  console.log("  ↷ skip — shallow clone, no HEAD~1 to build a code-push diff from");
+const codeCommit = HAS_HISTORY ? findCodeCommit() : null;
+
+if (!codeCommit) {
+  console.log("  ↷ skip — no commit touching a non-data path in recent history");
 } else {
   // A commit that touches code must never take the fast path. The hook then runs
   // the full suite, which is slow — assert on the classification line and stop.
-  const head = git("rev-parse", "HEAD");
-  const prev = git("rev-parse", "HEAD~1");
   // stubNpm: assert the hook REACHES the suite without actually running it.
+  const { sha: head, parent: prev } = codeCommit;
+  const codeFiles = git("diff", "--name-only", prev, head).split("\n").filter(Boolean).filter((f) => !isDataPath(f));
+  assert(`the sampled commit ${head.slice(0, 8)} genuinely touches code`, codeFiles.length > 0, codeFiles);
   const r = runHook(head, prev, { timeoutMs: 60_000, stubNpm: true });
   assert("a code push is classified as not-pure-data", /Not a pure-data push/.test(r.out), r.out.slice(0, 300));
   assert("a code push proceeds to the unit suite", /Running unit tests/.test(r.out), r.out.slice(0, 400));

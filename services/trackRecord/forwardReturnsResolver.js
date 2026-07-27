@@ -27,17 +27,12 @@
 
 import path from "node:path";
 import fs from "node:fs";
-import { fileURLToPath } from "node:url";
 
 import { readAllTrades, horizonDays, inferSideFromType } from "../../paperTrades.js";
 import { getStorage } from "../../paperTradesStorage.js";
 import { fetchSchemeHistory } from "../../mfNavIngestion.js";
 import { PROXY_REGISTRY } from "../../benchmarkIndices.js";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const ROOT = path.resolve(__dirname, "..", "..");
-const EARNINGS_HISTORY_DIR = path.join(ROOT, "data", "catalysts", "earnings-history");
+import { earningsHistoryReadDir } from "../earnings/earningsHistoryStore.js";
 
 const YF_BASE = "https://query1.finance.yahoo.com";
 const YF_HEADERS = {
@@ -184,7 +179,9 @@ function round2(x) {
 
 function readEarningsHistoryForDate(eventDate) {
   if (!eventDate) return null;
-  const file = path.join(EARNINGS_HISTORY_DIR, `${eventDate}.json`);
+  // Runs on Vercel via /api/cron/resolve-forward-returns, where the archive is
+  // served from the packed tarball rather than the loose directory.
+  const file = path.join(earningsHistoryReadDir(), `${eventDate}.json`);
   if (!fs.existsSync(file)) return null;
   try { return JSON.parse(fs.readFileSync(file, "utf8")); }
   catch { return null; }

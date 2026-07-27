@@ -21,6 +21,7 @@ import { resolveUserSub } from "./services/userIdentity.js";
 import { loadRiskLabViewMap, buildLabViewForEvent } from "./services/riskLab/earningsLabView.js";
 import { LAB_PROMOTION_STATUS, buildSizingDecision } from "./services/riskLab/positionSizing.js";
 import { loadHitRateSummary } from "./services/earnings/hitRateSummary.js";
+import { earningsHistoryReadDir } from "./services/earnings/earningsHistoryStore.js";
 import { narrateCandidate, buildStrategyExplainer } from "./services/multibagger/rationaleNarrator.js";
 import {
   buildMultibaggerCandidatesView,
@@ -7524,7 +7525,7 @@ app.get("/api/audit/earnings/:symbol/:event_iso_date", (req, res) => {
     if (!/^\d{4}-\d{2}-\d{2}$/.test(eventDate)) {
       return res.status(400).json({ error: "Invalid event_iso_date — must be YYYY-MM-DD" });
     }
-    const histDir = path.join(__dirname, "data", "catalysts", "earnings-history");
+    const histDir = earningsHistoryReadDir();
     if (!fs.existsSync(histDir)) {
       return res.status(404).json({ error: "No earnings history archive yet." });
     }

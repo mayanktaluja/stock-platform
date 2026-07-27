@@ -11,10 +11,13 @@ function statOrNull(filePath) {
   }
 }
 
-function safeTarMember(member) {
+// Path-traversal guard for tarball members. `prefix` scopes extraction to one
+// top-level directory inside the archive; it defaults to the SWS deep briefs so
+// every pre-existing caller keeps its exact behaviour.
+function safeTarMember(member, prefix = "deep/") {
   return (
     typeof member === "string" &&
-    member.startsWith("deep/") &&
+    member.startsWith(prefix) &&
     member.endsWith(".json") &&
     !member.includes("..") &&
     !path.isAbsolute(member)
@@ -48,7 +51,7 @@ function extractMemberWithNode(tarballPath, member, outPath) {
   return false;
 }
 
-export function extractTarballWithNode({ tarballPath, extractBase }) {
+export function extractTarballWithNode({ tarballPath, extractBase, memberPrefix = "deep/" }) {
   if (!fs.existsSync(tarballPath)) return false;
   const tar = zlib.gunzipSync(fs.readFileSync(tarballPath));
   let extracted = 0;
@@ -64,7 +67,7 @@ export function extractTarballWithNode({ tarballPath, extractBase }) {
     const dataStart = offset + 512;
     const dataEnd = dataStart + size;
 
-    if (safeTarMember(fullName)) {
+    if (safeTarMember(fullName, memberPrefix)) {
       const outPath = path.join(extractBase, fullName);
       fs.mkdirSync(path.dirname(outPath), { recursive: true });
       fs.writeFileSync(outPath, tar.subarray(dataStart, dataEnd));

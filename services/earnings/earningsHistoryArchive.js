@@ -50,7 +50,12 @@
 import fs from "node:fs";
 import path from "node:path";
 
+import { earningsHistoryReadDir } from "./earningsHistoryStore.js";
+
 const ROOT = process.cwd();
+// WRITE target only. Reads go through earningsHistoryReadDir(), which falls back
+// to the packed tarball on Vercel — see earningsHistoryStore.js. Archiving only
+// ever runs locally, so the writer can keep assuming the repo directory.
 const HISTORY_DIR = path.join(ROOT, "data", "catalysts", "earnings-history");
 
 const num = (v) => (typeof v === "number" && Number.isFinite(v) ? v : null);
@@ -232,12 +237,13 @@ export function archivePredictions(events, opts = {}) {
  * date. Used by the backtest harness.
  */
 export function loadAllHistory() {
-  if (!fs.existsSync(HISTORY_DIR)) return [];
-  const files = fs.readdirSync(HISTORY_DIR).filter((f) => f.endsWith(".json"));
+  const readDir = earningsHistoryReadDir();
+  if (!fs.existsSync(readDir)) return [];
+  const files = fs.readdirSync(readDir).filter((f) => f.endsWith(".json"));
   const out = [];
   for (const f of files.sort()) {
     try {
-      const content = JSON.parse(fs.readFileSync(path.join(HISTORY_DIR, f), "utf8"));
+      const content = JSON.parse(fs.readFileSync(path.join(readDir, f), "utf8"));
       out.push({ filename: f, ...content });
     } catch {
       // skip corrupt
@@ -259,9 +265,10 @@ export function loadAllHistory() {
  * throws into the mail path.
  */
 export function loadPriorArchivePredictions(beforeIso) {
-  if (!beforeIso || !fs.existsSync(HISTORY_DIR)) return [];
+  const readDir = earningsHistoryReadDir();
+  if (!beforeIso || !fs.existsSync(readDir)) return [];
   const dates = fs
-    .readdirSync(HISTORY_DIR)
+    .readdirSync(readDir)
     .filter((f) => /^\d{4}-\d{2}-\d{2}\.json$/.test(f))
     .map((f) => f.slice(0, 10))
     .filter((d) => d < beforeIso)
@@ -269,7 +276,7 @@ export function loadPriorArchivePredictions(beforeIso) {
   const pick = dates[dates.length - 1];
   if (!pick) return [];
   try {
-    const content = JSON.parse(fs.readFileSync(path.join(HISTORY_DIR, `${pick}.json`), "utf8"));
+    const content = JSON.parse(fs.readFileSync(path.join(readDir, `${pick}.json`), "utf8"));
     return Array.isArray(content.predictions) ? content.predictions : [];
   } catch {
     return [];
