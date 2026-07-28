@@ -1,20 +1,21 @@
 {
   "schema_version": "macro-thesis-v1",
-  "generated_at": "2026-07-27T00:55:03.479Z",
+  "generated_at": "2026-07-28T03:43:34.715Z",
   "regime": {
-    "regime": "WAR_ESCALATION",
+    "regime": "OIL_SHOCK",
     "severity": 3,
-    "confidence": 0.78,
-    "label": "War Escalation",
-    "generated_at": "2026-07-26T14:30:20.061Z",
+    "confidence": 0.86,
+    "label": "Oil Shock",
+    "generated_at": "2026-07-27T12:30:24.051Z",
     "days_in_state": 0,
     "stale": false,
-    "reasoning": "Geopolitical flare‑up in West Asia and Saudi‑Houthis strikes push oil higher, outweighing Fed‑hold expectations.",
+    "reasoning": "Sharp oil price drop drives bond yield fall and market rally, defining an oil shock regime.",
     "key_events": [
-      "Saudi Arabia strikes Houthis after Iran-backed rebels target energy sites (FT Markets)",
-      "US Fed action, oil swings to test bullion as traders eye West Asia risks (Business Standard)",
-      "Deadly storm in Chile disrupts copper mines and raises AI supply concerns (FT Markets)",
-      "Blackstone, KKR and Brookfield take Kuwait pipelines stake in $16bn deal (FT Markets)"
+      "Oil falls 8% as Iran and US pause strikes over Strait of Hormuz (FT Markets)",
+      "India 10-year bond yield logs biggest plunge in 2 months as oil rally falters (Economic Times)",
+      "Nifty ends near 24,000, breaks 5-session losing run on oil-led relief rally (Business Standard)",
+      "Rupee logs best day in over 6 weeks as RBI intervention magnifies oil slump impact (Economic Times)",
+      "Explained: Why crude oil prices tumbled over 9% to below $90/bbl in one day (Economic Times)"
     ],
     "classifier_provider": "groq",
     "source_health": {
@@ -41,69 +42,59 @@
     },
     "sector_impacts": [
       {
-        "sector": "Energy",
-        "impact": 2,
-        "reason": "Oil price upside from Middle‑East tension"
-      },
-      {
         "sector": "Oil & Gas",
-        "impact": 2,
-        "reason": "Higher crude supports upstream earnings"
+        "impact": -3,
+        "reason": "Oil price plunge cuts revenue and margins"
       },
       {
-        "sector": "Defence",
-        "impact": 1,
-        "reason": "War risk boosts defence procurement outlook"
+        "sector": "Energy",
+        "impact": -2,
+        "reason": "Lower crude prices hurt upstream earnings"
       },
       {
         "sector": "Banking",
-        "impact": -1,
-        "reason": "Risk aversion may curb credit growth"
+        "impact": 2,
+        "reason": "Falling yields and cheaper funding boost profitability"
       },
       {
         "sector": "IT Services",
-        "impact": -1,
-        "reason": "Geopolitical uncertainty can delay offshore contracts"
-      },
-      {
-        "sector": "Metals",
         "impact": 1,
-        "reason": "Supply disruptions in Chile lift copper expectations"
+        "reason": "Broad market rally lifts tech stocks"
       }
     ]
   },
-  "catalyst_proximity_days": 3,
+  "catalyst_proximity_days": 2,
   "upcoming_catalysts": [
     {
       "date": "2026-07-30",
       "kind": "FOMC",
       "label": "US FOMC Meeting — July 2026",
       "severity_potential": 3,
-      "days_until": 3
+      "days_until": 2
     },
     {
       "date": "2026-08-06",
       "kind": "RBI_MPC",
       "label": "RBI Monetary Policy Committee — August 2026",
       "severity_potential": 3,
-      "days_until": 10
+      "days_until": 9
     },
     {
       "date": "2026-08-15",
       "kind": "INDIA_INDEPENDENCE",
       "label": "Indian Independence Day (PM address)",
       "severity_potential": 1,
-      "days_until": 19
+      "days_until": 18
     }
   ],
   "position_cap_pct": 10,
   "branches": [
     {
       "key": "continue",
-      "label": "WAR_ESCALATION continues at current severity",
+      "label": "OIL_SHOCK continues at current severity",
       "probability": 0.5,
       "duration_days": 14,
-      "n_analogs": 21,
+      "n_analogs": 6,
       "indeterminate": false,
       "beneficiaries": [
         {
@@ -111,44 +102,44 @@
           "sector_label": "Energy",
           "sector_bucket": "Energy",
           "expected_return_pct": null,
-          "template_delta": 2,
+          "template_delta": 3,
           "n_analogs": 0,
           "source": "template",
           "direction": "BENEFICIARY",
           "stock_candidates": {
             "sector": "Energy",
-            "candidates_total": 27,
+            "candidates_total": 26,
             "passed_filters": 7,
             "excluded_conglomerates": [],
             "stocks": [
               {
-                "ticker": "DEEPINDS",
-                "name": "Deep Industries Limited",
-                "sector": "Energy",
-                "v4_score_100": 59.6,
-                "composite_score": 43,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 35.5,
-                "verdict": "TOP_PICK"
-              },
-              {
                 "ticker": "ONGC",
                 "name": "Oil and Natural Gas Corporation Limited",
                 "sector": "Energy",
-                "v4_score_100": 61.2,
+                "v4_score_100": 60.7,
+                "composite_score": 41.3,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 28.1,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "DEEPINDS",
+                "name": "Deep Industries Limited",
+                "sector": "Energy",
+                "v4_score_100": 60.6,
                 "composite_score": 39.2,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 22.9,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 25.9,
                 "verdict": "TOP_PICK"
               },
               {
                 "ticker": "CHENNPETRO",
                 "name": "Chennai Petroleum Corporation Limited",
                 "sector": "Energy",
-                "v4_score_100": 69.4,
-                "composite_score": 33.7,
+                "v4_score_100": 70.1,
+                "composite_score": 35.3,
                 "valuation_band": "FAIR",
-                "upside_pct": 4.2,
+                "upside_pct": 8.3,
                 "verdict": "TOP_PICK"
               },
               {
@@ -165,10 +156,10 @@
                 "ticker": "GESHIP",
                 "name": "The Great Eastern Shipping Company Limited",
                 "sector": "Energy",
-                "v4_score_100": 63.6,
-                "composite_score": 26.1,
+                "v4_score_100": 62.9,
+                "composite_score": 27.5,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 32.3,
+                "upside_pct": 35.9,
                 "verdict": "TOP_PICK"
               }
             ]
@@ -176,104 +167,23 @@
         },
         {
           "sector_index_key": null,
-          "sector_label": "Metals & Mining",
-          "sector_bucket": "Metals & Mining",
-          "expected_return_pct": null,
-          "template_delta": 2,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "BENEFICIARY",
-          "stock_candidates": {
-            "sector": "Metals & Mining",
-            "candidates_total": 0,
-            "passed_filters": 0,
-            "excluded_conglomerates": [],
-            "stocks": []
-          }
-        },
-        {
-          "sector_index_key": null,
-          "sector_label": "Capital Goods",
-          "sector_bucket": "Capital Goods",
+          "sector_label": "Consumer Staples",
+          "sector_bucket": "Consumer Staples",
           "expected_return_pct": null,
           "template_delta": 1,
           "n_analogs": 0,
           "source": "template",
           "direction": "BENEFICIARY",
           "stock_candidates": {
-            "sector": "Capital Goods",
-            "candidates_total": 460,
-            "passed_filters": 134,
-            "excluded_conglomerates": [
-              "LT",
-              "ADANIENT"
-            ],
-            "stocks": [
-              {
-                "ticker": "505872",
-                "name": "WPIL Limited",
-                "sector": "Capital Goods",
-                "v4_score_100": 70.7,
-                "composite_score": 59.3,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 37.7,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "BSE_505872",
-                "name": "WPIL Limited",
-                "sector": "Capital Goods",
-                "v4_score_100": 73.7,
-                "composite_score": 57.6,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 33.5,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "WPIL",
-                "name": "WPIL Limited",
-                "sector": "Capital Goods",
-                "v4_score_100": 70.1,
-                "composite_score": 55.1,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 34.9,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "JKIL",
-                "name": "J. Kumar Infraprojects Limited",
-                "sector": "Capital Goods",
-                "v4_score_100": 68,
-                "composite_score": 51,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 48.7,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "TEXRAIL",
-                "name": "Texmaco Rail & Engineering Limited",
-                "sector": "Capital Goods",
-                "v4_score_100": 57.4,
-                "composite_score": 50.9,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 52.6,
-                "verdict": "STRONG"
-              }
-            ]
+            "sector": "Consumer Staples",
+            "candidates_total": 0,
+            "passed_filters": 0,
+            "excluded_conglomerates": [],
+            "stocks": []
           }
         }
       ],
       "losers": [
-        {
-          "sector_index_key": null,
-          "sector_label": "Real Estate",
-          "sector_bucket": "Real Estate",
-          "expected_return_pct": null,
-          "template_delta": -3,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "HIT"
-        },
         {
           "sector_index_key": null,
           "sector_label": "Automobiles",
@@ -288,6 +198,16 @@
           "sector_index_key": null,
           "sector_label": "Software",
           "sector_bucket": "Software",
+          "expected_return_pct": null,
+          "template_delta": -1,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Real Estate",
+          "sector_bucket": "Real Estate",
           "expected_return_pct": null,
           "template_delta": -1,
           "n_analogs": 0,
@@ -298,38 +218,38 @@
       "reasoning": {
         "modulator_applied": 1,
         "base_probability": 0.55,
-        "analog_pool_regime": "WAR_ESCALATION",
+        "analog_pool_regime": "OIL_SHOCK",
         "analog_warnings": [
           "no sector-index data found for any analog date — run scripts/refresh-sector-indices.mjs --backfill-months=24"
         ],
         "analogs": [
           {
-            "date": "2022-02-24",
-            "label": "Russia invades Ukraine",
-            "severity": 4,
-            "source": "manual-seed"
-          },
-          {
-            "date": "2023-10-07",
-            "label": "Israel-Hamas conflict begins",
-            "severity": 3,
-            "source": "manual-seed"
-          },
-          {
-            "date": "2025-05-07",
-            "label": "India-Pakistan border tensions (Operation Sindoor)",
-            "severity": 3,
-            "source": "manual-seed"
-          },
-          {
-            "date": "2026-05-21",
-            "label": "War Escalation",
+            "date": "2026-05-20",
+            "label": "Oil Shock",
             "severity": 2,
             "source": "heuristic"
           },
           {
-            "date": "2026-05-22",
-            "label": "War Escalation",
+            "date": "2026-05-26",
+            "label": "Oil Shock",
+            "severity": 2,
+            "source": "heuristic"
+          },
+          {
+            "date": "2026-05-28",
+            "label": "Oil Shock",
+            "severity": 2,
+            "source": "heuristic"
+          },
+          {
+            "date": "2026-05-31",
+            "label": "Oil Shock",
+            "severity": 2,
+            "source": "heuristic"
+          },
+          {
+            "date": "2026-06-02",
+            "label": "Oil Shock",
             "severity": 2,
             "source": "heuristic"
           }
@@ -338,55 +258,55 @@
     },
     {
       "key": "escalate",
-      "label": "WAR_ESCALATION escalates (severity +1)",
+      "label": "OIL_SHOCK escalates (severity +1)",
       "probability": 0.14,
       "duration_days": 7,
-      "n_analogs": 5,
-      "indeterminate": false,
+      "n_analogs": 0,
+      "indeterminate": true,
       "beneficiaries": [
         {
           "sector_index_key": null,
           "sector_label": "Energy",
           "sector_bucket": "Energy",
           "expected_return_pct": null,
-          "template_delta": 2,
+          "template_delta": 3,
           "n_analogs": 0,
           "source": "template",
           "direction": "BENEFICIARY",
           "stock_candidates": {
             "sector": "Energy",
-            "candidates_total": 27,
+            "candidates_total": 26,
             "passed_filters": 7,
             "excluded_conglomerates": [],
             "stocks": [
               {
-                "ticker": "DEEPINDS",
-                "name": "Deep Industries Limited",
-                "sector": "Energy",
-                "v4_score_100": 59.6,
-                "composite_score": 43,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 35.5,
-                "verdict": "TOP_PICK"
-              },
-              {
                 "ticker": "ONGC",
                 "name": "Oil and Natural Gas Corporation Limited",
                 "sector": "Energy",
-                "v4_score_100": 61.2,
+                "v4_score_100": 60.7,
+                "composite_score": 41.3,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 28.1,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "DEEPINDS",
+                "name": "Deep Industries Limited",
+                "sector": "Energy",
+                "v4_score_100": 60.6,
                 "composite_score": 39.2,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 22.9,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 25.9,
                 "verdict": "TOP_PICK"
               },
               {
                 "ticker": "CHENNPETRO",
                 "name": "Chennai Petroleum Corporation Limited",
                 "sector": "Energy",
-                "v4_score_100": 69.4,
-                "composite_score": 33.7,
+                "v4_score_100": 70.1,
+                "composite_score": 35.3,
                 "valuation_band": "FAIR",
-                "upside_pct": 4.2,
+                "upside_pct": 8.3,
                 "verdict": "TOP_PICK"
               },
               {
@@ -403,10 +323,10 @@
                 "ticker": "GESHIP",
                 "name": "The Great Eastern Shipping Company Limited",
                 "sector": "Energy",
-                "v4_score_100": 63.6,
-                "composite_score": 26.1,
+                "v4_score_100": 62.9,
+                "composite_score": 27.5,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 32.3,
+                "upside_pct": 35.9,
                 "verdict": "TOP_PICK"
               }
             ]
@@ -414,104 +334,23 @@
         },
         {
           "sector_index_key": null,
-          "sector_label": "Metals & Mining",
-          "sector_bucket": "Metals & Mining",
-          "expected_return_pct": null,
-          "template_delta": 2,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "BENEFICIARY",
-          "stock_candidates": {
-            "sector": "Metals & Mining",
-            "candidates_total": 0,
-            "passed_filters": 0,
-            "excluded_conglomerates": [],
-            "stocks": []
-          }
-        },
-        {
-          "sector_index_key": null,
-          "sector_label": "Capital Goods",
-          "sector_bucket": "Capital Goods",
+          "sector_label": "Consumer Staples",
+          "sector_bucket": "Consumer Staples",
           "expected_return_pct": null,
           "template_delta": 1,
           "n_analogs": 0,
           "source": "template",
           "direction": "BENEFICIARY",
           "stock_candidates": {
-            "sector": "Capital Goods",
-            "candidates_total": 460,
-            "passed_filters": 134,
-            "excluded_conglomerates": [
-              "LT",
-              "ADANIENT"
-            ],
-            "stocks": [
-              {
-                "ticker": "505872",
-                "name": "WPIL Limited",
-                "sector": "Capital Goods",
-                "v4_score_100": 70.7,
-                "composite_score": 59.3,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 37.7,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "BSE_505872",
-                "name": "WPIL Limited",
-                "sector": "Capital Goods",
-                "v4_score_100": 73.7,
-                "composite_score": 57.6,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 33.5,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "WPIL",
-                "name": "WPIL Limited",
-                "sector": "Capital Goods",
-                "v4_score_100": 70.1,
-                "composite_score": 55.1,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 34.9,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "JKIL",
-                "name": "J. Kumar Infraprojects Limited",
-                "sector": "Capital Goods",
-                "v4_score_100": 68,
-                "composite_score": 51,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 48.7,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "TEXRAIL",
-                "name": "Texmaco Rail & Engineering Limited",
-                "sector": "Capital Goods",
-                "v4_score_100": 57.4,
-                "composite_score": 50.9,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 52.6,
-                "verdict": "STRONG"
-              }
-            ]
+            "sector": "Consumer Staples",
+            "candidates_total": 0,
+            "passed_filters": 0,
+            "excluded_conglomerates": [],
+            "stocks": []
           }
         }
       ],
       "losers": [
-        {
-          "sector_index_key": null,
-          "sector_label": "Real Estate",
-          "sector_bucket": "Real Estate",
-          "expected_return_pct": null,
-          "template_delta": -3,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "HIT"
-        },
         {
           "sector_index_key": null,
           "sector_label": "Automobiles",
@@ -531,52 +370,32 @@
           "n_analogs": 0,
           "source": "template",
           "direction": "HIT"
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Real Estate",
+          "sector_bucket": "Real Estate",
+          "expected_return_pct": null,
+          "template_delta": -1,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
         }
       ],
       "reasoning": {
         "modulator_applied": 1,
         "base_probability": 0.15,
-        "analog_pool_regime": "WAR_ESCALATION (severity +1)",
+        "analog_pool_regime": "OIL_SHOCK (severity +1)",
         "analog_warnings": [
-          "no sector-index data found for any analog date — run scripts/refresh-sector-indices.mjs --backfill-months=24"
+          "n_analogs=0 < 3 — INDETERMINATE; do not act on these sector ranges",
+          "only 0/15 sectors had data — partial analog"
         ],
-        "analogs": [
-          {
-            "date": "2022-02-24",
-            "label": "Russia invades Ukraine",
-            "severity": 4,
-            "source": "manual-seed"
-          },
-          {
-            "date": "2023-10-07",
-            "label": "Israel-Hamas conflict begins",
-            "severity": 3,
-            "source": "manual-seed"
-          },
-          {
-            "date": "2025-05-07",
-            "label": "India-Pakistan border tensions (Operation Sindoor)",
-            "severity": 3,
-            "source": "manual-seed"
-          },
-          {
-            "date": "2026-05-26",
-            "label": "War Escalation",
-            "severity": 3,
-            "source": "heuristic"
-          },
-          {
-            "date": "2026-06-01",
-            "label": "War Escalation",
-            "severity": 3,
-            "source": "heuristic"
-          }
-        ]
+        "analogs": []
       }
     },
     {
       "key": "de_escalate",
-      "label": "WAR_ESCALATION de-escalates → CALM",
+      "label": "OIL_SHOCK de-escalates → CALM",
       "probability": 0.18,
       "duration_days": 21,
       "n_analogs": 9,
@@ -626,7 +445,7 @@
     },
     {
       "key": "new_shock",
-      "label": "New unrelated shock supersedes WAR_ESCALATION",
+      "label": "New unrelated shock supersedes OIL_SHOCK",
       "probability": 0.18,
       "duration_days": 7,
       "n_analogs": 0,
@@ -637,44 +456,44 @@
           "sector_label": "Energy",
           "sector_bucket": "Energy",
           "expected_return_pct": null,
-          "template_delta": 2,
+          "template_delta": 3,
           "n_analogs": 0,
           "source": "template",
           "direction": "BENEFICIARY",
           "stock_candidates": {
             "sector": "Energy",
-            "candidates_total": 27,
+            "candidates_total": 26,
             "passed_filters": 7,
             "excluded_conglomerates": [],
             "stocks": [
               {
-                "ticker": "DEEPINDS",
-                "name": "Deep Industries Limited",
-                "sector": "Energy",
-                "v4_score_100": 59.6,
-                "composite_score": 43,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 35.5,
-                "verdict": "TOP_PICK"
-              },
-              {
                 "ticker": "ONGC",
                 "name": "Oil and Natural Gas Corporation Limited",
                 "sector": "Energy",
-                "v4_score_100": 61.2,
+                "v4_score_100": 60.7,
+                "composite_score": 41.3,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 28.1,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "DEEPINDS",
+                "name": "Deep Industries Limited",
+                "sector": "Energy",
+                "v4_score_100": 60.6,
                 "composite_score": 39.2,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 22.9,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 25.9,
                 "verdict": "TOP_PICK"
               },
               {
                 "ticker": "CHENNPETRO",
                 "name": "Chennai Petroleum Corporation Limited",
                 "sector": "Energy",
-                "v4_score_100": 69.4,
-                "composite_score": 33.7,
+                "v4_score_100": 70.1,
+                "composite_score": 35.3,
                 "valuation_band": "FAIR",
-                "upside_pct": 4.2,
+                "upside_pct": 8.3,
                 "verdict": "TOP_PICK"
               },
               {
@@ -691,10 +510,10 @@
                 "ticker": "GESHIP",
                 "name": "The Great Eastern Shipping Company Limited",
                 "sector": "Energy",
-                "v4_score_100": 63.6,
-                "composite_score": 26.1,
+                "v4_score_100": 62.9,
+                "composite_score": 27.5,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 32.3,
+                "upside_pct": 35.9,
                 "verdict": "TOP_PICK"
               }
             ]
@@ -702,104 +521,23 @@
         },
         {
           "sector_index_key": null,
-          "sector_label": "Metals & Mining",
-          "sector_bucket": "Metals & Mining",
-          "expected_return_pct": null,
-          "template_delta": 2,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "BENEFICIARY",
-          "stock_candidates": {
-            "sector": "Metals & Mining",
-            "candidates_total": 0,
-            "passed_filters": 0,
-            "excluded_conglomerates": [],
-            "stocks": []
-          }
-        },
-        {
-          "sector_index_key": null,
-          "sector_label": "Capital Goods",
-          "sector_bucket": "Capital Goods",
+          "sector_label": "Consumer Staples",
+          "sector_bucket": "Consumer Staples",
           "expected_return_pct": null,
           "template_delta": 1,
           "n_analogs": 0,
           "source": "template",
           "direction": "BENEFICIARY",
           "stock_candidates": {
-            "sector": "Capital Goods",
-            "candidates_total": 460,
-            "passed_filters": 134,
-            "excluded_conglomerates": [
-              "LT",
-              "ADANIENT"
-            ],
-            "stocks": [
-              {
-                "ticker": "505872",
-                "name": "WPIL Limited",
-                "sector": "Capital Goods",
-                "v4_score_100": 70.7,
-                "composite_score": 59.3,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 37.7,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "BSE_505872",
-                "name": "WPIL Limited",
-                "sector": "Capital Goods",
-                "v4_score_100": 73.7,
-                "composite_score": 57.6,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 33.5,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "WPIL",
-                "name": "WPIL Limited",
-                "sector": "Capital Goods",
-                "v4_score_100": 70.1,
-                "composite_score": 55.1,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 34.9,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "JKIL",
-                "name": "J. Kumar Infraprojects Limited",
-                "sector": "Capital Goods",
-                "v4_score_100": 68,
-                "composite_score": 51,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 48.7,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "TEXRAIL",
-                "name": "Texmaco Rail & Engineering Limited",
-                "sector": "Capital Goods",
-                "v4_score_100": 57.4,
-                "composite_score": 50.9,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 52.6,
-                "verdict": "STRONG"
-              }
-            ]
+            "sector": "Consumer Staples",
+            "candidates_total": 0,
+            "passed_filters": 0,
+            "excluded_conglomerates": [],
+            "stocks": []
           }
         }
       ],
       "losers": [
-        {
-          "sector_index_key": null,
-          "sector_label": "Real Estate",
-          "sector_bucket": "Real Estate",
-          "expected_return_pct": null,
-          "template_delta": -3,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "HIT"
-        },
         {
           "sector_index_key": null,
           "sector_label": "Automobiles",
@@ -819,6 +557,16 @@
           "n_analogs": 0,
           "source": "template",
           "direction": "HIT"
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Real Estate",
+          "sector_bucket": "Real Estate",
+          "expected_return_pct": null,
+          "template_delta": -1,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
         }
       ],
       "reasoning": {
@@ -832,12 +580,13 @@
   ],
   "caveats": [
     "Position-sizing cap: max 10% of portfolio per thesis — multi-thesis diversification mandatory.",
+    "INDETERMINATE branches (n<3 analogs): escalate — sector projections suppressed for these branches.",
     "Analog backtester is heuristic-seeded (~12 events); recommendations require user judgement, not auto-trading."
   ],
   "indeterminate": false,
   "audit": {
     "thesis_schema": "macro-thesis-v1",
-    "regime_generated_at": "2026-07-26T14:30:20.061Z",
+    "regime_generated_at": "2026-07-27T12:30:24.051Z",
     "regime_classifier": "groq",
     "scenario_engine_version": "scenario-prob-v1"
   }
