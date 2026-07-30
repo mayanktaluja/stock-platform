@@ -17,10 +17,27 @@
 //                                                              # stamp universe-meta.json
 //   node scripts/sws-universe-from-sitemap.mjs --reset-progress  # rewrite
 //                                                              # progress-N
+//   node scripts/sws-universe-from-sitemap.mjs --merge --allow-shrink
+//                                                              # override the
+//                                                              # membership-loss
+//                                                              # guard (manual
+//                                                              # delisting only)
 //
 // Notes:
+// - The sitemap is authoritative for an entry's METADATA (URL, sector, slug),
+//   never for its MEMBERSHIP. Pass 1 walks the sitemap; Pass 2 retains every
+//   existing entry the sitemap did not claim. Membership only ever shrinks via a
+//   deliberate delisting pass — never as a side effect of a short crawl.
 // - Curated entries (NIFTY50/NEXT50/NIFTY500 index memberships) are preserved
 //   on merge; sitemap entries are appended only if they don't already exist.
+// - A membership-loss guard gates the write: if any curated entry would be
+//   dropped, or the drop/shrink exceeds MAX_DROP_PCT / MAX_SHRINK_PCT, the
+//   script exits 3 and leaves universe.json + universe-meta.json untouched.
+//   sws-nightly.sh treats that as non-fatal and keeps the prior good snapshot.
+//   This guard exists because on 2026-07-23 a short crawl silently cut the
+//   universe 5500 → 3847, dropping 193 curated NIFTY-50 members; the truncated
+//   list then froze for 6 days behind the 264h universe-meta freshness gate
+//   while the orphaned tickers were still scored and served to users.
 // - Sharding contract (modular i % 3) means adding entries shifts ownership
 //   for everything past the insertion point. After --merge, also pass
 //   --reset-progress to rewind progress-{1,2,3}.json so previously-scraped
@@ -33,6 +50,18 @@ import { PATHS } from "./sws-config.mjs";
 
 const SITEMAP_INDEX = "https://simplywall.st/sitemap/companies/as-asia.xml";
 const TOTAL_SHARDS = 12; // currently as-asia/0.xml ... 11.xml
+
+// ---- Membership-loss guard thresholds ----
+// Pass 2 stops a thin crawl from deleting tickers outright, but membership can
+// still collapse through the slug dedup, and a future refactor could reintroduce
+// deletion. So gate the write on the SHAPE of the loss instead of trusting the
+// merge to be correct. Calibration, from real runs: a healthy rebuild
+// (2026-05-22) dropped 105 of 5455 entries — 1.9%, zero curated. The bad one
+// (2026-07-23) dropped 2178 of 5500 — 39.6%, 193 curated. These thresholds sit
+// well clear of the former and nowhere near the latter.
+const MAX_CURATED_DROP = 0;   // an index member is never collateral damage
+const MAX_DROP_PCT     = 5;   // share of existing entries that may vanish
+const MAX_SHRINK_PCT   = 2;   // net shrink; a normal rebuild grows the list
 const USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36";
 
 // India base URL pattern — stops before any sub-tab suffix.
@@ -213,11 +242,11 @@ function priorityScore(entry) {
 function mergeAndSort(existing, sitemapMap) {
   const out = [];
   const existingByKey = indexByJoinKey(existing);
-  // Build a second index keyed by ticker for fallback lookups (when an
-  // existing entry had a placeholder /search URL but its ticker matches a
-  // sitemap entry's short_id).
-  const claimedExistingTickers = new Set();
-  const usedExistingKeys = new Set();
+  // Which existing entries the sitemap actually claimed in Pass 1. Held by
+  // object reference, not by ticker: tickers are not guaranteed unique (or even
+  // present) across the seed + sitemap sources, and Pass 2 must not re-add an
+  // entry that was already merged just because a namesake shares its ticker.
+  const claimedExisting = new Set();
 
   // Attempt ticker-fallback resolution for any existing entry whose URL-based
   // key doesn't actually exist in the sitemap. Catches:
@@ -249,8 +278,7 @@ function mergeAndSort(existing, sitemapMap) {
   for (const [key, fresh] of sitemapMap) {
     const e = existingByKey.get(key);
     if (e) {
-      usedExistingKeys.add(key);
-      claimedExistingTickers.add(e.ticker);
+      claimedExisting.add(e);
       const next = {
         ...e,
         sws_short_id: fresh.sws_short_id,
@@ -286,6 +314,30 @@ function mergeAndSort(existing, sitemapMap) {
       });
       added++;
     }
+  }
+
+  // ---------- Pass 2: retain existing entries the sitemap did not claim.
+  // The sitemap is authoritative for an entry's METADATA (URL, sector, slug),
+  // never for its MEMBERSHIP. Pass 1 builds `out` purely by walking the
+  // sitemap, so without this pass every unmatched ticker is deleted as a silent
+  // side effect of a thin crawl — and the crawl is ~580 MB across 12 shards, so
+  // "thin" is a routine failure, not a rare one. That is exactly how 2178
+  // entries, 193 of them curated NIFTY-50 members (ICICIBANK, HINDUNILVR,
+  // BHARTIARTL, MARUTI, LT, KOTAKBANK…), disappeared from universe.json on
+  // 2026-07-23 and went 6+ days unrefreshed while still being scored and
+  // served. Membership may only ever shrink via a deliberate delisting pass.
+  //
+  // `sitemap_unmatched` records that this entry survived on its prior data. It
+  // is a provenance marker, not a quarantine flag — the entry stays a
+  // first-class member of the universe and gets scraped normally.
+  let retained = 0;
+  for (const e of existing) {
+    if (claimedExisting.has(e)) continue;
+    out.push({ ...e, sitemap_unmatched: true });
+    retained++;
+  }
+  if (retained) {
+    process.stderr.write(`(${retained} existing entries retained despite no sitemap match)\n`);
   }
 
   // ---------- Pass 3: dedup dual-listings by slug (= SWS company identifier).
@@ -339,10 +391,10 @@ function mergeAndSort(existing, sitemapMap) {
   });
   for (let i = 0; i < out.length; i++) out[i].index = i;
 
-  return { merged: out, kept, refreshed, added, droppedFromExisting, collapsedDuplicates };
+  return { merged: out, kept, refreshed, added, retained, droppedFromExisting, collapsedDuplicates };
 }
 
-function diffSummary({ merged, kept, refreshed, added, droppedFromExisting, collapsedDuplicates }, existing, sitemapSize) {
+function diffSummary({ merged, kept, refreshed, added, retained, droppedFromExisting, collapsedDuplicates }, existing, sitemapSize) {
   return {
     existing_count: existing.length,
     sitemap_unique_count: sitemapSize,
@@ -350,8 +402,54 @@ function diffSummary({ merged, kept, refreshed, added, droppedFromExisting, coll
     kept_from_existing: kept,
     refreshed_in_place: refreshed,
     added_from_sitemap: added,
+    retained_without_sitemap_match: retained || 0,
     collapsed_dual_listings: collapsedDuplicates || 0,
     dropped_from_existing: droppedFromExisting.length,
+  };
+}
+
+// Decide whether a merge result is safe to commit to universe.json.
+// Pure + exported so the thresholds can be tested without a 580 MB crawl.
+// Returns { ok, violations[], stats } — callers refuse the write when !ok.
+export function assessMembershipLoss(result, existing) {
+  const existingCount = existing.length;
+  const dropped = result.droppedFromExisting || [];
+  const curatedDropped = dropped.filter((e) => e.curated);
+  const dropPct   = existingCount ? (dropped.length / existingCount) * 100 : 0;
+  const shrinkPct = existingCount ? ((existingCount - result.merged.length) / existingCount) * 100 : 0;
+
+  const violations = [];
+  if (curatedDropped.length > MAX_CURATED_DROP) {
+    const sample = curatedDropped.slice(0, 10).map((e) => e.ticker).join(", ");
+    violations.push(
+      `${curatedDropped.length} CURATED index member(s) would be dropped ` +
+      `(max ${MAX_CURATED_DROP}): ${sample}${curatedDropped.length > 10 ? ", …" : ""}`,
+    );
+  }
+  if (dropPct > MAX_DROP_PCT) {
+    violations.push(
+      `${dropped.length}/${existingCount} existing entries would be dropped ` +
+      `(${dropPct.toFixed(1)}%, max ${MAX_DROP_PCT}%)`,
+    );
+  }
+  if (shrinkPct > MAX_SHRINK_PCT) {
+    violations.push(
+      `universe would shrink ${existingCount} → ${result.merged.length} ` +
+      `(${shrinkPct.toFixed(1)}%, max ${MAX_SHRINK_PCT}%)`,
+    );
+  }
+
+  return {
+    ok: violations.length === 0,
+    violations,
+    stats: {
+      existing_count: existingCount,
+      merged_count: result.merged.length,
+      dropped_count: dropped.length,
+      curated_dropped: curatedDropped.length,
+      drop_pct: +dropPct.toFixed(2),
+      shrink_pct: +shrinkPct.toFixed(2),
+    },
   };
 }
 
@@ -406,6 +504,10 @@ async function main() {
   const dryRun = args.includes("--dry-run");
   const merge = args.includes("--merge");
   const resetProgress = args.includes("--reset-progress");
+  // Escape hatch for a DELIBERATE membership cut (a real delisting sweep).
+  // Never set this from the nightly — a shrink that needs overriding is a
+  // shrink a human should look at first.
+  const allowShrink = args.includes("--allow-shrink");
 
   // 1. Pull sitemap.
   console.error("Fetching sitemap shards (no login required, ~3 min)...");
@@ -458,13 +560,37 @@ async function main() {
     return;
   }
 
-  // 4. Atomic write to universe.json.
+  // 4. Membership-loss guard — the last gate before we touch universe.json.
+  // Refusing to write is the SAFE failure: sws-nightly.sh treats a non-zero
+  // rebuild as non-fatal and leaves the prior good universe.json in place
+  // ("universe stays on prior snapshot"), so the platform keeps serving a full
+  // membership list instead of silently losing a third of it.
+  const loss = assessMembershipLoss(result, existing);
+  console.error("\n--- Membership-loss guard ---");
+  console.error(JSON.stringify(loss.stats, null, 2));
+  if (!loss.ok) {
+    console.error(`\n✗ REFUSING to write ${PATHS.universe}:`);
+    for (const v of loss.violations) console.error(`   - ${v}`);
+    if (allowShrink) {
+      console.error("\n--allow-shrink passed — overriding the guard and writing anyway.");
+    } else {
+      console.error("\nuniverse.json and universe-meta.json are UNCHANGED.");
+      console.error("A short sitemap crawl is the usual cause — re-run and compare before overriding.");
+      console.error(`Inspect the side file (${sidePath}) and the dropped list, then pass --allow-shrink`);
+      console.error("only if this membership cut is genuinely intended.");
+      process.exit(3);
+    }
+  } else {
+    console.error("✓ within thresholds — safe to commit.");
+  }
+
+  // 5. Atomic write to universe.json.
   const tmp = PATHS.universe + ".tmp." + process.pid;
   fs.writeFileSync(tmp, JSON.stringify(result.merged, null, 2));
   fs.renameSync(tmp, PATHS.universe);
   console.error(`✓ ${PATHS.universe} updated → ${result.merged.length} entries.`);
 
-  // 4b. Stamp the monitored sidecar. universe.json is a bare array with no
+  // 5b. Stamp the monitored sidecar. universe.json is a bare array with no
   // room for a top-level timestamp, so /api/health/snapshots reads
   // universe-meta.json's generatedAt to compute the "SWS universe (Nd old)"
   // staleness banner (server.js). This is the canonical rebuild path, so it
@@ -486,4 +612,11 @@ async function main() {
   }
 }
 
-main().catch((e) => { console.error("FATAL:", e); process.exit(1); });
+// Run main() only when this file is the entrypoint. Without this, importing
+// assessMembershipLoss() for a unit test kicks off the real ~580 MB / 12-shard
+// sitemap crawl as an import side effect and overwrites the side files.
+const invokedDirectly = process.argv[1]
+  && import.meta.url === new URL(`file://${process.argv[1]}`).href;
+if (invokedDirectly) {
+  main().catch((e) => { console.error("FATAL:", e); process.exit(1); });
+}
