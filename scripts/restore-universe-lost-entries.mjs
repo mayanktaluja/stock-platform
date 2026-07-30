@@ -29,10 +29,13 @@
 // CONTIGUOUS BLOCK (sorted[0..N/3], [N/3..2N/3], rest) — not by index % 3 — so
 // growing the universe re-partitions every block and leaves next_local_index
 // pointing at unrelated stocks. Resetting to 0 makes the next run a true
-// full-universe rescan, which is also what the stale data needs. (Note: the
-// --reset-progress path in sws-universe-from-sitemap.mjs derives slices with
-// index % 3 and therefore disagrees with the scraper; it is deliberately NOT
-// used here.)
+// full-universe rescan, which is also what the stale data needs. (When this
+// script was written, the --reset-progress path in sws-universe-from-sitemap.mjs
+// derived slices with `index % 3` and wrote only the legacy progress files, so
+// it disagreed with the api scraper and was deliberately NOT used here. That is
+// fixed — both pipelines' cursors are now rebuilt under their own scheme via
+// scripts/sws-shard-partition.mjs — but resetting to 0 remains right for a
+// restore, which wants a full rescan rather than resumption.)
 //
 // Usage:
 //   node scripts/restore-universe-lost-entries.mjs --dry-run
@@ -46,10 +49,9 @@ import { PATHS } from "./sws-config.mjs";
 import { compareListingPreference, companySlugFromSwsUrl } from "../services/swsCanonicalListing.js";
 
 // sws-api-scrape.mjs resolves its own progress path rather than using
-// PATHS.progress; mirror it here so both pipelines' cursors get reset.
-function progressApiPath(shardId) {
-  return path.join(path.dirname(PATHS.universe), `progress-api-${shardId}.json`);
-}
+// PATHS.progress; PATHS.progressApi is the shared definition of the same path,
+// so both pipelines' cursors get reset without a second copy of the template.
+const progressApiPath = (shardId) => PATHS.progressApi(shardId);
 
 // data/sws/universe.json @ 2026-07-08 — the last commit before the truncation
 // (chore(sws): auto-refresh 2026-07-08 07:46 — full universe rescan, #1002).

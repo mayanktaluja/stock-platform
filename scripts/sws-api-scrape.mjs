@@ -25,8 +25,9 @@
 
 import fs from "node:fs";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import * as dal from "../services/swsDal/index.js";
+import { shardSliceContiguous } from "./sws-shard-partition.mjs";
 
 const DB_FLUSH_INTERVAL = 50;
 
@@ -59,6 +60,15 @@ function logEvent(obj) {
   console.log(JSON.stringify(obj));
 }
 
+// True only when this file was launched as `node scripts/sws-api-scrape.mjs`,
+// false when it is imported. Everything with a process-wide side effect —
+// the fatal handlers and main() itself — hangs off this, so importing the
+// module to reuse `shardSlice` neither hijacks the importer's error handling
+// nor kicks off a real scrape. (Same guard PR #1166 had to add to
+// sws-universe-from-sitemap.mjs for the same reason.)
+const isEntrypoint = () =>
+  Boolean(process.argv[1]) && import.meta.url === pathToFileURL(process.argv[1]).href;
+
 // Top-level safety net for unhandled errors. Without these handlers, Node
 // terminates the process on any unhandled rejection / uncaught exception.
 // With them, we log a grep-able JSON line carrying the shard id and
@@ -89,25 +99,17 @@ function installFatalHandlers() {
   process.on("unhandledRejection", (err) => finish("unhandledRejection", err));
   process.on("uncaughtException", (err) => finish("uncaughtException", err));
 }
-installFatalHandlers();
+if (isEntrypoint()) installFatalHandlers();
 
 function loadUniverse() {
   const raw = JSON.parse(fs.readFileSync(UNIVERSE_PATH, "utf8"));
   return Array.isArray(raw) ? raw : raw.stocks || raw.universe || [];
 }
 
-function shardSlice(universe, shardId, totalShards = 3) {
-  // Same scheme as the existing scraper: alphabetical + interleave by shard.
-  // Shard 1 gets indices 0..N/3, shard 2 gets N/3..2N/3, shard 3 gets the rest.
-  const sorted = universe.slice().sort((a, b) =>
-    (a.ticker || "").localeCompare(b.ticker || ""),
-  );
-  const total = sorted.length;
-  const sliceSize = Math.floor(total / totalShards);
-  const startIdx = (shardId - 1) * sliceSize;
-  const endIdx = shardId === totalShards ? total : startIdx + sliceSize;
-  return sorted.slice(startIdx, endIdx);
-}
+// Re-exported so anything deriving a cursor for progress-api-<n>.json (notably
+// `--reset-progress` in sws-universe-from-sitemap.mjs) can bind to the exact
+// function this scraper walks, instead of re-deriving the partition and drifting.
+export { shardSliceContiguous as shardSlice };
 
 function checkPanic() {
   return fs.existsSync(PANIC_FLAG);
@@ -321,7 +323,9 @@ async function main() {
   process.exit(exitCode);
 }
 
-main().catch((e) => {
-  console.error("[scrape] fatal:", e);
-  process.exit(1);
-});
+if (isEntrypoint()) {
+  main().catch((e) => {
+    console.error("[scrape] fatal:", e);
+    process.exit(1);
+  });
+}

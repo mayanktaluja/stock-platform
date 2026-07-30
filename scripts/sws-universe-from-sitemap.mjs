@@ -16,7 +16,8 @@
 //                                                              # universe.json +
 //                                                              # stamp universe-meta.json
 //   node scripts/sws-universe-from-sitemap.mjs --reset-progress  # rewrite
-//                                                              # progress-N
+//                                                              # progress-api-N
+//                                                              # + progress-N
 //   node scripts/sws-universe-from-sitemap.mjs --merge --allow-shrink
 //                                                              # override the
 //                                                              # membership-loss
@@ -38,15 +39,23 @@
 //   universe 5500 → 3847, dropping 193 curated NIFTY-50 members; the truncated
 //   list then froze for 6 days behind the 264h universe-meta freshness gate
 //   while the orphaned tickers were still scored and served to users.
-// - Sharding contract (modular i % 3) means adding entries shifts ownership
-//   for everything past the insertion point. After --merge, also pass
-//   --reset-progress to rewind progress-{1,2,3}.json so previously-scraped
-//   tickers aren't re-scraped (we re-derive done state from data/sws/deep/).
+// - Sharding contract: the LIVE api scraper (sws-api-scrape.mjs) partitions by
+//   CONTIGUOUS ALPHABETICAL BLOCK — sort by ticker, cut into thirds. It is NOT
+//   `i % 3`; that is the legacy DOM scraper's scheme, which this header
+//   asserted for both until the partition helper was extracted. Either way,
+//   adding entries re-partitions every
+//   shard, so a cursor persisted before a merge points at unrelated stocks
+//   after it. After --merge, also pass --reset-progress to rebuild
+//   progress-api-{1,2,3}.json (api) and progress-{1,2,3}.json (legacy) — each
+//   under its own scheme — so previously-scraped tickers aren't re-scraped
+//   and unscraped ones aren't skipped (done state is re-derived from
+//   data/sws/deep/). See scripts/sws-shard-partition.mjs.
 
 import fs from "node:fs";
 import path from "node:path";
 import https from "node:https";
-import { PATHS } from "./sws-config.mjs";
+import { PATHS, SHARD_COUNT } from "./sws-config.mjs";
+import { shardSliceContiguous, shardSliceLegacyModular } from "./sws-shard-partition.mjs";
 
 const SITEMAP_INDEX = "https://simplywall.st/sitemap/companies/as-asia.xml";
 const TOTAL_SHARDS = 12; // currently as-asia/0.xml ... 11.xml
@@ -453,7 +462,30 @@ export function assessMembershipLoss(result, existing) {
   };
 }
 
-function rewriteProgressFromDeep(merged) {
+// The two scrape pipelines partition the universe differently AND keep separate
+// progress files, so a rebuild has to produce one cursor per (pipeline, shard):
+//
+//   progress-api-<n>.json  → sws-api-scrape.mjs, contiguous alphabetical blocks
+//   progress-<n>.json      → sws-deep-scrape.mjs, modular stride over stored order
+//
+// This used to derive ONE slice with `index % SHARD_COUNT` and write it to
+// PATHS.progress only. That derivation is correct for the legacy pipeline (after
+// mergeAndSort re-indexes, `index % 3` and `indicesForShard` select identical
+// entries) — but the api pipeline is the one the nightly runs, and it got
+// nothing. So `--reset-progress` was rebuilding cursors for a pipeline that no
+// longer runs while the live one kept its stale ones. Fixing only the
+// partitioning would have written contiguous cursors into the legacy file and
+// broken it the same way in the opposite direction; hence one derivation each.
+//
+// A cursor is only an integer offset into a slice, so a mismatch is silent: it
+// resolves to a different set of stocks, re-scraping some and skipping others
+// until they go stale. See scripts/sws-shard-partition.mjs for the full contract.
+const PROGRESS_TARGETS = [
+  { path: PATHS.progressApi, slice: shardSliceContiguous, scheme: "contiguous_alphabetical" },
+  { path: PATHS.progress, slice: shardSliceLegacyModular, scheme: "modular_stride" },
+];
+
+export function rewriteProgressFromDeep(merged) {
   // Map ticker → "scraped" by checking data/sws/deep/<TICKER>.json existence.
   const scraped = new Set(
     fs.existsSync(PATHS.deepDir)
@@ -462,39 +494,48 @@ function rewriteProgressFromDeep(merged) {
           .map((f) => f.replace(/\.json$/, ""))
       : [],
   );
-  const SHARD_COUNT = 3;
-  const result = { 1: 0, 2: 0, 3: 0 };
-  for (const [shardId] of [[1], [2], [3]]) {
-    const slice = merged.filter((e) => (e.index % SHARD_COUNT) === (shardId - 1));
-    let firstUnscrapedLocal = slice.length; // default: all done
-    let doneCount = 0;
-    for (let i = 0; i < slice.length; i++) {
-      if (scraped.has(slice[i].ticker)) {
-        doneCount++;
-      } else if (firstUnscrapedLocal === slice.length) {
-        firstUnscrapedLocal = i;
+  const now = new Date().toISOString();
+  const result = {};
+  for (let shardId = 1; shardId <= SHARD_COUNT; shardId++) {
+    for (const target of PROGRESS_TARGETS) {
+      const slice = target.slice(merged, shardId);
+      let firstUnscrapedLocal = slice.length; // default: all done
+      let doneCount = 0;
+      for (let i = 0; i < slice.length; i++) {
+        if (scraped.has(slice[i].ticker)) {
+          doneCount++;
+        } else if (firstUnscrapedLocal === slice.length) {
+          firstUnscrapedLocal = i;
+        }
       }
+      const progress = {
+        shard_id: shardId,
+        next_local_index: firstUnscrapedLocal,
+        done_count: doneCount,
+        last_global_index: null,
+        last_ticker: null,
+        last_run_at: null,
+        started_at: now,
+        complete: firstUnscrapedLocal >= slice.length,
+        today_count: 0,
+        today_date: now.slice(0, 10),
+        recent_completion_times: [],
+        long_pause_due_after_count: 25,
+        _slice_size: slice.length,
+        _shard_scheme: target.scheme,
+        _rebuilt_at: now,
+        _rebuilt_reason: "universe_expanded_from_sitemap",
+      };
+      const fp = target.path(shardId);
+      fs.mkdirSync(path.dirname(fp), { recursive: true });
+      fs.writeFileSync(fp, JSON.stringify(progress, null, 2));
+      result[path.basename(fp)] = {
+        slice_size: slice.length,
+        done: doneCount,
+        next: firstUnscrapedLocal,
+        scheme: target.scheme,
+      };
     }
-    const progress = {
-      shard_id: shardId,
-      next_local_index: firstUnscrapedLocal,
-      done_count: doneCount,
-      last_global_index: null,
-      last_ticker: null,
-      last_run_at: null,
-      started_at: new Date().toISOString(),
-      complete: firstUnscrapedLocal >= slice.length,
-      today_count: 0,
-      today_date: new Date().toISOString().slice(0, 10),
-      recent_completion_times: [],
-      long_pause_due_after_count: 25,
-      _slice_size: slice.length,
-      _rebuilt_at: new Date().toISOString(),
-      _rebuilt_reason: "universe_expanded_from_sitemap",
-    };
-    const fp = PATHS.progress(shardId);
-    fs.writeFileSync(fp, JSON.stringify(progress, null, 2));
-    result[shardId] = { slice_size: slice.length, done: doneCount, next: firstUnscrapedLocal };
   }
   return result;
 }
@@ -603,11 +644,12 @@ async function main() {
   console.error(`✓ ${PATHS.universeMeta} stamped (count=${result.merged.length}).`);
 
   if (resetProgress) {
-    console.error("\nRebuilding progress-{1,2,3}.json from data/sws/deep/ ...");
+    console.error("\nRebuilding progress-api-{1,2,3}.json + progress-{1,2,3}.json from data/sws/deep/ ...");
     const r = rewriteProgressFromDeep(result.merged);
     console.error(JSON.stringify(r, null, 2));
   } else {
-    console.error("\n⚠ universe.json grew — existing progress-{1,2,3}.json point to OLD shard slices.");
+    console.error("\n⚠ universe.json grew — existing progress-api-{1,2,3}.json (live api pipeline)");
+    console.error("   and progress-{1,2,3}.json (legacy) point to OLD shard slices.");
     console.error("   Re-run with --reset-progress to rebuild progress files from data/sws/deep/.");
   }
 }
