@@ -45,11 +45,25 @@ jobs:
         with:
           ref: main
           fetch-depth: 0
-          # Prefer a fine-grained PAT (contents + pull-requests write) so the
-          # PR this workflow opens triggers CI and can auto-merge. Falls back
-          # to GITHUB_TOKEN, whose PRs do NOT trigger CI (GitHub blocks
-          # workflow-on-workflow recursion) — see the merge step note.
-          token: ${{ secrets.MACRO_REFRESH_PAT || secrets.GITHUB_TOKEN }}
+          # NO `token:` override here — deliberately. The default GITHUB_TOKEN
+          # already carries contents: write (see the permissions: block above),
+          # which is everything the clone + branch-push path needs.
+          #
+          # Do NOT reintroduce a `token: ${{ secrets.SOME_PAT || secrets.GITHUB_TOKEN }}`
+          # override. A GitHub expression `||` yields the first TRUTHY operand,
+          # and an EXPIRED PAT is still a non-empty string — so it short-circuits
+          # the fallback and hard-fails checkout with:
+          #   fatal: could not read Username for 'https://github.com': terminal prompts disabled
+          # The `||` only degrades gracefully when the secret is ABSENT; when it
+          # is present-but-stale it takes the whole workflow down at step 1.
+          # That is exactly what happened: MACRO_REFRESH_PAT was minted
+          # 2026-05-20 with the default 30-day expiry, and every scheduled run
+          # from 2026-06-20 through 2026-07-30 (40 consecutive) died in this
+          # step. Nothing alerted, because the primary local launchd path
+          # (com.starbhai.macro-only) kept shipping and masked the outage.
+          #
+          # The PAT is now consulted ONLY for the PR/auto-merge step below,
+          # where it is probed first and degrades to GITHUB_TOKEN on rejection.
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -113,10 +127,42 @@ jobs:
           echo "no_change=0" >> "$GITHUB_OUTPUT"
           echo "will commit: ${decision}, last commit ${age_min}m ago, generatedAt ${gen_age_min}m old"
 
+      - name: Probe MACRO_REFRESH_PAT (degrade, never hard-fail, on expiry)
+        id: pat
+        # Deliberately UNCONDITIONAL — it does not share the ship gate's `if:`.
+        # An expired PAT must be visible on every run, including runs where the
+        # gate skips because the macro snapshot is equivalent. Gating this on
+        # "we had something to ship" is how a dead credential stays invisible.
+        env:
+          # Passed via env, never interpolated into the script body.
+          MACRO_REFRESH_PAT: ${{ secrets.MACRO_REFRESH_PAT }}
+        run: |
+          # A PAT is a rotating credential; this workflow is a backup path that
+          # must survive its expiry. Probe it against the one endpoint we
+          # actually need (repo metadata) and record the verdict, so the step
+          # below can pick a working token instead of trusting `||`.
+          set -uo pipefail
+          if [ -z "${MACRO_REFRESH_PAT:-}" ]; then
+            echo "pat_ok=0" >> "$GITHUB_OUTPUT"
+            echo "::notice::MACRO_REFRESH_PAT is not set. Using GITHUB_TOKEN: the refresh still opens a PR, but that PR will not trigger CI, so it cannot auto-merge unattended."
+            exit 0
+          fi
+          if GH_TOKEN="${MACRO_REFRESH_PAT:-}" gh api "repos/${GITHUB_REPOSITORY}" --silent 2>/dev/null; then
+            echo "pat_ok=1" >> "$GITHUB_OUTPUT"
+            echo "MACRO_REFRESH_PAT accepted — PR will trigger CI and can auto-merge."
+          else
+            echo "pat_ok=0" >> "$GITHUB_OUTPUT"
+            echo "::warning::MACRO_REFRESH_PAT is set but was REJECTED by the GitHub API (expired or revoked). Falling back to GITHUB_TOKEN. The macro refresh will still run and open a PR, but that PR will not trigger \"Smoke + unit tests\", so it cannot auto-merge — it needs a manual merge until the secret is rotated."
+          fi
+
       - name: Open / update backup PR (never push protected main directly)
         if: steps.gate.outputs.no_change == '0'
         env:
-          GH_TOKEN: ${{ secrets.MACRO_REFRESH_PAT || secrets.GITHUB_TOKEN }}
+          # Prefer the PAT only when the probe above proved it still works, so
+          # the PR triggers CI and can auto-merge. Otherwise GITHUB_TOKEN, whose
+          # PRs do NOT trigger CI (GitHub blocks workflow-on-workflow recursion)
+          # but which at least lands the branch + PR for a manual merge.
+          GH_TOKEN: ${{ steps.pat.outputs.pat_ok == '1' && secrets.MACRO_REFRESH_PAT || secrets.GITHUB_TOKEN }}
         run: |
           # main is a protected branch (required check "Smoke + unit tests"),
           # so a direct push is rejected with GH006. Route the refresh through
@@ -156,10 +202,14 @@ jobs:
               || { echo "::warning::pr create failed; leaving branch for next run"; exit 0; }
           fi
           # Best-effort auto-merge once the required check passes.
-          # CAVEAT: with only GITHUB_TOKEN the PR will NOT trigger CI, so the
-          # required check never reports and this PR waits. Add a
+          # CAVEAT: on GITHUB_TOKEN the PR will NOT trigger CI, so the required
+          # check "Smoke + unit tests" never reports and this PR waits for a
+          # manual merge. To restore unattended shipping, ROTATE the
           # MACRO_REFRESH_PAT secret (fine-grained: contents + pull-requests
-          # write) to make the PR trigger CI and auto-merge while offline.
+          # write on this repo) — the probe step above reports in the run log
+          # whether the current value is still accepted. Prefer the maximum
+          # expiry available; a 30-day PAT silently un-armed this backup path
+          # for 41 days once already.
           gh pr merge --squash --auto "$BRANCH" \
             || echo "::warning::auto-merge unavailable or check pending; PR left open for next run / manual merge"
           exit 0
