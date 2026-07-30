@@ -1,25 +1,25 @@
 {
   "schema_version": "dividends-upcoming-v2",
-  "built_at": "2026-07-29T21:01:34.131Z",
+  "built_at": "2026-07-30T11:31:02.933Z",
   "today_iso": "2026-07-30",
   "window_days": 30,
   "source_counts": {
     "groww_events": 0,
-    "nse_actions": 109,
-    "bse_actions": 274,
-    "sws_news_confirmed": 92,
-    "awaiting_ex_date": 641,
+    "nse_actions": 113,
+    "bse_actions": 276,
+    "sws_news_confirmed": 93,
+    "awaiting_ex_date": 643,
     "nse_live_fetch_ok": true,
     "bse_live_fetch_ok": true
   },
   "groww_status": {
     "fetched_at": "2026-06-11T22:42:15.049Z",
-    "age_days": 47.93,
+    "age_days": 48.53,
     "max_age_days": 3,
     "usable": false,
     "reason": "stale"
   },
-  "dividend_count": 319,
+  "dividend_count": 322,
   "dividends": [
     {
       "symbol": "ALBERTDAVD",
@@ -650,6 +650,21 @@
       ]
     },
     {
+      "symbol": "BSE_533121",
+      "ex_date": "2026-07-31",
+      "record_date": "2026-08-01",
+      "pay_date": "2026-09-25",
+      "dps": 110,
+      "dividend_type": "annual",
+      "announced_at_iso": "2026-07-28",
+      "key_dev_type_id": "45",
+      "source": "sws-news",
+      "source_priority": 4,
+      "sources": [
+        "sws-news"
+      ]
+    },
+    {
       "symbol": "BSE_540153",
       "ex_date": "2026-07-31",
       "record_date": "2026-07-31",
@@ -925,12 +940,13 @@
       "record_date": "2026-08-01",
       "pay_date": null,
       "dps": 110,
-      "dividend_type": "final",
+      "dividend_type": "annual",
       "announced_at_iso": null,
-      "source": "bse-actions",
-      "source_priority": 3,
-      "source_detail": "Final Dividend - Rs. - 110.0000",
+      "source": "nse-actions",
+      "source_priority": 2,
+      "source_detail": "Dividend - Rs 110 Per Share",
       "sources": [
+        "nse-actions",
         "bse-actions"
       ]
     },
@@ -1707,12 +1723,13 @@
       "record_date": "2026-08-03",
       "pay_date": null,
       "dps": 3,
-      "dividend_type": "final",
+      "dividend_type": "annual",
       "announced_at_iso": null,
-      "source": "bse-actions",
-      "source_priority": 3,
-      "source_detail": "Final Dividend - Rs. - 3.0000",
+      "source": "nse-actions",
+      "source_priority": 2,
+      "source_detail": "Dividend - Rs 3 Per Share",
       "sources": [
+        "nse-actions",
         "bse-actions"
       ]
     },
@@ -1738,12 +1755,13 @@
       "record_date": "2026-08-03",
       "pay_date": null,
       "dps": 1.2,
-      "dividend_type": "final",
+      "dividend_type": "annual",
       "announced_at_iso": null,
-      "source": "bse-actions",
-      "source_priority": 3,
-      "source_detail": "Final Dividend - Rs. - 1.2000",
+      "source": "nse-actions",
+      "source_priority": 2,
+      "source_detail": "Dividend - Rs 1.20 Per Share",
       "sources": [
+        "nse-actions",
         "bse-actions"
       ]
     },
@@ -1800,10 +1818,11 @@
       "dps": 3,
       "dividend_type": "interim",
       "announced_at_iso": null,
-      "source": "bse-actions",
-      "source_priority": 3,
-      "source_detail": "Interim Dividend - Rs. - 3.0000",
+      "source": "nse-actions",
+      "source_priority": 2,
+      "source_detail": "Interim Dividend - Rs 3 Per Share",
       "sources": [
+        "nse-actions",
         "bse-actions"
       ]
     },
@@ -2003,6 +2022,21 @@
       "source": "bse-actions",
       "source_priority": 3,
       "source_detail": "Final Dividend - Rs. - 2.0000",
+      "sources": [
+        "bse-actions"
+      ]
+    },
+    {
+      "symbol": "PCBL",
+      "ex_date": "2026-08-04",
+      "record_date": "2026-08-04",
+      "pay_date": null,
+      "dps": 4.5,
+      "dividend_type": "interim",
+      "announced_at_iso": null,
+      "source": "bse-actions",
+      "source_priority": 3,
+      "source_detail": "Interim Dividend - Rs. - 4.5000",
       "sources": [
         "bse-actions"
       ]
@@ -4014,6 +4048,21 @@
       ]
     },
     {
+      "symbol": "TFCILTD",
+      "ex_date": "2026-08-14",
+      "record_date": "2026-08-14",
+      "pay_date": null,
+      "dps": 0.6,
+      "dividend_type": "final",
+      "announced_at_iso": null,
+      "source": "bse-actions",
+      "source_priority": 3,
+      "source_detail": "Final Dividend - Rs. - 0.6000",
+      "sources": [
+        "bse-actions"
+      ]
+    },
+    {
       "symbol": "XCHANGING",
       "ex_date": "2026-08-14",
       "record_date": "2026-08-14",
@@ -4963,8 +5012,28 @@
       ]
     }
   ],
-  "awaiting_ex_date_count": 641,
+  "awaiting_ex_date_count": 643,
   "awaiting_ex_date": [
+    {
+      "symbol": "BSE_502355",
+      "announced_at_iso": "2026-07-29",
+      "dps": 4,
+      "dividend_type": "interim",
+      "status": "awaiting_ex_date",
+      "awaiting_type": "recommended",
+      "source": "sws-news",
+      "source_detail": "Balkrishna Industries Limited Declares First Interim Dividend for the Financial Year 2026-27"
+    },
+    {
+      "symbol": "BSE_532143",
+      "announced_at_iso": "2026-07-29",
+      "dps": 1.25,
+      "dividend_type": "final",
+      "status": "awaiting_ex_date",
+      "awaiting_type": "recommended",
+      "source": "sws-news",
+      "source_detail": "SKM Egg Products Export (India) Limited Recommends Final Dividend for the Financial Year 2025-26"
+    },
     {
       "symbol": "BSE_517522",
       "announced_at_iso": "2026-07-28",
