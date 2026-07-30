@@ -19,6 +19,7 @@ import {
 } from "../services/fvReconciliation.js";
 import { buildGrowingSectorValueSection } from "../services/swsGrowingSectorValue.js";
 import { buildSnowflakeGapLabSection, buildSnowflakeGapPeerAverages } from "../services/swsSnowflakeGapLab.js";
+import { dedupeByCompany } from "../services/swsCanonicalListing.js";
 import {
   buildActionableTodayAudit,
   buildEntryBand,
@@ -983,9 +984,40 @@ export function runFullScoring() {
       console.error(`Failed to score ${stock?.ticker || "?"}: ${e.message}`);
     }
   }
+  // Collapse dual-listed companies to one canonical row BEFORE sectioning.
+  //
+  // A company listed on both NSE and BSE has one deep brief per LISTING, and the glob
+  // above treats one file as one stock — so both compete for section slots. On
+  // 2026-07-30 that put 618 companies in twice and wasted 4 of the 30 Top-30 slots
+  // (Shanti Gold, WPIL, Yatharth, Manorama), each shown at two different prices and
+  // scores, with the BSE_<code> row's detail modal 400ing on server.js's ticker guard.
+  //
+  // This sits between scoring and buildLeaderboard on purpose:
+  //   • AFTER scoring, so `universe` percentile/benchmark inputs are unchanged and this
+  //     stays a pure row-removal with no score drift on any surviving stock. Deduping
+  //     at load instead would move percentiles for stocks that have no duplicate at
+  //     all, turning a reviewable change into a silent universe-wide re-score.
+  //   • BEFORE buildLeaderboard, so every section is covered by one call. Three
+  //     sections (bestFundamentals, growing_sector_value, snowflake_gap_lab) read the
+  //     raw `scored` array rather than the shared `ordered` list, so deduping inside
+  //     buildLeaderboard would silently miss them — as would any future section.
+  const dedup = dedupeByCompany(scored);
+  if (dedup.collapsed_count > 0) {
+    console.log(
+      `[scoring] collapsed ${dedup.collapsed_count} duplicate listing(s) → ` +
+      `${dedup.kept.length} companies (${dedup.stale_vs_sibling_count} kept rows staler than a collapsed sibling)`,
+    );
+  }
+  // A slug-parse regression would make every row unique, collapse nothing, and leave
+  // the duplicate-company gate reporting a clean zero — the fix silently disarmed with
+  // no signal anywhere. Surface the fallback rate so that cannot happen quietly.
+  if (dedup.fallback_count > 0) {
+    console.warn(`[scoring] WARNING: ${dedup.fallback_count} row(s) had no parseable company slug — dedup degraded for those rows`);
+  }
+
   const sectorOutlook = readJsonIfExists(path.join(PATHS.repoRoot, "data", "sectorOutlook", "outlook-latest.json"));
   const macroRegime = readJsonIfExists(path.join(PATHS.repoRoot, "data", "macroRegime.json"));
-  const sections = buildLeaderboard(scored, { sectorOutlook, macroRegime, universe });
+  const sections = buildLeaderboard(dedup.kept, { sectorOutlook, macroRegime, universe });
   const sectionAudit = sections.__section_audit || {};
 
   // Two-Key Entry (PR-2): stamp entry_timing + entry_plan onto section rows.
@@ -1027,6 +1059,15 @@ export function runFullScoring() {
     universe_size: scored.length + failed,
     scored_count: scored.length,
     failed_count: failed,
+    // Dual-listing collapse audit. Additive on purpose — universe_size/scored_count
+    // keep counting BRIEFS so the sanity gate's existing thresholds and the
+    // night-over-night count comparisons keep the meaning they were calibrated on.
+    // company_count is the post-dedup number the sections actually contain.
+    company_count: dedup.kept.length,
+    collapsed_listings_count: dedup.collapsed_count,
+    collapsed_listings: dedup.collapsed_by,
+    slug_fallback_count: dedup.fallback_count,
+    stale_vs_sibling_count: dedup.stale_vs_sibling_count,
     section_audit: sectionAudit,
     sections,
   };
@@ -1046,7 +1087,11 @@ export function runFullScoring() {
       tickerToSections.get(it.ticker).push(sectionKey);
     }
   }
-  const universeStocks = scored.map((s) => slimUniverseEntry(s, tickerToSections.get(s.ticker) || []));
+  // Built from the DEDUPED rows, not `scored`. This file backs the picks-tab global
+  // search, so leaving it on the raw list would just relocate the duplicate: the
+  // sections would show one Shanti Gold while searching "shanti" still returned two,
+  // one of them a BSE_ ticker whose detail modal 400s.
+  const universeStocks = dedup.kept.map((s) => slimUniverseEntry(s, tickerToSections.get(s.ticker) || []));
   const scoredUniversePath = path.join(path.dirname(PATHS.picksLatest), "sws-scored-universe.json");
   writeJsonAtomic(scoredUniversePath, {
     generated_at: new Date().toISOString(),
