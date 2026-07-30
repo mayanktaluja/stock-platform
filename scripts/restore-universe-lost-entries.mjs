@@ -43,6 +43,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { PATHS } from "./sws-config.mjs";
+import { compareListingPreference, companySlugFromSwsUrl } from "../services/swsCanonicalListing.js";
 
 // sws-api-scrape.mjs resolves its own progress path rather than using
 // PATHS.progress; mirror it here so both pipelines' cursors get reset.
@@ -92,8 +93,31 @@ function main() {
     lost.push({ ...rest, restored_from_ref: ref });
   }
 
-  const merged = [...current, ...lost].map((s, i) => ({ ...s, index: i }));
+  // Dedup by COMPANY, not just by ticker.
+  //
+  // The ticker-keyed filter above is not sufficient: SHANTIGOLD and BSE_544459 are
+  // different tickers but one dual-listed company, so restoring purely by ticker put
+  // 517 redundant entries back into universe.json. universe.json drives the scrape, so
+  // each redundant row costs a second slot of the nightly budget on a company already
+  // covered and mints a second deep brief the scorer then treats as its own stock.
+  // Same comparator the scorer uses, so both paths agree on which listing is canonical.
+  const beforeDedup = [...current, ...lost];
+  const bySlug = new Map();
+  for (const e of beforeDedup) {
+    const k = e?.slug || companySlugFromSwsUrl(e?.sws_url) || `__ticker:${e?.ticker}`;
+    if (!bySlug.has(k)) bySlug.set(k, []);
+    bySlug.get(k).push(e);
+  }
+  const survivors = new Set();
+  for (const [, members] of bySlug) {
+    survivors.add(members.length === 1 ? members[0] : members.slice().sort(compareListingPreference)[0]);
+  }
+  const collapsed = beforeDedup.length - survivors.size;
+  const merged = beforeDedup.filter((e) => survivors.has(e)).map((s, i) => ({ ...s, index: i }));
   const curatedRecovered = lost.filter((e) => e.curated).length;
+  if (collapsed > 0) {
+    console.log(`dual-listing collapse: ${beforeDedup.length} → ${merged.length} (${collapsed} redundant listing(s) dropped)`);
+  }
 
   console.log(`recovery ref:        ${ref}`);
   console.log(`current universe:    ${current.length} entries (${current.filter((s) => s.curated).length} curated)`);

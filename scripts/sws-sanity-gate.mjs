@@ -37,6 +37,7 @@ import {
 import { spawnSync } from "child_process";
 import path from "path";
 import { evaluateSwsPriceFreshness } from "./sws-price-freshness-gate.mjs";
+import { companyKeyFromRow } from "../services/swsCanonicalListing.js";
 
 // ----------------------------- paths ------------------------------------
 
@@ -144,6 +145,20 @@ export const MAX_FV_COVERAGE_DROP_PCT = 20;  // BLOCK — current FV coverage ca
 
 const BLOCK = "BLOCK";
 const WARN  = "WARN";
+
+// Share of picks rows allowed to fall back to the row-unique company key (i.e. whose
+// sws_url did not yield a slug). Measured 0 of 6,178 on live data, so anything above
+// a hair means the URL shape moved and the dual-listing dedup is degrading.
+const SLUG_FALLBACK_WARN_PCT = 1;
+// Deep briefs with no universe entry — unreachable by the scraper, frozen forever.
+// 153 before the dual-listing repair; ~670 after it collapses 517 redundant entries.
+// Set above that so the expected step does not cry wolf, but low enough to catch a
+// genuine universe collapse (the 2026-07-23 truncation stranded 2,331).
+const DEEP_ORPHAN_WARN = 800;
+// Kept rows that are staler than the sibling listing they collapsed. Expected to be
+// high for exactly one cycle after a universe repair (523 on 2026-07-30) and to fall
+// to ~0 once the scraper stops splitting its budget across both listings.
+const STALE_VS_SIBLING_WARN = 50;
 
 // ---------------------------- finding store ----------------------------
 
@@ -565,6 +580,31 @@ function layer2(lr) {
   }
   record(layer, "universe_present", BLOCK, true);
 
+  // One company must occupy exactly one universe slot. universe.json drives the
+  // scrape (scripts/sws-deep-scrape.mjs), so a slug appearing twice means the scraper
+  // spends two slots of its nightly budget on one company and mints a second deep
+  // brief that the scorer then treats as a separate stock.
+  //
+  // This is the check that would have caught restore-universe-lost-entries.mjs
+  // appending 517 slug-redundant rows: it deduped by ticker, while the sitemap
+  // builder's Pass 3 dedups by slug, so SHANTIGOLD and BSE_544459 both survived.
+  // BLOCK, because the sitemap builder's Pass 3 already guarantees zero — any
+  // non-zero means something bypassed it.
+  const universeSlugs = new Map();
+  const universeDupes = [];
+  for (const entry of universe) {
+    const key = entry?.slug || `_no-slug-${entry?.sws_short_id ?? entry?.ticker ?? "?"}`;
+    if (universeSlugs.has(key)) {
+      universeDupes.push({ slug: key, tickers: [universeSlugs.get(key), entry?.ticker] });
+    } else {
+      universeSlugs.set(key, entry?.ticker);
+    }
+  }
+  record(layer, "universe_no_duplicate_slugs", BLOCK,
+    universeDupes.length === 0,
+    { dupes_count: universeDupes.length, universe_size: universe.length,
+      distinct_companies: universeSlugs.size, sample: universeDupes.slice(0, 10) });
+
   let deepFiles = [];
   try { deepFiles = readdirSync(DEEP_DIR).filter(f => f.endsWith(".json")); }
   catch (e) {
@@ -588,9 +628,27 @@ function layer2(lr) {
   let freshCount = 0;
   let staleCount = 0;
   let unparsedCount = 0;
+  let orphanCount = 0;
   const staleSample = [];
 
+  // Measure freshness over the briefs the scraper is actually responsible for, i.e.
+  // those whose ticker is in universe.json — NOT every file in the deep dir.
+  //
+  // The two differ, and the gap is structural rather than incidental. The scrape is
+  // driven from universe.json, but deep briefs are never deleted, so any ticker that
+  // leaves the universe (a delisting, or losing the dual-listing dedup) strands a
+  // brief on disk that can never be refreshed again. Counting those in the denominator
+  // makes fresh_pct measure "how much of the deep dir is recent" instead of "did
+  // tonight's scrape work" — so a perfectly healthy run reads as a failure, the gate
+  // sits permanently amber, and the signal that this check exists to give (a collapsed
+  // scrape) is lost in the noise. Orphans are reported separately below.
+  const universeTickerSet = new Set(
+    universe.map((s) => String(s?.ticker || "").toUpperCase()).filter(Boolean),
+  );
+
   for (const file of deepFiles) {
+    const ticker = file.replace(/\.json$/, "");
+    if (!universeTickerSet.has(ticker.toUpperCase())) { orphanCount++; continue; }
     let parsedAt = null;
     try {
       const d = JSON.parse(readFileSync(path.join(DEEP_DIR, file), "utf-8"));
@@ -600,21 +658,31 @@ function layer2(lr) {
     if (parsedAt >= windowStart) freshCount++;
     if (parsedAt < staleStart) {
       staleCount++;
-      if (staleSample.length < 10) staleSample.push(file.replace(/\.json$/, ""));
+      if (staleSample.length < 10) staleSample.push(ticker);
     }
   }
 
-  const total = deepFiles.length || 1;
+  const total = (deepFiles.length - orphanCount) || 1;
   const freshPct = (freshCount / total) * 100;
   const stalePct = (staleCount / total) * 100;
 
   record(layer, "fresh_pct_threshold", WARN,
     freshPct >= MIN_FRESH_PCT,
-    { fresh_pct: +freshPct.toFixed(2), threshold: MIN_FRESH_PCT, fresh_count: freshCount, total });
+    { fresh_pct: +freshPct.toFixed(2), threshold: MIN_FRESH_PCT, fresh_count: freshCount,
+      total, scope: "universe_members", orphans_excluded: orphanCount });
 
   record(layer, "stale_pct_threshold", WARN,
     stalePct < STALE_WARN_PCT,
     { stale_pct: +stalePct.toFixed(2), warn_at: STALE_WARN_PCT, sample: staleSample });
+
+  // Orphans are briefs on disk with no universe entry — unreachable by the scraper and
+  // frozen at whatever date they were last scraped, yet still read by the stock-detail
+  // route. Excluded from fresh_pct above, so surface the count here; a sharp rise means
+  // the universe shrank and something is serving stale data it can never refresh.
+  record(layer, "deep_orphans_within_tolerance", WARN,
+    orphanCount <= DEEP_ORPHAN_WARN,
+    { orphan_count: orphanCount, warn_at: DEEP_ORPHAN_WARN,
+      deep_files: deepFiles.length, universe_size: universe.length });
 
   record(layer, "unparsed_files", WARN,
     unparsedCount === 0,
@@ -837,6 +905,65 @@ function layer6(picks, scored, insaneOffenders) {
   record(layer, "no_duplicate_picks", WARN,
     dupes.length === 0,
     { dupes_count: dupes.length, sample: dupes.slice(0, 10) });
+
+  // Same shape as above, but keyed on COMPANY instead of ticker.
+  //
+  // The ticker-keyed check above is structurally blind to the bug that shipped on
+  // 2026-07-30: a dual-listed company appears as two DIFFERENT tickers (SHANTIGOLD and
+  // BSE_544459), so same-ticker duplicates measured 0 in all 14 sections while
+  // same-company duplicates measured 333 — 4 of them inside the Top 30. The check had
+  // nothing to catch, and it is WARN, so it would have exited 0 regardless.
+  //
+  // BLOCK is correct here rather than a threshold to tune: after the dedup in
+  // sws-scoring.mjs the value is structurally zero, so any non-zero is a real
+  // regression. Keep the ticker-keyed check at WARN — it catches a different, cheaper
+  // class of defect.
+  const companyDupes = [];
+  for (const [secName, list] of Object.entries(picks.sections)) {
+    if (!Array.isArray(list)) continue;
+    const seenCompany = new Map();
+    list.forEach((item, i) => {
+      if (!item) return;
+      const { key } = companyKeyFromRow(item, i);
+      if (seenCompany.has(key)) {
+        companyDupes.push({ section: secName, company_key: key, tickers: [seenCompany.get(key), item.ticker] });
+      } else {
+        seenCompany.set(key, item.ticker);
+      }
+    });
+  }
+  record(layer, "no_duplicate_companies", BLOCK,
+    companyDupes.length === 0,
+    {
+      dupes_count: companyDupes.length,
+      sections_affected: [...new Set(companyDupes.map((d) => d.section))],
+      sample: companyDupes.slice(0, 10),
+    });
+
+  // The dedup keys on a slug parsed out of sws_url. If that URL shape ever changes,
+  // every row becomes unique, nothing collapses, and `no_duplicate_companies` above
+  // goes green while duplicates ship exactly as before — the fix silently disarmed
+  // with no signal. Watch the fallback rate so that failure is loud rather than
+  // invisible. Fail-open by design, so this is WARN: degraded dedup still ships.
+  const slugFallbacks = Number(picks.slug_fallback_count ?? 0);
+  const companyCount = Number(picks.company_count ?? 0) || 1;
+  const fallbackPct = (slugFallbacks / companyCount) * 100;
+  record(layer, "company_key_resolvable", WARN,
+    fallbackPct <= SLUG_FALLBACK_WARN_PCT,
+    { slug_fallback_count: slugFallbacks, company_count: companyCount,
+      fallback_pct: +fallbackPct.toFixed(2), warn_at: SLUG_FALLBACK_WARN_PCT });
+
+  // Deliberate counterweight to ranking freshness LAST in the canonical-listing rule:
+  // we keep the NSE ticker even when the collapsed BSE sibling was scraped more
+  // recently. That is the right call for identity stability, but it means the kept row
+  // can carry staler numbers, so the cost is surfaced as a number instead of silence.
+  // Self-corrects once the loser leaves universe.json and the scraper stops splitting
+  // its nightly budget across two rows of one company.
+  record(layer, "canonical_listing_not_stale", WARN,
+    Number(picks.stale_vs_sibling_count ?? 0) <= STALE_VS_SIBLING_WARN,
+    { stale_vs_sibling_count: Number(picks.stale_vs_sibling_count ?? 0),
+      warn_at: STALE_VS_SIBLING_WARN,
+      collapsed_listings_count: Number(picks.collapsed_listings_count ?? 0) });
 
   // Top picks must be free of insane values — the canary that protects users
   // from seeing an INFY-with-pe=1440 in the front-row recommendations.
