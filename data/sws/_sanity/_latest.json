@@ -1,12 +1,12 @@
 {
-  "run_id": "2026-07-30T16-36-36-176Z",
-  "generated_at": "2026-07-30T17:56:38.445Z",
+  "run_id": "2026-07-31T01-39-00-987Z",
+  "generated_at": "2026-07-31T02:57:10.873Z",
   "verdict": "WARN",
   "block_count": 0,
-  "warn_count": 3,
-  "pass_count": 46,
-  "total_checks": 49,
-  "summary_line": "verdict=WARN · scored=6178 · top30=30 · warns=3",
+  "warn_count": 2,
+  "pass_count": 52,
+  "total_checks": 54,
+  "summary_line": "verdict=WARN · scored=6178 · top30=30 · warns=2",
   "layers": {
     "L1_run_integrity": {
       "pass": 21,
@@ -64,7 +64,7 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "duration_seconds": 12975,
+            "duration_seconds": 12341,
             "max": 21600
           }
         },
@@ -81,7 +81,7 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {
-            "news_populated_count": 6097,
+            "news_populated_count": 6086,
             "threshold": 1000
           }
         },
@@ -91,7 +91,7 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "news_populated_count": 6097,
+            "news_populated_count": 6086,
             "threshold": 1500
           }
         },
@@ -101,8 +101,8 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {
-            "rewards_populated_count": 5177,
-            "risks_populated_count": 5822,
+            "rewards_populated_count": 5173,
+            "risks_populated_count": 5813,
             "threshold": 1000
           }
         },
@@ -112,7 +112,7 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "rewards_populated_count": 5177,
+            "rewards_populated_count": 5173,
             "threshold": 4500
           }
         },
@@ -122,7 +122,7 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "risks_populated_count": 5822,
+            "risks_populated_count": 5813,
             "threshold": 500
           }
         },
@@ -142,9 +142,9 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {
-            "picks_scanned_at": "2026-07-30T16:32:46.061Z",
-            "lr_started_at": "2026-07-30T11:10:57.000Z",
-            "lr_finished_at": "2026-07-30T16:36:36.176Z",
+            "picks_scanned_at": "2026-07-31T01:32:34.015Z",
+            "lr_started_at": "2026-07-30T19:00:26.000Z",
+            "lr_finished_at": "2026-07-31T01:39:00.987Z",
             "drift_outside_run_seconds": 0,
             "slack_seconds": 60
           }
@@ -207,11 +207,11 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {
-            "count": 656,
+            "count": 588,
             "threshold": 25,
-            "nse_calendar_event_count": 663,
-            "nse_calendar_raw_event_count": 692,
-            "nse_calendar_fetched_at": "2026-07-30T14:47:12.756Z",
+            "nse_calendar_event_count": 595,
+            "nse_calendar_raw_event_count": 619,
+            "nse_calendar_fetched_at": "2026-07-30T22:26:09.140Z",
             "nse_calendar_window_days": 60
           }
         },
@@ -221,15 +221,15 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "count": 656,
+            "count": 588,
             "threshold": 50
           }
         }
       ]
     },
     "L2_coverage_audit": {
-      "pass": 13,
-      "warn": 2,
+      "pass": 16,
+      "warn": 1,
       "block": 0,
       "checks": [
         {
@@ -243,15 +243,15 @@
           "layer": "L2_coverage_audit",
           "name": "groww_stock_coverage_warn",
           "severity": "WARN",
-          "ok": false,
+          "ok": true,
           "detail": {
-            "coverage_pct": 78.46,
+            "coverage_pct": 85.71,
             "warn_at": 85,
-            "usable_count": 4727,
-            "target_count": 6025,
-            "pe_coverage_pct": 59.85,
-            "fetched_at": "2026-07-30T14:47:13.074Z",
-            "age_days": 0.13
+            "usable_count": 4721,
+            "target_count": 5508,
+            "pe_coverage_pct": 65.43,
+            "fetched_at": "2026-07-30T22:26:10.240Z",
+            "age_days": 0.19
           }
         },
         {
@@ -260,14 +260,14 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {
-            "coverage_pct": 78.46,
+            "coverage_pct": 85.71,
             "block_at": 70,
             "stale_grace_days": 3,
             "stale_fallback_usable": true,
-            "usable_count": 4727,
-            "target_count": 6025,
-            "fetched_at": "2026-07-30T14:47:13.074Z",
-            "age_days": 0.13
+            "usable_count": 4721,
+            "target_count": 5508,
+            "fetched_at": "2026-07-30T22:26:10.240Z",
+            "age_days": 0.19
           }
         },
         {
@@ -276,7 +276,7 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "age_days": 0.13,
+            "age_days": 0.19,
             "stale_grace_days": 3
           }
         },
@@ -293,12 +293,12 @@
           "severity": "WARN",
           "ok": false,
           "detail": {
-            "coverage_pct": 59.85,
+            "coverage_pct": 65.43,
             "warn_at": 85,
-            "usable_count": 3606,
-            "target_count": 6025,
-            "fetched_at": "2026-07-30T14:47:13.074Z",
-            "age_days": 0.13
+            "usable_count": 3604,
+            "target_count": 5508,
+            "fetched_at": "2026-07-30T22:26:10.240Z",
+            "age_days": 0.19
           }
         },
         {
@@ -307,14 +307,14 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {
-            "coverage_pct": 59.85,
+            "coverage_pct": 65.43,
             "block_at": 70,
             "stale_grace_days": 21,
             "stale_fallback_usable": true,
-            "usable_count": 3606,
-            "target_count": 6025,
-            "fetched_at": "2026-07-30T14:47:13.074Z",
-            "age_days": 0.13
+            "usable_count": 3604,
+            "target_count": 5508,
+            "fetched_at": "2026-07-30T22:26:10.240Z",
+            "age_days": 0.19
           }
         },
         {
@@ -323,7 +323,7 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "age_days": 0.13,
+            "age_days": 0.19,
             "stale_grace_days": 21
           }
         },
@@ -333,6 +333,18 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {}
+        },
+        {
+          "layer": "L2_coverage_audit",
+          "name": "universe_no_duplicate_slugs",
+          "severity": "BLOCK",
+          "ok": true,
+          "detail": {
+            "dupes_count": 0,
+            "universe_size": 5508,
+            "distinct_companies": 5508,
+            "sample": []
+          }
         },
         {
           "layer": "L2_coverage_audit",
@@ -351,10 +363,12 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "fresh_pct": 97.36,
+            "fresh_pct": 99.82,
             "threshold": 95,
-            "fresh_count": 6015,
-            "total": 6178
+            "fresh_count": 5498,
+            "total": 5508,
+            "scope": "universe_members",
+            "orphans_excluded": 670
           }
         },
         {
@@ -363,20 +377,32 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "stale_pct": 2.64,
+            "stale_pct": 0.18,
             "warn_at": 5,
             "sample": [
-              "500009",
-              "500068",
-              "500123",
-              "500147",
-              "500159",
-              "500264",
-              "500267",
-              "500307",
-              "500365",
-              "500414"
+              "524322",
+              "531257",
+              "534623",
+              "538537",
+              "AMIRCHAND",
+              "ASHIKA",
+              "BSE_544773",
+              "HIRECT",
+              "KEL",
+              "LYPSAGEMS"
             ]
+          }
+        },
+        {
+          "layer": "L2_coverage_audit",
+          "name": "deep_orphans_within_tolerance",
+          "severity": "WARN",
+          "ok": true,
+          "detail": {
+            "orphan_count": 670,
+            "warn_at": 800,
+            "deep_files": 6178,
+            "universe_size": 5508
           }
         },
         {
@@ -438,8 +464,8 @@
           "severity": "WARN",
           "ok": false,
           "detail": {
-            "insane_pct": 0.146,
-            "insane_ticker_pct": 0.146,
+            "insane_pct": 0.163,
+            "insane_ticker_pct": 0.163,
             "insane_finding_count": 9,
             "insane_unique_tickers": 9,
             "warn_at": 0.1,
@@ -459,11 +485,6 @@
                 "ticker": "ALEMBICLTD",
                 "field": "upside_pct",
                 "value": 533.1
-              },
-              {
-                "ticker": "BSE_532867",
-                "field": "upside_pct",
-                "value": 948.3
               },
               {
                 "ticker": "GFLLIMITED",
@@ -486,6 +507,11 @@
                 "value": 0
               },
               {
+                "ticker": "538897",
+                "field": "pe",
+                "value": 0
+              },
+              {
                 "ticker": "BSE_890213",
                 "field": "pe",
                 "value": 0
@@ -496,7 +522,7 @@
       ]
     },
     "L6_picks_coherence": {
-      "pass": 8,
+      "pass": 11,
       "warn": 0,
       "block": 0,
       "checks": [
@@ -513,9 +539,9 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {
-            "current_count": 1204,
-            "current_total": 6178,
-            "current_pct": 19.5,
+            "current_count": 982,
+            "current_total": 5516,
+            "current_pct": 17.8,
             "baseline_count": 1204,
             "baseline_total": 6178,
             "baseline_pct": 19.5,
@@ -573,6 +599,40 @@
         },
         {
           "layer": "L6_picks_coherence",
+          "name": "no_duplicate_companies",
+          "severity": "BLOCK",
+          "ok": true,
+          "detail": {
+            "dupes_count": 0,
+            "sections_affected": [],
+            "sample": []
+          }
+        },
+        {
+          "layer": "L6_picks_coherence",
+          "name": "company_key_resolvable",
+          "severity": "WARN",
+          "ok": true,
+          "detail": {
+            "slug_fallback_count": 0,
+            "company_count": 5516,
+            "fallback_pct": 0,
+            "warn_at": 1
+          }
+        },
+        {
+          "layer": "L6_picks_coherence",
+          "name": "canonical_listing_not_stale",
+          "severity": "WARN",
+          "ok": true,
+          "detail": {
+            "stale_vs_sibling_count": 13,
+            "warn_at": 50,
+            "collapsed_listings_count": 662
+          }
+        },
+        {
+          "layer": "L6_picks_coherence",
           "name": "top_picks_clean",
           "severity": "WARN",
           "ok": true,
@@ -596,12 +656,12 @@
             "stats": {
               "source": "loose",
               "raw_files": 6065,
-              "raw_with_price": 6019,
+              "raw_with_price": 6008,
               "deep_files": 6178,
               "raw_newer_than_deep": 0,
-              "raw_deep_checked": 6019,
-              "picks_cards_checked": 2628,
-              "raw_latest_fetched_at": "2026-07-30T14:47:08.196Z",
+              "raw_deep_checked": 6008,
+              "picks_cards_checked": 2331,
+              "raw_latest_fetched_at": "2026-07-30T22:26:02.386Z",
               "raw_latest_price_as_of": "2026-07-30T00:00:00.000Z"
             },
             "sample": [],
@@ -632,9 +692,9 @@
   "inputs": {
     "scored_count": 6178,
     "universe_size": 6178,
-    "started_at": "2026-07-30T11:10:57.000Z",
-    "finished_at": "2026-07-30T16:36:36.176Z",
-    "picks_scanned_at": "2026-07-30T16:32:46.061Z",
+    "started_at": "2026-07-30T19:00:26.000Z",
+    "finished_at": "2026-07-31T01:39:00.987Z",
+    "picks_scanned_at": "2026-07-31T01:32:34.015Z",
     "pipeline_status": "success"
   }
 }
