@@ -1,21 +1,21 @@
 {
   "schema_version": "macro-thesis-v1",
-  "generated_at": "2026-07-30T17:50:46.468Z",
+  "generated_at": "2026-07-31T02:50:16.445Z",
   "regime": {
     "regime": "RATE_HIKE",
     "severity": 3,
-    "confidence": 0.78,
+    "confidence": 0.62,
     "label": "Rate Hike",
-    "generated_at": "2026-07-30T09:24:29.796Z",
+    "generated_at": "2026-07-30T18:30:19.151Z",
     "days_in_state": 0,
     "stale": false,
-    "reasoning": "Rising US rates, RBI dollar‑sale defence and higher funding costs dominate, shaping sector outlook.",
+    "reasoning": "Fed's hawkish hold and global rate concerns dominate recent headlines",
     "key_events": [
-      "US borrowing costs hit 19-year high as Fed defies inflation fears (FT Markets)",
-      "RBI sold about $7 billion to defend rupee (Economic Times)",
-      "Shell posts second-highest profits ever as traders cash in on Iran disruption (FT Markets)",
-      "Gold rises ₹176 on MCX amid short covering; silver drops (Business Standard)",
-      "Chinese stocks on track for worst month in decade (FT Markets)"
+      "Federal Reserve's 'hawkish hold' muddies path for stocks and bonds (Business Standard)",
+      "Warsh’s stripped-back Fed communication ‘already backfiring’, say investors (FT Markets)",
+      "Japan’s yen jumps 3% as speculation over intervention swirls (FT Markets)",
+      "BP to cut 700 jobs as it warns on oil ‘oversupply’ (FT Markets)",
+      "INR adds steady gains for fifth straight day supported by positive equities (Business Standard)"
     ],
     "classifier_provider": "groq",
     "source_health": {
@@ -43,43 +43,46 @@
     "sector_impacts": [
       {
         "sector": "Banking",
-        "impact": 1,
-        "reason": "Higher NIM from rate rise"
+        "impact": 2,
+        "reason": "Higher rates boost NIMs"
       },
       {
-        "sector": "NBFC",
-        "impact": -2,
-        "reason": "Funding cost surge hurts profitability"
+        "sector": "IT Services",
+        "impact": -1,
+        "reason": "Cost pressures from rate‑linked financing"
       },
       {
         "sector": "Real Estate",
         "impact": -2,
-        "reason": "Higher rates curb property demand"
+        "reason": "Rate‑sensitive demand dampened"
+      },
+      {
+        "sector": "Oil & Gas",
+        "impact": -1,
+        "reason": "Oversupply worries from BP cuts"
+      },
+      {
+        "sector": "Metals",
+        "impact": 1,
+        "reason": "Inflation‑linked demand supports pricing"
       }
     ]
   },
-  "catalyst_proximity_days": 0,
+  "catalyst_proximity_days": 6,
   "upcoming_catalysts": [
-    {
-      "date": "2026-07-30",
-      "kind": "FOMC",
-      "label": "US FOMC Meeting — July 2026",
-      "severity_potential": 3,
-      "days_until": 0
-    },
     {
       "date": "2026-08-06",
       "kind": "RBI_MPC",
       "label": "RBI Monetary Policy Committee — August 2026",
       "severity_potential": 3,
-      "days_until": 7
+      "days_until": 6
     },
     {
       "date": "2026-08-15",
       "kind": "INDIA_INDEPENDENCE",
       "label": "Indian Independence Day (PM address)",
       "severity_potential": 1,
-      "days_until": 16
+      "days_until": 15
     }
   ],
   "position_cap_pct": 10,
@@ -103,8 +106,8 @@
           "direction": "BENEFICIARY",
           "stock_candidates": {
             "sector": "PSU Banks",
-            "candidates_total": 22,
-            "passed_filters": 18,
+            "candidates_total": 19,
+            "passed_filters": 15,
             "excluded_conglomerates": [],
             "stocks": [
               {
@@ -128,21 +131,11 @@
                 "verdict": "TOP_PICK"
               },
               {
-                "ticker": "J-KBANK",
-                "name": "Jammu and Kashmir Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 62.4,
-                "composite_score": 50.8,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 41.4,
-                "verdict": "TOP_PICK"
-              },
-              {
                 "ticker": "HDFCBANK",
                 "name": "HDFC Bank Limited",
                 "sector": "Banks",
                 "v4_score_100": 49,
-                "composite_score": 43.5,
+                "composite_score": 43.3,
                 "valuation_band": "DEEP_DISCOUNT",
                 "upside_pct": 35.9,
                 "verdict": "STRONG"
@@ -155,6 +148,16 @@
                 "composite_score": 41.6,
                 "valuation_band": "DISCOUNT",
                 "upside_pct": 24,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "INDIANB",
+                "name": "Indian Bank",
+                "sector": "Banks",
+                "v4_score_100": 66.8,
+                "composite_score": 41.5,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 22.6,
                 "verdict": "TOP_PICK"
               }
             ]
@@ -171,8 +174,8 @@
           "direction": "BENEFICIARY",
           "stock_candidates": {
             "sector": "Private Banks",
-            "candidates_total": 22,
-            "passed_filters": 18,
+            "candidates_total": 19,
+            "passed_filters": 15,
             "excluded_conglomerates": [],
             "stocks": [
               {
@@ -196,21 +199,11 @@
                 "verdict": "TOP_PICK"
               },
               {
-                "ticker": "J-KBANK",
-                "name": "Jammu and Kashmir Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 62.4,
-                "composite_score": 50.8,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 41.4,
-                "verdict": "TOP_PICK"
-              },
-              {
                 "ticker": "HDFCBANK",
                 "name": "HDFC Bank Limited",
                 "sector": "Banks",
                 "v4_score_100": 49,
-                "composite_score": 43.5,
+                "composite_score": 43.3,
                 "valuation_band": "DEEP_DISCOUNT",
                 "upside_pct": 35.9,
                 "verdict": "STRONG"
@@ -223,6 +216,16 @@
                 "composite_score": 41.6,
                 "valuation_band": "DISCOUNT",
                 "upside_pct": 24,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "INDIANB",
+                "name": "Indian Bank",
+                "sector": "Banks",
+                "v4_score_100": 66.8,
+                "composite_score": 41.5,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 22.6,
                 "verdict": "TOP_PICK"
               }
             ]
@@ -321,8 +324,8 @@
           "direction": "BENEFICIARY",
           "stock_candidates": {
             "sector": "PSU Banks",
-            "candidates_total": 22,
-            "passed_filters": 18,
+            "candidates_total": 19,
+            "passed_filters": 15,
             "excluded_conglomerates": [],
             "stocks": [
               {
@@ -346,21 +349,11 @@
                 "verdict": "TOP_PICK"
               },
               {
-                "ticker": "J-KBANK",
-                "name": "Jammu and Kashmir Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 62.4,
-                "composite_score": 50.8,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 41.4,
-                "verdict": "TOP_PICK"
-              },
-              {
                 "ticker": "HDFCBANK",
                 "name": "HDFC Bank Limited",
                 "sector": "Banks",
                 "v4_score_100": 49,
-                "composite_score": 43.5,
+                "composite_score": 43.3,
                 "valuation_band": "DEEP_DISCOUNT",
                 "upside_pct": 35.9,
                 "verdict": "STRONG"
@@ -373,6 +366,16 @@
                 "composite_score": 41.6,
                 "valuation_band": "DISCOUNT",
                 "upside_pct": 24,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "INDIANB",
+                "name": "Indian Bank",
+                "sector": "Banks",
+                "v4_score_100": 66.8,
+                "composite_score": 41.5,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 22.6,
                 "verdict": "TOP_PICK"
               }
             ]
@@ -389,8 +392,8 @@
           "direction": "BENEFICIARY",
           "stock_candidates": {
             "sector": "Private Banks",
-            "candidates_total": 22,
-            "passed_filters": 18,
+            "candidates_total": 19,
+            "passed_filters": 15,
             "excluded_conglomerates": [],
             "stocks": [
               {
@@ -414,21 +417,11 @@
                 "verdict": "TOP_PICK"
               },
               {
-                "ticker": "J-KBANK",
-                "name": "Jammu and Kashmir Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 62.4,
-                "composite_score": 50.8,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 41.4,
-                "verdict": "TOP_PICK"
-              },
-              {
                 "ticker": "HDFCBANK",
                 "name": "HDFC Bank Limited",
                 "sector": "Banks",
                 "v4_score_100": 49,
-                "composite_score": 43.5,
+                "composite_score": 43.3,
                 "valuation_band": "DEEP_DISCOUNT",
                 "upside_pct": 35.9,
                 "verdict": "STRONG"
@@ -441,6 +434,16 @@
                 "composite_score": 41.6,
                 "valuation_band": "DISCOUNT",
                 "upside_pct": 24,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "INDIANB",
+                "name": "Indian Bank",
+                "sector": "Banks",
+                "v4_score_100": 66.8,
+                "composite_score": 41.5,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 22.6,
                 "verdict": "TOP_PICK"
               }
             ]
@@ -577,8 +580,8 @@
           "direction": "BENEFICIARY",
           "stock_candidates": {
             "sector": "PSU Banks",
-            "candidates_total": 22,
-            "passed_filters": 18,
+            "candidates_total": 19,
+            "passed_filters": 15,
             "excluded_conglomerates": [],
             "stocks": [
               {
@@ -602,21 +605,11 @@
                 "verdict": "TOP_PICK"
               },
               {
-                "ticker": "J-KBANK",
-                "name": "Jammu and Kashmir Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 62.4,
-                "composite_score": 50.8,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 41.4,
-                "verdict": "TOP_PICK"
-              },
-              {
                 "ticker": "HDFCBANK",
                 "name": "HDFC Bank Limited",
                 "sector": "Banks",
                 "v4_score_100": 49,
-                "composite_score": 43.5,
+                "composite_score": 43.3,
                 "valuation_band": "DEEP_DISCOUNT",
                 "upside_pct": 35.9,
                 "verdict": "STRONG"
@@ -629,6 +622,16 @@
                 "composite_score": 41.6,
                 "valuation_band": "DISCOUNT",
                 "upside_pct": 24,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "INDIANB",
+                "name": "Indian Bank",
+                "sector": "Banks",
+                "v4_score_100": 66.8,
+                "composite_score": 41.5,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 22.6,
                 "verdict": "TOP_PICK"
               }
             ]
@@ -645,8 +648,8 @@
           "direction": "BENEFICIARY",
           "stock_candidates": {
             "sector": "Private Banks",
-            "candidates_total": 22,
-            "passed_filters": 18,
+            "candidates_total": 19,
+            "passed_filters": 15,
             "excluded_conglomerates": [],
             "stocks": [
               {
@@ -670,21 +673,11 @@
                 "verdict": "TOP_PICK"
               },
               {
-                "ticker": "J-KBANK",
-                "name": "Jammu and Kashmir Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 62.4,
-                "composite_score": 50.8,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 41.4,
-                "verdict": "TOP_PICK"
-              },
-              {
                 "ticker": "HDFCBANK",
                 "name": "HDFC Bank Limited",
                 "sector": "Banks",
                 "v4_score_100": 49,
-                "composite_score": 43.5,
+                "composite_score": 43.3,
                 "valuation_band": "DEEP_DISCOUNT",
                 "upside_pct": 35.9,
                 "verdict": "STRONG"
@@ -697,6 +690,16 @@
                 "composite_score": 41.6,
                 "valuation_band": "DISCOUNT",
                 "upside_pct": 24,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "INDIANB",
+                "name": "Indian Bank",
+                "sector": "Banks",
+                "v4_score_100": 66.8,
+                "composite_score": 41.5,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 22.6,
                 "verdict": "TOP_PICK"
               }
             ]
@@ -751,7 +754,7 @@
   "indeterminate": false,
   "audit": {
     "thesis_schema": "macro-thesis-v1",
-    "regime_generated_at": "2026-07-30T09:24:29.796Z",
+    "regime_generated_at": "2026-07-30T18:30:19.151Z",
     "regime_classifier": "groq",
     "scenario_engine_version": "scenario-prob-v1"
   }
