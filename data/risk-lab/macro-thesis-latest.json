@@ -1,21 +1,20 @@
 {
   "schema_version": "macro-thesis-v1",
-  "generated_at": "2026-08-01T02:58:02.534Z",
+  "generated_at": "2026-08-02T03:48:29.604Z",
   "regime": {
     "regime": "CALM",
-    "severity": 1,
-    "confidence": 0.85,
+    "severity": 2,
+    "confidence": 0.68,
     "label": "Calm",
-    "generated_at": "2026-07-31T14:31:59.399Z",
+    "generated_at": "2026-08-01T18:30:18.082Z",
     "days_in_state": 0,
     "stale": false,
-    "reasoning": "Headlines show mixed earnings, modest inflows and policy steps without any major shock.",
+    "reasoning": "Earnings and IPO news dominate while macro cues are limited and mixed, indicating no clear shock regime.",
     "key_events": [
-      "July lifts Indian markets again as FPI inflows, IT stocks fuel rally (Business Standard)",
-      "Rupee gains for fifth day as weak dollar, lower crude lift sentiment (Business Standard)",
-      "India bonds log first monthly loss in four as surging oil, Treasury yields sting (Economic Times)",
-      "Bajaj Finance among 9 stocks hitting 52-week highs; surge up to 25% in a month (Economic Times)",
-      "Cabinet approves scheme for development of Floating Solar Photovoltaic Projects with Rs 5,070 crore outlay (Business Standard)"
+      "US Treasury intervenes in yen market (FT Markets)",
+      "Warsh spooks long bonds (FT Markets)",
+      "AI bubble concerns as investors lose fortunes (Economic Times)",
+      "Elon Musk wealth halved as SpaceX shares crash (Economic Times)"
     ],
     "classifier_provider": "groq",
     "source_health": {
@@ -42,47 +41,47 @@
     },
     "sector_impacts": [
       {
-        "sector": "IT Services",
-        "impact": 3,
-        "reason": "Strong earnings and FPI inflows boost IT stocks"
-      },
-      {
         "sector": "Banking",
         "impact": 2,
-        "reason": "Bajaj Finance hits 52‑week highs, profit jump at Aditya Birla Capital"
-      },
-      {
-        "sector": "NBFC",
-        "impact": 2,
-        "reason": "Bajaj Finance performance lifts NBFC sentiment"
+        "reason": "Strong profit growth in Muthoot, Avanse, Tata Capital Housing Finance."
       },
       {
         "sector": "Automobile",
         "impact": 1,
-        "reason": "Maruti revenue up 36% despite profit dip"
+        "reason": "Tata Motors CV sales jump 37% YoY."
       },
       {
-        "sector": "Power",
+        "sector": "IT Services",
         "impact": 1,
-        "reason": "Government approves large floating solar scheme"
+        "reason": "D-Link India reports 13% profit rise."
+      },
+      {
+        "sector": "Metals",
+        "impact": 1,
+        "reason": "Sarda Energy & Minerals profit up 5.5%."
+      },
+      {
+        "sector": "Real Estate",
+        "impact": 1,
+        "reason": "Silver Storm Parks & Resorts IPO successful."
       }
     ]
   },
-  "catalyst_proximity_days": 5,
+  "catalyst_proximity_days": 4,
   "upcoming_catalysts": [
     {
       "date": "2026-08-06",
       "kind": "RBI_MPC",
       "label": "RBI Monetary Policy Committee — August 2026",
       "severity_potential": 3,
-      "days_until": 5
+      "days_until": 4
     },
     {
       "date": "2026-08-15",
       "kind": "INDIA_INDEPENDENCE",
       "label": "Indian Independence Day (PM address)",
       "severity_potential": 1,
-      "days_until": 14
+      "days_until": 13
     }
   ],
   "position_cap_pct": 10,
@@ -142,8 +141,8 @@
       "label": "CALM escalates (severity +1)",
       "probability": 0.1,
       "duration_days": 7,
-      "n_analogs": 9,
-      "indeterminate": false,
+      "n_analogs": 0,
+      "indeterminate": true,
       "beneficiaries": [],
       "losers": [],
       "reasoning": {
@@ -151,40 +150,10 @@
         "base_probability": 0.15,
         "analog_pool_regime": "CALM (severity +1)",
         "analog_warnings": [
-          "no sector-index data found for any analog date — run scripts/refresh-sector-indices.mjs --backfill-months=24"
+          "n_analogs=0 < 3 — INDETERMINATE; do not act on these sector ranges",
+          "only 0/15 sectors had data — partial analog"
         ],
-        "analogs": [
-          {
-            "date": "2026-05-21",
-            "label": "Calm",
-            "severity": 1,
-            "source": "heuristic"
-          },
-          {
-            "date": "2026-05-22",
-            "label": "Calm",
-            "severity": 1,
-            "source": "heuristic"
-          },
-          {
-            "date": "2026-05-24",
-            "label": "Calm",
-            "severity": 1,
-            "source": "heuristic"
-          },
-          {
-            "date": "2026-05-25",
-            "label": "Calm",
-            "severity": 1,
-            "source": "heuristic"
-          },
-          {
-            "date": "2026-05-26",
-            "label": "Calm",
-            "severity": 1,
-            "source": "heuristic"
-          }
-        ]
+        "analogs": []
       }
     },
     {
@@ -257,12 +226,13 @@
   ],
   "caveats": [
     "Position-sizing cap: max 10% of portfolio per thesis — multi-thesis diversification mandatory.",
+    "INDETERMINATE branches (n<3 analogs): escalate — sector projections suppressed for these branches.",
     "Analog backtester is heuristic-seeded (~12 events); recommendations require user judgement, not auto-trading."
   ],
   "indeterminate": false,
   "audit": {
     "thesis_schema": "macro-thesis-v1",
-    "regime_generated_at": "2026-07-31T14:31:59.399Z",
+    "regime_generated_at": "2026-08-01T18:30:18.082Z",
     "regime_classifier": "groq",
     "scenario_engine_version": "scenario-prob-v1"
   }
