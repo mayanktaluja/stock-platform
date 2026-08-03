@@ -1,20 +1,21 @@
 {
   "schema_version": "macro-thesis-v1",
-  "generated_at": "2026-08-02T03:48:29.604Z",
+  "generated_at": "2026-08-03T03:39:10.428Z",
   "regime": {
     "regime": "CALM",
     "severity": 2,
-    "confidence": 0.68,
+    "confidence": 0.75,
     "label": "Calm",
-    "generated_at": "2026-08-01T18:30:18.082Z",
+    "generated_at": "2026-08-02T18:30:18.825Z",
     "days_in_state": 0,
     "stale": false,
-    "reasoning": "Earnings and IPO news dominate while macro cues are limited and mixed, indicating no clear shock regime.",
+    "reasoning": "Headlines show mixed but mostly routine policy, earnings and inflow news without a clear shock driver.",
     "key_events": [
-      "US Treasury intervenes in yen market (FT Markets)",
-      "Warsh spooks long bonds (FT Markets)",
-      "AI bubble concerns as investors lose fortunes (Economic Times)",
-      "Elon Musk wealth halved as SpaceX shares crash (Economic Times)"
+      "OPEC+ approves small September quota hike to complete 2023 cut rollback (Business Standard)",
+      "Foreign investors buy $8.44 bn debt, equity since RBI's June policy (Business Standard)",
+      "RBI rate decision, West Asia developments likely to steer markets this week (Business Standard)",
+      "Muthoot Finance reports 25% rise in Q1 profit (Economic Times)",
+      "Assetz files confidential IPO papers with SEBI to raise ₹1,200 cr (Business Standard)"
     ],
     "classifier_provider": "groq",
     "source_health": {
@@ -42,46 +43,41 @@
     "sector_impacts": [
       {
         "sector": "Banking",
-        "impact": 2,
-        "reason": "Strong profit growth in Muthoot, Avanse, Tata Capital Housing Finance."
+        "impact": -1,
+        "reason": "Asset quality stress and small‑finance loss weigh on banks"
       },
       {
-        "sector": "Automobile",
+        "sector": "NBFC",
         "impact": 1,
-        "reason": "Tata Motors CV sales jump 37% YoY."
-      },
-      {
-        "sector": "IT Services",
-        "impact": 1,
-        "reason": "D-Link India reports 13% profit rise."
-      },
-      {
-        "sector": "Metals",
-        "impact": 1,
-        "reason": "Sarda Energy & Minerals profit up 5.5%."
+        "reason": "Muthoot Finance strong profit boost NBFC outlook"
       },
       {
         "sector": "Real Estate",
+        "impact": 2,
+        "reason": "Assetz IPO filing signals capital raising and sector confidence"
+      },
+      {
+        "sector": "Energy",
         "impact": 1,
-        "reason": "Silver Storm Parks & Resorts IPO successful."
+        "reason": "OPEC+ quota hike hints at tighter supply, modest oil price support"
       }
     ]
   },
-  "catalyst_proximity_days": 4,
+  "catalyst_proximity_days": 3,
   "upcoming_catalysts": [
     {
       "date": "2026-08-06",
       "kind": "RBI_MPC",
       "label": "RBI Monetary Policy Committee — August 2026",
       "severity_potential": 3,
-      "days_until": 4
+      "days_until": 3
     },
     {
       "date": "2026-08-15",
       "kind": "INDIA_INDEPENDENCE",
       "label": "Indian Independence Day (PM address)",
       "severity_potential": 1,
-      "days_until": 13
+      "days_until": 12
     }
   ],
   "position_cap_pct": 10,
@@ -232,7 +228,7 @@
   "indeterminate": false,
   "audit": {
     "thesis_schema": "macro-thesis-v1",
-    "regime_generated_at": "2026-08-01T18:30:18.082Z",
+    "regime_generated_at": "2026-08-02T18:30:18.825Z",
     "regime_classifier": "groq",
     "scenario_engine_version": "scenario-prob-v1"
   }
