@@ -22,6 +22,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import * as usCfg from "./sws-config-us.mjs";
 import { createClient, fetchStockData, TransportError } from "./sws-api-client.mjs";
+import { shardSliceContiguous } from "./sws-shard-partition.mjs";
 
 const { PATHS, SHARD_COUNT } = usCfg;
 const UNIVERSE_PATH = PATHS.universe;
@@ -80,17 +81,12 @@ function loadUniverse() {
   return Array.isArray(raw) ? raw : raw.stocks || raw.universe || [];
 }
 
-function shardSlice(universe, shardId, totalShards = SHARD_COUNT) {
-  // Alphabetical sort + contiguous split by shard — same scheme as India, so
-  // progress (next_local_index) resumes correctly as long as universe.json is
-  // stable across a run.
-  const sorted = universe.slice().sort((a, b) => (a.ticker || "").localeCompare(b.ticker || ""));
-  const total = sorted.length;
-  const sliceSize = Math.floor(total / totalShards);
-  const startIdx = (shardId - 1) * sliceSize;
-  const endIdx = shardId === totalShards ? total : startIdx + sliceSize;
-  return sorted.slice(startIdx, endIdx);
-}
+// Alphabetical sort + contiguous split by shard — literally the same scheme as
+// India, so it uses India's function rather than a third copy of it. The US
+// shard count is passed explicitly because it comes from sws-config-us.mjs;
+// the partition itself is region-agnostic.
+const shardSlice = (universe, shardId, totalShards = SHARD_COUNT) =>
+  shardSliceContiguous(universe, shardId, totalShards);
 
 function checkPanic() {
   return fs.existsSync(PANIC_FLAG);

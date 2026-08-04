@@ -18,7 +18,17 @@ export const PATHS = {
   failed: path.join(repoRoot, "data", "sws", "failed.json"),
   panicStop: path.join(repoRoot, "data", "sws", "panic-stop.flag"),
   refreshRequested: path.join(repoRoot, "data", "sws", "refresh-requested.json"),
+  // Two scrape pipelines, two progress files, two partition schemes. Keep them
+  // straight — a cursor written into the wrong file is silent, not fatal:
+  //   progress      → legacy Chrome-MCP DOM scraper (sws-deep-scrape.mjs),
+  //                   modular stride slices (indicesForShard).
+  //   progressApi   → api scraper (sws-api-scrape.mjs), contiguous alphabetical
+  //                   slices (shardSliceContiguous). This is the live pipeline.
+  // sws-api-scrape.mjs builds this path from its OWN repo root (which, unlike
+  // this one, ignores SWS_REPO_ROOT_OVERRIDE) so it is not wired to this entry;
+  // test/swsShardPartition.test.mjs pins that the two agree.
   progress: (shardId) => path.join(repoRoot, "data", "sws", `progress-${shardId}.json`),
+  progressApi: (shardId) => path.join(repoRoot, "data", "sws", `progress-api-${shardId}.json`),
   shardLock: (shardId) => path.join(repoRoot, "data", "sws", `scan-${shardId}.lock`),
   picksPdfDir: path.join(repoRoot, "reports", "sws-picks"),
 };
