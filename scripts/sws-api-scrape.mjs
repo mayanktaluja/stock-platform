@@ -109,7 +109,38 @@ function loadUniverse() {
 // Re-exported so anything deriving a cursor for progress-api-<n>.json (notably
 // `--reset-progress` in sws-universe-from-sitemap.mjs) can bind to the exact
 // function this scraper walks, instead of re-deriving the partition and drifting.
-export { shardSliceContiguous as shardSlice };
+//
+// Must be a real local const, NOT `export { shardSliceContiguous as shardSlice }`.
+// That form renames the EXPORT only; it creates no `shardSlice` binding in module
+// scope, so main()'s own call below throws ReferenceError while every importer —
+// and every test that asserts on the export — still sees a correct function.
+// That is exactly how #1215 shipped: all three nightly shards died in ~30s
+// (`ReferenceError: shardSlice is not defined`) and the pipeline logged a
+// healthy-looking re-parse of stale raw payloads on top of it.
+const shardSlice = shardSliceContiguous;
+export { shardSlice };
+
+/**
+ * Derive the stock list this invocation will walk: an explicit `--tickers` set
+ * if one was passed, otherwise the shard's slice of the universe.
+ *
+ * Extracted out of main() purely so the `shardSlice` call site is reachable from
+ * a test. main() runs only behind `isEntrypoint()` and boots a real Chrome two
+ * lines later, so nothing in-process could previously execute this branch — which
+ * is why #1215's ReferenceError reached production with a green suite. Assertions
+ * on the *export* cannot cover an internal call; assertions on this function can.
+ *
+ * @param {Array<{ticker?: string}>} universe
+ * @param {number} shardId 1-based
+ * @param {string[]|null} explicitTickers already upper-cased by the arg parser
+ * @returns {Array} the entries to scrape, in walk order
+ */
+export function resolveSlice(universe, shardId, explicitTickers) {
+  if (explicitTickers) {
+    return universe.filter((s) => explicitTickers.includes((s.ticker || "").toUpperCase()));
+  }
+  return shardSlice(universe, shardId);
+}
 
 function checkPanic() {
   return fs.existsSync(PANIC_FLAG);
@@ -191,12 +222,7 @@ async function main() {
   }
 
   const universe = loadUniverse();
-  let slice;
-  if (explicitTickers) {
-    slice = universe.filter((s) => explicitTickers.includes((s.ticker || "").toUpperCase()));
-  } else {
-    slice = shardSlice(universe, shardId);
-  }
+  const slice = resolveSlice(universe, shardId, explicitTickers);
   logEvent({ event: "start", shard: shardId, slice_size: slice.length, limit });
 
   // Boot client (one browser per shard)
