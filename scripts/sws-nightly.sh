@@ -861,8 +861,22 @@ fi
 # Macro calendar is global context and is safe for every market refresh to
 # update. The script preserves the prior good file and avoids _updated bumps
 # when official-source coverage is thin, so this is warning-only.
-if with_timeout 300 node scripts/refresh-macro-calendar.mjs 2>&1 | sed 's/^/[macro-calendar] /'; then
+#
+# Exit 3 means the refresh wrote nothing but the prior file is still fresh;
+# exit 2 means it wrote nothing and the file is already past its 720h staleness
+# threshold. Both used to exit 0, so this step logged OK every night for 57 days
+# while every upstream parser returned zero forward events and the UI showed
+# "Stale data: Macro calendar".
+with_timeout 300 node scripts/refresh-macro-calendar.mjs 2>&1 | sed 's/^/[macro-calendar] /'
+macro_calendar_rc=${PIPESTATUS[0]}
+if [ "${macro_calendar_rc}" -eq 0 ]; then
   aux_status "macroCalendar.json" "OK"
+elif [ "${macro_calendar_rc}" -eq 3 ]; then
+  echo "[nightly] macro calendar sources produced thin forward coverage — kept the prior file (still fresh)"
+  aux_status "macroCalendar.json" "KEPT-PREV"
+elif [ "${macro_calendar_rc}" -eq 2 ]; then
+  echo "[nightly] macroCalendar.json is past its staleness threshold and no source produced forward coverage — the upstream parsers need a look"
+  aux_status "macroCalendar.json" "STALE"
 else
   echo "[nightly] refresh-macro-calendar.mjs failed — non-fatal; prior calendar stays in place"
   aux_status "macroCalendar.json" "FAILED"

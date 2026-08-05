@@ -342,6 +342,16 @@ assert(
     /aux_status "macroCalendar\.json" "OK"/.test(nightly),
   null,
 );
+// A refresh that writes nothing exits 3 (previous file still fresh) or 2 (past
+// the staleness threshold). Reporting either as OK is what hid a 57-day dead
+// pipeline until the UI banner surfaced it (2026-08-06).
+assert(
+  "a macro calendar that wrote nothing reports KEPT-PREV or STALE rather than OK",
+  /macro_calendar_rc=\$\{PIPESTATUS\[0\]\}/.test(nightly) &&
+    /aux_status "macroCalendar\.json" "KEPT-PREV"/.test(nightly) &&
+    /aux_status "macroCalendar\.json" "STALE"/.test(nightly),
+  null,
+);
 assert(
   "early SWS scrape failure still runs auxiliary refreshes then data-only auto-ship",
   /SWS_PRIMARY_FAILED=1/.test(nightly) &&
