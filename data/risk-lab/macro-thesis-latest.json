@@ -1,21 +1,21 @@
 {
   "schema_version": "macro-thesis-v1",
-  "generated_at": "2026-08-04T02:56:48.062Z",
+  "generated_at": "2026-08-05T16:31:39.349Z",
   "regime": {
-    "regime": "CURRENCY_WEAKNESS",
-    "severity": 3,
-    "confidence": 0.78,
-    "label": "Currency Weakness",
-    "generated_at": "2026-08-03T18:30:17.070Z",
+    "regime": "CALM",
+    "severity": 1,
+    "confidence": 0.8,
+    "label": "Calm",
+    "generated_at": "2026-08-05T08:30:19.763Z",
     "days_in_state": 0,
     "stale": false,
-    "reasoning": "Multiple high‑authority headlines on yen intervention and RBI USD sales signal ongoing rupee/FX volatility.",
+    "reasoning": "Headlines show RBI rate pause, modest rupee moves and diaspora fund raise, no major shock.",
     "key_events": [
-      "Japan vows further yen intervention with US if needed (FT Markets)",
-      "RBI sells USD 14.9 bn during Jan‑May to check excess volatility in rupee (Economic Times)",
-      "INR near 4‑week high as DXY resets below 100; easing oil prices support (Business Standard)",
-      "Sensex jumps 544 pts, Nifty tops 24,750 on easing oil prices and FII buying (Business Standard)",
-      "US 10‑year yield falls from 18‑month high on Iran peace talk hopes (Economic Times)"
+      "RBI's balanced pause raises bar for future rate hikes: Amar Ambani, YES Sec (Business Standard)",
+      "RBI's status quo on rates to support housing demand, keep real estate sentiment intact: Industry (Economic Times)",
+      "India raises $40bn from diaspora to support sagging rupee (FT Markets)",
+      "Rupee gains post RBI policy; analysts say may rise to 90/$ by year-end (Business Standard)",
+      "Unanimous MPC vote on rates signals stability amidst global uncertainty (Business Standard)"
     ],
     "classifier_provider": "groq",
     "source_health": {
@@ -40,413 +40,131 @@
       "A": 1,
       "B": 3
     },
-    "sector_impacts": [
-      {
-        "sector": "IT Services",
-        "impact": 2,
-        "reason": "Weaker rupee boosts export‑oriented IT earnings"
-      },
-      {
-        "sector": "Pharma",
-        "impact": 2,
-        "reason": "Export competitiveness improves with rupee weakness"
-      },
-      {
-        "sector": "Automobile",
-        "impact": 1,
-        "reason": "Export demand aided by softer rupee"
-      },
-      {
-        "sector": "Capital Goods",
-        "impact": 1,
-        "reason": "Export orders supported by currency weakness"
-      },
-      {
-        "sector": "Oil & Gas",
-        "impact": -1,
-        "reason": "Higher import‑linked input costs from a weaker rupee"
-      }
-    ]
+    "sector_impacts": []
   },
-  "catalyst_proximity_days": 2,
+  "catalyst_proximity_days": 1,
   "upcoming_catalysts": [
     {
       "date": "2026-08-06",
       "kind": "RBI_MPC",
       "label": "RBI Monetary Policy Committee — August 2026",
       "severity_potential": 3,
-      "days_until": 2
+      "days_until": 1
     },
     {
       "date": "2026-08-15",
       "kind": "INDIA_INDEPENDENCE",
       "label": "Indian Independence Day (PM address)",
       "severity_potential": 1,
-      "days_until": 11
+      "days_until": 10
     }
   ],
   "position_cap_pct": 10,
   "branches": [
     {
       "key": "continue",
-      "label": "CURRENCY_WEAKNESS continues at current severity",
-      "probability": 0.5,
+      "label": "CALM continues at current severity",
+      "probability": 0.52,
       "duration_days": 14,
-      "n_analogs": 0,
-      "indeterminate": true,
-      "beneficiaries": [
-        {
-          "sector_index_key": null,
-          "sector_label": "Software",
-          "sector_bucket": "Software",
-          "expected_return_pct": null,
-          "template_delta": 2,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "BENEFICIARY",
-          "stock_candidates": {
-            "sector": "Software",
-            "candidates_total": 100,
-            "passed_filters": 27,
-            "excluded_conglomerates": [],
-            "stocks": [
-              {
-                "ticker": "EXCELSOFT",
-                "name": "Excelsoft Technologies Limited",
-                "sector": "Software",
-                "v4_score_100": 76.8,
-                "composite_score": 56.5,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 56,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "IVALUE",
-                "name": "iValue Infosolutions Limited",
-                "sector": "Software",
-                "v4_score_100": 74.2,
-                "composite_score": 50.9,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 43.4,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "ZAGGLE",
-                "name": "Zaggle Prepaid Ocean Services Limited",
-                "sector": "Software",
-                "v4_score_100": 65.9,
-                "composite_score": 48.8,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 108.9,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "UNIECOM",
-                "name": "Unicommerce eSolutions Limited",
-                "sector": "Software",
-                "v4_score_100": 52.4,
-                "composite_score": 46.6,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 48.5,
-                "verdict": "STRONG"
-              },
-              {
-                "ticker": "INTELLECT",
-                "name": "Intellect Design Arena Limited",
-                "sector": "Software",
-                "v4_score_100": 55.4,
-                "composite_score": 45.7,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 27.1,
-                "verdict": "STRONG"
-              }
-            ]
-          }
-        },
-        {
-          "sector_index_key": null,
-          "sector_label": "Pharmaceuticals",
-          "sector_bucket": "Pharmaceuticals",
-          "expected_return_pct": null,
-          "template_delta": 1,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "BENEFICIARY",
-          "stock_candidates": {
-            "sector": "Pharmaceuticals",
-            "candidates_total": 89,
-            "passed_filters": 36,
-            "excluded_conglomerates": [],
-            "stocks": [
-              {
-                "ticker": "SANOFI",
-                "name": "Sanofi India Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 55.2,
-                "composite_score": 47.8,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 34.3,
-                "verdict": "STRONG"
-              },
-              {
-                "ticker": "STAR",
-                "name": "Strides Pharma Science Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 79.1,
-                "composite_score": 43.8,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 30.2,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "GRANULES",
-                "name": "Granules India Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 69.5,
-                "composite_score": 42.3,
-                "valuation_band": "FAIR",
-                "upside_pct": 9.5,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "SENORES",
-                "name": "Senores Pharmaceuticals Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 60.8,
-                "composite_score": 40.3,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 14.6,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "INDGN",
-                "name": "Indegene Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 63.9,
-                "composite_score": 39.8,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 13.8,
-                "verdict": "TOP_PICK"
-              }
-            ]
-          }
-        }
-      ],
-      "losers": [
-        {
-          "sector_index_key": null,
-          "sector_label": "Energy",
-          "sector_bucket": "Energy",
-          "expected_return_pct": null,
-          "template_delta": -1,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "HIT"
-        },
-        {
-          "sector_index_key": null,
-          "sector_label": "Consumer Staples",
-          "sector_bucket": "Consumer Staples",
-          "expected_return_pct": null,
-          "template_delta": -1,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "HIT"
-        }
-      ],
+      "n_analogs": 9,
+      "indeterminate": false,
+      "beneficiaries": [],
+      "losers": [],
       "reasoning": {
         "modulator_applied": 1,
         "base_probability": 0.55,
-        "analog_pool_regime": "CURRENCY_WEAKNESS",
+        "analog_pool_regime": "CALM",
         "analog_warnings": [
-          "n_analogs=0 < 3 — INDETERMINATE; do not act on these sector ranges",
-          "only 0/15 sectors had data — partial analog"
+          "no sector-index data found for any analog date — run scripts/refresh-sector-indices.mjs --backfill-months=24"
         ],
-        "analogs": []
+        "analogs": [
+          {
+            "date": "2026-05-21",
+            "label": "Calm",
+            "severity": 1,
+            "source": "heuristic"
+          },
+          {
+            "date": "2026-05-22",
+            "label": "Calm",
+            "severity": 1,
+            "source": "heuristic"
+          },
+          {
+            "date": "2026-05-24",
+            "label": "Calm",
+            "severity": 1,
+            "source": "heuristic"
+          },
+          {
+            "date": "2026-05-25",
+            "label": "Calm",
+            "severity": 1,
+            "source": "heuristic"
+          },
+          {
+            "date": "2026-05-26",
+            "label": "Calm",
+            "severity": 1,
+            "source": "heuristic"
+          }
+        ]
       }
     },
     {
       "key": "escalate",
-      "label": "CURRENCY_WEAKNESS escalates (severity +1)",
-      "probability": 0.14,
+      "label": "CALM escalates (severity +1)",
+      "probability": 0.1,
       "duration_days": 7,
-      "n_analogs": 0,
-      "indeterminate": true,
-      "beneficiaries": [
-        {
-          "sector_index_key": null,
-          "sector_label": "Software",
-          "sector_bucket": "Software",
-          "expected_return_pct": null,
-          "template_delta": 2,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "BENEFICIARY",
-          "stock_candidates": {
-            "sector": "Software",
-            "candidates_total": 100,
-            "passed_filters": 27,
-            "excluded_conglomerates": [],
-            "stocks": [
-              {
-                "ticker": "EXCELSOFT",
-                "name": "Excelsoft Technologies Limited",
-                "sector": "Software",
-                "v4_score_100": 76.8,
-                "composite_score": 56.5,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 56,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "IVALUE",
-                "name": "iValue Infosolutions Limited",
-                "sector": "Software",
-                "v4_score_100": 74.2,
-                "composite_score": 50.9,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 43.4,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "ZAGGLE",
-                "name": "Zaggle Prepaid Ocean Services Limited",
-                "sector": "Software",
-                "v4_score_100": 65.9,
-                "composite_score": 48.8,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 108.9,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "UNIECOM",
-                "name": "Unicommerce eSolutions Limited",
-                "sector": "Software",
-                "v4_score_100": 52.4,
-                "composite_score": 46.6,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 48.5,
-                "verdict": "STRONG"
-              },
-              {
-                "ticker": "INTELLECT",
-                "name": "Intellect Design Arena Limited",
-                "sector": "Software",
-                "v4_score_100": 55.4,
-                "composite_score": 45.7,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 27.1,
-                "verdict": "STRONG"
-              }
-            ]
-          }
-        },
-        {
-          "sector_index_key": null,
-          "sector_label": "Pharmaceuticals",
-          "sector_bucket": "Pharmaceuticals",
-          "expected_return_pct": null,
-          "template_delta": 1,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "BENEFICIARY",
-          "stock_candidates": {
-            "sector": "Pharmaceuticals",
-            "candidates_total": 89,
-            "passed_filters": 36,
-            "excluded_conglomerates": [],
-            "stocks": [
-              {
-                "ticker": "SANOFI",
-                "name": "Sanofi India Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 55.2,
-                "composite_score": 47.8,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 34.3,
-                "verdict": "STRONG"
-              },
-              {
-                "ticker": "STAR",
-                "name": "Strides Pharma Science Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 79.1,
-                "composite_score": 43.8,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 30.2,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "GRANULES",
-                "name": "Granules India Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 69.5,
-                "composite_score": 42.3,
-                "valuation_band": "FAIR",
-                "upside_pct": 9.5,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "SENORES",
-                "name": "Senores Pharmaceuticals Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 60.8,
-                "composite_score": 40.3,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 14.6,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "INDGN",
-                "name": "Indegene Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 63.9,
-                "composite_score": 39.8,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 13.8,
-                "verdict": "TOP_PICK"
-              }
-            ]
-          }
-        }
-      ],
-      "losers": [
-        {
-          "sector_index_key": null,
-          "sector_label": "Energy",
-          "sector_bucket": "Energy",
-          "expected_return_pct": null,
-          "template_delta": -1,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "HIT"
-        },
-        {
-          "sector_index_key": null,
-          "sector_label": "Consumer Staples",
-          "sector_bucket": "Consumer Staples",
-          "expected_return_pct": null,
-          "template_delta": -1,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "HIT"
-        }
-      ],
+      "n_analogs": 9,
+      "indeterminate": false,
+      "beneficiaries": [],
+      "losers": [],
       "reasoning": {
-        "modulator_applied": 1,
+        "modulator_applied": 0.7,
         "base_probability": 0.15,
-        "analog_pool_regime": "CURRENCY_WEAKNESS (severity +1)",
+        "analog_pool_regime": "CALM (severity +1)",
         "analog_warnings": [
-          "n_analogs=0 < 3 — INDETERMINATE; do not act on these sector ranges",
-          "only 0/15 sectors had data — partial analog"
+          "no sector-index data found for any analog date — run scripts/refresh-sector-indices.mjs --backfill-months=24"
         ],
-        "analogs": []
+        "analogs": [
+          {
+            "date": "2026-05-21",
+            "label": "Calm",
+            "severity": 1,
+            "source": "heuristic"
+          },
+          {
+            "date": "2026-05-22",
+            "label": "Calm",
+            "severity": 1,
+            "source": "heuristic"
+          },
+          {
+            "date": "2026-05-24",
+            "label": "Calm",
+            "severity": 1,
+            "source": "heuristic"
+          },
+          {
+            "date": "2026-05-25",
+            "label": "Calm",
+            "severity": 1,
+            "source": "heuristic"
+          },
+          {
+            "date": "2026-05-26",
+            "label": "Calm",
+            "severity": 1,
+            "source": "heuristic"
+          }
+        ]
       }
     },
     {
       "key": "de_escalate",
-      "label": "CURRENCY_WEAKNESS de-escalates → CALM",
-      "probability": 0.18,
+      "label": "CALM de-escalates → CALM",
+      "probability": 0.19,
       "duration_days": 21,
       "n_analogs": 9,
       "indeterminate": false,
@@ -495,171 +213,13 @@
     },
     {
       "key": "new_shock",
-      "label": "New unrelated shock supersedes CURRENCY_WEAKNESS",
-      "probability": 0.18,
+      "label": "New unrelated shock supersedes CALM",
+      "probability": 0.19,
       "duration_days": 7,
       "n_analogs": 0,
       "indeterminate": false,
-      "beneficiaries": [
-        {
-          "sector_index_key": null,
-          "sector_label": "Software",
-          "sector_bucket": "Software",
-          "expected_return_pct": null,
-          "template_delta": 2,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "BENEFICIARY",
-          "stock_candidates": {
-            "sector": "Software",
-            "candidates_total": 100,
-            "passed_filters": 27,
-            "excluded_conglomerates": [],
-            "stocks": [
-              {
-                "ticker": "EXCELSOFT",
-                "name": "Excelsoft Technologies Limited",
-                "sector": "Software",
-                "v4_score_100": 76.8,
-                "composite_score": 56.5,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 56,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "IVALUE",
-                "name": "iValue Infosolutions Limited",
-                "sector": "Software",
-                "v4_score_100": 74.2,
-                "composite_score": 50.9,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 43.4,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "ZAGGLE",
-                "name": "Zaggle Prepaid Ocean Services Limited",
-                "sector": "Software",
-                "v4_score_100": 65.9,
-                "composite_score": 48.8,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 108.9,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "UNIECOM",
-                "name": "Unicommerce eSolutions Limited",
-                "sector": "Software",
-                "v4_score_100": 52.4,
-                "composite_score": 46.6,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 48.5,
-                "verdict": "STRONG"
-              },
-              {
-                "ticker": "INTELLECT",
-                "name": "Intellect Design Arena Limited",
-                "sector": "Software",
-                "v4_score_100": 55.4,
-                "composite_score": 45.7,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 27.1,
-                "verdict": "STRONG"
-              }
-            ]
-          }
-        },
-        {
-          "sector_index_key": null,
-          "sector_label": "Pharmaceuticals",
-          "sector_bucket": "Pharmaceuticals",
-          "expected_return_pct": null,
-          "template_delta": 1,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "BENEFICIARY",
-          "stock_candidates": {
-            "sector": "Pharmaceuticals",
-            "candidates_total": 89,
-            "passed_filters": 36,
-            "excluded_conglomerates": [],
-            "stocks": [
-              {
-                "ticker": "SANOFI",
-                "name": "Sanofi India Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 55.2,
-                "composite_score": 47.8,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 34.3,
-                "verdict": "STRONG"
-              },
-              {
-                "ticker": "STAR",
-                "name": "Strides Pharma Science Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 79.1,
-                "composite_score": 43.8,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 30.2,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "GRANULES",
-                "name": "Granules India Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 69.5,
-                "composite_score": 42.3,
-                "valuation_band": "FAIR",
-                "upside_pct": 9.5,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "SENORES",
-                "name": "Senores Pharmaceuticals Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 60.8,
-                "composite_score": 40.3,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 14.6,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "INDGN",
-                "name": "Indegene Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 63.9,
-                "composite_score": 39.8,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 13.8,
-                "verdict": "TOP_PICK"
-              }
-            ]
-          }
-        }
-      ],
-      "losers": [
-        {
-          "sector_index_key": null,
-          "sector_label": "Energy",
-          "sector_bucket": "Energy",
-          "expected_return_pct": null,
-          "template_delta": -1,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "HIT"
-        },
-        {
-          "sector_index_key": null,
-          "sector_label": "Consumer Staples",
-          "sector_bucket": "Consumer Staples",
-          "expected_return_pct": null,
-          "template_delta": -1,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "HIT"
-        }
-      ],
+      "beneficiaries": [],
+      "losers": [],
       "reasoning": {
         "modulator_applied": 2,
         "base_probability": 0.1,
@@ -671,13 +231,12 @@
   ],
   "caveats": [
     "Position-sizing cap: max 10% of portfolio per thesis — multi-thesis diversification mandatory.",
-    "INDETERMINATE branches (n<3 analogs): continue, escalate — sector projections suppressed for these branches.",
     "Analog backtester is heuristic-seeded (~12 events); recommendations require user judgement, not auto-trading."
   ],
   "indeterminate": false,
   "audit": {
     "thesis_schema": "macro-thesis-v1",
-    "regime_generated_at": "2026-08-03T18:30:17.070Z",
+    "regime_generated_at": "2026-08-05T08:30:19.763Z",
     "regime_classifier": "groq",
     "scenario_engine_version": "scenario-prob-v1"
   }
