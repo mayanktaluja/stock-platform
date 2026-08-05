@@ -35,6 +35,8 @@
  *
  * The load-bearing assertions here are:
  *   - the scraper's shard function IS the shared one (identity, not a copy)
+ *   - the scraper's OWN call site resolves — see section 1b; identity on the
+ *     export alone passed happily while main() threw ReferenceError
  *   - cursors in progress-api-<n>.json agree with a walk of the scraper's slice
  *   - the fixture actually discriminates the two schemes, so that is not vacuous
  *   - the pre-fix derivation is replayed and shown to disagree
@@ -139,6 +141,58 @@ console.log("\n1. The live scraper binds to the shared partition — no private 
     "importing the scraper installs no fatal handlers (guard held)",
     process.listenerCount("uncaughtException") === 0,
     process.listenerCount("uncaughtException"),
+  );
+}
+
+console.log("\n1b. The scraper's OWN call site resolves (regression: #1215)");
+{
+  // #1215 shipped `export { shardSliceContiguous as shardSlice }` — an
+  // export-only rename, which binds nothing in module scope. The identity check
+  // above still passed (the export table was correct) while main()'s bare
+  // `shardSlice(...)` threw `ReferenceError: shardSlice is not defined` and every
+  // nightly shard died in ~30s. Exports and module scope are separate namespaces,
+  // so no assertion reached through `import` can cover an internal call.
+  //
+  // resolveSlice() is main()'s slice derivation, extracted so this suite can
+  // execute that branch without booting the scraper's Chrome client. Each call
+  // below is wrapped: a ReferenceError must surface as a FAILED assertion, not
+  // as an uncaught throw that abandons the rest of the file.
+  const call = (fn) => { try { return { ok: true, value: fn() }; } catch (e) { return { ok: false, value: String(e) }; } };
+
+  assert(
+    "resolveSlice is exported",
+    typeof scraper.resolveSlice === "function",
+    typeof scraper.resolveSlice,
+  );
+
+  for (const s of SHARDS) {
+    const got = call(() => scraper.resolveSlice(UNIVERSE, s, null));
+    assert(
+      `shard ${s}: resolveSlice executes without ReferenceError`,
+      got.ok,
+      got.value,
+    );
+    assert(
+      `shard ${s}: resolveSlice matches the shared contiguous partition`,
+      got.ok && eq(tickers(got.value), tickers(shardSliceContiguous(UNIVERSE, s, SHARD_COUNT))),
+      got.ok ? tickers(got.value).slice(0, 3) : got.value,
+    );
+  }
+
+  // --tickers bypasses the partition entirely: an explicit set must return those
+  // stocks whatever shard it was invoked as, or a targeted re-scrape silently
+  // walks the wrong block.
+  const explicit = call(() => scraper.resolveSlice(UNIVERSE, 3, ["RELIANCE", "INFY"]));
+  assert(
+    "explicit --tickers bypasses the shard partition",
+    explicit.ok && eq(tickers(explicit.value).sort(), ["INFY", "RELIANCE"]),
+    explicit.ok ? tickers(explicit.value) : explicit.value,
+  );
+  const mixedCase = call(() => scraper.resolveSlice(UNIVERSE, 1, ["RELIANCE"]));
+  assert(
+    "explicit --tickers compares upper-cased on both sides",
+    mixedCase.ok && eq(tickers(mixedCase.value), ["RELIANCE"]),
+    mixedCase.ok ? tickers(mixedCase.value) : mixedCase.value,
   );
 }
 
