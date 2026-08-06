@@ -26,6 +26,9 @@ const EXIT_STALE = 2;
 // was written, and a run of these is what a dying pipeline looks like on day 1
 // rather than on day 30.
 const EXIT_KEPT_PREVIOUS = 3;
+// Wrote, but at least one source contributed no forward event. Partial decay
+// is how a healthy-looking calendar rots one feed at a time.
+const EXIT_DEGRADED = 4;
 
 const SOURCES = {
   fomc: "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
@@ -91,24 +94,26 @@ function makeEvent({ date, title, country, category, tier = "B", notes }) {
   };
 }
 
+// Keyed on the EXACT national release name. Substring matching pulled in the
+// regional and demographic cuts that share a prefix — "Employment Situation of
+// Veterans" was emitted as a tier-A NFP print and the 14 "State Job Openings and
+// Labor Turnover" releases as US JOLTS, fabricating 16 rows that reached
+// /api/market-calendar. A trailing cadence qualifier ("(Monthly)") is stripped
+// first; anything else is not the national release.
+const BLS_NATIONAL_RELEASES = new Map([
+  ["employment situation", { title: "US Employment Situation (NFP)", category: "Labor", tier: "A" }],
+  ["consumer price index", { title: "US CPI", category: "Inflation", tier: "A" }],
+  ["producer price index", { title: "US PPI", category: "Inflation", tier: "B" }],
+  ["job openings and labor turnover survey", { title: "US JOLTS", category: "Labor", tier: "B" }],
+  ["real earnings", { title: "US Real Earnings", category: "Labor", tier: "C" }],
+]);
+
 function classifyBlsSummary(summary) {
-  const s = summary.toLowerCase();
-  if (s.includes("employment situation")) {
-    return { title: "US Employment Situation (NFP)", category: "Labor", tier: "A" };
-  }
-  if (s.includes("consumer price index")) {
-    return { title: "US CPI", category: "Inflation", tier: "A" };
-  }
-  if (s.includes("producer price index")) {
-    return { title: "US PPI", category: "Inflation", tier: "B" };
-  }
-  if (s.includes("job openings") || s.includes("jolts")) {
-    return { title: "US JOLTS", category: "Labor", tier: "B" };
-  }
-  if (s.includes("real earnings")) {
-    return { title: "US Real Earnings", category: "Labor", tier: "C" };
-  }
-  return null;
+  const key = summary
+    .replace(/\s*\([^)]*\)\s*$/, "")
+    .trim()
+    .toLowerCase();
+  return BLS_NATIONAL_RELEASES.get(key) || null;
 }
 
 // RFC 5545 folds long lines with CRLF + a leading space/tab. Unfold before
@@ -272,20 +277,31 @@ export function buildCalendar(previousCalendar, fetchedEvents, { now = new Date(
   const previousEvents = Array.isArray(previousCalendar?.events) ? previousCalendar.events : [];
   const retainedPrevious = previousEvents.filter((e) => e.date >= today);
   const merged = dedupeEvents([...retainedPrevious, ...fetchedEvents]);
+  const keptPrevious = (reason) => ({
+    shouldWrite: false,
+    reason,
+    calendar: previousCalendar || { _updated: null, events: previousEvents },
+  });
 
+  // THIS run has to contribute a forward event before _updated may move.
+  // Retention is what keeps a one-night source flake from emptying the
+  // calendar, but gating the freshness stamp on the merged set makes the gate
+  // self-satisfying: the file we just wrote carries months of forward rows, so
+  // a total upstream blackout would still "pass", restamp _updated to now, and
+  // exit 0 — the staleness alarm below would not fire until the retained rows
+  // aged out ~63 days later. That is the 2026-06 outage with a longer fuse.
+  if (!dedupeEvents(fetchedEvents).some((e) => e.date >= today)) {
+    return keptPrevious("no source produced a forward event");
+  }
   if (!hasCredibleFutureCoverage(merged, now)) {
-    return {
-      shouldWrite: false,
-      reason: "insufficient future coverage",
-      calendar: previousCalendar || { _updated: null, events: previousEvents },
-    };
+    return keptPrevious("insufficient future coverage");
   }
 
   return {
     shouldWrite: true,
     reason: "credible future coverage",
     calendar: {
-      _note: "Managed macro calendar. Refreshed from public Fed/BLS/MoSPI/RBI sources where available; prior future events are retained when a source is unavailable.",
+      _note: "Managed macro calendar. Refreshed from public Fed/BLS/RBI sources where available; prior future events are retained when a source is unavailable.",
       _updated: now.toISOString(),
       events: merged,
     },
@@ -322,26 +338,40 @@ async function fetchRbiMpcEvents() {
   return parseRbiNextMpcMeeting(await fetchText(`${SOURCES.rbiScriptsBase}${path}`));
 }
 
-export async function fetchMacroEvents() {
+export async function fetchMacroEvents({ now = new Date() } = {}) {
   const jobs = [
     ["fomc", async () => parseFomcHtml(await fetchText(SOURCES.fomc))],
     ["bls", async () => parseBlsIcs(await fetchText(SOURCES.bls))],
     ["rbi", fetchRbiMpcEvents],
   ];
 
+  const today = now.toISOString().slice(0, 10);
   const events = [];
   const failures = [];
+  // Per-source FORWARD counts, not totals: every one of these feeds publishes
+  // its schedule ahead of time, so a source that returns only history is as
+  // dead as one that throws — and that is precisely how the 2026-06 outage
+  // looked from the inside (HTTP 200, rows parsed, none of them in the future).
+  const sources = [];
   for (const [name, run] of jobs) {
     try {
       const parsed = await run();
+      const forward = parsed.filter((e) => e.date >= today).length;
       events.push(...parsed);
-      console.error(`[macro-calendar] ${name}: ${parsed.length} event(s)`);
+      sources.push({ name, total: parsed.length, forward });
+      console.error(`[macro-calendar] ${name}: ${parsed.length} event(s), ${forward} forward`);
     } catch (error) {
       failures.push(`${name}: ${error.message}`);
+      sources.push({ name, total: 0, forward: 0, error: error.message });
       console.error(`[macro-calendar] ${name}: failed (${error.message})`);
     }
   }
-  return { events: dedupeEvents(events), failures };
+  return { events: dedupeEvents(events), failures, sources };
+}
+
+/** Sources that returned nothing forward-dated, whether or not they threw. */
+export function degradedSources(sources) {
+  return (sources || []).filter((s) => !s.forward).map((s) => s.name);
 }
 
 /**
@@ -365,7 +395,8 @@ async function main() {
   const now = nowArg ? new Date(`${nowArg}T00:00:00.000Z`) : new Date();
 
   const previous = readPrevious(outputPath);
-  const { events, failures } = await fetchMacroEvents();
+  const { events, failures, sources } = await fetchMacroEvents({ now });
+  const degraded = degradedSources(sources);
   const result = buildCalendar(previous, events, { now });
 
   if (!result.shouldWrite) {
@@ -389,7 +420,16 @@ async function main() {
     return;
   }
   writeFileSync(outputPath, payload);
-  console.error(`[macro-calendar] wrote ${outputPath} (${result.calendar.events.length} future event(s))`);
+  console.error(`[macro-calendar] wrote ${outputPath} (${result.calendar.events.length} event(s))`);
+  // A write is not a clean bill of health: one live source is enough to keep
+  // _updated moving, so a partial decay would otherwise stay silent until the
+  // last surviving feed died too. Name the dead legs and flag the run.
+  if (degraded.length) {
+    console.error(
+      `[macro-calendar] DEGRADED: no forward events from ${degraded.join(", ")}${failures.length ? ` (errors: ${failures.join("; ")})` : " (fetched, but nothing forward-dated)"}`,
+    );
+    process.exitCode = EXIT_DEGRADED;
+  }
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {

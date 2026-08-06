@@ -342,15 +342,31 @@ assert(
     /aux_status "macroCalendar\.json" "OK"/.test(nightly),
   null,
 );
-// A refresh that writes nothing exits 3 (previous file still fresh) or 2 (past
-// the staleness threshold). Reporting either as OK is what hid a 57-day dead
-// pipeline until the UI banner surfaced it (2026-08-06).
+// The refresh reports itself through its exit code; every one of these used to
+// be 0, which is what hid a 57-day dead pipeline until the UI banner surfaced
+// it (2026-08-06). Assert the rc -> status MAPPING, not just that the tokens
+// exist somewhere in the file — a swapped pair of branch bodies inverts the
+// alarm while every token is still present.
+const macroBlockStart = nightly.indexOf("macro_calendar_rc=${PIPESTATUS[0]}");
+const macroBlock = nightly.slice(macroBlockStart, nightly.indexOf("\nfi", macroBlockStart));
+const macroArmStatus = {};
+let macroArm = null;
+for (const line of macroBlock.split("\n")) {
+  const cond = line.match(/-eq (\d+) \]/);
+  if (cond) macroArm = cond[1];
+  else if (line.trim() === "else") macroArm = "other";
+  const status = line.match(/aux_status "macroCalendar\.json" "([A-Z-]+)"/);
+  if (status && macroArm !== null) macroArmStatus[macroArm] = status[1];
+}
 assert(
-  "a macro calendar that wrote nothing reports KEPT-PREV or STALE rather than OK",
-  /macro_calendar_rc=\$\{PIPESTATUS\[0\]\}/.test(nightly) &&
-    /aux_status "macroCalendar\.json" "KEPT-PREV"/.test(nightly) &&
-    /aux_status "macroCalendar\.json" "STALE"/.test(nightly),
-  null,
+  "each macro-calendar exit code maps to its own aux status",
+  macroBlockStart > 0 &&
+    macroArmStatus["0"] === "OK" &&
+    macroArmStatus["4"] === "DEGRADED" &&
+    macroArmStatus["3"] === "KEPT-PREV" &&
+    macroArmStatus["2"] === "STALE" &&
+    macroArmStatus.other === "FAILED",
+  macroArmStatus,
 );
 assert(
   "early SWS scrape failure still runs auxiliary refreshes then data-only auto-ship",

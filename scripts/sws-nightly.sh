@@ -862,15 +862,21 @@ fi
 # update. The script preserves the prior good file and avoids _updated bumps
 # when official-source coverage is thin, so this is warning-only.
 #
-# Exit 3 means the refresh wrote nothing but the prior file is still fresh;
-# exit 2 means it wrote nothing and the file is already past its 720h staleness
-# threshold. Both used to exit 0, so this step logged OK every night for 57 days
-# while every upstream parser returned zero forward events and the UI showed
+# Exit codes, all non-fatal — this step reports, it never blocks a ship:
+#   0  wrote a refreshed calendar, every source contributed forward events
+#   4  wrote, but at least one source returned nothing forward-dated
+#   3  wrote nothing; the prior file is still inside its freshness window
+#   2  wrote nothing and the prior file is already past its 720h threshold
+# Every one of these used to be 0, so the step logged OK nightly for 57 days
+# while all four upstream parsers returned zero forward events and the UI showed
 # "Stale data: Macro calendar".
 with_timeout 300 node scripts/refresh-macro-calendar.mjs 2>&1 | sed 's/^/[macro-calendar] /'
 macro_calendar_rc=${PIPESTATUS[0]}
 if [ "${macro_calendar_rc}" -eq 0 ]; then
   aux_status "macroCalendar.json" "OK"
+elif [ "${macro_calendar_rc}" -eq 4 ]; then
+  echo "[nightly] macro calendar refreshed, but a source produced no forward events — see the DEGRADED line above for which"
+  aux_status "macroCalendar.json" "DEGRADED"
 elif [ "${macro_calendar_rc}" -eq 3 ]; then
   echo "[nightly] macro calendar sources produced thin forward coverage — kept the prior file (still fresh)"
   aux_status "macroCalendar.json" "KEPT-PREV"
