@@ -40,6 +40,31 @@ jobs:
     timeout-minutes: 5
 
     steps:
+      # `secrets.MACRO_REFRESH_PAT || secrets.GITHUB_TOKEN` cannot fall back:
+      # an EXPIRED PAT is still a non-empty string, so the `||` keeps handing
+      # checkout a credential that 401s. That is how this backup died silently
+      # and stayed dead — every scheduled run failing at "fatal: could not read
+      # Username for 'https://github.com'" — while the staleness banner it
+      # exists to prevent was showing in the UI. Probe the PAT and fall back
+      # for real. The secret is passed via env (never interpolated into the
+      # script body) and no event-controlled data is referenced here.
+      - name: Resolve refresh token
+        id: token
+        env:
+          MACRO_REFRESH_PAT: ${{ secrets.MACRO_REFRESH_PAT }}
+        run: |
+          set -uo pipefail
+          if [ -n "${MACRO_REFRESH_PAT:-}" ] && curl -fsS -o /dev/null \
+               -H "Authorization: Bearer ${MACRO_REFRESH_PAT}" \
+               -H "Accept: application/vnd.github+json" \
+               "https://api.github.com/repos/${GITHUB_REPOSITORY}"; then
+            echo "pat_valid=1" >> "$GITHUB_OUTPUT"
+            echo "MACRO_REFRESH_PAT accepted"
+          else
+            echo "pat_valid=0" >> "$GITHUB_OUTPUT"
+            echo "::warning::MACRO_REFRESH_PAT is missing, expired, or lacks access to this repository — falling back to GITHUB_TOKEN. The refresh still ships, but its PR will not trigger CI and will need a manual merge. Rotate the PAT (fine-grained: contents + pull-requests write)."
+          fi
+
       - name: Checkout main
         uses: actions/checkout@v4
         with:
@@ -49,7 +74,7 @@ jobs:
           # PR this workflow opens triggers CI and can auto-merge. Falls back
           # to GITHUB_TOKEN, whose PRs do NOT trigger CI (GitHub blocks
           # workflow-on-workflow recursion) — see the merge step note.
-          token: ${{ secrets.MACRO_REFRESH_PAT || secrets.GITHUB_TOKEN }}
+          token: ${{ steps.token.outputs.pat_valid == '1' && secrets.MACRO_REFRESH_PAT || secrets.GITHUB_TOKEN }}
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -116,7 +141,7 @@ jobs:
       - name: Open / update backup PR (never push protected main directly)
         if: steps.gate.outputs.no_change == '0'
         env:
-          GH_TOKEN: ${{ secrets.MACRO_REFRESH_PAT || secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ steps.token.outputs.pat_valid == '1' && secrets.MACRO_REFRESH_PAT || secrets.GITHUB_TOKEN }}
         run: |
           # main is a protected branch (required check "Smoke + unit tests"),
           # so a direct push is rejected with GH006. Route the refresh through
