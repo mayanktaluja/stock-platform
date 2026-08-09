@@ -32,6 +32,8 @@ import {
   GROWW_STOCK_STALE_GRACE_DAYS,
   MIN_TOP30_FV_COUNT,
   MAX_FV_COVERAGE_DROP_PCT,
+  MIN_FRESH_PCT,
+  MIN_FRESH_PCT_BLOCK,
 } from "../scripts/sws-sanity-gate.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -120,7 +122,7 @@ function buildFixture(ageHours, opts = {}) {
     news_populated_count: 0,
     rewards_populated_count: 0,
     risks_populated_count: 0,
-    shards_failed: 0,
+    shards_failed: opts.shardsFailed ?? 0,
   };
   if (includeStarted) lr.started_at = new Date(startedAtMs).toISOString();
   writeFileSync(join(root, "last-refresh.json"), JSON.stringify(lr));
@@ -170,7 +172,40 @@ function buildFixture(ageHours, opts = {}) {
     }));
   }
 
-  writeFileSync(join(root, "universe.json"), "[]");
+  // opts.deepBriefs → populate universe.json + deep/ so the L2 coverage checks
+  // (fresh_pct_floor / fresh_pct_threshold) have something real to measure.
+  // Opt-in: the default stays an empty universe so every pre-existing assertion
+  // above keeps its original fixture.
+  //
+  //   { universeCount, freshCount, orphanCount }
+  //     universeCount — tickers in universe.json, each with a deep brief
+  //     freshCount    — how many of those briefs carry a parsed_at inside the
+  //                     24h RUN_WINDOW_HOURS window; the rest are 3d old
+  //     orphanCount   — extra briefs on disk with NO universe entry, which the
+  //                     gate must exclude from the denominator
+  if (opts.deepBriefs) {
+    const { universeCount = 0, freshCount = 0, orphanCount: orphans = 0 } = opts.deepBriefs;
+    const freshIso = new Date(nowMs - 2 * 3600 * 1000).toISOString();   // 2h  → fresh
+    const staleIso = new Date(nowMs - 72 * 3600 * 1000).toISOString();  // 72h → stale
+    const universeRows = [];
+    for (let i = 0; i < universeCount; i++) {
+      const ticker = `U${i}`;
+      universeRows.push({ ticker });
+      writeFileSync(
+        join(root, "deep", `${ticker}.json`),
+        JSON.stringify({ parsed_at: i < freshCount ? freshIso : staleIso }),
+      );
+    }
+    for (let i = 0; i < orphans; i++) {
+      writeFileSync(
+        join(root, "deep", `ORPHAN${i}.json`),
+        JSON.stringify({ parsed_at: staleIso }),
+      );
+    }
+    writeFileSync(join(root, "universe.json"), JSON.stringify(universeRows));
+  } else {
+    writeFileSync(join(root, "universe.json"), "[]");
+  }
   const scoredOpt = opts.scoredUniverse || { total: 0, rawFvCount: 0, fairValueCount: 0 };
   const scoredRows = Array.from({ length: scoredOpt.total || 0 }, (_, i) => {
     const raw = i < (scoredOpt.rawFvCount || 0);
@@ -248,6 +283,13 @@ function runGateAndGetFindings(ageHours, opts = {}) {
       growwStockWarn: l2.find((c) => c.name === "groww_stock_coverage_warn"),
       growwStockBlock: l2.find((c) => c.name === "groww_stock_coverage_block_floor"),
       growwStockGrace: l2.find((c) => c.name === "groww_stock_cache_grace_age"),
+      shardsFailed: l1.find((c) => c.name === "shards_failed_zero"),
+      freshPctFloor: l2.find((c) => c.name === "fresh_pct_floor"),
+      freshPctWarn: l2.find((c) => c.name === "fresh_pct_threshold"),
+      blockingNames: Object.values(report.layers)
+        .flatMap((L) => L.checks || [])
+        .filter((c) => !c.ok && c.severity === "BLOCK")
+        .map((c) => c.name),
     };
   } finally {
     try { rmSync(root, { recursive: true, force: true }); } catch {}
@@ -692,6 +734,160 @@ assert(
   "inline mode: exit code non-zero when BLOCK detected",
   inlineFailure.exitCode !== 0,
   inlineFailure.exitCode,
+);
+
+// ============================================================================
+// Coverage-vs-shard-exit severity split (2026-08-09)
+// ============================================================================
+//
+// Regression cover for the 2026-08-08 outage. The Mac slept mid-run on
+// battery; Playwright's launchPersistentContext timeout is wall-clock, so it
+// expired while the process was frozen and 2 of 3 shards exited non-zero
+// without scraping. The gate BLOCKed on shards_failed_zero — the proxy — while
+// fresh_pct, the direct measure of the same harm, sat at 33.1% and was only a
+// WARN. Production data went 55h stale.
+//
+// The severities are now swapped: fresh_pct_floor BLOCKs, shards_failed_zero
+// WARNs. Neither check had ANY test before this block, which is how the
+// asymmetry survived.
+
+console.log("\ncoverage floor vs shard-exit proxy\n");
+
+// ---------------------------------------------------------------- assert 15
+assert(
+  `MIN_FRESH_PCT_BLOCK pinned at 85 (BLOCK floor)`,
+  MIN_FRESH_PCT_BLOCK === 85,
+  MIN_FRESH_PCT_BLOCK,
+);
+assert(
+  `MIN_FRESH_PCT pinned at 95 (WARN target)`,
+  MIN_FRESH_PCT === 95,
+  MIN_FRESH_PCT,
+);
+assert(
+  "BLOCK floor sits below the WARN target",
+  MIN_FRESH_PCT_BLOCK < MIN_FRESH_PCT,
+  { MIN_FRESH_PCT_BLOCK, MIN_FRESH_PCT },
+);
+
+// ---------------------------------------------------------------- assert 16
+// Healthy run: 99.1% fresh. Observed range on real post-2026-07-31 runs is
+// 99.16-99.82, so this is the low end of normal. Must clear the BLOCK floor.
+const healthyCoverage = runGateAndGetFindings(1, {
+  deepBriefs: { universeCount: 1000, freshCount: 991 },
+});
+assert(
+  "fresh_pct 99.1% → fresh_pct_floor ok (healthy run ships)",
+  healthyCoverage.freshPctFloor?.ok === true,
+  healthyCoverage.freshPctFloor?.detail,
+);
+assert(
+  "fresh_pct 99.1% → fresh_pct_floor severity is BLOCK",
+  healthyCoverage.freshPctFloor?.severity === "BLOCK",
+  healthyCoverage.freshPctFloor,
+);
+
+// ---------------------------------------------------------------- assert 17
+// The incident itself: 33.1% fresh (1 of 3 shards landed). Must BLOCK.
+const incidentCoverage = runGateAndGetFindings(1, {
+  deepBriefs: { universeCount: 1000, freshCount: 331 },
+});
+assert(
+  "fresh_pct 33.1% (2026-08-08 incident) → fresh_pct_floor BLOCKS",
+  incidentCoverage.freshPctFloor?.ok === false
+    && incidentCoverage.freshPctFloor?.severity === "BLOCK",
+  incidentCoverage.freshPctFloor,
+);
+assert(
+  "fresh_pct 33.1% → blocking findings name fresh_pct_floor",
+  incidentCoverage.blockingNames.includes("fresh_pct_floor"),
+  incidentCoverage.blockingNames,
+);
+
+// ---------------------------------------------------------------- assert 18
+// A single lost shard is ~66% coverage — still well under the floor, so one
+// dropped shard cannot silently ship a two-thirds-current universe.
+const oneShardLost = runGateAndGetFindings(1, {
+  deepBriefs: { universeCount: 1000, freshCount: 667 },
+});
+assert(
+  "fresh_pct 66.7% (one shard lost) → fresh_pct_floor BLOCKS",
+  oneShardLost.freshPctFloor?.ok === false,
+  oneShardLost.freshPctFloor?.detail,
+);
+
+// ---------------------------------------------------------------- assert 19
+// Between the two tiers: 90% clears the BLOCK floor but still trips the WARN,
+// so a degrading run stays visible without being fatal.
+const degraded = runGateAndGetFindings(1, {
+  deepBriefs: { universeCount: 1000, freshCount: 900 },
+});
+assert(
+  "fresh_pct 90% → floor ok (does not block)",
+  degraded.freshPctFloor?.ok === true,
+  degraded.freshPctFloor?.detail,
+);
+assert(
+  "fresh_pct 90% → WARN tier still fires",
+  degraded.freshPctWarn?.ok === false && degraded.freshPctWarn?.severity === "WARN",
+  degraded.freshPctWarn,
+);
+
+// ---------------------------------------------------------------- assert 20
+// Orphans — deep briefs with no universe entry — must stay OUT of the
+// denominator. 991/1000 universe members fresh plus 670 unreachable orphans
+// (the real count on this repo) must still read as healthy, not as 59%.
+const withOrphans = runGateAndGetFindings(1, {
+  deepBriefs: { universeCount: 1000, freshCount: 991, orphanCount: 670 },
+});
+assert(
+  "orphaned briefs excluded from fresh_pct denominator → still ok",
+  withOrphans.freshPctFloor?.ok === true,
+  withOrphans.freshPctFloor?.detail,
+);
+assert(
+  "orphan count surfaced in the finding detail",
+  withOrphans.freshPctFloor?.detail?.orphans_excluded === 670,
+  withOrphans.freshPctFloor?.detail,
+);
+
+// ---------------------------------------------------------------- assert 21
+// shards_failed is now a WARN. This is the behaviour change: a shard that
+// exited non-zero but whose slice was covered on retry no longer discards the
+// whole run.
+const shardFailedButCovered = runGateAndGetFindings(1, {
+  shardsFailed: 2,
+  deepBriefs: { universeCount: 1000, freshCount: 991 },
+});
+assert(
+  "shards_failed=2 → finding is not ok",
+  shardFailedButCovered.shardsFailed?.ok === false,
+  shardFailedButCovered.shardsFailed,
+);
+assert(
+  "shards_failed=2 → severity is WARN, not BLOCK",
+  shardFailedButCovered.shardsFailed?.severity === "WARN",
+  shardFailedButCovered.shardsFailed,
+);
+assert(
+  "shards_failed=2 with healthy coverage → shards_failed_zero is NOT a blocker",
+  !shardFailedButCovered.blockingNames.includes("shards_failed_zero"),
+  shardFailedButCovered.blockingNames,
+);
+
+// ---------------------------------------------------------------- assert 22
+// Degenerate case the demotion must not open up: if the scrape never runs,
+// every brief keeps yesterday's parsed_at, so coverage collapses and
+// fresh_pct_floor carries the block that shards_failed_zero used to.
+const scrapeNeverRan = runGateAndGetFindings(1, {
+  shardsFailed: 0,
+  deepBriefs: { universeCount: 1000, freshCount: 0 },
+});
+assert(
+  "scrape never ran (0% fresh, shards_failed=0) → still BLOCKS on coverage",
+  scrapeNeverRan.freshPctFloor?.ok === false
+    && scrapeNeverRan.blockingNames.includes("fresh_pct_floor"),
+  { floor: scrapeNeverRan.freshPctFloor?.detail, blocking: scrapeNeverRan.blockingNames },
 );
 
 // ---------------------------------------------------------------- summary

@@ -100,7 +100,31 @@ export const PICKS_LR_CONSISTENCY_SLACK_SEC = 60;
 const MAX_SILENT_DROP        = 5;       // tickers in universe but missing from deep
 const RUN_WINDOW_HOURS       = 24;      // parsed_at within this window = "fresh"
 const STALE_FILE_HOURS       = 48;
-const MIN_FRESH_PCT          = 95;
+// Two-tier floor/target, same pattern as MIN_SCORED_COUNT / MIN_NEWS_POPULATED.
+//
+// fresh_pct is the DIRECT measure of "did tonight's scrape actually cover the
+// universe". shards_failed is only a PROXY for it — a shard can exit non-zero
+// having already scraped its whole slice, and a shard can exit clean having
+// covered nothing. On 2026-08-08 the proxy BLOCKed (shards_failed=2) while the
+// direct measure sat at 33.1% and was merely a WARN. That is the wrong way
+// round, so the BLOCK now lives on the measurement, not the proxy.
+//
+// Floor calibrated from data/sws/_sanity/*.json since the 2026-07-31 orphan-
+// exclusion fix — the first run where fresh_pct counts universe members rather
+// than every file in the deep dir:
+//   healthy runs       99.16 – 99.82   (n=8)
+//   one shard lost     ~66             (1836 of 5508 slices never refreshed)
+//   two shards lost    33.10           (2026-08-08)
+//   three shards lost  12.94           (2026-08-04)
+// 85 sits 14pts below the healthy floor and well above a single lost shard, so
+// it trips on any run that silently drops a shard's worth of coverage without
+// firing on normal night-to-night jitter.
+//
+// Pre-2026-07-31 reports read 61-62% on healthy runs. That was the orphan
+// miscount this scoping already fixed, NOT a coverage regression — do not
+// widen the floor to accommodate those historical values.
+export const MIN_FRESH_PCT_BLOCK = 85;  // BLOCK — collapsed-coverage detector
+export const MIN_FRESH_PCT       = 95;  // WARN  — unchanged calibration target
 const STALE_WARN_PCT         = 5;
 const FAILED_LOG_MAX         = 100;
 const FAILED_RETRY_TOLERANCE = 10;      // tickers in failed.json still not refreshed
@@ -333,7 +357,27 @@ function layer1(lr, picks) {
   }
   record(layer, "last_refresh_present", BLOCK, true);
 
-  record(layer, "shards_failed_zero", BLOCK,
+  // WARN, not BLOCK — deliberately demoted 2026-08-09.
+  //
+  // A non-zero exit from a scrape shard is a HOST symptom, not a data verdict.
+  // On 2026-08-08 shards 1 and 2 exited non-zero because the Mac suspended
+  // mid-`launchPersistentContext` on battery (Playwright's launch timeout is
+  // wall-clock, so it expired while the process was frozen); on AC the very
+  // same profiles launch in under 2s. Blocking on the exit code discarded
+  // shard 3's perfectly good rows and cost two days of stale prod data.
+  //
+  // The harm a failed shard actually causes — a slice of the universe never
+  // getting refreshed — is now measured directly by fresh_pct_floor in L2,
+  // which BLOCKs. That covers the degenerate cases this check used to carry:
+  // a total scrape failure leaves every brief at yesterday's parsed_at, so
+  // fresh_pct collapses toward 0 and blocks there instead. Conversely a shard
+  // that crashed but whose stocks were covered on retry no longer blocks,
+  // because no data was lost.
+  //
+  // Kept as a WARN because it stays the fastest human-readable pointer at WHY
+  // coverage dropped, and because a rising count with healthy coverage is an
+  // early signal that the host is degrading.
+  record(layer, "shards_failed_zero", WARN,
     (lr.shards_failed ?? 0) === 0,
     { shards_failed: lr.shards_failed });
 
@@ -665,6 +709,14 @@ function layer2(lr) {
   const total = (deepFiles.length - orphanCount) || 1;
   const freshPct = (freshCount / total) * 100;
   const stalePct = (staleCount / total) * 100;
+
+  // The BLOCK tier. This is the gate's primary "did tonight's scrape actually
+  // work" verdict — see MIN_FRESH_PCT_BLOCK for the calibration and for why it
+  // took over from shards_failed_zero in L1 on 2026-08-09.
+  record(layer, "fresh_pct_floor", BLOCK,
+    freshPct >= MIN_FRESH_PCT_BLOCK,
+    { fresh_pct: +freshPct.toFixed(2), threshold: MIN_FRESH_PCT_BLOCK, fresh_count: freshCount,
+      total, scope: "universe_members", orphans_excluded: orphanCount });
 
   record(layer, "fresh_pct_threshold", WARN,
     freshPct >= MIN_FRESH_PCT,
