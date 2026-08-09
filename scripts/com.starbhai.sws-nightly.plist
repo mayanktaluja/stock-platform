@@ -6,16 +6,36 @@
     <string>com.starbhai.sws-nightly</string>
 
     <!--
-      Wrap the whole run in caffeinate -dimsu so display, idle, system idle,
-      and user idle assertions are all set for the duration. This prevents
-      sleep mid-scrape regardless of lid state (note: on Apple Silicon with
-      lid CLOSED and no external display, the system can still sleep — keep
-      lid open OR connect external display for fully reliable closed-lid runs).
+      caffeinate holds display / idle / disk / system-sleep assertions for the
+      run. It does NOT, and cannot, guarantee an uninterrupted run.
+
+      This comment used to claim it "prevents sleep mid-scrape regardless of lid
+      state". That is false, and believing it is what produced the 2026-08-08
+      outage: the nightly ran on battery, the host cycled ~20s DarkWake against
+      ~14.5min Deep Idle all night, the body did not start for 11h46m, 2 of 3
+      scrape shards died on a wall-clock browser-launch timeout while frozen,
+      and production served 55h-old data.
+
+      What man caffeinate actually says on this host:
+        -s  "valid only when system is running on AC power"  → useless on battery
+        -u  without -t defaults to a 5-SECOND assertion
+        -t  "is not used when an utility is invoked with this command"
+      Because this plist invokes a utility (/bin/bash), -t cannot be supplied, so
+      -u can never be more than 5 seconds. It has been dropped: -dimsu → -dims.
+      The 08-08 pmset log shows it expiring exactly as documented
+      ("TimedOut UserIsActive … 00:00:05") 18 seconds before the machine slept.
+
+      Also true and unchanged: on Apple Silicon with the lid CLOSED and no
+      external display the system can sleep even on AC.
+
+      The real defence now lives in sws-nightly-isolated.sh, which waits for AC
+      before starting (SWS_NIGHTLY_AC_WAIT) and bounds the run so it can never
+      suppress the next 00:30 slot (SWS_NIGHTLY_DEADLINE_SEC).
     -->
     <key>ProgramArguments</key>
     <array>
         <string>/usr/bin/caffeinate</string>
-        <string>-dimsu</string>
+        <string>-dims</string>
         <string>/bin/bash</string>
         <string>/Users/mayanktaluja/code/stock-platform/scripts/sws-nightly-isolated.sh</string>
     </array>
