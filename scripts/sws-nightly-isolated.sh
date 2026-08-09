@@ -10,6 +10,20 @@ PRIMARY_REPO="${SWS_NIGHTLY_PRIMARY_REPO:-/Users/mayanktaluja/code/stock-platfor
 WORKTREE_DIR="${SWS_NIGHTLY_WORKTREE_DIR:-/Users/mayanktaluja/.Codex/worktrees/stock-platform-sws-nightly}"
 BASE_BRANCH="${SWS_NIGHTLY_BASE_BRANCH:-sws-nightly-isolated-base}"
 
+# Absolute abort time, anchored to wrapper start — NOT a duration measured from
+# when the body finally launches. On 2026-08-08 the run held its slot for
+# 24h36m and was still alive when the next 00:30 fire came round; launchd
+# treats a calendar event that arrives while the service is active as consumed,
+# not queued, so that day never ran at all. One bad night cost two days.
+#
+# Anchoring here rather than after the AC wait below is deliberate: a run that
+# waits 5h for a charger and then takes 21h would finish at 02:30 and suppress
+# the next slot exactly as before. The wait has to come out of the same budget.
+# 21h from a 00:30 start aborts at 21:30 IST, leaving ~3h for a human to fire a
+# manual /sws-refresh before the next slot.
+SWS_NIGHTLY_DEADLINE_SEC="${SWS_NIGHTLY_DEADLINE_SEC:-75600}"
+SWS_NIGHTLY_DEADLINE_EPOCH=$(( $(date +%s) + SWS_NIGHTLY_DEADLINE_SEC ))
+
 ts() { date "+%Y-%m-%d %H:%M:%S %Z"; }
 
 source_env_if_present() {
@@ -128,6 +142,66 @@ fi
 echo "$$" > "${LOCK_DIR}/pid"
 trap 'rm -rf "${LOCK_DIR}" 2>/dev/null || true' EXIT
 
+# ── AC wait (extracted verbatim by test/swsNightlyAcWait.test.sh) ────────────
+# Root cause of the 2026-08-08 outage. The nightly ran on battery with the lid
+# shut and the host cycled ~20s DarkWake against ~14.5min Deep Idle all night:
+# the body did not start until 12:16 IST, and 2 of 3 scrape shards then died
+# because Playwright's launchPersistentContext timeout is wall-clock and
+# expired while the process sat frozen. The same profiles launch in 0.8-1.9s on
+# AC, so this is purely a power problem.
+#
+# caffeinate cannot fix it and never could. Per man caffeinate on this host,
+# `-s` "is valid only when system is running on AC power"; `-u` without `-t`
+# defaults to a 5-second assertion, and `-t` "is not used when an utility is
+# invoked with this command" — which is exactly the form the plist uses. The
+# 08-08 pmset log shows the whole story in three lines: caffeinate created
+# PreventSystemSleep at 14:12:09, its UserIsActive assertion timed out five
+# seconds later, and the machine entered an 867-second Maintenance Sleep at
+# 14:12:27. `pmset -g custom` here is `sleep 1` on battery — idle-sleep after
+# one minute. There is no userspace way to hold this off.
+#
+# So don't fight it: wait for the charger. This beats both alternatives. A hard
+# skip (the exit-4 guard in sws-nightly.sh) turns every unplugged night into a
+# guaranteed no-data day, which is what its own comment was written to prevent.
+# Proceeding anyway is what produced the 24h36m zombie. Waiting means the data
+# is late rather than missing, and needs no root and no new daemon.
+#
+# Placed AFTER the lock, not before, so only one instance can ever be waiting:
+# two waiters would wake together when power returned and race for the tree.
+# Cost is that a manual /sws-refresh skips while a deferred cron holds the
+# lock, which is the correct outcome anyway.
+#
+# `head -1` is load-bearing: line 1 is "Now drawing from 'AC Power'". Line 2
+# reads "-InternalBattery-0 ... 21%; AC attached; not charging", so widening to
+# head -2 would match "AC" while the machine is running down its battery.
+sws_on_ac() { pmset -g batt 2>/dev/null | head -1 | grep -q "AC Power"; }
+
+# Own flag, defaulting ON — deliberately NOT gated on SWS_NIGHTLY_SKIP_BATTERY.
+# That variable controls a different policy: the bare `pmset` check in
+# sws-nightly.sh, which hard-`exit 4`s from the BODY minutes after this wait has
+# already confirmed AC. Arming both would mean two files disagreeing about power
+# policy, and a momentary reading (charger bumped, hub renegotiating) would kill
+# a night that this wait had correctly cleared. Leave that one at 1; this is the
+# single decision point.
+SWS_NIGHTLY_AC_WAIT="${SWS_NIGHTLY_AC_WAIT:-1}"
+SWS_AC_POLL_SEC="${SWS_AC_POLL_SEC:-60}"
+if [ "${SWS_NIGHTLY_AC_WAIT}" = "1" ] && ! sws_on_ac; then
+  echo "[isolated-nightly] on battery — deferring until AC returns (abort at $(date -r "${SWS_NIGHTLY_DEADLINE_EPOCH}" '+%H:%M:%S' 2>/dev/null || echo "${SWS_NIGHTLY_DEADLINE_EPOCH}"))"
+  while ! sws_on_ac; do
+    if [ "$(date +%s)" -ge "${SWS_NIGHTLY_DEADLINE_EPOCH}" ]; then
+      fail_critical "deferred all night, never got AC" \
+"Mac was on battery at the 00:30 slot and never came back on AC before the ${SWS_NIGHTLY_DEADLINE_SEC}s deadline at $(ts).
+
+Skipped cleanly rather than run a suspend-riddled job that would fail its coverage gate and suppress tomorrow's slot as well.
+
+$(pmset -g batt 2>&1 | head -3)" 4
+    fi
+    sleep "${SWS_AC_POLL_SEC}"
+  done
+  echo "[isolated-nightly] AC restored at $(ts) — proceeding"
+fi
+# ── end AC wait ─────────────────────────────────────────────────────────────
+
 if ! git -C "${PRIMARY_REPO}" fetch origin main 2>&1 | sed 's/^/[git] /'; then
   fail_critical "worktree setup fetch failed" "git fetch origin main failed from ${PRIMARY_REPO} at $(ts)." 5
 fi
@@ -186,7 +260,92 @@ if [ -z "${RESEND_API_KEY:-}" ] && [ ! -f "${WORKTREE_DIR}/.env" ] && [ ! -f "${
   fail_critical "mail config unavailable in isolated worktree" "The isolated worktree has no .env/.env.local symlink and launchd env has no RESEND_API_KEY. Critical alerts may not send." 5
 fi
 
+# ── deadline supervisor (extracted verbatim by test/swsNightlyDeadline.test.sh) ──
+# Bounds the run so it can never still be alive at the next 00:30 fire. See
+# SWS_NIGHTLY_DEADLINE_EPOCH at the top for why the anchor is wrapper start.
+#
+# `set -m` is required, not cosmetic. Without job control the body shares this
+# wrapper's process group, and `kill -TERM "${body_pid}"` reaches only the body
+# itself: bash dies, its EXIT trap runs, and sws-refresh-api.sh, the three
+# backgrounded shard subshells, node and the whole Chrome tree survive and
+# reparent to init. The wrapper would then release LOCK_DIR on top of live
+# writers, and the next run's `git reset --hard` + `git clean -fd` would land
+# under processes still writing data/sws/deep-api/ — which is precisely the
+# 2026-07-24 concurrent-collision incident. With `set -m` the body leads its own
+# process group and the negative PID signals every descendant.
+#
+# The drain below matters for the same reason: the lock must not be released
+# until the writers are actually gone, so the trap runs only after we return.
+#
+# Everything here acts on the process group and NOTHING else — no `pgrep -f`
+# sweep by script or binary name. Such a sweep cannot distinguish this run from
+# the US/KR/TW scrape forks (same script name, invoked by relative path) or from
+# any `npx playwright test`, since "Google Chrome for Testing" is their browser
+# too and sws-stealth-context.mjs can even default `channel` to the user's real
+# system Chrome. A 21:30 deadline must never reach outside this run.
+set -m
 echo "[isolated-nightly] launching sws-nightly.sh from isolated worktree"
 SWS_NIGHTLY_REPO_DIR="${WORKTREE_DIR}" \
 SWS_NIGHTLY_BASE_BRANCH="${BASE_BRANCH}" \
-  bash "${WORKTREE_DIR}/scripts/sws-nightly.sh" "$@"
+  bash "${WORKTREE_DIR}/scripts/sws-nightly.sh" "$@" &
+body_pid=$!
+set +m
+
+# Membership of THIS run's process group is the only scope we ever act on.
+# A pattern sweep (pgrep -f sws-api-scrape.mjs) is tempting and wrong: the
+# scrape is invoked as a relative path from the worktree, so its command line
+# carries nothing that distinguishes this run from the US/KR/TW forks, which
+# run the same script name. A sweep would SIGKILL an unrelated scrape. The
+# process group contains exactly this run's descendants and nothing else, so
+# `kill -0 -PGID` is both the correct liveness probe and the correct blast
+# radius. Chrome needs no separate handling — it is in the group.
+sws_group_alive() { kill -0 -"${body_pid}" 2>/dev/null; }
+
+DEADLINE_FLAG="${LOCK_DIR}/deadline-fired"
+(
+  while [ "$(date +%s)" -lt "${SWS_NIGHTLY_DEADLINE_EPOCH}" ]; do sleep 30; done
+  # Re-verify before signalling: the body may have exited during the last tick.
+  kill -0 "${body_pid}" 2>/dev/null || exit 0
+  : > "${DEADLINE_FLAG}"
+  echo "[isolated-nightly] DEADLINE reached at $(ts) — aborting so the next 00:30 slot is not suppressed"
+  kill -TERM -"${body_pid}" 2>/dev/null || kill -TERM "${body_pid}" 2>/dev/null || true
+  for _ in $(seq 1 30); do
+    sws_group_alive || break
+    sleep 2
+  done
+  if sws_group_alive; then
+    echo "[isolated-nightly] process group survived TERM — escalating to KILL"
+    kill -KILL -"${body_pid}" 2>/dev/null || true
+  fi
+) &
+watchdog_pid=$!
+
+wait "${body_pid}"; body_rc=$?
+kill "${watchdog_pid}" 2>/dev/null || true
+wait "${watchdog_pid}" 2>/dev/null || true
+
+# Drain before returning, so the EXIT trap cannot release LOCK_DIR while a
+# scraper from THIS run is still writing into the shared worktree. Without
+# this, the next 00:30 run's `git reset --hard` + `git clean -fd` can land
+# underneath live writers — the 2026-07-24 collision.
+for _ in $(seq 1 30); do
+  sws_group_alive || break
+  echo "[isolated-nightly] waiting for this run's process group to exit"
+  sleep 2
+done
+
+if [ -f "${DEADLINE_FLAG}" ]; then
+  # Distinct from the body's own codes. `wait` on a TERMed child returns 143,
+  # which is indistinguishable from any other signal death in launchd-stderr.log.
+  echo "[isolated-nightly] aborted on deadline (body rc=${body_rc})"
+  send_mail "🚨 SWS nightly — run deadline exceeded" \
+"Run exceeded ${SWS_NIGHTLY_DEADLINE_SEC}s and was aborted at $(ts) so the next 00:30 IST slot is not suppressed. No SWS data shipped this run.
+
+Body exit code before abort: ${body_rc}.
+
+The 2026-08-08 run ran 24h36m and silently consumed the following day's slot; this bound exists so that cannot recur."
+  exit 10
+fi
+
+exit "${body_rc}"
+# ── end deadline supervisor ─────────────────────────────────────────────────
