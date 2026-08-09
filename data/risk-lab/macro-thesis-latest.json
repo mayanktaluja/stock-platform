@@ -1,21 +1,19 @@
 {
   "schema_version": "macro-thesis-v1",
-  "generated_at": "2026-08-07T03:06:04.337Z",
+  "generated_at": "2026-08-09T15:57:09.241Z",
   "regime": {
     "regime": "CALM",
     "severity": 1,
-    "confidence": 0.85,
+    "confidence": 0.72,
     "label": "Calm",
-    "generated_at": "2026-08-06T04:30:19.233Z",
+    "generated_at": "2026-08-09T06:30:18.089Z",
     "days_in_state": 0,
     "stale": false,
-    "reasoning": "Headlines are dominated by earnings and isolated corporate news, lacking a clear macro shock.",
+    "reasoning": "Mixed corporate earnings and modest FPI inflows with lingering but not escalating geopolitical risk.",
     "key_events": [
-      "Sensei rises 200 points, Nifty above 24,600 amid US‑Iran peace hopes (Economic Times)",
-      "FCRA 2026: Three regulatory changes reshaping foreign funding in India (Economic Times)",
-      "Japanese investors return to overseas bonds as stronger yen, higher yields boost demand (Business Standard)",
-      "South Korea’s Kospi tumbles 5% after 2‑day rally (Economic Times)",
-      "Swan Defence secures contract to build TRAnsverse 3200 tugs (Business Standard)"
+      "Foreign investors continue buying spree; pour ₹12,921 crore in first week of August (Business Standard)",
+      "Will Nifty, Sensex extend losses on Monday? Middle East tensions, Q1 results and 3 other factors (Economic Times)",
+      "India's resilient economy to support markets but global risks remain elevated: SEBI (Economic Times)"
     ],
     "classifier_provider": "groq",
     "source_health": {
@@ -42,40 +40,30 @@
     },
     "sector_impacts": [
       {
-        "sector": "Defence",
+        "sector": "Banking",
         "impact": 2,
-        "reason": "New tug contract boosts order flow"
+        "reason": "FPI inflows boost financial stocks"
+      },
+      {
+        "sector": "NBFC",
+        "impact": 1,
+        "reason": "Liquidity inflows favor non‑bank lenders"
       },
       {
         "sector": "Real Estate",
-        "impact": 2,
-        "reason": "Kolte Patil redevelopment projects and Mindspace REIT profit surge"
-      },
-      {
-        "sector": "Banking",
-        "impact": -1,
-        "reason": "SBI profit preview suggests margin pressure"
-      },
-      {
-        "sector": "IT Services",
         "impact": 1,
-        "reason": "Datamatics strong profit growth"
-      },
-      {
-        "sector": "Power",
-        "impact": -1,
-        "reason": "Power Grid profit marginally declines"
+        "reason": "Foreign capital supports property sector"
       }
     ]
   },
-  "catalyst_proximity_days": 8,
+  "catalyst_proximity_days": 6,
   "upcoming_catalysts": [
     {
       "date": "2026-08-15",
       "kind": "INDIA_INDEPENDENCE",
       "label": "Indian Independence Day (PM address)",
       "severity_potential": 1,
-      "days_until": 8
+      "days_until": 6
     }
   ],
   "position_cap_pct": 10,
@@ -83,7 +71,7 @@
     {
       "key": "continue",
       "label": "CALM continues at current severity",
-      "probability": 0.55,
+      "probability": 0.52,
       "duration_days": 14,
       "n_analogs": 9,
       "indeterminate": false,
@@ -133,7 +121,7 @@
     {
       "key": "escalate",
       "label": "CALM escalates (severity +1)",
-      "probability": 0.11,
+      "probability": 0.1,
       "duration_days": 7,
       "n_analogs": 9,
       "indeterminate": false,
@@ -183,7 +171,7 @@
     {
       "key": "de_escalate",
       "label": "CALM de-escalates → CALM",
-      "probability": 0.2,
+      "probability": 0.19,
       "duration_days": 21,
       "n_analogs": 9,
       "indeterminate": false,
@@ -233,14 +221,14 @@
     {
       "key": "new_shock",
       "label": "New unrelated shock supersedes CALM",
-      "probability": 0.14,
+      "probability": 0.19,
       "duration_days": 7,
       "n_analogs": 0,
       "indeterminate": false,
       "beneficiaries": [],
       "losers": [],
       "reasoning": {
-        "modulator_applied": 1.4,
+        "modulator_applied": 2,
         "base_probability": 0.1,
         "analog_pool_regime": "n/a (new regime — projection suppressed by design)",
         "analog_warnings": [],
@@ -255,7 +243,7 @@
   "indeterminate": false,
   "audit": {
     "thesis_schema": "macro-thesis-v1",
-    "regime_generated_at": "2026-08-06T04:30:19.233Z",
+    "regime_generated_at": "2026-08-09T06:30:18.089Z",
     "regime_classifier": "groq",
     "scenario_engine_version": "scenario-prob-v1"
   }
