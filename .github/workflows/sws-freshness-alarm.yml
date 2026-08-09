@@ -1,0 +1,147 @@
+name: SWS freshness alarm
+
+# Asserts the OUTCOME the whole India nightly exists to produce: is the SWS
+# data on origin/main actually current? Deliberately checks nothing about how
+# the pipeline ran.
+#
+# Why this exists. On 2026-08-09 there was no signal of ANY kind that the
+# platform was serving two-day-old data. The 2026-08-08 run started at 00:31
+# IST, spent 11h46m suspended because the Mac was asleep on battery, lost 2 of
+# 3 scrape shards to a wall-clock browser-launch timeout, was blocked by the
+# sanity gate, and finally exited 7 at 01:07 the next day — 24h36m of wall
+# clock. Because it was still alive at the 2026-08-09 00:30 slot, launchd
+# suppressed that day's fire entirely. So the second day produced no run, no
+# mail, no log line, no exit code. Silence.
+#
+# Every alerting path this repo had ran ON that Mac and therefore could not
+# observe it: the mail is sent by the nightly itself, and slack_notify_on_exit
+# in sws-nightly.sh is a no-op because SLACK_WEBHOOK_URL is unset. A heartbeat
+# hosted on the machine that is asleep cannot report that the machine is
+# asleep. This job runs on a GitHub-hosted runner, so it is the one check that
+# cannot be taken out by the failure it is watching.
+#
+# Free on public repos. No secrets: the failure path opens a GitHub issue with
+# the default GITHUB_TOKEN, and GitHub's own notification settings mail it.
+
+on:
+  schedule:
+    # 07:30 UTC = 13:00 IST. The nightly normally publishes ~08:45 IST, so this
+    # lands ~4h after a healthy ship and ~12.5h after the 00:30 start.
+    - cron: '30 7 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: sws-freshness-alarm
+  cancel-in-progress: false
+
+env:
+  # 30h, not 26h. Replaying every last-refresh.json on origin/main since
+  # 2026-06-02 (69 runs): a 26h ceiling fires 18 times of which 4 are premature
+  # — 06-21, 07-06, 07-30 and 08-05 all shipped fresh data later the same day,
+  # 08-05 as late as 22:20 IST. At 30h it fires 8 times with zero premature.
+  # Healthy days sit at 2.5-5.6h, so 30h still leaves ~24h of headroom against
+  # a real outage; the extra 4h buys only the removal of four false pages. A
+  # false page that trains you to ignore the alarm is worse than no alarm.
+  MAX_AGE_H: '30'
+  ALARM_TITLE: '🚨 SWS India data is stale'
+
+jobs:
+  check:
+    name: Assert data/sws/last-refresh.json is fresh
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      # last-refresh.json is the right witness, and this is load-bearing: it is
+      # committed ONLY on the full-ship path (sws-nightly.sh), and is absent
+      # from nightly_data_only_paths — so the sanity-blocked data-only PR that
+      # shipped during this very incident (#1253) does NOT refresh it. A gate
+      # that blocks the scrape therefore still trips this alarm, which is
+      # exactly what we want. Do not add it to the data-only ship list.
+      #
+      # Age is emitted as a bare number (or the 9999 sentinel) and every later
+      # step reads it through env:, never by interpolating into a shell word.
+      - name: Compute age
+        id: age
+        run: |
+          set -uo pipefail
+          AGE_H=$(node -e '
+            const fs = require("fs");
+            const p = "data/sws/last-refresh.json";
+            if (!fs.existsSync(p)) { console.log("9999"); process.exit(0); }
+            let lr; try { lr = JSON.parse(fs.readFileSync(p, "utf-8")); }
+            catch { console.log("9999"); process.exit(0); }
+            const t = Date.parse(lr.finished_at || "");
+            console.log(Number.isFinite(t) ? ((Date.now() - t) / 36e5).toFixed(2) : "9999");
+          ')
+          echo "age_h=${AGE_H}" >> "$GITHUB_OUTPUT"
+          echo "SWS last-refresh age: ${AGE_H}h (ceiling ${MAX_AGE_H}h)"
+
+      - name: Fail if stale
+        env:
+          AGE_H: ${{ steps.age.outputs.age_h }}
+        run: |
+          set -uo pipefail
+          awk -v a="${AGE_H}" -v m="${MAX_AGE_H}" 'BEGIN { if (a + 0 < m + 0) exit 0; exit 1 }'
+
+      - name: Open or update the alarm issue
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          AGE_H: ${{ steps.age.outputs.age_h }}
+        run: |
+          set -uo pipefail
+          BODY=$(cat <<EOF
+          \`data/sws/last-refresh.json\` on \`main\` has \`finished_at\` **${AGE_H}h** old (ceiling ${MAX_AGE_H}h).
+
+          Production is serving stale SWS India data. The nightly either did not run,
+          did not finish, or was blocked by the sanity gate.
+
+          Triage, in order:
+
+          1. \`launchctl list | grep sws-nightly\` — the trailing number is the last exit
+             code. \`7\` = sanity gate blocked the ship; \`4\` = skipped on battery;
+             \`6\` = scrape pipeline failed; \`5\` = git/network.
+          2. \`pmset -g log | grep -E 'Using BATT|Entering Sleep'\` — if the Mac slept on
+             battery, shards die on a wall-clock browser-launch timeout and coverage
+             collapses. That is the 2026-08-08 failure.
+          3. \`tail -200 data/sws/launchd-stdout.log\` and the newest
+             \`data/sws/_sanity/*.json\` — the BLOCK findings name the real cause.
+          4. Recover with \`/sws-refresh\`, on AC power.
+
+          Auto-filed by \`.github/workflows/sws-freshness-alarm.yml\`. Closes itself
+          once a fresh run lands.
+          EOF
+          )
+          EXISTING=$(gh issue list --state open --search "${ALARM_TITLE} in:title" \
+            --json number --jq '.[0].number // empty')
+          if [ -n "${EXISTING}" ]; then
+            gh issue comment "${EXISTING}" --body "${BODY}"
+          else
+            gh issue create --title "${ALARM_TITLE}" --body "${BODY}"
+          fi
+
+      # Without this the issue opened by the first real outage stays open
+      # forever, and every later alarm lands as a comment on a thread that is
+      # already read and muted — i.e. the alarm silently stops alarming.
+      - name: Close the alarm issue on recovery
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          AGE_H: ${{ steps.age.outputs.age_h }}
+        run: |
+          set -uo pipefail
+          EXISTING=$(gh issue list --state open --search "${ALARM_TITLE} in:title" \
+            --json number --jq '.[0].number // empty')
+          if [ -n "${EXISTING}" ]; then
+            gh issue close "${EXISTING}" \
+              --comment "Recovered — \`last-refresh.json\` is now ${AGE_H}h old, inside the ${MAX_AGE_H}h ceiling."
+          fi
