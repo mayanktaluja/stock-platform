@@ -1,7 +1,7 @@
 {
   "schemaVersion": "fo-screener-v1",
   "asOf": "2026-08-07",
-  "fetchedAt": "2026-08-09T09:53:59.655Z",
+  "fetchedAt": "2026-08-09T19:27:22.811Z",
   "urlUsed": "https://nsearchives.nseindia.com/content/fo/BhavCopy_NSE_FO_0_0_0_20260807_F_0000.csv.zip",
   "methodology": "OI aggregated across all stock-futures expiries (avoids rollover-Thursday phantoms); Δ vs prior session = ChngInOpnIntrst / (OI − ChngInOpnIntrst). Volume confirmation: today's vol vs 20-session mean. Decoupling co-flag: |OI Δ| ≥ 20% with |price Δ| < 0.5%. Score 0–100 = scaled OI move × volume confirmation × decouple boost × direction consistency. Educational content only.",
   "stats": {
@@ -13,7 +13,7 @@
     "broaderCount": 15,
     "historyPointsAppended": 213,
     "historyRestoredFromKV": 0,
-    "walkedBack": 0
+    "walkedBack": 1
   },
   "sections": {
     "inBook": [],
@@ -74,25 +74,6 @@
         "decoupled": false,
         "score": 9,
         "interpretation": "Bulls adding fresh longs — OI up with price."
-      },
-      {
-        "underlying": "GODREJCP",
-        "instrumentType": "STF",
-        "expiryCount": 3,
-        "nearMonthExpiry": "2026-08-25",
-        "nearMonthSettle": 1043.4,
-        "underlyingPrice": 1050,
-        "oiTotal": 12328500,
-        "oiChangeTotal": 847000,
-        "volumeTotal": 11994,
-        "oiDeltaPct": 7.3770848756695555,
-        "priceDeltaPct": -3.3441408059286624,
-        "volumeRatio": null,
-        "volumeBucket": "unknown",
-        "signal": "short_buildup",
-        "decoupled": false,
-        "score": 8,
-        "interpretation": "Bears adding fresh shorts — OI up while price drops."
       },
       {
         "underlying": "JUBLFOOD",
@@ -266,25 +247,6 @@
         "interpretation": "Bears adding fresh shorts — OI up while price drops."
       },
       {
-        "underlying": "HINDALCO",
-        "instrumentType": "STF",
-        "expiryCount": 3,
-        "nearMonthExpiry": "2026-08-25",
-        "nearMonthSettle": 1054,
-        "underlyingPrice": 1059.58,
-        "oiTotal": 55519800,
-        "oiChangeTotal": -2149000,
-        "volumeTotal": 26016,
-        "oiDeltaPct": -3.7264517382015923,
-        "priceDeltaPct": 2.369852369852379,
-        "volumeRatio": null,
-        "volumeBucket": "unknown",
-        "signal": "short_covering",
-        "decoupled": false,
-        "score": 4,
-        "interpretation": "Shorts covering — OI falling as price recovers."
-      },
-      {
         "underlying": "BSE",
         "instrumentType": "STF",
         "expiryCount": 3,
@@ -302,6 +264,44 @@
         "decoupled": false,
         "score": 3,
         "interpretation": "Shorts covering — OI falling as price recovers."
+      },
+      {
+        "underlying": "COCHINSHIP",
+        "instrumentType": "STF",
+        "expiryCount": 3,
+        "nearMonthExpiry": "2026-08-25",
+        "nearMonthSettle": 1529,
+        "underlyingPrice": 1518.58,
+        "oiTotal": 5595200,
+        "oiChangeTotal": 150000,
+        "volumeTotal": 4645,
+        "oiDeltaPct": 2.75471975317711,
+        "priceDeltaPct": 1.7908261766859792,
+        "volumeRatio": null,
+        "volumeBucket": "unknown",
+        "signal": "long_buildup",
+        "decoupled": false,
+        "score": 3,
+        "interpretation": "Bulls adding fresh longs — OI up with price."
+      },
+      {
+        "underlying": "BOSCHLTD",
+        "instrumentType": "STF",
+        "expiryCount": 3,
+        "nearMonthExpiry": "2026-08-25",
+        "nearMonthSettle": 42820,
+        "underlyingPrice": 42764.77,
+        "oiTotal": 221125,
+        "oiChangeTotal": 5925,
+        "volumeTotal": 1813,
+        "oiDeltaPct": 2.753252788104089,
+        "priceDeltaPct": 1.1336797354747286,
+        "volumeRatio": null,
+        "volumeBucket": "unknown",
+        "signal": "long_buildup",
+        "decoupled": false,
+        "score": 3,
+        "interpretation": "Bulls adding fresh longs — OI up with price."
       }
     ],
     "broader": [
@@ -399,6 +399,25 @@
         "decoupled": false,
         "score": 8,
         "interpretation": "Bulls adding fresh longs — OI up with price."
+      },
+      {
+        "underlying": "GODREJCP",
+        "instrumentType": "STF",
+        "expiryCount": 3,
+        "nearMonthExpiry": "2026-08-25",
+        "nearMonthSettle": 1043.4,
+        "underlyingPrice": 1050,
+        "oiTotal": 12328500,
+        "oiChangeTotal": 847000,
+        "volumeTotal": 11994,
+        "oiDeltaPct": 7.3770848756695555,
+        "priceDeltaPct": -3.3441408059286624,
+        "volumeRatio": null,
+        "volumeBucket": "unknown",
+        "signal": "short_buildup",
+        "decoupled": false,
+        "score": 8,
+        "interpretation": "Bears adding fresh shorts — OI up while price drops."
       },
       {
         "underlying": "HEROMOTOCO",
@@ -570,25 +589,6 @@
         "decoupled": false,
         "score": 4,
         "interpretation": "No meaningful conviction — OI/price moves both within noise."
-      },
-      {
-        "underlying": "BAJFINANCE",
-        "instrumentType": "STF",
-        "expiryCount": 3,
-        "nearMonthExpiry": "2026-08-25",
-        "nearMonthSettle": 1086.6,
-        "underlyingPrice": 1078.04,
-        "oiTotal": 68328000,
-        "oiChangeTotal": 2457750,
-        "volumeTotal": 24337,
-        "oiDeltaPct": 3.7311988340715274,
-        "priceDeltaPct": -5.881333910783897,
-        "volumeRatio": null,
-        "volumeBucket": "unknown",
-        "signal": "short_buildup",
-        "decoupled": false,
-        "score": 4,
-        "interpretation": "Bears adding fresh shorts — OI up while price drops."
       }
     ]
   }
