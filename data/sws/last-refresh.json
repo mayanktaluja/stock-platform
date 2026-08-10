@@ -1,8 +1,8 @@
 {
-  "started_at": "2026-08-09T09:35:14.000Z",
-  "finished_at": "2026-08-09T14:45:18.451Z",
+  "started_at": "2026-08-09T19:00:19.000Z",
+  "finished_at": "2026-08-10T01:35:56.555Z",
   "pipeline": "api",
-  "duration_seconds": 12329,
+  "duration_seconds": 11991,
   "shards_failed": 0,
   "scrape_skipped": false,
   "scored_count": 6178,
@@ -11,8 +11,8 @@
     "top_ranked_30_v3": 30,
     "best_to_buy_now": 25,
     "deep_value": 49,
-    "growing_sector_value": 76,
-    "snowflake_gap_lab": 448,
+    "growing_sector_value": 72,
+    "snowflake_gap_lab": 445,
     "quality_growth": 233,
     "best_fundamentals": 100,
     "midterm": 126,
@@ -23,63 +23,63 @@
   },
   "per_shard_progress": {
     "1": {
-      "done_count": 119158,
+      "done_count": 120989,
       "next_local_index": 1836,
-      "today_count": 1831,
+      "today_count": 3662,
       "last_ticker": "542801"
     },
     "2": {
-      "done_count": 119241,
+      "done_count": 121073,
       "next_local_index": 1836,
-      "today_count": 1831,
+      "today_count": 3663,
       "last_ticker": "ICICIPRULI"
     },
     "3": {
-      "done_count": 120700,
+      "done_count": 122534,
       "next_local_index": 1836,
-      "today_count": 1834,
+      "today_count": 3668,
       "last_ticker": "ZYDUSWELL"
     }
   },
   "news_populated_count": 6106,
-  "news_items_total": 47670,
+  "news_items_total": 47611,
   "rewards_populated_count": 5168,
   "risks_populated_count": 5803,
   "groww_stock_cache": {
-    "fetched_at": "2026-08-09T13:00:44.494Z",
-    "expires_at": "2026-08-10T13:00:44.494Z",
+    "fetched_at": "2026-08-09T22:20:13.077Z",
+    "expires_at": "2026-08-10T22:20:13.077Z",
     "status": "fresh",
-    "age_days": 0.07,
+    "age_days": 0.14,
     "coverage": {
       "target_count": 5508,
-      "screener_records_count": 4481,
-      "screener_total_records": 5028,
+      "screener_records_count": 4483,
+      "screener_total_records": 5030,
       "mapped_count": 4725,
-      "screener_mapped_count": 3976,
-      "search_recovered_count": 749,
-      "search_lookups_attempted": 776,
+      "screener_mapped_count": 3977,
+      "search_recovered_count": 748,
+      "search_lookups_attempted": 775,
       "search_map_hits": 0,
       "unmapped_count": 783,
       "fetched_count": 4724,
       "usable_count": 4720,
       "coverage_pct": 85.69,
-      "pe_usable_count": 3603,
-      "pe_coverage_pct": 65.41
+      "pe_usable_count": 3605,
+      "pe_coverage_pct": 65.45
     }
   },
   "groww_pe_cache": {
-    "fetched_at": "2026-08-09T13:00:44.494Z",
-    "expires_at": "2026-08-10T13:00:44.494Z",
+    "fetched_at": "2026-08-09T22:20:13.077Z",
+    "expires_at": "2026-08-10T22:20:13.077Z",
     "status": "fresh",
-    "age_days": 0.07,
+    "age_days": 0.14,
     "coverage": {
       "target_count": 5508,
-      "screener_records_count": 4481,
-      "screener_total_records": 5028,
+      "screener_records_count": 4483,
+      "screener_total_records": 5030,
       "mapped_count": 4725,
       "fetched_count": 4724,
-      "usable_count": 3603,
-      "coverage_pct": 65.41
+      "usable_count": 3605,
+      "coverage_pct": 65.45
     }
   },
   "endpoint_timing": {
@@ -87,126 +87,126 @@
       "count": 6065,
       "failures": 0,
       "bytes": 13507725,
-      "total_ms": 1775562,
-      "p50_ms": 281,
-      "p95_ms": 365,
+      "total_ms": 1928405,
+      "p50_ms": 300,
+      "p95_ms": 399,
       "parser_consumed": true
     },
-    "graphql:getNarrativeValuation": {
+    "graphql:getCompanyTimeSeries": {
       "count": 6065,
-      "failures": 0,
-      "bytes": 17172405,
-      "total_ms": 1838052,
-      "p50_ms": 292,
-      "p95_ms": 367,
+      "failures": 1,
+      "bytes": 159420425,
+      "total_ms": 1951707,
+      "p50_ms": 307,
+      "p95_ms": 416,
+      "parser_consumed": false
+    },
+    "graphql:getCompanyPeers": {
+      "count": 6065,
+      "failures": 2,
+      "bytes": 30263414,
+      "total_ms": 1962356,
+      "p50_ms": 308,
+      "p95_ms": 419,
       "parser_consumed": true
     },
     "graphql:CompanyNarrativesWithHistogram": {
       "count": 6065,
       "failures": 1,
-      "bytes": 15908913,
-      "total_ms": 1935961,
-      "p50_ms": 308,
-      "p95_ms": 382,
+      "bytes": 15909188,
+      "total_ms": 2113068,
+      "p50_ms": 329,
+      "p95_ms": 435,
       "parser_consumed": true
     },
-    "graphql:getCompanyTimeSeries": {
+    "graphql:getNarrativeValuation": {
       "count": 6065,
-      "failures": 0,
-      "bytes": 159446732,
-      "total_ms": 1750708,
-      "p50_ms": 275,
-      "p95_ms": 356,
-      "parser_consumed": false
+      "failures": 1,
+      "bytes": 17173388,
+      "total_ms": 2004693,
+      "p50_ms": 314,
+      "p95_ms": 421,
+      "parser_consumed": true
     },
     "graphql:NarrativeValuationHistory": {
       "count": 6065,
-      "failures": 0,
-      "bytes": 13203722,
-      "total_ms": 1953446,
-      "p50_ms": 308,
-      "p95_ms": 398,
-      "parser_consumed": true
-    },
-    "graphql:getCompanyPeers": {
-      "count": 6065,
       "failures": 2,
-      "bytes": 30263413,
-      "total_ms": 1747751,
-      "p50_ms": 273,
-      "p95_ms": 353,
+      "bytes": 13196037,
+      "total_ms": 2171194,
+      "p50_ms": 337,
+      "p95_ms": 462,
       "parser_consumed": true
     },
     "graphql:getCompanyDividends": {
       "count": 6065,
       "failures": 1,
-      "bytes": 7534869,
-      "total_ms": 2542011,
-      "p50_ms": 411,
-      "p95_ms": 468,
+      "bytes": 7534515,
+      "total_ms": 2699058,
+      "p50_ms": 432,
+      "p95_ms": 521,
       "parser_consumed": true
     },
     "rest:ownership": {
       "count": 6065,
       "failures": 0,
-      "bytes": 37213001,
-      "total_ms": 1182483,
-      "p50_ms": 271,
-      "p95_ms": 343,
+      "bytes": 37213002,
+      "total_ms": 294552,
+      "p50_ms": 39,
+      "p95_ms": 117,
+      "parser_consumed": true
+    },
+    "rest:industry": {
+      "count": 6065,
+      "failures": 0,
+      "bytes": 349903384,
+      "total_ms": 327017,
+      "p50_ms": 42,
+      "p95_ms": 128,
+      "parser_consumed": true
+    },
+    "rest:statements": {
+      "count": 6065,
+      "failures": 0,
+      "bytes": 430450196,
+      "total_ms": 350386,
+      "p50_ms": 44,
+      "p95_ms": 140,
       "parser_consumed": true
     },
     "rest:estimates": {
       "count": 6065,
       "failures": 0,
       "bytes": 7897893,
-      "total_ms": 1765566,
-      "p50_ms": 280,
-      "p95_ms": 358,
+      "total_ms": 1961995,
+      "p50_ms": 303,
+      "p95_ms": 406,
       "parser_consumed": false
     },
     "rest:competitors": {
       "count": 6065,
       "failures": 0,
-      "bytes": 11367036,
-      "total_ms": 2684399,
-      "p50_ms": 431,
-      "p95_ms": 525,
+      "bytes": 11367089,
+      "total_ms": 2782071,
+      "p50_ms": 444,
+      "p95_ms": 566,
       "parser_consumed": false
-    },
-    "rest:dashboard_company": {
-      "count": 6065,
-      "failures": 0,
-      "bytes": 383701998,
-      "total_ms": 2739636,
-      "p50_ms": 432,
-      "p95_ms": 534,
-      "parser_consumed": true
     },
     "rest:price": {
       "count": 6065,
       "failures": 0,
-      "bytes": 47164654,
-      "total_ms": 2692693,
-      "p50_ms": 432,
-      "p95_ms": 516,
+      "bytes": 47164580,
+      "total_ms": 2722680,
+      "p50_ms": 431,
+      "p95_ms": 538,
       "parser_consumed": true
     },
-    "rest:statements": {
+    "rest:dashboard_company": {
       "count": 6065,
       "failures": 0,
-      "bytes": 430450199,
-      "total_ms": 2577129,
-      "p50_ms": 544,
-      "p95_ms": 803,
-      "parser_consumed": true
-    },
-    "rest:industry": {
-      "count": 6065,
-      "failures": 0,
-      "bytes": 349903397,
-      "total_ms": 2416719,
-      "p50_ms": 529,
-      "p95_ms": 742,
+      "bytes": 383703964,
+      "total_ms": 2820147,
+      "p50_ms": 447,
+      "p95_ms": 576,
       "parser_consumed": true
     }
   },
