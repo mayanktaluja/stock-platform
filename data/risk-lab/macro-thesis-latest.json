@@ -1,21 +1,21 @@
 {
   "schema_version": "macro-thesis-v1",
-  "generated_at": "2026-08-11T15:27:54.714Z",
+  "generated_at": "2026-08-12T02:34:26.911Z",
   "regime": {
-    "regime": "OIL_SHOCK",
-    "severity": 3,
-    "confidence": 0.78,
-    "label": "Oil Shock",
-    "generated_at": "2026-08-10T21:17:19.347Z",
+    "regime": "REGULATORY_SHOCK",
+    "severity": 2,
+    "confidence": 0.73,
+    "label": "Regulatory Shock",
+    "generated_at": "2026-08-11T18:30:31.839Z",
     "days_in_state": 0,
     "stale": false,
-    "reasoning": "Middle East tension lifts oil prices and fuels risk‑off sentiment, dominating market outlook",
+    "reasoning": "Recent headlines cluster around SEBI/option curbs and bullion vault rules, indicating a regulatory‑focused market backdrop.",
     "key_events": [
-      "Oil climbs 5% as Iran, US both demand compensation and Hormuz hopes fade (Economic Times)",
-      "US bonds fall as markets weight inflation, Middle East risks (Economic Times)",
-      "Yen sinks as effect of US-Japan intervention fades (FT Markets)",
-      "AI will boost oil and gas production more than green energy, report finds (FT Markets)",
-      "US Stocks: Nasdaq ends down as expectations of Hormuz deal fade (Economic Times)"
+      "CAS may cause near-term drag in index-options trading (Business Standard)",
+      "SEBI proposes wider vaulting norms for bullion ETFs and derivatives (Business Standard)",
+      "India govt says retail option trader losses fell after regulatory curbs (Economic Times)",
+      "SBI returns to dollar bond market, pricing five‑year notes 88 bps over US Treasury (Economic Times)",
+      "Gold edges higher near two‑month peak ahead of US inflation data (Economic Times)"
     ],
     "classifier_provider": "groq",
     "source_health": {
@@ -42,143 +42,116 @@
     },
     "sector_impacts": [
       {
-        "sector": "Oil & Gas",
-        "impact": 3,
-        "reason": "Oil price jump boosts earnings outlook"
-      },
-      {
-        "sector": "Energy",
-        "impact": 2,
-        "reason": "Higher crude prices improve margins"
-      },
-      {
-        "sector": "Defence",
-        "impact": 1,
-        "reason": "Geopolitical risk raises defence spending outlook"
-      },
-      {
-        "sector": "Power",
-        "impact": -1,
-        "reason": "Rising fuel costs pressure generation margins"
-      },
-      {
         "sector": "Banking",
-        "impact": -1,
-        "reason": "Risk‑off sentiment may curb credit growth"
+        "impact": -2,
+        "reason": "Option‑trading curbs likely reduce brokerage revenues"
+      },
+      {
+        "sector": "NBFC",
+        "impact": 2,
+        "reason": "Manappuram Finance profit surge benefits NBFC space"
+      },
+      {
+        "sector": "Metals",
+        "impact": 1,
+        "reason": "Gold price rise supports metal‑related exposure"
       }
     ]
   },
-  "catalyst_proximity_days": 4,
+  "catalyst_proximity_days": 3,
   "upcoming_catalysts": [
     {
       "date": "2026-08-15",
       "kind": "INDIA_INDEPENDENCE",
       "label": "Indian Independence Day (PM address)",
       "severity_potential": 1,
-      "days_until": 4
+      "days_until": 3
     }
   ],
   "position_cap_pct": 10,
   "branches": [
     {
       "key": "continue",
-      "label": "OIL_SHOCK continues at current severity",
-      "probability": 0.5,
+      "label": "REGULATORY_SHOCK continues at current severity",
+      "probability": 0.52,
       "duration_days": 14,
-      "n_analogs": 6,
+      "n_analogs": 4,
       "indeterminate": false,
       "beneficiaries": [
         {
           "sector_index_key": null,
-          "sector_label": "Energy",
-          "sector_bucket": "Energy",
-          "expected_return_pct": null,
-          "template_delta": 3,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "BENEFICIARY",
-          "stock_candidates": {
-            "sector": "Energy",
-            "candidates_total": 27,
-            "passed_filters": 9,
-            "excluded_conglomerates": [],
-            "stocks": [
-              {
-                "ticker": "CHENNPETRO",
-                "name": "Chennai Petroleum Corporation Limited",
-                "sector": "Energy",
-                "v4_score_100": 72.2,
-                "composite_score": 41.4,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 24.1,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "MRPL",
-                "name": "Mangalore Refinery and Petrochemicals Limited",
-                "sector": "Energy",
-                "v4_score_100": 67.3,
-                "composite_score": 35.4,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 11.8,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "ONGC",
-                "name": "Oil and Natural Gas Corporation Limited",
-                "sector": "Energy",
-                "v4_score_100": 54.4,
-                "composite_score": 33.3,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 22.9,
-                "verdict": "STRONG"
-              },
-              {
-                "ticker": "GESHIP",
-                "name": "The Great Eastern Shipping Company Limited",
-                "sector": "Energy",
-                "v4_score_100": 65,
-                "composite_score": 30.5,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 40.4,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "AEGISLOG",
-                "name": "Aegis Logistics Limited",
-                "sector": "Energy",
-                "v4_score_100": 57,
-                "composite_score": 24.7,
-                "valuation_band": "PREMIUM",
-                "upside_pct": -13.7,
-                "verdict": "STRONG"
-              }
-            ]
-          }
-        },
-        {
-          "sector_index_key": null,
-          "sector_label": "Consumer Staples",
-          "sector_bucket": "Consumer Staples",
+          "sector_label": "Software",
+          "sector_bucket": "Software",
           "expected_return_pct": null,
           "template_delta": 1,
           "n_analogs": 0,
           "source": "template",
           "direction": "BENEFICIARY",
           "stock_candidates": {
-            "sector": "Consumer Staples",
-            "candidates_total": 0,
-            "passed_filters": 0,
+            "sector": "Software",
+            "candidates_total": 79,
+            "passed_filters": 17,
             "excluded_conglomerates": [],
-            "stocks": []
+            "stocks": [
+              {
+                "ticker": "IVALUE",
+                "name": "iValue Infosolutions Limited",
+                "sector": "Software",
+                "v4_score_100": 73.5,
+                "composite_score": 50.3,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 41.7,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "ZAGGLE",
+                "name": "Zaggle Prepaid Ocean Services Limited",
+                "sector": "Software",
+                "v4_score_100": 65.4,
+                "composite_score": 48.8,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 111.2,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "UNIECOM",
+                "name": "Unicommerce eSolutions Limited",
+                "sector": "Software",
+                "v4_score_100": 54.8,
+                "composite_score": 48.3,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 52,
+                "verdict": "STRONG"
+              },
+              {
+                "ticker": "INTELLECT",
+                "name": "Intellect Design Arena Limited",
+                "sector": "Software",
+                "v4_score_100": 58.7,
+                "composite_score": 48.1,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 32.2,
+                "verdict": "STRONG"
+              },
+              {
+                "ticker": "RSYSTEMS",
+                "name": "R Systems International Limited",
+                "sector": "Software",
+                "v4_score_100": 57.9,
+                "composite_score": 47.4,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 48.4,
+                "verdict": "STRONG"
+              }
+            ]
           }
         }
       ],
       "losers": [
         {
           "sector_index_key": null,
-          "sector_label": "Automobiles",
-          "sector_bucket": "Automobiles",
+          "sector_label": "Real Estate",
+          "sector_bucket": "Real Estate",
           "expected_return_pct": null,
           "template_delta": -2,
           "n_analogs": 0,
@@ -187,18 +160,18 @@
         },
         {
           "sector_index_key": null,
-          "sector_label": "Software",
-          "sector_bucket": "Software",
+          "sector_label": "Consumer Staples",
+          "sector_bucket": "Consumer Staples",
           "expected_return_pct": null,
-          "template_delta": -1,
+          "template_delta": -2,
           "n_analogs": 0,
           "source": "template",
           "direction": "HIT"
         },
         {
           "sector_index_key": null,
-          "sector_label": "Real Estate",
-          "sector_bucket": "Real Estate",
+          "sector_label": "Banks",
+          "sector_bucket": "Banks",
           "expected_return_pct": null,
           "template_delta": -1,
           "n_analogs": 0,
@@ -209,38 +182,32 @@
       "reasoning": {
         "modulator_applied": 1,
         "base_probability": 0.55,
-        "analog_pool_regime": "OIL_SHOCK",
+        "analog_pool_regime": "REGULATORY_SHOCK",
         "analog_warnings": [
           "no sector-index data found for any analog date — run scripts/refresh-sector-indices.mjs --backfill-months=24"
         ],
         "analogs": [
           {
-            "date": "2026-05-20",
-            "label": "Oil Shock",
+            "date": "2017-07-01",
+            "label": "GST rollout (India)",
             "severity": 2,
-            "source": "heuristic"
+            "source": "manual-seed"
           },
           {
-            "date": "2026-05-26",
-            "label": "Oil Shock",
-            "severity": 2,
-            "source": "heuristic"
-          },
-          {
-            "date": "2026-05-28",
-            "label": "Oil Shock",
-            "severity": 2,
-            "source": "heuristic"
-          },
-          {
-            "date": "2026-05-31",
-            "label": "Oil Shock",
+            "date": "2026-05-29",
+            "label": "Regulatory Shock",
             "severity": 2,
             "source": "heuristic"
           },
           {
             "date": "2026-06-02",
-            "label": "Oil Shock",
+            "label": "Regulatory Shock",
+            "severity": 2,
+            "source": "heuristic"
+          },
+          {
+            "date": "2026-06-04",
+            "label": "Regulatory Shock",
             "severity": 2,
             "source": "heuristic"
           }
@@ -249,103 +216,86 @@
     },
     {
       "key": "escalate",
-      "label": "OIL_SHOCK escalates (severity +1)",
-      "probability": 0.14,
+      "label": "REGULATORY_SHOCK escalates (severity +1)",
+      "probability": 0.1,
       "duration_days": 7,
-      "n_analogs": 0,
-      "indeterminate": true,
+      "n_analogs": 5,
+      "indeterminate": false,
       "beneficiaries": [
         {
           "sector_index_key": null,
-          "sector_label": "Energy",
-          "sector_bucket": "Energy",
-          "expected_return_pct": null,
-          "template_delta": 3,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "BENEFICIARY",
-          "stock_candidates": {
-            "sector": "Energy",
-            "candidates_total": 27,
-            "passed_filters": 9,
-            "excluded_conglomerates": [],
-            "stocks": [
-              {
-                "ticker": "CHENNPETRO",
-                "name": "Chennai Petroleum Corporation Limited",
-                "sector": "Energy",
-                "v4_score_100": 72.2,
-                "composite_score": 41.4,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 24.1,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "MRPL",
-                "name": "Mangalore Refinery and Petrochemicals Limited",
-                "sector": "Energy",
-                "v4_score_100": 67.3,
-                "composite_score": 35.4,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 11.8,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "ONGC",
-                "name": "Oil and Natural Gas Corporation Limited",
-                "sector": "Energy",
-                "v4_score_100": 54.4,
-                "composite_score": 33.3,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 22.9,
-                "verdict": "STRONG"
-              },
-              {
-                "ticker": "GESHIP",
-                "name": "The Great Eastern Shipping Company Limited",
-                "sector": "Energy",
-                "v4_score_100": 65,
-                "composite_score": 30.5,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 40.4,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "AEGISLOG",
-                "name": "Aegis Logistics Limited",
-                "sector": "Energy",
-                "v4_score_100": 57,
-                "composite_score": 24.7,
-                "valuation_band": "PREMIUM",
-                "upside_pct": -13.7,
-                "verdict": "STRONG"
-              }
-            ]
-          }
-        },
-        {
-          "sector_index_key": null,
-          "sector_label": "Consumer Staples",
-          "sector_bucket": "Consumer Staples",
+          "sector_label": "Software",
+          "sector_bucket": "Software",
           "expected_return_pct": null,
           "template_delta": 1,
           "n_analogs": 0,
           "source": "template",
           "direction": "BENEFICIARY",
           "stock_candidates": {
-            "sector": "Consumer Staples",
-            "candidates_total": 0,
-            "passed_filters": 0,
+            "sector": "Software",
+            "candidates_total": 79,
+            "passed_filters": 17,
             "excluded_conglomerates": [],
-            "stocks": []
+            "stocks": [
+              {
+                "ticker": "IVALUE",
+                "name": "iValue Infosolutions Limited",
+                "sector": "Software",
+                "v4_score_100": 73.5,
+                "composite_score": 50.3,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 41.7,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "ZAGGLE",
+                "name": "Zaggle Prepaid Ocean Services Limited",
+                "sector": "Software",
+                "v4_score_100": 65.4,
+                "composite_score": 48.8,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 111.2,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "UNIECOM",
+                "name": "Unicommerce eSolutions Limited",
+                "sector": "Software",
+                "v4_score_100": 54.8,
+                "composite_score": 48.3,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 52,
+                "verdict": "STRONG"
+              },
+              {
+                "ticker": "INTELLECT",
+                "name": "Intellect Design Arena Limited",
+                "sector": "Software",
+                "v4_score_100": 58.7,
+                "composite_score": 48.1,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 32.2,
+                "verdict": "STRONG"
+              },
+              {
+                "ticker": "RSYSTEMS",
+                "name": "R Systems International Limited",
+                "sector": "Software",
+                "v4_score_100": 57.9,
+                "composite_score": 47.4,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 48.4,
+                "verdict": "STRONG"
+              }
+            ]
           }
         }
       ],
       "losers": [
         {
           "sector_index_key": null,
-          "sector_label": "Automobiles",
-          "sector_bucket": "Automobiles",
+          "sector_label": "Real Estate",
+          "sector_bucket": "Real Estate",
           "expected_return_pct": null,
           "template_delta": -2,
           "n_analogs": 0,
@@ -354,18 +304,18 @@
         },
         {
           "sector_index_key": null,
-          "sector_label": "Software",
-          "sector_bucket": "Software",
+          "sector_label": "Consumer Staples",
+          "sector_bucket": "Consumer Staples",
           "expected_return_pct": null,
-          "template_delta": -1,
+          "template_delta": -2,
           "n_analogs": 0,
           "source": "template",
           "direction": "HIT"
         },
         {
           "sector_index_key": null,
-          "sector_label": "Real Estate",
-          "sector_bucket": "Real Estate",
+          "sector_label": "Banks",
+          "sector_bucket": "Banks",
           "expected_return_pct": null,
           "template_delta": -1,
           "n_analogs": 0,
@@ -374,20 +324,50 @@
         }
       ],
       "reasoning": {
-        "modulator_applied": 1,
+        "modulator_applied": 0.7,
         "base_probability": 0.15,
-        "analog_pool_regime": "OIL_SHOCK (severity +1)",
+        "analog_pool_regime": "REGULATORY_SHOCK (severity +1)",
         "analog_warnings": [
-          "n_analogs=0 < 3 — INDETERMINATE; do not act on these sector ranges",
-          "only 0/15 sectors had data — partial analog"
+          "no sector-index data found for any analog date — run scripts/refresh-sector-indices.mjs --backfill-months=24"
         ],
-        "analogs": []
+        "analogs": [
+          {
+            "date": "2016-11-08",
+            "label": "Demonetisation (India)",
+            "severity": 4,
+            "source": "manual-seed"
+          },
+          {
+            "date": "2017-07-01",
+            "label": "GST rollout (India)",
+            "severity": 2,
+            "source": "manual-seed"
+          },
+          {
+            "date": "2026-05-29",
+            "label": "Regulatory Shock",
+            "severity": 2,
+            "source": "heuristic"
+          },
+          {
+            "date": "2026-06-02",
+            "label": "Regulatory Shock",
+            "severity": 2,
+            "source": "heuristic"
+          },
+          {
+            "date": "2026-06-04",
+            "label": "Regulatory Shock",
+            "severity": 2,
+            "source": "heuristic"
+          }
+        ]
       }
     },
     {
       "key": "de_escalate",
-      "label": "OIL_SHOCK de-escalates → CALM",
-      "probability": 0.18,
+      "label": "REGULATORY_SHOCK de-escalates → CALM",
+      "probability": 0.19,
       "duration_days": 21,
       "n_analogs": 9,
       "indeterminate": false,
@@ -436,103 +416,86 @@
     },
     {
       "key": "new_shock",
-      "label": "New unrelated shock supersedes OIL_SHOCK",
-      "probability": 0.18,
+      "label": "New unrelated shock supersedes REGULATORY_SHOCK",
+      "probability": 0.19,
       "duration_days": 7,
       "n_analogs": 0,
       "indeterminate": false,
       "beneficiaries": [
         {
           "sector_index_key": null,
-          "sector_label": "Energy",
-          "sector_bucket": "Energy",
-          "expected_return_pct": null,
-          "template_delta": 3,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "BENEFICIARY",
-          "stock_candidates": {
-            "sector": "Energy",
-            "candidates_total": 27,
-            "passed_filters": 9,
-            "excluded_conglomerates": [],
-            "stocks": [
-              {
-                "ticker": "CHENNPETRO",
-                "name": "Chennai Petroleum Corporation Limited",
-                "sector": "Energy",
-                "v4_score_100": 72.2,
-                "composite_score": 41.4,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 24.1,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "MRPL",
-                "name": "Mangalore Refinery and Petrochemicals Limited",
-                "sector": "Energy",
-                "v4_score_100": 67.3,
-                "composite_score": 35.4,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 11.8,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "ONGC",
-                "name": "Oil and Natural Gas Corporation Limited",
-                "sector": "Energy",
-                "v4_score_100": 54.4,
-                "composite_score": 33.3,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 22.9,
-                "verdict": "STRONG"
-              },
-              {
-                "ticker": "GESHIP",
-                "name": "The Great Eastern Shipping Company Limited",
-                "sector": "Energy",
-                "v4_score_100": 65,
-                "composite_score": 30.5,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 40.4,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "AEGISLOG",
-                "name": "Aegis Logistics Limited",
-                "sector": "Energy",
-                "v4_score_100": 57,
-                "composite_score": 24.7,
-                "valuation_band": "PREMIUM",
-                "upside_pct": -13.7,
-                "verdict": "STRONG"
-              }
-            ]
-          }
-        },
-        {
-          "sector_index_key": null,
-          "sector_label": "Consumer Staples",
-          "sector_bucket": "Consumer Staples",
+          "sector_label": "Software",
+          "sector_bucket": "Software",
           "expected_return_pct": null,
           "template_delta": 1,
           "n_analogs": 0,
           "source": "template",
           "direction": "BENEFICIARY",
           "stock_candidates": {
-            "sector": "Consumer Staples",
-            "candidates_total": 0,
-            "passed_filters": 0,
+            "sector": "Software",
+            "candidates_total": 79,
+            "passed_filters": 17,
             "excluded_conglomerates": [],
-            "stocks": []
+            "stocks": [
+              {
+                "ticker": "IVALUE",
+                "name": "iValue Infosolutions Limited",
+                "sector": "Software",
+                "v4_score_100": 73.5,
+                "composite_score": 50.3,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 41.7,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "ZAGGLE",
+                "name": "Zaggle Prepaid Ocean Services Limited",
+                "sector": "Software",
+                "v4_score_100": 65.4,
+                "composite_score": 48.8,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 111.2,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "UNIECOM",
+                "name": "Unicommerce eSolutions Limited",
+                "sector": "Software",
+                "v4_score_100": 54.8,
+                "composite_score": 48.3,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 52,
+                "verdict": "STRONG"
+              },
+              {
+                "ticker": "INTELLECT",
+                "name": "Intellect Design Arena Limited",
+                "sector": "Software",
+                "v4_score_100": 58.7,
+                "composite_score": 48.1,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 32.2,
+                "verdict": "STRONG"
+              },
+              {
+                "ticker": "RSYSTEMS",
+                "name": "R Systems International Limited",
+                "sector": "Software",
+                "v4_score_100": 57.9,
+                "composite_score": 47.4,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 48.4,
+                "verdict": "STRONG"
+              }
+            ]
           }
         }
       ],
       "losers": [
         {
           "sector_index_key": null,
-          "sector_label": "Automobiles",
-          "sector_bucket": "Automobiles",
+          "sector_label": "Real Estate",
+          "sector_bucket": "Real Estate",
           "expected_return_pct": null,
           "template_delta": -2,
           "n_analogs": 0,
@@ -541,18 +504,18 @@
         },
         {
           "sector_index_key": null,
-          "sector_label": "Software",
-          "sector_bucket": "Software",
+          "sector_label": "Consumer Staples",
+          "sector_bucket": "Consumer Staples",
           "expected_return_pct": null,
-          "template_delta": -1,
+          "template_delta": -2,
           "n_analogs": 0,
           "source": "template",
           "direction": "HIT"
         },
         {
           "sector_index_key": null,
-          "sector_label": "Real Estate",
-          "sector_bucket": "Real Estate",
+          "sector_label": "Banks",
+          "sector_bucket": "Banks",
           "expected_return_pct": null,
           "template_delta": -1,
           "n_analogs": 0,
@@ -571,13 +534,12 @@
   ],
   "caveats": [
     "Position-sizing cap: max 10% of portfolio per thesis — multi-thesis diversification mandatory.",
-    "INDETERMINATE branches (n<3 analogs): escalate — sector projections suppressed for these branches.",
     "Analog backtester is heuristic-seeded (~12 events); recommendations require user judgement, not auto-trading."
   ],
   "indeterminate": false,
   "audit": {
     "thesis_schema": "macro-thesis-v1",
-    "regime_generated_at": "2026-08-10T21:17:19.347Z",
+    "regime_generated_at": "2026-08-11T18:30:31.839Z",
     "regime_classifier": "groq",
     "scenario_engine_version": "scenario-prob-v1"
   }
