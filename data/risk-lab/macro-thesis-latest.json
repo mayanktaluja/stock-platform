@@ -1,21 +1,21 @@
 {
   "schema_version": "macro-thesis-v1",
-  "generated_at": "2026-08-12T02:34:26.911Z",
+  "generated_at": "2026-08-13T04:34:07.825Z",
   "regime": {
-    "regime": "REGULATORY_SHOCK",
-    "severity": 2,
-    "confidence": 0.73,
-    "label": "Regulatory Shock",
-    "generated_at": "2026-08-11T18:30:31.839Z",
+    "regime": "CALM",
+    "severity": 1,
+    "confidence": 0.7,
+    "label": "Calm",
+    "generated_at": "2026-08-12T18:30:21.101Z",
     "days_in_state": 0,
     "stale": false,
-    "reasoning": "Recent headlines cluster around SEBI/option curbs and bullion vault rules, indicating a regulatory‑focused market backdrop.",
+    "reasoning": "Headlines are mixed with no single macro driver prevailing.",
     "key_events": [
-      "CAS may cause near-term drag in index-options trading (Business Standard)",
-      "SEBI proposes wider vaulting norms for bullion ETFs and derivatives (Business Standard)",
-      "India govt says retail option trader losses fell after regulatory curbs (Economic Times)",
-      "SBI returns to dollar bond market, pricing five‑year notes 88 bps over US Treasury (Economic Times)",
-      "Gold edges higher near two‑month peak ahead of US inflation data (Economic Times)"
+      "INR stays pressured by elevated oil prices amid uncertainty surrounding Hormuz re-opening (Business Standard)",
+      "Greenland oil wildcatters delay controversial drilling plan (FT Markets)",
+      "Bank credit growth spikes to 19% YoY (Business Standard)",
+      "Goldman Sachs ups ETF push, set to acquire Neos Investments for up to $2.25 billion (Economic Times)",
+      "SEBI lowers stress testing limit for commodity derivatives (Economic Times)"
     ],
     "classifier_provider": "groq",
     "source_health": {
@@ -40,175 +40,65 @@
       "A": 1,
       "B": 3
     },
-    "sector_impacts": [
-      {
-        "sector": "Banking",
-        "impact": -2,
-        "reason": "Option‑trading curbs likely reduce brokerage revenues"
-      },
-      {
-        "sector": "NBFC",
-        "impact": 2,
-        "reason": "Manappuram Finance profit surge benefits NBFC space"
-      },
-      {
-        "sector": "Metals",
-        "impact": 1,
-        "reason": "Gold price rise supports metal‑related exposure"
-      }
-    ]
+    "sector_impacts": []
   },
-  "catalyst_proximity_days": 3,
+  "catalyst_proximity_days": 2,
   "upcoming_catalysts": [
     {
       "date": "2026-08-15",
       "kind": "INDIA_INDEPENDENCE",
       "label": "Indian Independence Day (PM address)",
       "severity_potential": 1,
-      "days_until": 3
+      "days_until": 2
     }
   ],
   "position_cap_pct": 10,
   "branches": [
     {
       "key": "continue",
-      "label": "REGULATORY_SHOCK continues at current severity",
+      "label": "CALM continues at current severity",
       "probability": 0.52,
       "duration_days": 14,
-      "n_analogs": 4,
+      "n_analogs": 9,
       "indeterminate": false,
-      "beneficiaries": [
-        {
-          "sector_index_key": null,
-          "sector_label": "Software",
-          "sector_bucket": "Software",
-          "expected_return_pct": null,
-          "template_delta": 1,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "BENEFICIARY",
-          "stock_candidates": {
-            "sector": "Software",
-            "candidates_total": 79,
-            "passed_filters": 17,
-            "excluded_conglomerates": [],
-            "stocks": [
-              {
-                "ticker": "IVALUE",
-                "name": "iValue Infosolutions Limited",
-                "sector": "Software",
-                "v4_score_100": 73.5,
-                "composite_score": 50.3,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 41.7,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "ZAGGLE",
-                "name": "Zaggle Prepaid Ocean Services Limited",
-                "sector": "Software",
-                "v4_score_100": 65.4,
-                "composite_score": 48.8,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 111.2,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "UNIECOM",
-                "name": "Unicommerce eSolutions Limited",
-                "sector": "Software",
-                "v4_score_100": 54.8,
-                "composite_score": 48.3,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 52,
-                "verdict": "STRONG"
-              },
-              {
-                "ticker": "INTELLECT",
-                "name": "Intellect Design Arena Limited",
-                "sector": "Software",
-                "v4_score_100": 58.7,
-                "composite_score": 48.1,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 32.2,
-                "verdict": "STRONG"
-              },
-              {
-                "ticker": "RSYSTEMS",
-                "name": "R Systems International Limited",
-                "sector": "Software",
-                "v4_score_100": 57.9,
-                "composite_score": 47.4,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 48.4,
-                "verdict": "STRONG"
-              }
-            ]
-          }
-        }
-      ],
-      "losers": [
-        {
-          "sector_index_key": null,
-          "sector_label": "Real Estate",
-          "sector_bucket": "Real Estate",
-          "expected_return_pct": null,
-          "template_delta": -2,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "HIT"
-        },
-        {
-          "sector_index_key": null,
-          "sector_label": "Consumer Staples",
-          "sector_bucket": "Consumer Staples",
-          "expected_return_pct": null,
-          "template_delta": -2,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "HIT"
-        },
-        {
-          "sector_index_key": null,
-          "sector_label": "Banks",
-          "sector_bucket": "Banks",
-          "expected_return_pct": null,
-          "template_delta": -1,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "HIT"
-        }
-      ],
+      "beneficiaries": [],
+      "losers": [],
       "reasoning": {
         "modulator_applied": 1,
         "base_probability": 0.55,
-        "analog_pool_regime": "REGULATORY_SHOCK",
+        "analog_pool_regime": "CALM",
         "analog_warnings": [
           "no sector-index data found for any analog date — run scripts/refresh-sector-indices.mjs --backfill-months=24"
         ],
         "analogs": [
           {
-            "date": "2017-07-01",
-            "label": "GST rollout (India)",
-            "severity": 2,
-            "source": "manual-seed"
-          },
-          {
-            "date": "2026-05-29",
-            "label": "Regulatory Shock",
-            "severity": 2,
+            "date": "2026-05-21",
+            "label": "Calm",
+            "severity": 1,
             "source": "heuristic"
           },
           {
-            "date": "2026-06-02",
-            "label": "Regulatory Shock",
-            "severity": 2,
+            "date": "2026-05-22",
+            "label": "Calm",
+            "severity": 1,
             "source": "heuristic"
           },
           {
-            "date": "2026-06-04",
-            "label": "Regulatory Shock",
-            "severity": 2,
+            "date": "2026-05-24",
+            "label": "Calm",
+            "severity": 1,
+            "source": "heuristic"
+          },
+          {
+            "date": "2026-05-25",
+            "label": "Calm",
+            "severity": 1,
+            "source": "heuristic"
+          },
+          {
+            "date": "2026-05-26",
+            "label": "Calm",
+            "severity": 1,
             "source": "heuristic"
           }
         ]
@@ -216,149 +106,49 @@
     },
     {
       "key": "escalate",
-      "label": "REGULATORY_SHOCK escalates (severity +1)",
+      "label": "CALM escalates (severity +1)",
       "probability": 0.1,
       "duration_days": 7,
-      "n_analogs": 5,
+      "n_analogs": 9,
       "indeterminate": false,
-      "beneficiaries": [
-        {
-          "sector_index_key": null,
-          "sector_label": "Software",
-          "sector_bucket": "Software",
-          "expected_return_pct": null,
-          "template_delta": 1,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "BENEFICIARY",
-          "stock_candidates": {
-            "sector": "Software",
-            "candidates_total": 79,
-            "passed_filters": 17,
-            "excluded_conglomerates": [],
-            "stocks": [
-              {
-                "ticker": "IVALUE",
-                "name": "iValue Infosolutions Limited",
-                "sector": "Software",
-                "v4_score_100": 73.5,
-                "composite_score": 50.3,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 41.7,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "ZAGGLE",
-                "name": "Zaggle Prepaid Ocean Services Limited",
-                "sector": "Software",
-                "v4_score_100": 65.4,
-                "composite_score": 48.8,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 111.2,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "UNIECOM",
-                "name": "Unicommerce eSolutions Limited",
-                "sector": "Software",
-                "v4_score_100": 54.8,
-                "composite_score": 48.3,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 52,
-                "verdict": "STRONG"
-              },
-              {
-                "ticker": "INTELLECT",
-                "name": "Intellect Design Arena Limited",
-                "sector": "Software",
-                "v4_score_100": 58.7,
-                "composite_score": 48.1,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 32.2,
-                "verdict": "STRONG"
-              },
-              {
-                "ticker": "RSYSTEMS",
-                "name": "R Systems International Limited",
-                "sector": "Software",
-                "v4_score_100": 57.9,
-                "composite_score": 47.4,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 48.4,
-                "verdict": "STRONG"
-              }
-            ]
-          }
-        }
-      ],
-      "losers": [
-        {
-          "sector_index_key": null,
-          "sector_label": "Real Estate",
-          "sector_bucket": "Real Estate",
-          "expected_return_pct": null,
-          "template_delta": -2,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "HIT"
-        },
-        {
-          "sector_index_key": null,
-          "sector_label": "Consumer Staples",
-          "sector_bucket": "Consumer Staples",
-          "expected_return_pct": null,
-          "template_delta": -2,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "HIT"
-        },
-        {
-          "sector_index_key": null,
-          "sector_label": "Banks",
-          "sector_bucket": "Banks",
-          "expected_return_pct": null,
-          "template_delta": -1,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "HIT"
-        }
-      ],
+      "beneficiaries": [],
+      "losers": [],
       "reasoning": {
         "modulator_applied": 0.7,
         "base_probability": 0.15,
-        "analog_pool_regime": "REGULATORY_SHOCK (severity +1)",
+        "analog_pool_regime": "CALM (severity +1)",
         "analog_warnings": [
           "no sector-index data found for any analog date — run scripts/refresh-sector-indices.mjs --backfill-months=24"
         ],
         "analogs": [
           {
-            "date": "2016-11-08",
-            "label": "Demonetisation (India)",
-            "severity": 4,
-            "source": "manual-seed"
-          },
-          {
-            "date": "2017-07-01",
-            "label": "GST rollout (India)",
-            "severity": 2,
-            "source": "manual-seed"
-          },
-          {
-            "date": "2026-05-29",
-            "label": "Regulatory Shock",
-            "severity": 2,
+            "date": "2026-05-21",
+            "label": "Calm",
+            "severity": 1,
             "source": "heuristic"
           },
           {
-            "date": "2026-06-02",
-            "label": "Regulatory Shock",
-            "severity": 2,
+            "date": "2026-05-22",
+            "label": "Calm",
+            "severity": 1,
             "source": "heuristic"
           },
           {
-            "date": "2026-06-04",
-            "label": "Regulatory Shock",
-            "severity": 2,
+            "date": "2026-05-24",
+            "label": "Calm",
+            "severity": 1,
+            "source": "heuristic"
+          },
+          {
+            "date": "2026-05-25",
+            "label": "Calm",
+            "severity": 1,
+            "source": "heuristic"
+          },
+          {
+            "date": "2026-05-26",
+            "label": "Calm",
+            "severity": 1,
             "source": "heuristic"
           }
         ]
@@ -366,7 +156,7 @@
     },
     {
       "key": "de_escalate",
-      "label": "REGULATORY_SHOCK de-escalates → CALM",
+      "label": "CALM de-escalates → CALM",
       "probability": 0.19,
       "duration_days": 21,
       "n_analogs": 9,
@@ -416,113 +206,13 @@
     },
     {
       "key": "new_shock",
-      "label": "New unrelated shock supersedes REGULATORY_SHOCK",
+      "label": "New unrelated shock supersedes CALM",
       "probability": 0.19,
       "duration_days": 7,
       "n_analogs": 0,
       "indeterminate": false,
-      "beneficiaries": [
-        {
-          "sector_index_key": null,
-          "sector_label": "Software",
-          "sector_bucket": "Software",
-          "expected_return_pct": null,
-          "template_delta": 1,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "BENEFICIARY",
-          "stock_candidates": {
-            "sector": "Software",
-            "candidates_total": 79,
-            "passed_filters": 17,
-            "excluded_conglomerates": [],
-            "stocks": [
-              {
-                "ticker": "IVALUE",
-                "name": "iValue Infosolutions Limited",
-                "sector": "Software",
-                "v4_score_100": 73.5,
-                "composite_score": 50.3,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 41.7,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "ZAGGLE",
-                "name": "Zaggle Prepaid Ocean Services Limited",
-                "sector": "Software",
-                "v4_score_100": 65.4,
-                "composite_score": 48.8,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 111.2,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "UNIECOM",
-                "name": "Unicommerce eSolutions Limited",
-                "sector": "Software",
-                "v4_score_100": 54.8,
-                "composite_score": 48.3,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 52,
-                "verdict": "STRONG"
-              },
-              {
-                "ticker": "INTELLECT",
-                "name": "Intellect Design Arena Limited",
-                "sector": "Software",
-                "v4_score_100": 58.7,
-                "composite_score": 48.1,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 32.2,
-                "verdict": "STRONG"
-              },
-              {
-                "ticker": "RSYSTEMS",
-                "name": "R Systems International Limited",
-                "sector": "Software",
-                "v4_score_100": 57.9,
-                "composite_score": 47.4,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 48.4,
-                "verdict": "STRONG"
-              }
-            ]
-          }
-        }
-      ],
-      "losers": [
-        {
-          "sector_index_key": null,
-          "sector_label": "Real Estate",
-          "sector_bucket": "Real Estate",
-          "expected_return_pct": null,
-          "template_delta": -2,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "HIT"
-        },
-        {
-          "sector_index_key": null,
-          "sector_label": "Consumer Staples",
-          "sector_bucket": "Consumer Staples",
-          "expected_return_pct": null,
-          "template_delta": -2,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "HIT"
-        },
-        {
-          "sector_index_key": null,
-          "sector_label": "Banks",
-          "sector_bucket": "Banks",
-          "expected_return_pct": null,
-          "template_delta": -1,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "HIT"
-        }
-      ],
+      "beneficiaries": [],
+      "losers": [],
       "reasoning": {
         "modulator_applied": 2,
         "base_probability": 0.1,
@@ -539,7 +229,7 @@
   "indeterminate": false,
   "audit": {
     "thesis_schema": "macro-thesis-v1",
-    "regime_generated_at": "2026-08-11T18:30:31.839Z",
+    "regime_generated_at": "2026-08-12T18:30:21.101Z",
     "regime_classifier": "groq",
     "scenario_engine_version": "scenario-prob-v1"
   }
