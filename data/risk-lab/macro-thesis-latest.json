@@ -1,20 +1,21 @@
 {
   "schema_version": "macro-thesis-v1",
-  "generated_at": "2026-08-16T03:22:46.197Z",
+  "generated_at": "2026-08-19T03:00:30.562Z",
   "regime": {
-    "regime": "CALM",
-    "severity": 1,
-    "confidence": 0.82,
-    "label": "Calm",
-    "generated_at": "2026-08-15T18:30:27.555Z",
+    "regime": "GLOBAL_RISK_OFF",
+    "severity": 3,
+    "confidence": 0.85,
+    "label": "Global Risk-Off",
+    "generated_at": "2026-08-18T18:30:29.138Z",
     "days_in_state": 0,
     "stale": false,
-    "reasoning": "Headlines are dominated by mixed corporate earnings and routine market commentary, no macro shock signals.",
+    "reasoning": "Geopolitical tension in Iran and rising US yields are driving a risk‑off mood, pressuring equities and the rupee while lifting oil prices.",
     "key_events": [
-      "THDC India profit rises 104% (Business Standard)",
-      "U.P. Power Corp reports Rs 6,850.85 cr loss (Business Standard)",
-      "Nifty consolidation to continue says Sudeep Shah (Economic Times)",
-      "IPO rush: 5 firms to raise Rs 5,499 cr next week (Economic Times)"
+      "US yields rise amid Iran worries, broader selloff (Economic Times)",
+      "US Stocks hit two-week lows as Iran tensions lift oil, bond yields (Economic Times)",
+      "Rising bond yields weigh on equities; Nifty 50 falls for 6th day (Business Standard)",
+      "INR weighed down by muted local equities as oil prices stay elevated (Business Standard)",
+      "India 10-year bond gives up post-policy gains as oil moves, RBI swap pullback weigh (Economic Times)"
     ],
     "classifier_provider": "groq",
     "source_health": {
@@ -41,71 +42,186 @@
     },
     "sector_impacts": [
       {
-        "sector": "Infrastructure",
-        "impact": 1,
-        "reason": "THDC India’s strong profit boost suggests infrastructure upside"
-      },
-      {
-        "sector": "Power",
-        "impact": -2,
-        "reason": "U.P. Power’s massive loss signals sector weakness"
-      },
-      {
-        "sector": "Banking",
-        "impact": -1,
-        "reason": "Several finance firms report profit declines, indicating pressure"
+        "sector": "Oil & Gas",
+        "impact": 2,
+        "reason": "Higher oil prices from Iran tension boost earnings"
       }
     ]
   },
-  "catalyst_proximity_days": null,
-  "upcoming_catalysts": [],
+  "catalyst_proximity_days": 29,
+  "upcoming_catalysts": [
+    {
+      "date": "2026-09-17",
+      "kind": "FOMC",
+      "label": "US FOMC Meeting — September 2026",
+      "severity_potential": 3,
+      "days_until": 29
+    }
+  ],
   "position_cap_pct": 10,
   "branches": [
     {
       "key": "continue",
-      "label": "CALM continues at current severity",
-      "probability": 0.58,
+      "label": "GLOBAL_RISK_OFF continues at current severity",
+      "probability": 0.55,
       "duration_days": 14,
-      "n_analogs": 9,
+      "n_analogs": 11,
       "indeterminate": false,
-      "beneficiaries": [],
-      "losers": [],
+      "beneficiaries": [
+        {
+          "sector_index_key": null,
+          "sector_label": "Consumer Staples",
+          "sector_bucket": "Consumer Staples",
+          "expected_return_pct": null,
+          "template_delta": 2,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "BENEFICIARY",
+          "stock_candidates": {
+            "sector": "Consumer Staples",
+            "candidates_total": 0,
+            "passed_filters": 0,
+            "excluded_conglomerates": [],
+            "stocks": []
+          }
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Pharmaceuticals",
+          "sector_bucket": "Pharmaceuticals",
+          "expected_return_pct": null,
+          "template_delta": 1,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "BENEFICIARY",
+          "stock_candidates": {
+            "sector": "Pharmaceuticals",
+            "candidates_total": 65,
+            "passed_filters": 25,
+            "excluded_conglomerates": [],
+            "stocks": [
+              {
+                "ticker": "STAR",
+                "name": "Strides Pharma Science Limited",
+                "sector": "Pharmaceuticals & Biotech",
+                "v4_score_100": 77.6,
+                "composite_score": 48.1,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 41,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "VIYASH",
+                "name": "Viyash Scientific Limited",
+                "sector": "Pharmaceuticals & Biotech",
+                "v4_score_100": 78,
+                "composite_score": 45.9,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 26.5,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "EMCURE",
+                "name": "Emcure Pharmaceuticals Limited",
+                "sector": "Pharmaceuticals & Biotech",
+                "v4_score_100": 75.5,
+                "composite_score": 44.2,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 18.1,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "GRANULES",
+                "name": "Granules India Limited",
+                "sector": "Pharmaceuticals & Biotech",
+                "v4_score_100": 65.3,
+                "composite_score": 40.5,
+                "valuation_band": "FAIR",
+                "upside_pct": 8,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "IOLCP",
+                "name": "IOL Chemicals and Pharmaceuticals Limited",
+                "sector": "Pharmaceuticals & Biotech",
+                "v4_score_100": 60.1,
+                "composite_score": 40.5,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 23.4,
+                "verdict": "TOP_PICK"
+              }
+            ]
+          }
+        }
+      ],
+      "losers": [
+        {
+          "sector_index_key": null,
+          "sector_label": "Real Estate",
+          "sector_bucket": "Real Estate",
+          "expected_return_pct": null,
+          "template_delta": -3,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Banks",
+          "sector_bucket": "Banks",
+          "expected_return_pct": null,
+          "template_delta": -2,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Metals & Mining",
+          "sector_bucket": "Metals & Mining",
+          "expected_return_pct": null,
+          "template_delta": -2,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
+        }
+      ],
       "reasoning": {
         "modulator_applied": 1,
         "base_probability": 0.55,
-        "analog_pool_regime": "CALM",
+        "analog_pool_regime": "GLOBAL_RISK_OFF",
         "analog_warnings": [
           "no sector-index data found for any analog date — run scripts/refresh-sector-indices.mjs --backfill-months=24"
         ],
         "analogs": [
           {
-            "date": "2026-05-21",
-            "label": "Calm",
-            "severity": 1,
+            "date": "2021-04-20",
+            "label": "COVID Delta 2nd wave peak",
+            "severity": 3,
+            "source": "manual-seed"
+          },
+          {
+            "date": "2023-03-10",
+            "label": "SVB collapse + global banking stress",
+            "severity": 3,
+            "source": "manual-seed"
+          },
+          {
+            "date": "2024-08-05",
+            "label": "Yen carry-trade unwind (global vol spike)",
+            "severity": 2,
+            "source": "manual-seed"
+          },
+          {
+            "date": "2026-05-29",
+            "label": "Global Risk-Off",
+            "severity": 2,
             "source": "heuristic"
           },
           {
-            "date": "2026-05-22",
-            "label": "Calm",
-            "severity": 1,
-            "source": "heuristic"
-          },
-          {
-            "date": "2026-05-24",
-            "label": "Calm",
-            "severity": 1,
-            "source": "heuristic"
-          },
-          {
-            "date": "2026-05-25",
-            "label": "Calm",
-            "severity": 1,
-            "source": "heuristic"
-          },
-          {
-            "date": "2026-05-26",
-            "label": "Calm",
-            "severity": 1,
+            "date": "2026-05-30",
+            "label": "Global Risk-Off",
+            "severity": 2,
             "source": "heuristic"
           }
         ]
@@ -113,49 +229,166 @@
     },
     {
       "key": "escalate",
-      "label": "CALM escalates (severity +1)",
-      "probability": 0.11,
+      "label": "GLOBAL_RISK_OFF escalates (severity +1)",
+      "probability": 0.15,
       "duration_days": 7,
-      "n_analogs": 9,
+      "n_analogs": 7,
       "indeterminate": false,
-      "beneficiaries": [],
-      "losers": [],
+      "beneficiaries": [
+        {
+          "sector_index_key": null,
+          "sector_label": "Consumer Staples",
+          "sector_bucket": "Consumer Staples",
+          "expected_return_pct": null,
+          "template_delta": 2,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "BENEFICIARY",
+          "stock_candidates": {
+            "sector": "Consumer Staples",
+            "candidates_total": 0,
+            "passed_filters": 0,
+            "excluded_conglomerates": [],
+            "stocks": []
+          }
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Pharmaceuticals",
+          "sector_bucket": "Pharmaceuticals",
+          "expected_return_pct": null,
+          "template_delta": 1,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "BENEFICIARY",
+          "stock_candidates": {
+            "sector": "Pharmaceuticals",
+            "candidates_total": 65,
+            "passed_filters": 25,
+            "excluded_conglomerates": [],
+            "stocks": [
+              {
+                "ticker": "STAR",
+                "name": "Strides Pharma Science Limited",
+                "sector": "Pharmaceuticals & Biotech",
+                "v4_score_100": 77.6,
+                "composite_score": 48.1,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 41,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "VIYASH",
+                "name": "Viyash Scientific Limited",
+                "sector": "Pharmaceuticals & Biotech",
+                "v4_score_100": 78,
+                "composite_score": 45.9,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 26.5,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "EMCURE",
+                "name": "Emcure Pharmaceuticals Limited",
+                "sector": "Pharmaceuticals & Biotech",
+                "v4_score_100": 75.5,
+                "composite_score": 44.2,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 18.1,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "GRANULES",
+                "name": "Granules India Limited",
+                "sector": "Pharmaceuticals & Biotech",
+                "v4_score_100": 65.3,
+                "composite_score": 40.5,
+                "valuation_band": "FAIR",
+                "upside_pct": 8,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "IOLCP",
+                "name": "IOL Chemicals and Pharmaceuticals Limited",
+                "sector": "Pharmaceuticals & Biotech",
+                "v4_score_100": 60.1,
+                "composite_score": 40.5,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 23.4,
+                "verdict": "TOP_PICK"
+              }
+            ]
+          }
+        }
+      ],
+      "losers": [
+        {
+          "sector_index_key": null,
+          "sector_label": "Real Estate",
+          "sector_bucket": "Real Estate",
+          "expected_return_pct": null,
+          "template_delta": -3,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Banks",
+          "sector_bucket": "Banks",
+          "expected_return_pct": null,
+          "template_delta": -2,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Metals & Mining",
+          "sector_bucket": "Metals & Mining",
+          "expected_return_pct": null,
+          "template_delta": -2,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
+        }
+      ],
       "reasoning": {
-        "modulator_applied": 0.7,
+        "modulator_applied": 1,
         "base_probability": 0.15,
-        "analog_pool_regime": "CALM (severity +1)",
+        "analog_pool_regime": "GLOBAL_RISK_OFF (severity +1)",
         "analog_warnings": [
           "no sector-index data found for any analog date — run scripts/refresh-sector-indices.mjs --backfill-months=24"
         ],
         "analogs": [
           {
-            "date": "2026-05-21",
-            "label": "Calm",
-            "severity": 1,
-            "source": "heuristic"
+            "date": "2008-09-15",
+            "label": "Lehman Brothers collapse",
+            "severity": 5,
+            "source": "manual-seed"
           },
           {
-            "date": "2026-05-22",
-            "label": "Calm",
-            "severity": 1,
-            "source": "heuristic"
+            "date": "2020-03-16",
+            "label": "COVID-19 circuit-breaker crash",
+            "severity": 5,
+            "source": "manual-seed"
           },
           {
-            "date": "2026-05-24",
-            "label": "Calm",
-            "severity": 1,
-            "source": "heuristic"
+            "date": "2021-04-20",
+            "label": "COVID Delta 2nd wave peak",
+            "severity": 3,
+            "source": "manual-seed"
           },
           {
-            "date": "2026-05-25",
-            "label": "Calm",
-            "severity": 1,
-            "source": "heuristic"
+            "date": "2023-03-10",
+            "label": "SVB collapse + global banking stress",
+            "severity": 3,
+            "source": "manual-seed"
           },
           {
-            "date": "2026-05-26",
-            "label": "Calm",
-            "severity": 1,
+            "date": "2026-06-06",
+            "label": "Global Risk-Off",
+            "severity": 3,
             "source": "heuristic"
           }
         ]
@@ -163,8 +396,8 @@
     },
     {
       "key": "de_escalate",
-      "label": "CALM de-escalates → CALM",
-      "probability": 0.21,
+      "label": "GLOBAL_RISK_OFF de-escalates → CALM",
+      "probability": 0.2,
       "duration_days": 21,
       "n_analogs": 9,
       "indeterminate": false,
@@ -213,13 +446,130 @@
     },
     {
       "key": "new_shock",
-      "label": "New unrelated shock supersedes CALM",
+      "label": "New unrelated shock supersedes GLOBAL_RISK_OFF",
       "probability": 0.1,
       "duration_days": 7,
       "n_analogs": 0,
       "indeterminate": false,
-      "beneficiaries": [],
-      "losers": [],
+      "beneficiaries": [
+        {
+          "sector_index_key": null,
+          "sector_label": "Consumer Staples",
+          "sector_bucket": "Consumer Staples",
+          "expected_return_pct": null,
+          "template_delta": 2,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "BENEFICIARY",
+          "stock_candidates": {
+            "sector": "Consumer Staples",
+            "candidates_total": 0,
+            "passed_filters": 0,
+            "excluded_conglomerates": [],
+            "stocks": []
+          }
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Pharmaceuticals",
+          "sector_bucket": "Pharmaceuticals",
+          "expected_return_pct": null,
+          "template_delta": 1,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "BENEFICIARY",
+          "stock_candidates": {
+            "sector": "Pharmaceuticals",
+            "candidates_total": 65,
+            "passed_filters": 25,
+            "excluded_conglomerates": [],
+            "stocks": [
+              {
+                "ticker": "STAR",
+                "name": "Strides Pharma Science Limited",
+                "sector": "Pharmaceuticals & Biotech",
+                "v4_score_100": 77.6,
+                "composite_score": 48.1,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 41,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "VIYASH",
+                "name": "Viyash Scientific Limited",
+                "sector": "Pharmaceuticals & Biotech",
+                "v4_score_100": 78,
+                "composite_score": 45.9,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 26.5,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "EMCURE",
+                "name": "Emcure Pharmaceuticals Limited",
+                "sector": "Pharmaceuticals & Biotech",
+                "v4_score_100": 75.5,
+                "composite_score": 44.2,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 18.1,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "GRANULES",
+                "name": "Granules India Limited",
+                "sector": "Pharmaceuticals & Biotech",
+                "v4_score_100": 65.3,
+                "composite_score": 40.5,
+                "valuation_band": "FAIR",
+                "upside_pct": 8,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "IOLCP",
+                "name": "IOL Chemicals and Pharmaceuticals Limited",
+                "sector": "Pharmaceuticals & Biotech",
+                "v4_score_100": 60.1,
+                "composite_score": 40.5,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 23.4,
+                "verdict": "TOP_PICK"
+              }
+            ]
+          }
+        }
+      ],
+      "losers": [
+        {
+          "sector_index_key": null,
+          "sector_label": "Real Estate",
+          "sector_bucket": "Real Estate",
+          "expected_return_pct": null,
+          "template_delta": -3,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Banks",
+          "sector_bucket": "Banks",
+          "expected_return_pct": null,
+          "template_delta": -2,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Metals & Mining",
+          "sector_bucket": "Metals & Mining",
+          "expected_return_pct": null,
+          "template_delta": -2,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
+        }
+      ],
       "reasoning": {
         "modulator_applied": 1,
         "base_probability": 0.1,
@@ -236,7 +586,7 @@
   "indeterminate": false,
   "audit": {
     "thesis_schema": "macro-thesis-v1",
-    "regime_generated_at": "2026-08-15T18:30:27.555Z",
+    "regime_generated_at": "2026-08-18T18:30:29.138Z",
     "regime_classifier": "groq",
     "scenario_engine_version": "scenario-prob-v1"
   }
