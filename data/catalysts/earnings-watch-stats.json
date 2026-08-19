@@ -1,18 +1,18 @@
 {
   "schema_version": "earnings-watch-stats-v4",
-  "built_at": "2026-08-16T03:02:50.672Z",
-  "today_iso": "2026-08-16",
+  "built_at": "2026-08-19T02:40:22.393Z",
+  "today_iso": "2026-08-19",
   "window_days": 60,
-  "upstream_event_count": 30,
-  "upstream_fetched_at": "2026-08-15T19:14:32.102Z",
-  "event_count": 10,
-  "recent_results_count": 1594,
+  "upstream_event_count": 28,
+  "upstream_fetched_at": "2026-08-18T20:06:29.607Z",
+  "event_count": 9,
+  "recent_results_count": 1431,
   "past_window_days": 14,
   "bucket_by_days": {
-    "d0": 0,
-    "d1to3": 6,
-    "d4to7": 3,
-    "d8to14": 1,
+    "d0": 2,
+    "d1to3": 5,
+    "d4to7": 2,
+    "d8to14": 0,
     "d15to30": 0,
     "d31to60": 0
   },
@@ -20,63 +20,63 @@
     "by_data_quality": {
       "HIGH": 9,
       "MEDIUM": 0,
-      "LOW": 1
+      "LOW": 0
     },
     "by_pre_runup": {
-      "spike": 3,
-      "smooth": 2,
-      "lagging": 1,
-      "neutral": 4
+      "spike": 2,
+      "smooth": 3,
+      "lagging": 2,
+      "neutral": 2
     },
     "sector_count": 6,
     "top_sectors": [
       {
-        "sector": "Food, Beverage & Tobacco",
-        "count": 2
+        "sector": "Materials",
+        "count": 3
       },
       {
         "sector": "Capital Goods",
         "count": 2
       },
       {
-        "sector": "Materials",
-        "count": 2
-      },
-      {
-        "sector": "Media",
+        "sector": "Software",
         "count": 1
       },
       {
-        "sector": "Software",
+        "sector": "Healthcare",
+        "count": 1
+      },
+      {
+        "sector": "Pharmaceuticals & Biotech",
         "count": 1
       }
     ]
   },
   "predictions": {
     "by_verdict": {
-      "BEAT": 0,
+      "BEAT": 1,
       "INLINE": 3,
-      "MISS": 6,
-      "INSUFFICIENT_DATA": 1
+      "MISS": 5,
+      "INSUFFICIENT_DATA": 0
     },
-    "avg_confidence_pct": 60,
+    "avg_confidence_pct": 62,
     "confidence_cap_pct": 65,
     "predictor_version": "earnings-predict-v3-2026-05"
   },
   "playbooks": {
     "tradable_count": 9,
     "by_highlighted_branch": {
-      "RAISE": 3,
-      "MAINTAIN": 3,
-      "CUT": 3,
-      "none": 1
+      "RAISE": 5,
+      "MAINTAIN": 2,
+      "CUT": 2,
+      "none": 0
     },
     "playbook_version": "earnings-playbook-v1-2026-05"
   },
   "llm_stats": {
-    "total": 10,
+    "total": 9,
     "classified": 9,
-    "cache_hits": 3,
+    "cache_hits": 2,
     "llm_calls": 1,
     "heuristic": 5,
     "heuristic_cache_invalidations": 0,
