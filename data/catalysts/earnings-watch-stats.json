@@ -1,42 +1,38 @@
 {
   "schema_version": "earnings-watch-stats-v4",
-  "built_at": "2026-08-20T05:35:36.388Z",
-  "today_iso": "2026-08-20",
+  "built_at": "2026-08-20T19:14:45.951Z",
+  "today_iso": "2026-08-21",
   "window_days": 60,
-  "upstream_event_count": 30,
-  "upstream_fetched_at": "2026-08-20T03:38:35.007Z",
-  "event_count": 7,
-  "recent_results_count": 1343,
+  "upstream_event_count": 34,
+  "upstream_fetched_at": "2026-08-20T11:52:28.716Z",
+  "event_count": 6,
+  "recent_results_count": 1230,
   "past_window_days": 14,
   "bucket_by_days": {
     "d0": 2,
-    "d1to3": 3,
-    "d4to7": 2,
+    "d1to3": 1,
+    "d4to7": 3,
     "d8to14": 0,
     "d15to30": 0,
     "d31to60": 0
   },
   "signals": {
     "by_data_quality": {
-      "HIGH": 7,
+      "HIGH": 5,
       "MEDIUM": 0,
-      "LOW": 0
+      "LOW": 1
     },
     "by_pre_runup": {
-      "spike": 1,
+      "spike": 0,
       "smooth": 2,
       "lagging": 1,
       "neutral": 3
     },
-    "sector_count": 5,
+    "sector_count": 4,
     "top_sectors": [
       {
         "sector": "Materials",
-        "count": 3
-      },
-      {
-        "sector": "Healthcare",
-        "count": 1
+        "count": 2
       },
       {
         "sector": "Pharmaceuticals & Biotech",
@@ -55,33 +51,33 @@
   "predictions": {
     "by_verdict": {
       "BEAT": 1,
-      "INLINE": 2,
-      "MISS": 4,
-      "INSUFFICIENT_DATA": 0
+      "INLINE": 1,
+      "MISS": 3,
+      "INSUFFICIENT_DATA": 1
     },
     "avg_confidence_pct": 62,
     "confidence_cap_pct": 65,
     "predictor_version": "earnings-predict-v3-2026-05"
   },
   "playbooks": {
-    "tradable_count": 7,
+    "tradable_count": 5,
     "by_highlighted_branch": {
       "RAISE": 3,
-      "MAINTAIN": 3,
-      "CUT": 1,
-      "none": 0
+      "MAINTAIN": 2,
+      "CUT": 0,
+      "none": 1
     },
     "playbook_version": "earnings-playbook-v1-2026-05"
   },
   "llm_stats": {
-    "total": 7,
-    "classified": 7,
-    "cache_hits": 4,
+    "total": 6,
+    "classified": 5,
+    "cache_hits": 3,
     "llm_calls": 1,
-    "heuristic": 2,
+    "heuristic": 1,
     "heuristic_cache_invalidations": 0,
     "cross_floor_invalidations": 0,
-    "below_v3_floor": 2,
+    "below_v3_floor": 1,
     "composite_floor": 47,
     "llm_available": true,
     "skip_llm": false
