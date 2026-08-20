@@ -1,29 +1,29 @@
 {
   "schema_version": "earnings-health-v1",
-  "generated_at": "2026-08-19T02:56:31.934Z",
+  "generated_at": "2026-08-20T05:51:25.364Z",
   "resolved": {
     "count": 1095,
-    "delta_vs_prior": 23,
-    "prior_count": 1072
+    "delta_vs_prior": 0,
+    "prior_count": 1095
   },
   "llm_providers": {
     "groq": 0,
-    "gemini": 2,
-    "heuristic": 7,
+    "gemini": 1,
+    "heuristic": 6,
     "none": 0,
-    "total": 9
+    "total": 7
   },
   "llm_offline": false,
   "llm_heuristic_share_pct": 0,
   "llm_stats": {
-    "total": 9,
-    "classified": 9,
-    "cache_hits": 2,
+    "total": 7,
+    "classified": 7,
+    "cache_hits": 4,
     "llm_calls": 1,
-    "heuristic": 5,
+    "heuristic": 2,
     "heuristic_cache_invalidations": 0,
     "cross_floor_invalidations": 0,
-    "below_v3_floor": 5,
+    "below_v3_floor": 2,
     "composite_floor": 47,
     "llm_available": true,
     "skip_llm": false
@@ -31,7 +31,7 @@
   "cap_lift_gate": {
     "state": false,
     "enough_data_to_lift_cap": false,
-    "days_in_current_state": 95,
+    "days_in_current_state": 96,
     "current_resolved": 0,
     "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (1095 across all versions)",
     "detail": {
@@ -96,7 +96,7 @@
       "gate": {
         "state": false,
         "enough_data_to_lift_cap": false,
-        "days_in_current_state": 95,
+        "days_in_current_state": 96,
         "current_resolved": 0,
         "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (1095 across all versions)",
         "detail": {
@@ -170,10 +170,10 @@
     }
   },
   "archive_schema": {
-    "earnings-history-v5": 79
+    "earnings-history-v5": 80
   },
   "predictor_versions": {
-    "earnings-predict-v3-2026-05": 9
+    "earnings-predict-v3-2026-05": 7
   },
   "restatements": {
     "count": 0,
@@ -187,17 +187,17 @@
   },
   "insufficient_data": {
     "count_total": 108,
-    "count_7d": 3,
+    "count_7d": 1,
     "count_30d": 54,
     "count_prior_30d": 5,
     "trend_pct_30d_vs_prior": 980
   },
   "macro_regime": {
     "present": true,
-    "generated_at": "2026-08-18T18:30:29.138Z",
-    "age_hours": 8,
+    "generated_at": "2026-08-19T12:30:23.876Z",
+    "age_hours": 17,
     "classifier_provider": "groq",
-    "regime": "GLOBAL_RISK_OFF",
+    "regime": "OIL_SHOCK",
     "stale": false,
     "alert": null
   },
@@ -206,28 +206,28 @@
     "runtime_24h": null,
     "alert": null
   },
-  "history_files": 79,
+  "history_files": 80,
   "hit_rate_summary": {
     "schema_version": "hit-rate-summary-v1",
-    "generated_at": "2026-08-19T02:56:32.344Z",
+    "generated_at": "2026-08-20T05:51:25.829Z",
     "resolved_count": 972,
     "unresolved_count": 3045,
     "strict": {
       "hit_rate_pct": 41.4,
-      "ci_low_pct": 38.6,
-      "ci_high_pct": 44.3,
+      "ci_low_pct": 38.5,
+      "ci_high_pct": 44.5,
       "sample_size": 972
     },
     "lenient": {
       "hit_rate_pct": 79.8,
-      "ci_low_pct": 77.1,
+      "ci_low_pct": 77.3,
       "ci_high_pct": 82.3,
       "sample_size": 970
     },
     "catastrophic": {
       "rate_pct": 20.2,
       "ci_low_pct": 17.7,
-      "ci_high_pct": 22.8,
+      "ci_high_pct": 22.6,
       "sample_size": 970
     },
     "rolling_30": {
