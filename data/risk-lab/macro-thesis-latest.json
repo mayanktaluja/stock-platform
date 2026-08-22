@@ -1,23 +1,23 @@
 {
   "schema_version": "macro-thesis-v1",
-  "generated_at": "2026-08-20T19:34:14.044Z",
+  "generated_at": "2026-08-22T03:25:20.315Z",
   "regime": {
-    "regime": "CURRENCY_WEAKNESS",
-    "severity": 2,
-    "confidence": 0.72,
-    "label": "Currency Weakness",
-    "generated_at": "2026-08-20T10:40:37.066Z",
+    "regime": "RATE_HIKE",
+    "severity": 3,
+    "confidence": 0.7,
+    "label": "Rate Hike",
+    "generated_at": "2026-08-21T16:30:23.344Z",
     "days_in_state": 0,
     "stale": false,
-    "reasoning": "Dollar weakness and rising gold prices dominate headlines, nudging related sectors higher",
+    "reasoning": "Indian bond yields are hitting multi-month highs due to intensifying rate hike fears and RBI's unexpected policy shifts, despite some global bond market interventions.",
     "key_events": [
-      "US dollar index slips below 99 as Trump pushes lower rates (Business Standard)",
-      "Gold prices hit 2‑month high, boosting Muthoot and other gold financiers (Business Standard)",
-      "India and Japan deepen defence technology partnership (Business Standard)",
-      "Harold Hamm launches multibillion‑dollar Argentine shale drilling plan (FT Markets)",
-      "Titagarh Rail expected 5% revenue boost per Jefferies (Business Standard)"
+      "India bond yields hit two-month high as rate hike fears intensify (Economic Times)",
+      "India bonds log worst week in FY27 on RBI surprise U-turns (Economic Times)",
+      "RBI Central Board of Directors review current economic situation (Business Standard)",
+      "The bond scare and the balance of power (FT Markets)",
+      "Scott Bessent’s bond buybacks lift gold and bitcoin (FT Markets)"
     ],
-    "classifier_provider": "groq",
+    "classifier_provider": "gemini",
     "source_health": {
       "RBI Press": "blocked",
       "SEBI Press": "ok",
@@ -42,115 +42,115 @@
     },
     "sector_impacts": [
       {
+        "sector": "Banking",
+        "impact": -2,
+        "reason": "Rising bond yields can negatively impact bank treasury portfolios and increase borrowing costs."
+      },
+      {
         "sector": "NBFC",
-        "impact": 3,
-        "reason": "Gold loan demand surges with bullion rally"
+        "impact": -2,
+        "reason": "Higher interest rates increase funding costs for NBFCs, potentially squeezing margins and loan demand."
       },
       {
-        "sector": "Metals",
-        "impact": 2,
-        "reason": "Higher gold prices lift precious metals exposure"
+        "sector": "Real Estate",
+        "impact": -1,
+        "reason": "Increased interest rates can dampen housing demand by making mortgages more expensive."
       },
       {
-        "sector": "Defence",
-        "impact": 2,
-        "reason": "India‑Japan tech tie‑up boosts defence outlook"
+        "sector": "Automobile",
+        "impact": -1,
+        "reason": "Higher borrowing costs for consumers could reduce demand for auto loans and vehicle sales."
       },
       {
-        "sector": "Infrastructure",
-        "impact": 2,
-        "reason": "Titagarh Rail revenue boost signals infrastructure strength"
-      },
-      {
-        "sector": "Energy",
-        "impact": 1,
-        "reason": "New shale drilling plan hints at future oil supply growth"
+        "sector": "IT Services",
+        "impact": -1,
+        "reason": "Global rate hike fears and US market volatility could impact client spending and valuations."
       }
     ]
   },
-  "catalyst_proximity_days": 28,
+  "catalyst_proximity_days": 26,
   "upcoming_catalysts": [
     {
       "date": "2026-09-17",
       "kind": "FOMC",
       "label": "US FOMC Meeting — September 2026",
       "severity_potential": 3,
-      "days_until": 28
+      "days_until": 26
     }
   ],
   "position_cap_pct": 10,
   "branches": [
     {
       "key": "continue",
-      "label": "CURRENCY_WEAKNESS continues at current severity",
-      "probability": 0.58,
+      "label": "RATE_HIKE continues at current severity",
+      "probability": 0.55,
       "duration_days": 14,
-      "n_analogs": 0,
-      "indeterminate": true,
+      "n_analogs": 9,
+      "indeterminate": false,
       "beneficiaries": [
         {
           "sector_index_key": null,
-          "sector_label": "Software",
-          "sector_bucket": "Software",
+          "sector_label": "PSU Banks",
+          "sector_bucket": "PSU Banks",
           "expected_return_pct": null,
           "template_delta": 2,
           "n_analogs": 0,
           "source": "template",
           "direction": "BENEFICIARY",
           "stock_candidates": {
-            "sector": "Software",
-            "candidates_total": 59,
-            "passed_filters": 14,
+            "sector": "PSU Banks",
+            "candidates_total": 13,
+            "passed_filters": 13,
             "excluded_conglomerates": [],
             "stocks": [
               {
-                "ticker": "EXCELSOFT",
-                "name": "Excelsoft Technologies Limited",
-                "sector": "Software",
-                "v4_score_100": 70,
-                "composite_score": 54.2,
+                "ticker": "SURYODAY",
+                "name": "Suryoday Small Finance Bank Limited",
+                "sector": "Banks",
+                "v4_score_100": 71.8,
+                "composite_score": 57.2,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 78.4,
+                "upside_pct": 76.3,
                 "verdict": "TOP_PICK"
               },
               {
-                "ticker": "ZAGGLE",
-                "name": "Zaggle Prepaid Ocean Services Limited",
-                "sector": "Software",
-                "v4_score_100": 63,
-                "composite_score": 50.7,
+                "ticker": "CAPITALSFB",
+                "name": "Capital Small Finance Bank Limited",
+                "sector": "Banks",
+                "v4_score_100": 65,
+                "composite_score": 54,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 84.8,
+                "upside_pct": 48.8,
                 "verdict": "TOP_PICK"
               },
               {
-                "ticker": "IVALUE",
-                "name": "iValue Infosolutions Limited",
-                "sector": "Software",
-                "v4_score_100": 73.9,
-                "composite_score": 49.9,
+                "ticker": "HDFCBANK",
+                "name": "HDFC Bank Limited",
+                "sector": "Banks",
+                "v4_score_100": 49.2,
+                "composite_score": 45.2,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 40.9,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "INTELLECT",
-                "name": "Intellect Design Arena Limited",
-                "sector": "Software",
-                "v4_score_100": 55.1,
-                "composite_score": 49.9,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 39.6,
+                "upside_pct": 40.5,
                 "verdict": "STRONG"
               },
               {
-                "ticker": "CAPILLARY",
-                "name": "Capillary Technologies India Limited",
-                "sector": "Software",
-                "v4_score_100": 58.8,
-                "composite_score": 43.2,
+                "ticker": "FINOPB",
+                "name": "Fino Payments Bank Limited",
+                "sector": "Banks",
+                "v4_score_100": 48.2,
+                "composite_score": 41.8,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 26.7,
+                "upside_pct": 167.3,
+                "verdict": "STRONG"
+              },
+              {
+                "ticker": "UTKARSHBNK",
+                "name": "Utkarsh Small Finance Bank Limited",
+                "sector": "Banks",
+                "v4_score_100": 50.6,
+                "composite_score": 40.3,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 38.6,
                 "verdict": "STRONG"
               }
             ]
@@ -158,68 +158,68 @@
         },
         {
           "sector_index_key": null,
-          "sector_label": "Pharmaceuticals",
-          "sector_bucket": "Pharmaceuticals",
+          "sector_label": "Private Banks",
+          "sector_bucket": "Private Banks",
           "expected_return_pct": null,
           "template_delta": 1,
           "n_analogs": 0,
           "source": "template",
           "direction": "BENEFICIARY",
           "stock_candidates": {
-            "sector": "Pharmaceuticals",
-            "candidates_total": 66,
-            "passed_filters": 26,
+            "sector": "Private Banks",
+            "candidates_total": 13,
+            "passed_filters": 13,
             "excluded_conglomerates": [],
             "stocks": [
               {
-                "ticker": "STAR",
-                "name": "Strides Pharma Science Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 78.3,
-                "composite_score": 45.6,
+                "ticker": "SURYODAY",
+                "name": "Suryoday Small Finance Bank Limited",
+                "sector": "Banks",
+                "v4_score_100": 71.8,
+                "composite_score": 57.2,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 34.8,
+                "upside_pct": 76.3,
                 "verdict": "TOP_PICK"
               },
               {
-                "ticker": "VIYASH",
-                "name": "Viyash Scientific Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 76.7,
-                "composite_score": 43.8,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 21.2,
+                "ticker": "CAPITALSFB",
+                "name": "Capital Small Finance Bank Limited",
+                "sector": "Banks",
+                "v4_score_100": 65,
+                "composite_score": 54,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 48.8,
                 "verdict": "TOP_PICK"
               },
               {
-                "ticker": "EMCURE",
-                "name": "Emcure Pharmaceuticals Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 75,
-                "composite_score": 43.6,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 17.7,
-                "verdict": "TOP_PICK"
+                "ticker": "HDFCBANK",
+                "name": "HDFC Bank Limited",
+                "sector": "Banks",
+                "v4_score_100": 49.2,
+                "composite_score": 45.2,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 40.5,
+                "verdict": "STRONG"
               },
               {
-                "ticker": "GRANULES",
-                "name": "Granules India Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 65.5,
-                "composite_score": 41,
-                "valuation_band": "FAIR",
-                "upside_pct": 9.2,
-                "verdict": "TOP_PICK"
+                "ticker": "FINOPB",
+                "name": "Fino Payments Bank Limited",
+                "sector": "Banks",
+                "v4_score_100": 48.2,
+                "composite_score": 41.8,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 167.3,
+                "verdict": "STRONG"
               },
               {
-                "ticker": "AKUMS",
-                "name": "Akums Drugs and Pharmaceuticals Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 62.4,
-                "composite_score": 39.5,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 14.7,
-                "verdict": "TOP_PICK"
+                "ticker": "UTKARSHBNK",
+                "name": "Utkarsh Small Finance Bank Limited",
+                "sector": "Banks",
+                "v4_score_100": 50.6,
+                "composite_score": 40.3,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 38.6,
+                "verdict": "STRONG"
               }
             ]
           }
@@ -228,18 +228,28 @@
       "losers": [
         {
           "sector_index_key": null,
-          "sector_label": "Energy",
-          "sector_bucket": "Energy",
+          "sector_label": "Real Estate",
+          "sector_bucket": "Real Estate",
           "expected_return_pct": null,
-          "template_delta": -1,
+          "template_delta": -3,
           "n_analogs": 0,
           "source": "template",
           "direction": "HIT"
         },
         {
           "sector_index_key": null,
-          "sector_label": "Consumer Staples",
-          "sector_bucket": "Consumer Staples",
+          "sector_label": "Automobiles",
+          "sector_bucket": "Automobiles",
+          "expected_return_pct": null,
+          "template_delta": -2,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Capital Goods",
+          "sector_bucket": "Capital Goods",
           "expected_return_pct": null,
           "template_delta": -1,
           "n_analogs": 0,
@@ -250,85 +260,115 @@
       "reasoning": {
         "modulator_applied": 1,
         "base_probability": 0.55,
-        "analog_pool_regime": "CURRENCY_WEAKNESS",
+        "analog_pool_regime": "RATE_HIKE",
         "analog_warnings": [
-          "n_analogs=0 < 3 — INDETERMINATE; do not act on these sector ranges",
-          "only 0/15 sectors had data — partial analog"
+          "no sector-index data found for any analog date — run scripts/refresh-sector-indices.mjs --backfill-months=24"
         ],
-        "analogs": []
+        "analogs": [
+          {
+            "date": "2022-05-04",
+            "label": "RBI surprise repo rate hike",
+            "severity": 3,
+            "source": "manual-seed"
+          },
+          {
+            "date": "2026-05-20",
+            "label": "Rate Hike",
+            "severity": 2,
+            "source": "heuristic"
+          },
+          {
+            "date": "2026-05-23",
+            "label": "Rate Hike",
+            "severity": 2,
+            "source": "heuristic"
+          },
+          {
+            "date": "2026-06-04",
+            "label": "Rate Hike",
+            "severity": 2,
+            "source": "heuristic"
+          },
+          {
+            "date": "2026-06-05",
+            "label": "Rate Hike",
+            "severity": 2,
+            "source": "heuristic"
+          }
+        ]
       }
     },
     {
       "key": "escalate",
-      "label": "CURRENCY_WEAKNESS escalates (severity +1)",
-      "probability": 0.11,
+      "label": "RATE_HIKE escalates (severity +1)",
+      "probability": 0.15,
       "duration_days": 7,
-      "n_analogs": 0,
-      "indeterminate": true,
+      "n_analogs": 3,
+      "indeterminate": false,
       "beneficiaries": [
         {
           "sector_index_key": null,
-          "sector_label": "Software",
-          "sector_bucket": "Software",
+          "sector_label": "PSU Banks",
+          "sector_bucket": "PSU Banks",
           "expected_return_pct": null,
           "template_delta": 2,
           "n_analogs": 0,
           "source": "template",
           "direction": "BENEFICIARY",
           "stock_candidates": {
-            "sector": "Software",
-            "candidates_total": 59,
-            "passed_filters": 14,
+            "sector": "PSU Banks",
+            "candidates_total": 13,
+            "passed_filters": 13,
             "excluded_conglomerates": [],
             "stocks": [
               {
-                "ticker": "EXCELSOFT",
-                "name": "Excelsoft Technologies Limited",
-                "sector": "Software",
-                "v4_score_100": 70,
-                "composite_score": 54.2,
+                "ticker": "SURYODAY",
+                "name": "Suryoday Small Finance Bank Limited",
+                "sector": "Banks",
+                "v4_score_100": 71.8,
+                "composite_score": 57.2,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 78.4,
+                "upside_pct": 76.3,
                 "verdict": "TOP_PICK"
               },
               {
-                "ticker": "ZAGGLE",
-                "name": "Zaggle Prepaid Ocean Services Limited",
-                "sector": "Software",
-                "v4_score_100": 63,
-                "composite_score": 50.7,
+                "ticker": "CAPITALSFB",
+                "name": "Capital Small Finance Bank Limited",
+                "sector": "Banks",
+                "v4_score_100": 65,
+                "composite_score": 54,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 84.8,
+                "upside_pct": 48.8,
                 "verdict": "TOP_PICK"
               },
               {
-                "ticker": "IVALUE",
-                "name": "iValue Infosolutions Limited",
-                "sector": "Software",
-                "v4_score_100": 73.9,
-                "composite_score": 49.9,
+                "ticker": "HDFCBANK",
+                "name": "HDFC Bank Limited",
+                "sector": "Banks",
+                "v4_score_100": 49.2,
+                "composite_score": 45.2,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 40.9,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "INTELLECT",
-                "name": "Intellect Design Arena Limited",
-                "sector": "Software",
-                "v4_score_100": 55.1,
-                "composite_score": 49.9,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 39.6,
+                "upside_pct": 40.5,
                 "verdict": "STRONG"
               },
               {
-                "ticker": "CAPILLARY",
-                "name": "Capillary Technologies India Limited",
-                "sector": "Software",
-                "v4_score_100": 58.8,
-                "composite_score": 43.2,
+                "ticker": "FINOPB",
+                "name": "Fino Payments Bank Limited",
+                "sector": "Banks",
+                "v4_score_100": 48.2,
+                "composite_score": 41.8,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 26.7,
+                "upside_pct": 167.3,
+                "verdict": "STRONG"
+              },
+              {
+                "ticker": "UTKARSHBNK",
+                "name": "Utkarsh Small Finance Bank Limited",
+                "sector": "Banks",
+                "v4_score_100": 50.6,
+                "composite_score": 40.3,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 38.6,
                 "verdict": "STRONG"
               }
             ]
@@ -336,68 +376,68 @@
         },
         {
           "sector_index_key": null,
-          "sector_label": "Pharmaceuticals",
-          "sector_bucket": "Pharmaceuticals",
+          "sector_label": "Private Banks",
+          "sector_bucket": "Private Banks",
           "expected_return_pct": null,
           "template_delta": 1,
           "n_analogs": 0,
           "source": "template",
           "direction": "BENEFICIARY",
           "stock_candidates": {
-            "sector": "Pharmaceuticals",
-            "candidates_total": 66,
-            "passed_filters": 26,
+            "sector": "Private Banks",
+            "candidates_total": 13,
+            "passed_filters": 13,
             "excluded_conglomerates": [],
             "stocks": [
               {
-                "ticker": "STAR",
-                "name": "Strides Pharma Science Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 78.3,
-                "composite_score": 45.6,
+                "ticker": "SURYODAY",
+                "name": "Suryoday Small Finance Bank Limited",
+                "sector": "Banks",
+                "v4_score_100": 71.8,
+                "composite_score": 57.2,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 34.8,
+                "upside_pct": 76.3,
                 "verdict": "TOP_PICK"
               },
               {
-                "ticker": "VIYASH",
-                "name": "Viyash Scientific Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 76.7,
-                "composite_score": 43.8,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 21.2,
+                "ticker": "CAPITALSFB",
+                "name": "Capital Small Finance Bank Limited",
+                "sector": "Banks",
+                "v4_score_100": 65,
+                "composite_score": 54,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 48.8,
                 "verdict": "TOP_PICK"
               },
               {
-                "ticker": "EMCURE",
-                "name": "Emcure Pharmaceuticals Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 75,
-                "composite_score": 43.6,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 17.7,
-                "verdict": "TOP_PICK"
+                "ticker": "HDFCBANK",
+                "name": "HDFC Bank Limited",
+                "sector": "Banks",
+                "v4_score_100": 49.2,
+                "composite_score": 45.2,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 40.5,
+                "verdict": "STRONG"
               },
               {
-                "ticker": "GRANULES",
-                "name": "Granules India Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 65.5,
-                "composite_score": 41,
-                "valuation_band": "FAIR",
-                "upside_pct": 9.2,
-                "verdict": "TOP_PICK"
+                "ticker": "FINOPB",
+                "name": "Fino Payments Bank Limited",
+                "sector": "Banks",
+                "v4_score_100": 48.2,
+                "composite_score": 41.8,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 167.3,
+                "verdict": "STRONG"
               },
               {
-                "ticker": "AKUMS",
-                "name": "Akums Drugs and Pharmaceuticals Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 62.4,
-                "composite_score": 39.5,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 14.7,
-                "verdict": "TOP_PICK"
+                "ticker": "UTKARSHBNK",
+                "name": "Utkarsh Small Finance Bank Limited",
+                "sector": "Banks",
+                "v4_score_100": 50.6,
+                "composite_score": 40.3,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 38.6,
+                "verdict": "STRONG"
               }
             ]
           }
@@ -406,18 +446,28 @@
       "losers": [
         {
           "sector_index_key": null,
-          "sector_label": "Energy",
-          "sector_bucket": "Energy",
+          "sector_label": "Real Estate",
+          "sector_bucket": "Real Estate",
           "expected_return_pct": null,
-          "template_delta": -1,
+          "template_delta": -3,
           "n_analogs": 0,
           "source": "template",
           "direction": "HIT"
         },
         {
           "sector_index_key": null,
-          "sector_label": "Consumer Staples",
-          "sector_bucket": "Consumer Staples",
+          "sector_label": "Automobiles",
+          "sector_bucket": "Automobiles",
+          "expected_return_pct": null,
+          "template_delta": -2,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Capital Goods",
+          "sector_bucket": "Capital Goods",
           "expected_return_pct": null,
           "template_delta": -1,
           "n_analogs": 0,
@@ -426,20 +476,38 @@
         }
       ],
       "reasoning": {
-        "modulator_applied": 0.7,
+        "modulator_applied": 1,
         "base_probability": 0.15,
-        "analog_pool_regime": "CURRENCY_WEAKNESS (severity +1)",
+        "analog_pool_regime": "RATE_HIKE (severity +1)",
         "analog_warnings": [
-          "n_analogs=0 < 3 — INDETERMINATE; do not act on these sector ranges",
-          "only 0/15 sectors had data — partial analog"
+          "no sector-index data found for any analog date — run scripts/refresh-sector-indices.mjs --backfill-months=24"
         ],
-        "analogs": []
+        "analogs": [
+          {
+            "date": "2022-05-04",
+            "label": "RBI surprise repo rate hike",
+            "severity": 3,
+            "source": "manual-seed"
+          },
+          {
+            "date": "2026-06-05",
+            "label": "Rate Hike",
+            "severity": 3,
+            "source": "heuristic"
+          },
+          {
+            "date": "2026-06-06",
+            "label": "Rate Hike",
+            "severity": 3,
+            "source": "heuristic"
+          }
+        ]
       }
     },
     {
       "key": "de_escalate",
-      "label": "CURRENCY_WEAKNESS de-escalates → CALM",
-      "probability": 0.21,
+      "label": "RATE_HIKE de-escalates → CALM",
+      "probability": 0.2,
       "duration_days": 21,
       "n_analogs": 9,
       "indeterminate": false,
@@ -488,7 +556,7 @@
     },
     {
       "key": "new_shock",
-      "label": "New unrelated shock supersedes CURRENCY_WEAKNESS",
+      "label": "New unrelated shock supersedes RATE_HIKE",
       "probability": 0.1,
       "duration_days": 7,
       "n_analogs": 0,
@@ -496,67 +564,67 @@
       "beneficiaries": [
         {
           "sector_index_key": null,
-          "sector_label": "Software",
-          "sector_bucket": "Software",
+          "sector_label": "PSU Banks",
+          "sector_bucket": "PSU Banks",
           "expected_return_pct": null,
           "template_delta": 2,
           "n_analogs": 0,
           "source": "template",
           "direction": "BENEFICIARY",
           "stock_candidates": {
-            "sector": "Software",
-            "candidates_total": 59,
-            "passed_filters": 14,
+            "sector": "PSU Banks",
+            "candidates_total": 13,
+            "passed_filters": 13,
             "excluded_conglomerates": [],
             "stocks": [
               {
-                "ticker": "EXCELSOFT",
-                "name": "Excelsoft Technologies Limited",
-                "sector": "Software",
-                "v4_score_100": 70,
-                "composite_score": 54.2,
+                "ticker": "SURYODAY",
+                "name": "Suryoday Small Finance Bank Limited",
+                "sector": "Banks",
+                "v4_score_100": 71.8,
+                "composite_score": 57.2,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 78.4,
+                "upside_pct": 76.3,
                 "verdict": "TOP_PICK"
               },
               {
-                "ticker": "ZAGGLE",
-                "name": "Zaggle Prepaid Ocean Services Limited",
-                "sector": "Software",
-                "v4_score_100": 63,
-                "composite_score": 50.7,
+                "ticker": "CAPITALSFB",
+                "name": "Capital Small Finance Bank Limited",
+                "sector": "Banks",
+                "v4_score_100": 65,
+                "composite_score": 54,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 84.8,
+                "upside_pct": 48.8,
                 "verdict": "TOP_PICK"
               },
               {
-                "ticker": "IVALUE",
-                "name": "iValue Infosolutions Limited",
-                "sector": "Software",
-                "v4_score_100": 73.9,
-                "composite_score": 49.9,
+                "ticker": "HDFCBANK",
+                "name": "HDFC Bank Limited",
+                "sector": "Banks",
+                "v4_score_100": 49.2,
+                "composite_score": 45.2,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 40.9,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "INTELLECT",
-                "name": "Intellect Design Arena Limited",
-                "sector": "Software",
-                "v4_score_100": 55.1,
-                "composite_score": 49.9,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 39.6,
+                "upside_pct": 40.5,
                 "verdict": "STRONG"
               },
               {
-                "ticker": "CAPILLARY",
-                "name": "Capillary Technologies India Limited",
-                "sector": "Software",
-                "v4_score_100": 58.8,
-                "composite_score": 43.2,
+                "ticker": "FINOPB",
+                "name": "Fino Payments Bank Limited",
+                "sector": "Banks",
+                "v4_score_100": 48.2,
+                "composite_score": 41.8,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 26.7,
+                "upside_pct": 167.3,
+                "verdict": "STRONG"
+              },
+              {
+                "ticker": "UTKARSHBNK",
+                "name": "Utkarsh Small Finance Bank Limited",
+                "sector": "Banks",
+                "v4_score_100": 50.6,
+                "composite_score": 40.3,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 38.6,
                 "verdict": "STRONG"
               }
             ]
@@ -564,68 +632,68 @@
         },
         {
           "sector_index_key": null,
-          "sector_label": "Pharmaceuticals",
-          "sector_bucket": "Pharmaceuticals",
+          "sector_label": "Private Banks",
+          "sector_bucket": "Private Banks",
           "expected_return_pct": null,
           "template_delta": 1,
           "n_analogs": 0,
           "source": "template",
           "direction": "BENEFICIARY",
           "stock_candidates": {
-            "sector": "Pharmaceuticals",
-            "candidates_total": 66,
-            "passed_filters": 26,
+            "sector": "Private Banks",
+            "candidates_total": 13,
+            "passed_filters": 13,
             "excluded_conglomerates": [],
             "stocks": [
               {
-                "ticker": "STAR",
-                "name": "Strides Pharma Science Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 78.3,
-                "composite_score": 45.6,
+                "ticker": "SURYODAY",
+                "name": "Suryoday Small Finance Bank Limited",
+                "sector": "Banks",
+                "v4_score_100": 71.8,
+                "composite_score": 57.2,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 34.8,
+                "upside_pct": 76.3,
                 "verdict": "TOP_PICK"
               },
               {
-                "ticker": "VIYASH",
-                "name": "Viyash Scientific Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 76.7,
-                "composite_score": 43.8,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 21.2,
+                "ticker": "CAPITALSFB",
+                "name": "Capital Small Finance Bank Limited",
+                "sector": "Banks",
+                "v4_score_100": 65,
+                "composite_score": 54,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 48.8,
                 "verdict": "TOP_PICK"
               },
               {
-                "ticker": "EMCURE",
-                "name": "Emcure Pharmaceuticals Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 75,
-                "composite_score": 43.6,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 17.7,
-                "verdict": "TOP_PICK"
+                "ticker": "HDFCBANK",
+                "name": "HDFC Bank Limited",
+                "sector": "Banks",
+                "v4_score_100": 49.2,
+                "composite_score": 45.2,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 40.5,
+                "verdict": "STRONG"
               },
               {
-                "ticker": "GRANULES",
-                "name": "Granules India Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 65.5,
-                "composite_score": 41,
-                "valuation_band": "FAIR",
-                "upside_pct": 9.2,
-                "verdict": "TOP_PICK"
+                "ticker": "FINOPB",
+                "name": "Fino Payments Bank Limited",
+                "sector": "Banks",
+                "v4_score_100": 48.2,
+                "composite_score": 41.8,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 167.3,
+                "verdict": "STRONG"
               },
               {
-                "ticker": "AKUMS",
-                "name": "Akums Drugs and Pharmaceuticals Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 62.4,
-                "composite_score": 39.5,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 14.7,
-                "verdict": "TOP_PICK"
+                "ticker": "UTKARSHBNK",
+                "name": "Utkarsh Small Finance Bank Limited",
+                "sector": "Banks",
+                "v4_score_100": 50.6,
+                "composite_score": 40.3,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 38.6,
+                "verdict": "STRONG"
               }
             ]
           }
@@ -634,18 +702,28 @@
       "losers": [
         {
           "sector_index_key": null,
-          "sector_label": "Energy",
-          "sector_bucket": "Energy",
+          "sector_label": "Real Estate",
+          "sector_bucket": "Real Estate",
           "expected_return_pct": null,
-          "template_delta": -1,
+          "template_delta": -3,
           "n_analogs": 0,
           "source": "template",
           "direction": "HIT"
         },
         {
           "sector_index_key": null,
-          "sector_label": "Consumer Staples",
-          "sector_bucket": "Consumer Staples",
+          "sector_label": "Automobiles",
+          "sector_bucket": "Automobiles",
+          "expected_return_pct": null,
+          "template_delta": -2,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Capital Goods",
+          "sector_bucket": "Capital Goods",
           "expected_return_pct": null,
           "template_delta": -1,
           "n_analogs": 0,
@@ -664,14 +742,13 @@
   ],
   "caveats": [
     "Position-sizing cap: max 10% of portfolio per thesis — multi-thesis diversification mandatory.",
-    "INDETERMINATE branches (n<3 analogs): continue, escalate — sector projections suppressed for these branches.",
     "Analog backtester is heuristic-seeded (~12 events); recommendations require user judgement, not auto-trading."
   ],
   "indeterminate": false,
   "audit": {
     "thesis_schema": "macro-thesis-v1",
-    "regime_generated_at": "2026-08-20T10:40:37.066Z",
-    "regime_classifier": "groq",
+    "regime_generated_at": "2026-08-21T16:30:23.344Z",
+    "regime_classifier": "gemini",
     "scenario_engine_version": "scenario-prob-v1"
   }
 }
