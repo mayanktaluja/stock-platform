@@ -1,7 +1,7 @@
 {
   "schemaVersion": "fo-screener-v1",
   "asOf": "2026-08-21",
-  "fetchedAt": "2026-08-21T19:27:23.332Z",
+  "fetchedAt": "2026-08-22T19:27:21.853Z",
   "urlUsed": "https://nsearchives.nseindia.com/content/fo/BhavCopy_NSE_FO_0_0_0_20260821_F_0000.csv.zip",
   "methodology": "OI aggregated across all stock-futures expiries (avoids rollover-Thursday phantoms); Δ vs prior session = ChngInOpnIntrst / (OI − ChngInOpnIntrst). Volume confirmation: today's vol vs 20-session mean. Decoupling co-flag: |OI Δ| ≥ 20% with |price Δ| < 0.5%. Score 0–100 = scaled OI move × volume confirmation × decouple boost × direction consistency. Educational content only.",
   "stats": {
@@ -285,23 +285,23 @@
         "interpretation": "Bulls adding fresh longs — OI up with price."
       },
       {
-        "underlying": "INDIANB",
+        "underlying": "CUMMINSIND",
         "instrumentType": "STF",
         "expiryCount": 3,
         "nearMonthExpiry": "2026-08-25",
-        "nearMonthSettle": 873.9,
-        "underlyingPrice": 876.77,
-        "oiTotal": 11999000,
-        "oiChangeTotal": 446000,
-        "volumeTotal": 7917,
-        "oiDeltaPct": 3.8604691422141437,
-        "priceDeltaPct": -0.07432393802526754,
+        "nearMonthSettle": 5123,
+        "underlyingPrice": 5107.5,
+        "oiTotal": 5346400,
+        "oiChangeTotal": 233400,
+        "volumeTotal": 15447,
+        "oiDeltaPct": 4.564834734989243,
+        "priceDeltaPct": -1.6509886734497985,
         "volumeRatio": null,
         "volumeBucket": "unknown",
-        "signal": "neutral",
+        "signal": "short_buildup",
         "decoupled": false,
-        "score": 4,
-        "interpretation": "No meaningful conviction — OI/price moves both within noise."
+        "score": 5,
+        "interpretation": "Bears adding fresh shorts — OI up while price drops."
       }
     ],
     "broader": [
