@@ -1,21 +1,20 @@
 {
   "schema_version": "macro-thesis-v1",
-  "generated_at": "2026-08-23T02:24:25.201Z",
+  "generated_at": "2026-08-24T03:32:36.509Z",
   "regime": {
-    "regime": "CALM",
-    "severity": 1,
-    "confidence": 0.72,
-    "label": "Calm",
-    "generated_at": "2026-08-22T06:30:25.085Z",
+    "regime": "OIL_SHOCK",
+    "severity": 3,
+    "confidence": 0.78,
+    "label": "Oil Shock",
+    "generated_at": "2026-08-23T18:30:21.611Z",
     "days_in_state": 0,
     "stale": false,
-    "reasoning": "Headlines are dominated by mixed corporate news with only modest geopolitical and currency cues, indicating no clear macro shock.",
+    "reasoning": "Multiple headlines flag high Russian oil reliance and geopolitics driving crude prices, pressuring Indian markets.",
     "key_events": [
-      "Gold regains momentum as weak dollar, safe haven demand and seasonal buying support prices (Economic Times)",
-      "West Asia tensions cloud market outlook, Nifty may stay rangebound (Economic Times)",
-      "Qatar cuts state spending at home and abroad as war shrinks economy (FT Markets)",
-      "ICICI Bank completes issuance of USD 750M Senior Notes (Business Standard)",
-      "Sugar stocks rally! How Balrampur Chini, Triveni Engineering, Shree Renuka Sugars performed (Economic Times)"
+      "India’s reliance on Russian oil hits all-time high (FT Markets)",
+      "Geopolitics, crude oil prices likely to drive stock market movements (Business Standard)",
+      "Occidental tries to free itself from the messy legacy of Anadarko deal (FT Markets)",
+      "Strong inflows via RBI's swap schemes lift reserves, fail to boost rupee (Business Standard)"
     ],
     "classifier_provider": "groq",
     "source_health": {
@@ -42,84 +41,206 @@
     },
     "sector_impacts": [
       {
-        "sector": "FMCG",
+        "sector": "Oil & Gas",
         "impact": 2,
-        "reason": "Sugar rally lifts FMCG sentiment"
+        "reason": "Higher crude prices boost margins"
       },
       {
-        "sector": "Banking",
+        "sector": "Energy",
         "impact": 2,
-        "reason": "Banks raise USD notes and get analyst favor"
+        "reason": "Elevated oil prices lift sector earnings"
       },
       {
-        "sector": "Pharma",
+        "sector": "Automobile",
         "impact": -2,
-        "reason": "FDA observations raise compliance concerns"
+        "reason": "Rising fuel costs squeeze demand"
       },
       {
-        "sector": "Real Estate",
-        "impact": 1,
-        "reason": "Commercial real estate transactions surge"
+        "sector": "FMCG",
+        "impact": -1,
+        "reason": "Input cost inflation pressures margins"
+      },
+      {
+        "sector": "Metals",
+        "impact": -1,
+        "reason": "Higher energy costs raise production expenses"
       }
     ]
   },
-  "catalyst_proximity_days": 25,
+  "catalyst_proximity_days": 24,
   "upcoming_catalysts": [
     {
       "date": "2026-09-17",
       "kind": "FOMC",
       "label": "US FOMC Meeting — September 2026",
       "severity_potential": 3,
-      "days_until": 25
+      "days_until": 24
     }
   ],
   "position_cap_pct": 10,
   "branches": [
     {
       "key": "continue",
-      "label": "CALM continues at current severity",
-      "probability": 0.58,
+      "label": "OIL_SHOCK continues at current severity",
+      "probability": 0.55,
       "duration_days": 14,
-      "n_analogs": 9,
+      "n_analogs": 6,
       "indeterminate": false,
-      "beneficiaries": [],
-      "losers": [],
+      "beneficiaries": [
+        {
+          "sector_index_key": null,
+          "sector_label": "Energy",
+          "sector_bucket": "Energy",
+          "expected_return_pct": null,
+          "template_delta": 3,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "BENEFICIARY",
+          "stock_candidates": {
+            "sector": "Energy",
+            "candidates_total": 21,
+            "passed_filters": 6,
+            "excluded_conglomerates": [],
+            "stocks": [
+              {
+                "ticker": "ONGC",
+                "name": "Oil and Natural Gas Corporation Limited",
+                "sector": "Energy",
+                "v4_score_100": 54,
+                "composite_score": 34,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 24.7,
+                "verdict": "STRONG"
+              },
+              {
+                "ticker": "CHENNPETRO",
+                "name": "Chennai Petroleum Corporation Limited",
+                "sector": "Energy",
+                "v4_score_100": 71.1,
+                "composite_score": 32.9,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 10.5,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "AEGISVOPAK",
+                "name": "Aegis Vopak Terminals Limited",
+                "sector": "Energy",
+                "v4_score_100": 53.1,
+                "composite_score": 31.5,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 18.3,
+                "verdict": "STRONG"
+              },
+              {
+                "ticker": "GESHIP",
+                "name": "The Great Eastern Shipping Company Limited",
+                "sector": "Energy",
+                "v4_score_100": 64.5,
+                "composite_score": 31.3,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 42.4,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "AEGISLOG",
+                "name": "Aegis Logistics Limited",
+                "sector": "Energy",
+                "v4_score_100": 52.6,
+                "composite_score": 24.3,
+                "valuation_band": "PREMIUM",
+                "upside_pct": -6.1,
+                "verdict": "STRONG"
+              }
+            ]
+          }
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Consumer Staples",
+          "sector_bucket": "Consumer Staples",
+          "expected_return_pct": null,
+          "template_delta": 1,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "BENEFICIARY",
+          "stock_candidates": {
+            "sector": "Consumer Staples",
+            "candidates_total": 0,
+            "passed_filters": 0,
+            "excluded_conglomerates": [],
+            "stocks": []
+          }
+        }
+      ],
+      "losers": [
+        {
+          "sector_index_key": null,
+          "sector_label": "Automobiles",
+          "sector_bucket": "Automobiles",
+          "expected_return_pct": null,
+          "template_delta": -2,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Software",
+          "sector_bucket": "Software",
+          "expected_return_pct": null,
+          "template_delta": -1,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Real Estate",
+          "sector_bucket": "Real Estate",
+          "expected_return_pct": null,
+          "template_delta": -1,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
+        }
+      ],
       "reasoning": {
         "modulator_applied": 1,
         "base_probability": 0.55,
-        "analog_pool_regime": "CALM",
+        "analog_pool_regime": "OIL_SHOCK",
         "analog_warnings": [
           "no sector-index data found for any analog date — run scripts/refresh-sector-indices.mjs --backfill-months=24"
         ],
         "analogs": [
           {
-            "date": "2026-05-21",
-            "label": "Calm",
-            "severity": 1,
-            "source": "heuristic"
-          },
-          {
-            "date": "2026-05-22",
-            "label": "Calm",
-            "severity": 1,
-            "source": "heuristic"
-          },
-          {
-            "date": "2026-05-24",
-            "label": "Calm",
-            "severity": 1,
-            "source": "heuristic"
-          },
-          {
-            "date": "2026-05-25",
-            "label": "Calm",
-            "severity": 1,
+            "date": "2026-05-20",
+            "label": "Oil Shock",
+            "severity": 2,
             "source": "heuristic"
           },
           {
             "date": "2026-05-26",
-            "label": "Calm",
-            "severity": 1,
+            "label": "Oil Shock",
+            "severity": 2,
+            "source": "heuristic"
+          },
+          {
+            "date": "2026-05-28",
+            "label": "Oil Shock",
+            "severity": 2,
+            "source": "heuristic"
+          },
+          {
+            "date": "2026-05-31",
+            "label": "Oil Shock",
+            "severity": 2,
+            "source": "heuristic"
+          },
+          {
+            "date": "2026-06-02",
+            "label": "Oil Shock",
+            "severity": 2,
             "source": "heuristic"
           }
         ]
@@ -127,58 +248,145 @@
     },
     {
       "key": "escalate",
-      "label": "CALM escalates (severity +1)",
-      "probability": 0.11,
+      "label": "OIL_SHOCK escalates (severity +1)",
+      "probability": 0.15,
       "duration_days": 7,
-      "n_analogs": 9,
-      "indeterminate": false,
-      "beneficiaries": [],
-      "losers": [],
-      "reasoning": {
-        "modulator_applied": 0.7,
-        "base_probability": 0.15,
-        "analog_pool_regime": "CALM (severity +1)",
-        "analog_warnings": [
-          "no sector-index data found for any analog date — run scripts/refresh-sector-indices.mjs --backfill-months=24"
-        ],
-        "analogs": [
-          {
-            "date": "2026-05-21",
-            "label": "Calm",
-            "severity": 1,
-            "source": "heuristic"
-          },
-          {
-            "date": "2026-05-22",
-            "label": "Calm",
-            "severity": 1,
-            "source": "heuristic"
-          },
-          {
-            "date": "2026-05-24",
-            "label": "Calm",
-            "severity": 1,
-            "source": "heuristic"
-          },
-          {
-            "date": "2026-05-25",
-            "label": "Calm",
-            "severity": 1,
-            "source": "heuristic"
-          },
-          {
-            "date": "2026-05-26",
-            "label": "Calm",
-            "severity": 1,
-            "source": "heuristic"
+      "n_analogs": 0,
+      "indeterminate": true,
+      "beneficiaries": [
+        {
+          "sector_index_key": null,
+          "sector_label": "Energy",
+          "sector_bucket": "Energy",
+          "expected_return_pct": null,
+          "template_delta": 3,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "BENEFICIARY",
+          "stock_candidates": {
+            "sector": "Energy",
+            "candidates_total": 21,
+            "passed_filters": 6,
+            "excluded_conglomerates": [],
+            "stocks": [
+              {
+                "ticker": "ONGC",
+                "name": "Oil and Natural Gas Corporation Limited",
+                "sector": "Energy",
+                "v4_score_100": 54,
+                "composite_score": 34,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 24.7,
+                "verdict": "STRONG"
+              },
+              {
+                "ticker": "CHENNPETRO",
+                "name": "Chennai Petroleum Corporation Limited",
+                "sector": "Energy",
+                "v4_score_100": 71.1,
+                "composite_score": 32.9,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 10.5,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "AEGISVOPAK",
+                "name": "Aegis Vopak Terminals Limited",
+                "sector": "Energy",
+                "v4_score_100": 53.1,
+                "composite_score": 31.5,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 18.3,
+                "verdict": "STRONG"
+              },
+              {
+                "ticker": "GESHIP",
+                "name": "The Great Eastern Shipping Company Limited",
+                "sector": "Energy",
+                "v4_score_100": 64.5,
+                "composite_score": 31.3,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 42.4,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "AEGISLOG",
+                "name": "Aegis Logistics Limited",
+                "sector": "Energy",
+                "v4_score_100": 52.6,
+                "composite_score": 24.3,
+                "valuation_band": "PREMIUM",
+                "upside_pct": -6.1,
+                "verdict": "STRONG"
+              }
+            ]
           }
-        ]
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Consumer Staples",
+          "sector_bucket": "Consumer Staples",
+          "expected_return_pct": null,
+          "template_delta": 1,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "BENEFICIARY",
+          "stock_candidates": {
+            "sector": "Consumer Staples",
+            "candidates_total": 0,
+            "passed_filters": 0,
+            "excluded_conglomerates": [],
+            "stocks": []
+          }
+        }
+      ],
+      "losers": [
+        {
+          "sector_index_key": null,
+          "sector_label": "Automobiles",
+          "sector_bucket": "Automobiles",
+          "expected_return_pct": null,
+          "template_delta": -2,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Software",
+          "sector_bucket": "Software",
+          "expected_return_pct": null,
+          "template_delta": -1,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Real Estate",
+          "sector_bucket": "Real Estate",
+          "expected_return_pct": null,
+          "template_delta": -1,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
+        }
+      ],
+      "reasoning": {
+        "modulator_applied": 1,
+        "base_probability": 0.15,
+        "analog_pool_regime": "OIL_SHOCK (severity +1)",
+        "analog_warnings": [
+          "n_analogs=0 < 3 — INDETERMINATE; do not act on these sector ranges",
+          "only 0/15 sectors had data — partial analog"
+        ],
+        "analogs": []
       }
     },
     {
       "key": "de_escalate",
-      "label": "CALM de-escalates → CALM",
-      "probability": 0.21,
+      "label": "OIL_SHOCK de-escalates → CALM",
+      "probability": 0.2,
       "duration_days": 21,
       "n_analogs": 9,
       "indeterminate": false,
@@ -227,13 +435,130 @@
     },
     {
       "key": "new_shock",
-      "label": "New unrelated shock supersedes CALM",
+      "label": "New unrelated shock supersedes OIL_SHOCK",
       "probability": 0.1,
       "duration_days": 7,
       "n_analogs": 0,
       "indeterminate": false,
-      "beneficiaries": [],
-      "losers": [],
+      "beneficiaries": [
+        {
+          "sector_index_key": null,
+          "sector_label": "Energy",
+          "sector_bucket": "Energy",
+          "expected_return_pct": null,
+          "template_delta": 3,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "BENEFICIARY",
+          "stock_candidates": {
+            "sector": "Energy",
+            "candidates_total": 21,
+            "passed_filters": 6,
+            "excluded_conglomerates": [],
+            "stocks": [
+              {
+                "ticker": "ONGC",
+                "name": "Oil and Natural Gas Corporation Limited",
+                "sector": "Energy",
+                "v4_score_100": 54,
+                "composite_score": 34,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 24.7,
+                "verdict": "STRONG"
+              },
+              {
+                "ticker": "CHENNPETRO",
+                "name": "Chennai Petroleum Corporation Limited",
+                "sector": "Energy",
+                "v4_score_100": 71.1,
+                "composite_score": 32.9,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 10.5,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "AEGISVOPAK",
+                "name": "Aegis Vopak Terminals Limited",
+                "sector": "Energy",
+                "v4_score_100": 53.1,
+                "composite_score": 31.5,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 18.3,
+                "verdict": "STRONG"
+              },
+              {
+                "ticker": "GESHIP",
+                "name": "The Great Eastern Shipping Company Limited",
+                "sector": "Energy",
+                "v4_score_100": 64.5,
+                "composite_score": 31.3,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 42.4,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "AEGISLOG",
+                "name": "Aegis Logistics Limited",
+                "sector": "Energy",
+                "v4_score_100": 52.6,
+                "composite_score": 24.3,
+                "valuation_band": "PREMIUM",
+                "upside_pct": -6.1,
+                "verdict": "STRONG"
+              }
+            ]
+          }
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Consumer Staples",
+          "sector_bucket": "Consumer Staples",
+          "expected_return_pct": null,
+          "template_delta": 1,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "BENEFICIARY",
+          "stock_candidates": {
+            "sector": "Consumer Staples",
+            "candidates_total": 0,
+            "passed_filters": 0,
+            "excluded_conglomerates": [],
+            "stocks": []
+          }
+        }
+      ],
+      "losers": [
+        {
+          "sector_index_key": null,
+          "sector_label": "Automobiles",
+          "sector_bucket": "Automobiles",
+          "expected_return_pct": null,
+          "template_delta": -2,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Software",
+          "sector_bucket": "Software",
+          "expected_return_pct": null,
+          "template_delta": -1,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Real Estate",
+          "sector_bucket": "Real Estate",
+          "expected_return_pct": null,
+          "template_delta": -1,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
+        }
+      ],
       "reasoning": {
         "modulator_applied": 1,
         "base_probability": 0.1,
@@ -245,12 +570,13 @@
   ],
   "caveats": [
     "Position-sizing cap: max 10% of portfolio per thesis — multi-thesis diversification mandatory.",
+    "INDETERMINATE branches (n<3 analogs): escalate — sector projections suppressed for these branches.",
     "Analog backtester is heuristic-seeded (~12 events); recommendations require user judgement, not auto-trading."
   ],
   "indeterminate": false,
   "audit": {
     "thesis_schema": "macro-thesis-v1",
-    "regime_generated_at": "2026-08-22T06:30:25.085Z",
+    "regime_generated_at": "2026-08-23T18:30:21.611Z",
     "regime_classifier": "groq",
     "scenario_engine_version": "scenario-prob-v1"
   }
