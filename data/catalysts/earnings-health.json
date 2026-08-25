@@ -1,6 +1,6 @@
 {
   "schema_version": "earnings-health-v1",
-  "generated_at": "2026-08-24T03:28:38.007Z",
+  "generated_at": "2026-08-25T01:26:01.033Z",
   "resolved": {
     "count": 1097,
     "delta_vs_prior": 0,
@@ -9,21 +9,21 @@
   "llm_providers": {
     "groq": 0,
     "gemini": 0,
-    "heuristic": 4,
-    "none": 3,
-    "total": 7
+    "heuristic": 7,
+    "none": 1,
+    "total": 8
   },
   "llm_offline": false,
   "llm_heuristic_share_pct": 0,
   "llm_stats": {
-    "total": 7,
-    "classified": 4,
-    "cache_hits": 2,
+    "total": 8,
+    "classified": 7,
+    "cache_hits": 1,
     "llm_calls": 0,
-    "heuristic": 2,
+    "heuristic": 6,
     "heuristic_cache_invalidations": 0,
     "cross_floor_invalidations": 0,
-    "below_v3_floor": 2,
+    "below_v3_floor": 6,
     "composite_floor": 47,
     "llm_available": true,
     "skip_llm": false
@@ -31,7 +31,7 @@
   "cap_lift_gate": {
     "state": false,
     "enough_data_to_lift_cap": false,
-    "days_in_current_state": 100,
+    "days_in_current_state": 101,
     "current_resolved": 0,
     "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (1097 across all versions)",
     "detail": {
@@ -96,7 +96,7 @@
       "gate": {
         "state": false,
         "enough_data_to_lift_cap": false,
-        "days_in_current_state": 100,
+        "days_in_current_state": 101,
         "current_resolved": 0,
         "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (1097 across all versions)",
         "detail": {
@@ -170,10 +170,10 @@
     }
   },
   "archive_schema": {
-    "earnings-history-v5": 84
+    "earnings-history-v5": 85
   },
   "predictor_versions": {
-    "earnings-predict-v3-2026-05": 7
+    "earnings-predict-v3-2026-05": 8
   },
   "restatements": {
     "count": 0,
@@ -194,10 +194,10 @@
   },
   "macro_regime": {
     "present": true,
-    "generated_at": "2026-08-23T18:30:21.611Z",
+    "generated_at": "2026-08-24T16:30:31.372Z",
     "age_hours": 9,
-    "classifier_provider": "groq",
-    "regime": "OIL_SHOCK",
+    "classifier_provider": "gemini",
+    "regime": "GLOBAL_RISK_OFF",
     "stale": false,
     "alert": null
   },
@@ -206,28 +206,28 @@
     "runtime_24h": null,
     "alert": null
   },
-  "history_files": 84,
+  "history_files": 85,
   "hit_rate_summary": {
     "schema_version": "hit-rate-summary-v1",
-    "generated_at": "2026-08-24T03:28:38.462Z",
+    "generated_at": "2026-08-25T01:26:01.515Z",
     "resolved_count": 974,
-    "unresolved_count": 3048,
+    "unresolved_count": 3049,
     "strict": {
       "hit_rate_pct": 41.4,
-      "ci_low_pct": 38.5,
-      "ci_high_pct": 44.4,
+      "ci_low_pct": 38.2,
+      "ci_high_pct": 44.6,
       "sample_size": 974
     },
     "lenient": {
       "hit_rate_pct": 79.8,
-      "ci_low_pct": 77.5,
-      "ci_high_pct": 82.5,
+      "ci_low_pct": 77.3,
+      "ci_high_pct": 82.2,
       "sample_size": 972
     },
     "catastrophic": {
       "rate_pct": 20.2,
-      "ci_low_pct": 17.7,
-      "ci_high_pct": 22.8,
+      "ci_low_pct": 17.9,
+      "ci_high_pct": 22.7,
       "sample_size": 972
     },
     "rolling_30": {
@@ -239,7 +239,7 @@
     "catastrophic_alert_threshold_pct": 12
   },
   "alerts": [
-    "LLM signal is 100% heuristic (4/7) — GROQ_API_KEY / GEMINI_API_KEY likely not configured on the refresh host, OR every cached entry is from a no-keys run and the cache hasn't been re-classified (try `node scripts/refresh-earnings.mjs --purge-heuristic-cache --yes` followed by a refresh)",
+    "LLM signal is 100% heuristic (7/8) — GROQ_API_KEY / GEMINI_API_KEY likely not configured on the refresh host, OR every cached entry is from a no-keys run and the cache hasn't been re-classified (try `node scripts/refresh-earnings.mjs --purge-heuristic-cache --yes` followed by a refresh)",
     "INSUFFICIENT_DATA predictions trending UP: 53 in last 30d vs 9 prior 30d (+488.9%) — predictor coverage may be degrading",
     "Catastrophic rate alert: rolling-30 23.3% (7/30) exceeds 12% threshold — Risk Lab promotion gate cannot clear"
   ],
