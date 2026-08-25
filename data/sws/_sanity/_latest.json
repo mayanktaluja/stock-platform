@@ -1,12 +1,12 @@
 {
-  "run_id": "2026-08-24T02-25-42-193Z",
-  "generated_at": "2026-08-24T03:39:04.766Z",
+  "run_id": "2026-08-25T00-21-12-723Z",
+  "generated_at": "2026-08-25T01:36:28.612Z",
   "verdict": "WARN",
   "block_count": 0,
-  "warn_count": 5,
-  "pass_count": 50,
+  "warn_count": 4,
+  "pass_count": 51,
   "total_checks": 55,
-  "summary_line": "verdict=WARN · scored=6199 · top30=30 · warns=5",
+  "summary_line": "verdict=WARN · scored=6228 · top30=30 · warns=4",
   "layers": {
     "L1_run_integrity": {
       "pass": 19,
@@ -44,7 +44,7 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {
-            "scored_count": 6199,
+            "scored_count": 6228,
             "threshold": 5000
           }
         },
@@ -54,7 +54,7 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "scored_count": 6199,
+            "scored_count": 6228,
             "threshold": 5400
           }
         },
@@ -64,7 +64,7 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "duration_seconds": 12162,
+            "duration_seconds": 12022,
             "max": 21600
           }
         },
@@ -81,7 +81,7 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {
-            "news_populated_count": 6126,
+            "news_populated_count": 6146,
             "threshold": 1000
           }
         },
@@ -91,7 +91,7 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "news_populated_count": 6126,
+            "news_populated_count": 6146,
             "threshold": 1500
           }
         },
@@ -101,8 +101,8 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {
-            "rewards_populated_count": 5209,
-            "risks_populated_count": 5789,
+            "rewards_populated_count": 5232,
+            "risks_populated_count": 5816,
             "threshold": 1000
           }
         },
@@ -112,7 +112,7 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "rewards_populated_count": 5209,
+            "rewards_populated_count": 5232,
             "threshold": 4500
           }
         },
@@ -122,7 +122,7 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "risks_populated_count": 5789,
+            "risks_populated_count": 5816,
             "threshold": 500
           }
         },
@@ -132,7 +132,7 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {
-            "age_hours": 1.28,
+            "age_hours": 1.32,
             "threshold": 20
           }
         },
@@ -142,9 +142,9 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {
-            "picks_scanned_at": "2026-08-24T02:21:23.007Z",
-            "lr_started_at": "2026-08-23T20:18:37.000Z",
-            "lr_finished_at": "2026-08-24T02:25:42.193Z",
+            "picks_scanned_at": "2026-08-25T00:16:31.618Z",
+            "lr_started_at": "2026-08-24T19:00:21.000Z",
+            "lr_finished_at": "2026-08-25T00:21:12.723Z",
             "drift_outside_run_seconds": 0,
             "slack_seconds": 60
           }
@@ -207,11 +207,11 @@
           "severity": "WARN",
           "ok": false,
           "detail": {
-            "count": 4,
+            "count": 7,
             "threshold": 25,
-            "nse_calendar_event_count": 7,
-            "nse_calendar_raw_event_count": 32,
-            "nse_calendar_fetched_at": "2026-08-23T23:41:21.134Z",
+            "nse_calendar_event_count": 8,
+            "nse_calendar_raw_event_count": 41,
+            "nse_calendar_fetched_at": "2026-08-24T22:20:44.261Z",
             "nse_calendar_window_days": 60,
             "severity_reason": "NSE 60-day Financial Results calendar is itself below the fixed threshold"
           }
@@ -222,15 +222,15 @@
           "severity": "WARN",
           "ok": false,
           "detail": {
-            "count": 4,
+            "count": 7,
             "threshold": 50
           }
         }
       ]
     },
     "L2_coverage_audit": {
-      "pass": 16,
-      "warn": 2,
+      "pass": 17,
+      "warn": 1,
       "block": 0,
       "checks": [
         {
@@ -250,9 +250,9 @@
             "warn_at": 85,
             "usable_count": 4738,
             "target_count": 5542,
-            "pe_coverage_pct": 64.76,
-            "fetched_at": "2026-08-23T23:41:21.857Z",
-            "age_days": 0.16
+            "pe_coverage_pct": 64.74,
+            "fetched_at": "2026-08-24T22:20:44.960Z",
+            "age_days": 0.14
           }
         },
         {
@@ -267,8 +267,8 @@
             "stale_fallback_usable": true,
             "usable_count": 4738,
             "target_count": 5542,
-            "fetched_at": "2026-08-23T23:41:21.857Z",
-            "age_days": 0.16
+            "fetched_at": "2026-08-24T22:20:44.960Z",
+            "age_days": 0.14
           }
         },
         {
@@ -277,7 +277,7 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "age_days": 0.16,
+            "age_days": 0.14,
             "stale_grace_days": 3
           }
         },
@@ -294,12 +294,12 @@
           "severity": "WARN",
           "ok": false,
           "detail": {
-            "coverage_pct": 64.76,
+            "coverage_pct": 64.74,
             "warn_at": 85,
-            "usable_count": 3589,
+            "usable_count": 3588,
             "target_count": 5542,
-            "fetched_at": "2026-08-23T23:41:21.857Z",
-            "age_days": 0.16
+            "fetched_at": "2026-08-24T22:20:44.960Z",
+            "age_days": 0.14
           }
         },
         {
@@ -308,14 +308,14 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {
-            "coverage_pct": 64.76,
+            "coverage_pct": 64.74,
             "block_at": 70,
             "stale_grace_days": 21,
             "stale_fallback_usable": true,
-            "usable_count": 3589,
+            "usable_count": 3588,
             "target_count": 5542,
-            "fetched_at": "2026-08-23T23:41:21.857Z",
-            "age_days": 0.16
+            "fetched_at": "2026-08-24T22:20:44.960Z",
+            "age_days": 0.14
           }
         },
         {
@@ -324,7 +324,7 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "age_days": 0.16,
+            "age_days": 0.14,
             "stale_grace_days": 21
           }
         },
@@ -351,22 +351,11 @@
           "layer": "L2_coverage_audit",
           "name": "coverage_within_tolerance",
           "severity": "WARN",
-          "ok": false,
+          "ok": true,
           "detail": {
-            "missing_count": 29,
+            "missing_count": 0,
             "tolerance": 5,
-            "sample": [
-              "ACGL",
-              "AMARJOTHI",
-              "ANDREWYU",
-              "ARDEE",
-              "CREDENT",
-              "EMPIND",
-              "HORIZONIND",
-              "KMCSHIL",
-              "KSE",
-              "LALITHAA"
-            ]
+            "sample": []
           }
         },
         {
@@ -375,10 +364,10 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {
-            "fresh_pct": 99.71,
+            "fresh_pct": 99.77,
             "threshold": 85,
-            "fresh_count": 5497,
-            "total": 5513,
+            "fresh_count": 5529,
+            "total": 5542,
             "scope": "universe_members",
             "orphans_excluded": 686
           }
@@ -389,10 +378,10 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "fresh_pct": 99.71,
+            "fresh_pct": 99.77,
             "threshold": 95,
-            "fresh_count": 5497,
-            "total": 5513,
+            "fresh_count": 5529,
+            "total": 5542,
             "scope": "universe_members",
             "orphans_excluded": 686
           }
@@ -403,19 +392,19 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "stale_pct": 0.29,
+            "stale_pct": 0.22,
             "warn_at": 5,
             "sample": [
               "507968",
-              "512595",
               "524322",
-              "530217",
               "531257",
               "534623",
               "538537",
               "539552",
               "AMIRCHAND",
-              "ASHIKA"
+              "ASHIKA",
+              "BSE_544773",
+              "HIRECT"
             ]
           }
         },
@@ -427,7 +416,7 @@
           "detail": {
             "orphan_count": 686,
             "warn_at": 800,
-            "deep_files": 6199,
+            "deep_files": 6228,
             "universe_size": 5542
           }
         },
@@ -480,7 +469,7 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {
-            "deep_files_scanned": 6199,
+            "deep_files_scanned": 6228,
             "read_errors": 0
           }
         },
@@ -490,8 +479,8 @@
           "severity": "WARN",
           "ok": false,
           "detail": {
-            "insane_pct": 0.163,
-            "insane_ticker_pct": 0.163,
+            "insane_pct": 0.162,
+            "insane_ticker_pct": 0.162,
             "insane_finding_count": 9,
             "insane_unique_tickers": 9,
             "warn_at": 0.1,
@@ -500,32 +489,32 @@
               {
                 "ticker": "514442",
                 "field": "upside_pct",
-                "value": 4683.2
+                "value": 4838.5
               },
               {
                 "ticker": "524727",
                 "field": "upside_pct",
-                "value": 30431.5
+                "value": 31626.2
               },
               {
                 "ticker": "ALEMBICLTD",
                 "field": "upside_pct",
-                "value": 512.8
+                "value": 519.8
               },
               {
                 "ticker": "GFLLIMITED",
                 "field": "upside_pct",
-                "value": 6313.7
+                "value": 6306.8
               },
               {
                 "ticker": "SPARC",
                 "field": "upside_pct",
-                "value": 916.7
+                "value": 925.4
               },
               {
                 "ticker": "V2RETAIL",
                 "field": "upside_pct",
-                "value": 943.6
+                "value": 950.8
               },
               {
                 "ticker": "509910",
@@ -565,8 +554,8 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {
-            "current_count": 986,
-            "current_total": 5534,
+            "current_count": 987,
+            "current_total": 5550,
             "current_pct": 17.8,
             "baseline_count": 986,
             "baseline_total": 5534,
@@ -641,7 +630,7 @@
           "ok": true,
           "detail": {
             "slug_fallback_count": 0,
-            "company_count": 5534,
+            "company_count": 5550,
             "fallback_pct": 0,
             "warn_at": 1
           }
@@ -654,7 +643,7 @@
           "detail": {
             "stale_vs_sibling_count": 13,
             "warn_at": 50,
-            "collapsed_listings_count": 665
+            "collapsed_listings_count": 678
           }
         },
         {
@@ -681,14 +670,14 @@
           "detail": {
             "stats": {
               "source": "loose",
-              "raw_files": 6086,
-              "raw_with_price": 6040,
-              "deep_files": 6199,
+              "raw_files": 6115,
+              "raw_with_price": 6069,
+              "deep_files": 6228,
               "raw_newer_than_deep": 0,
-              "raw_deep_checked": 6040,
-              "picks_cards_checked": 1948,
-              "raw_latest_fetched_at": "2026-08-23T23:41:14.388Z",
-              "raw_latest_price_as_of": "2026-08-21T00:00:00.000Z"
+              "raw_deep_checked": 6069,
+              "picks_cards_checked": 1965,
+              "raw_latest_fetched_at": "2026-08-24T22:20:37.521Z",
+              "raw_latest_price_as_of": "2026-08-24T00:00:00.000Z"
             },
             "sample": [],
             "finding_count": 0
@@ -707,20 +696,20 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "groq": "ok",
-            "gemini": "not_configured",
-            "classifierProvider": "groq"
+            "groq": "auth_error",
+            "gemini": "ok",
+            "classifierProvider": "gemini"
           }
         }
       ]
     }
   },
   "inputs": {
-    "scored_count": 6199,
-    "universe_size": 6199,
-    "started_at": "2026-08-23T20:18:37.000Z",
-    "finished_at": "2026-08-24T02:25:42.193Z",
-    "picks_scanned_at": "2026-08-24T02:21:23.007Z",
+    "scored_count": 6228,
+    "universe_size": 6228,
+    "started_at": "2026-08-24T19:00:21.000Z",
+    "finished_at": "2026-08-25T00:21:12.723Z",
+    "picks_scanned_at": "2026-08-25T00:16:31.618Z",
     "pipeline_status": "success"
   }
 }

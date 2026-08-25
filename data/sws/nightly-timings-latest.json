@@ -1,61 +1,61 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-24T03:40:53.000Z",
-  "started_at": "2026-08-23T20:18:31.000Z",
-  "finished_at": "2026-08-24T03:40:53.000Z",
-  "duration_seconds": 26542,
+  "generated_at": "2026-08-25T01:38:23.000Z",
+  "started_at": "2026-08-24T19:00:15.000Z",
+  "finished_at": "2026-08-25T01:38:23.000Z",
+  "duration_seconds": 23888,
   "target_publish_by_ist": "08:45",
   "stages": [
     {
       "stage": "early_aux_branch",
       "dependency": "git_sync",
-      "started_at": "2026-08-23T20:18:36.000Z",
-      "finished_at": "2026-08-23T22:25:41.000Z",
-      "duration_seconds": 7625,
+      "started_at": "2026-08-24T19:00:20.000Z",
+      "finished_at": "2026-08-24T20:57:24.000Z",
+      "duration_seconds": 7024,
       "status": "ok",
       "exit_code": 0
     },
     {
       "stage": "sws_primary_branch",
       "dependency": "git_sync",
-      "started_at": "2026-08-23T20:18:36.000Z",
-      "finished_at": "2026-08-24T03:13:21.000Z",
-      "duration_seconds": 24885,
+      "started_at": "2026-08-24T19:00:20.000Z",
+      "finished_at": "2026-08-25T01:10:16.000Z",
+      "duration_seconds": 22196,
       "status": "ok",
       "exit_code": 0
     },
     {
       "stage": "earnings_watch",
       "dependency": "sws_primary_branch,early_aux_branch",
-      "started_at": "2026-08-24T03:13:21.000Z",
-      "finished_at": "2026-08-24T03:13:35.000Z",
-      "duration_seconds": 14,
+      "started_at": "2026-08-25T01:10:17.000Z",
+      "finished_at": "2026-08-25T01:10:30.000Z",
+      "duration_seconds": 13,
       "status": "ok",
       "exit_code": 0
     },
     {
       "stage": "pack_deep_tarball",
       "dependency": "sanity_gate",
-      "started_at": "2026-08-24T03:39:04.000Z",
-      "finished_at": "2026-08-24T03:39:30.000Z",
-      "duration_seconds": 26,
+      "started_at": "2026-08-25T01:36:28.000Z",
+      "finished_at": "2026-08-25T01:36:56.000Z",
+      "duration_seconds": 28,
       "status": "ok",
       "exit_code": 0
     },
     {
       "stage": "packed_price_freshness_gate",
       "dependency": "pack_deep_tarball",
-      "started_at": "2026-08-24T03:39:30.000Z",
-      "finished_at": "2026-08-24T03:40:44.000Z",
-      "duration_seconds": 74,
+      "started_at": "2026-08-25T01:36:57.000Z",
+      "finished_at": "2026-08-25T01:38:14.000Z",
+      "duration_seconds": 77,
       "status": "ok",
       "exit_code": 0
     },
     {
       "stage": "coverage_gap_analysis",
       "dependency": "packed_price_freshness_gate",
-      "started_at": "2026-08-24T03:40:45.000Z",
-      "finished_at": "2026-08-24T03:40:46.000Z",
+      "started_at": "2026-08-25T01:38:15.000Z",
+      "finished_at": "2026-08-25T01:38:16.000Z",
       "duration_seconds": 1,
       "status": "ok",
       "exit_code": 0
@@ -63,9 +63,9 @@
     {
       "stage": "local_publish_ready",
       "dependency": "coverage_gap_analysis",
-      "started_at": "2026-08-24T03:40:52.000Z",
-      "finished_at": "2026-08-24T03:40:53.000Z",
-      "duration_seconds": 1,
+      "started_at": "2026-08-25T01:38:23.000Z",
+      "finished_at": "2026-08-25T01:38:23.000Z",
+      "duration_seconds": 0,
       "status": "ok",
       "exit_code": 0
     }
@@ -74,53 +74,53 @@
     "early_aux_branch": {
       "stage": "early_aux_branch",
       "dependency": "git_sync",
-      "started_at": "2026-08-23T20:18:36.000Z",
-      "finished_at": "2026-08-23T22:25:41.000Z",
-      "duration_seconds": 7625,
+      "started_at": "2026-08-24T19:00:20.000Z",
+      "finished_at": "2026-08-24T20:57:24.000Z",
+      "duration_seconds": 7024,
       "status": "ok",
       "exit_code": 0
     },
     "sws_primary_branch": {
       "stage": "sws_primary_branch",
       "dependency": "git_sync",
-      "started_at": "2026-08-23T20:18:36.000Z",
-      "finished_at": "2026-08-24T03:13:21.000Z",
-      "duration_seconds": 24885,
+      "started_at": "2026-08-24T19:00:20.000Z",
+      "finished_at": "2026-08-25T01:10:16.000Z",
+      "duration_seconds": 22196,
       "status": "ok",
       "exit_code": 0
     },
     "earnings_watch": {
       "stage": "earnings_watch",
       "dependency": "sws_primary_branch,early_aux_branch",
-      "started_at": "2026-08-24T03:13:21.000Z",
-      "finished_at": "2026-08-24T03:13:35.000Z",
-      "duration_seconds": 14,
+      "started_at": "2026-08-25T01:10:17.000Z",
+      "finished_at": "2026-08-25T01:10:30.000Z",
+      "duration_seconds": 13,
       "status": "ok",
       "exit_code": 0
     },
     "pack_deep_tarball": {
       "stage": "pack_deep_tarball",
       "dependency": "sanity_gate",
-      "started_at": "2026-08-24T03:39:04.000Z",
-      "finished_at": "2026-08-24T03:39:30.000Z",
-      "duration_seconds": 26,
+      "started_at": "2026-08-25T01:36:28.000Z",
+      "finished_at": "2026-08-25T01:36:56.000Z",
+      "duration_seconds": 28,
       "status": "ok",
       "exit_code": 0
     },
     "packed_price_freshness_gate": {
       "stage": "packed_price_freshness_gate",
       "dependency": "pack_deep_tarball",
-      "started_at": "2026-08-24T03:39:30.000Z",
-      "finished_at": "2026-08-24T03:40:44.000Z",
-      "duration_seconds": 74,
+      "started_at": "2026-08-25T01:36:57.000Z",
+      "finished_at": "2026-08-25T01:38:14.000Z",
+      "duration_seconds": 77,
       "status": "ok",
       "exit_code": 0
     },
     "coverage_gap_analysis": {
       "stage": "coverage_gap_analysis",
       "dependency": "packed_price_freshness_gate",
-      "started_at": "2026-08-24T03:40:45.000Z",
-      "finished_at": "2026-08-24T03:40:46.000Z",
+      "started_at": "2026-08-25T01:38:15.000Z",
+      "finished_at": "2026-08-25T01:38:16.000Z",
       "duration_seconds": 1,
       "status": "ok",
       "exit_code": 0
@@ -128,9 +128,9 @@
     "local_publish_ready": {
       "stage": "local_publish_ready",
       "dependency": "coverage_gap_analysis",
-      "started_at": "2026-08-24T03:40:52.000Z",
-      "finished_at": "2026-08-24T03:40:53.000Z",
-      "duration_seconds": 1,
+      "started_at": "2026-08-25T01:38:23.000Z",
+      "finished_at": "2026-08-25T01:38:23.000Z",
+      "duration_seconds": 0,
       "status": "ok",
       "exit_code": 0
     }
