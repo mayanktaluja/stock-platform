@@ -1,23 +1,23 @@
 {
   "schema_version": "macro-thesis-v1",
-  "generated_at": "2026-08-25T01:30:00.180Z",
+  "generated_at": "2026-08-26T02:24:52.409Z",
   "regime": {
-    "regime": "GLOBAL_RISK_OFF",
-    "severity": 3,
-    "confidence": 0.7,
-    "label": "Global Risk-Off",
-    "generated_at": "2026-08-24T16:30:31.372Z",
+    "regime": "OIL_SHOCK",
+    "severity": 2,
+    "confidence": 0.71,
+    "label": "Oil Shock",
+    "generated_at": "2026-08-25T18:30:50.371Z",
     "days_in_state": 0,
     "stale": false,
-    "reasoning": "Rising Iran tensions and US sanction plans are causing global markets to slip, leading to risk-off sentiment in Indian equities.",
+    "reasoning": "Oil prices falling on Iran sanctions and tanker activity dominate, nudging energy‑related stocks lower.",
     "key_events": [
-      "US stocks slip as Iran tensions test rally (Economic Times)",
-      "Iran's currency rial hits record low as US plans more sanctions (Economic Times)",
-      "S&P 500, Nasdaq slip as Iran tensions test markets (Economic Times)",
-      "INR settles marginally lower as local equities turn weak (Business Standard)",
-      "Nifty slips 33 points, Sensex slides 172 points amid Iran sanctions concerns (Business Standard)"
+      "Crude oil prices slide 4% as markets look past Iran sanctions (Economic Times)",
+      "Iranian tankers gather off Sri Lankan coast (FT Markets)",
+      "Euro zone yields dip from multi-year highs as oil falls on Iran sanctions (Economic Times)",
+      "Rupee leads Asian currencies; bond yields ease as crude slips below $90 (Business Standard)",
+      "RBI net absorbed $561 million in June as inflows picked up (Economic Times)"
     ],
-    "classifier_provider": "gemini",
+    "classifier_provider": "groq",
     "source_health": {
       "RBI Press": "blocked",
       "SEBI Press": "ok",
@@ -42,53 +42,121 @@
     },
     "sector_impacts": [
       {
-        "sector": "IT Services",
-        "impact": -1,
-        "reason": "Global risk-off sentiment and US market weakness can negatively impact IT services demand and valuations."
-      },
-      {
-        "sector": "Banking",
-        "impact": -1,
-        "reason": "Elevated yields and general market weakness can make bond issues challenging and impact banking sentiment."
+        "sector": "Energy",
+        "impact": -2,
+        "reason": "Oil price drop hurts energy earnings"
       },
       {
         "sector": "Oil & Gas",
-        "impact": 1,
-        "reason": "Geopolitical tensions involving Iran typically lead to higher oil prices, benefiting upstream oil & gas companies."
+        "impact": -2,
+        "reason": "Lower crude prices reduce margins"
       },
       {
-        "sector": "Metals",
+        "sector": "Power",
         "impact": 1,
-        "reason": "Nifty Metal Index gained despite broader market weakness, suggesting some resilience or specific demand drivers."
+        "reason": "Cheaper fuel improves generation costs"
+      },
+      {
+        "sector": "Automobile",
+        "impact": 1,
+        "reason": "Lower fuel prices boost demand"
       }
     ]
   },
-  "catalyst_proximity_days": 23,
+  "catalyst_proximity_days": 22,
   "upcoming_catalysts": [
     {
       "date": "2026-09-17",
       "kind": "FOMC",
       "label": "US FOMC Meeting — September 2026",
       "severity_potential": 3,
-      "days_until": 23
+      "days_until": 22
     }
   ],
   "position_cap_pct": 10,
   "branches": [
     {
       "key": "continue",
-      "label": "GLOBAL_RISK_OFF continues at current severity",
-      "probability": 0.55,
+      "label": "OIL_SHOCK continues at current severity",
+      "probability": 0.58,
       "duration_days": 14,
-      "n_analogs": 11,
+      "n_analogs": 6,
       "indeterminate": false,
       "beneficiaries": [
+        {
+          "sector_index_key": null,
+          "sector_label": "Energy",
+          "sector_bucket": "Energy",
+          "expected_return_pct": null,
+          "template_delta": 3,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "BENEFICIARY",
+          "stock_candidates": {
+            "sector": "Energy",
+            "candidates_total": 22,
+            "passed_filters": 6,
+            "excluded_conglomerates": [],
+            "stocks": [
+              {
+                "ticker": "ONGC",
+                "name": "Oil and Natural Gas Corporation Limited",
+                "sector": "Energy",
+                "v4_score_100": 54.2,
+                "composite_score": 34.5,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 25.9,
+                "verdict": "STRONG"
+              },
+              {
+                "ticker": "AEGISVOPAK",
+                "name": "Aegis Vopak Terminals Limited",
+                "sector": "Energy",
+                "v4_score_100": 56.1,
+                "composite_score": 34.2,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 22.2,
+                "verdict": "STRONG"
+              },
+              {
+                "ticker": "CHENNPETRO",
+                "name": "Chennai Petroleum Corporation Limited",
+                "sector": "Energy",
+                "v4_score_100": 71.3,
+                "composite_score": 32.7,
+                "valuation_band": "FAIR",
+                "upside_pct": 9.9,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "GESHIP",
+                "name": "The Great Eastern Shipping Company Limited",
+                "sector": "Energy",
+                "v4_score_100": 65.1,
+                "composite_score": 29.9,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 38.9,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "AEGISLOG",
+                "name": "Aegis Logistics Limited",
+                "sector": "Energy",
+                "v4_score_100": 51.9,
+                "composite_score": 24.6,
+                "valuation_band": "FAIR",
+                "upside_pct": 0.7,
+                "verdict": "STRONG"
+              }
+            ]
+          }
+        },
         {
           "sector_index_key": null,
           "sector_label": "Consumer Staples",
           "sector_bucket": "Consumer Staples",
           "expected_return_pct": null,
-          "template_delta": 2,
+          "template_delta": 1,
           "n_analogs": 0,
           "source": "template",
           "direction": "BENEFICIARY",
@@ -99,103 +167,35 @@
             "excluded_conglomerates": [],
             "stocks": []
           }
-        },
-        {
-          "sector_index_key": null,
-          "sector_label": "Pharmaceuticals",
-          "sector_bucket": "Pharmaceuticals",
-          "expected_return_pct": null,
-          "template_delta": 1,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "BENEFICIARY",
-          "stock_candidates": {
-            "sector": "Pharmaceuticals",
-            "candidates_total": 65,
-            "passed_filters": 26,
-            "excluded_conglomerates": [],
-            "stocks": [
-              {
-                "ticker": "STAR",
-                "name": "Strides Pharma Science Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 78.3,
-                "composite_score": 45.6,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 34.7,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "EMCURE",
-                "name": "Emcure Pharmaceuticals Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 75.1,
-                "composite_score": 44.3,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 19.5,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "GRANULES",
-                "name": "Granules India Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 68.8,
-                "composite_score": 41.5,
-                "valuation_band": "FAIR",
-                "upside_pct": 7.5,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "VIYASH",
-                "name": "Viyash Scientific Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 70.9,
-                "composite_score": 40.2,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 18.1,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "SUPRIYA",
-                "name": "Supriya Lifescience Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 65.5,
-                "composite_score": 39,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 17.9,
-                "verdict": "TOP_PICK"
-              }
-            ]
-          }
         }
       ],
       "losers": [
         {
           "sector_index_key": null,
+          "sector_label": "Automobiles",
+          "sector_bucket": "Automobiles",
+          "expected_return_pct": null,
+          "template_delta": -2,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Software",
+          "sector_bucket": "Software",
+          "expected_return_pct": null,
+          "template_delta": -1,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
+        },
+        {
+          "sector_index_key": null,
           "sector_label": "Real Estate",
           "sector_bucket": "Real Estate",
           "expected_return_pct": null,
-          "template_delta": -3,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "HIT"
-        },
-        {
-          "sector_index_key": null,
-          "sector_label": "Banks",
-          "sector_bucket": "Banks",
-          "expected_return_pct": null,
-          "template_delta": -2,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "HIT"
-        },
-        {
-          "sector_index_key": null,
-          "sector_label": "Metals & Mining",
-          "sector_bucket": "Metals & Mining",
-          "expected_return_pct": null,
-          "template_delta": -2,
+          "template_delta": -1,
           "n_analogs": 0,
           "source": "template",
           "direction": "HIT"
@@ -204,38 +204,38 @@
       "reasoning": {
         "modulator_applied": 1,
         "base_probability": 0.55,
-        "analog_pool_regime": "GLOBAL_RISK_OFF",
+        "analog_pool_regime": "OIL_SHOCK",
         "analog_warnings": [
           "no sector-index data found for any analog date — run scripts/refresh-sector-indices.mjs --backfill-months=24"
         ],
         "analogs": [
           {
-            "date": "2021-04-20",
-            "label": "COVID Delta 2nd wave peak",
-            "severity": 3,
-            "source": "manual-seed"
-          },
-          {
-            "date": "2023-03-10",
-            "label": "SVB collapse + global banking stress",
-            "severity": 3,
-            "source": "manual-seed"
-          },
-          {
-            "date": "2024-08-05",
-            "label": "Yen carry-trade unwind (global vol spike)",
-            "severity": 2,
-            "source": "manual-seed"
-          },
-          {
-            "date": "2026-05-29",
-            "label": "Global Risk-Off",
+            "date": "2026-05-20",
+            "label": "Oil Shock",
             "severity": 2,
             "source": "heuristic"
           },
           {
-            "date": "2026-05-30",
-            "label": "Global Risk-Off",
+            "date": "2026-05-26",
+            "label": "Oil Shock",
+            "severity": 2,
+            "source": "heuristic"
+          },
+          {
+            "date": "2026-05-28",
+            "label": "Oil Shock",
+            "severity": 2,
+            "source": "heuristic"
+          },
+          {
+            "date": "2026-05-31",
+            "label": "Oil Shock",
+            "severity": 2,
+            "source": "heuristic"
+          },
+          {
+            "date": "2026-06-02",
+            "label": "Oil Shock",
             "severity": 2,
             "source": "heuristic"
           }
@@ -244,18 +244,86 @@
     },
     {
       "key": "escalate",
-      "label": "GLOBAL_RISK_OFF escalates (severity +1)",
-      "probability": 0.15,
+      "label": "OIL_SHOCK escalates (severity +1)",
+      "probability": 0.11,
       "duration_days": 7,
-      "n_analogs": 7,
+      "n_analogs": 6,
       "indeterminate": false,
       "beneficiaries": [
+        {
+          "sector_index_key": null,
+          "sector_label": "Energy",
+          "sector_bucket": "Energy",
+          "expected_return_pct": null,
+          "template_delta": 3,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "BENEFICIARY",
+          "stock_candidates": {
+            "sector": "Energy",
+            "candidates_total": 22,
+            "passed_filters": 6,
+            "excluded_conglomerates": [],
+            "stocks": [
+              {
+                "ticker": "ONGC",
+                "name": "Oil and Natural Gas Corporation Limited",
+                "sector": "Energy",
+                "v4_score_100": 54.2,
+                "composite_score": 34.5,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 25.9,
+                "verdict": "STRONG"
+              },
+              {
+                "ticker": "AEGISVOPAK",
+                "name": "Aegis Vopak Terminals Limited",
+                "sector": "Energy",
+                "v4_score_100": 56.1,
+                "composite_score": 34.2,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 22.2,
+                "verdict": "STRONG"
+              },
+              {
+                "ticker": "CHENNPETRO",
+                "name": "Chennai Petroleum Corporation Limited",
+                "sector": "Energy",
+                "v4_score_100": 71.3,
+                "composite_score": 32.7,
+                "valuation_band": "FAIR",
+                "upside_pct": 9.9,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "GESHIP",
+                "name": "The Great Eastern Shipping Company Limited",
+                "sector": "Energy",
+                "v4_score_100": 65.1,
+                "composite_score": 29.9,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 38.9,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "AEGISLOG",
+                "name": "Aegis Logistics Limited",
+                "sector": "Energy",
+                "v4_score_100": 51.9,
+                "composite_score": 24.6,
+                "valuation_band": "FAIR",
+                "upside_pct": 0.7,
+                "verdict": "STRONG"
+              }
+            ]
+          }
+        },
         {
           "sector_index_key": null,
           "sector_label": "Consumer Staples",
           "sector_bucket": "Consumer Staples",
           "expected_return_pct": null,
-          "template_delta": 2,
+          "template_delta": 1,
           "n_analogs": 0,
           "source": "template",
           "direction": "BENEFICIARY",
@@ -266,144 +334,76 @@
             "excluded_conglomerates": [],
             "stocks": []
           }
-        },
-        {
-          "sector_index_key": null,
-          "sector_label": "Pharmaceuticals",
-          "sector_bucket": "Pharmaceuticals",
-          "expected_return_pct": null,
-          "template_delta": 1,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "BENEFICIARY",
-          "stock_candidates": {
-            "sector": "Pharmaceuticals",
-            "candidates_total": 65,
-            "passed_filters": 26,
-            "excluded_conglomerates": [],
-            "stocks": [
-              {
-                "ticker": "STAR",
-                "name": "Strides Pharma Science Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 78.3,
-                "composite_score": 45.6,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 34.7,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "EMCURE",
-                "name": "Emcure Pharmaceuticals Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 75.1,
-                "composite_score": 44.3,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 19.5,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "GRANULES",
-                "name": "Granules India Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 68.8,
-                "composite_score": 41.5,
-                "valuation_band": "FAIR",
-                "upside_pct": 7.5,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "VIYASH",
-                "name": "Viyash Scientific Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 70.9,
-                "composite_score": 40.2,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 18.1,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "SUPRIYA",
-                "name": "Supriya Lifescience Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 65.5,
-                "composite_score": 39,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 17.9,
-                "verdict": "TOP_PICK"
-              }
-            ]
-          }
         }
       ],
       "losers": [
         {
           "sector_index_key": null,
+          "sector_label": "Automobiles",
+          "sector_bucket": "Automobiles",
+          "expected_return_pct": null,
+          "template_delta": -2,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Software",
+          "sector_bucket": "Software",
+          "expected_return_pct": null,
+          "template_delta": -1,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
+        },
+        {
+          "sector_index_key": null,
           "sector_label": "Real Estate",
           "sector_bucket": "Real Estate",
           "expected_return_pct": null,
-          "template_delta": -3,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "HIT"
-        },
-        {
-          "sector_index_key": null,
-          "sector_label": "Banks",
-          "sector_bucket": "Banks",
-          "expected_return_pct": null,
-          "template_delta": -2,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "HIT"
-        },
-        {
-          "sector_index_key": null,
-          "sector_label": "Metals & Mining",
-          "sector_bucket": "Metals & Mining",
-          "expected_return_pct": null,
-          "template_delta": -2,
+          "template_delta": -1,
           "n_analogs": 0,
           "source": "template",
           "direction": "HIT"
         }
       ],
       "reasoning": {
-        "modulator_applied": 1,
+        "modulator_applied": 0.7,
         "base_probability": 0.15,
-        "analog_pool_regime": "GLOBAL_RISK_OFF (severity +1)",
+        "analog_pool_regime": "OIL_SHOCK (severity +1)",
         "analog_warnings": [
           "no sector-index data found for any analog date — run scripts/refresh-sector-indices.mjs --backfill-months=24"
         ],
         "analogs": [
           {
-            "date": "2008-09-15",
-            "label": "Lehman Brothers collapse",
-            "severity": 5,
-            "source": "manual-seed"
+            "date": "2026-05-20",
+            "label": "Oil Shock",
+            "severity": 2,
+            "source": "heuristic"
           },
           {
-            "date": "2020-03-16",
-            "label": "COVID-19 circuit-breaker crash",
-            "severity": 5,
-            "source": "manual-seed"
+            "date": "2026-05-26",
+            "label": "Oil Shock",
+            "severity": 2,
+            "source": "heuristic"
           },
           {
-            "date": "2021-04-20",
-            "label": "COVID Delta 2nd wave peak",
-            "severity": 3,
-            "source": "manual-seed"
+            "date": "2026-05-28",
+            "label": "Oil Shock",
+            "severity": 2,
+            "source": "heuristic"
           },
           {
-            "date": "2023-03-10",
-            "label": "SVB collapse + global banking stress",
-            "severity": 3,
-            "source": "manual-seed"
+            "date": "2026-05-31",
+            "label": "Oil Shock",
+            "severity": 2,
+            "source": "heuristic"
           },
           {
-            "date": "2026-06-06",
-            "label": "Global Risk-Off",
-            "severity": 3,
+            "date": "2026-06-02",
+            "label": "Oil Shock",
+            "severity": 2,
             "source": "heuristic"
           }
         ]
@@ -411,8 +411,8 @@
     },
     {
       "key": "de_escalate",
-      "label": "GLOBAL_RISK_OFF de-escalates → CALM",
-      "probability": 0.2,
+      "label": "OIL_SHOCK de-escalates → CALM",
+      "probability": 0.21,
       "duration_days": 21,
       "n_analogs": 9,
       "indeterminate": false,
@@ -461,7 +461,7 @@
     },
     {
       "key": "new_shock",
-      "label": "New unrelated shock supersedes GLOBAL_RISK_OFF",
+      "label": "New unrelated shock supersedes OIL_SHOCK",
       "probability": 0.1,
       "duration_days": 7,
       "n_analogs": 0,
@@ -469,10 +469,78 @@
       "beneficiaries": [
         {
           "sector_index_key": null,
+          "sector_label": "Energy",
+          "sector_bucket": "Energy",
+          "expected_return_pct": null,
+          "template_delta": 3,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "BENEFICIARY",
+          "stock_candidates": {
+            "sector": "Energy",
+            "candidates_total": 22,
+            "passed_filters": 6,
+            "excluded_conglomerates": [],
+            "stocks": [
+              {
+                "ticker": "ONGC",
+                "name": "Oil and Natural Gas Corporation Limited",
+                "sector": "Energy",
+                "v4_score_100": 54.2,
+                "composite_score": 34.5,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 25.9,
+                "verdict": "STRONG"
+              },
+              {
+                "ticker": "AEGISVOPAK",
+                "name": "Aegis Vopak Terminals Limited",
+                "sector": "Energy",
+                "v4_score_100": 56.1,
+                "composite_score": 34.2,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 22.2,
+                "verdict": "STRONG"
+              },
+              {
+                "ticker": "CHENNPETRO",
+                "name": "Chennai Petroleum Corporation Limited",
+                "sector": "Energy",
+                "v4_score_100": 71.3,
+                "composite_score": 32.7,
+                "valuation_band": "FAIR",
+                "upside_pct": 9.9,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "GESHIP",
+                "name": "The Great Eastern Shipping Company Limited",
+                "sector": "Energy",
+                "v4_score_100": 65.1,
+                "composite_score": 29.9,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 38.9,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "AEGISLOG",
+                "name": "Aegis Logistics Limited",
+                "sector": "Energy",
+                "v4_score_100": 51.9,
+                "composite_score": 24.6,
+                "valuation_band": "FAIR",
+                "upside_pct": 0.7,
+                "verdict": "STRONG"
+              }
+            ]
+          }
+        },
+        {
+          "sector_index_key": null,
           "sector_label": "Consumer Staples",
           "sector_bucket": "Consumer Staples",
           "expected_return_pct": null,
-          "template_delta": 2,
+          "template_delta": 1,
           "n_analogs": 0,
           "source": "template",
           "direction": "BENEFICIARY",
@@ -483,103 +551,35 @@
             "excluded_conglomerates": [],
             "stocks": []
           }
-        },
-        {
-          "sector_index_key": null,
-          "sector_label": "Pharmaceuticals",
-          "sector_bucket": "Pharmaceuticals",
-          "expected_return_pct": null,
-          "template_delta": 1,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "BENEFICIARY",
-          "stock_candidates": {
-            "sector": "Pharmaceuticals",
-            "candidates_total": 65,
-            "passed_filters": 26,
-            "excluded_conglomerates": [],
-            "stocks": [
-              {
-                "ticker": "STAR",
-                "name": "Strides Pharma Science Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 78.3,
-                "composite_score": 45.6,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 34.7,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "EMCURE",
-                "name": "Emcure Pharmaceuticals Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 75.1,
-                "composite_score": 44.3,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 19.5,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "GRANULES",
-                "name": "Granules India Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 68.8,
-                "composite_score": 41.5,
-                "valuation_band": "FAIR",
-                "upside_pct": 7.5,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "VIYASH",
-                "name": "Viyash Scientific Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 70.9,
-                "composite_score": 40.2,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 18.1,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "SUPRIYA",
-                "name": "Supriya Lifescience Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 65.5,
-                "composite_score": 39,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 17.9,
-                "verdict": "TOP_PICK"
-              }
-            ]
-          }
         }
       ],
       "losers": [
         {
           "sector_index_key": null,
+          "sector_label": "Automobiles",
+          "sector_bucket": "Automobiles",
+          "expected_return_pct": null,
+          "template_delta": -2,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Software",
+          "sector_bucket": "Software",
+          "expected_return_pct": null,
+          "template_delta": -1,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
+        },
+        {
+          "sector_index_key": null,
           "sector_label": "Real Estate",
           "sector_bucket": "Real Estate",
           "expected_return_pct": null,
-          "template_delta": -3,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "HIT"
-        },
-        {
-          "sector_index_key": null,
-          "sector_label": "Banks",
-          "sector_bucket": "Banks",
-          "expected_return_pct": null,
-          "template_delta": -2,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "HIT"
-        },
-        {
-          "sector_index_key": null,
-          "sector_label": "Metals & Mining",
-          "sector_bucket": "Metals & Mining",
-          "expected_return_pct": null,
-          "template_delta": -2,
+          "template_delta": -1,
           "n_analogs": 0,
           "source": "template",
           "direction": "HIT"
@@ -601,8 +601,8 @@
   "indeterminate": false,
   "audit": {
     "thesis_schema": "macro-thesis-v1",
-    "regime_generated_at": "2026-08-24T16:30:31.372Z",
-    "regime_classifier": "gemini",
+    "regime_generated_at": "2026-08-25T18:30:50.371Z",
+    "regime_classifier": "groq",
     "scenario_engine_version": "scenario-prob-v1"
   }
 }
