@@ -2957,6 +2957,22 @@ const TAB_CONFIG = {
     label: "Earnings Watch",
     enter: () => { if (typeof loadEarningsWatch === "function") loadEarningsWatch(); },
   },
+  // Sector Outlook — bottom-up SWS news + macro cross-check. Visible to ALL
+  // signed-in users. Graduated out of EXPERIMENTAL 2026-08-28: the tab no
+  // longer carries a flag chip and now sits ahead of the labs on the rail
+  // (order lives in index.html; this map is a lookup, kept in the same order
+  // for readability). The caveats array in the API payload still carries the
+  // per-run scope limits. Per-user opt-out via localStorage.
+  sectorOutlook: {
+    elId: "sectorOutlookTab",
+    label: "Sector Outlook",
+    guard: () => {
+      try {
+        return localStorage.getItem("sectorOutlookEnabled_v1") !== "false";
+      } catch { return true; }
+    },
+    enter: () => { if (typeof loadSectorOutlook === "function") loadSectorOutlook(); },
+  },
   riskLab: {
     elId: "riskLabTab",
     label: "Risk Lab",
@@ -2968,20 +2984,6 @@ const TAB_CONFIG = {
     elId: "multibaggerLabTab",
     label: "5x Lab",
     enter: () => { if (typeof loadMultibaggerLab === "function") loadMultibaggerLab(); },
-  },
-  // Sector Outlook — EXPERIMENTAL bottom-up SWS news + macro cross-check.
-  // Visible to ALL signed-in users; the EXPERIMENTAL
-  // pulsing-dot badge in the tab button + caveats array in the API payload
-  // make the v1 scope explicit. Per-user opt-out via localStorage.
-  sectorOutlook: {
-    elId: "sectorOutlookTab",
-    label: "Sector Outlook",
-    guard: () => {
-      try {
-        return localStorage.getItem("sectorOutlookEnabled_v1") !== "false";
-      } catch { return true; }
-    },
-    enter: () => { if (typeof loadSectorOutlook === "function") loadSectorOutlook(); },
   },
 };
 

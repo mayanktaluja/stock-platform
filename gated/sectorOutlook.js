@@ -1,8 +1,11 @@
 /* eslint-disable no-undef */
 // Sector Outlook tab — bottom-up SWS news theme aggregation cross-checked
-// against current macro regime. EXPERIMENTAL in v1 — no formal backtest
-// gate, no named stock recommendations. The methodology section + caveats
-// section in the rendered DOM are part of the SEBI-RA-conservative framing.
+// against current macro regime. The EXPERIMENTAL label was dropped
+// 2026-08-28 (surface is stable), but the SCOPE limits it flagged are
+// unchanged and still stated in the DOM: no formal backtest gate, no named
+// stock recommendations. The methodology, backtest-status and caveats
+// sections are part of the SEBI-RA-conservative framing — do not remove them
+// alongside the badge.
 
 (function () {
   const LABEL_BADGE = {
@@ -218,7 +221,6 @@
         <div>
           <h2 class="editorial-headline" style="font-size:34px; font-weight:500; letter-spacing:-0.02em;">
             Sector Outlook
-            <span style="font-size:10px; font-weight:700; letter-spacing:0.06em; color:var(--purple-bright); background:rgba(167,139,250,0.12); border:1px solid rgba(167,139,250,0.35); padding:2px 8px; border-radius:8px; margin-left:10px; vertical-align:middle;">EXPERIMENTAL</span>
           </h2>
           <p style="font-size:12px; color:var(--text-muted); margin-top:3px; max-width:760px; line-height:1.55;">
             Indicative outlook for the same ${escapeHtml(doc.audit?.sector_count || (doc.sectors || []).length)} SWS sector labels used by India Market over two horizons (3-12 months, 12-24 months). Bottom-up news themes aggregated from SWS deep briefs, cross-checked against the current macro regime. Sector-level only - no specific stock recommendations.
@@ -429,7 +431,7 @@
       <details style="margin-top:14px; background:var(--bg-secondary); border-radius:8px; padding:14px 20px;">
         <summary style="font-size:13px; font-weight:600; cursor:pointer; color:var(--text-primary);">Backtest status</summary>
         <div style="font-size:12px; color:var(--text-secondary); line-height:1.6; padding-top:12px; max-width:800px;">
-          <p><strong>EXPERIMENTAL — no formal backtest gate in v1.</strong></p>
+          <p><strong>No formal backtest gate yet.</strong></p>
           <p>The signal is indicative based on observed news themes + the current macro regime. v2 will add a walk-forward harness against NSE sector index returns (^CNXAUTO, ^CNXIT, ^CNXMETAL, etc.) at 90d and 365d horizons. Any future promotion label requires ≥80 resolved sector-quarters across ≥2 fiscal quarters with ≥55% directional hit-rate and Brier &lt; 0.22.</p>
           <p style="color:var(--text-muted); font-size:11px; margin-top:14px;">Gate status: <strong>${doc.gate_met ? "MET" : "NOT MET (v1 — backtest deferred)"}</strong></p>
         </div>
