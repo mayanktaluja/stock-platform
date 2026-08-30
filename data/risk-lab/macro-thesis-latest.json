@@ -1,21 +1,19 @@
 {
   "schema_version": "macro-thesis-v1",
-  "generated_at": "2026-08-29T12:03:54.336Z",
+  "generated_at": "2026-08-30T01:41:40.674Z",
   "regime": {
     "regime": "RATE_HIKE",
     "severity": 3,
     "confidence": 0.78,
     "label": "Rate Hike",
-    "generated_at": "2026-08-28T14:30:22.121Z",
+    "generated_at": "2026-08-29T16:52:36.978Z",
     "days_in_state": 0,
     "stale": false,
-    "reasoning": "Fed speech and rising bond yields drive rate‑hike expectations, prompting FPI outflows and RBI intervention",
+    "reasoning": "Multiple recent headlines flag rising US and RBI rate‑hike expectations, pressuring banks and credit‑sensitive sectors.",
     "key_events": [
-      "Fed chairman Warsh says inflation elevated at Jackson Hole (Economic Times)",
-      "India's 10‑year bond yield scales over 2‑month peak ahead of Warsh speech (Economic Times)",
-      "FPIs sell Rs 5,040 cr equities, highest since June 8 (Business Standard)",
-      "Bond yields hit over two‑month high; rupee gains on RBI intervention (Business Standard)",
-      "Centre announces ₹30,000 cr govt securities buyback via auction (Business Standard)"
+      "US Fed rate hike bets soar to 57% after Warsh's speech (Economic Times)",
+      "RBI rate hike risk rises: Bandhan AMC’s Suyash Choudhary dials back duration in bond portfolios (Economic Times)",
+      "Indian bank stocks show widest exchange price gap in decades (Economic Times)"
     ],
     "classifier_provider": "groq",
     "source_health": {
@@ -43,39 +41,39 @@
     "sector_impacts": [
       {
         "sector": "Banking",
-        "impact": 2,
-        "reason": "Higher rate outlook lifts NIMs"
+        "impact": -2,
+        "reason": "Higher rates pressure loan growth and margins"
       },
       {
         "sector": "NBFC",
-        "impact": 1,
-        "reason": "Spread gains offset modest credit stress"
+        "impact": -2,
+        "reason": "Cost of funds rise, earnings recovery slows"
       },
       {
         "sector": "Real Estate",
         "impact": -2,
-        "reason": "Higher financing costs curb demand"
+        "reason": "Financing costs surge, dampening demand"
+      },
+      {
+        "sector": "Infrastructure",
+        "impact": -1,
+        "reason": "Project financing becomes costlier"
       },
       {
         "sector": "Capital Goods",
         "impact": -1,
-        "reason": "Investment slowdown from tighter financing"
-      },
-      {
-        "sector": "IT Services",
-        "impact": 2,
-        "reason": "IT stocks rallied despite rate concerns"
+        "reason": "Industrial orders may delay due to higher borrowing costs"
       }
     ]
   },
-  "catalyst_proximity_days": 19,
+  "catalyst_proximity_days": 18,
   "upcoming_catalysts": [
     {
       "date": "2026-09-17",
       "kind": "FOMC",
       "label": "US FOMC Meeting — September 2026",
       "severity_potential": 3,
-      "days_until": 19
+      "days_until": 18
     }
   ],
   "position_cap_pct": 10,
@@ -747,7 +745,7 @@
   "indeterminate": false,
   "audit": {
     "thesis_schema": "macro-thesis-v1",
-    "regime_generated_at": "2026-08-28T14:30:22.121Z",
+    "regime_generated_at": "2026-08-29T16:52:36.978Z",
     "regime_classifier": "groq",
     "scenario_engine_version": "scenario-prob-v1"
   }

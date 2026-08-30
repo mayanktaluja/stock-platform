@@ -1,16 +1,16 @@
 {
-  "run_id": "2026-08-29T10-55-54-350Z",
-  "generated_at": "2026-08-29T12:10:20.711Z",
+  "run_id": "2026-08-30T00-27-10-801Z",
+  "generated_at": "2026-08-30T01:48:20.990Z",
   "verdict": "WARN",
   "block_count": 0,
-  "warn_count": 5,
-  "pass_count": 50,
+  "warn_count": 4,
+  "pass_count": 51,
   "total_checks": 55,
-  "summary_line": "verdict=WARN · scored=6228 · top30=30 · warns=5",
+  "summary_line": "verdict=WARN · scored=6228 · top30=30 · warns=4",
   "layers": {
     "L1_run_integrity": {
-      "pass": 18,
-      "warn": 3,
+      "pass": 19,
+      "warn": 2,
       "block": 0,
       "checks": [
         {
@@ -62,9 +62,9 @@
           "layer": "L1_run_integrity",
           "name": "duration_within_bounds",
           "severity": "WARN",
-          "ok": false,
+          "ok": true,
           "detail": {
-            "duration_seconds": 49301,
+            "duration_seconds": 12041,
             "max": 21600
           }
         },
@@ -81,7 +81,7 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {
-            "news_populated_count": 6143,
+            "news_populated_count": 6148,
             "threshold": 1000
           }
         },
@@ -91,7 +91,7 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "news_populated_count": 6143,
+            "news_populated_count": 6148,
             "threshold": 1500
           }
         },
@@ -101,8 +101,8 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {
-            "rewards_populated_count": 5220,
-            "risks_populated_count": 5808,
+            "rewards_populated_count": 5224,
+            "risks_populated_count": 5813,
             "threshold": 1000
           }
         },
@@ -112,7 +112,7 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "rewards_populated_count": 5220,
+            "rewards_populated_count": 5224,
             "threshold": 4500
           }
         },
@@ -122,7 +122,7 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "risks_populated_count": 5808,
+            "risks_populated_count": 5813,
             "threshold": 500
           }
         },
@@ -132,7 +132,7 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {
-            "age_hours": 1.31,
+            "age_hours": 1.42,
             "threshold": 20
           }
         },
@@ -142,9 +142,9 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {
-            "picks_scanned_at": "2026-08-29T10:50:59.778Z",
-            "lr_started_at": "2026-08-28T19:14:22.000Z",
-            "lr_finished_at": "2026-08-29T10:55:54.350Z",
+            "picks_scanned_at": "2026-08-30T00:22:11.478Z",
+            "lr_started_at": "2026-08-29T19:00:16.000Z",
+            "lr_finished_at": "2026-08-30T00:27:10.801Z",
             "drift_outside_run_seconds": 0,
             "slack_seconds": 60
           }
@@ -210,8 +210,8 @@
             "count": 4,
             "threshold": 25,
             "nse_calendar_event_count": 6,
-            "nse_calendar_raw_event_count": 54,
-            "nse_calendar_fetched_at": "2026-08-29T08:56:04.799Z",
+            "nse_calendar_raw_event_count": 51,
+            "nse_calendar_fetched_at": "2026-08-29T22:20:59.071Z",
             "nse_calendar_window_days": 60,
             "severity_reason": "NSE 60-day Financial Results calendar is itself below the fixed threshold"
           }
@@ -250,9 +250,9 @@
             "warn_at": 85,
             "usable_count": 4739,
             "target_count": 5542,
-            "pe_coverage_pct": 64.81,
-            "fetched_at": "2026-08-29T08:56:05.647Z",
-            "age_days": 0.13
+            "pe_coverage_pct": 64.83,
+            "fetched_at": "2026-08-29T22:20:59.871Z",
+            "age_days": 0.14
           }
         },
         {
@@ -267,8 +267,8 @@
             "stale_fallback_usable": true,
             "usable_count": 4739,
             "target_count": 5542,
-            "fetched_at": "2026-08-29T08:56:05.647Z",
-            "age_days": 0.13
+            "fetched_at": "2026-08-29T22:20:59.871Z",
+            "age_days": 0.14
           }
         },
         {
@@ -277,7 +277,7 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "age_days": 0.13,
+            "age_days": 0.14,
             "stale_grace_days": 3
           }
         },
@@ -294,12 +294,12 @@
           "severity": "WARN",
           "ok": false,
           "detail": {
-            "coverage_pct": 64.81,
+            "coverage_pct": 64.83,
             "warn_at": 85,
-            "usable_count": 3592,
+            "usable_count": 3593,
             "target_count": 5542,
-            "fetched_at": "2026-08-29T08:56:05.647Z",
-            "age_days": 0.13
+            "fetched_at": "2026-08-29T22:20:59.871Z",
+            "age_days": 0.14
           }
         },
         {
@@ -308,14 +308,14 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {
-            "coverage_pct": 64.81,
+            "coverage_pct": 64.83,
             "block_at": 70,
             "stale_grace_days": 21,
             "stale_fallback_usable": true,
-            "usable_count": 3592,
+            "usable_count": 3593,
             "target_count": 5542,
-            "fetched_at": "2026-08-29T08:56:05.647Z",
-            "age_days": 0.13
+            "fetched_at": "2026-08-29T22:20:59.871Z",
+            "age_days": 0.14
           }
         },
         {
@@ -324,7 +324,7 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "age_days": 0.13,
+            "age_days": 0.14,
             "stale_grace_days": 21
           }
         },
@@ -364,9 +364,9 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {
-            "fresh_pct": 98.97,
+            "fresh_pct": 99.62,
             "threshold": 85,
-            "fresh_count": 5485,
+            "fresh_count": 5521,
             "total": 5542,
             "scope": "universe_members",
             "orphans_excluded": 686
@@ -378,9 +378,9 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "fresh_pct": 98.97,
+            "fresh_pct": 99.62,
             "threshold": 95,
-            "fresh_count": 5485,
+            "fresh_count": 5521,
             "total": 5542,
             "scope": "universe_members",
             "orphans_excluded": 686
@@ -392,7 +392,7 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "stale_pct": 0.34,
+            "stale_pct": 0.38,
             "warn_at": 5,
             "sample": [
               "507968",
@@ -549,14 +549,14 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {
-            "current_count": 986,
+            "current_count": 988,
             "current_total": 5550,
             "current_pct": 17.8,
-            "baseline_count": 988,
+            "baseline_count": 986,
             "baseline_total": 5550,
             "baseline_pct": 17.8,
             "max_drop_pct": 20,
-            "floor": 790
+            "floor": 788
           }
         },
         {
@@ -666,12 +666,12 @@
             "stats": {
               "source": "loose",
               "raw_files": 6115,
-              "raw_with_price": 6065,
+              "raw_with_price": 6070,
               "deep_files": 6228,
               "raw_newer_than_deep": 0,
-              "raw_deep_checked": 6065,
-              "picks_cards_checked": 1981,
-              "raw_latest_fetched_at": "2026-08-29T08:55:59.639Z",
+              "raw_deep_checked": 6070,
+              "picks_cards_checked": 1976,
+              "raw_latest_fetched_at": "2026-08-29T22:20:52.503Z",
               "raw_latest_price_as_of": "2026-08-28T00:00:00.000Z"
             },
             "sample": [],
@@ -702,9 +702,9 @@
   "inputs": {
     "scored_count": 6228,
     "universe_size": 6228,
-    "started_at": "2026-08-28T19:14:22.000Z",
-    "finished_at": "2026-08-29T10:55:54.350Z",
-    "picks_scanned_at": "2026-08-29T10:50:59.778Z",
+    "started_at": "2026-08-29T19:00:16.000Z",
+    "finished_at": "2026-08-30T00:27:10.801Z",
+    "picks_scanned_at": "2026-08-30T00:22:11.478Z",
     "pipeline_status": "success"
   }
 }
