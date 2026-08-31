@@ -4,17 +4,22 @@
 // dot + an inline-styled pill on the main rail — visually noisy on every page
 // and a reduced-motion liability. PR7 replaces each with one token-based
 // .tab-flag chip: no animation, same tab, same label. #458 flat-nav is intact
-// (the tabs are not hidden or reordered; only the badge collapses <720px).
+// (the tabs are not hidden; only the badge collapses <720px).
+//
+// 2026-08-28: Sector Outlook graduated — its chip is gone and the tab moved
+// ahead of the labs on the rail, so only two flagged tabs remain. The exact
+// count is asserted so a chip cannot silently reappear (or spread to a
+// shipped tab).
 
 import { test, expect } from "@playwright/test";
 import { gotoApp } from "./helpers/app.mjs";
 
 test.describe("experimental tab flags", () => {
-  test("exactly three calm, non-animated flags on the labelled tabs", async ({ page }) => {
+  test("exactly two calm, non-animated flags on the labelled tabs", async ({ page }) => {
     await gotoApp(page, { tab: "picks" });
 
     const flags = page.locator("#mainTabs .tab-flag");
-    await expect(flags).toHaveCount(3);
+    await expect(flags).toHaveCount(2);
 
     // None of the flags animate (the pulse keyframe is gone).
     const anims = await flags.evaluateAll((els) =>
@@ -22,16 +27,29 @@ test.describe("experimental tab flags", () => {
     );
     for (const a of anims) expect(a === "none" || a === "").toBeTruthy();
 
-    // The flags sit on the three experimental tabs, which keep their labels.
+    // The flags sit on the two experimental tabs, which keep their labels.
     for (const [id, label] of [
       ["riskLabTabBtn", "Risk Lab"],
       ["multibaggerLabTabBtn", "5x Lab"],
-      ["sectorOutlookTabBtn", "Sector Outlook"],
     ]) {
       const btn = page.locator(`#${id}`);
       await expect(btn).toContainText(label);
       await expect(btn.locator(".tab-flag")).toHaveCount(1);
     }
+
+    // Graduated tabs carry no chip at all.
+    await expect(page.locator("#sectorOutlookTabBtn .tab-flag")).toHaveCount(0);
+
+    // …and Sector Outlook sits ahead of both labs on the rail.
+    const order = await page
+      .locator("#mainTabs .tab")
+      .evaluateAll((els) => els.map((e) => e.id));
+    expect(order.indexOf("sectorOutlookTabBtn")).toBeLessThan(
+      order.indexOf("riskLabTabBtn"),
+    );
+    expect(order.indexOf("sectorOutlookTabBtn")).toBeLessThan(
+      order.indexOf("multibaggerLabTabBtn"),
+    );
   });
 
   test("the flag collapses below 720px but the tab stays (flat-nav intact)", async ({ browser }) => {

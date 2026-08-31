@@ -118,8 +118,9 @@ test.describe("Sector Outlook tab (v1)", () => {
     await gotoApp(page);
     const btn = page.locator("#sectorOutlookTabBtn");
     await expect(btn).toBeVisible({ timeout: 10_000 });
-    // Tab button has EXPERIMENTAL pill
-    await expect(btn.locator("text=EXPERIMENTAL")).toBeVisible();
+    // Graduated 2026-08-28 — no EXPERIMENTAL chip on the rail button.
+    await expect(btn.locator(".tab-flag")).toHaveCount(0);
+    await expect(btn).not.toContainText("EXPERIMENTAL");
   });
 
   test("clicking the tab renders sector matrix + methodology section", async ({ page, request }) => {
@@ -138,8 +139,12 @@ test.describe("Sector Outlook tab (v1)", () => {
     await expect(tab.locator("thead th").nth(2)).toContainText("Outlook");
     // Methodology section is always rendered
     await expect(tab.locator("summary:has-text('Methodology')")).toBeVisible();
-    // Backtest panel — explicit EXPERIMENTAL status
+    // Backtest panel — the scope limit survives the badge removal.
     await expect(tab.locator("summary:has-text('Backtest status')")).toBeVisible();
+    // …and the page header no longer carries an EXPERIMENTAL badge.
+    await expect(tab.locator("h2:has-text('Sector Outlook')")).not.toContainText(
+      "EXPERIMENTAL",
+    );
   });
 
   test("horizon tabs switch matrix between 3-12m and 12-24m", async ({ page, request }) => {

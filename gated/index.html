@@ -5383,12 +5383,12 @@
       <button class="tab" id="usersTabBtn" role="tab" aria-selected="false" aria-controls="usersTab" hidden onclick="switchTab('users')">Users</button>
       <button class="tab" id="usPicksTabBtn" role="tab" aria-selected="false" aria-controls="usPicksTab" onclick="switchTab('usPicks')">US Market</button>
       <button class="tab" id="earningsTabBtn" role="tab" aria-selected="false" aria-controls="earningsTab" onclick="switchTab('earnings')">Earnings Watch</button>
+      <!-- Sector Outlook — bottom-up SWS news theme aggregation × current macro regime. Graduated out of EXPERIMENTAL 2026-08-28: the surface is stable, so it sits with the shipped tabs ahead of the labs and carries no flag chip. Sector-level only; no named stock recommendations. Hidden when localStorage.sectorOutlookEnabled_v1 === "false". -->
+      <button class="tab" id="sectorOutlookTabBtn" role="tab" aria-selected="false" aria-controls="sectorOutlookTab" onclick="switchTab('sectorOutlook')">Sector Outlook</button>
       <!-- Risk Lab (experimental) — macro/geopolitical + earnings-quality overlay on existing picks/predictions. Hidden when localStorage.riskLabEnabled === "false". -->
       <button class="tab" id="riskLabTabBtn" role="tab" aria-selected="false" aria-controls="riskLabTab" onclick="switchTab('riskLab')" style="display:inline-flex; align-items:center; gap:6px;">Risk Lab<span class="tab-flag tab-flag--warn">EXPERIMENTAL</span></button>
       <!-- 5x Lab — concentrated multibagger strategy targeting ₹1L → ₹5L net in 12 months. Open to every signed-in user. -->
       <button class="tab" id="multibaggerLabTabBtn" role="tab" aria-selected="false" aria-controls="multibaggerLabTab" onclick="switchTab('multibaggerLab')" style="display:inline-flex; align-items:center; gap:6px;">5x Lab<span class="tab-flag tab-flag--lab">EXPERIMENTAL</span></button>
-      <!-- Sector Outlook (experimental) — bottom-up SWS news theme aggregation × current macro regime. Sector-level only; no named stock recommendations in v1. Hidden when localStorage.sectorOutlookEnabled_v1 === "false". -->
-      <button class="tab" id="sectorOutlookTabBtn" role="tab" aria-selected="false" aria-controls="sectorOutlookTab" onclick="switchTab('sectorOutlook')" style="display:inline-flex; align-items:center; gap:6px;">Sector Outlook<span class="tab-flag tab-flag--lab">EXPERIMENTAL</span></button>
       <button class="tab" id="trackTabBtn" role="tab" aria-selected="false" aria-controls="trackTab" onclick="switchTab('track')">Track Record</button>
       </div>
       <button type="button" class="scroll-rail-btn scroll-rail-btn-right" data-scroll-dir="right" aria-label="Scroll platform tabs right" hidden>&rsaquo;</button>
@@ -6198,9 +6198,8 @@
        Defer so it initialises after app.js exposes switchTab + globals. -->
   <script src="/assets/gated/multibaggerLab.js" defer></script>
 
-  <!-- Sector Outlook (experimental) — bottom-up SWS news theme aggregation
-       × current macro regime. Sector-level only; no named stock
-       recommendations in v1. -->
+  <!-- Sector Outlook — bottom-up SWS news theme aggregation × current macro
+       regime. Sector-level only; no named stock recommendations. -->
   <script src="/assets/gated/sectorOutlook.js" defer></script>
 
   <!-- PR #8: global keyboard shortcuts. Defer so it loads after app.js

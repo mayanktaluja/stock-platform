@@ -114,7 +114,7 @@ graceful-degrades. They're only needed if you're refreshing data.
 | **Track Record** | Public-facing performance log: every recommendation, when issued, what it returned vs Nifty. | `gated/index.html#trackTab`, `services/recommendationLedger.js` |
 | **Watchlist** | User-curated list, persists in `.watchlist.json`. | `gated/app.js`, `.watchlist.json` |
 | **News digest** (`news` tab) | Daily catalyst/news roundup with LLM-flagged disagreements. | `gated/app.js`, `services/catalystsService.js` |
-| **Sector Outlook** (experimental) | Bottom-up SWS news themes × current macro regime. No named stock picks in v1. Visible to all signed-in users. | `gated/sectorOutlook.js`, `data/sectorOutlook/` |
+| **Sector Outlook** | Bottom-up SWS news themes × current macro regime. No named stock picks. Visible to all signed-in users; graduated out of EXPERIMENTAL 2026-08-28 and sits ahead of the lab tabs on the rail. | `gated/sectorOutlook.js`, `data/sectorOutlook/` |
 | **5x Lab** (`multibagger`) | Concentrated multibagger strategy (₹1L→₹5L/12m) with per-pick rationale + live pre-mortem. UI states a <10% base rate. Visible to all signed-in users. | `gated/multibaggerLab.js`, `services/multibagger/`, `scripts/refresh-5x-strategy.mjs` |
 
 ## Data pipelines (refresh cadences)

@@ -39,7 +39,7 @@ const MODULE_CAPS = {
   "app.js": 486,           // PR2 swept 70 fills (574→504); PR4 tonePill/freshnessChip + dead VERDICT_PALETTE (504→486)
   "earnings.js": 101,      // PR5 swept 7 navy panels → --surface-navy-glass-* (108→101)
   "riskLab.js": 27,        // PR5 swept 11 navy panels → --surface-navy-glass-* (38→27)
-  "sectorOutlook.js": 25,  // PR5c target ~8
+  "sectorOutlook.js": 23,  // header EXPERIMENTAL badge dropped (25→23); target ~8
   "multibaggerLab.js": 8,
   "swsV2Render.js": 2,
   "glossary.js": 0,
