@@ -1,6 +1,6 @@
 {
   "schema_version": "earnings-health-v1",
-  "generated_at": "2026-08-30T01:37:42.349Z",
+  "generated_at": "2026-08-31T03:40:26.758Z",
   "resolved": {
     "count": 1097,
     "delta_vs_prior": 0,
@@ -9,16 +9,16 @@
   "llm_providers": {
     "groq": 0,
     "gemini": 0,
-    "heuristic": 4,
+    "heuristic": 3,
     "none": 2,
-    "total": 6
+    "total": 5
   },
   "llm_offline": false,
   "llm_heuristic_share_pct": 0,
   "llm_stats": {
-    "total": 6,
-    "classified": 4,
-    "cache_hits": 3,
+    "total": 5,
+    "classified": 3,
+    "cache_hits": 2,
     "llm_calls": 0,
     "heuristic": 1,
     "heuristic_cache_invalidations": 0,
@@ -31,7 +31,7 @@
   "cap_lift_gate": {
     "state": false,
     "enough_data_to_lift_cap": false,
-    "days_in_current_state": 106,
+    "days_in_current_state": 107,
     "current_resolved": 0,
     "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (1097 across all versions)",
     "detail": {
@@ -96,7 +96,7 @@
       "gate": {
         "state": false,
         "enough_data_to_lift_cap": false,
-        "days_in_current_state": 106,
+        "days_in_current_state": 107,
         "current_resolved": 0,
         "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (1097 across all versions)",
         "detail": {
@@ -170,10 +170,10 @@
     }
   },
   "archive_schema": {
-    "earnings-history-v5": 90
+    "earnings-history-v5": 91
   },
   "predictor_versions": {
-    "earnings-predict-v3-2026-05": 6
+    "earnings-predict-v3-2026-05": 5
   },
   "restatements": {
     "count": 0,
@@ -194,40 +194,40 @@
   },
   "macro_regime": {
     "present": true,
-    "generated_at": "2026-08-29T16:52:36.978Z",
-    "age_hours": 9,
+    "generated_at": "2026-08-30T08:30:21.476Z",
+    "age_hours": 19,
     "classifier_provider": "groq",
-    "regime": "RATE_HIKE",
-    "stale": false,
-    "alert": null
+    "regime": "OIL_SHOCK",
+    "stale": true,
+    "alert": "Macro regime is 19h old (threshold 18h) — com.starbhai.macro-only cron is unhealthy; check data/macroRegime-refresh.log"
   },
   "picks_snapshot_fv_drift": {
     "pipeline": null,
     "runtime_24h": null,
     "alert": null
   },
-  "history_files": 90,
+  "history_files": 91,
   "hit_rate_summary": {
     "schema_version": "hit-rate-summary-v1",
-    "generated_at": "2026-08-30T01:37:43.020Z",
+    "generated_at": "2026-08-31T03:40:27.507Z",
     "resolved_count": 974,
     "unresolved_count": 3055,
     "strict": {
       "hit_rate_pct": 41.4,
-      "ci_low_pct": 38.2,
-      "ci_high_pct": 44.3,
+      "ci_low_pct": 38.5,
+      "ci_high_pct": 44.4,
       "sample_size": 974
     },
     "lenient": {
       "hit_rate_pct": 79.8,
-      "ci_low_pct": 77.5,
+      "ci_low_pct": 77.4,
       "ci_high_pct": 82.3,
       "sample_size": 972
     },
     "catastrophic": {
       "rate_pct": 20.2,
-      "ci_low_pct": 17.7,
-      "ci_high_pct": 22.8,
+      "ci_low_pct": 17.6,
+      "ci_high_pct": 22.6,
       "sample_size": 972
     },
     "rolling_30": {
@@ -239,8 +239,9 @@
     "catastrophic_alert_threshold_pct": 12
   },
   "alerts": [
-    "LLM signal is 100% heuristic (4/6) — GROQ_API_KEY / GEMINI_API_KEY likely not configured on the refresh host, OR every cached entry is from a no-keys run and the cache hasn't been re-classified (try `node scripts/refresh-earnings.mjs --purge-heuristic-cache --yes` followed by a refresh)",
+    "LLM signal is 100% heuristic (3/5) — GROQ_API_KEY / GEMINI_API_KEY likely not configured on the refresh host, OR every cached entry is from a no-keys run and the cache hasn't been re-classified (try `node scripts/refresh-earnings.mjs --purge-heuristic-cache --yes` followed by a refresh)",
     "INSUFFICIENT_DATA predictions trending UP: 45 in last 30d vs 18 prior 30d (+150%) — predictor coverage may be degrading",
+    "Macro regime is 19h old (threshold 18h) — com.starbhai.macro-only cron is unhealthy; check data/macroRegime-refresh.log",
     "Catastrophic rate alert: rolling-30 23.3% (7/30) exceeds 12% threshold — Risk Lab promotion gate cannot clear"
   ],
   "healthy": false
