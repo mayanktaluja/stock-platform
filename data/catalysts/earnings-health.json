@@ -1,6 +1,6 @@
 {
   "schema_version": "earnings-health-v1",
-  "generated_at": "2026-08-31T03:40:26.758Z",
+  "generated_at": "2026-09-01T02:33:44.465Z",
   "resolved": {
     "count": 1097,
     "delta_vs_prior": 0,
@@ -9,16 +9,16 @@
   "llm_providers": {
     "groq": 0,
     "gemini": 0,
-    "heuristic": 3,
+    "heuristic": 1,
     "none": 2,
-    "total": 5
+    "total": 3
   },
   "llm_offline": false,
   "llm_heuristic_share_pct": 0,
   "llm_stats": {
-    "total": 5,
-    "classified": 3,
-    "cache_hits": 2,
+    "total": 3,
+    "classified": 1,
+    "cache_hits": 0,
     "llm_calls": 0,
     "heuristic": 1,
     "heuristic_cache_invalidations": 0,
@@ -31,7 +31,7 @@
   "cap_lift_gate": {
     "state": false,
     "enough_data_to_lift_cap": false,
-    "days_in_current_state": 107,
+    "days_in_current_state": 108,
     "current_resolved": 0,
     "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (1097 across all versions)",
     "detail": {
@@ -96,7 +96,7 @@
       "gate": {
         "state": false,
         "enough_data_to_lift_cap": false,
-        "days_in_current_state": 107,
+        "days_in_current_state": 108,
         "current_resolved": 0,
         "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (1097 across all versions)",
         "detail": {
@@ -170,10 +170,10 @@
     }
   },
   "archive_schema": {
-    "earnings-history-v5": 91
+    "earnings-history-v5": 92
   },
   "predictor_versions": {
-    "earnings-predict-v3-2026-05": 5
+    "earnings-predict-v3-2026-05": 3
   },
   "restatements": {
     "count": 0,
@@ -186,48 +186,48 @@
     "examples": []
   },
   "insufficient_data": {
-    "count_total": 113,
-    "count_7d": 2,
+    "count_total": 114,
+    "count_7d": 3,
     "count_30d": 45,
-    "count_prior_30d": 18,
-    "trend_pct_30d_vs_prior": 150
+    "count_prior_30d": 19,
+    "trend_pct_30d_vs_prior": 136.8
   },
   "macro_regime": {
     "present": true,
-    "generated_at": "2026-08-30T08:30:21.476Z",
-    "age_hours": 19,
+    "generated_at": "2026-08-31T18:40:05.101Z",
+    "age_hours": 8,
     "classifier_provider": "groq",
-    "regime": "OIL_SHOCK",
-    "stale": true,
-    "alert": "Macro regime is 19h old (threshold 18h) — com.starbhai.macro-only cron is unhealthy; check data/macroRegime-refresh.log"
+    "regime": "WAR_ESCALATION",
+    "stale": false,
+    "alert": null
   },
   "picks_snapshot_fv_drift": {
     "pipeline": null,
     "runtime_24h": null,
     "alert": null
   },
-  "history_files": 91,
+  "history_files": 92,
   "hit_rate_summary": {
     "schema_version": "hit-rate-summary-v1",
-    "generated_at": "2026-08-31T03:40:27.507Z",
+    "generated_at": "2026-09-01T02:33:45.210Z",
     "resolved_count": 974,
-    "unresolved_count": 3055,
+    "unresolved_count": 3057,
     "strict": {
       "hit_rate_pct": 41.4,
       "ci_low_pct": 38.5,
-      "ci_high_pct": 44.4,
+      "ci_high_pct": 44.6,
       "sample_size": 974
     },
     "lenient": {
       "hit_rate_pct": 79.8,
-      "ci_low_pct": 77.4,
-      "ci_high_pct": 82.3,
+      "ci_low_pct": 77.3,
+      "ci_high_pct": 82.5,
       "sample_size": 972
     },
     "catastrophic": {
       "rate_pct": 20.2,
-      "ci_low_pct": 17.6,
-      "ci_high_pct": 22.6,
+      "ci_low_pct": 17.8,
+      "ci_high_pct": 22.7,
       "sample_size": 972
     },
     "rolling_30": {
@@ -239,9 +239,8 @@
     "catastrophic_alert_threshold_pct": 12
   },
   "alerts": [
-    "LLM signal is 100% heuristic (3/5) — GROQ_API_KEY / GEMINI_API_KEY likely not configured on the refresh host, OR every cached entry is from a no-keys run and the cache hasn't been re-classified (try `node scripts/refresh-earnings.mjs --purge-heuristic-cache --yes` followed by a refresh)",
-    "INSUFFICIENT_DATA predictions trending UP: 45 in last 30d vs 18 prior 30d (+150%) — predictor coverage may be degrading",
-    "Macro regime is 19h old (threshold 18h) — com.starbhai.macro-only cron is unhealthy; check data/macroRegime-refresh.log",
+    "LLM signal is 100% heuristic (1/3) — GROQ_API_KEY / GEMINI_API_KEY likely not configured on the refresh host, OR every cached entry is from a no-keys run and the cache hasn't been re-classified (try `node scripts/refresh-earnings.mjs --purge-heuristic-cache --yes` followed by a refresh)",
+    "INSUFFICIENT_DATA predictions trending UP: 45 in last 30d vs 19 prior 30d (+136.8%) — predictor coverage may be degrading",
     "Catastrophic rate alert: rolling-30 23.3% (7/30) exceeds 12% threshold — Risk Lab promotion gate cannot clear"
   ],
   "healthy": false
