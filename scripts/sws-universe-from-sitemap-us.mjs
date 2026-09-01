@@ -19,6 +19,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import https from "node:https";
+import { fileURLToPath } from "node:url";
 import { PATHS, UNIVERSE, SHARED_FINGERPRINT } from "./sws-config-us.mjs";
 
 const USER_AGENT = SHARED_FINGERPRINT.userAgent;
@@ -120,27 +121,88 @@ function buildUniverse(all, includeOtc) {
     }
   }
   const out = [...bySlug.values()];
-  out.sort((a, b) => {
+  return reindex(
+    out.map((e) => ({
+      ticker: e.ticker,
+      sws_short_id: e.sws_short_id,
+      exchange: e.exchange,
+      sector: e.sector,
+      slug: e.slug,
+      sws_url: e.sws_url,
+      indices: [],
+      curated: false,
+      market_cap_usd: null,
+      industry: null,
+      name: null,
+      source: "sitemap",
+    })),
+  );
+}
+
+// Stable ordering + contiguous 0..n-1 `index`. The scrape shards slice this
+// array by index (shardSliceContiguous), so the order must be reproducible
+// across machines — hence codepoint comparison, never localeCompare.
+function reindex(entries) {
+  const sorted = [...entries].sort((a, b) => {
     const pa = EXCHANGE_PRIORITY[a.exchange] || 9;
     const pb = EXCHANGE_PRIORITY[b.exchange] || 9;
     if (pa !== pb) return pa - pb;
-    return a.ticker.localeCompare(b.ticker);
+    return a.ticker < b.ticker ? -1 : a.ticker > b.ticker ? 1 : 0;
   });
-  return out.map((e, i) => ({
-    index: i,
-    ticker: e.ticker,
-    sws_short_id: e.sws_short_id,
-    exchange: e.exchange,
-    sector: e.sector,
-    slug: e.slug,
-    sws_url: e.sws_url,
-    indices: [],
-    curated: false,
-    market_cap_usd: null,
-    industry: null,
-    name: null,
-    source: "sitemap",
-  }));
+  return sorted.map((e, i) => ({ ...e, index: i }));
+}
+
+// Identity for merging. Slug is the SWS company id and is what buildUniverse
+// dedups on; exchange+ticker is the fallback for older rows written before the
+// slug was persisted.
+function universeKey(e) {
+  return e.slug ? `slug:${e.slug}` : `xt:${e.exchange}:${e.ticker}`;
+}
+
+// The sitemap is authoritative for METADATA, not for MEMBERSHIP. A short or
+// partially-failed shard fetch must never delete tickers we already track —
+// that is exactly how the 2026-08-05 truncation dropped 2056 names (5452 →
+// 3619, incl. AMZN/XOM/ABNB) and served stale blue chips for six days.
+// Two passes: retain every existing row, overlay fresh sitemap metadata on top.
+function mergeWithExisting(fresh, existing) {
+  const merged = new Map();
+  for (const e of existing) merged.set(universeKey(e), e);
+  let updated = 0;
+  let added = 0;
+  for (const e of fresh) {
+    const key = universeKey(e);
+    const prior = merged.get(key);
+    if (prior) {
+      updated++;
+      // Fresh metadata wins; keep locally-enriched fields the sitemap nulls out.
+      merged.set(key, {
+        ...prior,
+        ticker: e.ticker,
+        sws_short_id: e.sws_short_id,
+        exchange: e.exchange,
+        sector: e.sector,
+        slug: e.slug,
+        sws_url: e.sws_url,
+        source: "sitemap",
+      });
+    } else {
+      added++;
+      merged.set(key, e);
+    }
+  }
+  const retained = merged.size - added - updated;
+  return { entries: reindex([...merged.values()]), added, updated, retained };
+}
+
+function readExistingUniverse() {
+  try {
+    if (!fs.existsSync(PATHS.universe)) return [];
+    const parsed = JSON.parse(fs.readFileSync(PATHS.universe, "utf-8"));
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (err) {
+    console.error(`Could not read existing universe (${err.message}) — treating as empty.`);
+    return [];
+  }
 }
 
 async function main() {
@@ -182,25 +244,68 @@ async function main() {
     return;
   }
 
+  const existing = readExistingUniverse();
+
+  // Shrink guard — gated on what THIS run actually fetched, never on the merged
+  // set (a merged-set gate is self-satisfying: the merge alone guarantees the
+  // count never falls, so it would pass straight through a total fetch
+  // blackout). A sitemap that comes back materially shorter than what we
+  // already track means shards failed, not that 30% of US equities delisted.
+  //
+  // This deliberately does NOT reuse India's assessMembershipLoss() from
+  // sws-universe-from-sitemap.mjs: that guard scores rows the merge would DROP,
+  // and this merge is strictly monotonic, so it would read 0 drops / 0 shrink on
+  // every run including a total blackout — a vacuous check. Same intent (block a
+  // bad crawl), measured on the only axis that still moves here.
+  const minRatio = Number(process.env.US_UNIVERSE_MIN_FETCH_RATIO || 0.9);
+  if (existing.length > 0 && universe.length < existing.length * minRatio) {
+    const pct = ((universe.length / existing.length) * 100).toFixed(1);
+    console.error(
+      `REFUSING to write: sitemap fetch returned ${universe.length} vs ${existing.length} tracked (${pct}%, floor ${(minRatio * 100).toFixed(0)}%).`,
+    );
+    console.error(
+      "This is a short/failed fetch, not a delisting wave. universe.json + universe-meta.json left untouched;",
+    );
+    console.error(
+      "the side file universe-from-sitemap.json holds what was fetched. Re-run once the sitemap is healthy.",
+    );
+    process.exit(1);
+  }
+
+  const { entries: mergedUniverse, added, updated, retained } = mergeWithExisting(universe, existing);
+  const mergedExCounts = {};
+  for (const e of mergedUniverse) mergedExCounts[e.exchange] = (mergedExCounts[e.exchange] || 0) + 1;
+  console.error(
+    `\nMerge vs existing (${existing.length} tracked): +${added} new, ${updated} refreshed, ${retained} retained (absent from this fetch).`,
+  );
+
   const tmp = PATHS.universe + ".tmp." + process.pid;
-  fs.writeFileSync(tmp, JSON.stringify(universe, null, 2));
+  fs.writeFileSync(tmp, JSON.stringify(mergedUniverse, null, 2));
   fs.renameSync(tmp, PATHS.universe);
   const meta = {
     generatedAt: new Date().toISOString(),
     source: "sws-public-sitemap",
     region: "us",
     includeOtc,
-    count: universe.length,
-    exchanges: exCounts,
+    count: mergedUniverse.length,
+    exchanges: mergedExCounts,
+    fetched_count: universe.length,
+    merge: { added, updated, retained },
   };
   const metaTmp = PATHS.universeMeta + ".tmp." + process.pid;
   fs.writeFileSync(metaTmp, JSON.stringify(meta, null, 2));
   fs.renameSync(metaTmp, PATHS.universeMeta);
-  console.error(`✓ ${PATHS.universe} → ${universe.length} entries.`);
+  console.error(`✓ ${PATHS.universe} → ${mergedUniverse.length} entries.`);
   console.error(`✓ ${PATHS.universeMeta} stamped.`);
 }
 
-main().catch((e) => {
-  console.error("FATAL:", e);
-  process.exit(1);
-});
+// Exported for test/usUniverseMerge.test.mjs. The entrypoint guard keeps that
+// import from firing a live sitemap fetch.
+export { mergeWithExisting, reindex, universeKey };
+
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  main().catch((e) => {
+    console.error("FATAL:", e);
+    process.exit(1);
+  });
+}
