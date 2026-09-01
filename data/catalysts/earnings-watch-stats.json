@@ -1,16 +1,16 @@
 {
   "schema_version": "earnings-watch-stats-v4",
-  "built_at": "2026-08-31T03:24:32.475Z",
-  "today_iso": "2026-08-31",
+  "built_at": "2026-09-01T02:17:40.360Z",
+  "today_iso": "2026-09-01",
   "window_days": 60,
-  "upstream_event_count": 52,
-  "upstream_fetched_at": "2026-08-30T20:55:45.832Z",
-  "event_count": 5,
-  "recent_results_count": 20,
+  "upstream_event_count": 46,
+  "upstream_fetched_at": "2026-08-31T19:51:31.433Z",
+  "event_count": 3,
+  "recent_results_count": 22,
   "past_window_days": 14,
   "bucket_by_days": {
-    "d0": 4,
-    "d1to3": 1,
+    "d0": 1,
+    "d1to3": 2,
     "d4to7": 0,
     "d8to14": 0,
     "d15to30": 0,
@@ -18,26 +18,18 @@
   },
   "signals": {
     "by_data_quality": {
-      "HIGH": 3,
+      "HIGH": 1,
       "MEDIUM": 0,
       "LOW": 2
     },
     "by_pre_runup": {
-      "spike": 2,
+      "spike": 1,
       "smooth": 0,
       "lagging": 0,
-      "neutral": 3
+      "neutral": 2
     },
-    "sector_count": 3,
+    "sector_count": 1,
     "top_sectors": [
-      {
-        "sector": "Food, Beverage & Tobacco",
-        "count": 1
-      },
-      {
-        "sector": "Automobiles",
-        "count": 1
-      },
       {
         "sector": "Materials",
         "count": 1
@@ -47,28 +39,28 @@
   "predictions": {
     "by_verdict": {
       "BEAT": 0,
-      "INLINE": 1,
-      "MISS": 2,
+      "INLINE": 0,
+      "MISS": 1,
       "INSUFFICIENT_DATA": 2
     },
-    "avg_confidence_pct": 61,
+    "avg_confidence_pct": 65,
     "confidence_cap_pct": 65,
     "predictor_version": "earnings-predict-v3-2026-05"
   },
   "playbooks": {
-    "tradable_count": 3,
+    "tradable_count": 1,
     "by_highlighted_branch": {
       "RAISE": 0,
-      "MAINTAIN": 1,
-      "CUT": 2,
+      "MAINTAIN": 0,
+      "CUT": 1,
       "none": 2
     },
     "playbook_version": "earnings-playbook-v1-2026-05"
   },
   "llm_stats": {
-    "total": 5,
-    "classified": 3,
-    "cache_hits": 2,
+    "total": 3,
+    "classified": 1,
+    "cache_hits": 0,
     "llm_calls": 0,
     "heuristic": 1,
     "heuristic_cache_invalidations": 0,
