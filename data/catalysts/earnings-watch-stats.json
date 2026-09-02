@@ -1,71 +1,79 @@
 {
   "schema_version": "earnings-watch-stats-v4",
-  "built_at": "2026-09-01T02:17:40.360Z",
-  "today_iso": "2026-09-01",
+  "built_at": "2026-09-02T02:59:19.324Z",
+  "today_iso": "2026-09-02",
   "window_days": 60,
-  "upstream_event_count": 46,
-  "upstream_fetched_at": "2026-08-31T19:51:31.433Z",
-  "event_count": 3,
-  "recent_results_count": 22,
+  "upstream_event_count": 53,
+  "upstream_fetched_at": "2026-09-01T20:16:24.283Z",
+  "event_count": 7,
+  "recent_results_count": 21,
   "past_window_days": 14,
   "bucket_by_days": {
     "d0": 1,
     "d1to3": 2,
-    "d4to7": 0,
+    "d4to7": 2,
     "d8to14": 0,
     "d15to30": 0,
-    "d31to60": 0
+    "d31to60": 2
   },
   "signals": {
     "by_data_quality": {
-      "HIGH": 1,
+      "HIGH": 4,
       "MEDIUM": 0,
-      "LOW": 2
+      "LOW": 3
     },
     "by_pre_runup": {
-      "spike": 1,
+      "spike": 0,
       "smooth": 0,
-      "lagging": 0,
-      "neutral": 2
+      "lagging": 3,
+      "neutral": 4
     },
-    "sector_count": 1,
+    "sector_count": 3,
     "top_sectors": [
       {
         "sector": "Materials",
+        "count": 2
+      },
+      {
+        "sector": "Healthcare",
+        "count": 1
+      },
+      {
+        "sector": "Software",
         "count": 1
       }
     ]
   },
   "predictions": {
     "by_verdict": {
-      "BEAT": 0,
+      "BEAT": 2,
       "INLINE": 0,
-      "MISS": 1,
-      "INSUFFICIENT_DATA": 2
+      "MISS": 2,
+      "INSUFFICIENT_DATA": 3
     },
-    "avg_confidence_pct": 65,
+    "avg_confidence_pct": 57,
     "confidence_cap_pct": 65,
     "predictor_version": "earnings-predict-v3-2026-05"
   },
   "playbooks": {
-    "tradable_count": 1,
+    "tradable_count": 4,
     "by_highlighted_branch": {
-      "RAISE": 0,
-      "MAINTAIN": 0,
-      "CUT": 1,
-      "none": 2
+      "RAISE": 3,
+      "MAINTAIN": 1,
+      "CUT": 0,
+      "none": 3
     },
     "playbook_version": "earnings-playbook-v1-2026-05"
   },
   "llm_stats": {
-    "total": 3,
-    "classified": 1,
+    "total": 7,
+    "classified": 4,
     "cache_hits": 0,
-    "llm_calls": 0,
-    "heuristic": 1,
+    "llm_calls": 1,
+    "heuristic": 3,
     "heuristic_cache_invalidations": 0,
     "cross_floor_invalidations": 0,
-    "below_v3_floor": 1,
+    "below_v3_floor": 3,
     "composite_floor": 47,
     "llm_available": true,
     "skip_llm": false

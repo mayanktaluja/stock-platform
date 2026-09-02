@@ -1,19 +1,21 @@
 {
   "schema_version": "macro-thesis-v1",
-  "generated_at": "2026-09-01T02:37:42.775Z",
+  "generated_at": "2026-09-02T03:19:16.282Z",
   "regime": {
     "regime": "WAR_ESCALATION",
     "severity": 4,
-    "confidence": 0.78,
+    "confidence": 0.86,
     "label": "War Escalation",
-    "generated_at": "2026-08-31T18:40:05.101Z",
+    "generated_at": "2026-09-01T16:30:32.279Z",
     "days_in_state": 0,
     "stale": false,
-    "reasoning": "Multiple recent headlines highlight renewed Iran-US conflict driving oil prices and risk sentiment",
+    "reasoning": "Multiple A‑level reports of Iran‑related strikes and tanker attacks lift oil and heighten geopolitical risk.",
     "key_events": [
-      "Longer-dated US Treasury yields climb as Iran and US restart military attacks (Economic Times)",
-      "Trump says US will hit Iran ‘hard’ as conflict reignites (FT Markets)",
-      "US stocks fall as Iran war escalation sends oil prices up (Economic Times)"
+      "Trump summons US refiners as Iran war pushes up fuel prices (FT Markets)",
+      "Saudi and South Korean oil tankers hit in Strait of Hormuz (FT Markets)",
+      "Oil up more than 2% as renewed US‑Iran strikes stoke supply fears (Economic Times)",
+      "Global bond sell‑off deepens amid inflation fears (FT Markets)",
+      "US Treasury bond yields ease from highs after data as Iran war escalation fans inflation concerns (Economic Times)"
     ],
     "classifier_provider": "groq",
     "source_health": {
@@ -41,51 +43,61 @@
     "sector_impacts": [
       {
         "sector": "Energy",
-        "impact": 2,
-        "reason": "Oil prices surge on war news"
+        "impact": 3,
+        "reason": "Higher oil prices boost energy earnings"
       },
       {
         "sector": "Oil & Gas",
-        "impact": 2,
-        "reason": "Higher crude boosts sector earnings"
+        "impact": 3,
+        "reason": "Supply fears drive crude price rally"
       },
       {
         "sector": "Defence",
-        "impact": 1,
-        "reason": "War drives defence spending expectations"
-      },
-      {
-        "sector": "Metals",
-        "impact": 1,
-        "reason": "Commodity demand rises with oil price spike"
-      },
-      {
-        "sector": "IT Services",
-        "impact": -1,
-        "reason": "Risk‑off sentiment dents export‑oriented tech stocks"
+        "impact": 2,
+        "reason": "War escalation raises defence spending outlook"
       },
       {
         "sector": "Banking",
-        "impact": -1,
-        "reason": "Higher global risk and rate‑hop expectations pressure credit outlook"
+        "impact": -2,
+        "reason": "Rising rates and risk‑off pressure credit outlook"
+      },
+      {
+        "sector": "NBFC",
+        "impact": -2,
+        "reason": "Higher funding costs and market volatility"
+      },
+      {
+        "sector": "Real Estate",
+        "impact": -2,
+        "reason": "Higher yields and uncertainty dampen demand"
+      },
+      {
+        "sector": "Automobile",
+        "impact": 1,
+        "reason": "Strong sales offset broader risk aversion"
+      },
+      {
+        "sector": "Power",
+        "impact": 1,
+        "reason": "Higher oil prices improve generation margins"
       }
     ]
   },
-  "catalyst_proximity_days": 16,
+  "catalyst_proximity_days": 15,
   "upcoming_catalysts": [
     {
       "date": "2026-09-17",
       "kind": "FOMC",
       "label": "US FOMC Meeting — September 2026",
       "severity_potential": 3,
-      "days_until": 16
+      "days_until": 15
     },
     {
       "date": "2026-10-01",
       "kind": "RBI_MPC",
       "label": "RBI Monetary Policy Committee — October 2026",
       "severity_potential": 3,
-      "days_until": 30
+      "days_until": 29
     }
   ],
   "position_cap_pct": 10,
@@ -109,15 +121,15 @@
           "direction": "BENEFICIARY",
           "stock_candidates": {
             "sector": "Energy",
-            "candidates_total": 24,
-            "passed_filters": 8,
+            "candidates_total": 23,
+            "passed_filters": 7,
             "excluded_conglomerates": [],
             "stocks": [
               {
                 "ticker": "SEAMECLTD",
                 "name": "Seamec Limited",
                 "sector": "Energy",
-                "v4_score_100": 69.5,
+                "v4_score_100": 69.6,
                 "composite_score": 43.9,
                 "valuation_band": "DISCOUNT",
                 "upside_pct": 22.7,
@@ -127,10 +139,10 @@
                 "ticker": "ONGC",
                 "name": "Oil and Natural Gas Corporation Limited",
                 "sector": "Energy",
-                "v4_score_100": 54.2,
-                "composite_score": 35,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 27.1,
+                "v4_score_100": 54.3,
+                "composite_score": 34,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 24.6,
                 "verdict": "STRONG"
               },
               {
@@ -138,29 +150,29 @@
                 "name": "Aegis Vopak Terminals Limited",
                 "sector": "Energy",
                 "v4_score_100": 56.5,
-                "composite_score": 34,
+                "composite_score": 33.8,
                 "valuation_band": "DISCOUNT",
-                "upside_pct": 21.7,
+                "upside_pct": 21.1,
                 "verdict": "STRONG"
               },
               {
                 "ticker": "CHENNPETRO",
                 "name": "Chennai Petroleum Corporation Limited",
                 "sector": "Energy",
-                "v4_score_100": 71,
-                "composite_score": 33.8,
+                "v4_score_100": 70.7,
+                "composite_score": 33.1,
                 "valuation_band": "DISCOUNT",
-                "upside_pct": 12.7,
+                "upside_pct": 11,
                 "verdict": "TOP_PICK"
               },
               {
-                "ticker": "MRPL",
-                "name": "Mangalore Refinery and Petrochemicals Limited",
+                "ticker": "GESHIP",
+                "name": "The Great Eastern Shipping Company Limited",
                 "sector": "Energy",
-                "v4_score_100": 66.9,
-                "composite_score": 33.5,
-                "valuation_band": "FAIR",
-                "upside_pct": 7.2,
+                "v4_score_100": 65.3,
+                "composite_score": 30.7,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 40.8,
                 "verdict": "TOP_PICK"
               }
             ]
@@ -195,7 +207,7 @@
           "stock_candidates": {
             "sector": "Capital Goods",
             "candidates_total": 369,
-            "passed_filters": 106,
+            "passed_filters": 104,
             "excluded_conglomerates": [
               "ADANIENT"
             ],
@@ -204,10 +216,10 @@
                 "ticker": "WPIL",
                 "name": "WPIL Limited",
                 "sector": "Capital Goods",
-                "v4_score_100": 76.7,
-                "composite_score": 56.1,
+                "v4_score_100": 76.8,
+                "composite_score": 57,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 46.1,
+                "upside_pct": 48.3,
                 "verdict": "TOP_PICK"
               },
               {
@@ -215,40 +227,40 @@
                 "name": "J. Kumar Infraprojects Limited",
                 "sector": "Capital Goods",
                 "v4_score_100": 69.2,
-                "composite_score": 51.5,
+                "composite_score": 51.9,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 47.8,
+                "upside_pct": 49,
                 "verdict": "TOP_PICK"
               },
               {
                 "ticker": "EIEL",
                 "name": "Enviro Infra Engineers Limited",
                 "sector": "Capital Goods",
-                "v4_score_100": 59,
+                "v4_score_100": 58.9,
                 "composite_score": 51.3,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 43.1,
-                "verdict": "TOP_PICK"
+                "upside_pct": 46.9,
+                "verdict": "STRONG"
               },
               {
                 "ticker": "GMMPFAUDLR",
                 "name": "GMM Pfaudler Limited",
                 "sector": "Capital Goods",
-                "v4_score_100": 53.3,
+                "v4_score_100": 53.6,
                 "composite_score": 50.7,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 72.5,
+                "upside_pct": 65.9,
                 "verdict": "STRONG"
               },
               {
-                "ticker": "CEMPRO",
-                "name": "Cemindia Projects Limited",
+                "ticker": "TECHNOE",
+                "name": "Techno Electric & Engineering Company Limited",
                 "sector": "Capital Goods",
-                "v4_score_100": 67.9,
-                "composite_score": 50,
+                "v4_score_100": 57.3,
+                "composite_score": 49.3,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 27.8,
-                "verdict": "TOP_PICK"
+                "upside_pct": 46.7,
+                "verdict": "STRONG"
               }
             ]
           }
@@ -346,15 +358,15 @@
           "direction": "BENEFICIARY",
           "stock_candidates": {
             "sector": "Energy",
-            "candidates_total": 24,
-            "passed_filters": 8,
+            "candidates_total": 23,
+            "passed_filters": 7,
             "excluded_conglomerates": [],
             "stocks": [
               {
                 "ticker": "SEAMECLTD",
                 "name": "Seamec Limited",
                 "sector": "Energy",
-                "v4_score_100": 69.5,
+                "v4_score_100": 69.6,
                 "composite_score": 43.9,
                 "valuation_band": "DISCOUNT",
                 "upside_pct": 22.7,
@@ -364,10 +376,10 @@
                 "ticker": "ONGC",
                 "name": "Oil and Natural Gas Corporation Limited",
                 "sector": "Energy",
-                "v4_score_100": 54.2,
-                "composite_score": 35,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 27.1,
+                "v4_score_100": 54.3,
+                "composite_score": 34,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 24.6,
                 "verdict": "STRONG"
               },
               {
@@ -375,29 +387,29 @@
                 "name": "Aegis Vopak Terminals Limited",
                 "sector": "Energy",
                 "v4_score_100": 56.5,
-                "composite_score": 34,
+                "composite_score": 33.8,
                 "valuation_band": "DISCOUNT",
-                "upside_pct": 21.7,
+                "upside_pct": 21.1,
                 "verdict": "STRONG"
               },
               {
                 "ticker": "CHENNPETRO",
                 "name": "Chennai Petroleum Corporation Limited",
                 "sector": "Energy",
-                "v4_score_100": 71,
-                "composite_score": 33.8,
+                "v4_score_100": 70.7,
+                "composite_score": 33.1,
                 "valuation_band": "DISCOUNT",
-                "upside_pct": 12.7,
+                "upside_pct": 11,
                 "verdict": "TOP_PICK"
               },
               {
-                "ticker": "MRPL",
-                "name": "Mangalore Refinery and Petrochemicals Limited",
+                "ticker": "GESHIP",
+                "name": "The Great Eastern Shipping Company Limited",
                 "sector": "Energy",
-                "v4_score_100": 66.9,
-                "composite_score": 33.5,
-                "valuation_band": "FAIR",
-                "upside_pct": 7.2,
+                "v4_score_100": 65.3,
+                "composite_score": 30.7,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 40.8,
                 "verdict": "TOP_PICK"
               }
             ]
@@ -432,7 +444,7 @@
           "stock_candidates": {
             "sector": "Capital Goods",
             "candidates_total": 369,
-            "passed_filters": 106,
+            "passed_filters": 104,
             "excluded_conglomerates": [
               "ADANIENT"
             ],
@@ -441,10 +453,10 @@
                 "ticker": "WPIL",
                 "name": "WPIL Limited",
                 "sector": "Capital Goods",
-                "v4_score_100": 76.7,
-                "composite_score": 56.1,
+                "v4_score_100": 76.8,
+                "composite_score": 57,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 46.1,
+                "upside_pct": 48.3,
                 "verdict": "TOP_PICK"
               },
               {
@@ -452,40 +464,40 @@
                 "name": "J. Kumar Infraprojects Limited",
                 "sector": "Capital Goods",
                 "v4_score_100": 69.2,
-                "composite_score": 51.5,
+                "composite_score": 51.9,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 47.8,
+                "upside_pct": 49,
                 "verdict": "TOP_PICK"
               },
               {
                 "ticker": "EIEL",
                 "name": "Enviro Infra Engineers Limited",
                 "sector": "Capital Goods",
-                "v4_score_100": 59,
+                "v4_score_100": 58.9,
                 "composite_score": 51.3,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 43.1,
-                "verdict": "TOP_PICK"
+                "upside_pct": 46.9,
+                "verdict": "STRONG"
               },
               {
                 "ticker": "GMMPFAUDLR",
                 "name": "GMM Pfaudler Limited",
                 "sector": "Capital Goods",
-                "v4_score_100": 53.3,
+                "v4_score_100": 53.6,
                 "composite_score": 50.7,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 72.5,
+                "upside_pct": 65.9,
                 "verdict": "STRONG"
               },
               {
-                "ticker": "CEMPRO",
-                "name": "Cemindia Projects Limited",
+                "ticker": "TECHNOE",
+                "name": "Techno Electric & Engineering Company Limited",
                 "sector": "Capital Goods",
-                "v4_score_100": 67.9,
-                "composite_score": 50,
+                "v4_score_100": 57.3,
+                "composite_score": 49.3,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 27.8,
-                "verdict": "TOP_PICK"
+                "upside_pct": 46.7,
+                "verdict": "STRONG"
               }
             ]
           }
@@ -610,15 +622,15 @@
           "direction": "BENEFICIARY",
           "stock_candidates": {
             "sector": "Energy",
-            "candidates_total": 24,
-            "passed_filters": 8,
+            "candidates_total": 23,
+            "passed_filters": 7,
             "excluded_conglomerates": [],
             "stocks": [
               {
                 "ticker": "SEAMECLTD",
                 "name": "Seamec Limited",
                 "sector": "Energy",
-                "v4_score_100": 69.5,
+                "v4_score_100": 69.6,
                 "composite_score": 43.9,
                 "valuation_band": "DISCOUNT",
                 "upside_pct": 22.7,
@@ -628,10 +640,10 @@
                 "ticker": "ONGC",
                 "name": "Oil and Natural Gas Corporation Limited",
                 "sector": "Energy",
-                "v4_score_100": 54.2,
-                "composite_score": 35,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 27.1,
+                "v4_score_100": 54.3,
+                "composite_score": 34,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 24.6,
                 "verdict": "STRONG"
               },
               {
@@ -639,29 +651,29 @@
                 "name": "Aegis Vopak Terminals Limited",
                 "sector": "Energy",
                 "v4_score_100": 56.5,
-                "composite_score": 34,
+                "composite_score": 33.8,
                 "valuation_band": "DISCOUNT",
-                "upside_pct": 21.7,
+                "upside_pct": 21.1,
                 "verdict": "STRONG"
               },
               {
                 "ticker": "CHENNPETRO",
                 "name": "Chennai Petroleum Corporation Limited",
                 "sector": "Energy",
-                "v4_score_100": 71,
-                "composite_score": 33.8,
+                "v4_score_100": 70.7,
+                "composite_score": 33.1,
                 "valuation_band": "DISCOUNT",
-                "upside_pct": 12.7,
+                "upside_pct": 11,
                 "verdict": "TOP_PICK"
               },
               {
-                "ticker": "MRPL",
-                "name": "Mangalore Refinery and Petrochemicals Limited",
+                "ticker": "GESHIP",
+                "name": "The Great Eastern Shipping Company Limited",
                 "sector": "Energy",
-                "v4_score_100": 66.9,
-                "composite_score": 33.5,
-                "valuation_band": "FAIR",
-                "upside_pct": 7.2,
+                "v4_score_100": 65.3,
+                "composite_score": 30.7,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 40.8,
                 "verdict": "TOP_PICK"
               }
             ]
@@ -696,7 +708,7 @@
           "stock_candidates": {
             "sector": "Capital Goods",
             "candidates_total": 369,
-            "passed_filters": 106,
+            "passed_filters": 104,
             "excluded_conglomerates": [
               "ADANIENT"
             ],
@@ -705,10 +717,10 @@
                 "ticker": "WPIL",
                 "name": "WPIL Limited",
                 "sector": "Capital Goods",
-                "v4_score_100": 76.7,
-                "composite_score": 56.1,
+                "v4_score_100": 76.8,
+                "composite_score": 57,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 46.1,
+                "upside_pct": 48.3,
                 "verdict": "TOP_PICK"
               },
               {
@@ -716,40 +728,40 @@
                 "name": "J. Kumar Infraprojects Limited",
                 "sector": "Capital Goods",
                 "v4_score_100": 69.2,
-                "composite_score": 51.5,
+                "composite_score": 51.9,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 47.8,
+                "upside_pct": 49,
                 "verdict": "TOP_PICK"
               },
               {
                 "ticker": "EIEL",
                 "name": "Enviro Infra Engineers Limited",
                 "sector": "Capital Goods",
-                "v4_score_100": 59,
+                "v4_score_100": 58.9,
                 "composite_score": 51.3,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 43.1,
-                "verdict": "TOP_PICK"
+                "upside_pct": 46.9,
+                "verdict": "STRONG"
               },
               {
                 "ticker": "GMMPFAUDLR",
                 "name": "GMM Pfaudler Limited",
                 "sector": "Capital Goods",
-                "v4_score_100": 53.3,
+                "v4_score_100": 53.6,
                 "composite_score": 50.7,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 72.5,
+                "upside_pct": 65.9,
                 "verdict": "STRONG"
               },
               {
-                "ticker": "CEMPRO",
-                "name": "Cemindia Projects Limited",
+                "ticker": "TECHNOE",
+                "name": "Techno Electric & Engineering Company Limited",
                 "sector": "Capital Goods",
-                "v4_score_100": 67.9,
-                "composite_score": 50,
+                "v4_score_100": 57.3,
+                "composite_score": 49.3,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 27.8,
-                "verdict": "TOP_PICK"
+                "upside_pct": 46.7,
+                "verdict": "STRONG"
               }
             ]
           }
@@ -804,7 +816,7 @@
   "indeterminate": false,
   "audit": {
     "thesis_schema": "macro-thesis-v1",
-    "regime_generated_at": "2026-08-31T18:40:05.101Z",
+    "regime_generated_at": "2026-09-01T16:30:32.279Z",
     "regime_classifier": "groq",
     "scenario_engine_version": "scenario-prob-v1"
   }
