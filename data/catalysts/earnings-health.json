@@ -1,6 +1,6 @@
 {
   "schema_version": "earnings-health-v1",
-  "generated_at": "2026-09-02T03:15:17.711Z",
+  "generated_at": "2026-09-03T03:56:24.688Z",
   "resolved": {
     "count": 1097,
     "delta_vs_prior": 0,
@@ -9,16 +9,16 @@
   "llm_providers": {
     "groq": 0,
     "gemini": 1,
-    "heuristic": 3,
-    "none": 3,
+    "heuristic": 4,
+    "none": 2,
     "total": 7
   },
   "llm_offline": false,
   "llm_heuristic_share_pct": 0,
   "llm_stats": {
     "total": 7,
-    "classified": 4,
-    "cache_hits": 0,
+    "classified": 5,
+    "cache_hits": 1,
     "llm_calls": 1,
     "heuristic": 3,
     "heuristic_cache_invalidations": 0,
@@ -31,7 +31,7 @@
   "cap_lift_gate": {
     "state": false,
     "enough_data_to_lift_cap": false,
-    "days_in_current_state": 109,
+    "days_in_current_state": 110,
     "current_resolved": 0,
     "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (1097 across all versions)",
     "detail": {
@@ -96,7 +96,7 @@
       "gate": {
         "state": false,
         "enough_data_to_lift_cap": false,
-        "days_in_current_state": 109,
+        "days_in_current_state": 110,
         "current_resolved": 0,
         "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (1097 across all versions)",
         "detail": {
@@ -170,7 +170,7 @@
     }
   },
   "archive_schema": {
-    "earnings-history-v5": 93
+    "earnings-history-v5": 94
   },
   "predictor_versions": {
     "earnings-predict-v3-2026-05": 7
@@ -187,17 +187,17 @@
   },
   "insufficient_data": {
     "count_total": 115,
-    "count_7d": 4,
+    "count_7d": 3,
     "count_30d": 44,
     "count_prior_30d": 21,
     "trend_pct_30d_vs_prior": 109.5
   },
   "macro_regime": {
     "present": true,
-    "generated_at": "2026-09-01T16:30:32.279Z",
-    "age_hours": 11,
+    "generated_at": "2026-09-02T20:30:22.534Z",
+    "age_hours": 7,
     "classifier_provider": "groq",
-    "regime": "WAR_ESCALATION",
+    "regime": "OIL_SHOCK",
     "stale": false,
     "alert": null
   },
@@ -206,28 +206,28 @@
     "runtime_24h": null,
     "alert": null
   },
-  "history_files": 93,
+  "history_files": 94,
   "hit_rate_summary": {
     "schema_version": "hit-rate-summary-v1",
-    "generated_at": "2026-09-02T03:15:18.635Z",
+    "generated_at": "2026-09-03T03:56:25.253Z",
     "resolved_count": 974,
-    "unresolved_count": 3062,
+    "unresolved_count": 3063,
     "strict": {
       "hit_rate_pct": 41.4,
-      "ci_low_pct": 38.1,
+      "ci_low_pct": 38.5,
       "ci_high_pct": 44.4,
       "sample_size": 974
     },
     "lenient": {
       "hit_rate_pct": 79.8,
       "ci_low_pct": 77.3,
-      "ci_high_pct": 82.4,
+      "ci_high_pct": 82.2,
       "sample_size": 972
     },
     "catastrophic": {
       "rate_pct": 20.2,
-      "ci_low_pct": 17.7,
-      "ci_high_pct": 22.5,
+      "ci_low_pct": 17.8,
+      "ci_high_pct": 22.7,
       "sample_size": 972
     },
     "rolling_30": {
