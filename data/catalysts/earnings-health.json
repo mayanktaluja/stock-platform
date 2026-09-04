@@ -1,6 +1,6 @@
 {
   "schema_version": "earnings-health-v1",
-  "generated_at": "2026-09-03T03:56:24.688Z",
+  "generated_at": "2026-09-04T02:55:47.004Z",
   "resolved": {
     "count": 1097,
     "delta_vs_prior": 0,
@@ -31,7 +31,7 @@
   "cap_lift_gate": {
     "state": false,
     "enough_data_to_lift_cap": false,
-    "days_in_current_state": 110,
+    "days_in_current_state": 111,
     "current_resolved": 0,
     "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (1097 across all versions)",
     "detail": {
@@ -96,7 +96,7 @@
       "gate": {
         "state": false,
         "enough_data_to_lift_cap": false,
-        "days_in_current_state": 110,
+        "days_in_current_state": 111,
         "current_resolved": 0,
         "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (1097 across all versions)",
         "detail": {
@@ -170,7 +170,7 @@
     }
   },
   "archive_schema": {
-    "earnings-history-v5": 94
+    "earnings-history-v5": 95
   },
   "predictor_versions": {
     "earnings-predict-v3-2026-05": 7
@@ -187,17 +187,17 @@
   },
   "insufficient_data": {
     "count_total": 115,
-    "count_7d": 3,
-    "count_30d": 44,
-    "count_prior_30d": 21,
-    "trend_pct_30d_vs_prior": 109.5
+    "count_7d": 2,
+    "count_30d": 41,
+    "count_prior_30d": 24,
+    "trend_pct_30d_vs_prior": 70.8
   },
   "macro_regime": {
     "present": true,
-    "generated_at": "2026-09-02T20:30:22.534Z",
-    "age_hours": 7,
+    "generated_at": "2026-09-03T18:30:19.307Z",
+    "age_hours": 8,
     "classifier_provider": "groq",
-    "regime": "OIL_SHOCK",
+    "regime": "RATE_HIKE",
     "stale": false,
     "alert": null
   },
@@ -206,27 +206,27 @@
     "runtime_24h": null,
     "alert": null
   },
-  "history_files": 94,
+  "history_files": 95,
   "hit_rate_summary": {
     "schema_version": "hit-rate-summary-v1",
-    "generated_at": "2026-09-03T03:56:25.253Z",
+    "generated_at": "2026-09-04T02:55:48.000Z",
     "resolved_count": 974,
     "unresolved_count": 3063,
     "strict": {
       "hit_rate_pct": 41.4,
-      "ci_low_pct": 38.5,
-      "ci_high_pct": 44.4,
+      "ci_low_pct": 38.1,
+      "ci_high_pct": 44.6,
       "sample_size": 974
     },
     "lenient": {
       "hit_rate_pct": 79.8,
-      "ci_low_pct": 77.3,
-      "ci_high_pct": 82.2,
+      "ci_low_pct": 77.4,
+      "ci_high_pct": 82.4,
       "sample_size": 972
     },
     "catastrophic": {
       "rate_pct": 20.2,
-      "ci_low_pct": 17.8,
+      "ci_low_pct": 17.5,
       "ci_high_pct": 22.7,
       "sample_size": 972
     },
@@ -239,7 +239,7 @@
     "catastrophic_alert_threshold_pct": 12
   },
   "alerts": [
-    "INSUFFICIENT_DATA predictions trending UP: 44 in last 30d vs 21 prior 30d (+109.5%) — predictor coverage may be degrading",
+    "INSUFFICIENT_DATA predictions trending UP: 41 in last 30d vs 24 prior 30d (+70.8%) — predictor coverage may be degrading",
     "Catastrophic rate alert: rolling-30 23.3% (7/30) exceeds 12% threshold — Risk Lab promotion gate cannot clear"
   ],
   "healthy": false
