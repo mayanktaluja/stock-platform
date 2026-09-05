@@ -1,126 +1,17 @@
 {
   "schema_version": "earnings-watch-v4",
-  "built_at": "2026-09-03T03:40:30.336Z",
-  "upstream_fetched_at": "2026-09-02T20:54:41.336Z",
-  "upstream_event_count": 54,
+  "built_at": "2026-09-05T02:42:04.960Z",
+  "upstream_fetched_at": "2026-09-04T19:52:34.979Z",
+  "upstream_event_count": 49,
   "window_days": 60,
-  "today_iso": "2026-09-03",
-  "event_count": 7,
+  "today_iso": "2026-09-05",
+  "event_count": 8,
   "events": [
-    {
-      "symbol": "DHOOTTRANS",
-      "company": "Dhoot Transmission Limited",
-      "event_iso_date": "2026-09-04",
-      "days_until": 1,
-      "fiscal_quarter": "Q1 FY27",
-      "fiscal_quarter_meta": {
-        "quarter": "Q1",
-        "fiscal_year": 2027,
-        "label": "Q1 FY27"
-      },
-      "tags": [],
-      "description": "To consider and approve the financial results for the period ended Jun 30, 2026",
-      "source": "nse-event-calendar",
-      "signals": {
-        "data_quality": "LOW",
-        "data_quality_flags": {
-          "trajectory": "absent",
-          "sector_vol": "unscaled"
-        },
-        "data_quality_inputs": {
-          "sws_deep": false,
-          "quarters_with_eps": 0,
-          "total_quarters": 0,
-          "has_returns": false,
-          "has_sector": false,
-          "in_picks_universe": false,
-          "trajectory_coverage": "absent",
-          "sector_volatility_known": false
-        },
-        "sector": null,
-        "market_cap_inr": null,
-        "market_cap_band": null,
-        "snowflake_total": null,
-        "multiples": {
-          "pe": null,
-          "pb": null,
-          "ps": null,
-          "ev_ebitda": null
-        },
-        "upside_pct": null,
-        "momentum": {
-          "ret_1m_pct": null,
-          "ret_3m_pct": null,
-          "ret_6m_pct": null,
-          "ret_1y_pct": null,
-          "sector_avg_1m_pct": null,
-          "sector_sample_size": null,
-          "sector_volatility_1m_pct": null,
-          "pre_runup_signal": "neutral",
-          "runup_vs_sector_pct": null
-        },
-        "trajectory": {
-          "latest_end": null,
-          "eps_yoy_pct": null,
-          "revenue_yoy_pct": null,
-          "quarters_count": 0
-        },
-        "picks_universe": null,
-        "v4": null,
-        "v3": null,
-        "announcements": {
-          "count_30d": 0,
-          "top_classifications": [],
-          "materiality_score_top3": 0,
-          "top3": [],
-          "recent_for_ui": []
-        },
-        "deals_7d": null,
-        "sws_upcoming_earnings": null
-      },
-      "prediction": {
-        "verdict": "INSUFFICIENT_DATA",
-        "confidence_pct": null,
-        "score_100": null,
-        "score_breakdown": {
-          "reason": "data_quality:LOW"
-        },
-        "reasons_top": [],
-        "reasons_against": [],
-        "predictor_version": "earnings-predict-v3-2026-05"
-      },
-      "price_band": {
-        "anchored": false,
-        "basis": "insufficient_data",
-        "bull": null,
-        "base": null,
-        "bear": null,
-        "version": "earnings-bands-v1-2026-05"
-      },
-      "rationale": {
-        "headline": "Calendar event only — insufficient signal coverage to predict outcome.",
-        "paragraphs": [
-          "This stock isn't covered in the SWS deep-scrape, has no fundamentalsHistory entry, or both. We can confirm the board meeting is scheduled but cannot score directional risk.",
-          "Watch the actual print for direction — we'll re-score the post-result T+1 playbook once outcome data lands.",
-          "Position sizing should reflect this opacity: treat as a binary unknown, not a directional bet."
-        ],
-        "falsification_triggers": [],
-        "version": "earnings-narrate-v1-2026-05"
-      },
-      "playbook": {
-        "mode": "preview",
-        "tradable": false,
-        "primary": null,
-        "branches": [],
-        "headline": "Insufficient data — no playbook.",
-        "version": "earnings-playbook-v1-2026-05"
-      }
-    },
     {
       "symbol": "MOLBIO",
       "company": "Molbio Diagnostics Limited",
       "event_iso_date": "2026-09-05",
-      "days_until": 2,
+      "days_until": 0,
       "fiscal_quarter": "Q1 FY27",
       "fiscal_quarter_meta": {
         "quarter": "Q1",
@@ -151,8 +42,8 @@
         "market_cap_band": null,
         "snowflake_total": 5,
         "multiples": {
-          "pe": 78.08,
-          "pb": 9.36,
+          "pe": 79.63,
+          "pb": 9.54,
           "ps": 0,
           "ev_ebitda": 0
         },
@@ -175,9 +66,9 @@
           "quarters_count": 0
         },
         "picks_universe": {
-          "v4_score_100": 29.6,
+          "v4_score_100": 30.2,
           "v4_verdict": "WATCH",
-          "v3_score_100": 29.6,
+          "v3_score_100": 30.2,
           "v3_verdict": "WATCH",
           "composite_verdict": "WATCH",
           "categories": [
@@ -185,7 +76,7 @@
           ]
         },
         "v4": {
-          "v4_score_100": 29.6,
+          "v4_score_100": 30.2,
           "v4_verdict": "WATCH",
           "source": "upcoming",
           "breakdown": {
@@ -209,18 +100,18 @@
             "pts_fv_pe_effective": null,
             "fv_upside_relative_pts": null,
             "fv_upside_rz": null,
-            "fv_pe_ratio": 1.156,
+            "fv_pe_ratio": 1.191,
             "fv_pe_bucket": "inline",
             "fv_pe_source": "groww_refinitiv",
             "fv_pe_source_label": "Groww/Refinitiv",
             "fv_pe_industry_name": null,
-            "fv_pe_company_pe": 78.08,
-            "fv_pe_industry_pe": 67.54,
-            "fv_pe_fetched_at": "2026-09-03T00:46:27.612Z",
+            "fv_pe_company_pe": 79.63,
+            "fv_pe_industry_pe": 66.84,
+            "fv_pe_fetched_at": "2026-09-04T23:37:28.475Z",
             "fv_pe_source_url": "https://groww.in/stocks/molbio-diagnostics-ltd",
-            "pts_mom_1y": 4.8,
-            "pts_mom_3m": 1.9,
-            "pts_mom_1m": 1.5,
+            "pts_mom_1y": 5,
+            "pts_mom_3m": 2.1,
+            "pts_mom_1m": 1.6,
             "momentum_imputed": false,
             "pts_overlay": 0,
             "overlay_reasons": [],
@@ -271,23 +162,12 @@
           }
         },
         "announcements": {
-          "count_30d": 0,
-          "top_classifications": [],
-          "materiality_score_top3": 0,
-          "top3": [],
-          "recent_for_ui": []
+          "top3": []
         },
         "deals_7d": null,
         "sws_upcoming_earnings": {
-          "v3_verdict": "WATCH",
           "composite_verdict": "WATCH",
-          "v3_score_100": 29.6,
-          "snowflake_total": 5,
-          "fair_value_inr": null,
-          "current_price_inr": 1107.8,
-          "upside_pct": null,
           "one_line": "P/E 78.1x · snow 5/30",
-          "data_completeness_pct": 92,
           "counter_thesis": {
             "verdict_bias": "neutral",
             "text": "No strong opposing signal in the layer outputs — single-source view; verify thesis independently before acting.",
@@ -296,28 +176,7 @@
               "V4 score moves into TOP_PICK (≥59) or AVOID (<28) on next refresh"
             ]
           },
-          "last_quarter_result": null,
-          "recent_analyst_revisions": [],
-          "sws_audit_trail": {
-            "scoring_version": "sws-v4.1-100pt-2026-07",
-            "inputs_used": {
-              "snowflake_total": 5,
-              "upside_pct": null,
-              "returns_1y": 6.345396947297677,
-              "returns_3m": 6.345396947297677,
-              "returns_1m": 6.345396947297677,
-              "risks_count": 1,
-              "surveillance": null,
-              "market_cap_inr": 128130000000
-            },
-            "imputations": {
-              "fv_imputed": true,
-              "momentum_imputed": false
-            },
-            "categories_assigned": [
-              "upcoming_earnings"
-            ]
-          }
+          "current_price_inr": 1107.8
         },
         "llm_signal": {
           "bias": "neutral",
@@ -421,7 +280,17 @@
             "why": "LLM read: neutral (heuristic)"
           }
         ],
-        "predictor_version": "earnings-predict-v3-2026-05"
+        "predictor_version": "earnings-predict-v3-2026-05",
+        "freeze": {
+          "frozen": true,
+          "source": "display_snapshot",
+          "archive_today_iso": "2026-09-03"
+        }
+      },
+      "prediction_freeze": {
+        "frozen": true,
+        "source": "display_snapshot",
+        "archive_today_iso": "2026-09-03"
       },
       "price_band": {
         "anchored": true,
@@ -551,7 +420,7 @@
       "symbol": "BLEL",
       "company": "Behari Lal Engineering Limited",
       "event_iso_date": "2026-09-07",
-      "days_until": 4,
+      "days_until": 2,
       "fiscal_quarter": "Q1 FY27",
       "fiscal_quarter_meta": {
         "quarter": "Q1",
@@ -615,41 +484,7 @@
           "top3": [],
           "recent_for_ui": []
         },
-        "deals_7d": {
-          "net_buys": 1,
-          "net_sells": 1,
-          "net_qty": -621,
-          "net_notional_inr": -373296,
-          "bulk_count": 2,
-          "block_count": 0,
-          "last_deal_date_iso": "2026-08-27",
-          "recent_for_ui": [
-            {
-              "symbol": "BLEL",
-              "name": "Behari Lal Engineering L",
-              "date_iso": "2026-08-27",
-              "client_name": "JUNOMONETA FINSOL PRIVATE LIMITED",
-              "side": "SELL",
-              "qty": 219801,
-              "avg_price_inr": 470.53,
-              "notional_inr": 103422965,
-              "kind": "BULK",
-              "remarks": "-"
-            },
-            {
-              "symbol": "BLEL",
-              "name": "Behari Lal Engineering L",
-              "date_iso": "2026-08-27",
-              "client_name": "JUNOMONETA FINSOL PRIVATE LIMITED",
-              "side": "BUY",
-              "qty": 219180,
-              "avg_price_inr": 470.16,
-              "notional_inr": 103049669,
-              "kind": "BULK",
-              "remarks": "-"
-            }
-          ]
-        },
+        "deals_7d": null,
         "sws_upcoming_earnings": null
       },
       "prediction": {
@@ -694,7 +529,7 @@
       "symbol": "KOTYARK",
       "company": "Kotyark Industries Limited",
       "event_iso_date": "2026-09-07",
-      "days_until": 4,
+      "days_until": 2,
       "fiscal_quarter": "Q1 FY27",
       "fiscal_quarter_meta": {
         "quarter": "Q1",
@@ -723,26 +558,26 @@
           "sector_volatility_known": false
         },
         "sector": "Energy",
-        "market_cap_inr": 3610000000,
+        "market_cap_inr": 3640000000,
         "market_cap_band": null,
-        "snowflake_total": 14,
+        "snowflake_total": 12,
         "multiples": {
-          "pe": 18.68,
-          "pb": 2.23,
+          "pe": 18.8,
+          "pb": 2.25,
           "ps": 0,
           "ev_ebitda": 0
         },
         "upside_pct": null,
         "momentum": {
-          "ret_1m_pct": -12.21,
-          "ret_3m_pct": -19.12,
-          "ret_6m_pct": 12.25,
-          "ret_1y_pct": -4.21,
-          "sector_avg_1m_pct": 1.35,
+          "ret_1m_pct": -12.22,
+          "ret_3m_pct": -9.98,
+          "ret_6m_pct": 23.72,
+          "ret_1y_pct": 9.72,
+          "sector_avg_1m_pct": 2.27,
           "sector_sample_size": 71,
           "sector_volatility_1m_pct": null,
           "pre_runup_signal": "lagging",
-          "runup_vs_sector_pct": -13.56
+          "runup_vs_sector_pct": -14.49
         },
         "trajectory": {
           "latest_end": "2026-03-31",
@@ -752,9 +587,9 @@
           "quarters_count": 3
         },
         "picks_universe": {
-          "v4_score_100": 43.2,
+          "v4_score_100": 41.6,
           "v4_verdict": "ACCEPTABLE",
-          "v3_score_100": 43.2,
+          "v3_score_100": 41.6,
           "v3_verdict": "ACCEPTABLE",
           "composite_verdict": "ACCEPTABLE",
           "categories": [
@@ -762,18 +597,18 @@
           ]
         },
         "v4": {
-          "v4_score_100": 43.2,
+          "v4_score_100": 41.6,
           "v4_verdict": "ACCEPTABLE",
           "source": "upcoming",
           "breakdown": {
             "pts_health": 16.7,
             "pts_future": 0,
-            "pts_valuation": 3,
+            "pts_valuation": 0,
             "pts_past": 13.3,
-            "pts_fv_total": 5.5,
+            "pts_fv_total": 5.7,
             "fv_imputed": true,
             "fv_industry_imputed": true,
-            "fv_industry_average_pts": 5.5,
+            "fv_industry_average_pts": 5.7,
             "fv_industry_average_count": 16,
             "fv_industry_average_key": "industry_code:1030000",
             "fv_industry_average_label": "Energy",
@@ -786,18 +621,18 @@
             "pts_fv_pe_effective": null,
             "fv_upside_relative_pts": null,
             "fv_upside_rz": null,
-            "fv_pe_ratio": 1.129,
+            "fv_pe_ratio": 1.114,
             "fv_pe_bucket": "inline",
             "fv_pe_source": "groww_refinitiv",
             "fv_pe_source_label": "Groww/Refinitiv",
             "fv_pe_industry_name": null,
-            "fv_pe_company_pe": 18.68,
-            "fv_pe_industry_pe": 16.55,
-            "fv_pe_fetched_at": "2026-09-03T00:46:27.612Z",
+            "fv_pe_company_pe": 18.8,
+            "fv_pe_industry_pe": 16.87,
+            "fv_pe_fetched_at": "2026-09-04T23:37:28.475Z",
             "fv_pe_source_url": "https://groww.in/stocks/kotyark-industries-ltd",
-            "pts_mom_1y": 4.1,
-            "pts_mom_3m": 0.4,
-            "pts_mom_1m": 0.3,
+            "pts_mom_1y": 4.9,
+            "pts_mom_3m": 0.8,
+            "pts_mom_1m": 0.2,
             "momentum_imputed": false,
             "pts_overlay": 0,
             "overlay_reasons": [],
@@ -805,18 +640,18 @@
           }
         },
         "v3": {
-          "v3_score_100": 43.2,
+          "v3_score_100": 41.6,
           "v3_verdict": "ACCEPTABLE",
           "source": "upcoming",
           "breakdown": {
             "pts_health": 16.7,
             "pts_future": 0,
-            "pts_valuation": 3,
+            "pts_valuation": 0,
             "pts_past": 13.3,
-            "pts_fv_total": 5.5,
+            "pts_fv_total": 5.7,
             "fv_imputed": true,
             "fv_industry_imputed": true,
-            "fv_industry_average_pts": 5.5,
+            "fv_industry_average_pts": 5.7,
             "fv_industry_average_count": 16,
             "fv_industry_average_key": "industry_code:1030000",
             "fv_industry_average_label": "Energy",
@@ -829,18 +664,18 @@
             "pts_fv_pe_effective": null,
             "fv_upside_relative_pts": null,
             "fv_upside_rz": null,
-            "fv_pe_ratio": 1.129,
+            "fv_pe_ratio": 1.114,
             "fv_pe_bucket": "inline",
             "fv_pe_source": "groww_refinitiv",
             "fv_pe_source_label": "Groww/Refinitiv",
             "fv_pe_industry_name": null,
-            "fv_pe_company_pe": 18.68,
-            "fv_pe_industry_pe": 16.55,
-            "fv_pe_fetched_at": "2026-09-03T00:46:27.612Z",
+            "fv_pe_company_pe": 18.8,
+            "fv_pe_industry_pe": 16.87,
+            "fv_pe_fetched_at": "2026-09-04T23:37:28.475Z",
             "fv_pe_source_url": "https://groww.in/stocks/kotyark-industries-ltd",
-            "pts_mom_1y": 4.1,
-            "pts_mom_3m": 0.4,
-            "pts_mom_1m": 0.3,
+            "pts_mom_1y": 4.9,
+            "pts_mom_3m": 0.8,
+            "pts_mom_1m": 0.2,
             "momentum_imputed": false,
             "pts_overlay": 0,
             "overlay_reasons": [],
@@ -858,12 +693,12 @@
         "sws_upcoming_earnings": {
           "v3_verdict": "ACCEPTABLE",
           "composite_verdict": "ACCEPTABLE",
-          "v3_score_100": 43.2,
-          "snowflake_total": 14,
+          "v3_score_100": 41.6,
+          "snowflake_total": 12,
           "fair_value_inr": null,
-          "current_price_inr": 30.63,
+          "current_price_inr": 33.76,
           "upside_pct": null,
-          "one_line": "P/E 18.7x · snow 14/30",
+          "one_line": "P/E 18.8x · snow 12/30",
           "data_completeness_pct": 92,
           "counter_thesis": {
             "verdict_bias": "neutral",
@@ -878,14 +713,14 @@
           "sws_audit_trail": {
             "scoring_version": "sws-v4.1-100pt-2026-07",
             "inputs_used": {
-              "snowflake_total": 14,
+              "snowflake_total": 12,
               "upside_pct": null,
-              "returns_1y": -4.213217437685117,
-              "returns_3m": -19.12385923516941,
-              "returns_1m": -12.209802235597596,
+              "returns_1y": 9.723743499818854,
+              "returns_3m": -9.98424324305228,
+              "returns_1m": -12.22048881955279,
               "risks_count": 3,
               "surveillance": null,
-              "market_cap_inr": 3610000000
+              "market_cap_inr": 3640000000
             },
             "imputations": {
               "fv_imputed": true,
@@ -904,19 +739,19 @@
           "classifier_provider": "heuristic",
           "model_id": "heuristic-v2",
           "signal_version": "earnings-llm-v2-2026-05",
-          "generated_at": "2026-09-03T03:40:38.743Z"
+          "generated_at": "2026-09-05T02:42:13.320Z"
         }
       },
       "prediction": {
         "verdict": "BEAT",
-        "confidence_pct": 54,
-        "score_100": 60.4,
+        "confidence_pct": 55,
+        "score_100": 60.9,
         "score_breakdown": {
           "v3_future_past": -8,
-          "v3_valuation": -0.3,
+          "v3_valuation": -0.2,
           "v3_overlay": 0,
           "runup": 5,
-          "sector_momentum": 0.7,
+          "sector_momentum": 1.1,
           "trajectory": 15,
           "last_quarter_echo": 0,
           "announcements": 0,
@@ -926,9 +761,9 @@
           "missing_data_components": [
             "announcements"
           ],
-          "raw_sum": 10.4,
+          "raw_sum": 10.9,
           "sws_quality": -8,
-          "fv_upside": -0.3,
+          "fv_upside": -0.2,
           "threshold_version": "v3-2026-05",
           "threshold_source": "empirical",
           "miss_cut": 34,
@@ -936,8 +771,8 @@
         },
         "reasons_top": [
           "EPS YoY +539.4%",
-          "lagging sector (-13.6% vs sector — room to surprise)",
-          "sector Energy +1.4% over 1M"
+          "lagging sector (-14.5% vs sector — room to surprise)",
+          "sector Energy +2.3% over 1M"
         ],
         "reasons_against": [
           "V4 future 0/22 · past 13/16 (ACCEPTABLE)",
@@ -958,7 +793,7 @@
           {
             "name": "runup",
             "pts": 5,
-            "why": "lagging sector (-13.6% vs sector — room to surprise)"
+            "why": "lagging sector (-14.5% vs sector — room to surprise)"
           },
           {
             "name": "missing_data_penalty",
@@ -967,12 +802,12 @@
           },
           {
             "name": "sector_momentum",
-            "pts": 0.7,
-            "why": "sector Energy +1.4% over 1M"
+            "pts": 1.1,
+            "why": "sector Energy +2.3% over 1M"
           },
           {
             "name": "v3_valuation",
-            "pts": -0.3,
+            "pts": -0.2,
             "why": "V4 valuation: fair-value imputed (no FV anchor)"
           },
           {
@@ -1005,28 +840,28 @@
       },
       "price_band": {
         "anchored": true,
-        "basis": "anchored ₹30.63 · vol≈6.1% · conf×0.6",
-        "current_price_inr": 30.63,
+        "basis": "anchored ₹33.76 · vol≈6.1% · conf×0.6",
+        "current_price_inr": 33.76,
         "bull": {
-          "pct": 4.3,
-          "price_inr": 31.93
+          "pct": 4.6,
+          "price_inr": 35.3
         },
         "base": {
-          "pct": 0.8,
-          "price_inr": 30.89
+          "pct": 0.9,
+          "price_inr": 34.06
         },
         "bear": {
-          "pct": -2.6,
-          "price_inr": 29.84
+          "pct": -2.8,
+          "price_inr": 32.83
         },
         "version": "earnings-bands-v1-2026-05"
       },
       "rationale": {
-        "headline": "BEAT expected (54% conf) — KOTYARK Q1 FY27 in 4d.",
+        "headline": "BEAT expected (55% conf) — KOTYARK Q1 FY27 in 2d.",
         "paragraphs": [
-          "KOTYARK reports Q1 FY27 in 4d. Our model expects the result to BEAT, with 54% confidence (V1 cap is 65% — see methodology). Strongest input: EPS YoY +539.4%; reinforced by lagging sector (-13.6% vs sector — room to surprise).",
-          "Component breakdown (60/100 composite): pulling toward BEAT: EPS YoY +539.4%; lagging sector (-13.6% vs sector — room to surprise); sector Energy +1.4% over 1M. Opposing signal: V4 future 0/22 · past 13/16 (ACCEPTABLE). Sector Energy momentum acts as the prevailing tide; treat any single-stock thesis as conditional on it not flipping mid-week.",
-          "1-day post-result band: Bull ₹31.93 (+4.3%) · Base ₹30.89 · Bear ₹29.84 (-2.6%). Magnitudes are confidence-scaled and capped at ±15%. Earnings are binary events — size positions to survive a Bear-case print, not to maximise the Bull case."
+          "KOTYARK reports Q1 FY27 in 2d. Our model expects the result to BEAT, with 55% confidence (V1 cap is 65% — see methodology). Strongest input: EPS YoY +539.4%; reinforced by lagging sector (-14.5% vs sector — room to surprise).",
+          "Component breakdown (61/100 composite): pulling toward BEAT: EPS YoY +539.4%; lagging sector (-14.5% vs sector — room to surprise); sector Energy +2.3% over 1M. Opposing signal: V4 future 0/22 · past 13/16 (ACCEPTABLE). Sector Energy momentum acts as the prevailing tide; treat any single-stock thesis as conditional on it not flipping mid-week.",
+          "1-day post-result band: Bull ₹35.3 (+4.6%) · Base ₹34.06 · Bear ₹32.83 (-2.8%). Magnitudes are confidence-scaled and capped at ±15%. Earnings are binary events — size positions to survive a Bear-case print, not to maximise the Bull case."
         ],
         "falsification_triggers": [
           "a material catalyst lands in the next 30 days (PT raise / beat / surveillance change)",
@@ -1132,7 +967,7 @@
       "symbol": "SHIPROCKET",
       "company": "Shiprocket Limited",
       "event_iso_date": "2026-09-07",
-      "days_until": 4,
+      "days_until": 2,
       "fiscal_quarter": "Q1 FY27",
       "fiscal_quarter_meta": {
         "quarter": "Q1",
@@ -1159,26 +994,26 @@
           "sector_volatility_known": false
         },
         "sector": "Software",
-        "market_cap_inr": 97350000000,
+        "market_cap_inr": 98950000000,
         "market_cap_band": null,
         "snowflake_total": 6,
         "multiples": {
           "pe": null,
-          "pb": 4.04,
+          "pb": 4.11,
           "ps": 0,
           "ev_ebitda": 0
         },
         "upside_pct": null,
         "momentum": {
-          "ret_1m_pct": -6.71,
-          "ret_3m_pct": -6.71,
-          "ret_6m_pct": -6.71,
-          "ret_1y_pct": -6.71,
-          "sector_avg_1m_pct": -0.1,
+          "ret_1m_pct": -5.25,
+          "ret_3m_pct": -5.25,
+          "ret_6m_pct": -5.25,
+          "ret_1y_pct": -5.25,
+          "sector_avg_1m_pct": -0.28,
           "sector_sample_size": 289,
           "sector_volatility_1m_pct": null,
-          "pre_runup_signal": "lagging",
-          "runup_vs_sector_pct": -6.61
+          "pre_runup_signal": "neutral",
+          "runup_vs_sector_pct": -4.97
         },
         "trajectory": {
           "latest_end": null,
@@ -1187,9 +1022,9 @@
           "quarters_count": 0
         },
         "picks_universe": {
-          "v4_score_100": 30.2,
+          "v4_score_100": 30.5,
           "v4_verdict": "WATCH",
-          "v3_score_100": 30.2,
+          "v3_score_100": 30.5,
           "v3_verdict": "WATCH",
           "composite_verdict": "WATCH",
           "categories": [
@@ -1197,7 +1032,7 @@
           ]
         },
         "v4": {
-          "v4_score_100": 30.2,
+          "v4_score_100": 30.5,
           "v4_verdict": "WATCH",
           "source": "upcoming",
           "breakdown": {
@@ -1205,10 +1040,10 @@
             "pts_future": 0,
             "pts_valuation": 3,
             "pts_past": 0,
-            "pts_fv_total": 5,
+            "pts_fv_total": 5.1,
             "fv_imputed": true,
             "fv_industry_imputed": true,
-            "fv_industry_average_pts": 5,
+            "fv_industry_average_pts": 5.1,
             "fv_industry_average_count": 23,
             "fv_industry_average_key": "industry_code:8040000",
             "fv_industry_average_label": "Software",
@@ -1227,10 +1062,10 @@
             "fv_pe_source_label": "Groww/Refinitiv",
             "fv_pe_industry_name": null,
             "fv_pe_company_pe": null,
-            "fv_pe_industry_pe": 130.42,
-            "fv_pe_fetched_at": "2026-09-03T00:46:27.612Z",
+            "fv_pe_industry_pe": 129.71,
+            "fv_pe_fetched_at": "2026-09-04T23:37:28.475Z",
             "fv_pe_source_url": "https://groww.in/stocks/shiprocket-ltd",
-            "pts_mom_1y": 3.9,
+            "pts_mom_1y": 4,
             "pts_mom_3m": 1.1,
             "pts_mom_1m": 0.6,
             "momentum_imputed": false,
@@ -1240,7 +1075,7 @@
           }
         },
         "v3": {
-          "v3_score_100": 30.2,
+          "v3_score_100": 30.5,
           "v3_verdict": "WATCH",
           "source": "upcoming",
           "breakdown": {
@@ -1248,10 +1083,10 @@
             "pts_future": 0,
             "pts_valuation": 3,
             "pts_past": 0,
-            "pts_fv_total": 5,
+            "pts_fv_total": 5.1,
             "fv_imputed": true,
             "fv_industry_imputed": true,
-            "fv_industry_average_pts": 5,
+            "fv_industry_average_pts": 5.1,
             "fv_industry_average_count": 23,
             "fv_industry_average_key": "industry_code:8040000",
             "fv_industry_average_label": "Software",
@@ -1270,10 +1105,10 @@
             "fv_pe_source_label": "Groww/Refinitiv",
             "fv_pe_industry_name": null,
             "fv_pe_company_pe": null,
-            "fv_pe_industry_pe": 130.42,
-            "fv_pe_fetched_at": "2026-09-03T00:46:27.612Z",
+            "fv_pe_industry_pe": 129.71,
+            "fv_pe_fetched_at": "2026-09-04T23:37:28.475Z",
             "fv_pe_source_url": "https://groww.in/stocks/shiprocket-ltd",
-            "pts_mom_1y": 3.9,
+            "pts_mom_1y": 4,
             "pts_mom_3m": 1.1,
             "pts_mom_1m": 0.6,
             "momentum_imputed": false,
@@ -1303,10 +1138,10 @@
               "name": "Shiprocket Limited",
               "date_iso": "2026-08-31",
               "client_name": "JUNOMONETA FINSOL PRIVATE LIMITED",
-              "side": "SELL",
-              "qty": 3671882,
-              "avg_price_inr": 135,
-              "notional_inr": 495704070,
+              "side": "BUY",
+              "qty": 3668239,
+              "avg_price_inr": 134.95,
+              "notional_inr": 495028853,
               "kind": "BULK",
               "remarks": "-"
             },
@@ -1315,10 +1150,10 @@
               "name": "Shiprocket Limited",
               "date_iso": "2026-08-31",
               "client_name": "JUNOMONETA FINSOL PRIVATE LIMITED",
-              "side": "BUY",
-              "qty": 3668239,
-              "avg_price_inr": 134.95,
-              "notional_inr": 495028853,
+              "side": "SELL",
+              "qty": 3671882,
+              "avg_price_inr": 135,
+              "notional_inr": 495704070,
               "kind": "BULK",
               "remarks": "-"
             }
@@ -1327,10 +1162,10 @@
         "sws_upcoming_earnings": {
           "v3_verdict": "WATCH",
           "composite_verdict": "WATCH",
-          "v3_score_100": 30.2,
+          "v3_score_100": 30.5,
           "snowflake_total": 6,
           "fair_value_inr": null,
-          "current_price_inr": 133.82,
+          "current_price_inr": 135.92,
           "upside_pct": null,
           "one_line": "snow 6/30",
           "data_completeness_pct": 85,
@@ -1349,12 +1184,12 @@
             "inputs_used": {
               "snowflake_total": 6,
               "upside_pct": null,
-              "returns_1y": -6.713140467061692,
-              "returns_3m": -6.713140467061692,
-              "returns_1m": -6.713140467061692,
+              "returns_1y": -5.249215754618335,
+              "returns_3m": -5.249215754618335,
+              "returns_1m": -5.249215754618335,
               "risks_count": 1,
               "surveillance": null,
-              "market_cap_inr": 97350000000
+              "market_cap_inr": 98950000000
             },
             "imputations": {
               "fv_imputed": true,
@@ -1378,14 +1213,14 @@
       },
       "prediction": {
         "verdict": "MISS",
-        "confidence_pct": 52,
-        "score_100": 31.7,
+        "confidence_pct": 57,
+        "score_100": 26.7,
         "score_breakdown": {
           "v3_future_past": -18,
-          "v3_valuation": -1.3,
+          "v3_valuation": -1.2,
           "v3_overlay": 0,
-          "runup": 5,
-          "sector_momentum": 0,
+          "runup": 0,
+          "sector_momentum": -0.1,
           "trajectory": 0,
           "last_quarter_echo": 0,
           "announcements": 0,
@@ -1396,9 +1231,9 @@
             "trajectory",
             "announcements"
           ],
-          "raw_sum": -18.3,
+          "raw_sum": -23.3,
           "sws_quality": -18,
-          "fv_upside": -1.3,
+          "fv_upside": -1.2,
           "threshold_version": "v3-2026-05",
           "threshold_source": "empirical",
           "miss_cut": 34,
@@ -1409,19 +1244,12 @@
           "missing-data caution: trajectory, announcements unavailable (-4 pts, HIGH)",
           "V4 valuation: fair-value imputed (no FV anchor)"
         ],
-        "reasons_against": [
-          "lagging sector (-6.6% vs sector — room to surprise)"
-        ],
+        "reasons_against": [],
         "components_by_impact": [
           {
             "name": "v3_future_past",
             "pts": -18,
             "why": "V4 future 0/22 · past 0/16 (WATCH)"
-          },
-          {
-            "name": "runup",
-            "pts": 5,
-            "why": "lagging sector (-6.6% vs sector — room to surprise)"
           },
           {
             "name": "missing_data_penalty",
@@ -1430,8 +1258,13 @@
           },
           {
             "name": "v3_valuation",
-            "pts": -1.3,
+            "pts": -1.2,
             "why": "V4 valuation: fair-value imputed (no FV anchor)"
+          },
+          {
+            "name": "sector_momentum",
+            "pts": -0.1,
+            "why": "sector Software -0.3% over 1M"
           },
           {
             "name": "v3_overlay",
@@ -1439,9 +1272,9 @@
             "why": "no V4 risk flags"
           },
           {
-            "name": "sector_momentum",
+            "name": "runup",
             "pts": 0,
-            "why": "sector Software -0.1% over 1M"
+            "why": "neutral runup vs sector"
           },
           {
             "name": "trajectory",
@@ -1473,28 +1306,28 @@
       },
       "price_band": {
         "anchored": true,
-        "basis": "anchored ₹133.82 · vol≈3.4% · conf×0.5",
-        "current_price_inr": 133.82,
+        "basis": "anchored ₹135.92 · vol≈2.6% · conf×0.7",
+        "current_price_inr": 135.92,
         "bull": {
-          "pct": 0.9,
-          "price_inr": 135.01
+          "pct": 0.8,
+          "price_inr": 136.96
         },
         "base": {
-          "pct": -0.7,
-          "price_inr": 132.86
+          "pct": -1,
+          "price_inr": 134.53
         },
         "bear": {
-          "pct": -2.3,
-          "price_inr": 130.7
+          "pct": -2.8,
+          "price_inr": 132.11
         },
         "version": "earnings-bands-v1-2026-05"
       },
       "rationale": {
-        "headline": "MISS expected (52% conf) — SHIPROCKET Q1 FY27 in 4d.",
+        "headline": "MISS expected (57% conf) — SHIPROCKET Q1 FY27 in 2d.",
         "paragraphs": [
-          "SHIPROCKET reports Q1 FY27 in 4d. Our model expects the result to MISS, with 52% confidence (V1 cap is 65% — see methodology). Strongest input: V4 future 0/22 · past 0/16 (WATCH); reinforced by missing-data caution: trajectory, announcements unavailable (-4 pts, HIGH).",
-          "Component breakdown (32/100 composite): pulling toward MISS: V4 future 0/22 · past 0/16 (WATCH); missing-data caution: trajectory, announcements unavailable (-4 pts, HIGH); V4 valuation: fair-value imputed (no FV anchor). Opposing signal: lagging sector (-6.6% vs sector — room to surprise). Sector Software momentum acts as the prevailing tide; treat any single-stock thesis as conditional on it not flipping mid-week.",
-          "1-day post-result band: Bull ₹135.01 (+0.9%) · Base ₹132.86 · Bear ₹130.7 (-2.3%). Magnitudes are confidence-scaled and capped at ±15%. Earnings are binary events — size positions to survive a Bear-case print, not to maximise the Bull case."
+          "SHIPROCKET reports Q1 FY27 in 2d. Our model expects the result to MISS, with 57% confidence (V1 cap is 65% — see methodology). Strongest input: V4 future 0/22 · past 0/16 (WATCH); reinforced by missing-data caution: trajectory, announcements unavailable (-4 pts, HIGH).",
+          "Component breakdown (27/100 composite): pulling toward MISS: V4 future 0/22 · past 0/16 (WATCH); missing-data caution: trajectory, announcements unavailable (-4 pts, HIGH); V4 valuation: fair-value imputed (no FV anchor). Sector Software momentum acts as the prevailing tide; treat any single-stock thesis as conditional on it not flipping mid-week.",
+          "1-day post-result band: Bull ₹136.96 (+0.8%) · Base ₹134.53 · Bear ₹132.11 (-2.8%). Magnitudes are confidence-scaled and capped at ±15%. Earnings are binary events — size positions to survive a Bear-case print, not to maximise the Bull case."
         ],
         "falsification_triggers": [
           "a material catalyst lands in the next 30 days (PT raise / beat / surveillance change)",
@@ -1506,8 +1339,8 @@
         "mode": "preview",
         "tradable": true,
         "predicted_verdict": "MISS",
-        "highlight_branch": "RAISE",
-        "pre_runup_signal": "lagging",
+        "highlight_branch": "MAINTAIN",
+        "pre_runup_signal": "neutral",
         "primary": {
           "key": "MISS_MAINTAIN",
           "label": "Miss + Maintain (strong negative)",
@@ -1543,7 +1376,556 @@
               ],
               "leans": "small_long"
             },
+            "is_highlighted": false
+          },
+          {
+            "guidance": "MAINTAIN",
+            "plan": {
+              "key": "MISS_MAINTAIN",
+              "label": "Miss + Maintain (strong negative)",
+              "stance": "Short the bounce or sit out longs",
+              "time_horizon": "swing_3d",
+              "entry": "Short on T+1 bounce to VWAP, OR enter on T+2 if T+1 holds red",
+              "stoploss": "Above T+1 high",
+              "target": "-3–5% over T+2 to T+3",
+              "rationale": "Miss with no forward apology = capitulation hasn't started. Continuation move down is the typical pattern. Don't try to catch the knife on T+1 open.",
+              "confidence": "HIGH",
+              "falsification": [
+                "Sector rally swallows single-stock weakness",
+                "Surprise positive catalyst (M&A, large order) hits the tape"
+              ],
+              "leans": "short_or_skip"
+            },
             "is_highlighted": true
+          },
+          {
+            "guidance": "CUT",
+            "plan": {
+              "key": "MISS_CUT",
+              "label": "Miss + Cut (worst — multi-week down)",
+              "stance": "Strong short — multi-week downtrend; do not catch the knife",
+              "time_horizon": "swing_10d",
+              "entry": "Short on any bounce to VWAP through T+5; scale in over multiple sessions",
+              "stoploss": "Above the post-result high; 4% above entry as backstop",
+              "target": "-8–15% over T+5 to T+15; partial at first major support",
+              "rationale": "Worst cell. Both backward AND forward narratives confirm decay. Analyst downgrades cluster T+1–T+5. The drift is reliable. The only risk is sector or macro reversal — sector rotation can save even bad single-stock setups.",
+              "confidence": "HIGH",
+              "falsification": [
+                "Macro tailwind shifts capital toward beaten-down names",
+                "Surprise activist / takeover bid",
+                "Sector rallies 5%+ in the drift window"
+              ],
+              "leans": "short"
+            },
+            "is_highlighted": false
+          }
+        ],
+        "headline": "Predicted MISS. Three guidance scenarios mapped — pick the branch after concall.",
+        "position_size_multiplier": 0.6,
+        "position_size_tier": {
+          "label": "Reduced size",
+          "min_confidence": 48
+        },
+        "version": "earnings-playbook-v1-2026-05"
+      }
+    },
+    {
+      "symbol": "GAJA",
+      "company": "Gaja Alternative Asset Management Limited",
+      "event_iso_date": "2026-09-10",
+      "days_until": 5,
+      "fiscal_quarter": "Q1 FY27",
+      "fiscal_quarter_meta": {
+        "quarter": "Q1",
+        "fiscal_year": 2027,
+        "label": "Q1 FY27"
+      },
+      "tags": [],
+      "description": "To consider and approve the financial results for the period ended Jun 30, 2026",
+      "source": "nse-event-calendar",
+      "signals": {
+        "data_quality": "LOW",
+        "data_quality_flags": {
+          "trajectory": "absent",
+          "sector_vol": "unscaled"
+        },
+        "data_quality_inputs": {
+          "sws_deep": false,
+          "quarters_with_eps": 0,
+          "total_quarters": 0,
+          "has_returns": false,
+          "has_sector": false,
+          "in_picks_universe": false,
+          "trajectory_coverage": "absent",
+          "sector_volatility_known": false
+        },
+        "sector": null,
+        "market_cap_inr": null,
+        "market_cap_band": null,
+        "snowflake_total": null,
+        "multiples": {
+          "pe": null,
+          "pb": null,
+          "ps": null,
+          "ev_ebitda": null
+        },
+        "upside_pct": null,
+        "momentum": {
+          "ret_1m_pct": null,
+          "ret_3m_pct": null,
+          "ret_6m_pct": null,
+          "ret_1y_pct": null,
+          "sector_avg_1m_pct": null,
+          "sector_sample_size": null,
+          "sector_volatility_1m_pct": null,
+          "pre_runup_signal": "neutral",
+          "runup_vs_sector_pct": null
+        },
+        "trajectory": {
+          "latest_end": null,
+          "eps_yoy_pct": null,
+          "revenue_yoy_pct": null,
+          "quarters_count": 0
+        },
+        "picks_universe": null,
+        "v4": null,
+        "v3": null,
+        "announcements": {
+          "count_30d": 0,
+          "top_classifications": [],
+          "materiality_score_top3": 0,
+          "top3": [],
+          "recent_for_ui": []
+        },
+        "deals_7d": null,
+        "sws_upcoming_earnings": null
+      },
+      "prediction": {
+        "verdict": "INSUFFICIENT_DATA",
+        "confidence_pct": null,
+        "score_100": null,
+        "score_breakdown": {
+          "reason": "data_quality:LOW"
+        },
+        "reasons_top": [],
+        "reasons_against": [],
+        "predictor_version": "earnings-predict-v3-2026-05"
+      },
+      "price_band": {
+        "anchored": false,
+        "basis": "insufficient_data",
+        "bull": null,
+        "base": null,
+        "bear": null,
+        "version": "earnings-bands-v1-2026-05"
+      },
+      "rationale": {
+        "headline": "Calendar event only — insufficient signal coverage to predict outcome.",
+        "paragraphs": [
+          "This stock isn't covered in the SWS deep-scrape, has no fundamentalsHistory entry, or both. We can confirm the board meeting is scheduled but cannot score directional risk.",
+          "Watch the actual print for direction — we'll re-score the post-result T+1 playbook once outcome data lands.",
+          "Position sizing should reflect this opacity: treat as a binary unknown, not a directional bet."
+        ],
+        "falsification_triggers": [],
+        "version": "earnings-narrate-v1-2026-05"
+      },
+      "playbook": {
+        "mode": "preview",
+        "tradable": false,
+        "primary": null,
+        "branches": [],
+        "headline": "Insufficient data — no playbook.",
+        "version": "earnings-playbook-v1-2026-05"
+      }
+    },
+    {
+      "symbol": "LALITHAA",
+      "company": "Lalithaa Jewellery Mart Limited",
+      "event_iso_date": "2026-09-11",
+      "days_until": 6,
+      "fiscal_quarter": "Q1 FY27",
+      "fiscal_quarter_meta": {
+        "quarter": "Q1",
+        "fiscal_year": 2027,
+        "label": "Q1 FY27"
+      },
+      "tags": [
+        "OTHER"
+      ],
+      "description": "To consider and approve the financial results for the period ended Jun 30, 2026 and other business matters",
+      "source": "nse-event-calendar",
+      "signals": {
+        "data_quality": "HIGH",
+        "data_quality_flags": {
+          "trajectory": "absent",
+          "sector_vol": "unscaled"
+        },
+        "data_quality_inputs": {
+          "sws_deep": true,
+          "quarters_with_eps": 0,
+          "total_quarters": 0,
+          "has_returns": true,
+          "has_sector": true,
+          "in_picks_universe": true,
+          "trajectory_coverage": "absent",
+          "sector_volatility_known": false
+        },
+        "sector": "Consumer Durables",
+        "market_cap_inr": 157000000000,
+        "market_cap_band": null,
+        "snowflake_total": 11,
+        "multiples": {
+          "pe": 15.55,
+          "pb": 3.8,
+          "ps": 0,
+          "ev_ebitda": 0
+        },
+        "upside_pct": null,
+        "momentum": {
+          "ret_1m_pct": 23.45,
+          "ret_3m_pct": 23.45,
+          "ret_6m_pct": 23.45,
+          "ret_1y_pct": 23.45,
+          "sector_avg_1m_pct": 1.86,
+          "sector_sample_size": 569,
+          "sector_volatility_1m_pct": null,
+          "pre_runup_signal": "spike",
+          "runup_vs_sector_pct": 21.59
+        },
+        "trajectory": {
+          "latest_end": null,
+          "eps_yoy_pct": null,
+          "revenue_yoy_pct": null,
+          "quarters_count": 0
+        },
+        "picks_universe": {
+          "v4_score_100": 48,
+          "v4_verdict": "STRONG",
+          "v3_score_100": 48,
+          "v3_verdict": "STRONG",
+          "composite_verdict": "STRONG",
+          "categories": [
+            "upcoming_earnings",
+            "avoid"
+          ]
+        },
+        "v4": {
+          "v4_score_100": 48,
+          "v4_verdict": "STRONG",
+          "source": "upcoming",
+          "breakdown": {
+            "pts_health": 13.3,
+            "pts_future": 0,
+            "pts_valuation": 6,
+            "pts_past": 13.3,
+            "pts_fv_total": 5.5,
+            "fv_imputed": true,
+            "fv_industry_imputed": true,
+            "fv_industry_average_pts": 5.5,
+            "fv_industry_average_count": 45,
+            "fv_industry_average_key": "industry_code:4130000",
+            "fv_industry_average_label": "Consumer Durables",
+            "fv_max_inflation_haircut": false,
+            "upside_haircut_factor": 1,
+            "upside_display_basis": null,
+            "fv_subsignals_present": 1,
+            "fv_benchmark_used": false,
+            "pts_fv_upside_effective": null,
+            "pts_fv_pe_effective": null,
+            "fv_upside_relative_pts": null,
+            "fv_upside_rz": null,
+            "fv_pe_ratio": 0.289,
+            "fv_pe_bucket": "cheap",
+            "fv_pe_source": "groww_refinitiv",
+            "fv_pe_source_label": "Groww/Refinitiv",
+            "fv_pe_industry_name": null,
+            "fv_pe_company_pe": 15.55,
+            "fv_pe_industry_pe": 53.75,
+            "fv_pe_fetched_at": "2026-09-04T23:37:28.475Z",
+            "fv_pe_source_url": "https://groww.in/stocks/lalithaa-jewellery-mart-ltd",
+            "pts_mom_1y": 5.5,
+            "pts_mom_3m": 2.5,
+            "pts_mom_1m": 1.8,
+            "momentum_imputed": false,
+            "pts_overlay": 0,
+            "overlay_reasons": [],
+            "surveillance": null
+          }
+        },
+        "v3": {
+          "v3_score_100": 48,
+          "v3_verdict": "STRONG",
+          "source": "upcoming",
+          "breakdown": {
+            "pts_health": 13.3,
+            "pts_future": 0,
+            "pts_valuation": 6,
+            "pts_past": 13.3,
+            "pts_fv_total": 5.5,
+            "fv_imputed": true,
+            "fv_industry_imputed": true,
+            "fv_industry_average_pts": 5.5,
+            "fv_industry_average_count": 45,
+            "fv_industry_average_key": "industry_code:4130000",
+            "fv_industry_average_label": "Consumer Durables",
+            "fv_max_inflation_haircut": false,
+            "upside_haircut_factor": 1,
+            "upside_display_basis": null,
+            "fv_subsignals_present": 1,
+            "fv_benchmark_used": false,
+            "pts_fv_upside_effective": null,
+            "pts_fv_pe_effective": null,
+            "fv_upside_relative_pts": null,
+            "fv_upside_rz": null,
+            "fv_pe_ratio": 0.289,
+            "fv_pe_bucket": "cheap",
+            "fv_pe_source": "groww_refinitiv",
+            "fv_pe_source_label": "Groww/Refinitiv",
+            "fv_pe_industry_name": null,
+            "fv_pe_company_pe": 15.55,
+            "fv_pe_industry_pe": 53.75,
+            "fv_pe_fetched_at": "2026-09-04T23:37:28.475Z",
+            "fv_pe_source_url": "https://groww.in/stocks/lalithaa-jewellery-mart-ltd",
+            "pts_mom_1y": 5.5,
+            "pts_mom_3m": 2.5,
+            "pts_mom_1m": 1.8,
+            "momentum_imputed": false,
+            "pts_overlay": 0,
+            "overlay_reasons": [],
+            "surveillance": null
+          }
+        },
+        "announcements": {
+          "count_30d": 0,
+          "top_classifications": [],
+          "materiality_score_top3": 0,
+          "top3": [],
+          "recent_for_ui": []
+        },
+        "deals_7d": null,
+        "sws_upcoming_earnings": {
+          "v3_verdict": "STRONG",
+          "composite_verdict": "STRONG",
+          "v3_score_100": 48,
+          "snowflake_total": 11,
+          "fair_value_inr": null,
+          "current_price_inr": 306.7,
+          "upside_pct": null,
+          "one_line": "P/E 15.6x · snow 11/30",
+          "data_completeness_pct": 92,
+          "counter_thesis": {
+            "verdict_bias": "bullish",
+            "text": "fair-value upside imputed (no SWS analyst FV) — score may overstate price-vs-FV cushion; valuation pillar weak (2/6) despite overall STRONG; earnings in 6d — binary event.",
+            "falsification_trigger": [
+              "next quarterly result misses estimates",
+              "a new India-risk overlay materialises (ASM/GSM, promoter pledge spike)",
+              "snowflake total drops by ≥ 4 points on next refresh"
+            ]
+          },
+          "last_quarter_result": null,
+          "recent_analyst_revisions": [],
+          "sws_audit_trail": {
+            "scoring_version": "sws-v4.1-100pt-2026-07",
+            "inputs_used": {
+              "snowflake_total": 11,
+              "upside_pct": null,
+              "returns_1y": 23.450330059571726,
+              "returns_3m": 23.450330059571726,
+              "returns_1m": 23.450330059571726,
+              "risks_count": 3,
+              "surveillance": null,
+              "market_cap_inr": 157000000000
+            },
+            "imputations": {
+              "fv_imputed": true,
+              "momentum_imputed": false
+            },
+            "categories_assigned": [
+              "upcoming_earnings",
+              "avoid"
+            ]
+          }
+        },
+        "llm_signal": {
+          "bias": "neutral",
+          "confidence_delta_pct": 0,
+          "top_reason": "Strong past earnings growth and attractive valuation metrics are positive, but lack of recent news or specific catalysts keeps the outlook n...",
+          "top_risk": "Debt not well covered by operating cash flow and high level of non-cash earnings are significant financial risks.",
+          "classifier_provider": "gemini",
+          "model_id": "gemini-2.5-flash",
+          "signal_version": "earnings-llm-v2-2026-05",
+          "generated_at": "2026-09-05T02:42:16.758Z"
+        }
+      },
+      "prediction": {
+        "verdict": "MISS",
+        "confidence_pct": 56,
+        "score_100": 27.6,
+        "score_breakdown": {
+          "v3_future_past": -7,
+          "v3_valuation": -0.3,
+          "v3_overlay": 0,
+          "runup": -12,
+          "sector_momentum": 0.9,
+          "trajectory": 0,
+          "last_quarter_echo": 0,
+          "announcements": 0,
+          "deal_flow": 0,
+          "llm_signal": 0,
+          "missing_data_penalty": -4,
+          "missing_data_components": [
+            "trajectory",
+            "announcements"
+          ],
+          "raw_sum": -22.4,
+          "sws_quality": -7,
+          "fv_upside": -0.3,
+          "threshold_version": "v3-2026-05",
+          "threshold_source": "empirical",
+          "miss_cut": 34,
+          "beat_cut": 56
+        },
+        "reasons_top": [
+          "pre-runup spike (+21.6% vs sector — priced-in risk)",
+          "V4 future 0/22 · past 13/16 (STRONG)",
+          "missing-data caution: trajectory, announcements unavailable (-4 pts, HIGH)"
+        ],
+        "reasons_against": [
+          "sector Consumer Durables +1.9% over 1M"
+        ],
+        "components_by_impact": [
+          {
+            "name": "runup",
+            "pts": -12,
+            "why": "pre-runup spike (+21.6% vs sector — priced-in risk)"
+          },
+          {
+            "name": "v3_future_past",
+            "pts": -7,
+            "why": "V4 future 0/22 · past 13/16 (STRONG)"
+          },
+          {
+            "name": "missing_data_penalty",
+            "pts": -4,
+            "why": "missing-data caution: trajectory, announcements unavailable (-4 pts, HIGH)"
+          },
+          {
+            "name": "sector_momentum",
+            "pts": 0.9,
+            "why": "sector Consumer Durables +1.9% over 1M"
+          },
+          {
+            "name": "v3_valuation",
+            "pts": -0.3,
+            "why": "V4 valuation: fair-value imputed (no FV anchor)"
+          },
+          {
+            "name": "v3_overlay",
+            "pts": 0,
+            "why": "no V4 risk flags"
+          },
+          {
+            "name": "trajectory",
+            "pts": 0,
+            "why": "EPS trajectory unknown (not negative)"
+          },
+          {
+            "name": "last_quarter_echo",
+            "pts": 0,
+            "why": "no last-quarter signal"
+          },
+          {
+            "name": "announcements",
+            "pts": 0,
+            "why": "no recent announcements"
+          },
+          {
+            "name": "deal_flow",
+            "pts": 0,
+            "why": "no recent bulk/block deals"
+          },
+          {
+            "name": "llm_signal",
+            "pts": 0,
+            "why": "LLM read: neutral (gemini)"
+          }
+        ],
+        "predictor_version": "earnings-predict-v3-2026-05"
+      },
+      "price_band": {
+        "anchored": true,
+        "basis": "anchored ₹306.7 · vol≈11.7% · conf×0.6",
+        "current_price_inr": 306.7,
+        "bull": {
+          "pct": 6.5,
+          "price_inr": 326.77
+        },
+        "base": {
+          "pct": -1,
+          "price_inr": 303.76
+        },
+        "bear": {
+          "pct": -8.5,
+          "price_inr": 280.74
+        },
+        "version": "earnings-bands-v1-2026-05"
+      },
+      "rationale": {
+        "headline": "MISS expected (56% conf) — LALITHAA Q1 FY27 in 6d.",
+        "paragraphs": [
+          "LALITHAA reports Q1 FY27 in 6d. Our model expects the result to MISS, with 56% confidence (V1 cap is 65% — see methodology). Strongest input: pre-runup spike (+21.6% vs sector — priced-in risk); reinforced by V4 future 0/22 · past 13/16 (STRONG).",
+          "Component breakdown (28/100 composite): pulling toward MISS: pre-runup spike (+21.6% vs sector — priced-in risk); V4 future 0/22 · past 13/16 (STRONG); missing-data caution: trajectory, announcements unavailable (-4 pts, HIGH). Opposing signal: sector Consumer Durables +1.9% over 1M. Sector Consumer Durables momentum acts as the prevailing tide; treat any single-stock thesis as conditional on it not flipping mid-week.",
+          "1-day post-result band: Bull ₹326.77 (+6.5%) · Base ₹303.76 · Bear ₹280.74 (-8.5%). Magnitudes are confidence-scaled and capped at ±15%. Earnings are binary events — size positions to survive a Bear-case print, not to maximise the Bull case."
+        ],
+        "falsification_triggers": [
+          "next quarterly result misses estimates",
+          "a new India-risk overlay materialises (ASM/GSM, promoter pledge spike)",
+          "snowflake total drops by ≥ 4 points on next refresh"
+        ],
+        "version": "earnings-narrate-v1-2026-05"
+      },
+      "playbook": {
+        "mode": "preview",
+        "tradable": true,
+        "predicted_verdict": "MISS",
+        "highlight_branch": "CUT",
+        "pre_runup_signal": "spike",
+        "primary": {
+          "key": "MISS_MAINTAIN",
+          "label": "Miss + Maintain (strong negative)",
+          "stance": "Short the bounce or sit out longs",
+          "time_horizon": "swing_3d",
+          "entry": "Short on T+1 bounce to VWAP, OR enter on T+2 if T+1 holds red",
+          "stoploss": "Above T+1 high",
+          "target": "-3–5% over T+2 to T+3",
+          "rationale": "Miss with no forward apology = capitulation hasn't started. Continuation move down is the typical pattern. Don't try to catch the knife on T+1 open.",
+          "confidence": "HIGH",
+          "falsification": [
+            "Sector rally swallows single-stock weakness",
+            "Surprise positive catalyst (M&A, large order) hits the tape"
+          ],
+          "leans": "short_or_skip"
+        },
+        "branches": [
+          {
+            "guidance": "RAISE",
+            "plan": {
+              "key": "MISS_RAISE",
+              "label": "Miss + Raise (mixed)",
+              "stance": "Conditional — light long after stabilisation if forward look is credible",
+              "time_horizon": "swing_3d",
+              "entry": "After T+1 closes, if forward bump is articulated clearly on the concall: small long T+2 open, sized half a normal trade.",
+              "stoploss": "Below T+1 low",
+              "target": "Recovery to pre-print level over T+3 to T+5; partial at +3%",
+              "rationale": "Headline miss + raised guidance is rare. Often miss is one-time (FX, deferral, base effect). If management is credibly bullish on forward, the dip can be a buy. Treat as an edge case.",
+              "confidence": "MEDIUM",
+              "falsification": [
+                "Forward bump is vague or qualified",
+                "Multiple analyst downgrades land during T+1 — momentum is too negative to fight"
+              ],
+              "leans": "small_long"
+            },
+            "is_highlighted": false
           },
           {
             "guidance": "MAINTAIN",
@@ -1584,10 +1966,10 @@
               ],
               "leans": "short"
             },
-            "is_highlighted": false
+            "is_highlighted": true
           }
         ],
-        "headline": "Predicted MISS. Three guidance scenarios mapped — pick the branch after concall.",
+        "headline": "Predicted MISS into a spiked stock — MISS_CUT is the worst cell. Sit out longs.",
         "position_size_multiplier": 0.6,
         "position_size_tier": {
           "label": "Reduced size",
@@ -1600,7 +1982,7 @@
       "symbol": "INDIACEM",
       "company": "The India Cements Limited",
       "event_iso_date": "2026-10-17",
-      "days_until": 44,
+      "days_until": 42,
       "fiscal_quarter": "Q2 FY27",
       "fiscal_quarter_meta": {
         "quarter": "Q2",
@@ -1627,22 +2009,22 @@
           "sector_volatility_known": false
         },
         "sector": "Materials",
-        "market_cap_inr": 111020000000,
+        "market_cap_inr": 111110000000,
         "market_cap_band": "midsmall4",
         "snowflake_total": 9,
         "multiples": {
-          "pe": 120.22,
+          "pe": 120.32,
           "pb": 2.31,
           "ps": 0,
           "ev_ebitda": 0
         },
-        "upside_pct": 22.8,
+        "upside_pct": 21.38,
         "momentum": {
-          "ret_1m_pct": -8.35,
-          "ret_3m_pct": -5.83,
-          "ret_6m_pct": -6.2,
-          "ret_1y_pct": -6.96,
-          "sector_avg_1m_pct": 2.46,
+          "ret_1m_pct": -7.71,
+          "ret_3m_pct": -4.84,
+          "ret_6m_pct": -5.1,
+          "ret_1y_pct": -9.71,
+          "sector_avg_1m_pct": 3.1,
           "sector_sample_size": 973,
           "sector_volatility_1m_pct": null,
           "pre_runup_signal": "lagging",
@@ -1656,9 +2038,9 @@
           "quarters_count": 5
         },
         "picks_universe": {
-          "v4_score_100": 38.8,
+          "v4_score_100": 38.5,
           "v4_verdict": "ACCEPTABLE",
-          "v3_score_100": 38.8,
+          "v3_score_100": 38.5,
           "v3_verdict": "ACCEPTABLE",
           "composite_verdict": "ACCEPTABLE",
           "categories": [
@@ -1666,7 +2048,7 @@
           ]
         },
         "v4": {
-          "v4_score_100": 38.8,
+          "v4_score_100": 38.5,
           "v4_verdict": "ACCEPTABLE",
           "source": "upcoming",
           "breakdown": {
@@ -1674,7 +2056,7 @@
             "pts_future": 11,
             "pts_valuation": 0,
             "pts_past": 8,
-            "pts_fv_total": 4.4,
+            "pts_fv_total": 4.3,
             "fv_imputed": false,
             "fv_industry_imputed": false,
             "fv_industry_average_pts": null,
@@ -1686,22 +2068,22 @@
             "upside_display_basis": null,
             "fv_subsignals_present": 2,
             "fv_benchmark_used": true,
-            "pts_fv_upside_effective": 4.4,
+            "pts_fv_upside_effective": 4.3,
             "pts_fv_pe_effective": 0,
-            "fv_upside_relative_pts": 6.6,
-            "fv_upside_rz": 0.248,
-            "fv_pe_ratio": 3.782,
+            "fv_upside_relative_pts": 6.5,
+            "fv_upside_rz": 0.208,
+            "fv_pe_ratio": 3.798,
             "fv_pe_bucket": "expensive",
             "fv_pe_source": "groww_refinitiv",
             "fv_pe_source_label": "Groww/Refinitiv",
             "fv_pe_industry_name": "Cement",
-            "fv_pe_company_pe": 120.22,
-            "fv_pe_industry_pe": 31.79,
-            "fv_pe_fetched_at": "2026-09-03T00:46:27.612Z",
+            "fv_pe_company_pe": 120.32,
+            "fv_pe_industry_pe": 31.68,
+            "fv_pe_fetched_at": "2026-09-04T23:37:28.475Z",
             "fv_pe_source_url": "https://groww.in/stocks/the-india-cements-ltd",
-            "pts_mom_1y": 3.8,
-            "pts_mom_3m": 1.1,
-            "pts_mom_1m": 0.4,
+            "pts_mom_1y": 3.6,
+            "pts_mom_3m": 1.2,
+            "pts_mom_1m": 0.5,
             "momentum_imputed": false,
             "pts_overlay": 0,
             "overlay_reasons": [],
@@ -1709,7 +2091,7 @@
           }
         },
         "v3": {
-          "v3_score_100": 38.8,
+          "v3_score_100": 38.5,
           "v3_verdict": "ACCEPTABLE",
           "source": "upcoming",
           "breakdown": {
@@ -1717,7 +2099,7 @@
             "pts_future": 11,
             "pts_valuation": 0,
             "pts_past": 8,
-            "pts_fv_total": 4.4,
+            "pts_fv_total": 4.3,
             "fv_imputed": false,
             "fv_industry_imputed": false,
             "fv_industry_average_pts": null,
@@ -1729,22 +2111,22 @@
             "upside_display_basis": null,
             "fv_subsignals_present": 2,
             "fv_benchmark_used": true,
-            "pts_fv_upside_effective": 4.4,
+            "pts_fv_upside_effective": 4.3,
             "pts_fv_pe_effective": 0,
-            "fv_upside_relative_pts": 6.6,
-            "fv_upside_rz": 0.248,
-            "fv_pe_ratio": 3.782,
+            "fv_upside_relative_pts": 6.5,
+            "fv_upside_rz": 0.208,
+            "fv_pe_ratio": 3.798,
             "fv_pe_bucket": "expensive",
             "fv_pe_source": "groww_refinitiv",
             "fv_pe_source_label": "Groww/Refinitiv",
             "fv_pe_industry_name": "Cement",
-            "fv_pe_company_pe": 120.22,
-            "fv_pe_industry_pe": 31.79,
-            "fv_pe_fetched_at": "2026-09-03T00:46:27.612Z",
+            "fv_pe_company_pe": 120.32,
+            "fv_pe_industry_pe": 31.68,
+            "fv_pe_fetched_at": "2026-09-04T23:37:28.475Z",
             "fv_pe_source_url": "https://groww.in/stocks/the-india-cements-ltd",
-            "pts_mom_1y": 3.8,
-            "pts_mom_3m": 1.1,
-            "pts_mom_1m": 0.4,
+            "pts_mom_1y": 3.6,
+            "pts_mom_3m": 1.2,
+            "pts_mom_1m": 0.5,
             "momentum_imputed": false,
             "pts_overlay": 0,
             "overlay_reasons": [],
@@ -1762,12 +2144,12 @@
         "sws_upcoming_earnings": {
           "v3_verdict": "ACCEPTABLE",
           "composite_verdict": "ACCEPTABLE",
-          "v3_score_100": 38.8,
+          "v3_score_100": 38.5,
           "snowflake_total": 9,
           "fair_value_inr": 440,
-          "current_price_inr": 358.3,
-          "upside_pct": 22.8,
-          "one_line": "P/E 120.2x · +22.8% to fair value · snow 9/30",
+          "current_price_inr": 362.5,
+          "upside_pct": 21.4,
+          "one_line": "P/E 120.3x · +21.4% to fair value · snow 9/30",
           "data_completeness_pct": 100,
           "counter_thesis": {
             "verdict_bias": "neutral",
@@ -1783,13 +2165,13 @@
             "scoring_version": "sws-v4.1-100pt-2026-07",
             "inputs_used": {
               "snowflake_total": 9,
-              "upside_pct": 22.802121127546744,
-              "returns_1y": -6.959231368475723,
-              "returns_3m": -5.834428383705648,
-              "returns_1m": -8.351451592275222,
+              "upside_pct": 21.379310344827587,
+              "returns_1y": -9.71357409713574,
+              "returns_3m": -4.843155269720433,
+              "returns_1m": -7.713849287169046,
               "risks_count": 0,
               "surveillance": null,
-              "market_cap_inr": 111020000000
+              "market_cap_inr": 111110000000
             },
             "imputations": {
               "fv_imputed": false,
@@ -1808,19 +2190,19 @@
           "classifier_provider": "heuristic",
           "model_id": "heuristic-v2",
           "signal_version": "earnings-llm-v2-2026-05",
-          "generated_at": "2026-09-03T03:40:38.743Z"
+          "generated_at": "2026-09-05T02:42:13.321Z"
         }
       },
       "prediction": {
         "verdict": "BEAT",
         "confidence_pct": 57,
-        "score_100": 63.1,
+        "score_100": 63.3,
         "score_breakdown": {
           "v3_future_past": 0,
-          "v3_valuation": -2.1,
+          "v3_valuation": -2.3,
           "v3_overlay": 0,
           "runup": 5,
-          "sector_momentum": 1.2,
+          "sector_momentum": 1.6,
           "trajectory": 15,
           "last_quarter_echo": -4,
           "announcements": 0,
@@ -1830,9 +2212,9 @@
           "missing_data_components": [
             "announcements"
           ],
-          "raw_sum": 13.1,
+          "raw_sum": 13.3,
           "sws_quality": 0,
-          "fv_upside": -2.1,
+          "fv_upside": -2.3,
           "threshold_version": "v3-2026-05",
           "threshold_source": "empirical",
           "miss_cut": 34,
@@ -1841,11 +2223,11 @@
         "reasons_top": [
           "EPS YoY +120.3%",
           "lagging sector (-10.8% vs sector — room to surprise)",
-          "sector Materials +2.5% over 1M"
+          "sector Materials +3.1% over 1M"
         ],
         "reasons_against": [
           "last quarter missed",
-          "V4 valuation: 4.4/12 FV-composite (rich → fade risk)",
+          "V4 valuation: 4.3/12 FV-composite (rich → fade risk)",
           "missing-data caution: announcements unavailable (-2 pts, HIGH)"
         ],
         "components_by_impact": [
@@ -1866,8 +2248,8 @@
           },
           {
             "name": "v3_valuation",
-            "pts": -2.1,
-            "why": "V4 valuation: 4.4/12 FV-composite (rich → fade risk)"
+            "pts": -2.3,
+            "why": "V4 valuation: 4.3/12 FV-composite (rich → fade risk)"
           },
           {
             "name": "missing_data_penalty",
@@ -1876,8 +2258,8 @@
           },
           {
             "name": "sector_momentum",
-            "pts": 1.2,
-            "why": "sector Materials +2.5% over 1M"
+            "pts": 1.6,
+            "why": "sector Materials +3.1% over 1M"
           },
           {
             "name": "v3_future_past",
@@ -1909,28 +2291,28 @@
       },
       "price_band": {
         "anchored": true,
-        "basis": "anchored ₹358.3 · vol≈4.2% · conf×0.7",
-        "current_price_inr": 358.3,
+        "basis": "anchored ₹362.5 · vol≈3.9% · conf×0.7",
+        "current_price_inr": 362.5,
         "bull": {
-          "pct": 4.5,
-          "price_inr": 374.35
+          "pct": 4.2,
+          "price_inr": 377.81
         },
         "base": {
           "pct": 1.6,
-          "price_inr": 364.18
+          "price_inr": 368.31
         },
         "bear": {
-          "pct": -1.2,
-          "price_inr": 354
+          "pct": -1,
+          "price_inr": 358.8
         },
         "version": "earnings-bands-v1-2026-05"
       },
       "rationale": {
-        "headline": "BEAT expected (57% conf) — INDIACEM Q2 FY27 in 44d.",
+        "headline": "BEAT expected (57% conf) — INDIACEM Q2 FY27 in 42d.",
         "paragraphs": [
-          "INDIACEM reports Q2 FY27 in 44d. Our model expects the result to BEAT, with 57% confidence (V1 cap is 65% — see methodology). Strongest input: EPS YoY +120.3%; reinforced by lagging sector (-10.8% vs sector — room to surprise).",
-          "Component breakdown (63/100 composite): pulling toward BEAT: EPS YoY +120.3%; lagging sector (-10.8% vs sector — room to surprise); sector Materials +2.5% over 1M. Opposing signal: last quarter missed. Sector Materials momentum acts as the prevailing tide; treat any single-stock thesis as conditional on it not flipping mid-week.",
-          "1-day post-result band: Bull ₹374.35 (+4.5%) · Base ₹364.18 · Bear ₹354 (-1.2%). Magnitudes are confidence-scaled and capped at ±15%. Earnings are binary events — size positions to survive a Bear-case print, not to maximise the Bull case."
+          "INDIACEM reports Q2 FY27 in 42d. Our model expects the result to BEAT, with 57% confidence (V1 cap is 65% — see methodology). Strongest input: EPS YoY +120.3%; reinforced by lagging sector (-10.8% vs sector — room to surprise).",
+          "Component breakdown (63/100 composite): pulling toward BEAT: EPS YoY +120.3%; lagging sector (-10.8% vs sector — room to surprise); sector Materials +3.1% over 1M. Opposing signal: last quarter missed. Sector Materials momentum acts as the prevailing tide; treat any single-stock thesis as conditional on it not flipping mid-week.",
+          "1-day post-result band: Bull ₹377.81 (+4.2%) · Base ₹368.31 · Bear ₹358.8 (-1%). Magnitudes are confidence-scaled and capped at ±15%. Earnings are binary events — size positions to survive a Bear-case print, not to maximise the Bull case."
         ],
         "falsification_triggers": [
           "a material catalyst lands in the next 30 days (PT raise / beat / surveillance change)",
@@ -2036,7 +2418,7 @@
       "symbol": "ULTRACEMCO",
       "company": "UltraTech Cement Limited",
       "event_iso_date": "2026-10-19",
-      "days_until": 46,
+      "days_until": 44,
       "fiscal_quarter": "Q2 FY27",
       "fiscal_quarter_meta": {
         "quarter": "Q2",
@@ -2063,26 +2445,26 @@
           "sector_volatility_known": false
         },
         "sector": "Materials",
-        "market_cap_inr": 3353450000000,
+        "market_cap_inr": 3307320000000,
         "market_cap_band": "mega8",
-        "snowflake_total": 15,
+        "snowflake_total": 17,
         "multiples": {
-          "pe": 39.13,
-          "pb": 4.38,
+          "pe": 38.59,
+          "pb": 4.32,
           "ps": 0,
           "ev_ebitda": 0
         },
-        "upside_pct": 22.06,
+        "upside_pct": 21.96,
         "momentum": {
-          "ret_1m_pct": -5.48,
-          "ret_3m_pct": 3.6,
-          "ret_6m_pct": -4.96,
-          "ret_1y_pct": -10.52,
-          "sector_avg_1m_pct": 2.46,
+          "ret_1m_pct": -6.42,
+          "ret_3m_pct": 4.55,
+          "ret_6m_pct": -4.83,
+          "ret_1y_pct": -9.83,
+          "sector_avg_1m_pct": 3.1,
           "sector_sample_size": 973,
           "sector_volatility_1m_pct": null,
           "pre_runup_signal": "lagging",
-          "runup_vs_sector_pct": -7.94
+          "runup_vs_sector_pct": -9.52
         },
         "trajectory": {
           "latest_end": "2026-06-30",
@@ -2092,17 +2474,18 @@
           "quarters_count": 5
         },
         "picks_universe": {
-          "v4_score_100": 47.3,
+          "v4_score_100": 47.4,
           "v4_verdict": "STRONG",
-          "v3_score_100": 47.3,
+          "v3_score_100": 47.4,
           "v3_verdict": "STRONG",
           "composite_verdict": "STRONG",
           "categories": [
+            "dividend_aristocrats",
             "upcoming_earnings"
           ]
         },
         "v4": {
-          "v4_score_100": 47.3,
+          "v4_score_100": 47.4,
           "v4_verdict": "STRONG",
           "source": "upcoming",
           "breakdown": {
@@ -2110,7 +2493,7 @@
             "pts_future": 7.3,
             "pts_valuation": 3,
             "pts_past": 13.3,
-            "pts_fv_total": 4.3,
+            "pts_fv_total": 4.4,
             "fv_imputed": false,
             "fv_industry_imputed": false,
             "fv_industry_average_pts": null,
@@ -2122,22 +2505,22 @@
             "upside_display_basis": null,
             "fv_subsignals_present": 2,
             "fv_benchmark_used": true,
-            "pts_fv_upside_effective": 4.3,
+            "pts_fv_upside_effective": 4.4,
             "pts_fv_pe_effective": 0,
-            "fv_upside_relative_pts": 6.5,
-            "fv_upside_rz": 0.215,
-            "fv_pe_ratio": 1.231,
+            "fv_upside_relative_pts": 6.6,
+            "fv_upside_rz": 0.237,
+            "fv_pe_ratio": 1.218,
             "fv_pe_bucket": "expensive",
             "fv_pe_source": "groww_refinitiv",
             "fv_pe_source_label": "Groww/Refinitiv",
             "fv_pe_industry_name": "Cement",
-            "fv_pe_company_pe": 39.13,
-            "fv_pe_industry_pe": 31.79,
-            "fv_pe_fetched_at": "2026-09-03T00:46:27.612Z",
+            "fv_pe_company_pe": 38.59,
+            "fv_pe_industry_pe": 31.68,
+            "fv_pe_fetched_at": "2026-09-04T23:37:28.475Z",
             "fv_pe_source_url": "https://groww.in/stocks/ultratech-cement-ltd",
             "pts_mom_1y": 3.6,
             "pts_mom_3m": 1.8,
-            "pts_mom_1m": 0.7,
+            "pts_mom_1m": 0.6,
             "momentum_imputed": false,
             "pts_overlay": 0,
             "overlay_reasons": [],
@@ -2145,7 +2528,7 @@
           }
         },
         "v3": {
-          "v3_score_100": 47.3,
+          "v3_score_100": 47.4,
           "v3_verdict": "STRONG",
           "source": "upcoming",
           "breakdown": {
@@ -2153,7 +2536,7 @@
             "pts_future": 7.3,
             "pts_valuation": 3,
             "pts_past": 13.3,
-            "pts_fv_total": 4.3,
+            "pts_fv_total": 4.4,
             "fv_imputed": false,
             "fv_industry_imputed": false,
             "fv_industry_average_pts": null,
@@ -2165,22 +2548,22 @@
             "upside_display_basis": null,
             "fv_subsignals_present": 2,
             "fv_benchmark_used": true,
-            "pts_fv_upside_effective": 4.3,
+            "pts_fv_upside_effective": 4.4,
             "pts_fv_pe_effective": 0,
-            "fv_upside_relative_pts": 6.5,
-            "fv_upside_rz": 0.215,
-            "fv_pe_ratio": 1.231,
+            "fv_upside_relative_pts": 6.6,
+            "fv_upside_rz": 0.237,
+            "fv_pe_ratio": 1.218,
             "fv_pe_bucket": "expensive",
             "fv_pe_source": "groww_refinitiv",
             "fv_pe_source_label": "Groww/Refinitiv",
             "fv_pe_industry_name": "Cement",
-            "fv_pe_company_pe": 39.13,
-            "fv_pe_industry_pe": 31.79,
-            "fv_pe_fetched_at": "2026-09-03T00:46:27.612Z",
+            "fv_pe_company_pe": 38.59,
+            "fv_pe_industry_pe": 31.68,
+            "fv_pe_fetched_at": "2026-09-04T23:37:28.475Z",
             "fv_pe_source_url": "https://groww.in/stocks/ultratech-cement-ltd",
             "pts_mom_1y": 3.6,
             "pts_mom_3m": 1.8,
-            "pts_mom_1m": 0.7,
+            "pts_mom_1m": 0.6,
             "momentum_imputed": false,
             "pts_overlay": 0,
             "overlay_reasons": [],
@@ -2198,12 +2581,12 @@
         "sws_upcoming_earnings": {
           "v3_verdict": "STRONG",
           "composite_verdict": "STRONG",
-          "v3_score_100": 47.3,
-          "snowflake_total": 15,
-          "fair_value_inr": 13906.81081,
-          "current_price_inr": 11393,
-          "upside_pct": 22.1,
-          "one_line": "P/E 39.1x · +22.1% to fair value · 2.1% div · snow 15/30",
+          "v3_score_100": 47.4,
+          "snowflake_total": 17,
+          "fair_value_inr": 13913.24324,
+          "current_price_inr": 11408,
+          "upside_pct": 22,
+          "one_line": "P/E 38.6x · +22.0% to fair value · 2.1% div · snow 17/30",
           "data_completeness_pct": 100,
           "counter_thesis": {
             "verdict_bias": "bullish",
@@ -2211,7 +2594,7 @@
             "falsification_trigger": [
               "next quarterly result misses estimates",
               "a new India-risk overlay materialises (ASM/GSM, promoter pledge spike)",
-              "upside vs SWS FV compresses below 5% (currently 22.1%)"
+              "upside vs SWS FV compresses below 5% (currently 22.0%)"
             ]
           },
           "last_quarter_result": "beat",
@@ -2219,57 +2602,58 @@
           "sws_audit_trail": {
             "scoring_version": "sws-v4.1-100pt-2026-07",
             "inputs_used": {
-              "snowflake_total": 15,
-              "upside_pct": 22.06452040726763,
-              "returns_1y": -10.5238357025053,
-              "returns_3m": 3.600982086023461,
-              "returns_1m": -5.4836568773851,
+              "snowflake_total": 17,
+              "upside_pct": 21.960407082748944,
+              "returns_1y": -9.82531025215398,
+              "returns_3m": 4.545454545454546,
+              "returns_1m": -6.415094339622642,
               "risks_count": 1,
               "surveillance": null,
-              "market_cap_inr": 3353450000000
+              "market_cap_inr": 3307320000000
             },
             "imputations": {
               "fv_imputed": false,
               "momentum_imputed": false
             },
             "categories_assigned": [
+              "dividend_aristocrats",
               "upcoming_earnings"
             ]
           }
         },
         "llm_signal": {
           "bias": "lean_beat",
-          "confidence_delta_pct": 2,
-          "top_reason": "Q1 FY27 results exceeded analyst expectations for both revenue and EPS, with revenue growing 16% and EPS up 17% year-over-year.",
-          "top_risk": "A new minor risk regarding dividend sustainability due to cash flow coverage has been identified, despite being covered by earnings.",
+          "confidence_delta_pct": 3,
+          "top_reason": "Analysts have raised fair value estimates, and Q1 FY27 results exceeded both revenue and EPS expectations.",
+          "top_risk": "Recent news indicates the dividend is not well covered by cash flows, despite being covered by earnings, posing a minor risk.",
           "classifier_provider": "gemini",
           "model_id": "gemini-2.5-flash",
           "signal_version": "earnings-llm-v2-2026-05",
-          "generated_at": "2026-09-03T03:40:41.269Z"
+          "generated_at": "2026-09-05T02:42:16.758Z"
         }
       },
       "prediction": {
         "verdict": "BEAT",
-        "confidence_pct": 62,
-        "score_100": 67.5,
+        "confidence_pct": 64,
+        "score_100": 70.1,
         "score_breakdown": {
           "v3_future_past": 0.9,
-          "v3_valuation": -2.3,
+          "v3_valuation": -2.1,
           "v3_overlay": 0,
           "runup": 5,
-          "sector_momentum": 1.2,
+          "sector_momentum": 1.6,
           "trajectory": 6.7,
           "last_quarter_echo": 4,
           "announcements": 0,
           "deal_flow": 0,
-          "llm_signal": 4,
+          "llm_signal": 6,
           "missing_data_penalty": -2,
           "missing_data_components": [
             "announcements"
           ],
-          "raw_sum": 17.5,
+          "raw_sum": 20.1,
           "sws_quality": 0.9,
-          "fv_upside": -2.3,
+          "fv_upside": -2.1,
           "threshold_version": "v3-2026-05",
           "threshold_source": "empirical",
           "miss_cut": 34,
@@ -2277,11 +2661,11 @@
         },
         "reasons_top": [
           "EPS YoY +16.8%",
-          "lagging sector (-7.9% vs sector — room to surprise)",
-          "last quarter beat"
+          "LLM (gemini): Analysts have raised fair value estimates, and Q1 FY27 results exceeded both revenue and EPS expectations.",
+          "lagging sector (-9.5% vs sector — room to surprise)"
         ],
         "reasons_against": [
-          "V4 valuation: 4.3/12 FV-composite (rich → fade risk)",
+          "V4 valuation: 4.4/12 FV-composite (rich → fade risk)",
           "missing-data caution: announcements unavailable (-2 pts, HIGH)"
         ],
         "components_by_impact": [
@@ -2291,9 +2675,14 @@
             "why": "EPS YoY +16.8%"
           },
           {
+            "name": "llm_signal",
+            "pts": 6,
+            "why": "LLM (gemini): Analysts have raised fair value estimates, and Q1 FY27 results exceeded both revenue and EPS expectations."
+          },
+          {
             "name": "runup",
             "pts": 5,
-            "why": "lagging sector (-7.9% vs sector — room to surprise)"
+            "why": "lagging sector (-9.5% vs sector — room to surprise)"
           },
           {
             "name": "last_quarter_echo",
@@ -2301,14 +2690,9 @@
             "why": "last quarter beat"
           },
           {
-            "name": "llm_signal",
-            "pts": 4,
-            "why": "LLM (gemini): Q1 FY27 results exceeded analyst expectations for both revenue and EPS, with revenue growing 16% and EPS up 17% year-over-year."
-          },
-          {
             "name": "v3_valuation",
-            "pts": -2.3,
-            "why": "V4 valuation: 4.3/12 FV-composite (rich → fade risk)"
+            "pts": -2.1,
+            "why": "V4 valuation: 4.4/12 FV-composite (rich → fade risk)"
           },
           {
             "name": "missing_data_penalty",
@@ -2317,8 +2701,8 @@
           },
           {
             "name": "sector_momentum",
-            "pts": 1.2,
-            "why": "sector Materials +2.5% over 1M"
+            "pts": 1.6,
+            "why": "sector Materials +3.1% over 1M"
           },
           {
             "name": "v3_future_past",
@@ -2345,33 +2729,33 @@
       },
       "price_band": {
         "anchored": true,
-        "basis": "anchored ₹11393 · vol≈2.7% · conf×0.9",
-        "current_price_inr": 11393,
+        "basis": "anchored ₹11408 · vol≈3.2% · conf×1",
+        "current_price_inr": 11408,
         "bull": {
-          "pct": 4.5,
-          "price_inr": 11906.56
+          "pct": 5.4,
+          "price_inr": 12020.02
         },
         "base": {
-          "pct": 2.1,
-          "price_inr": 11631.86
+          "pct": 2.3,
+          "price_inr": 11668.47
         },
         "bear": {
-          "pct": -0.3,
-          "price_inr": 11357.15
+          "pct": -0.8,
+          "price_inr": 11316.93
         },
         "version": "earnings-bands-v1-2026-05"
       },
       "rationale": {
-        "headline": "BEAT expected (62% conf) — ULTRACEMCO Q2 FY27 in 46d.",
+        "headline": "BEAT expected (64% conf) — ULTRACEMCO Q2 FY27 in 44d.",
         "paragraphs": [
-          "ULTRACEMCO reports Q2 FY27 in 46d. Our model expects the result to BEAT, with 62% confidence (V1 cap is 65% — see methodology). Strongest input: EPS YoY +16.8%; reinforced by lagging sector (-7.9% vs sector — room to surprise).",
-          "Component breakdown (68/100 composite): pulling toward BEAT: EPS YoY +16.8%; lagging sector (-7.9% vs sector — room to surprise); last quarter beat. Opposing signal: V4 valuation: 4.3/12 FV-composite (rich → fade risk). Sector Materials momentum acts as the prevailing tide; treat any single-stock thesis as conditional on it not flipping mid-week.",
-          "1-day post-result band: Bull ₹11906.56 (+4.5%) · Base ₹11631.86 · Bear ₹11357.15 (-0.3%). Magnitudes are confidence-scaled and capped at ±15%. Earnings are binary events — size positions to survive a Bear-case print, not to maximise the Bull case."
+          "ULTRACEMCO reports Q2 FY27 in 44d. Our model expects the result to BEAT, with 64% confidence (V1 cap is 65% — see methodology). Strongest input: EPS YoY +16.8%; reinforced by LLM (gemini): Analysts have raised fair value estimates, and Q1 FY27 results exceeded both revenue and EPS expectations..",
+          "Component breakdown (70/100 composite): pulling toward BEAT: EPS YoY +16.8%; LLM (gemini): Analysts have raised fair value estimates, and Q1 FY27 results exceeded both revenue and EPS expectations.; lagging sector (-9.5% vs sector — room to surprise). Opposing signal: V4 valuation: 4.4/12 FV-composite (rich → fade risk). Sector Materials momentum acts as the prevailing tide; treat any single-stock thesis as conditional on it not flipping mid-week.",
+          "1-day post-result band: Bull ₹12020.02 (+5.4%) · Base ₹11668.47 · Bear ₹11316.93 (-0.8%). Magnitudes are confidence-scaled and capped at ±15%. Earnings are binary events — size positions to survive a Bear-case print, not to maximise the Bull case."
         ],
         "falsification_triggers": [
           "next quarterly result misses estimates",
           "a new India-risk overlay materialises (ASM/GSM, promoter pledge spike)",
-          "upside vs SWS FV compresses below 5% (currently 22.1%)"
+          "upside vs SWS FV compresses below 5% (currently 22.0%)"
         ],
         "version": "earnings-narrate-v1-2026-05"
       },
@@ -2472,11 +2856,30 @@
   ],
   "recent_results": [
     {
+      "symbol": "DHOOTTRANS",
+      "company": null,
+      "fiscal_quarter": "Q1 FY27",
+      "event_iso_date": "2026-09-04",
+      "days_until": -1,
+      "sector": null,
+      "predicted_verdict": "INSUFFICIENT_DATA",
+      "confidence_pct": null,
+      "score_100": null,
+      "actual_verdict": null,
+      "actual_t1_close_inr": null,
+      "actual_t1_open_gap_pct": null,
+      "actual_source": null,
+      "actual_evidence": null,
+      "actual_resolved_at": null,
+      "actual_status": "PENDING",
+      "prediction_accuracy": "pending"
+    },
+    {
       "symbol": "TECHNOCRAF",
       "company": null,
       "fiscal_quarter": "Q1 FY27",
       "event_iso_date": "2026-09-02",
-      "days_until": -1,
+      "days_until": -3,
       "sector": null,
       "predicted_verdict": "INSUFFICIENT_DATA",
       "confidence_pct": null,
@@ -2495,7 +2898,7 @@
       "company": "Supreme Engineering",
       "fiscal_quarter": "Q1 FY27",
       "event_iso_date": "2026-09-01",
-      "days_until": -2,
+      "days_until": -4,
       "sector": "Materials",
       "predicted_verdict": "MISS",
       "confidence_pct": 65,
@@ -2514,7 +2917,7 @@
       "company": null,
       "fiscal_quarter": "Q1 FY27",
       "event_iso_date": "2026-08-31",
-      "days_until": -3,
+      "days_until": -5,
       "sector": null,
       "predicted_verdict": "INSUFFICIENT_DATA",
       "confidence_pct": null,
@@ -2533,7 +2936,7 @@
       "company": null,
       "fiscal_quarter": "Q1 FY27",
       "event_iso_date": "2026-08-31",
-      "days_until": -3,
+      "days_until": -5,
       "sector": "Food, Beverage & Tobacco",
       "predicted_verdict": "INLINE",
       "confidence_pct": 54,
@@ -2552,7 +2955,7 @@
       "company": "Setco Automotive",
       "fiscal_quarter": "Q1 FY27",
       "event_iso_date": "2026-08-31",
-      "days_until": -3,
+      "days_until": -5,
       "sector": "Automobiles",
       "predicted_verdict": "MISS",
       "confidence_pct": 65,
@@ -2571,7 +2974,7 @@
       "company": "Supreme Engineering",
       "fiscal_quarter": "Q1 FY27",
       "event_iso_date": "2026-08-31",
-      "days_until": -3,
+      "days_until": -5,
       "sector": "Materials",
       "predicted_verdict": "MISS",
       "confidence_pct": 65,
@@ -2590,7 +2993,7 @@
       "company": "Nagarjuna Fertilizers and Chemicals",
       "fiscal_quarter": "Q1 FY27",
       "event_iso_date": "2026-08-30",
-      "days_until": -4,
+      "days_until": -6,
       "sector": "Materials",
       "predicted_verdict": "MISS",
       "confidence_pct": 54,
@@ -2609,7 +3012,7 @@
       "company": "Setco Automotive",
       "fiscal_quarter": "Q1 FY27",
       "event_iso_date": "2026-08-29",
-      "days_until": -5,
+      "days_until": -7,
       "sector": "Automobiles",
       "predicted_verdict": "MISS",
       "confidence_pct": 65,
@@ -2628,7 +3031,7 @@
       "company": "Supreme Engineering",
       "fiscal_quarter": "Q1 FY27",
       "event_iso_date": "2026-08-29",
-      "days_until": -5,
+      "days_until": -7,
       "sector": "Materials",
       "predicted_verdict": "MISS",
       "confidence_pct": 65,
@@ -2647,7 +3050,7 @@
       "company": null,
       "fiscal_quarter": "Q1 FY27",
       "event_iso_date": "2026-08-26",
-      "days_until": -8,
+      "days_until": -10,
       "sector": "Utilities",
       "predicted_verdict": "MISS",
       "confidence_pct": 55,
@@ -2666,7 +3069,7 @@
       "company": "Simbhaoli Sugars",
       "fiscal_quarter": "Q1 FY27",
       "event_iso_date": "2026-08-26",
-      "days_until": -8,
+      "days_until": -10,
       "sector": "Food, Beverage & Tobacco",
       "predicted_verdict": "MISS",
       "confidence_pct": 65,
@@ -2685,7 +3088,7 @@
       "company": "Vikas Ecotech",
       "fiscal_quarter": "Q1 FY27",
       "event_iso_date": "2026-08-26",
-      "days_until": -8,
+      "days_until": -10,
       "sector": "Materials",
       "predicted_verdict": "MISS",
       "confidence_pct": 58,
@@ -2704,7 +3107,7 @@
       "company": null,
       "fiscal_quarter": "Q1 FY27",
       "event_iso_date": "2026-08-25",
-      "days_until": -9,
+      "days_until": -11,
       "sector": null,
       "predicted_verdict": "INSUFFICIENT_DATA",
       "confidence_pct": null,
@@ -2723,7 +3126,7 @@
       "company": null,
       "fiscal_quarter": "Q1 FY27",
       "event_iso_date": "2026-08-25",
-      "days_until": -9,
+      "days_until": -11,
       "sector": null,
       "predicted_verdict": "INSUFFICIENT_DATA",
       "confidence_pct": null,
@@ -2742,7 +3145,7 @@
       "company": "The State Trading Corporation of India Limited",
       "fiscal_quarter": "Q1 FY27",
       "event_iso_date": "2026-08-25",
-      "days_until": -9,
+      "days_until": -11,
       "sector": "Capital Goods",
       "predicted_verdict": "INLINE",
       "confidence_pct": 56,
@@ -2761,87 +3164,11 @@
       "company": "Heranba Industries Limited",
       "fiscal_quarter": "Q1 FY27",
       "event_iso_date": "2026-08-22",
-      "days_until": -12,
+      "days_until": -14,
       "sector": "Materials",
       "predicted_verdict": "MISS",
       "confidence_pct": 65,
       "score_100": 12.2,
-      "actual_verdict": null,
-      "actual_t1_close_inr": null,
-      "actual_t1_open_gap_pct": null,
-      "actual_source": null,
-      "actual_evidence": null,
-      "actual_resolved_at": null,
-      "actual_status": "PENDING",
-      "prediction_accuracy": "pending"
-    },
-    {
-      "symbol": "FLEXITUFF",
-      "company": "Flexituff Ventures International Limited",
-      "fiscal_quarter": "Q1 FY27",
-      "event_iso_date": "2026-08-21",
-      "days_until": -13,
-      "sector": "Materials",
-      "predicted_verdict": "MISS",
-      "confidence_pct": 65,
-      "score_100": 0,
-      "actual_verdict": null,
-      "actual_t1_close_inr": null,
-      "actual_t1_open_gap_pct": null,
-      "actual_source": null,
-      "actual_evidence": null,
-      "actual_resolved_at": null,
-      "actual_status": "PENDING",
-      "prediction_accuracy": "pending"
-    },
-    {
-      "symbol": "INNOVACAP",
-      "company": "Innova Captab Limited",
-      "fiscal_quarter": "Q1 FY27",
-      "event_iso_date": "2026-08-21",
-      "days_until": -13,
-      "sector": "Pharmaceuticals & Biotech",
-      "predicted_verdict": "BEAT",
-      "confidence_pct": 65,
-      "score_100": 81.1,
-      "actual_verdict": "BEAT",
-      "actual_t1_close_inr": null,
-      "actual_t1_open_gap_pct": null,
-      "actual_source": "yahoo",
-      "actual_evidence": "Yahoo earningsHistory q=2026-06-30 epsActual=7.71 epsEst=3.4 surprise=126.8%",
-      "actual_resolved_at": "2026-08-22T03:15:31.263Z",
-      "actual_status": "RESOLVED",
-      "prediction_accuracy": "hit"
-    },
-    {
-      "symbol": "MANIPALHOS",
-      "company": null,
-      "fiscal_quarter": "Q1 FY27",
-      "event_iso_date": "2026-08-20",
-      "days_until": -14,
-      "sector": "Healthcare",
-      "predicted_verdict": "INLINE",
-      "confidence_pct": 56,
-      "score_100": 43.9,
-      "actual_verdict": null,
-      "actual_t1_close_inr": null,
-      "actual_t1_open_gap_pct": null,
-      "actual_source": null,
-      "actual_evidence": null,
-      "actual_resolved_at": null,
-      "actual_status": "PENDING",
-      "prediction_accuracy": "pending"
-    },
-    {
-      "symbol": "SUPREMEENG",
-      "company": "Supreme Engineering",
-      "fiscal_quarter": "Q1 FY27",
-      "event_iso_date": "2026-08-20",
-      "days_until": -14,
-      "sector": "Materials",
-      "predicted_verdict": "MISS",
-      "confidence_pct": 65,
-      "score_100": 13.2,
       "actual_verdict": null,
       "actual_t1_close_inr": null,
       "actual_t1_open_gap_pct": null,
