@@ -1,20 +1,21 @@
 {
   "schema_version": "macro-thesis-v1",
-  "generated_at": "2026-09-05T03:02:03.731Z",
+  "generated_at": "2026-09-08T13:13:59.232Z",
   "regime": {
     "regime": "OIL_SHOCK",
     "severity": 3,
-    "confidence": 0.78,
+    "confidence": 0.72,
     "label": "Oil Shock",
-    "generated_at": "2026-09-04T18:38:22.883Z",
+    "generated_at": "2026-09-08T06:30:24.790Z",
     "days_in_state": 0,
     "stale": false,
-    "reasoning": "Record‑high diesel prices and oil‑linked bond weakness dominate recent headlines",
+    "reasoning": "Elevated oil prices and Middle East tensions are pressuring the rupee, equities and bonds, dominating market sentiment.",
     "key_events": [
-      "US diesel prices soar to record high (FT Markets)",
-      "India bonds slip for third week tracking oil, global debt rout (Economic Times)",
-      "Venezuela’s jumbo oil deal does little to appease its creditors (FT Markets)",
-      "UK set to approve Jackdaw gasfield within weeks (FT Markets)"
+      "INR stays pressured by elevated oil prices and ongoing Middle Eastern geopolitical friction (Business Standard)",
+      "Gold prices rise for 2nd day, silver up on soft dollar ahead of inflation data (Economic Times)",
+      "Global Market: Goldman lifts Brent, WTI forecasts as Hormuz shipping risks mount (Economic Times)",
+      "Sensex slides 317 pts; realty shares decline (Business Standard)",
+      "India bonds stuck in narrow range, focus on oil, RBI liquidity moves (Economic Times)"
     ],
     "classifier_provider": "groq",
     "source_health": {
@@ -43,50 +44,55 @@
       {
         "sector": "Oil & Gas",
         "impact": 3,
-        "reason": "Higher diesel prices boost margins"
+        "reason": "Higher crude prices boost margins for oil producers"
       },
       {
         "sector": "Energy",
         "impact": 2,
-        "reason": "Rising oil prices lift sector earnings"
+        "reason": "Rising oil prices lift energy sector earnings"
       },
       {
-        "sector": "Automobile",
+        "sector": "Power",
         "impact": -2,
-        "reason": "Fuel cost surge dampens demand"
-      },
-      {
-        "sector": "Retail",
-        "impact": -2,
-        "reason": "Higher transport costs squeeze margins"
+        "reason": "Input cost surge squeezes power generation profitability"
       },
       {
         "sector": "Banking",
-        "impact": -1,
-        "reason": "Oil‑driven inflation raises rate‑hike concerns"
+        "impact": -2,
+        "reason": "Currency weakness and inflation pressure credit growth"
+      },
+      {
+        "sector": "Real Estate",
+        "impact": -2,
+        "reason": "Higher financing costs and weaker demand hit property stocks"
       },
       {
         "sector": "FMCG",
         "impact": -1,
-        "reason": "Cost pressures may erode consumer spending"
+        "reason": "Inflation erodes consumer spending power"
+      },
+      {
+        "sector": "Metals",
+        "impact": 1,
+        "reason": "Copper price rally supports metal miners"
       }
     ]
   },
-  "catalyst_proximity_days": 12,
+  "catalyst_proximity_days": 9,
   "upcoming_catalysts": [
     {
       "date": "2026-09-17",
       "kind": "FOMC",
       "label": "US FOMC Meeting — September 2026",
       "severity_potential": 3,
-      "days_until": 12
+      "days_until": 9
     },
     {
       "date": "2026-10-01",
       "kind": "RBI_MPC",
       "label": "RBI Monetary Policy Committee — October 2026",
       "severity_potential": 3,
-      "days_until": 26
+      "days_until": 23
     }
   ],
   "position_cap_pct": 10,
@@ -110,59 +116,59 @@
           "direction": "BENEFICIARY",
           "stock_candidates": {
             "sector": "Energy",
-            "candidates_total": 22,
-            "passed_filters": 5,
+            "candidates_total": 24,
+            "passed_filters": 8,
             "excluded_conglomerates": [],
             "stocks": [
+              {
+                "ticker": "SEAMECLTD",
+                "name": "Seamec Limited",
+                "sector": "Energy",
+                "v4_score_100": 70,
+                "composite_score": 42.3,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 21.5,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "PETRONET",
+                "name": "Petronet LNG Limited",
+                "sector": "Energy",
+                "v4_score_100": 64.3,
+                "composite_score": 41.4,
+                "valuation_band": "FAIR",
+                "upside_pct": 9,
+                "verdict": "TOP_PICK"
+              },
               {
                 "ticker": "ONGC",
                 "name": "Oil and Natural Gas Corporation Limited",
                 "sector": "Energy",
-                "v4_score_100": 54.5,
-                "composite_score": 34.4,
+                "v4_score_100": 54.7,
+                "composite_score": 34.6,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 25.6,
+                "upside_pct": 26.1,
                 "verdict": "STRONG"
               },
               {
                 "ticker": "CHENNPETRO",
                 "name": "Chennai Petroleum Corporation Limited",
                 "sector": "Energy",
-                "v4_score_100": 70,
-                "composite_score": 31.2,
+                "v4_score_100": 70.2,
+                "composite_score": 31.8,
                 "valuation_band": "FAIR",
-                "upside_pct": 6.1,
+                "upside_pct": 7.7,
                 "verdict": "TOP_PICK"
               },
               {
                 "ticker": "GESHIP",
                 "name": "The Great Eastern Shipping Company Limited",
                 "sector": "Energy",
-                "v4_score_100": 65.3,
-                "composite_score": 28.8,
+                "v4_score_100": 65.9,
+                "composite_score": 28.6,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 36.2,
+                "upside_pct": 35.7,
                 "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "AEGISLOG",
-                "name": "Aegis Logistics Limited",
-                "sector": "Energy",
-                "v4_score_100": 53.4,
-                "composite_score": 26.3,
-                "valuation_band": "FAIR",
-                "upside_pct": 4.8,
-                "verdict": "STRONG"
-              },
-              {
-                "ticker": "IOC",
-                "name": "Indian Oil Corporation Limited",
-                "sector": "Energy",
-                "v4_score_100": 50,
-                "composite_score": 22.4,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 16.4,
-                "verdict": "STRONG"
               }
             ]
           }
@@ -277,59 +283,59 @@
           "direction": "BENEFICIARY",
           "stock_candidates": {
             "sector": "Energy",
-            "candidates_total": 22,
-            "passed_filters": 5,
+            "candidates_total": 24,
+            "passed_filters": 8,
             "excluded_conglomerates": [],
             "stocks": [
+              {
+                "ticker": "SEAMECLTD",
+                "name": "Seamec Limited",
+                "sector": "Energy",
+                "v4_score_100": 70,
+                "composite_score": 42.3,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 21.5,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "PETRONET",
+                "name": "Petronet LNG Limited",
+                "sector": "Energy",
+                "v4_score_100": 64.3,
+                "composite_score": 41.4,
+                "valuation_band": "FAIR",
+                "upside_pct": 9,
+                "verdict": "TOP_PICK"
+              },
               {
                 "ticker": "ONGC",
                 "name": "Oil and Natural Gas Corporation Limited",
                 "sector": "Energy",
-                "v4_score_100": 54.5,
-                "composite_score": 34.4,
+                "v4_score_100": 54.7,
+                "composite_score": 34.6,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 25.6,
+                "upside_pct": 26.1,
                 "verdict": "STRONG"
               },
               {
                 "ticker": "CHENNPETRO",
                 "name": "Chennai Petroleum Corporation Limited",
                 "sector": "Energy",
-                "v4_score_100": 70,
-                "composite_score": 31.2,
+                "v4_score_100": 70.2,
+                "composite_score": 31.8,
                 "valuation_band": "FAIR",
-                "upside_pct": 6.1,
+                "upside_pct": 7.7,
                 "verdict": "TOP_PICK"
               },
               {
                 "ticker": "GESHIP",
                 "name": "The Great Eastern Shipping Company Limited",
                 "sector": "Energy",
-                "v4_score_100": 65.3,
-                "composite_score": 28.8,
+                "v4_score_100": 65.9,
+                "composite_score": 28.6,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 36.2,
+                "upside_pct": 35.7,
                 "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "AEGISLOG",
-                "name": "Aegis Logistics Limited",
-                "sector": "Energy",
-                "v4_score_100": 53.4,
-                "composite_score": 26.3,
-                "valuation_band": "FAIR",
-                "upside_pct": 4.8,
-                "verdict": "STRONG"
-              },
-              {
-                "ticker": "IOC",
-                "name": "Indian Oil Corporation Limited",
-                "sector": "Energy",
-                "v4_score_100": 50,
-                "composite_score": 22.4,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 16.4,
-                "verdict": "STRONG"
               }
             ]
           }
@@ -464,59 +470,59 @@
           "direction": "BENEFICIARY",
           "stock_candidates": {
             "sector": "Energy",
-            "candidates_total": 22,
-            "passed_filters": 5,
+            "candidates_total": 24,
+            "passed_filters": 8,
             "excluded_conglomerates": [],
             "stocks": [
+              {
+                "ticker": "SEAMECLTD",
+                "name": "Seamec Limited",
+                "sector": "Energy",
+                "v4_score_100": 70,
+                "composite_score": 42.3,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 21.5,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "PETRONET",
+                "name": "Petronet LNG Limited",
+                "sector": "Energy",
+                "v4_score_100": 64.3,
+                "composite_score": 41.4,
+                "valuation_band": "FAIR",
+                "upside_pct": 9,
+                "verdict": "TOP_PICK"
+              },
               {
                 "ticker": "ONGC",
                 "name": "Oil and Natural Gas Corporation Limited",
                 "sector": "Energy",
-                "v4_score_100": 54.5,
-                "composite_score": 34.4,
+                "v4_score_100": 54.7,
+                "composite_score": 34.6,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 25.6,
+                "upside_pct": 26.1,
                 "verdict": "STRONG"
               },
               {
                 "ticker": "CHENNPETRO",
                 "name": "Chennai Petroleum Corporation Limited",
                 "sector": "Energy",
-                "v4_score_100": 70,
-                "composite_score": 31.2,
+                "v4_score_100": 70.2,
+                "composite_score": 31.8,
                 "valuation_band": "FAIR",
-                "upside_pct": 6.1,
+                "upside_pct": 7.7,
                 "verdict": "TOP_PICK"
               },
               {
                 "ticker": "GESHIP",
                 "name": "The Great Eastern Shipping Company Limited",
                 "sector": "Energy",
-                "v4_score_100": 65.3,
-                "composite_score": 28.8,
+                "v4_score_100": 65.9,
+                "composite_score": 28.6,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 36.2,
+                "upside_pct": 35.7,
                 "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "AEGISLOG",
-                "name": "Aegis Logistics Limited",
-                "sector": "Energy",
-                "v4_score_100": 53.4,
-                "composite_score": 26.3,
-                "valuation_band": "FAIR",
-                "upside_pct": 4.8,
-                "verdict": "STRONG"
-              },
-              {
-                "ticker": "IOC",
-                "name": "Indian Oil Corporation Limited",
-                "sector": "Energy",
-                "v4_score_100": 50,
-                "composite_score": 22.4,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 16.4,
-                "verdict": "STRONG"
               }
             ]
           }
@@ -588,7 +594,7 @@
   "indeterminate": false,
   "audit": {
     "thesis_schema": "macro-thesis-v1",
-    "regime_generated_at": "2026-09-04T18:38:22.883Z",
+    "regime_generated_at": "2026-09-08T06:30:24.790Z",
     "regime_classifier": "groq",
     "scenario_engine_version": "scenario-prob-v1"
   }
