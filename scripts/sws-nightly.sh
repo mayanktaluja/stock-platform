@@ -5,8 +5,9 @@
 # Code dependency.
 #
 # Pipeline:
-#   0. Mail: "run started" heads-up (sent before pre-flight; pairs with abort mail)
-#   1. Pre-flight  — panic flag, AC power, network reachable
+#   0. Panic gate  — refuses before any mail; a flagged run never "starts"
+#   0b. Mail: "run started" heads-up (before remaining pre-flight; pairs with abort mail)
+#   1. Pre-flight  — AC power, network reachable
 #   2. git pull main (so we're not racing a human commit)
 #   3. bash scripts/sws-refresh-api.sh (full scrape → parse → score → PDF)
 #   4. Sanity gate — refuses to push if data looks wrong (regression guard)
@@ -262,10 +263,43 @@ send_mail() {
   fi
 }
 
-# ---- 0. Mail: run-started heads-up ----
-# Fires BEFORE pre-flight so the operator always gets a kickoff notice — even
-# when a pre-flight check aborts the run seconds later. Aborts send their own
-# 🚨 mail, so a started→aborted pair in the inbox is expected, not a bug.
+# ---- 0. Panic gate ----
+# Runs before the run-started mail on purpose: a flagged run is refused, not
+# started, so it must never announce a start. Only the 🚨 mail below is sent.
+#
+# The flag is gitignored and the isolated wrapper cleans with `git clean -fd`
+# (no -x), so it SURVIVES the worktree reset and blocks every subsequent run
+# until a human deletes it. Nothing else alerts on that, which makes this mail
+# the only signal — hence the explicit day count.
+if [ -f data/sws/panic-stop.flag ]; then
+  echo "[nightly] PANIC flag set — refusing to run"
+  PANIC_AGE_DAYS=$(( ( $(date +%s) - $(stat -f %m data/sws/panic-stop.flag 2>/dev/null || date +%s) ) / 86400 ))
+  send_mail "🚨 SWS nightly REFUSED to start — PANIC flag (${PANIC_AGE_DAYS}d old)" "The nightly did NOT start. No scrape ran, no data shipped.
+
+This flag has blocked every run for ${PANIC_AGE_DAYS} day(s). It survives the
+isolated-worktree reset, so it will keep blocking runs until deleted by hand.
+
+$(cat data/sws/panic-stop.flag 2>/dev/null | head -30)
+
+Before clearing, confirm SWS is not actually blocking: compare last_run_at
+across data/sws/progress-api-{1,2,3}.json. If the other shards were served
+normally within ~60s of the trip, it was a transient one-shard bot challenge,
+not an account or IP block — a real suspension takes all three down.
+
+Delete data/sws/panic-stop.flag once reviewed to allow next run."
+  exit 3
+fi
+
+# ---- 0b. Mail: run-started heads-up ----
+# Fires BEFORE the remaining pre-flight checks so the operator always gets a
+# kickoff notice — even when one of them aborts the run seconds later. Those
+# aborts send their own 🚨 mail, so a started→aborted pair in the inbox is
+# expected, not a bug: the run genuinely began, then hit a condition.
+#
+# The panic gate is the deliberate exception and runs ABOVE this (step 0). A
+# panic-flagged run never begins at all, so announcing a start would be a lie —
+# and an inbox that says "started" while the pipeline has been dead for days is
+# how a 403 on one shard went unnoticed from 2026-09-10 to 2026-09-17.
 START_SUBJECT="🚀 SWS nightly started — $(ts)"
 [ "${DRY_RUN}" = "1" ] && START_SUBJECT="🚀 SWS nightly started (DRY RUN) — $(ts)"
 send_mail "${START_SUBJECT}" "SWS nightly run kicked off at $(ts).
@@ -275,19 +309,12 @@ dry run:    ${DRY_RUN}
 auto-merge: ${AUTO_MERGE}
 host:       $(hostname)
 
-Pre-flight (panic flag / battery / network / git sync) runs next. A second
-mail follows when the run finishes — ✅ on success, 🚨/⚠️ on abort or warning.
+Panic gate already cleared. Remaining pre-flight (battery / network / git sync)
+runs next. A second mail follows when the run finishes — ✅ on success,
+🚨/⚠️ on abort or warning.
 Typical full run is ~3h, so expect the completion mail around then."
 
 # ---- 1. Pre-flight ----
-
-if [ -f data/sws/panic-stop.flag ]; then
-  echo "[nightly] PANIC flag set — refusing to run"
-  send_mail "🚨 SWS nightly aborted — PANIC flag" "$(cat data/sws/panic-stop.flag 2>/dev/null | head -30)
-
-Delete data/sws/panic-stop.flag once reviewed to allow next run."
-  exit 3
-fi
 
 # Battery check: pmset wake doesn't guarantee AC is connected at run time.
 # Default is to PROCEED on battery (skip=1) — the daily ship-to-prod pipeline
