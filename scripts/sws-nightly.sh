@@ -273,10 +273,25 @@ send_mail() {
 # the only signal — hence the explicit day count.
 if [ -f data/sws/panic-stop.flag ]; then
   echo "[nightly] PANIC flag set — refusing to run"
-  PANIC_AGE_DAYS=$(( ( $(date +%s) - $(stat -f %m data/sws/panic-stop.flag 2>/dev/null || date +%s) ) / 86400 ))
-  send_mail "🚨 SWS nightly REFUSED to start — PANIC flag (${PANIC_AGE_DAYS}d old)" "The nightly did NOT start. No scrape ran, no data shipped.
+  # mtime is BSD `stat -f %m` on the macOS host this runs on, GNU `stat -c %Y`
+  # in CI. Getting this wrong is not cosmetic: GNU reads `-f` as --file-system
+  # and prints a MOUNT POINT for %m, so the arithmetic below would be handed a
+  # path, abort the script, and the refusal mail — the only signal that a
+  # flagged run was refused — would never be sent. Validate before computing,
+  # and degrade to an unknown age rather than losing the mail.
+  PANIC_FLAG_MTIME="$(stat -f %m data/sws/panic-stop.flag 2>/dev/null || true)"
+  case "${PANIC_FLAG_MTIME}" in
+    ''|*[!0-9]*) PANIC_FLAG_MTIME="$(stat -c %Y data/sws/panic-stop.flag 2>/dev/null || true)" ;;
+  esac
+  case "${PANIC_FLAG_MTIME}" in
+    ''|*[!0-9]*) PANIC_AGE_LABEL="age unknown"; PANIC_AGE_SENTENCE="Its age could not be determined on this host." ;;
+    *) PANIC_AGE_DAYS=$(( ( $(date +%s) - PANIC_FLAG_MTIME ) / 86400 ))
+       PANIC_AGE_LABEL="${PANIC_AGE_DAYS}d old"
+       PANIC_AGE_SENTENCE="This flag has blocked every run for ${PANIC_AGE_DAYS} day(s)." ;;
+  esac
+  send_mail "🚨 SWS nightly REFUSED to start — PANIC flag (${PANIC_AGE_LABEL})" "The nightly did NOT start. No scrape ran, no data shipped.
 
-This flag has blocked every run for ${PANIC_AGE_DAYS} day(s). It survives the
+${PANIC_AGE_SENTENCE} It survives the
 isolated-worktree reset, so it will keep blocking runs until deleted by hand.
 
 $(cat data/sws/panic-stop.flag 2>/dev/null | head -30)

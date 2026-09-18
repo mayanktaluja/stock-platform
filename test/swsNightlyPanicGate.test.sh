@@ -23,6 +23,7 @@
 #   2. Panic flag set -> the 🚨 refusal mail IS sent.
 #   3. No panic flag -> the "started" mail is still sent (no regression).
 #   4. Source ordering: the panic gate appears before the started mail in the file.
+#   5. A GNU-style `stat` still yields exit 3 AND the refusal mail.
 
 set -uo pipefail
 
@@ -83,6 +84,42 @@ run_nightly "${WORK}/mail-clean.txt" >/dev/null
 grep -q '🚀' "${WORK}/mail-clean.txt" \
   && ok 1 "unflagged run still sends the 'started' mail (no regression)" \
   || ok 0 "unflagged run still sends the 'started' mail (no regression)"
+
+# The flag's age is read with BSD `stat -f %m` on the macOS host, GNU `stat -c %Y`
+# in CI. This is a real trap, not a hypothetical: GNU reads `-f` as --file-system
+# and prints a MOUNT POINT for %m, so a naive `stat -f %m` hands a path to shell
+# arithmetic, aborts the script, and the refusal mail is never sent — losing the
+# only signal that a flagged run was refused. CI caught exactly that. A macOS-only
+# developer never reproduces it, so shim a GNU-shaped `stat` onto PATH and assert
+# the gate still behaves on a host where `-f %m` returns something non-numeric.
+echo "--- GNU-style stat (non-numeric -f %m) ---"
+mkdir -p "${WORK}/shimbin"
+cat > "${WORK}/shimbin/stat" <<'EOF'
+#!/usr/bin/env bash
+# Mimic GNU stat: -f is --file-system, so %m prints a mount point, not an epoch.
+if [ "$1" = "-f" ]; then echo "/"; exit 0; fi
+if [ "$1" = "-c" ] && [ "$2" = "%Y" ]; then echo 1757000000; exit 0; fi
+exit 1
+EOF
+chmod +x "${WORK}/shimbin/stat"
+
+printf '%s\n' '{"reason":"api:blocked","shard_id":3,"evidence":"status=403"}' \
+  > "${WORK}/data/sws/panic-stop.flag"
+: > "${WORK}/mail-gnu.txt"
+MAIL_LOG="${WORK}/mail-gnu.txt" SWS_NIGHTLY_REPO_DIR="${WORK}" \
+  PATH="${WORK}/shimbin:${PATH}" \
+  bash "${WORK}/scripts/sws-nightly.sh" --dry-run >/dev/null 2>&1
+rc_gnu=$?
+
+[ "${rc_gnu}" = "3" ] \
+  && ok 1 "GNU-style stat still exits 3" \
+  || ok 0 "GNU-style stat still exits 3" "(got ${rc_gnu} — arithmetic likely aborted the script)"
+
+grep -q '🚨' "${WORK}/mail-gnu.txt" \
+  && ok 1 "GNU-style stat still sends the refusal mail" \
+  || ok 0 "GNU-style stat still sends the refusal mail" "(the only signal of a refused run was lost)"
+
+rm -f "${WORK}/data/sws/panic-stop.flag"
 
 echo "--- source ordering ---"
 gate_line="$(grep -n '^if \[ -f data/sws/panic-stop.flag \]; then' "${NIGHTLY}" | head -1 | cut -d: -f1)"
