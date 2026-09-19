@@ -1,46 +1,46 @@
 {
   "schema_version": "earnings-watch-stats-v4",
-  "built_at": "2026-09-18T07:07:13.770Z",
-  "today_iso": "2026-09-18",
+  "built_at": "2026-09-19T01:24:17.298Z",
+  "today_iso": "2026-09-19",
   "window_days": 60,
-  "upstream_event_count": 44,
-  "upstream_fetched_at": "2026-09-17T06:39:25.527Z",
-  "event_count": 10,
-  "recent_results_count": 14,
+  "upstream_event_count": 29,
+  "upstream_fetched_at": "2026-09-18T19:00:18.711Z",
+  "event_count": 14,
+  "recent_results_count": 15,
   "past_window_days": 14,
   "bucket_by_days": {
-    "d0": 2,
+    "d0": 0,
     "d1to3": 3,
-    "d4to7": 0,
+    "d4to7": 2,
     "d8to14": 0,
-    "d15to30": 1,
+    "d15to30": 5,
     "d31to60": 4
   },
   "signals": {
     "by_data_quality": {
-      "HIGH": 10,
+      "HIGH": 14,
       "MEDIUM": 0,
       "LOW": 0
     },
     "by_pre_runup": {
-      "spike": 1,
-      "smooth": 0,
-      "lagging": 8,
-      "neutral": 1
+      "spike": 0,
+      "smooth": 1,
+      "lagging": 7,
+      "neutral": 6
     },
-    "sector_count": 5,
+    "sector_count": 7,
     "top_sectors": [
       {
         "sector": "Capital Goods",
+        "count": 4
+      },
+      {
+        "sector": "Software",
         "count": 3
       },
       {
         "sector": "Materials",
         "count": 3
-      },
-      {
-        "sector": "Software",
-        "count": 2
       },
       {
         "sector": "Retail",
@@ -55,28 +55,28 @@
   "predictions": {
     "by_verdict": {
       "BEAT": 3,
-      "INLINE": 6,
+      "INLINE": 10,
       "MISS": 1,
       "INSUFFICIENT_DATA": 0
     },
-    "avg_confidence_pct": 56,
+    "avg_confidence_pct": 54,
     "confidence_cap_pct": 65,
     "predictor_version": "earnings-predict-v3-2026-05"
   },
   "playbooks": {
-    "tradable_count": 10,
+    "tradable_count": 14,
     "by_highlighted_branch": {
       "RAISE": 8,
-      "MAINTAIN": 1,
-      "CUT": 1,
+      "MAINTAIN": 6,
+      "CUT": 0,
       "none": 0
     },
     "playbook_version": "earnings-playbook-v1-2026-05"
   },
   "llm_stats": {
-    "total": 10,
-    "classified": 10,
-    "cache_hits": 0,
+    "total": 14,
+    "classified": 14,
+    "cache_hits": 1,
     "llm_calls": 1,
     "heuristic": 7,
     "heuristic_cache_invalidations": 0,
