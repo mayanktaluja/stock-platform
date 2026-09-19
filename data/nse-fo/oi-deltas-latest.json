@@ -1,7 +1,7 @@
 {
   "schemaVersion": "fo-screener-v1",
   "asOf": "2026-09-18",
-  "fetchedAt": "2026-09-18T19:27:21.852Z",
+  "fetchedAt": "2026-09-19T19:27:31.604Z",
   "urlUsed": "https://nsearchives.nseindia.com/content/fo/BhavCopy_NSE_FO_0_0_0_20260918_F_0000.csv.zip",
   "methodology": "OI aggregated across all stock-futures expiries (avoids rollover-Thursday phantoms); Δ vs prior session = ChngInOpnIntrst / (OI − ChngInOpnIntrst). Volume confirmation: today's vol vs 20-session mean. Decoupling co-flag: |OI Δ| ≥ 20% with |price Δ| < 0.5%. Score 0–100 = scaled OI move × volume confirmation × decouple boost × direction consistency. Educational content only.",
   "stats": {
@@ -266,25 +266,6 @@
         "interpretation": "Shorts covering — OI falling as price recovers."
       },
       {
-        "underlying": "HAL",
-        "instrumentType": "STF",
-        "expiryCount": 3,
-        "nearMonthExpiry": "2026-09-29",
-        "nearMonthSettle": 4854.2,
-        "underlyingPrice": 4800.3,
-        "oiTotal": 5727000,
-        "oiChangeTotal": -147300,
-        "volumeTotal": 6991,
-        "oiDeltaPct": -2.507532812420203,
-        "priceDeltaPct": 1.2219534573358797,
-        "volumeRatio": null,
-        "volumeBucket": "unknown",
-        "signal": "short_covering",
-        "decoupled": false,
-        "score": 3,
-        "interpretation": "Shorts covering — OI falling as price recovers."
-      },
-      {
         "underlying": "NATIONALUM",
         "instrumentType": "STF",
         "expiryCount": 3,
@@ -302,6 +283,25 @@
         "decoupled": false,
         "score": 3,
         "interpretation": "Bears adding fresh shorts — OI up while price drops."
+      },
+      {
+        "underlying": "PAYTM",
+        "instrumentType": "STF",
+        "expiryCount": 3,
+        "nearMonthExpiry": "2026-09-29",
+        "nearMonthSettle": 1816,
+        "underlyingPrice": 1849.85,
+        "oiTotal": 16293650,
+        "oiChangeTotal": 342925,
+        "volumeTotal": 7821,
+        "oiDeltaPct": 2.1499022771692196,
+        "priceDeltaPct": 3.2639599681564935,
+        "volumeRatio": null,
+        "volumeBucket": "unknown",
+        "signal": "long_buildup",
+        "decoupled": false,
+        "score": 3,
+        "interpretation": "Bulls adding fresh longs — OI up with price."
       }
     ],
     "broader": [
