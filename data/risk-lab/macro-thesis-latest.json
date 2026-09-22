@@ -1,23 +1,23 @@
 {
   "schema_version": "macro-thesis-v1",
-  "generated_at": "2026-09-21T02:09:31.033Z",
+  "generated_at": "2026-09-22T02:15:39.399Z",
   "regime": {
     "regime": "OIL_SHOCK",
     "severity": 3,
-    "confidence": 0.78,
+    "confidence": 0.8,
     "label": "Oil Shock",
-    "generated_at": "2026-09-20T16:30:21.268Z",
+    "generated_at": "2026-09-21T12:12:34.686Z",
     "days_in_state": 0,
     "stale": false,
-    "reasoning": "Multiple recent FT and Business Standard headlines link West Asia tensions and supply disruptions to higher oil prices, dominating market sentiment.",
+    "reasoning": "A significant retreat in oil prices is driving positive sentiment across Indian equities, leading to a rebound in INR and government bonds.",
     "key_events": [
-      "US retailer rations motor oil as prices quadruple and supplies run dry (FT Markets)",
-      "West Asia situation likely to drive stock market this week (Business Standard)",
-      "TotalEnergies faces fresh scrutiny over response to Mozambique attack (FT Markets)",
-      "Chevron plans drilling spree as it overhauls oil and gas search (FT Markets)",
-      "Saudi Arabia quits China-led cross-border currency platform (FT Markets)"
+      "INR rebounds as oil prices retreat from their elevated levels (Business Standard)",
+      "Sensex, Nifty gain as falling crude and heavyweight buying lift sentiment (Business Standard)",
+      "Slide in oil prices drives rebound in battered government bonds (FT Markets)",
+      "Euro area bond yields fall as oil prices ease (Economic Times)",
+      "European shares rise as oil slide boosts risk appetite (Economic Times)"
     ],
-    "classifier_provider": "groq",
+    "classifier_provider": "gemini",
     "source_health": {
       "RBI Press": "blocked",
       "SEBI Press": "ok",
@@ -43,49 +43,39 @@
     "sector_impacts": [
       {
         "sector": "Oil & Gas",
-        "impact": 3,
-        "reason": "Higher crude prices boost earnings"
+        "impact": -2,
+        "reason": "Falling crude prices generally reduce profitability for upstream oil and gas companies, though refining margins could improve."
       },
       {
-        "sector": "Energy",
+        "sector": "Aviation",
         "impact": 2,
-        "reason": "Increased demand for fuel and power generation"
+        "reason": "Lower crude oil prices directly reduce fuel costs, significantly improving airline profitability."
       },
       {
         "sector": "Automobile",
-        "impact": -2,
-        "reason": "Rising fuel costs pressure sales"
+        "impact": 1,
+        "reason": "Reduced fuel costs can boost consumer spending and demand for vehicles, especially in the commercial segment."
+      },
+      {
+        "sector": "Chemicals",
+        "impact": 1,
+        "reason": "Many chemical companies use crude derivatives as feedstock; lower prices can reduce input costs and improve margins."
       },
       {
         "sector": "FMCG",
-        "impact": -1,
-        "reason": "Input cost inflation squeezes margins"
-      },
-      {
-        "sector": "Banking",
-        "impact": -1,
-        "reason": "Higher rates and consumer stress raise credit risk"
-      },
-      {
-        "sector": "Real Estate",
-        "impact": -1,
-        "reason": "Cost pressures and weaker demand"
-      },
-      {
-        "sector": "Defence",
         "impact": 1,
-        "reason": "Geopolitical tension raises procurement outlook"
+        "reason": "Lower transportation costs and potentially higher disposable income due to reduced fuel expenses can benefit FMCG demand."
       }
     ]
   },
-  "catalyst_proximity_days": 10,
+  "catalyst_proximity_days": 9,
   "upcoming_catalysts": [
     {
       "date": "2026-10-01",
       "kind": "RBI_MPC",
       "label": "RBI Monetary Policy Committee — October 2026",
       "severity_potential": 3,
-      "days_until": 10
+      "days_until": 9
     }
   ],
   "position_cap_pct": 10,
@@ -110,35 +100,25 @@
           "stock_candidates": {
             "sector": "Energy",
             "candidates_total": 25,
-            "passed_filters": 9,
+            "passed_filters": 8,
             "excluded_conglomerates": [],
             "stocks": [
               {
                 "ticker": "SEAMECLTD",
                 "name": "Seamec Limited",
                 "sector": "Energy",
-                "v4_score_100": 70.4,
-                "composite_score": 43.7,
+                "v4_score_100": 70.2,
+                "composite_score": 44.5,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 25.2,
+                "upside_pct": 27.2,
                 "verdict": "TOP_PICK"
               },
               {
                 "ticker": "PETRONET",
                 "name": "Petronet LNG Limited",
                 "sector": "Energy",
-                "v4_score_100": 60.9,
-                "composite_score": 40,
-                "valuation_band": "FAIR",
-                "upside_pct": 8.4,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "MRPL",
-                "name": "Mangalore Refinery and Petrochemicals Limited",
-                "sector": "Energy",
-                "v4_score_100": 66.3,
-                "composite_score": 34.8,
+                "v4_score_100": 63.9,
+                "composite_score": 41.9,
                 "valuation_band": "DISCOUNT",
                 "upside_pct": 10.3,
                 "verdict": "TOP_PICK"
@@ -147,21 +127,31 @@
                 "ticker": "ONGC",
                 "name": "Oil and Natural Gas Corporation Limited",
                 "sector": "Energy",
-                "v4_score_100": 55.1,
-                "composite_score": 34.8,
+                "v4_score_100": 55.4,
+                "composite_score": 34.2,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 26.6,
+                "upside_pct": 25.1,
                 "verdict": "STRONG"
               },
               {
                 "ticker": "CHENNPETRO",
                 "name": "Chennai Petroleum Corporation Limited",
                 "sector": "Energy",
-                "v4_score_100": 69.9,
-                "composite_score": 32.2,
-                "valuation_band": "FAIR",
-                "upside_pct": 8.8,
+                "v4_score_100": 70.4,
+                "composite_score": 33.5,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 11.9,
                 "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "DEEPINDS",
+                "name": "Deep Industries Limited",
+                "sector": "Energy",
+                "v4_score_100": 56.9,
+                "composite_score": 25.8,
+                "valuation_band": "PREMIUM",
+                "upside_pct": -7.1,
+                "verdict": "STRONG"
               }
             ]
           }
@@ -277,35 +267,25 @@
           "stock_candidates": {
             "sector": "Energy",
             "candidates_total": 25,
-            "passed_filters": 9,
+            "passed_filters": 8,
             "excluded_conglomerates": [],
             "stocks": [
               {
                 "ticker": "SEAMECLTD",
                 "name": "Seamec Limited",
                 "sector": "Energy",
-                "v4_score_100": 70.4,
-                "composite_score": 43.7,
+                "v4_score_100": 70.2,
+                "composite_score": 44.5,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 25.2,
+                "upside_pct": 27.2,
                 "verdict": "TOP_PICK"
               },
               {
                 "ticker": "PETRONET",
                 "name": "Petronet LNG Limited",
                 "sector": "Energy",
-                "v4_score_100": 60.9,
-                "composite_score": 40,
-                "valuation_band": "FAIR",
-                "upside_pct": 8.4,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "MRPL",
-                "name": "Mangalore Refinery and Petrochemicals Limited",
-                "sector": "Energy",
-                "v4_score_100": 66.3,
-                "composite_score": 34.8,
+                "v4_score_100": 63.9,
+                "composite_score": 41.9,
                 "valuation_band": "DISCOUNT",
                 "upside_pct": 10.3,
                 "verdict": "TOP_PICK"
@@ -314,21 +294,31 @@
                 "ticker": "ONGC",
                 "name": "Oil and Natural Gas Corporation Limited",
                 "sector": "Energy",
-                "v4_score_100": 55.1,
-                "composite_score": 34.8,
+                "v4_score_100": 55.4,
+                "composite_score": 34.2,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 26.6,
+                "upside_pct": 25.1,
                 "verdict": "STRONG"
               },
               {
                 "ticker": "CHENNPETRO",
                 "name": "Chennai Petroleum Corporation Limited",
                 "sector": "Energy",
-                "v4_score_100": 69.9,
-                "composite_score": 32.2,
-                "valuation_band": "FAIR",
-                "upside_pct": 8.8,
+                "v4_score_100": 70.4,
+                "composite_score": 33.5,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 11.9,
                 "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "DEEPINDS",
+                "name": "Deep Industries Limited",
+                "sector": "Energy",
+                "v4_score_100": 56.9,
+                "composite_score": 25.8,
+                "valuation_band": "PREMIUM",
+                "upside_pct": -7.1,
+                "verdict": "STRONG"
               }
             ]
           }
@@ -464,35 +454,25 @@
           "stock_candidates": {
             "sector": "Energy",
             "candidates_total": 25,
-            "passed_filters": 9,
+            "passed_filters": 8,
             "excluded_conglomerates": [],
             "stocks": [
               {
                 "ticker": "SEAMECLTD",
                 "name": "Seamec Limited",
                 "sector": "Energy",
-                "v4_score_100": 70.4,
-                "composite_score": 43.7,
+                "v4_score_100": 70.2,
+                "composite_score": 44.5,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 25.2,
+                "upside_pct": 27.2,
                 "verdict": "TOP_PICK"
               },
               {
                 "ticker": "PETRONET",
                 "name": "Petronet LNG Limited",
                 "sector": "Energy",
-                "v4_score_100": 60.9,
-                "composite_score": 40,
-                "valuation_band": "FAIR",
-                "upside_pct": 8.4,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "MRPL",
-                "name": "Mangalore Refinery and Petrochemicals Limited",
-                "sector": "Energy",
-                "v4_score_100": 66.3,
-                "composite_score": 34.8,
+                "v4_score_100": 63.9,
+                "composite_score": 41.9,
                 "valuation_band": "DISCOUNT",
                 "upside_pct": 10.3,
                 "verdict": "TOP_PICK"
@@ -501,21 +481,31 @@
                 "ticker": "ONGC",
                 "name": "Oil and Natural Gas Corporation Limited",
                 "sector": "Energy",
-                "v4_score_100": 55.1,
-                "composite_score": 34.8,
+                "v4_score_100": 55.4,
+                "composite_score": 34.2,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 26.6,
+                "upside_pct": 25.1,
                 "verdict": "STRONG"
               },
               {
                 "ticker": "CHENNPETRO",
                 "name": "Chennai Petroleum Corporation Limited",
                 "sector": "Energy",
-                "v4_score_100": 69.9,
-                "composite_score": 32.2,
-                "valuation_band": "FAIR",
-                "upside_pct": 8.8,
+                "v4_score_100": 70.4,
+                "composite_score": 33.5,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 11.9,
                 "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "DEEPINDS",
+                "name": "Deep Industries Limited",
+                "sector": "Energy",
+                "v4_score_100": 56.9,
+                "composite_score": 25.8,
+                "valuation_band": "PREMIUM",
+                "upside_pct": -7.1,
+                "verdict": "STRONG"
               }
             ]
           }
@@ -587,8 +577,8 @@
   "indeterminate": false,
   "audit": {
     "thesis_schema": "macro-thesis-v1",
-    "regime_generated_at": "2026-09-20T16:30:21.268Z",
-    "regime_classifier": "groq",
+    "regime_generated_at": "2026-09-21T12:12:34.686Z",
+    "regime_classifier": "gemini",
     "scenario_engine_version": "scenario-prob-v1"
   }
 }
