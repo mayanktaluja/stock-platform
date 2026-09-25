@@ -1,29 +1,29 @@
 {
   "schema_version": "earnings-health-v1",
-  "generated_at": "2026-09-24T04:09:33.196Z",
+  "generated_at": "2026-09-25T12:20:59.897Z",
   "resolved": {
     "count": 1097,
     "delta_vs_prior": 0,
     "prior_count": 1097
   },
   "llm_providers": {
-    "groq": 1,
-    "gemini": 8,
-    "heuristic": 20,
+    "groq": 5,
+    "gemini": 9,
+    "heuristic": 25,
     "none": 2,
-    "total": 31
+    "total": 41
   },
   "llm_offline": false,
-  "llm_heuristic_share_pct": 35,
+  "llm_heuristic_share_pct": 30,
   "llm_stats": {
-    "total": 31,
-    "classified": 29,
+    "total": 41,
+    "classified": 39,
     "cache_hits": 4,
     "llm_calls": 3,
-    "heuristic": 16,
+    "heuristic": 22,
     "heuristic_cache_invalidations": 0,
     "cross_floor_invalidations": 0,
-    "below_v3_floor": 8,
+    "below_v3_floor": 14,
     "composite_floor": 47,
     "llm_available": true,
     "skip_llm": false
@@ -31,7 +31,7 @@
   "cap_lift_gate": {
     "state": false,
     "enough_data_to_lift_cap": false,
-    "days_in_current_state": 120,
+    "days_in_current_state": 121,
     "current_resolved": 0,
     "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (1097 across all versions)",
     "detail": {
@@ -96,7 +96,7 @@
       "gate": {
         "state": false,
         "enough_data_to_lift_cap": false,
-        "days_in_current_state": 120,
+        "days_in_current_state": 121,
         "current_resolved": 0,
         "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (1097 across all versions)",
         "detail": {
@@ -170,10 +170,10 @@
     }
   },
   "archive_schema": {
-    "earnings-history-v5": 105
+    "earnings-history-v5": 106
   },
   "predictor_versions": {
-    "earnings-predict-v3-2026-05": 31
+    "earnings-predict-v3-2026-05": 41
   },
   "restatements": {
     "count": 0,
@@ -194,40 +194,40 @@
   },
   "macro_regime": {
     "present": true,
-    "generated_at": "2026-09-23T20:30:22.292Z",
-    "age_hours": 8,
-    "classifier_provider": "groq",
+    "generated_at": "2026-09-24T08:30:28.900Z",
+    "age_hours": 28,
+    "classifier_provider": "gemini",
     "regime": "RATE_HIKE",
-    "stale": false,
-    "alert": null
+    "stale": true,
+    "alert": "Macro regime is 28h old (threshold 18h) — com.starbhai.macro-only cron is unhealthy; check data/macroRegime-refresh.log"
   },
   "picks_snapshot_fv_drift": {
     "pipeline": null,
     "runtime_24h": null,
     "alert": null
   },
-  "history_files": 105,
+  "history_files": 106,
   "hit_rate_summary": {
     "schema_version": "hit-rate-summary-v1",
-    "generated_at": "2026-09-24T04:09:33.750Z",
+    "generated_at": "2026-09-25T12:21:00.377Z",
     "resolved_count": 974,
-    "unresolved_count": 3108,
+    "unresolved_count": 3120,
     "strict": {
       "hit_rate_pct": 41.4,
-      "ci_low_pct": 38.3,
-      "ci_high_pct": 44.6,
+      "ci_low_pct": 38.2,
+      "ci_high_pct": 44.4,
       "sample_size": 974
     },
     "lenient": {
       "hit_rate_pct": 79.8,
-      "ci_low_pct": 77.2,
-      "ci_high_pct": 82.2,
+      "ci_low_pct": 77.1,
+      "ci_high_pct": 82.4,
       "sample_size": 972
     },
     "catastrophic": {
       "rate_pct": 20.2,
       "ci_low_pct": 17.7,
-      "ci_high_pct": 22.5,
+      "ci_high_pct": 22.6,
       "sample_size": 972
     },
     "rolling_30": {
@@ -239,7 +239,8 @@
     "catastrophic_alert_threshold_pct": 12
   },
   "alerts": [
-    "LLM heuristic share (above V3 floor): 8/23 = 35% (threshold 20%; 8 below-floor skips excluded by design) — LLM tier may be failing on eligible events; check earningsLlmSignal.js logs",
+    "LLM heuristic share (above V3 floor): 8/27 = 30% (threshold 20%; 14 below-floor skips excluded by design) — LLM tier may be failing on eligible events; check earningsLlmSignal.js logs",
+    "Macro regime is 28h old (threshold 18h) — com.starbhai.macro-only cron is unhealthy; check data/macroRegime-refresh.log",
     "Catastrophic rate alert: rolling-30 23.3% (7/30) exceeds 12% threshold — Risk Lab promotion gate cannot clear"
   ],
   "healthy": false
