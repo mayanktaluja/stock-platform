@@ -1,29 +1,29 @@
 {
   "schema_version": "earnings-health-v1",
-  "generated_at": "2026-09-25T12:20:59.897Z",
+  "generated_at": "2026-09-27T13:56:05.532Z",
   "resolved": {
     "count": 1097,
     "delta_vs_prior": 0,
     "prior_count": 1097
   },
   "llm_providers": {
-    "groq": 5,
+    "groq": 1,
     "gemini": 9,
-    "heuristic": 25,
+    "heuristic": 48,
     "none": 2,
-    "total": 41
+    "total": 60
   },
   "llm_offline": false,
-  "llm_heuristic_share_pct": 30,
+  "llm_heuristic_share_pct": 54,
   "llm_stats": {
-    "total": 41,
-    "classified": 39,
-    "cache_hits": 4,
-    "llm_calls": 3,
-    "heuristic": 22,
+    "total": 60,
+    "classified": 58,
+    "cache_hits": 8,
+    "llm_calls": 4,
+    "heuristic": 41,
     "heuristic_cache_invalidations": 0,
     "cross_floor_invalidations": 0,
-    "below_v3_floor": 14,
+    "below_v3_floor": 19,
     "composite_floor": 47,
     "llm_available": true,
     "skip_llm": false
@@ -31,7 +31,7 @@
   "cap_lift_gate": {
     "state": false,
     "enough_data_to_lift_cap": false,
-    "days_in_current_state": 121,
+    "days_in_current_state": 122,
     "current_resolved": 0,
     "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (1097 across all versions)",
     "detail": {
@@ -96,7 +96,7 @@
       "gate": {
         "state": false,
         "enough_data_to_lift_cap": false,
-        "days_in_current_state": 121,
+        "days_in_current_state": 122,
         "current_resolved": 0,
         "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (1097 across all versions)",
         "detail": {
@@ -170,10 +170,10 @@
     }
   },
   "archive_schema": {
-    "earnings-history-v5": 106
+    "earnings-history-v5": 107
   },
   "predictor_versions": {
-    "earnings-predict-v3-2026-05": 41
+    "earnings-predict-v3-2026-05": 60
   },
   "restatements": {
     "count": 0,
@@ -188,46 +188,46 @@
   "insufficient_data": {
     "count_total": 121,
     "count_7d": 2,
-    "count_30d": 10,
-    "count_prior_30d": 53,
-    "trend_pct_30d_vs_prior": -81.1
+    "count_30d": 8,
+    "count_prior_30d": 49,
+    "trend_pct_30d_vs_prior": -83.7
   },
   "macro_regime": {
     "present": true,
-    "generated_at": "2026-09-24T08:30:28.900Z",
-    "age_hours": 28,
-    "classifier_provider": "gemini",
-    "regime": "RATE_HIKE",
-    "stale": true,
-    "alert": "Macro regime is 28h old (threshold 18h) — com.starbhai.macro-only cron is unhealthy; check data/macroRegime-refresh.log"
+    "generated_at": "2026-09-27T01:06:23.935Z",
+    "age_hours": 13,
+    "classifier_provider": "groq",
+    "regime": "CALM",
+    "stale": false,
+    "alert": null
   },
   "picks_snapshot_fv_drift": {
     "pipeline": null,
     "runtime_24h": null,
     "alert": null
   },
-  "history_files": 106,
+  "history_files": 107,
   "hit_rate_summary": {
     "schema_version": "hit-rate-summary-v1",
-    "generated_at": "2026-09-25T12:21:00.377Z",
+    "generated_at": "2026-09-27T13:56:06.055Z",
     "resolved_count": 974,
-    "unresolved_count": 3120,
+    "unresolved_count": 3139,
     "strict": {
       "hit_rate_pct": 41.4,
-      "ci_low_pct": 38.2,
-      "ci_high_pct": 44.4,
+      "ci_low_pct": 38.5,
+      "ci_high_pct": 44.5,
       "sample_size": 974
     },
     "lenient": {
       "hit_rate_pct": 79.8,
-      "ci_low_pct": 77.1,
-      "ci_high_pct": 82.4,
+      "ci_low_pct": 77.4,
+      "ci_high_pct": 82.3,
       "sample_size": 972
     },
     "catastrophic": {
       "rate_pct": 20.2,
       "ci_low_pct": 17.7,
-      "ci_high_pct": 22.6,
+      "ci_high_pct": 22.8,
       "sample_size": 972
     },
     "rolling_30": {
@@ -239,8 +239,7 @@
     "catastrophic_alert_threshold_pct": 12
   },
   "alerts": [
-    "LLM heuristic share (above V3 floor): 8/27 = 30% (threshold 20%; 14 below-floor skips excluded by design) — LLM tier may be failing on eligible events; check earningsLlmSignal.js logs",
-    "Macro regime is 28h old (threshold 18h) — com.starbhai.macro-only cron is unhealthy; check data/macroRegime-refresh.log",
+    "LLM heuristic share (above V3 floor): 22/41 = 54% (threshold 20%; 19 below-floor skips excluded by design) — LLM tier may be failing on eligible events; check earningsLlmSignal.js logs",
     "Catastrophic rate alert: rolling-30 23.3% (7/30) exceeds 12% threshold — Risk Lab promotion gate cannot clear"
   ],
   "healthy": false
