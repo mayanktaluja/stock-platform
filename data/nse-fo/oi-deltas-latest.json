@@ -1,7 +1,7 @@
 {
   "schemaVersion": "fo-screener-v1",
   "asOf": "2026-09-25",
-  "fetchedAt": "2026-09-27T06:59:06.169Z",
+  "fetchedAt": "2026-09-27T19:28:25.995Z",
   "urlUsed": "https://nsearchives.nseindia.com/content/fo/BhavCopy_NSE_FO_0_0_0_20260925_F_0000.csv.zip",
   "methodology": "OI aggregated across all stock-futures expiries (avoids rollover-Thursday phantoms); Δ vs prior session = ChngInOpnIntrst / (OI − ChngInOpnIntrst). Volume confirmation: today's vol vs 20-session mean. Decoupling co-flag: |OI Δ| ≥ 20% with |price Δ| < 0.5%. Score 0–100 = scaled OI move × volume confirmation × decouple boost × direction consistency. Educational content only.",
   "stats": {
@@ -13,7 +13,7 @@
     "broaderCount": 15,
     "historyPointsAppended": 216,
     "historyRestoredFromKV": 4,
-    "walkedBack": 0
+    "walkedBack": 1
   },
   "sections": {
     "inBook": [],
@@ -285,17 +285,17 @@
         "interpretation": "No meaningful conviction — OI/price moves both within noise."
       },
       {
-        "underlying": "LICHSGFIN",
+        "underlying": "LICI",
         "instrumentType": "STF",
         "expiryCount": 3,
         "nearMonthExpiry": "2026-09-29",
-        "nearMonthSettle": 567.4,
-        "underlyingPrice": 566.04,
-        "oiTotal": 39917000,
-        "oiChangeTotal": -2767000,
-        "volumeTotal": 8865,
-        "oiDeltaPct": -6.482522725142911,
-        "priceDeltaPct": 0.5137289636846727,
+        "nearMonthSettle": 408.45,
+        "underlyingPrice": 409.05,
+        "oiTotal": 50239000,
+        "oiChangeTotal": -3577000,
+        "volumeTotal": 25806,
+        "oiDeltaPct": -6.646722164412071,
+        "priceDeltaPct": 0.951557093425597,
         "volumeRatio": null,
         "volumeBucket": "unknown",
         "signal": "short_covering",
@@ -458,25 +458,6 @@
         "interpretation": "No meaningful conviction — OI/price moves both within noise."
       },
       {
-        "underlying": "LICI",
-        "instrumentType": "STF",
-        "expiryCount": 3,
-        "nearMonthExpiry": "2026-09-29",
-        "nearMonthSettle": 408.45,
-        "underlyingPrice": 409.05,
-        "oiTotal": 50239000,
-        "oiChangeTotal": -3577000,
-        "volumeTotal": 25806,
-        "oiDeltaPct": -6.646722164412071,
-        "priceDeltaPct": 0.951557093425597,
-        "volumeRatio": null,
-        "volumeBucket": "unknown",
-        "signal": "short_covering",
-        "decoupled": false,
-        "score": 7,
-        "interpretation": "Shorts covering — OI falling as price recovers."
-      },
-      {
         "underlying": "BANKNIFTY",
         "instrumentType": "IDF",
         "expiryCount": 3,
@@ -589,6 +570,25 @@
         "decoupled": false,
         "score": 6,
         "interpretation": "Longs being booked — OI falling with price."
+      },
+      {
+        "underlying": "TMPV",
+        "instrumentType": "STF",
+        "expiryCount": 3,
+        "nearMonthExpiry": "2026-09-29",
+        "nearMonthSettle": 290.95,
+        "underlyingPrice": 290.45,
+        "oiTotal": 106910400,
+        "oiChangeTotal": 6067200,
+        "volumeTotal": 40377,
+        "oiDeltaPct": 6.016469132276643,
+        "priceDeltaPct": -1.6063577950625636,
+        "volumeRatio": null,
+        "volumeBucket": "unknown",
+        "signal": "short_buildup",
+        "decoupled": false,
+        "score": 6,
+        "interpretation": "Bears adding fresh shorts — OI up while price drops."
       }
     ]
   }
