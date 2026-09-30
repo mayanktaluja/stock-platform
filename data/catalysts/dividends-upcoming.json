@@ -1,12 +1,12 @@
 {
   "schema_version": "dividends-upcoming-v2",
-  "built_at": "2026-09-27T19:21:40.342Z",
-  "today_iso": "2026-09-28",
+  "built_at": "2026-09-30T09:29:22.281Z",
+  "today_iso": "2026-09-30",
   "window_days": 30,
   "source_counts": {
     "groww_events": 0,
-    "nse_actions": 1,
-    "bse_actions": 10,
+    "nse_actions": 4,
+    "bse_actions": 9,
     "sws_news_confirmed": 0,
     "awaiting_ex_date": 724,
     "nse_live_fetch_ok": true,
@@ -14,28 +14,13 @@
   },
   "groww_status": {
     "fetched_at": "2026-06-11T22:42:15.049Z",
-    "age_days": 107.86,
+    "age_days": 110.45,
     "max_age_days": 3,
     "usable": false,
     "reason": "stale"
   },
-  "dividend_count": 10,
+  "dividend_count": 9,
   "dividends": [
-    {
-      "symbol": "VANDU",
-      "ex_date": "2026-09-29",
-      "record_date": "2026-09-29",
-      "pay_date": null,
-      "dps": 0.5,
-      "dividend_type": "final",
-      "announced_at_iso": null,
-      "source": "bse-actions",
-      "source_priority": 3,
-      "source_detail": "Final Dividend - Rs. - 0.5000",
-      "sources": [
-        "bse-actions"
-      ]
-    },
     {
       "symbol": "SAIL",
       "ex_date": "2026-09-30",
@@ -60,10 +45,11 @@
       "dps": 3,
       "dividend_type": "interim",
       "announced_at_iso": null,
-      "source": "bse-actions",
-      "source_priority": 3,
-      "source_detail": "Interim Dividend - Rs. - 3.0000",
+      "source": "nse-actions",
+      "source_priority": 2,
+      "source_detail": "Interim Dividend - Rs 3 Per Share",
       "sources": [
+        "nse-actions",
         "bse-actions"
       ]
     },
@@ -88,12 +74,13 @@
       "record_date": "2026-10-01",
       "pay_date": null,
       "dps": 1.5,
-      "dividend_type": "final",
+      "dividend_type": "annual",
       "announced_at_iso": null,
-      "source": "bse-actions",
-      "source_priority": 3,
-      "source_detail": "Final Dividend - Rs. - 1.5000",
+      "source": "nse-actions",
+      "source_priority": 2,
+      "source_detail": "Dividend - Rs 1.50 Per Share",
       "sources": [
+        "nse-actions",
         "bse-actions"
       ]
     },
@@ -105,10 +92,11 @@
       "dps": 8,
       "dividend_type": "interim",
       "announced_at_iso": null,
-      "source": "bse-actions",
-      "source_priority": 3,
-      "source_detail": "Interim Dividend - Rs. - 8.0000",
+      "source": "nse-actions",
+      "source_priority": 2,
+      "source_detail": "Interim Dividend - Rs 8 Per Share",
       "sources": [
+        "nse-actions",
         "bse-actions"
       ]
     },
