@@ -24,6 +24,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { launchShardContext } from "./sws-stealth-context.mjs";
+import { classifyBlock, parseRetryAfter, CHALLENGE_TITLE_RE } from "./sws-panic-ladder.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, "..");
@@ -119,7 +120,10 @@ export const TARGET_REST_ENDPOINTS = [
 // ────────── Queries loading ──────────
 
 let _queries = null;
-function loadQueries() {
+// An injected (test) client carries its own operations, so the hook needs no
+// gitignored api-queries.json on disk.
+function loadQueries(client = null) {
+  if (client?.queries) return client.queries;
   if (_queries) return _queries;
   if (!fs.existsSync(QUERIES_PATH)) {
     throw new Error(`Queries not found. Run: node scripts/sws-api-extract-queries.mjs`);
@@ -163,13 +167,20 @@ async function timedEndpoint(timings, meta, fn) {
 // ────────── Client (wraps a Playwright page) ──────────
 
 export class TransportError extends Error {
-  constructor(msg, { kind, status, body, op } = {}) {
+  constructor(msg, { kind, status, body, op, cfClass = null, headers = null, retryAfterSec = null } = {}) {
     super(msg);
     this.name = "TransportError";
     this.kind = kind; // "auth_expired" | "rate_limited" | "blocked" | "transient" | "graphql_error" | "unknown"
     this.status = status;
     this.body = body;
     this.op = op;
+    // 403/429 only — see classifyBlock() in sws-panic-ladder.mjs:
+    // "challenge" | "hard_block" | "rate_limited" | "unclassified".
+    this.cfClass = cfClass;
+    this.headers = headers;
+    this.cfRay = headers?.["cf-ray"] ?? null;
+    this.cfMitigated = headers?.["cf-mitigated"] ?? null;
+    this.retryAfterSec = retryAfterSec;
   }
 }
 
@@ -210,14 +221,31 @@ export async function createClient({ shardId = 1, headless = true, cfg = null } 
 
 // ────────── In-page fetch — runs inside the browser ──────────
 
+// Response headers kept on a TransportError (forensics + Retry-After).
+const CAPTURED_HEADERS = ["cf-mitigated", "cf-ray", "retry-after"];
+
+/**
+ * Record that a request SENT at `sentAt` came back 2xx. The scraper persists
+ * the max into progress-api-<N>.json as `last_ok_sent_at`; the panic quorum
+ * (sws-panic-ladder.mjs) reads it to tell "this shard is blocked" from "SWS
+ * is blocking us". Send time, not completion time: a request already in
+ * flight when a peer voted proves nothing about after the vote.
+ */
+function noteServed(client, sentAt) {
+  if (!client.lastOkSentAt || sentAt > client.lastOkSentAt) client.lastOkSentAt = sentAt;
+}
+
 /**
  * Execute a fetch inside the browser page context. Returns { status, body }.
  * The browser auto-attaches the JWT and cookies, and uses Chrome's TLS
  * fingerprint, which keeps Cloudflare happy.
  */
-async function pageFetch(page, { url, method, headers, body }) {
-  const result = await page.evaluate(
-    async ({ url, method, headers, body }) => {
+async function pageFetch(client, { url, method, headers, body }) {
+  // Taken in node before the hop into the page, so it is never later than
+  // the real send — the conservative side for the quorum's "sent after".
+  const sentAt = Date.now();
+  const result = await client.page.evaluate(
+    async ({ url, method, headers, body, headerNames }) => {
       try {
         const resp = await fetch(url, {
           method,
@@ -227,30 +255,49 @@ async function pageFetch(page, { url, method, headers, body }) {
         });
         const status = resp.status;
         const text = await resp.text();
-        return { ok: true, status, text };
+        const respHeaders = {};
+        for (const name of headerNames) {
+          const v = resp.headers.get(name);
+          if (v != null) respHeaders[name] = v;
+        }
+        return { ok: true, status, text, headers: respHeaders };
       } catch (e) {
         return { ok: false, error: String(e) };
       }
     },
-    { url, method, headers, body },
+    { url, method, headers, body, headerNames: CAPTURED_HEADERS },
   );
   if (!result.ok) {
     throw new TransportError(`network: ${result.error}`, { kind: "transient" });
   }
+  const respHeaders = result.headers || {};
+  if (result.status >= 200 && result.status < 300) noteServed(client, sentAt);
   if (result.status === 401) {
     throw new TransportError("HTTP 401", { kind: "auth_expired", status: 401 });
   }
   if (result.status === 403) {
-    // Could be Cloudflare challenge — body usually contains "Just a moment..."
-    const cf = result.text.includes("Just a moment") || result.text.includes("Cloudflare");
-    throw new TransportError(`HTTP 403${cf ? " (cloudflare)" : ""}`, {
+    // Classified on the FULL body: the challenge markers sit past the 200
+    // chars kept below. "challenge" ("Just a moment...") is what every trip
+    // 2026-08-20 → 09-30 was; "hard_block" is "you have been blocked" / 1020.
+    const cfClass = classifyBlock({ status: 403, body: result.text, headers: respHeaders });
+    throw new TransportError(`HTTP 403${cfClass === "unclassified" ? "" : ` (cloudflare ${cfClass})`}`, {
       kind: "blocked",
       status: 403,
       body: result.text.slice(0, 200),
+      cfClass,
+      headers: respHeaders,
+      retryAfterSec: parseRetryAfter(respHeaders["retry-after"]),
     });
   }
   if (result.status === 429) {
-    throw new TransportError("HTTP 429", { kind: "rate_limited", status: 429 });
+    throw new TransportError("HTTP 429", {
+      kind: "rate_limited",
+      status: 429,
+      body: result.text.slice(0, 200),
+      cfClass: "rate_limited",
+      headers: respHeaders,
+      retryAfterSec: parseRetryAfter(respHeaders["retry-after"]),
+    });
   }
   if (result.status >= 500) {
     throw new TransportError(`HTTP ${result.status}`, {
@@ -279,7 +326,7 @@ async function pageFetch(page, { url, method, headers, body }) {
 // ────────── GraphQL & REST ──────────
 
 export async function callGraphQL(client, operationName, variables) {
-  const queries = loadQueries();
+  const queries = loadQueries(client);
   const op = queries.operations[operationName];
   if (!op) throw new Error(`Unknown GraphQL operation: ${operationName}`);
 
@@ -296,7 +343,7 @@ export async function callGraphQL(client, operationName, variables) {
     "apollographql-client-version": "current",
   };
 
-  const res = await pageFetch(client.page, {
+  const res = await pageFetch(client, {
     url: "https://simplywall.st/graphql",
     method: "POST",
     headers,
@@ -324,7 +371,7 @@ export async function callRest(client, { method, path: pathStr }) {
   const headers = {
     accept: "application/vnd.simplywallst.v2",
   };
-  const res = await pageFetch(client.page, { url, method, headers });
+  const res = await pageFetch(client, { url, method, headers });
   return res.body;
 }
 
@@ -370,7 +417,7 @@ export async function fetchStockData(client, { ticker, canonicalUrl }) {
     getCompanyPeers: { id: companyId },
     NarrativeValuationHistory: { companyId },
   };
-  const queries = loadQueries();
+  const queries = loadQueries(client);
   const remainingOps = TARGET_OPERATIONS.filter(
     (op) => op !== "CompanySummary" && queries.operations[op],
   );
@@ -430,6 +477,112 @@ export async function fetchStockData(client, { ticker, canonicalUrl }) {
   }
 
   return out;
+}
+
+// ────────── Panic ladder helpers (SWS_PANIC_LADDER=1) ──────────
+
+/**
+ * One cheap request for the same ticker: CompanySummary. Served = the ladder
+ * clears. An HTTP 200 carrying a GraphQL error still means SWS served us.
+ */
+export async function probeTicker(client, { canonicalUrl }) {
+  try {
+    await callGraphQL(client, "CompanySummary", { canonicalUrl });
+    return { ok: true };
+  } catch (err) {
+    if (err?.kind === "graphql_error") return { ok: true, note: "graphql_error" };
+    return { ok: false, err };
+  }
+}
+
+/**
+ * Re-navigate the shard's page to /dashboard so the browser can solve a fresh
+ * Cloudflare challenge (and pick up a new cf_clearance), then wait up to
+ * `maxWaitMs` for the title to stop reading "Just a moment...". Never throws.
+ */
+export async function reprimePage(client, { maxWaitMs = 30_000, pollMs = 1_000 } = {}) {
+  const t0 = Date.now();
+  try {
+    await client.page.goto("https://simplywall.st/dashboard", { timeout: 60000, waitUntil: "domcontentloaded" });
+  } catch (e) {
+    return { challenged: null, title: null, error: String(e?.message || e).slice(0, 200), ms: Date.now() - t0 };
+  }
+  const waitStart = Date.now();
+  let title = "";
+  for (;;) {
+    title = await client.page.title().catch(() => "");
+    if (!CHALLENGE_TITLE_RE.test(title) || Date.now() - waitStart >= maxWaitMs) break;
+    await new Promise((r) => setTimeout(r, pollMs));
+  }
+  return { challenged: CHALLENGE_TITLE_RE.test(title), title, ms: Date.now() - t0 };
+}
+
+/**
+ * In-page fetches only work from a simplywall.st origin. If a reprime's
+ * navigation failed, the page may sit on chrome-error:// and every later
+ * fetch fails as a "network" error until the shard ends — so navigate back
+ * first. No-op (no request) while the page is on-site.
+ */
+export async function ensureOnSite(client, opts = {}) {
+  let url = "";
+  try { url = client.page.url(); } catch { /* closed page: let the fetch report it */ }
+  if (/^https:\/\/simplywall\.st\//.test(url)) return { ok: true, url };
+  return { ok: false, url, reprime: await reprimePage(client, opts) };
+}
+
+// ────────── Injected transport (tests only: SWS_INJECT_BLOCK) ──────────
+
+// Head of the verbatim 2026-09-30 17:09 IST CENTRALBK body, plus the script
+// marker a real challenge page carries further down.
+const INJECTED_CHALLENGE_BODY =
+  '<!DOCTYPE html><html lang="en-US"><head><title>Just a moment...</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=Edge"><meta name="robots" content="noindex,nofollow"></head><body><script src="/cdn-cgi/challenge-platform/h/g/orchestrate/chl_page/v1"></script></body></html>';
+
+const INJECTED_RESPONSES = {
+  challenge: (n) => ({ status: 403, text: INJECTED_CHALLENGE_BODY, headers: { "cf-mitigated": "challenge", "cf-ray": `inject${n}-BOM` } }),
+  hard_block: (n) => ({ status: 403, text: "<!DOCTYPE html><title>Attention Required! | Cloudflare</title><h1>Sorry, you have been blocked</h1><span class=\"cf-error-code\">1020</span>", headers: { "cf-ray": `inject${n}-BOM` } }),
+  unclassified: (n) => ({ status: 403, text: '{"error":"forbidden"}', headers: { "cf-ray": `inject${n}-BOM` } }),
+  rate_limited: (n, retryAfterSec) => ({ status: 429, text: "Too Many Requests", headers: { "cf-ray": `inject${n}-BOM`, ...(retryAfterSec != null ? { "retry-after": String(retryAfterSec) } : {}) } }),
+};
+
+/**
+ * A client whose page is fake: no Chrome, no network. The first `blocks`
+ * requests (stock fetches and ladder probes, in order) get a synthetic
+ * `kind` response (only those matching `match`, when given); everything else
+ * is a minimal 200. The REAL pageFetch,
+ * classification, last_ok_sent_at stamping, fetchStockData and the scraper's
+ * loop all run on top of it — only the browser is replaced.
+ */
+export function createInjectedClient({ shardId = 1, blocks = 0, kind = "challenge", retryAfterSec = null, match = null } = {}) {
+  const make = INJECTED_RESPONSES[kind];
+  if (!make) throw new Error(`SWS_INJECT_BLOCK_KIND must be one of ${Object.keys(INJECTED_RESPONSES).join("|")}`);
+  let remaining = blocks;
+  const stats = { requests: 0, blocked: 0 };
+  // `match` (SWS_INJECT_BLOCK_MATCH): only requests whose URL or body contain
+  // it are blocked — one refused stock among served ones.
+  const targeted = (url, body) => !match || String(url).includes(match) || String(body ?? "").includes(match);
+  const page = {
+    async evaluate(_fn, { url, body }) {
+      stats.requests++;
+      if (remaining > 0 && targeted(url, body)) {
+        remaining--;
+        stats.blocked++;
+        return { ok: true, ...make(stats.blocked, retryAfterSec) };
+      }
+      let text = "{}";
+      if (url.endsWith("/graphql")) {
+        const op = (() => { try { return JSON.parse(body).operationName; } catch { return null; } })();
+        text = op === "CompanySummary"
+          ? JSON.stringify({ data: { Company: { id: `inject-${shardId}-${stats.requests}`, score: { value: 1, future: 1, past: 1, health: 1, dividend: 1 } } } })
+          : JSON.stringify({ data: {} });
+      }
+      return { ok: true, status: 200, text, headers: {} };
+    },
+    url() { return "https://simplywall.st/dashboard"; },
+    async goto() {},
+    async title() { return remaining > 0 && kind === "challenge" ? "Just a moment..." : "Simply Wall St"; },
+  };
+  const queries = { operations: Object.fromEntries(TARGET_OPERATIONS.map((op) => [op, { query: `query ${op} { __typename }`, sampleVariables: {} }])) };
+  return { ctx: null, page, shardId, injected: true, stats, queries, async close() {} };
 }
 
 // ────────── CLI for one-stock testing ──────────

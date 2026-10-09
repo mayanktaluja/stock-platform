@@ -101,8 +101,9 @@ NSE traffic.
 ## SWS panic-stop flag — expires, never permanent
 
 Any 403/429 from SWS during a scrape still halts every shard of that run
-immediately (account safety). What changed (2026-10-09) is how long the halt
-outlives the run. Every writer goes through `scripts/sws-panic-policy.mjs`,
+immediately (account safety) — unless `SWS_PANIC_LADDER=1`, see the ladder
+subsection below. What changed (2026-10-09) is how long the halt outlives the
+run. Every writer goes through `scripts/sws-panic-policy.mjs`,
 which stamps `expires_at` on `data/sws/panic-stop.flag` (and
 `data/sws-us/…`):
 
@@ -140,7 +141,54 @@ deleted the file — the last one cost 9 straight nights (10-01 → 10-09).
 ```bash
 node test/swsPanicPolicy.test.mjs        # ladder, 09-30 flag replay, 60-night block sim, coverage clean, git-clean survival
 bash test/swsNightlyPanicGate.test.sh    # step-0 gate: auto-clear / wait / deadline cap / refuse / manual / fail-closed
-bash test/swsRefreshApiPanic.test.sh     # step-1 gate, no retry on panic rc, coverage-based clean_run
+bash test/swsRefreshApiPanic.test.sh     # step-1 gate, no retry on panic rc, coverage-based clean_run, ladder counts across rc-retries
+```
+
+### Retry ladder + quorum — `SWS_PANIC_LADDER=1` (default OFF)
+
+Expiry bounds how long a trip binds; the ladder decides whether a 403/429
+trips at all. Every trip so far was one challenge on one shard with peers
+served seconds later, and each still cost that night's whole scrape (step 5
+skips parse/score). Off by default; enable by exporting
+`SWS_PANIC_LADDER=1` in the nightly's environment (e.g. `.env`, which both
+nightly wrappers source with `set -a`). Logic: `scripts/sws-panic-ladder.mjs`.
+
+| Signal | Reaction (ladder on) |
+|---|---|
+| Challenge 403 (`Just a moment` / `cf-chl` / `challenge-platform` except Cloudflare's `scripts/jsd` detections script / `cf-mitigated: challenge`) | Reprime the shard's page (goto `/dashboard`, ≤30s for the title to clear), probe the same ticker at 0s/60s/180s/600s ±20%, checking the global flag every 5s. A served probe clears it and the stock is retried. A failed reprime is retried before the next probe, and every stock first checks the page is still on simplywall.st. |
+| 429 | Same ladder, no reprime, no probe before any `Retry-After` seen; `Retry-After` > 900s → no probe at all (confirmed at once). |
+| Hard block (`you have been blocked`, error 1020) or an unclassified 403 | Global flag immediately (unchanged). |
+| Ladder exhausted | One **control probe** on the last ticker SWS served this shard. Served → only this stock is refused: fail it and move on. Blocked (or no control yet) → **confirmed**. |
+| Confirmed | Shard writes `panic-vote-<N>.json`. Global flag only on **quorum**: ≥2 distinct shards with live votes (≤15 min) AND no shard got a 2xx for a request **sent** after the first vote (`last_ok_sent_at` in `progress-api-<N>.json`), still true after a **240s** confirm window (longer than a healthy shard's 180s burst pause — a 30s window let two stuck shards outvote a paused healthy one). No quorum → that shard exits **7** and halts alone; `sws-refresh-api.sh` retries it with a fresh browser. |
+| 4th confirmed incident of a run (all shards) | Global flag immediately, no quorum needed. |
+
+- "Confirmed" = the ladder could not clear it (≥1 probe still blocked) and
+  the control ticker was blocked too, or Retry-After > 900s. Stock-specific
+  evidence (control served, or the same ticker challenged again after two
+  cleared ladders) fails just that stock, up to 3 per shard per run; past that
+  it confirms. A ladder where every probe was a network error is
+  *inconclusive* — the stock fails as a network error always did.
+- A Retry-After from a confirmed incident is saved as `not_before`; the
+  restarted shard waits for it **before** booting Chrome (whose first act is
+  loading `/dashboard`), or exits 7 at once if it is more than 1h away.
+- A run with any confirmed incident does not record `clean_run`, so a shard
+  profile that gets challenged every night can't reset the escalation streak.
+- Counts persist across `run_shard_with_retry` restarts: `sws-refresh-api.sh`
+  exports `SWS_PANIC_RUN_ID` once per invocation and the scraper keys
+  `panic-incidents-<N>.json` on it. Votes, incident files and
+  `progress-*.json.tmp.*` are gitignored.
+- A quorum/cap escalation still goes through `recordTrip`, so the expiry
+  ladder above applies unchanged.
+- Inspect: `node scripts/sws-panic-ladder.mjs status --run-id <id>` (also
+  printed after the shards finish, and in the panic mail).
+- Test hook: `SWS_INJECT_BLOCK=<n>` swaps the browser page for a fake whose
+  first n requests are blocked (`SWS_INJECT_BLOCK_KIND`,
+  `SWS_INJECT_RETRY_AFTER`; with it, `SWS_INJECT_DATA_DIR` and
+  `SWS_INJECT_TIME_SCALE`). Inert unless set.
+
+```bash
+node test/swsPanicLadder.test.mjs        # classify, pure decisions, quorum, fake-clock ladder, persisted counts
+node test/swsApiScrapeLadder.test.mjs    # the REAL scrape loop under SWS_INJECT_BLOCK: 09-30 replay, quorum, breadth veto, cap
 ```
 
 ---

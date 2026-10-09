@@ -111,6 +111,13 @@ data/sws/panic-stop.flag
 data/sws/panic-history.ndjson
 data/sws/panic-history.ndjson.tmp.*
 data/sws/panic-archive/
+# Panic ladder state (scripts/sws-panic-ladder.mjs): per-run votes + incident
+# counts, and the atomic-write temp files (incl. progress-api-*.json's).
+data/sws/panic-vote-*.json
+data/sws/panic-vote-*.json.tmp.*
+data/sws/panic-incidents-*.json
+data/sws/panic-incidents-*.json.tmp.*
+data/sws/progress-*.json.tmp.*
 data/sws/picks-latest.json.tmp.*
 data/sws/chronos-ohlcv-cache/
 data/sws/chronos-model-cache/

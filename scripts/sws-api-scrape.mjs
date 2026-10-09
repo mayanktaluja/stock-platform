@@ -15,7 +15,22 @@
  *   - Pacing: 2-4s between stocks with ±30% jitter
  *   - Burst pause: every 50 stocks, sleep 30-180s (random)
  *   - Single concurrent worker per shard (3 shards = 3 parallel)
- *   - On `blocked` (Cloudflare 403) or `rate_limited` (429): IMMEDIATE panic
+ *   - On `blocked` (Cloudflare 403) or `rate_limited` (429): IMMEDIATE panic,
+ *     unless SWS_PANIC_LADDER=1 — then a challenge/429 first goes through the
+ *     retry ladder + cross-shard quorum in sws-panic-ladder.mjs, and only a
+ *     confirmed, corroborated block (or a hard block) writes the global flag.
+ *
+ * Exit codes: 0 done / halted by a peer's flag, 1 fatal, 2 crash (retried by
+ * sws-refresh-api.sh), 3 flag set at start, 4 this shard wrote the flag,
+ * 5 auth expired, 6 browser closed, 7 ladder exhausted without quorum — this
+ * shard halts alone, the run continues (retried with a fresh browser).
+ *
+ * Test hook (no Chrome, no network): SWS_INJECT_BLOCK=<n> swaps the browser
+ * page for a fake whose first n requests are blocked (SWS_INJECT_BLOCK_KIND
+ * challenge|hard_block|unclassified|rate_limited, SWS_INJECT_RETRY_AFTER sec,
+ * SWS_INJECT_BLOCK_MATCH=<substring> to block only matching requests).
+ * Only in that mode, SWS_INJECT_DATA_DIR relocates data/sws and
+ * SWS_INJECT_TIME_SCALE compresses every sleep, so tests drive the real loop.
  *
  * Usage:
  *   node scripts/sws-api-scrape.mjs <SHARD_ID>
@@ -33,28 +48,59 @@ const DB_FLUSH_INTERVAL = 50;
 
 import {
   createClient,
+  createInjectedClient,
+  ensureOnSite,
   fetchStockData,
+  probeTicker,
+  reprimePage,
   TransportError,
 } from "./sws-api-client.mjs";
 import { recordTrip } from "./sws-panic-policy.mjs";
+import {
+  handleBlockIncident,
+  hasVote,
+  loadIncidentState,
+  withdrawVote,
+  writeJsonAtomic,
+  MAX_NOT_BEFORE_WAIT_MS,
+  REPRIME_MAX_WAIT_MS,
+  SHARD_LOCAL_HALT_EXIT,
+} from "./sws-panic-ladder.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, "..");
-const UNIVERSE_PATH = path.join(REPO_ROOT, "data/sws/universe.json");
-const OUT_DIR = path.join(REPO_ROOT, "data/sws/deep-api");
-const PROGRESS_DIR = path.join(REPO_ROOT, "data/sws");
-const PANIC_FLAG = path.join(REPO_ROOT, "data/sws/panic-stop.flag");
+
+// Test hook — see the header. Everything below that moves files or time is
+// gated on it, so a production run cannot be relocated or sped up by env.
+const INJECT = (process.env.SWS_INJECT_BLOCK ?? "") !== "";
+const DATA_DIR = INJECT && process.env.SWS_INJECT_DATA_DIR
+  ? path.resolve(process.env.SWS_INJECT_DATA_DIR)
+  : path.join(REPO_ROOT, "data/sws");
+const TIME_SCALE = INJECT && Number(process.env.SWS_INJECT_TIME_SCALE) > 0
+  ? Number(process.env.SWS_INJECT_TIME_SCALE)
+  : 1;
+const LADDER_ENABLED = process.env.SWS_PANIC_LADDER === "1";
+
+const UNIVERSE_PATH = path.join(DATA_DIR, "universe.json");
+const OUT_DIR = path.join(DATA_DIR, "deep-api");
+const PROGRESS_DIR = DATA_DIR;
+const PANIC_FLAG = path.join(DATA_DIR, "panic-stop.flag");
 
 // Pacing constants — tuneable.
+// The two maxima are exported because the panic quorum's confirm window
+// (QUORUM_CONFIRM_MS in sws-panic-ladder.mjs) must outlast a healthy shard's
+// longest silence; test/swsPanicLadder.test.mjs pins that.
 const INTER_STOCK_MIN_MS = 2000;
-const INTER_STOCK_MAX_MS = 4000;
+export const INTER_STOCK_MAX_MS = 4000;
 const BURST_INTERVAL = 50; // every N stocks
 const BURST_PAUSE_MIN_MS = 30_000;
-const BURST_PAUSE_MAX_MS = 180_000;
+export const BURST_PAUSE_MAX_MS = 180_000;
 
 // ────────── Helpers ──────────
 
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms * TIME_SCALE));
+// Ladder deps already hold scaled durations (schedule × scale); no double scaling.
+const sleepExact = (ms) => new Promise((r) => setTimeout(r, ms));
 const randInt = (min, max) => min + Math.floor(Math.random() * (max - min));
 
 function logEvent(obj) {
@@ -172,9 +218,11 @@ function loadProgress(shardId) {
   return JSON.parse(fs.readFileSync(p, "utf8"));
 }
 
-function saveProgress(shardId, progress) {
-  const p = path.join(PROGRESS_DIR, `progress-api-${shardId}.json`);
-  fs.writeFileSync(p, JSON.stringify(progress, null, 2));
+// Atomic (tmp + rename): peers read this file mid-run for the panic quorum's
+// last_ok_sent_at, and a torn read there must not look like "no evidence".
+function saveProgress(shardId, progress, client = null) {
+  if (client?.lastOkSentAt) progress.last_ok_sent_at = new Date(client.lastOkSentAt).toISOString();
+  writeJsonAtomic(path.join(PROGRESS_DIR, `progress-api-${shardId}.json`), progress);
 }
 
 function rollDailyCount(progress) {
@@ -188,6 +236,14 @@ function rollDailyCount(progress) {
 // ────────── Main scrape loop ──────────
 
 async function main() {
+  // The injected page returns synthetic payloads; they must never land in the
+  // real data/sws/deep-api (a stray SWS_INJECT_BLOCK in .env would otherwise
+  // overwrite the universe with fake scores).
+  if (INJECT && !process.env.SWS_INJECT_DATA_DIR) {
+    console.error("SWS_INJECT_BLOCK requires SWS_INJECT_DATA_DIR (a throwaway data dir) — refusing to run");
+    process.exit(2);
+  }
+
   const args = process.argv.slice(2);
   const shardId = parseInt(args[0], 10);
   if (!Number.isInteger(shardId) || shardId < 1 || shardId > 3) {
@@ -226,20 +282,69 @@ async function main() {
   const slice = resolveSlice(universe, shardId, explicitTickers);
   logEvent({ event: "start", shard: shardId, slice_size: slice.length, limit });
 
+  // Ladder state. SWS_PANIC_RUN_ID is exported once per sws-refresh-api.sh
+  // run, so a shard restarted by its rc-retry loop resumes its confirmed-
+  // incident count (panic-incidents-<N>.json) instead of starting at 0.
+  const runId = process.env.SWS_PANIC_RUN_ID || null;
+  const incident = LADDER_ENABLED ? loadIncidentState(DATA_DIR, shardId, runId) : null;
+  if (incident?.resumed) {
+    logEvent({ event: "incident_state_resumed", shard: shardId, run_id: runId, opened: incident.opened, cleared: incident.cleared, skipped: incident.skipped, confirmed: incident.confirmed, not_before: incident.not_before });
+  }
+
+  // A Retry-After from this run's last confirmed incident binds the restart
+  // too — checked BEFORE the browser boots, because createClient() itself
+  // loads /dashboard. Too far out to wait for → halt alone, sending nothing.
+  const notBeforeMs = Date.parse(incident?.not_before ?? "");
+  if (Number.isFinite(notBeforeMs) && notBeforeMs > Date.now()) {
+    const waitMs = notBeforeMs - Date.now();
+    if (waitMs > MAX_NOT_BEFORE_WAIT_MS * TIME_SCALE) {
+      logEvent({ event: "halt", reason: "retry_after_not_before", shard: shardId, not_before: incident.not_before });
+      process.exit(SHARD_LOCAL_HALT_EXIT);
+    }
+    logEvent({ event: "retry_after_wait", shard: shardId, not_before: incident.not_before, wait_ms: waitMs });
+    while (Date.now() < notBeforeMs) {
+      if (checkPanic()) {
+        logEvent({ event: "halt", reason: "panic_flag_set_at_start" });
+        process.exit(3);
+      }
+      await sleepExact(Math.min(5000 * TIME_SCALE, notBeforeMs - Date.now()));
+    }
+  }
+
   // Boot client (one browser per shard)
-  logEvent({ event: "client_start", shard: shardId });
-  const client = await createClient({ shardId, headless: true });
+  logEvent({ event: "client_start", shard: shardId, ...(INJECT ? { injected: true, data_dir: DATA_DIR } : {}) });
+  const client = INJECT
+    ? createInjectedClient({
+        shardId,
+        blocks: Number(process.env.SWS_INJECT_BLOCK) || 0,
+        kind: process.env.SWS_INJECT_BLOCK_KIND || "challenge",
+        retryAfterSec: process.env.SWS_INJECT_RETRY_AFTER ? Number(process.env.SWS_INJECT_RETRY_AFTER) : null,
+        match: process.env.SWS_INJECT_BLOCK_MATCH || null,
+      })
+    : await createClient({ shardId, headless: true });
   logEvent({ event: "client_ready", shard: shardId });
 
   const progress = loadProgress(shardId);
   rollDailyCount(progress);
+
+  // Control ticker for the ladder: the last stock SWS served this shard. On
+  // an rc-retry restart that is progress.last_ticker from the previous attempt.
+  const urlOf = (s) => (s?.sws_url || "").replace(/^https?:\/\/simplywall\.st/, "");
+  let lastServed = null;
+  if (LADDER_ENABLED && progress.last_ticker) {
+    const prev = universe.find((s) => s.ticker === progress.last_ticker);
+    if (urlOf(prev)) lastServed = { ticker: prev.ticker, canonicalUrl: urlOf(prev) };
+  }
+  // A vote left by this shard's previous attempt is withdrawn at the first
+  // stock SWS serves us — it no longer describes this shard.
+  let voteOutstanding = LADDER_ENABLED && hasVote(DATA_DIR, shardId);
 
   let scrapedThisRun = 0;
   let exitCode = 0;
   const startIdx = explicitTickers ? 0 : progress.next_local_index || 0;
 
   try {
-    for (let i = startIdx; i < slice.length && scrapedThisRun < limit; i++) {
+    stocks: for (let i = startIdx; i < slice.length && scrapedThisRun < limit; i++) {
       // Per-stock pre-flight
       if (checkPanic()) {
         logEvent({ event: "halt", reason: "panic_mid_session", shard: shardId });
@@ -253,79 +358,155 @@ async function main() {
       if (!canonicalUrl) {
         logEvent({ event: "skip", shard: shardId, ticker, reason: "no_canonical_url" });
         progress.next_local_index = i + 1;
-        saveProgress(shardId, progress);
+        saveProgress(shardId, progress, client);
         continue;
       }
 
-      const t0 = Date.now();
-      logEvent({ event: "stock_start", shard: shardId, ticker, idx: i });
-      try {
-        const data = await fetchStockData(client, { ticker, canonicalUrl });
-        const outPath = path.join(OUT_DIR, `${ticker}.json`);
-        fs.writeFileSync(outPath, JSON.stringify(data, null, 2));
-        const elapsed = Date.now() - t0;
-        const score = data.graphql?.CompanySummary?.Company?.score || {};
-        logEvent({
-          event: "stock_done",
-          shard: shardId,
-          ticker,
-          elapsed_ms: elapsed,
-          errors: data.errors.length,
-          score: { v: score.value, f: score.future, p: score.past, h: score.health, d: score.dividend },
-        });
-        progress.done_count = (progress.done_count || 0) + 1;
-        progress.today_count = (progress.today_count || 0) + 1;
-        progress.last_ticker = ticker;
-        progress.last_run_at = new Date().toISOString();
-        progress.last_duration_ms = elapsed;
-        scrapedThisRun++;
-      } catch (e) {
-        if (e instanceof TransportError) {
-          if (e.kind === "blocked" || e.kind === "rate_limited") {
-            // Cloudflare or 429 — immediate panic
-            logEvent({
-              event: "panic_recorded",
-              shard: shardId,
-              ticker,
-              reason: e.kind,
-              status: e.status,
-              body: (typeof e.body === "string" ? e.body : JSON.stringify(e.body || {})).slice(0, 200),
-            });
-            recordPanic(`api:${e.kind}`, shardId, `status=${e.status}`, {
-              ticker,
-              body_head: (typeof e.body === "string" ? e.body : JSON.stringify(e.body || {})).slice(0, 200),
-            });
-            exitCode = 4;
-            break;
+      // Re-entered only when a ladder cleared: the same stock is fetched again.
+      let laddersForTicker = 0;
+      attempt: for (;;) {
+        // Only the ladder navigates mid-run; a failed reprime can leave the
+        // page off-site (chrome-error://), where every in-page fetch fails.
+        if (LADDER_ENABLED) {
+          const site = await ensureOnSite(client, { maxWaitMs: REPRIME_MAX_WAIT_MS * TIME_SCALE, pollMs: 1000 * TIME_SCALE });
+          if (!site.ok) logEvent({ event: "page_recovered", shard: shardId, from: site.url, error: site.reprime?.error ?? null });
+        }
+        const t0 = Date.now();
+        logEvent({ event: "stock_start", shard: shardId, ticker, idx: i, ...(laddersForTicker ? { after_ladder: laddersForTicker } : {}) });
+        try {
+          const data = await fetchStockData(client, { ticker, canonicalUrl });
+          const outPath = path.join(OUT_DIR, `${ticker}.json`);
+          fs.writeFileSync(outPath, JSON.stringify(data, null, 2));
+          const elapsed = Date.now() - t0;
+          const score = data.graphql?.CompanySummary?.Company?.score || {};
+          logEvent({
+            event: "stock_done",
+            shard: shardId,
+            ticker,
+            elapsed_ms: elapsed,
+            errors: data.errors.length,
+            score: { v: score.value, f: score.future, p: score.past, h: score.health, d: score.dividend },
+          });
+          progress.done_count = (progress.done_count || 0) + 1;
+          progress.today_count = (progress.today_count || 0) + 1;
+          progress.last_ticker = ticker;
+          progress.last_run_at = new Date().toISOString();
+          progress.last_duration_ms = elapsed;
+          scrapedThisRun++;
+          lastServed = { ticker, canonicalUrl };
+          if (voteOutstanding) {
+            withdrawVote(DATA_DIR, shardId);
+            voteOutstanding = false;
+            logEvent({ event: "vote_withdrawn", shard: shardId, ticker, reason: "served" });
           }
-          if (e.kind === "auth_expired") {
+          break attempt;
+        } catch (e) {
+          if (e instanceof TransportError && (e.kind === "blocked" || e.kind === "rate_limited")) {
+            if (!LADDER_ENABLED) {
+              // Cloudflare or 429 — immediate panic
+              logEvent({
+                event: "panic_recorded",
+                shard: shardId,
+                ticker,
+                reason: e.kind,
+                status: e.status,
+                cf_class: e.cfClass,
+                body: (typeof e.body === "string" ? e.body : JSON.stringify(e.body || {})).slice(0, 200),
+              });
+              recordPanic(`api:${e.kind}`, shardId, `status=${e.status}`, {
+                ticker,
+                cf_class: e.cfClass,
+                cf_ray: e.cfRay,
+                body_head: (typeof e.body === "string" ? e.body : JSON.stringify(e.body || {})).slice(0, 200),
+              });
+              exitCode = 4;
+              break stocks;
+            }
+            const r = await handleBlockIncident({
+              err: e,
+              ticker,
+              shardId,
+              runId,
+              dataDir: DATA_DIR,
+              incident,
+              laddersForTicker,
+              scale: TIME_SCALE,
+              deps: {
+                now: Date.now,
+                sleep: sleepExact,
+                checkFlag: checkPanic,
+                probe: () => probeTicker(client, { canonicalUrl }),
+                probeControl: lastServed && lastServed.ticker !== ticker
+                  ? async () => ({ ...(await probeTicker(client, { canonicalUrl: lastServed.canonicalUrl })), ticker: lastServed.ticker })
+                  : null,
+                reprime: () => reprimePage(client, { maxWaitMs: REPRIME_MAX_WAIT_MS * TIME_SCALE, pollMs: 1000 * TIME_SCALE }),
+                log: logEvent,
+                flagPollMs: 5000 * TIME_SCALE,
+                recordGlobal: (reason, evidence, extra) => {
+                  logEvent({
+                    event: "panic_recorded",
+                    shard: shardId,
+                    ticker,
+                    reason,
+                    status: e.status,
+                    cf_class: e.cfClass,
+                    body: (typeof e.body === "string" ? e.body : JSON.stringify(e.body || {})).slice(0, 200),
+                  });
+                  recordPanic(reason, shardId, evidence, {
+                    ...extra,
+                    body_head: (typeof e.body === "string" ? e.body : JSON.stringify(e.body || {})).slice(0, 200),
+                  });
+                },
+              },
+            });
+            if (r.next === "retry") {
+              laddersForTicker++;
+              continue attempt;
+            }
+            if (r.next === "skip") {
+              logEvent({ event: "stock_failed", shard: shardId, ticker, error: String(e), kind: r.reason });
+              break attempt;
+            }
+            if (r.next === "halted") {
+              logEvent({ event: "halt", reason: "panic_mid_ladder", shard: shardId, ticker });
+              break stocks;
+            }
+            if (r.next === "halt_local") {
+              voteOutstanding = true;
+              logEvent({ event: "halt", reason: "ladder_no_quorum", detail: r.reason, shard: shardId, ticker });
+            }
+            exitCode = r.exitCode;
+            break stocks;
+          }
+          if (e instanceof TransportError && e.kind === "auth_expired") {
             logEvent({ event: "halt", reason: "auth_expired", shard: shardId });
             exitCode = 5;
-            break;
+            break stocks;
           }
+          // Browser/page closed unexpectedly — fatal for this shard. Without
+          // this check we'd fail every subsequent stock with the same error.
+          const msg = String(e);
+          if (msg.includes("Target page, context or browser has been closed") ||
+              msg.includes("browserContext.newPage") ||
+              msg.includes("Browser closed")) {
+            logEvent({ event: "halt", reason: "browser_closed", shard: shardId, ticker });
+            exitCode = 6;
+            break stocks;
+          }
+          // Non-fatal: record and move on
+          logEvent({
+            event: "stock_failed",
+            shard: shardId,
+            ticker,
+            error: msg,
+            kind: e?.kind,
+          });
+          break attempt;
         }
-        // Browser/page closed unexpectedly — fatal for this shard. Without
-        // this check we'd fail every subsequent stock with the same error.
-        const msg = String(e);
-        if (msg.includes("Target page, context or browser has been closed") ||
-            msg.includes("browserContext.newPage") ||
-            msg.includes("Browser closed")) {
-          logEvent({ event: "halt", reason: "browser_closed", shard: shardId, ticker });
-          exitCode = 6;
-          break;
-        }
-        // Non-fatal: record and move on
-        logEvent({
-          event: "stock_failed",
-          shard: shardId,
-          ticker,
-          error: msg,
-          kind: e?.kind,
-        });
       }
 
       progress.next_local_index = i + 1;
-      saveProgress(shardId, progress);
+      saveProgress(shardId, progress, client);
 
       // Phase 3 dual-write: DB-flush every 50 ticks (not per-tick — Neon
       // compute-hour budget). Falls back silently if writes are off.
@@ -345,6 +526,8 @@ async function main() {
       }
     }
   } finally {
+    // Persist last_ok_sent_at even on a halt mid-stock: peers' quorum reads it.
+    try { saveProgress(shardId, progress, client); } catch { /* best effort */ }
     logEvent({ event: "client_close", shard: shardId });
     await client.close();
     logEvent({ event: "session_end", shard: shardId, scraped: scrapedThisRun });

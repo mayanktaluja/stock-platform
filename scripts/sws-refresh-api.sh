@@ -27,6 +27,11 @@
 #   4  panic detected during scrape
 #   5  shard process spawn failed
 #
+# Shards (sws-api-scrape.mjs) may also exit 7 under SWS_PANIC_LADDER=1: a
+# challenge survived the retry ladder but peers were still served (no
+# quorum), so that shard halts alone. It is retried like a crash, with a
+# fresh browser, and counts toward the run's confirmed-incident cap.
+#
 # Logs: data/sws/refresh-api.log + data/sws/refresh-api-shard-{1,2,3}.log
 # Summary: data/sws/last-refresh.json (read by dashboard)
 
@@ -131,6 +136,13 @@ SCRAPE_SKIPPED=false
 # served this run (feeds the panic policy's clean_run, see step 5). Empty when
 # the snapshot fails, which skips the clean record rather than over-counting.
 PANIC_SERVED_BEFORE=""
+# One id for every attempt of every shard in this invocation. With
+# SWS_PANIC_LADDER=1 the scraper keys its confirmed-incident count
+# (panic-incidents-<N>.json) and its quorum votes on it, so a shard restarted
+# by run_shard_with_retry resumes its count instead of starting from 0 —
+# otherwise a stuck shard could re-ladder on every restart and the per-run
+# cap (4 confirmed → global) would never be reached. Harmless with it off.
+export SWS_PANIC_RUN_ID="refresh-api-${START_EPOCH}-$$"
 
 if [ -n "${LIVE_SHARDS}" ]; then
   echo "[refresh-api] shards [${LIVE_SHARDS}] already running → exiting without parse/score so stale data cannot be republished"
@@ -202,6 +214,11 @@ EOF
         echo "[refresh-api] shard ${SHARD} exited rc=${rc} (panic) — not retrying" >> "${LOG}"
         return "${rc}"
       fi
+      # 7 = ladder exhausted, no quorum: only this shard is stuck. Retrying
+      # relaunches its browser; the incident count persists (SWS_PANIC_RUN_ID).
+      if [ "${rc}" -eq 7 ]; then
+        echo "[refresh-api] shard ${SHARD} exited rc=7 (panic ladder: halted alone, peers still served)" >> "${LOG}"
+      fi
       attempt=$((attempt + 1))
       if [ "${attempt}" -gt "${SHARD_MAX_RETRIES}" ]; then
         echo "[refresh-api] shard ${SHARD} failed after ${SHARD_MAX_RETRIES} retries (last rc=${rc})" >> "${LOG}"
@@ -229,6 +246,9 @@ EOF
   done
   ELAPSED=$(( $(date +%s) - START_EPOCH ))
   echo "[refresh-api] shards done in ${ELAPSED}s (${FAIL} failed)"
+  if [ "${SWS_PANIC_LADDER:-0}" = "1" ]; then
+    node scripts/sws-panic-ladder.mjs status --data-dir data/sws --run-id "${SWS_PANIC_RUN_ID}" 2>&1 | sed 's/^/[panic-ladder] /'
+  fi
 fi
 
 # ---------- 5. Re-check panic mid-run ----------
@@ -241,6 +261,7 @@ elapsed before panic: ${ELAPSED}s
 shards failed: ${FAIL}
 
 $(node scripts/sws-panic-policy.mjs status --data-dir data/sws 2>&1 | head -40)
+$([ "${SWS_PANIC_LADDER:-0}" = "1" ] && { echo; node scripts/sws-panic-ladder.mjs status --data-dir data/sws --run-id "${SWS_PANIC_RUN_ID}" 2>&1 | head -20; })
 
 The flag expires on its own (see 'expires' above); the next nightly after that runs normally, or waits for it if it lapses within a few hours of the 00:30 slot. The trigger event is in data/sws/refresh-api-shard-{1,2,3}.log."
   exit 4
@@ -251,10 +272,24 @@ fi
 # 503s): record clean_run. It is the ONLY event that resets the panic
 # escalation streak (expiry alone does not), so a genuinely blocked account
 # backs off 6h → 30h → 78h → human instead of being re-probed forever.
+# A shard that halted alone on a confirmed incident (ladder on) is not a
+# clean night even when the others served ≥50%: resetting the streak there
+# would hide a profile that gets challenged every night.
+LADDER_CONFIRMED=0
+if [ "${SWS_PANIC_LADDER:-0}" = "1" ]; then
+  LADDER_CONFIRMED="$(node scripts/sws-panic-ladder.mjs confirmed --data-dir data/sws --run-id "${SWS_PANIC_RUN_ID:-}" 2>/dev/null || echo 0)"
+fi
 case "${PANIC_SERVED_BEFORE}" in
   ''|*[!0-9]*) echo "[refresh-api] panic policy: no served-count snapshot — not recording clean_run" ;;
-  *) node scripts/sws-panic-policy.mjs record-clean --data-dir data/sws --served-since "${PANIC_SERVED_BEFORE}" \
-       --note "refresh-api ${ELAPSED}s, ${FAIL} shard(s) failed" 2>&1 | sed 's/^/[panic-policy] /' ;;
+  *)
+    # Anything but a literal 0 (incl. a broken CLI) keeps the streak: fail safe.
+    if [ "${LADDER_CONFIRMED}" != "0" ]; then
+      echo "[refresh-api] panic policy: ${LADDER_CONFIRMED:-unknown} confirmed ladder incident(s) this run — not recording clean_run"
+    else
+      node scripts/sws-panic-policy.mjs record-clean --data-dir data/sws --served-since "${PANIC_SERVED_BEFORE}" \
+        --note "refresh-api ${ELAPSED}s, ${FAIL} shard(s) failed" 2>&1 | sed 's/^/[panic-policy] /'
+    fi
+    ;;
 esac
 
 # ---------- 5b. Refresh NSE event-calendar cache ----------
