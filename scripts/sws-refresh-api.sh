@@ -175,6 +175,34 @@ for (const sid of [1, 2, 3]) {
 EOF
   fi
 
+  # ── resume after a deadline abort (extracted verbatim by test/swsResumeAfterAbort.test.sh) ──
+  # sws-nightly-isolated.sh writes data/sws/_resume-scrape.json when its deadline
+  # kills a run (2026-09-26 at 21%, 09-29 at 67% — both asleep on battery). The
+  # rewind above STILL happens: carrying the cursor instead was replayed against
+  # the sanity gate and fails it every time (fresh_pct 33-79 vs the 85 floor —
+  # carried payloads are 20-30h old at finish), and a finished shard's carried
+  # cursor would scrape nothing. What carries over is per STOCK: the shards skip
+  # any stock whose raw payload is under 7h old (scripts/sws-scrape-progress.mjs
+  # has the bound and why it keeps both the 24h gate and the 36h demotion
+  # intact). The marker is archived whatever the verdict, so it is used once.
+  # SWS_SCRAPE_SKIP_FRESH_SEC set by hand opts a manual run into the same skip.
+  RESUME_SKIP_FRESH_SEC="${SWS_SCRAPE_SKIP_FRESH_SEC:-0}"
+  if [ "${SWS_RESUME:-0}" != "1" ] && [ -e data/sws/_resume-scrape.json ]; then
+    RESUME_OUT="$(node scripts/sws-scrape-progress.mjs consume-resume --data-dir data/sws 2>&1)"
+    RESUME_VERDICT="$(printf '%s\n' "${RESUME_OUT}" | sed '/^---$/q' | sed -n 's/^verdict=//p' | head -1)"
+    RESUME_SEC="$(printf '%s\n' "${RESUME_OUT}" | sed '/^---$/q' | sed -n 's/^skip_fresh_sec=//p' | head -1)"
+    case "${RESUME_SEC}" in ''|*[!0-9]*) RESUME_SEC=0 ;; esac
+    if [ -z "${RESUME_VERDICT}" ]; then
+      # CLI failed: no skip (a normal full pass is always safe); marker stays for a retry.
+      printf '%s\n' "${RESUME_OUT}" | tail -5 | sed 's/^/[resume] consume-resume failed — normal full pass: /'
+    else
+      printf '%s\n' "${RESUME_OUT}" | sed '1,/^---$/d' | sed 's/^/[resume] /'
+      [ "${RESUME_VERDICT}" = "resume" ] && [ "${RESUME_SEC}" -gt 0 ] && RESUME_SKIP_FRESH_SEC="${RESUME_SEC}"
+    fi
+  fi
+  case "${RESUME_SKIP_FRESH_SEC}" in ''|*[!0-9]*) RESUME_SKIP_FRESH_SEC=0 ;; esac
+  # ── end resume after a deadline abort ──
+
   # Bounded auto-retry: when a shard exits non-zero (crash, Neon disconnect,
   # any unhandled rejection caught by installFatalHandlers in
   # sws-api-scrape.mjs), restart it up to SHARD_MAX_RETRIES times. Each retry
@@ -199,7 +227,8 @@ EOF
       # Capture rc BEFORE any `if` test — bash resets $? to 0 after a failed
       # `if cmd; then ...; fi` with no else branch, which would silently
       # mask the real exit code in this helper.
-      SWS_RESUME="${resume}" node scripts/sws-api-scrape.mjs "${SHARD}" >> "${LOG}" 2>&1
+      SWS_RESUME="${resume}" SWS_SCRAPE_SKIP_FRESH_SEC="${RESUME_SKIP_FRESH_SEC:-0}" \
+        node scripts/sws-api-scrape.mjs "${SHARD}" >> "${LOG}" 2>&1
       rc=$?
       if [ "${rc}" -eq 0 ]; then
         return 0

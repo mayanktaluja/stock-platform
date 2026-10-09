@@ -66,6 +66,7 @@ import {
   REPRIME_MAX_WAIT_MS,
   SHARD_LOCAL_HALT_EXIT,
 } from "./sws-panic-ladder.mjs";
+import { payloadAgeMs } from "./sws-scrape-progress.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, "..");
@@ -340,8 +341,18 @@ async function main() {
   let voteOutstanding = LADDER_ENABLED && hasVote(DATA_DIR, shardId);
 
   let scrapedThisRun = 0;
+  let skippedFresh = 0;
   let exitCode = 0;
   const startIdx = explicitTickers ? 0 : progress.next_local_index || 0;
+
+  // Resume after a deadline abort: sws-refresh-api.sh sets this ONLY when it
+  // consumed a valid data/sws/_resume-scrape.json. A stock whose raw payload is
+  // younger than this is not fetched again (see sws-scrape-progress.mjs for why
+  // the unit of reuse is the stock, never the cursor). Unset/0 → every stock is
+  // fetched, exactly as before. Never applies to an explicit --tickers run.
+  const skipFreshSec = Number(process.env.SWS_SCRAPE_SKIP_FRESH_SEC || 0);
+  const skipFreshMs = !explicitTickers && Number.isFinite(skipFreshSec) && skipFreshSec > 0 ? skipFreshSec * 1000 : 0;
+  if (skipFreshMs) logEvent({ event: "resume_skip_fresh", shard: shardId, max_age_sec: skipFreshSec });
 
   try {
     stocks: for (let i = startIdx; i < slice.length && scrapedThisRun < limit; i++) {
@@ -360,6 +371,18 @@ async function main() {
         progress.next_local_index = i + 1;
         saveProgress(shardId, progress, client);
         continue;
+      }
+
+      if (skipFreshMs) {
+        const ageMs = payloadAgeMs(path.join(OUT_DIR, `${ticker}.json`));
+        if (ageMs !== null && ageMs <= skipFreshMs) {
+          // No fetch, no pacing sleep, no done_count: SWS served nothing for it.
+          logEvent({ event: "skip", shard: shardId, ticker, reason: "fresh_payload", age_min: Math.round(ageMs / 60_000) });
+          skippedFresh++;
+          progress.next_local_index = i + 1;
+          saveProgress(shardId, progress);
+          continue;
+        }
       }
 
       // Re-entered only when a ladder cleared: the same stock is fetched again.
@@ -530,7 +553,7 @@ async function main() {
     try { saveProgress(shardId, progress, client); } catch { /* best effort */ }
     logEvent({ event: "client_close", shard: shardId });
     await client.close();
-    logEvent({ event: "session_end", shard: shardId, scraped: scrapedThisRun });
+    logEvent({ event: "session_end", shard: shardId, scraped: scrapedThisRun, skipped_fresh: skippedFresh });
   }
 
   process.exit(exitCode);

@@ -108,6 +108,7 @@ supervisor_harness() {  # supervisor_harness <lock_dir>
 LOCK_DIR="$1"
 mkdir -p "\${LOCK_DIR}"
 SWS_NIGHTLY_DEADLINE_SEC="\$1"
+SWS_NIGHTLY_START_EPOCH=\$(date +%s)
 SWS_NIGHTLY_DEADLINE_EPOCH=\$(( \$(date +%s) + \$1 ))
 shift
 EOF
@@ -265,6 +266,21 @@ if printf '%s' "${ABORT_MAIL}" | grep -q 'shard 1: next_local_index 1/3 (33%)' \
 else
   bad "abort mail lists shard progress" "$(printf '%s' "${ABORT_MAIL}" | tr '\n' ' ')"
 fi
+
+# Resume marker: written on the deadline abort, gitignored, read by the next
+# refresh-api step 3 (test/swsResumeAfterAbort.test.sh covers that side).
+MARKER="${WORK}/wt/data/sws/_resume-scrape.json"
+if node -e 'const m=JSON.parse(require("fs").readFileSync(process.argv[1]));process.exit(m.carry===1&&m.aborted_at&&m.run_started_at?0:1)' "${MARKER}" 2>/dev/null; then
+  ok "deadline abort writes data/sws/_resume-scrape.json (carry 1, aborted_at, run_started_at)"
+else
+  bad "deadline abort writes the resume marker" "$(cat "${MARKER}" 2>&1)"
+fi
+if printf '%s' "${ABORT_MAIL}" | grep -q 'Next run: resume marker written (carry 1)'; then
+  ok "…and the abort mail says what the next run will reuse"
+else
+  bad "abort mail mentions the resume marker" "$(printf '%s' "${ABORT_MAIL}" | grep -i 'next run' || echo missing)"
+fi
+rm -f "${WORK}/wt/data/sws/_resume-scrape"*
 
 # ─────────────────────────────────────────────── KILL escalation completes
 # The body dies on TERM, its grandchild does not. The main process used to kill

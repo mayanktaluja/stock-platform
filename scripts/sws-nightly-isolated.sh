@@ -22,7 +22,8 @@ BASE_BRANCH="${SWS_NIGHTLY_BASE_BRANCH:-sws-nightly-isolated-base}"
 # 21h from a 00:30 start aborts at 21:30 IST, leaving ~3h for a human to fire a
 # manual /sws-refresh before the next slot.
 SWS_NIGHTLY_DEADLINE_SEC="${SWS_NIGHTLY_DEADLINE_SEC:-75600}"
-SWS_NIGHTLY_DEADLINE_EPOCH=$(( $(date +%s) + SWS_NIGHTLY_DEADLINE_SEC ))
+SWS_NIGHTLY_START_EPOCH="$(date +%s)"
+SWS_NIGHTLY_DEADLINE_EPOCH=$(( SWS_NIGHTLY_START_EPOCH + SWS_NIGHTLY_DEADLINE_SEC ))
 
 ts() { date "+%Y-%m-%d %H:%M:%S %Z"; }
 
@@ -452,6 +453,18 @@ if [ -f "${DEADLINE_FLAG}" ]; then
   # Distinct from the body's own codes. `wait` on a TERMed child returns 143,
   # which is indistinguishable from any other signal death in launchd-stderr.log.
   echo "[isolated-nightly] aborted on deadline (body rc=${body_rc})"
+  # Resume marker, written before the mail (which can hang on a sleeping host's
+  # network). The next refresh-api step 3 consumes it: its shards skip stocks
+  # this run fetched recently instead of fetching all of them again. Gitignored,
+  # so the next run's `git clean -fd` keeps it. A failure here only costs the
+  # skip — the next run then does a normal full pass.
+  if RESUME_NOTE="$(node "${WORKTREE_DIR}/scripts/sws-scrape-progress.mjs" mark-abort \
+        --data-dir "${WORKTREE_DIR}/data/sws" --run-started-epoch "${SWS_NIGHTLY_START_EPOCH:-0}" 2>&1)"; then
+    :
+  else
+    RESUME_NOTE="resume marker NOT written — the next run fetches every stock: $(printf '%s' "${RESUME_NOTE}" | tail -2 | tr '\n' ' ')"
+  fi
+  echo "[isolated-nightly] ${RESUME_NOTE}"
   DEADLINE_LATE_SEC="$(cat "${DEADLINE_LATE_FILE}" 2>/dev/null || echo 0)"
   case "${DEADLINE_LATE_SEC}" in ''|*[!0-9-]*) DEADLINE_LATE_SEC=0 ;; esac
   send_mail "🚨 SWS nightly — run deadline exceeded" \
@@ -462,6 +475,8 @@ $( [ "${SUSPENDED_SEC}" -gt 3600 ] && echo "Most of this run was spent asleep, n
 
 Scrape progress when it stopped:
 $(shard_progress_summary)
+
+Next run: ${RESUME_NOTE}
 
 Body exit code before abort: ${body_rc}.
 
