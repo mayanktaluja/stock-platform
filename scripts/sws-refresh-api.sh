@@ -56,14 +56,11 @@ if ! corun_guard in; then exit 5; fi
 exec > >(tee -a "${LOG}") 2>&1
 
 ts() { date -u +"%Y-%m-%dT%H:%M:%SZ"; }
-run_with_timeout() {
-  local seconds="$1"; shift
-  if command -v timeout >/dev/null 2>&1; then
-    timeout "${seconds}" "$@"
-  else
-    "$@"
-  fi
-}
+# Step timeout. The old local run_with_timeout ran the command UNBOUNDED when no
+# `timeout` binary existed — always true under launchd — so its 900s sector-news
+# guard once ran 2h40m. The shared helper has a real bash fallback.
+# shellcheck source=scripts/sws-with-timeout.sh
+. "${SCRIPT_DIR}/sws-with-timeout.sh"
 START_EPOCH="$(date +%s)"
 # RUN_STARTED_ISO is the canonical "when did this pipeline start" timestamp,
 # stamped into last-refresh.json's `started_at` field at summary-write time
@@ -393,11 +390,11 @@ echo "${SCORING_OUT}" | tail -12 | sed 's/^/[scoring] /'
 # withholds growing_sector_value when outlook is stale/missing/macro-mismatched.
 
 echo "[refresh-api] refreshing sector news themes for growing-sector section..."
-if ! run_with_timeout 900 node scripts/refresh-sector-news-themes.mjs --max-llm-calls=400 2>&1 | tail -12 | sed 's/^/[sector-themes] /'; then
+if ! with_timeout 900 node scripts/refresh-sector-news-themes.mjs --max-llm-calls=400 2>&1 | tail -12 | sed 's/^/[sector-themes] /'; then
   echo "[sector-themes] non-zero exit — continuing with prior themes/outlook"
 fi
 echo "[refresh-api] refreshing sector outlook for growing-sector section..."
-if ! run_with_timeout 120 node scripts/refresh-sector-outlook.mjs 2>&1 | tail -12 | sed 's/^/[sector-outlook] /'; then
+if ! with_timeout 120 node scripts/refresh-sector-outlook.mjs 2>&1 | tail -12 | sed 's/^/[sector-outlook] /'; then
   echo "[sector-outlook] non-zero exit — continuing with prior outlook"
 fi
 echo "[refresh-api] running final scoring with sector outlook..."

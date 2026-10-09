@@ -261,9 +261,17 @@ assert(
     !gitAddBlock.includes("data/sws/groww-stock-latest.json"),
   null,
 );
+// The fallback lives in the shared helper (also sourced by sws-refresh-api.sh,
+// whose old private copy ran steps unbounded under launchd).
+const withTimeoutHelper = readFileSync(resolve(REPO_ROOT, "scripts/sws-with-timeout.sh"), "utf-8");
+assert(
+  "nightly sources the shared step-timeout helper",
+  nightly.includes('. "${REPO_DIR}/scripts/sws-with-timeout.sh"'),
+  null,
+);
 assert(
   "macOS timeout fallback enforces a real watchdog",
-  /sleep "\$\{seconds\}"[\s\S]*?command exceeded[\s\S]*?kill -TERM "\$\{child_pid\}"/.test(nightly),
+  /sleep "\$\{seconds\}"[\s\S]*?command exceeded[\s\S]*?kill -TERM "\$\{child_pid\}"/.test(withTimeoutHelper),
   null,
 );
 
