@@ -97,7 +97,14 @@ export PATH="${WORK}/bin:\${PATH}"
 WORKTREE_DIR="${WORK}/wt"
 BASE_BRANCH="test"
 ts() { date "+%H:%M:%S"; }
-send_mail() { printf 'SUBJECT: %s\n%s\n---\n' "\$1" "\$2" >> "${MAIL_LOG}"; echo "[mail] \$1"; }
+send_mail() {
+  # HANG_MAIL=<subject substring>: that mail never returns, like a Resend call
+  # on a sleeping host. fds closed so an abandoned one cannot hold the test pipe.
+  if [ -n "\${HANG_MAIL:-}" ] && case "\$1" in *"\${HANG_MAIL}"*) true ;; *) false ;; esac; then
+    sleep 600 >/dev/null 2>&1 </dev/null & echo "\$!" >> "${WORK}/hung-mail.pids"; wait
+  fi
+  printf 'SUBJECT: %s\n%s\n---\n' "\$1" "\$2" >> "${MAIL_LOG}"; echo "[mail] \$1"
+}
 ${ON_AC_FN}
 EOF
 }
@@ -315,6 +322,46 @@ else
   bad "abort mail mentions the resume marker" "$(printf '%s' "${ABORT_MAIL}" | grep -i 'next run' || echo missing)"
 fi
 rm -f "${WORK}/wt/data/sws/_resume-scrape"*
+
+# A hanging abort mail must not hold the lock past its wall-clock bound (it
+# used to be inline and unbounded: on a sleeping host that can be past 00:30).
+reset_state
+write_body <<'BODY'
+#!/usr/bin/env bash
+sleep 600
+BODY
+supervisor_harness "${WORK}/lock-m1" > "${WORK}/m1.sh"
+START=$(date +%s)
+OUT="$(HANG_MAIL="deadline exceeded" SWS_ABORT_MAIL_MAX_SEC=3 SWS_WATCHDOG_TICK_SEC=1 bash "${WORK}/m1.sh" 2 2>&1)"; RC=$?
+ELAPSED=$(( $(date +%s) - START ))
+if [ "${RC}" -eq 10 ] && [ "${ELAPSED}" -lt 30 ] && printf '%s' "${OUT}" | grep -q 'mail still pending after 3s'; then
+  ok "a hung abort mail is abandoned at its bound (${ELAPSED}s) and the abort still exits 10"
+else
+  bad "bounded abort mail" "rc=${RC} ${ELAPSED}s $(printf '%s' "${OUT}" | tail -3 | tr '\n' ' ')"
+fi
+for p in $(cat "${WORK}/hung-mail.pids" 2>/dev/null); do kill "${p}" 2>/dev/null; done
+rm -f "${WORK}/hung-mail.pids" "${WORK}/wt/data/sws/_resume-scrape"*
+
+# The watchdog's own mails are async: a hung AC-loss mail must not stop the
+# watchdog from enforcing the deadline.
+reset_state
+write_body <<BODY
+#!/usr/bin/env bash
+sleep 2
+echo battery > "${PMSET_MODE_FILE}"
+sleep 600
+BODY
+supervisor_harness "${WORK}/lock-m2" > "${WORK}/m2.sh"
+START=$(date +%s)
+OUT="$(HANG_MAIL="AC lost" SWS_WATCHDOG_TICK_SEC=1 bash "${WORK}/m2.sh" 6 2>&1)"; RC=$?
+ELAPSED=$(( $(date +%s) - START ))
+if [ "${RC}" -eq 10 ] && [ "${ELAPSED}" -lt 40 ] && printf '%s' "${OUT}" | grep -q 'DEADLINE reached'; then
+  ok "a hung AC-loss mail does not stall the watchdog — the deadline still fires (${ELAPSED}s)"
+else
+  bad "async watchdog mail" "rc=${RC} ${ELAPSED}s $(printf '%s' "${OUT}" | tail -3 | tr '\n' ' ')"
+fi
+for p in $(cat "${WORK}/hung-mail.pids" 2>/dev/null); do kill "${p}" 2>/dev/null; done
+rm -f "${WORK}/hung-mail.pids" "${WORK}/wt/data/sws/_resume-scrape"*
 
 # ─────────────────────────────────────────────── KILL escalation completes
 # The body dies on TERM, its grandchild does not. The main process used to kill

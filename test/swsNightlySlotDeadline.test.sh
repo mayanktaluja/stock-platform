@@ -151,7 +151,7 @@ overrun_case() {  # overrun_case <next_slot_offset_sec> <run_age_sec> [extra env
   && ok "unknown slot (unreadable %z leaves NEXT empty) → never an overrun" || bad "unknown slot" "$(bash "${WORK}/overrun-noslot.sh" 2>&1 | tail -2)"
 
 # … and the exec it gates.
-reexec_case() {  # reexec_case <SLOT_REEXEC 0|1>
+reexec_case() {  # reexec_case <SLOT_REEXEC 0|1> [OVERRUN_NOW=1] [GROUP_ALIVE=1]
   mkdir -p "${WORK}/lock"
   {
     echo 'set -uo pipefail'
@@ -159,12 +159,15 @@ reexec_case() {  # reexec_case <SLOT_REEXEC 0|1>
     echo "LOCK_DIR='${WORK}/lock'"
     echo 'ts() { date "+%H:%M:%S"; }'
     echo 'SWS_NIGHTLY_NEXT_SLOT_EPOCH=$(( $(date +%s) - 600 ))'
+    echo 'sws_slot_overrun() { [ "${OVERRUN_NOW:-0}" = "1" ]; }'
+    echo 'sws_group_alive() { [ "${GROUP_ALIVE:-0}" = "1" ]; }'
     echo "SLOT_REEXEC=$1"
     echo 'trap '\''echo EXIT_TRAP_RAN'\'' EXIT'
     echo "${REEXEC_BLOCK}"
     echo 'echo "NO REEXEC"; exit 10'
   } > "${WORK}/reexec.sh"
-  env TEST_LOCK_DIR="${WORK}/lock" SWS_NIGHTLY_REEXECED=1 bash "${WORK}/reexec.sh" 2>&1
+  shift
+  env "$@" TEST_LOCK_DIR="${WORK}/lock" SWS_NIGHTLY_REEXECED=1 bash "${WORK}/reexec.sh" 2>&1
 }
 
 OUT="$(reexec_case 1)"
@@ -183,6 +186,19 @@ printf '%s' "${OUT}" | grep -q 'launchd dropped that fire' \
 OUT="$(reexec_case 0)"
 printf '%s' "${OUT}" | grep -q 'NO REEXEC' && printf '%s' "${OUT}" | grep -q 'EXIT_TRAP_RAN' \
   && ok "no overrun → plain exit 10, lock released by the EXIT trap as before" || bad "no re-exec" "$(printf '%s' "${OUT}" | tr '\n' ' ')"
+
+# The abort mail can itself carry the teardown past the slot (it is bounded on
+# wall clock, but a sleeping host's wall clock runs fast): ask again after it.
+OUT="$(reexec_case 0 OVERRUN_NOW=1)"
+printf '%s' "${OUT}" | grep -q '^FRESH RUN' \
+  && ok "slot passed DURING the abort mail → still re-execs (decision re-asked after the mail)" || bad "post-mail re-check" "$(printf '%s' "${OUT}" | tr '\n' ' ')"
+
+# Never on top of live writers: the fresh run starts with git reset --hard + clean.
+OUT="$(reexec_case 0 OVERRUN_NOW=1 GROUP_ALIVE=1)"
+printf '%s' "${OUT}" | grep -q 'NO REEXEC' && printf '%s' "${OUT}" | grep -q 'process group is still alive' \
+  && ok "slot passed but this run's process group is still alive → no re-exec, says why" || bad "group alive → no re-exec" "$(printf '%s' "${OUT}" | tr '\n' ' ')"
+grep -q 'sws_slot_overrun && ! sws_group_alive && SLOT_REEXEC=1' "${WRAPPER}" \
+  && ok "…and the pre-mail decision checks the group too" || bad "pre-mail group check" "missing"
 
 # ─────────────────────────────────────────────── static
 echo "--- static ---"

@@ -417,6 +417,37 @@ shard_progress_summary() {
     || echo "(shard progress unavailable)"
 }
 
+# Mail without letting the network hold the run hostage. On a sleeping host a
+# send can take hours of wall clock (its fetch timeout counts awake time, like
+# `sleep`), and a mail sent inline from the watchdog stopped it ticking — so the
+# deadline went unenforced and the run could still be alive at the next slot.
+#   sws_mail_async    mid-run heads-ups; the run outlives them. Output goes to
+#                     data/sws/sws-nightly-mail.log (gitignored), never to this
+#                     shell's stdout: a hung send must not hold a pipe (a manual
+#                     run piped through tee) open after the wrapper exits.
+#   sws_mail_bounded  the abort mail. NOT async: launchd kills the job's process
+#                     group when the job exits, which would take an orphaned mail
+#                     with it. Waits ≤ N wall-clock seconds, then gives up on it.
+SWS_ABORT_MAIL_MAX_SEC="${SWS_ABORT_MAIL_MAX_SEC:-120}"
+sws_mail_async() {
+  echo "[isolated-nightly] mailing (async): $1"
+  ( send_mail "$@" ) </dev/null >> "${WORKTREE_DIR}/data/sws/sws-nightly-mail.log" 2>&1 &
+}
+sws_mail_bounded() {  # <max_sec> <subject> <body>
+  local max="$1"; shift
+  ( send_mail "$@" ) </dev/null &
+  local mail_pid=$!
+  local give_up_at=$(( $(date +%s) + max ))
+  while kill -0 "${mail_pid}" 2>/dev/null && [ "$(date +%s)" -lt "${give_up_at}" ]; do
+    sleep 1
+  done
+  if kill -0 "${mail_pid}" 2>/dev/null; then
+    echo "[isolated-nightly] mail still pending after ${max}s — not waiting for it: $1"
+    kill "${mail_pid}" 2>/dev/null || true
+  fi
+  wait "${mail_pid}" 2>/dev/null || true
+}
+
 # ── Watchdog telemetry ──
 # The 2026-09-26 and 09-29 runs were killed at the deadline and looked hung:
 # the Mac had been unplugged after the AC wait cleared, the lid shut, and it
@@ -456,7 +487,7 @@ sws_on_ac && AC_AT_LAUNCH=1
 if [ "${AC_AT_LAUNCH}" = "0" ]; then
   batt_pct="$(pmset -g batt 2>/dev/null | grep -o '[0-9]*%' | head -1)"
   echo "[isolated-nightly] starting on battery (${batt_pct:-charge unknown})"
-  send_mail "🔋 SWS nightly — starting on battery (${batt_pct:-charge unknown})" \
+  sws_mail_async "🔋 SWS nightly — starting on battery (${batt_pct:-charge unknown})" \
 "The nightly started at $(ts) on battery. It runs anyway (by design since 2026-10-09), but on battery this Mac idle-sleeps after a minute and a shut lid suspends the scrape; 2026-09-26 and 09-29 ran out of time that way. A healthy run needs 6-9h of awake time; this one aborts at $(date -r "${SWS_NIGHTLY_DEADLINE_EPOCH}" '+%Y-%m-%d %H:%M:%S' 2>/dev/null || echo "${SWS_NIGHTLY_DEADLINE_EPOCH}"), and whatever it fetched recently is reused by the next run.
 
 Plug in and keep it awake for a clean night.
@@ -471,7 +502,6 @@ fi
     sleep "${SWS_WATCHDOG_TICK_SEC}"
     wd_now="$(date +%s)"
     wd_gap=$(( wd_now - wd_last ))
-    wd_last="${wd_now}"
     if [ "${wd_gap}" -gt $(( 3 * SWS_WATCHDOG_TICK_SEC )) ]; then
       wd_suspended=$(( wd_suspended + wd_gap - SWS_WATCHDOG_TICK_SEC ))
       echo "${wd_suspended}" > "${SUSPENDED_FILE}"
@@ -484,7 +514,7 @@ fi
     elif [ "${wd_seen_ac}" = "1" ]; then
       : > "${AC_LOST_FLAG}"
       echo "[isolated-nightly] AC power lost mid-run at $(ts)"
-      send_mail "⚠️ SWS nightly — AC lost mid-run" \
+      sws_mail_async "⚠️ SWS nightly — AC lost mid-run" \
 "The Mac went onto battery at $(ts), $(( (wd_now - BODY_LAUNCH_EPOCH) / 60 ))m into the run. On battery it idle-sleeps after a minute and the scrape stops while the lid is shut; 2026-09-26 and 09-29 were lost to the deadline this way.
 
 Plug back in to keep this run alive. It aborts at $(date -r "${SWS_NIGHTLY_DEADLINE_EPOCH}" '+%Y-%m-%d %H:%M:%S' 2>/dev/null || echo "${SWS_NIGHTLY_DEADLINE_EPOCH}").
@@ -493,6 +523,9 @@ $(shard_progress_summary)
 
 $(pmset -g batt 2>&1 | head -3)"
     fi
+    # Stamped after this tick's own work (pmset, summary), so only the sleep
+    # itself can ever be counted as suspended time.
+    wd_last="$(date +%s)"
   done
   # Re-verify before signalling: the body may have exited during the last tick.
   kill -0 "${body_pid}" 2>/dev/null || exit 0
@@ -560,9 +593,11 @@ if [ -f "${DEADLINE_FLAG}" ]; then
   case "${DEADLINE_LATE_SEC}" in ''|*[!0-9-]*) DEADLINE_LATE_SEC=0 ;; esac
   # Decided once, before the mail, so the mail says what happens next; the exec
   # itself is last. (Harnesses without the slot block never re-exec.)
+  # Never while this run's group is still alive: the fresh run's first act is
+  # `git reset --hard` + `git clean -fd` on the shared worktree.
   SLOT_REEXEC=0
-  declare -F sws_slot_overrun >/dev/null && sws_slot_overrun && SLOT_REEXEC=1
-  send_mail "🚨 SWS nightly — run deadline exceeded" \
+  declare -F sws_slot_overrun >/dev/null && sws_slot_overrun && ! sws_group_alive && SLOT_REEXEC=1
+  sws_mail_bounded "${SWS_ABORT_MAIL_MAX_SEC}" "🚨 SWS nightly — run deadline exceeded" \
 "Run passed its deadline ($(date -r "${SWS_NIGHTLY_DEADLINE_EPOCH}" '+%Y-%m-%d %H:%M:%S' 2>/dev/null || echo "${SWS_NIGHTLY_DEADLINE_EPOCH}"), ${RUN_H}h after launch) and was aborted at $(ts) so the next 00:30 IST slot is not suppressed. No SWS data shipped this run.
 $( [ "${SLOT_REEXEC}" = "1" ] && echo "
 The teardown finished after the $(date -r "${SWS_NIGHTLY_NEXT_SLOT_EPOCH}" '+%m-%d %H:%M' 2>/dev/null || echo next) slot, so launchd dropped that fire: a fresh run starts now in its place." )
@@ -587,7 +622,15 @@ The 2026-08-08 run ran 24h36m and silently consumed the following day's slot; th
   # reuses whatever this one fetched recently. exec skips the EXIT trap: release
   # the lock by hand. SWS_NIGHTLY_REEXECED is cleared so the fresh run re-execs
   # origin/main's wrapper exactly as a launchd fire would. Never for a run under
-  # 1h (no tight loop), never without a known slot (sws_slot_overrun).
+  # 1h (no tight loop), never without a known slot (sws_slot_overrun). Asked
+  # again after the mail: the mail itself can carry the teardown past the slot.
+  if [ "${SLOT_REEXEC:-0}" != "1" ] && declare -F sws_slot_overrun >/dev/null && sws_slot_overrun; then
+    if sws_group_alive; then
+      echo "[isolated-nightly] the next slot has passed but this run's process group is still alive — not starting a fresh run on top of it"
+    else
+      SLOT_REEXEC=1
+    fi
+  fi
   if [ "${SLOT_REEXEC:-0}" = "1" ]; then
     echo "[isolated-nightly] the $(date -r "${SWS_NIGHTLY_NEXT_SLOT_EPOCH}" '+%m-%d %H:%M' 2>/dev/null || echo next) slot passed while this run was alive and launchd dropped that fire — starting it now ($(ts))"
     rm -rf "${LOCK_DIR}" 2>/dev/null || true
