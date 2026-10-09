@@ -47,4 +47,4 @@ After it exits:
 - Surface a one-line summary from `data/sws/last-refresh.json` (mode, scored_count, shards_failed, duration).
 - If the run opened a PR, report the PR URL and its merge state (`gh pr view --json url,state,mergedAt`).
 - Exit 0 with a "skipping — another nightly running" message means the guard fired; report that and tell the user to retry after the current run finishes.
-- If exit code is 3 (`panic-stop` set), DO NOT clear the flag automatically — surface `data/sws/panic-stop.flag` and ask whether to resume.
+- If exit code is 3 (`panic-stop` set), DO NOT clear the flag yourself — show `node scripts/sws-panic-policy.mjs status` and ask whether to resume. Note it expires on its own per `scripts/sws-panic-policy.mjs` (6h → 30h → 78h → human, escalating on consecutive trips with no clean scrape between); an early clear is `node scripts/sws-panic-policy.mjs clear --reason "<why>"`, only on the user's say-so.

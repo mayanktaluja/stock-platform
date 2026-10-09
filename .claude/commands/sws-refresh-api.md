@@ -45,7 +45,7 @@ A daily run is already scheduled at 02:00 IST via the `sws-api-refresh-daily` ta
 
 | Symptom | Action |
 |---|---|
-| Exit 3 — panic flag set | Inspect `data/sws/panic-stop.flag`, then delete to resume. Never auto-clear. |
+| Exit 3 — panic flag set | Show `node scripts/sws-panic-policy.mjs status`. The flag expires on its own (6h → 30h → 78h → human). Never clear it yourself; an early clear is `node scripts/sws-panic-policy.mjs clear --reason "<why>"` on the user's say-so. |
 | Exit 4 — panic during scrape | Same. Look at `data/sws/refresh-api-shard-{1,2,3}.log` for the trigger. |
 | Cloudflare 403 / 429 in logs | Stop. Wait 1+ hour before retry. If recurring, lower `RATE_CAPS.maxStocksPerMinutePerShard` in `scripts/sws-config.mjs`. |
 | `search_phase_execution_exception` in failed-stocks | SWS OpenSearch backend overload. Non-fatal. Will recover. |

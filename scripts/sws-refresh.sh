@@ -52,11 +52,17 @@ echo ""
 echo "=== refresh started: $(ts) mode=${MODE} pid=$$ ==="
 
 # ---------- 1. Pre-flight: panic check ----------
+# Run-start gate: archives an expired flag (scripts/sws-panic-policy.mjs),
+# refuses an active one. The step-5 re-check stays existence-only.
 
+if [ -e data/sws/panic-stop.flag ]; then
+  node scripts/sws-panic-policy.mjs gate --data-dir data/sws 2>&1 | sed -n '1,/^---$/p' | sed 's/^/[panic-policy] /'
+fi
 if ! node scripts/sws-deep-scrape.mjs check-panic >/dev/null 2>&1; then
   echo "[refresh] panic-stop flag is set → refusing to run"
-  echo "[refresh] inspect: cat data/sws/panic-stop.flag"
-  echo "[refresh] clear:   rm data/sws/panic-stop.flag"
+  echo "[refresh] inspect: node scripts/sws-panic-policy.mjs status"
+  echo "[refresh] it expires on its own; clear early only after checking SWS in a browser:"
+  echo "[refresh]   node scripts/sws-panic-policy.mjs clear --reason \"<why>\""
   exit 3
 fi
 

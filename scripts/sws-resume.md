@@ -82,7 +82,7 @@ Then in 3 terminals: `claude` → `/sws-resume`.
 UI shows red banner with reason + shard + timestamp. Steps:
 
 1. Check SWS in browser: any unread email about unusual activity? Can you load any stock page normally? Subscription still active?
-2. **If everything looks normal**: likely false positive. Delete `data/sws/panic-stop.flag` and run `/sws-resume-shard {N}` for each halted shard.
+2. **If everything looks normal**: likely false positive. The flag expires on its own (`node scripts/sws-panic-policy.mjs status`); to resume now, `node scripts/sws-panic-policy.mjs clear --reason "<why>"` and run `/sws-resume-shard {N}` for each halted shard.
 3. **If anything looks off**: STOP. Don't resume. Subscription is more important than the scan.
 4. Worst case: contact SWS support — paid users doing personal research are typically reinstated quickly.
 
@@ -175,6 +175,6 @@ When a Playwright tab parse comes back empty/null, the driver appends to `data/s
 - **Long pause**: every 20-30 stocks, a 2-5 min "human stepped away" pause.
 - **Rate cap**: hard limit of 2 stocks/min/shard, 400 stocks/day/shard.
 - **Detection**: scans every page for HTTP 429, captcha text, login redirects, "rate limited" / "unusual activity" banners, anomalous slow loads.
-- **Panic-stop**: ANY signal halts ALL 3 shards immediately; flag must be manually deleted to resume.
+- **Panic-stop**: ANY signal halts ALL 3 shards immediately; the flag then expires per `scripts/sws-panic-policy.mjs` (6h → 30h → 78h → human) or is cleared early with `clear --reason`.
 - **Account health**: every 50 stocks, navigates to dashboard and verifies still logged in.
 - **Stagger**: shards started 2 hrs apart at the beginning so SWS sees gradual ramp, not 3× simultaneous load.

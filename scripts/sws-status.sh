@@ -100,6 +100,28 @@ show() {
     echo "  unlocked"
   fi
 
+  # ─── 3b. Panic flag ───
+  # A set flag refuses every nightly until it expires (2026-10-01 → 10-09 was
+  # nine refused nights that this snapshot never mentioned). Check the isolated
+  # nightly worktree EXPLICITLY: on a refused night nothing is running, so
+  # DATA_DIR falls back to the primary checkout — which never holds the flag.
+  echo
+  echo "── panic flag ──"
+  PANIC_SEEN=0
+  for panic_dir in "${SWS_NIGHTLY_WORKTREE_DIR:-${HOME}/.Codex/worktrees/stock-platform-sws-nightly}/data/sws" "$(dirname "$(data_path "data/sws/panic-stop.flag")")"; do
+    [ -f "${panic_dir}/panic-stop.flag" ] || continue
+    case " ${PANIC_SEEN_DIRS:-} " in *" ${panic_dir} "*) continue ;; esac
+    PANIC_SEEN_DIRS="${PANIC_SEEN_DIRS:-} ${panic_dir}"
+    PANIC_SEEN=1
+    echo "  in ${panic_dir}:"
+    if [ -f scripts/sws-panic-policy.mjs ]; then
+      node scripts/sws-panic-policy.mjs status --data-dir "${panic_dir}" 2>&1 | head -14 | sed 's/^/    /'
+    else
+      echo "    🚨 SET: $(tr -d '\n' < "${panic_dir}/panic-stop.flag" | cut -c1-200)"
+    fi
+  done
+  [ "${PANIC_SEEN}" = "1" ] || echo "  none"
+
   # ─── 4. Per-shard live progress ───
   echo
   echo "── shard progress (file-based) ──"

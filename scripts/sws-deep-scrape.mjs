@@ -18,6 +18,7 @@ import path from "node:path";
 import {
   PATHS, SHARD_COUNT, RATE_CAPS, PANIC_SIGNALS, HUMANISATION, indicesForShard,
 } from "./sws-config.mjs";
+import { recordTrip } from "./sws-panic-policy.mjs";
 
 function readJson(p, fallback = null) {
   if (!fs.existsSync(p)) return fallback;
@@ -160,11 +161,10 @@ export function checkPanicStop() {
   if (!fs.existsSync(PATHS.panicStop)) return { halted: false };
   return { halted: true, info: readJson(PATHS.panicStop) };
 }
+// Routed through the shared policy so DOM-driver and slash-command trips get the
+// same expires_at + escalation as the API scrapers (scripts/sws-panic-policy.mjs).
 export function recordPanicStop(reason, shardId, evidence) {
-  writeJsonAtomic(PATHS.panicStop, {
-    reason, shard_id: shardId, evidence,
-    detected_at: new Date().toISOString(),
-  });
+  recordTrip({ dataDir: path.dirname(PATHS.panicStop), reason, shardId, evidence });
 }
 
 // ---------- Page-text safety scan ----------

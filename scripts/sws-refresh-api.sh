@@ -82,14 +82,23 @@ SWS_MAIL_FN() {
 echo "=== refresh-api started: $(ts) pid=$$ ==="
 
 # ---------- 1. Pre-flight: panic flag ----------
+#
+# Run-start gate: an expired flag is archived and the run proceeds; an active
+# one refuses. Mid-run checks below (step 5, and the per-stock check inside
+# sws-api-scrape.mjs) stay "file exists == halted", which is only correct
+# because this gate guarantees no flag exists when the shards start.
+# See scripts/sws-panic-policy.mjs for the expiry/escalation policy.
 
-if ! node scripts/sws-deep-scrape.mjs check-panic >/dev/null 2>&1; then
+if [ -e data/sws/panic-stop.flag ]; then
+  node scripts/sws-panic-policy.mjs gate --data-dir data/sws 2>&1 | sed -n '1,/^---$/p' | sed 's/^/[panic-policy] /'
+fi
+if [ -e data/sws/panic-stop.flag ]; then
   echo "[refresh-api] PANIC flag set — refusing to run"
-  SWS_MAIL_FN "🚨 SWS refresh aborted — PANIC flag set" "The daily SWS refresh wrapper refused to start because data/sws/panic-stop.flag is set.
+  SWS_MAIL_FN "🚨 SWS refresh aborted — PANIC flag set" "The SWS refresh refused to start because data/sws/panic-stop.flag is still binding.
 
-$(cat data/sws/panic-stop.flag 2>/dev/null | head -30)
+$(node scripts/sws-panic-policy.mjs status --data-dir data/sws 2>&1 | head -40)
 
-Manual review required. Inspect Simply Wall Street in your browser to confirm there's no block / suspension, then delete data/sws/panic-stop.flag to allow the next run to proceed."
+It expires on its own (see 'expires' above) and the first run after that proceeds. Clear it early only after checking simplywall.st in a browser."
   exit 3
 fi
 
@@ -118,6 +127,10 @@ PIDS=()
 FAIL=0
 ELAPSED=0
 SCRAPE_SKIPPED=false
+# Σ done_count before the shards start; after − before is what SWS actually
+# served this run (feeds the panic policy's clean_run, see step 5). Empty when
+# the snapshot fails, which skips the clean record rather than over-counting.
+PANIC_SERVED_BEFORE=""
 
 if [ -n "${LIVE_SHARDS}" ]; then
   echo "[refresh-api] shards [${LIVE_SHARDS}] already running → exiting without parse/score so stale data cannot be republished"
@@ -182,6 +195,13 @@ EOF
       if [ "${rc}" -eq 0 ]; then
         return 0
       fi
+      # 3 = panic flag already set at start, 4 = this shard raised it. A retry
+      # can only hit the flag and exit 3 again (2026-09-30: rc 4 → 3 → 3, 60s
+      # of sleeps for nothing), so stop here and let step 5 report the panic.
+      if [ "${rc}" -eq 3 ] || [ "${rc}" -eq 4 ]; then
+        echo "[refresh-api] shard ${SHARD} exited rc=${rc} (panic) — not retrying" >> "${LOG}"
+        return "${rc}"
+      fi
       attempt=$((attempt + 1))
       if [ "${attempt}" -gt "${SHARD_MAX_RETRIES}" ]; then
         echo "[refresh-api] shard ${SHARD} failed after ${SHARD_MAX_RETRIES} retries (last rc=${rc})" >> "${LOG}"
@@ -192,6 +212,7 @@ EOF
     done
   }
 
+  PANIC_SERVED_BEFORE="$(node scripts/sws-panic-policy.mjs served-count --data-dir data/sws 2>/dev/null || true)"
   for SHARD in 1 2 3; do
     run_shard_with_retry "${SHARD}" &
     PIDS+=("$!")
@@ -219,11 +240,22 @@ if ! node scripts/sws-deep-scrape.mjs check-panic >/dev/null 2>&1; then
 elapsed before panic: ${ELAPSED}s
 shards failed: ${FAIL}
 
-$(cat data/sws/panic-stop.flag 2>/dev/null | head -30)
+$(node scripts/sws-panic-policy.mjs status --data-dir data/sws 2>&1 | head -40)
 
-Inspect data/sws/refresh-api-shard-{1,2,3}.log for the trigger event, then delete data/sws/panic-stop.flag once you've reviewed."
+The flag expires on its own (see 'expires' above); the next nightly after that runs normally, or waits for it if it lapses within a few hours of the 00:30 slot. The trigger event is in data/sws/refresh-api-shard-{1,2,3}.log."
   exit 4
 fi
+
+# No panic and SWS demonstrably served this run (≥ half the universe fetched,
+# measured on done_count — NOT shard exit codes, which are 0 after a night of
+# 503s): record clean_run. It is the ONLY event that resets the panic
+# escalation streak (expiry alone does not), so a genuinely blocked account
+# backs off 6h → 30h → 78h → human instead of being re-probed forever.
+case "${PANIC_SERVED_BEFORE}" in
+  ''|*[!0-9]*) echo "[refresh-api] panic policy: no served-count snapshot — not recording clean_run" ;;
+  *) node scripts/sws-panic-policy.mjs record-clean --data-dir data/sws --served-since "${PANIC_SERVED_BEFORE}" \
+       --note "refresh-api ${ELAPSED}s, ${FAIL} shard(s) failed" 2>&1 | sed 's/^/[panic-policy] /' ;;
+esac
 
 # ---------- 5b. Refresh NSE event-calendar cache ----------
 #

@@ -22,6 +22,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import * as usCfg from "./sws-config-us.mjs";
 import { createClient, fetchStockData, TransportError } from "./sws-api-client.mjs";
+import { recordTrip } from "./sws-panic-policy.mjs";
 import { shardSliceContiguous } from "./sws-shard-partition.mjs";
 
 const { PATHS, SHARD_COUNT } = usCfg;
@@ -88,18 +89,15 @@ function loadUniverse() {
 const shardSlice = (universe, shardId, totalShards = SHARD_COUNT) =>
   shardSliceContiguous(universe, shardId, totalShards);
 
+// Existence, not expiry — sws-refresh-us.sh's run-start gate archives an
+// expired flag first, so a flag seen here was written by this run.
 function checkPanic() {
   return fs.existsSync(PANIC_FLAG);
 }
 
-function recordPanic(reason, shardId, evidence) {
-  const info = {
-    reason,
-    shard_id: shardId,
-    evidence: typeof evidence === "string" ? evidence : JSON.stringify(evidence),
-    detected_at: new Date().toISOString(),
-  };
-  fs.writeFileSync(PANIC_FLAG, JSON.stringify(info, null, 2));
+// Same shared policy as India (expires_at + escalation); see sws-panic-policy.mjs.
+function recordPanic(reason, shardId, evidence, extra = {}) {
+  recordTrip({ dataDir: path.dirname(PANIC_FLAG), reason, shardId, evidence, extra });
 }
 
 function loadProgress(shardId) {
@@ -223,7 +221,10 @@ async function main() {
               status: e.status,
               body: (typeof e.body === "string" ? e.body : JSON.stringify(e.body || {})).slice(0, 200),
             });
-            recordPanic(`api:${e.kind}`, shardId, `status=${e.status}`);
+            recordPanic(`api:${e.kind}`, shardId, `status=${e.status}`, {
+              ticker,
+              body_head: (typeof e.body === "string" ? e.body : JSON.stringify(e.body || {})).slice(0, 200),
+            });
             exitCode = 4;
             break;
           }
