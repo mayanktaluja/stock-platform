@@ -83,11 +83,13 @@ echo "sws-nightly-isolated.sh AC wait"
 echo ""
 
 # ---------------------------------------------------------------- case 1
-# On battery for 3 polls, then the charger comes back → proceed.
+# On battery for 3 polls, then the charger comes back → proceed. 4 battery
+# answers: the entry check, the deferral mail's own `pmset -g batt` read, then
+# two polls that sleep.
 harness 300 > "${WORK}/ac1.sh"
 : > "${WORK}/count1"
 START=$(date +%s)
-OUT=$(PMSET_COUNT_FILE="${WORK}/count1" PMSET_BATTERY_CALLS=3 \
+OUT=$(PMSET_COUNT_FILE="${WORK}/count1" PMSET_BATTERY_CALLS=4 \
       SWS_AC_POLL_SEC=1 \
       bash "${WORK}/ac1.sh" 2>&1)
 RC=$?
@@ -109,6 +111,19 @@ if printf '%s' "${OUT}" | grep -q "AC restored"; then
   ok "announces recovery"
 else
   bad "announces recovery" "missing"
+fi
+
+# The deferral is mailed while it can still be fixed: plugging in at 01:00
+# buys the whole budget, plugging in at 18:00 buys a run that cannot finish.
+if printf '%s' "${OUT}" | grep -q "\[mail\] 🔌 SWS nightly — on battery, waiting for AC"; then
+  ok "mails when the deferral starts"
+else
+  bad "mails when the deferral starts" "$(printf '%s' "${OUT}" | tr '\n' ' ')"
+fi
+if [ "$(printf '%s\n' "${OUT}" | grep -c '\[mail\] 🔌')" = "1" ]; then
+  ok "…once, not once per poll"
+else
+  bad "deferral mailed once" "$(printf '%s\n' "${OUT}" | grep -c '\[mail\] 🔌') mails"
 fi
 
 if [ "${ELAPSED}" -ge 2 ] && [ "${ELAPSED}" -lt 30 ]; then
@@ -158,6 +173,11 @@ if printf '%s' "${OUT3}" | grep -q "PROCEEDED" && ! printf '%s' "${OUT3}" | grep
   ok "already on AC → proceeds immediately, no deferral"
 else
   bad "already on AC → proceeds immediately" "$(printf '%s' "${OUT3}" | tr '\n' ' ')"
+fi
+if ! printf '%s' "${OUT3}" | grep -q "\[mail\]"; then
+  ok "already on AC → no mail"
+else
+  bad "already on AC → no mail" "$(printf '%s' "${OUT3}" | grep '\[mail\]')"
 fi
 
 if [ "${ELAPSED3}" -lt 3 ]; then
