@@ -36,6 +36,7 @@ import {
   fetchStockData,
   TransportError,
 } from "./sws-api-client.mjs";
+import { recordTrip } from "./sws-panic-policy.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, "..");
@@ -142,18 +143,18 @@ export function resolveSlice(universe, shardId, explicitTickers) {
   return shardSlice(universe, shardId);
 }
 
+// Existence, not expiry: the run-start gates (sws-nightly.sh step 0,
+// sws-refresh-api.sh step 1) archive an expired flag before any shard starts,
+// so a flag seen here was written by this run and must halt it.
 function checkPanic() {
   return fs.existsSync(PANIC_FLAG);
 }
 
-function recordPanic(reason, shardId, evidence) {
-  const info = {
-    reason,
-    shard_id: shardId,
-    evidence: typeof evidence === "string" ? evidence : JSON.stringify(evidence),
-    detected_at: new Date().toISOString(),
-  };
-  fs.writeFileSync(PANIC_FLAG, JSON.stringify(info, null, 2));
+// Stamps expires_at + escalation via the shared policy — a bare writeFileSync
+// here is what made one transient 403 refuse every night until a human
+// noticed (2026-09-30 → 10-09). See scripts/sws-panic-policy.mjs.
+function recordPanic(reason, shardId, evidence, extra = {}) {
+  recordTrip({ dataDir: path.dirname(PANIC_FLAG), reason, shardId, evidence, extra });
 }
 
 function loadProgress(shardId) {
@@ -290,7 +291,10 @@ async function main() {
               status: e.status,
               body: (typeof e.body === "string" ? e.body : JSON.stringify(e.body || {})).slice(0, 200),
             });
-            recordPanic(`api:${e.kind}`, shardId, `status=${e.status}`);
+            recordPanic(`api:${e.kind}`, shardId, `status=${e.status}`, {
+              ticker,
+              body_head: (typeof e.body === "string" ? e.body : JSON.stringify(e.body || {})).slice(0, 200),
+            });
             exitCode = 4;
             break;
           }

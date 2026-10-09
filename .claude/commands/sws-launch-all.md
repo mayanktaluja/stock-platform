@@ -18,7 +18,7 @@ If any prerequisite is missing, **stop and tell the user** before scheduling any
 ## Protocol
 
 ### Step 0: Pre-flight
-1. Run `node scripts/sws-deep-scrape.mjs check-panic`. If exit 1, stop — panic-stop flag is active. Tell the user to review and delete `data/sws/panic-stop.flag`.
+1. Run `node scripts/sws-deep-scrape.mjs check-panic`. If exit 1, stop — panic-stop flag is active. Show `node scripts/sws-panic-policy.mjs status` (it says when the flag expires) and ask the user how to proceed.
 2. Verify universe exists: `ls data/sws/universe.json`. If missing, run `node scripts/sws-build-universe.mjs --seed`.
 3. Verify 3 browsers connected. Use `mcp__Claude_in_Chrome__list_connected_browsers`. If fewer than 3 connected, ask the user to open more Chrome windows before proceeding. (1 browser = sequential, 2 = partial parallel — both work but slower than 3.)
 4. List existing scheduled tasks via `mcp__scheduled-tasks__list_scheduled_tasks`. If any `sws-shard-*` or `sws-watcher` tasks already exist, list them to the user and confirm whether to replace or skip.
@@ -100,7 +100,7 @@ Otherwise:
   Watcher: every 30 min            (auto-fires /sws-finalise when all complete)
 
 Walk away. Check the Picks tab in the dashboard for live status.
-If you see a 🚨 panic banner: review SWS in browser, decide, then delete data/sws/panic-stop.flag.
+If you see a 🚨 panic banner: it expires on its own (`node scripts/sws-panic-policy.mjs status`). To resume early, review SWS in a browser, then `node scripts/sws-panic-policy.mjs clear --reason "<why>"`.
 
 Estimated completion: ~3 days from now (~T+76h).
 ```
@@ -110,4 +110,4 @@ Estimated completion: ~3 days from now (~T+76h).
 - **Never schedule more than 1 watcher.** If one already exists, update it instead of creating a duplicate (causes double scoring runs).
 - **Never schedule with fireAt in the past.** Always use timestamps from Step 1 directly.
 - **If user has fewer than 3 browsers connected**, schedule only that many shards. The other shard(s) can be launched manually later via `/sws-scan-shard N`.
-- **Never delete a panic-stop flag automatically.** That requires user review.
+- **Never clear a panic-stop flag yourself.** It expires on its own per `scripts/sws-panic-policy.mjs`; clearing it early requires user review.

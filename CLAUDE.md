@@ -98,6 +98,53 @@ NSE traffic.
 
 ---
 
+## SWS panic-stop flag — expires, never permanent
+
+Any 403/429 from SWS during a scrape still halts every shard of that run
+immediately (account safety). What changed (2026-10-09) is how long the halt
+outlives the run. Every writer goes through `scripts/sws-panic-policy.mjs`,
+which stamps `expires_at` on `data/sws/panic-stop.flag` (and
+`data/sws-us/…`):
+
+| Consecutive trips since the last clean scrape | Flag binds for |
+|---|---|
+| 1 | 6h — a trip before 18:30 IST is gone by the next 00:30 slot |
+| 2 | 30h |
+| 3 | 78h |
+| 4+ | no expiry — `requires_manual_clear`, mails "HUMAN NEEDED" |
+
+- **Only a clean scrape resets the streak**: `sws-refresh-api.sh` records
+  `clean_run` when there is no panic AND the run actually fetched ≥50% of the
+  universe (`done_count` delta in `progress-api-*.json`). Shard exit codes are
+  not evidence — a shard exits 0 after a night of 503s. Expiry does not reset
+  it, so a real block is re-probed at most 4 times before it waits for a human.
+- **Run-start gates archive an expired flag** (`panic-archive/`, never
+  deleted) and proceed: `sws-nightly.sh` step 0 (which also *waits* up to
+  `SWS_PANIC_MAX_WAIT_SEC`=8h for a flag about to lapse, but only if a full
+  run still fits before the wrapper's exported `SWS_NIGHTLY_DEADLINE_EPOCH`;
+  never on `--dry-run` unless asked), `sws-refresh-api.sh`
+  step 1, `sws-refresh-us.sh`, `sws-refresh.sh`. Mid-run checks stay "file
+  exists == halted", which is only correct because of that invariant.
+- State (`panic-history.ndjson`, `panic-archive/`) is **gitignored on
+  purpose**: the isolated wrapper's `git clean -fd` keeps ignored files, and
+  that is what lets the streak escalate across nights.
+- Inspect: `node scripts/sws-panic-policy.mjs status` (also in `/sws-status`).
+  Early clear, only after checking SWS in a browser:
+  `node scripts/sws-panic-policy.mjs clear --reason "<why>"`.
+
+**Why:** the flag used to have no expiry. Five one-shard transient Cloudflare
+challenges (2026-08-20 → 09-30) each refused every nightly until a human
+deleted the file — the last one cost 9 straight nights (10-01 → 10-09).
+**Do not reintroduce a write that bypasses `recordTrip`.**
+
+```bash
+node test/swsPanicPolicy.test.mjs        # ladder, 09-30 flag replay, 60-night block sim, coverage clean, git-clean survival
+bash test/swsNightlyPanicGate.test.sh    # step-0 gate: auto-clear / wait / deadline cap / refuse / manual / fail-closed
+bash test/swsRefreshApiPanic.test.sh     # step-1 gate, no retry on panic rc, coverage-based clean_run
+```
+
+---
+
 ## Dividends to capture (Portfolio Analyzer)
 
 Per-holding upcoming ex-dividend tracker surfaced on the Portfolio

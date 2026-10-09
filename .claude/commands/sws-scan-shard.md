@@ -158,8 +158,9 @@ ACTION REQUIRED — do NOT resume until you have:
 
 To resume after you are satisfied:
   node scripts/sws-deep-scrape.mjs check-panic && echo "clear to go"
-  # If the flag is still there, delete it:
-  rm data/sws/panic-stop.flag
+  # If the flag is still there (it expires on its own — see
+  # `node scripts/sws-panic-policy.mjs status`), clear it early with a reason:
+  node scripts/sws-panic-policy.mjs clear --reason "<why>"
   # Then: /sws-resume-shard {N}
 ```
 
@@ -178,7 +179,7 @@ After Step 0.3, if `progress.done_count === 0` and `progress.last_run_at === nul
 
 ## Hard rules — do not violate
 
-1. **Never proceed past a panic-stop signal.** If `check-panic` returns 1 OR `detect-signals` returns 1, halt immediately — no next session scheduled. The user must manually review and delete the flag before resuming.
+1. **Never proceed past a panic-stop signal.** If `check-panic` returns 1 OR `detect-signals` returns 1, halt immediately — no next session scheduled. The flag expires on its own per `scripts/sws-panic-policy.mjs`; resuming before that needs the user's review and `node scripts/sws-panic-policy.mjs clear --reason "<why>"`.
 2. **Never skip inter-tab or inter-stock waits.** Every wait uses `python3 -c "import time; time.sleep(N)"` — bash `sleep` is sandbox-blocked. Never rely on MCP round-trip latency as a substitute.
 3. **Never click anything other than the search dropdown result and the sidebar tabs.** No sponsored links, no pop-ups, no captchas.
 4. **Never scrape the same stock twice in a session** — if `last_ticker` matches the upcoming stock, skip it.

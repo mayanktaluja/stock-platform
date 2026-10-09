@@ -478,7 +478,7 @@ async function main() {
   }
 
   if (checkPanic(config)) {
-    console.error(`[news:${config.market}] panic-stop.flag is set — refusing to run. Inspect ${config.panicFlag} and remove it manually after review.`);
+    console.error(`[news:${config.market}] panic-stop.flag is set — refusing to run. It expires on its own — see \`node scripts/sws-panic-policy.mjs status\` (${config.panicFlag}).`);
     process.exit(3);
   }
 

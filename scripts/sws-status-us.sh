@@ -106,7 +106,7 @@ if [ -f "$DATA_DIR/picks-latest.json" ]; then
   node -e "const p=JSON.parse(require('fs').readFileSync('$DATA_DIR/picks-latest.json','utf8'));console.log('  scored_count:',(p.scored_count??'?'),'| currency:',(p.currency??'?'),'| scanned_at:',(p.scanned_at??'?'));const s=p.sections||{};console.log('  sections:',Object.keys(s).map(k=>k+'='+(Array.isArray(s[k])?s[k].length:'?')).join(', '))" 2>/dev/null
 else echo "  (no picks-latest.json yet)"; fi
 
-if [ -f "$DATA_DIR/panic-stop.flag" ]; then echo ""; echo "  ! PANIC FLAG SET -- US refresh refuses until removed: $DATA_DIR/panic-stop.flag"; fi
+if [ -f "$DATA_DIR/panic-stop.flag" ]; then echo ""; echo "  ! PANIC FLAG SET -- US refresh refuses until it expires:"; node "$REPO/scripts/sws-panic-policy.mjs" status --data-dir "$DATA_DIR" 2>&1 | head -8 | sed "s/^/    /"; fi
 
 echo ""
 echo "-- logs (tail -f to watch) --"

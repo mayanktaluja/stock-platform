@@ -14133,7 +14133,7 @@ async function tickPicksStatus() {
     const s = await res.json();
     nextDelay = isScanStatusHot(s) ? SCAN_STATUS_FAST_POLL_MS : SCAN_STATUS_IDLE_POLL_MS;
     if (s.panic_stop && s.panic_stop.active) {
-      showPicksBanner("panic", `🚨 Scrape halted: <strong>${s.panic_stop.reason}</strong> (shard ${s.panic_stop.shard_id}) at ${new Date(s.panic_stop.detected_at).toLocaleTimeString()}. Review SWS account, then delete <code>data/sws/panic-stop.flag</code> to resume.`);
+      showPicksBanner("panic", `🚨 Scrape halted: <strong>${s.panic_stop.reason}</strong> (shard ${s.panic_stop.shard_id}) at ${new Date(s.panic_stop.detected_at).toLocaleTimeString()}. ${s.panic_stop.expires_at ? `Auto-resumes after ${new Date(s.panic_stop.expires_at).toLocaleString()}.` : (s.panic_stop.requires_manual_clear ? "Repeated trips — needs a manual review." : "Expires on its own.")} Early clear: <code>node scripts/sws-panic-policy.mjs clear --reason "…"</code>`);
       return;
     }
     if (s.in_progress) {

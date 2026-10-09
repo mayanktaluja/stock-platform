@@ -77,7 +77,12 @@ The client is invisible to Cloudflare for these reasons:
    suspicious for an authenticated session).
 5. **Honors all existing safety hooks** — panic flag, per-minute rate cap
    subcommand in `sws-deep-scrape.mjs`. A panic-stop halts ALL shards
-   within the next stock check.
+   within the next stock check. The flag itself is NOT permanent: every
+   writer goes through `scripts/sws-panic-policy.mjs`, which stamps
+   `expires_at` (6h → 30h → 78h for consecutive trips with no clean scrape
+   between, then human-only) and the run-start gates archive it once expired.
+   A permanent flag is what turned one transient 403 on 2026-09-30 into nine
+   refused nightlies.
 
 ## Daily refresh
 

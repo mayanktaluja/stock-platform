@@ -104,6 +104,13 @@ data/sws/universe-sitemap-dropped.json
 data/sws/universe_scraped.json
 data/sws/refresh-requested.json
 data/sws/panic-stop.flag
+# Panic-policy state (scripts/sws-panic-policy.mjs). MUST stay ignored: the
+# isolated nightly resets with `git clean -fd` (no -x), which deletes untracked
+# files but keeps ignored ones — so ignoring is what lets the escalation streak
+# survive from one night to the next.
+data/sws/panic-history.ndjson
+data/sws/panic-history.ndjson.tmp.*
+data/sws/panic-archive/
 data/sws/picks-latest.json.tmp.*
 data/sws/chronos-ohlcv-cache/
 data/sws/chronos-model-cache/

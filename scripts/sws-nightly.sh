@@ -5,7 +5,8 @@
 # Code dependency.
 #
 # Pipeline:
-#   0. Panic gate  — refuses before any mail; a flagged run never "starts"
+#   0. Panic gate  — auto-clears an expired flag, waits out one that lapses soon,
+#                    else refuses before any mail; a refused run never "starts"
 #   0b. Mail: "run started" heads-up (before remaining pre-flight; pairs with abort mail)
 #   1. Pre-flight  — AC power, network reachable
 #   2. git pull main (so we're not racing a human commit)
@@ -264,44 +265,110 @@ send_mail() {
 }
 
 # ---- 0. Panic gate ----
-# Runs before the run-started mail on purpose: a flagged run is refused, not
-# started, so it must never announce a start. Only the 🚨 mail below is sent.
+# Runs before the run-started mail on purpose: a refused run must never announce
+# a start (that is how 2026-09-10 → 09-17 went unnoticed).
 #
 # The flag is gitignored and the isolated wrapper cleans with `git clean -fd`
-# (no -x), so it SURVIVES the worktree reset and blocks every subsequent run
-# until a human deletes it. Nothing else alerts on that, which makes this mail
-# the only signal — hence the explicit day count.
-if [ -f data/sws/panic-stop.flag ]; then
+# (no -x), so it SURVIVES the worktree reset. Before scripts/sws-panic-policy.mjs
+# it also had no expiry, so ONE transient 403 refused every run until a human
+# deleted it — 9 straight nights from 2026-10-01 to 10-09, the fifth time. Now:
+#   - an expired flag is archived (panic-archive/) and the run proceeds;
+#   - an active flag that lapses within SWS_PANIC_MAX_WAIT_SEC is waited out, so
+#     a trip late in the evening costs hours, not the next whole day — but only
+#     if a full run (SWS_PANIC_RUN_BUDGET_SEC) still fits before the wrapper's
+#     deadline; a wait that ends in a deadline kill burns a scrape for nothing;
+#   - anything else (long TTL, or 4+ consecutive trips that need a human) refuses.
+# The policy only runs when a flag exists, and if it cannot clear the file the
+# run is refused — the CLI failing must never be read as "clear".
+PANIC_FLAG_PATH="data/sws/panic-stop.flag"
+# A dry run is a smoke test: never park it for hours unless asked explicitly.
+if [ "${DRY_RUN}" = "1" ]; then
+  SWS_PANIC_MAX_WAIT_SEC="${SWS_PANIC_MAX_WAIT_SEC:-0}"
+else
+  SWS_PANIC_MAX_WAIT_SEC="${SWS_PANIC_MAX_WAIT_SEC:-28800}"
+fi
+SWS_PANIC_POLL_SEC="${SWS_PANIC_POLL_SEC:-300}"
+# Healthy full run is 6.3-8.6h (median ~7.3h, Aug-Sep nightly-timings); 9h of
+# headroom must remain before the wrapper deadline after any wait.
+SWS_PANIC_RUN_BUDGET_SEC="${SWS_PANIC_RUN_BUDGET_SEC:-32400}"
+PANIC_GATE_OUT=""
+run_panic_gate() {
+  PANIC_GATE_OUT="$(node scripts/sws-panic-policy.mjs gate --data-dir data/sws 2>&1)"
+}
+# key=value lines come first, then `---`, then the human summary.
+panic_gate_kv() { printf '%s\n' "${PANIC_GATE_OUT}" | sed '/^---$/q' | sed -n "s/^$1=//p" | head -1; }
+# No `---` means the policy CLI itself failed: show its raw output instead.
+panic_gate_summary() {
+  if printf '%s\n' "${PANIC_GATE_OUT}" | grep -qx -- '---'; then
+    printf '%s\n' "${PANIC_GATE_OUT}" | sed '1,/^---$/d'
+  else
+    printf 'panic policy CLI output (it did not complete):\n%s\n' "${PANIC_GATE_OUT}"
+  fi
+}
+
+if [ -e "${PANIC_FLAG_PATH}" ]; then
+  run_panic_gate
+  PANIC_VERDICT="$(panic_gate_kv verdict)"
+  PANIC_WAIT_SEC="$(panic_gate_kv wait_sec)"
+  PANIC_MANUAL="$(panic_gate_kv manual)"
+  PANIC_EXPIRES_IST="$(panic_gate_kv expires_at_ist)"
+  echo "[nightly] panic gate: verdict=${PANIC_VERDICT:-error} expires=${PANIC_EXPIRES_IST:-?}"
+
+  case "${PANIC_WAIT_SEC}" in ''|*[!0-9]*) PANIC_WAIT_SEC="" ;; esac
+  # Cap the wait by the wrapper deadline (exported by sws-nightly-isolated.sh;
+  # absent when this script is run by hand, then only MAX_WAIT applies).
+  PANIC_WAIT_CAP="${SWS_PANIC_MAX_WAIT_SEC}"
+  case "${SWS_NIGHTLY_DEADLINE_EPOCH:-}" in
+    ''|*[!0-9]*) ;;
+    *) PANIC_DEADLINE_ROOM=$(( SWS_NIGHTLY_DEADLINE_EPOCH - $(date +%s) - SWS_PANIC_RUN_BUDGET_SEC ))
+       [ "${PANIC_DEADLINE_ROOM}" -lt "${PANIC_WAIT_CAP}" ] && PANIC_WAIT_CAP="${PANIC_DEADLINE_ROOM}" ;;
+  esac
+  if [ "${PANIC_VERDICT}" = "active" ] && [ "${PANIC_MANUAL}" != "1" ] \
+     && [ -n "${PANIC_WAIT_SEC}" ] && [ "${PANIC_WAIT_SEC}" -le "${PANIC_WAIT_CAP}" ]; then
+    echo "[nightly] panic flag lapses at ${PANIC_EXPIRES_IST} — waiting rather than losing the day"
+    send_mail "⏳ SWS nightly waiting — panic flag lapses at ${PANIC_EXPIRES_IST}" "The nightly has not started yet. A panic flag from an earlier run is still binding; it expires at ${PANIC_EXPIRES_IST}, and a full run still fits before the run deadline afterwards, so it will start then instead of skipping today.
+
+$(panic_gate_summary)"
+    # Re-evaluate on the wall clock each poll: sleep stalls while the Mac is
+    # suspended, so counting polls would under-measure the wait.
+    PANIC_WAIT_DEADLINE=$(( $(date +%s) + PANIC_WAIT_SEC + SWS_PANIC_POLL_SEC ))
+    while [ -e "${PANIC_FLAG_PATH}" ] && [ "$(date +%s)" -lt "${PANIC_WAIT_DEADLINE}" ]; do
+      sleep "${SWS_PANIC_POLL_SEC}"
+      run_panic_gate
+      PANIC_VERDICT="$(panic_gate_kv verdict)"
+      [ "${PANIC_VERDICT}" = "active" ] || break
+    done
+  fi
+
+  if [ "${PANIC_VERDICT}" = "auto_cleared" ] && [ ! -e "${PANIC_FLAG_PATH}" ]; then
+    echo "[nightly] panic flag expired — archived as $(panic_gate_kv archived_to); proceeding"
+    send_mail "ℹ️ SWS panic flag expired — auto-cleared, nightly proceeding" "An earlier run's panic flag reached its expiry and was archived to data/sws/panic-archive/. This run proceeds normally; a 🚀 started mail follows.
+
+If the block is real, the next trip binds for longer (see 'next trip' below), and after 4 consecutive trips with no clean scrape it stops expiring and waits for a human.
+
+$(panic_gate_summary)"
+  fi
+fi
+
+if [ -e "${PANIC_FLAG_PATH}" ]; then
   echo "[nightly] PANIC flag set — refusing to run"
-  # mtime is BSD `stat -f %m` on the macOS host this runs on, GNU `stat -c %Y`
-  # in CI. Getting this wrong is not cosmetic: GNU reads `-f` as --file-system
-  # and prints a MOUNT POINT for %m, so the arithmetic below would be handed a
-  # path, abort the script, and the refusal mail — the only signal that a
-  # flagged run was refused — would never be sent. Validate before computing,
-  # and degrade to an unknown age rather than losing the mail.
-  PANIC_FLAG_MTIME="$(stat -f %m data/sws/panic-stop.flag 2>/dev/null || true)"
-  case "${PANIC_FLAG_MTIME}" in
-    ''|*[!0-9]*) PANIC_FLAG_MTIME="$(stat -c %Y data/sws/panic-stop.flag 2>/dev/null || true)" ;;
-  esac
-  case "${PANIC_FLAG_MTIME}" in
-    ''|*[!0-9]*) PANIC_AGE_LABEL="age unknown"; PANIC_AGE_SENTENCE="Its age could not be determined on this host." ;;
-    *) PANIC_AGE_DAYS=$(( ( $(date +%s) - PANIC_FLAG_MTIME ) / 86400 ))
-       PANIC_AGE_LABEL="${PANIC_AGE_DAYS}d old"
-       PANIC_AGE_SENTENCE="This flag has blocked every run for ${PANIC_AGE_DAYS} day(s)." ;;
-  esac
-  send_mail "🚨 SWS nightly REFUSED to start — PANIC flag (${PANIC_AGE_LABEL})" "The nightly did NOT start. No scrape ran, no data shipped.
+  [ -n "${PANIC_GATE_OUT}" ] || run_panic_gate
+  PANIC_EXPIRES_IST="$(panic_gate_kv expires_at_ist)"
+  if [ "$(panic_gate_kv manual)" = "1" ]; then
+    PANIC_SUBJECT_TAIL="HUMAN NEEDED (no automatic expiry)"
+  elif [ -n "${PANIC_EXPIRES_IST}" ]; then
+    PANIC_SUBJECT_TAIL="auto-resumes after ${PANIC_EXPIRES_IST}"
+  else
+    PANIC_SUBJECT_TAIL="flag unreadable — check by hand"
+  fi
+  send_mail "🚨 SWS nightly REFUSED to start — PANIC flag (${PANIC_SUBJECT_TAIL})" "The nightly did NOT start. No scrape ran, no data shipped.
 
-${PANIC_AGE_SENTENCE} It survives the
-isolated-worktree reset, so it will keep blocking runs until deleted by hand.
+$(panic_gate_summary)
 
-$(cat data/sws/panic-stop.flag 2>/dev/null | head -30)
-
-Before clearing, confirm SWS is not actually blocking: compare last_run_at
-across data/sws/progress-api-{1,2,3}.json. If the other shards were served
-normally within ~60s of the trip, it was a transient one-shard bot challenge,
-not an account or IP block — a real suspension takes all three down.
-
-Delete data/sws/panic-stop.flag once reviewed to allow next run."
+A panic flag means SWS answered a scrape request with 403/429. Most trips are
+a transient one-shard Cloudflare challenge; those expire on their own and the
+first run after expiry proceeds automatically. Only clear it early by hand
+after checking simplywall.st in a browser."
   exit 3
 fi
 

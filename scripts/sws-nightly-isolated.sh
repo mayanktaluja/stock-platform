@@ -285,8 +285,11 @@ fi
 # system Chrome. A 21:30 deadline must never reach outside this run.
 set -m
 echo "[isolated-nightly] launching sws-nightly.sh from isolated worktree"
+# The body gets the absolute deadline so its panic gate never waits out a flag
+# into a run that this supervisor would then kill (sws-nightly.sh step 0).
 SWS_NIGHTLY_REPO_DIR="${WORKTREE_DIR}" \
 SWS_NIGHTLY_BASE_BRANCH="${BASE_BRANCH}" \
+SWS_NIGHTLY_DEADLINE_EPOCH="${SWS_NIGHTLY_DEADLINE_EPOCH}" \
   bash "${WORKTREE_DIR}/scripts/sws-nightly.sh" "$@" &
 body_pid=$!
 set +m

@@ -16,6 +16,10 @@ scan-*.lock
 pipeline.lock
 pipeline-status.json
 panic-stop.flag
+# Panic-policy state — see the repo-root .gitignore note; must survive `git clean -fd`.
+panic-history.ndjson
+panic-history.ndjson.tmp.*
+panic-archive/
 captures/
 failed.json
 refresh-requested.json

@@ -89,9 +89,15 @@ if ! corun_guard us; then
 fi
 
 # ---------- 2. Pre-flight: US panic flag ----------
-if [ -f "${PANIC_FLAG}" ]; then
-  echo "[refresh-us] PANIC flag set — refusing to run. Review SWS in a browser, then delete ${PANIC_FLAG}:"
-  head -30 "${PANIC_FLAG}" 2>/dev/null | sed 's/^/    /'
+# Run-start gate (shared policy with India — scripts/sws-panic-policy.mjs): an
+# expired flag is archived and the run proceeds; an active one refuses. The
+# mid-run check in step 4 stays existence-only, which this gate makes correct.
+if [ -e "${PANIC_FLAG}" ]; then
+  node scripts/sws-panic-policy.mjs gate --data-dir "${DATA_DIR}" 2>&1 | sed -n '1,/^---$/p' | sed 's/^/[panic-policy] /'
+fi
+if [ -e "${PANIC_FLAG}" ]; then
+  echo "[refresh-us] PANIC flag set — refusing to run. It expires on its own; clear early only after checking SWS in a browser:"
+  node scripts/sws-panic-policy.mjs status --data-dir "${DATA_DIR}" 2>&1 | head -40 | sed 's/^/    /'
   exit 3
 fi
 
@@ -100,6 +106,7 @@ LIVE_SHARDS="$(ps -A -o command= | grep -E 'sws-api-scrape-us\.mjs[ ]+[123]' | g
 PIDS=()
 FAIL=0
 SCRAPE_SKIPPED=false
+PANIC_SERVED_BEFORE="$(node scripts/sws-panic-policy.mjs served-count --data-dir "${DATA_DIR}" 2>/dev/null || true)"
 
 LIMIT_ARG=""
 if [ -n "${SWS_SCRAPE_LIMIT:-}" ]; then
@@ -170,9 +177,16 @@ fi
 # ---------- 4. Re-check panic mid-run ----------
 if [ -f "${PANIC_FLAG}" ]; then
   echo "[refresh-us] panic raised during scrape → skipping parse/score to avoid partial data."
-  head -30 "${PANIC_FLAG}" 2>/dev/null | sed 's/^/    /'
+  node scripts/sws-panic-policy.mjs status --data-dir "${DATA_DIR}" 2>&1 | head -40 | sed 's/^/    /'
   exit 4
 fi
+# SWS demonstrably served this run (coverage, not exit codes): the only event
+# that resets the panic escalation streak (see scripts/sws-panic-policy.mjs).
+case "${PANIC_SERVED_BEFORE}" in
+  ''|*[!0-9]*) ;;
+  *) node scripts/sws-panic-policy.mjs record-clean --data-dir "${DATA_DIR}" --served-since "${PANIC_SERVED_BEFORE}" \
+       --note "refresh-us, ${FAIL} shard(s) failed" 2>&1 | sed 's/^/[panic-policy] /' ;;
+esac
 
 # ---------- 5. Parse raw API → scoring-compatible JSON ----------
 echo "[refresh-us] parsing raw API payloads..."
