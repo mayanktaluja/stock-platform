@@ -28,8 +28,9 @@
       Also true and unchanged: on Apple Silicon with the lid CLOSED and no
       external display the system can sleep even on AC.
 
-      The real defence now lives in sws-nightly-isolated.sh, which waits for AC
-      before starting (SWS_NIGHTLY_AC_WAIT) and bounds the run so it can never
+      sws-nightly-isolated.sh can wait for AC before starting
+      (SWS_NIGHTLY_AC_WAIT=1; OFF by default since 2026-10-09 — the owner wants
+      the run to start at its slot on battery) and bounds the run so it can never
       suppress the next 00:30 slot (SWS_NIGHTLY_DEADLINE_SEC).
     -->
     <key>ProgramArguments</key>

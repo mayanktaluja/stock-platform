@@ -164,8 +164,8 @@ assert(
   null,
 );
 assert(
-  "AC wait is armed by default",
-  /SWS_NIGHTLY_AC_WAIT="\$\{SWS_NIGHTLY_AC_WAIT:-1\}"/.test(isolated),
+  "AC wait is OFF by default — the nightly starts at its slot on battery (owner decision 2026-10-09)",
+  /SWS_NIGHTLY_AC_WAIT="\$\{SWS_NIGHTLY_AC_WAIT:-0\}"/.test(isolated),
   null,
 );
 assert(

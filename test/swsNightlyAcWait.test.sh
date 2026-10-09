@@ -57,11 +57,17 @@ fi
 STUB
 chmod +x "${WORK}/bin/pmset"
 
+# Cases 1-4 exercise the wait itself, which is opt-in since 2026-10-09
+# (SWS_NIGHTLY_AC_WAIT defaults to 0), so the harness opts in unless the caller
+# set the variable or passes "default" as $2 to test the shipped default.
 harness() {
   local deadline_delta="$1"
   cat <<EOF
 set -uo pipefail
 export PATH="${WORK}/bin:\${PATH}"
+EOF
+  [ "${2:-}" = "default" ] || echo 'SWS_NIGHTLY_AC_WAIT="${SWS_NIGHTLY_AC_WAIT-1}"'
+  cat <<EOF
 ts() { date "+%H:%M:%S"; }
 send_mail() { echo "[mail] \$1"; }
 fail_critical() { echo "[isolated-nightly] \$1"; send_mail "🚨 \$1" "\$2"; exit "\${3:-5}"; }
@@ -174,6 +180,22 @@ if printf '%s' "${OUT4}" | grep -q "PROCEEDED"; then
   ok "SWS_NIGHTLY_AC_WAIT=0 bypasses the wait entirely"
 else
   bad "SWS_NIGHTLY_AC_WAIT=0 bypasses the wait" "$(printf '%s' "${OUT4}" | tr '\n' ' ')"
+fi
+
+# ---------------------------------------------------------------- case 4b
+# The shipped default: no wait at all. Owner decision 2026-10-09 — the nightly
+# starts at its 00:30 slot on battery; charging is the owner's call. (The wait
+# had pushed 09-27/09-29/09-30 starts to 12:01-13:37 IST, past what fits.)
+harness 300 default > "${WORK}/ac4b.sh"
+: > "${WORK}/count4b"
+START4B=$(date +%s)
+OUT4B=$(env -u SWS_NIGHTLY_AC_WAIT PMSET_COUNT_FILE="${WORK}/count4b" PMSET_BATTERY_CALLS=always \
+        SWS_AC_POLL_SEC=1 bash "${WORK}/ac4b.sh" 2>&1)
+ELAPSED4B=$(( $(date +%s) - START4B ))
+if printf '%s' "${OUT4B}" | grep -q "PROCEEDED" && ! printf '%s' "${OUT4B}" | grep -q "deferring"; then
+  ok "default (SWS_NIGHTLY_AC_WAIT unset) on battery → starts immediately, no deferral (${ELAPSED4B}s)"
+else
+  bad "default on battery → starts immediately" "$(printf '%s' "${OUT4B}" | tr '\n' ' ')"
 fi
 
 # ---------------------------------------------------------------- case 5

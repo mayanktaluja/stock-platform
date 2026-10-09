@@ -176,14 +176,19 @@ trap 'rm -rf "${LOCK_DIR}" 2>/dev/null || true' EXIT
 # head -2 would match "AC" while the machine is running down its battery.
 sws_on_ac() { pmset -g batt 2>/dev/null | head -1 | grep -q "AC Power"; }
 
-# Own flag, defaulting ON — deliberately NOT gated on SWS_NIGHTLY_SKIP_BATTERY.
-# That variable controls a different policy: the bare `pmset` check in
-# sws-nightly.sh, which hard-`exit 4`s from the BODY minutes after this wait has
-# already confirmed AC. Arming both would mean two files disagreeing about power
-# policy, and a momentary reading (charger bumped, hub renegotiating) would kill
-# a night that this wait had correctly cleared. Leave that one at 1; this is the
-# single decision point.
-SWS_NIGHTLY_AC_WAIT="${SWS_NIGHTLY_AC_WAIT:-1}"
+# Own flag, defaulting OFF since 2026-10-09 — owner decision: the nightly must
+# start at its slot whatever the power state; keeping the Mac charged is the
+# owner's call, not a precondition. In practice the wait turned unplugged nights
+# into runs that began at 12:01 / 13:10 / 13:37 IST and then could not fit the
+# deadline (09-27, 09-29, 09-30). The trade-off is the one documented above: a
+# battery run with the lid shut can be suspended mid-scrape. Set
+# SWS_NIGHTLY_AC_WAIT=1 to restore the wait.
+#
+# Deliberately NOT gated on SWS_NIGHTLY_SKIP_BATTERY. That variable controls a
+# different policy: the bare `pmset` check in sws-nightly.sh, which hard-`exit
+# 4`s from the BODY. Arming both would mean two files disagreeing about power
+# policy. Leave that one at 1; this is the single decision point.
+SWS_NIGHTLY_AC_WAIT="${SWS_NIGHTLY_AC_WAIT:-0}"
 SWS_AC_POLL_SEC="${SWS_AC_POLL_SEC:-60}"
 if [ "${SWS_NIGHTLY_AC_WAIT}" = "1" ] && ! sws_on_ac; then
   echo "[isolated-nightly] on battery — deferring until AC returns (abort at $(date -r "${SWS_NIGHTLY_DEADLINE_EPOCH}" '+%H:%M:%S' 2>/dev/null || echo "${SWS_NIGHTLY_DEADLINE_EPOCH}"))"
