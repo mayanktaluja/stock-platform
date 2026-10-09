@@ -25,6 +25,67 @@ SWS_NIGHTLY_DEADLINE_SEC="${SWS_NIGHTLY_DEADLINE_SEC:-75600}"
 SWS_NIGHTLY_START_EPOCH="$(date +%s)"
 SWS_NIGHTLY_DEADLINE_EPOCH=$(( SWS_NIGHTLY_START_EPOCH + SWS_NIGHTLY_DEADLINE_SEC ))
 
+# ── slot-anchored deadline (extracted verbatim by test/swsNightlySlotDeadline.test.sh) ──
+# "start + 21h" is 21:30 only when launchd fires on time, and it does not:
+# launchd fires a missed calendar slot on the next wake, DarkWakes included —
+# 2026-09-26 started 00:42 (abort 21:42), 09-27 at 01:55, 09-30 at 00:40. Any
+# start after 03:30 puts the abort past the NEXT 00:30, and launchd DROPS a
+# calendar event that comes due while the job is alive (09-06's run was still
+# up at 09-07 00:30; nothing else ran that day). So the deadline is
+#   min(start + 21h, S − SLOT_MARGIN), S = the first slot leaving ≥ MIN_RUN.
+# That changes only starts in 00:30-12:30 (launchd-fired, on time or late), all
+# of which now abort at 21:30. Later manual starts keep start + 21h: they would
+# get under MIN_RUN otherwise, and if they hold the lock across a slot the
+# overrun re-exec below covers it.
+#
+# Why the margin is 3h and not "abort at 00:00": over 14 nights the host was
+# asleep at 00:30 on 5, and on 4 of those was awake ≤ 13s between 00:00 and
+# 00:30 (`sleep` counts awake time only, see the watchdog). Too little to tick,
+# TERM, KILL, drain and mail before launchd fires on the first wake and finds
+# the old instance still alive — losing the day this exists to protect. 3h is
+# today's on-time behaviour, now for every launchd start.
+#
+# Local time via `date +%z` arithmetic (bash 3.2, no BSD-only date flags, so the
+# same code runs in Linux CI). The offset is read once: IST has no DST. An
+# unreadable offset leaves plain start + 21h and no slot (no re-exec).
+SWS_NIGHTLY_SLOT_HHMM="${SWS_NIGHTLY_SLOT_HHMM:-0030}"
+SWS_NIGHTLY_SLOT_MARGIN_SEC="${SWS_NIGHTLY_SLOT_MARGIN_SEC:-10800}"
+# A healthy run is 6.3-8.6h (Aug-Sep nightly-timings); same 9h as sws-nightly.sh's
+# SWS_PANIC_RUN_BUDGET_SEC.
+SWS_NIGHTLY_MIN_RUN_SEC="${SWS_NIGHTLY_MIN_RUN_SEC:-32400}"
+sws_utc_offset_sec() {
+  local z sign=1
+  z="$(date +%z 2>/dev/null)"
+  case "${z}" in [+-][0-9][0-9][0-9][0-9]) ;; *) return 1 ;; esac
+  [ "${z:0:1}" = "-" ] && sign=-1
+  echo $(( sign * ( 10#${z:1:2} * 3600 + 10#${z:3:2} * 60 ) ))
+}
+sws_slot_at_or_after() {  # <epoch> → epoch of the first local SLOT_HHMM at or after it
+  local t="$1" off slot s
+  off="$(sws_utc_offset_sec)" || return 1
+  slot=$(( 10#${SWS_NIGHTLY_SLOT_HHMM:0:2} * 3600 + 10#${SWS_NIGHTLY_SLOT_HHMM:2:2} * 60 ))
+  s=$(( t - (t + off) % 86400 + slot ))
+  [ "${s}" -lt "${t}" ] && s=$(( s + 86400 ))
+  echo "${s}"
+}
+SWS_NIGHTLY_NEXT_SLOT_EPOCH=""
+if sws_anchor_slot="$(sws_slot_at_or_after $(( SWS_NIGHTLY_START_EPOCH + SWS_NIGHTLY_MIN_RUN_SEC + SWS_NIGHTLY_SLOT_MARGIN_SEC )))"; then
+  [ $(( sws_anchor_slot - SWS_NIGHTLY_SLOT_MARGIN_SEC )) -lt "${SWS_NIGHTLY_DEADLINE_EPOCH}" ] \
+    && SWS_NIGHTLY_DEADLINE_EPOCH=$(( sws_anchor_slot - SWS_NIGHTLY_SLOT_MARGIN_SEC ))
+  # The first slot strictly after this start: the fire this run would block if
+  # it were still alive then (the overrun re-exec keys on it).
+  SWS_NIGHTLY_NEXT_SLOT_EPOCH="$(sws_slot_at_or_after $(( SWS_NIGHTLY_START_EPOCH + 1 )))"
+fi
+# True when that slot has passed while this run was alive (so launchd dropped
+# its fire), for a run of at least 1h (no tight loop), unless switched off.
+sws_slot_overrun() {
+  [ -n "${SWS_NIGHTLY_NEXT_SLOT_EPOCH:-}" ] || return 1
+  [ "${SWS_NIGHTLY_SLOT_REEXEC:-1}" = "1" ] || return 1
+  local now; now="$(date +%s)"
+  [ "${now}" -ge "${SWS_NIGHTLY_NEXT_SLOT_EPOCH}" ] && [ $(( now - SWS_NIGHTLY_START_EPOCH )) -ge 3600 ]
+}
+# ── end slot-anchored deadline ──
+
 ts() { date "+%Y-%m-%d %H:%M:%S %Z"; }
 
 source_env_if_present() {
@@ -209,6 +270,11 @@ sws_on_ac() { pmset -g batt 2>/dev/null | head -1 | grep -q "AC Power"; }
 # policy. Leave that one at 1; this is the single decision point.
 SWS_NIGHTLY_AC_WAIT="${SWS_NIGHTLY_AC_WAIT:-0}"
 SWS_AC_POLL_SEC="${SWS_AC_POLL_SEC:-60}"
+# Stop waiting once less than this is left. A run that cannot finish is still
+# worth starting with an hour in hand: what it fetches before the deadline is
+# reused by the next run (resume marker), as long as it is recent enough.
+SWS_NIGHTLY_MIN_START_SEC="${SWS_NIGHTLY_MIN_START_SEC:-3600}"
+ac_wait_give_up_epoch=$(( SWS_NIGHTLY_DEADLINE_EPOCH - SWS_NIGHTLY_MIN_START_SEC ))
 if [ "${SWS_NIGHTLY_AC_WAIT}" = "1" ] && ! sws_on_ac; then
   ac_wait_abort_at="$(date -r "${SWS_NIGHTLY_DEADLINE_EPOCH}" '+%H:%M:%S' 2>/dev/null || echo "${SWS_NIGHTLY_DEADLINE_EPOCH}")"
   echo "[isolated-nightly] on battery — deferring until AC returns (abort at ${ac_wait_abort_at})"
@@ -221,9 +287,9 @@ Plug in AND keep the Mac awake for the run: on battery it idle-sleeps after a mi
 
 $(pmset -g batt 2>&1 | head -3)"
   while ! sws_on_ac; do
-    if [ "$(date +%s)" -ge "${SWS_NIGHTLY_DEADLINE_EPOCH}" ]; then
+    if [ "$(date +%s)" -ge "${ac_wait_give_up_epoch}" ]; then
       fail_critical "deferred all night, never got AC" \
-"Mac was on battery at the 00:30 slot and never came back on AC before the ${SWS_NIGHTLY_DEADLINE_SEC}s deadline at $(ts).
+"Mac was on battery at the 00:30 slot and did not come back on AC while at least ${SWS_NIGHTLY_MIN_START_SEC}s of the run budget was left (deadline ${ac_wait_abort_at}); gave up at $(ts).
 
 Skipped cleanly rather than run a suspend-riddled job that would fail its coverage gate and suppress tomorrow's slot as well.
 
@@ -231,7 +297,14 @@ $(pmset -g batt 2>&1 | head -3)" 4
     fi
     sleep "${SWS_AC_POLL_SEC}"
   done
-  echo "[isolated-nightly] AC restored at $(ts) — proceeding"
+  # Re-check what the wait left. The deadline cannot move (it protects the next
+  # slot), so a short budget is reported, not extended.
+  ac_left_sec=$(( SWS_NIGHTLY_DEADLINE_EPOCH - $(date +%s) ))
+  if [ "${ac_left_sec}" -lt "${SWS_NIGHTLY_MIN_RUN_SEC:-32400}" ]; then
+    echo "[isolated-nightly] AC restored at $(ts) — proceeding with $(( ac_left_sec / 3600 ))h$(( ac_left_sec % 3600 / 60 ))m left, less than a full run needs; what it fetches before ${ac_wait_abort_at} is reused by the next run"
+  else
+    echo "[isolated-nightly] AC restored at $(ts) — proceeding with $(( ac_left_sec / 3600 ))h$(( ac_left_sec % 3600 / 60 ))m left"
+  fi
 fi
 # ── end AC wait ─────────────────────────────────────────────────────────────
 
@@ -317,7 +390,7 @@ fi
 # too and sws-stealth-context.mjs can even default `channel` to the user's real
 # system Chrome. A 21:30 deadline must never reach outside this run.
 set -m
-echo "[isolated-nightly] launching sws-nightly.sh from isolated worktree"
+echo "[isolated-nightly] launching sws-nightly.sh from isolated worktree (deadline $(date -r "${SWS_NIGHTLY_DEADLINE_EPOCH}" '+%Y-%m-%d %H:%M:%S' 2>/dev/null || echo "${SWS_NIGHTLY_DEADLINE_EPOCH}"))"
 # The body gets the absolute deadline so its panic gate never waits out a flag
 # into a run that this supervisor would then kill (sws-nightly.sh step 0).
 SWS_NIGHTLY_REPO_DIR="${WORKTREE_DIR}" \
@@ -467,8 +540,14 @@ if [ -f "${DEADLINE_FLAG}" ]; then
   echo "[isolated-nightly] ${RESUME_NOTE}"
   DEADLINE_LATE_SEC="$(cat "${DEADLINE_LATE_FILE}" 2>/dev/null || echo 0)"
   case "${DEADLINE_LATE_SEC}" in ''|*[!0-9-]*) DEADLINE_LATE_SEC=0 ;; esac
+  # Decided once, before the mail, so the mail says what happens next; the exec
+  # itself is last. (Harnesses without the slot block never re-exec.)
+  SLOT_REEXEC=0
+  declare -F sws_slot_overrun >/dev/null && sws_slot_overrun && SLOT_REEXEC=1
   send_mail "🚨 SWS nightly — run deadline exceeded" \
-"Run exceeded ${SWS_NIGHTLY_DEADLINE_SEC}s and was aborted at $(ts) so the next 00:30 IST slot is not suppressed. No SWS data shipped this run.
+"Run passed its deadline ($(date -r "${SWS_NIGHTLY_DEADLINE_EPOCH}" '+%Y-%m-%d %H:%M:%S' 2>/dev/null || echo "${SWS_NIGHTLY_DEADLINE_EPOCH}"), ${RUN_H}h after launch) and was aborted at $(ts) so the next 00:30 IST slot is not suppressed. No SWS data shipped this run.
+$( [ "${SLOT_REEXEC}" = "1" ] && echo "
+The teardown finished after the $(date -r "${SWS_NIGHTLY_NEXT_SLOT_EPOCH}" '+%m-%d %H:%M' 2>/dev/null || echo next) slot, so launchd dropped that fire: a fresh run starts now in its place." )
 
 Host suspended: ~${SUSPENDED_H}h of the ${RUN_H}h since launch (watchdog tick gaps > $(( 3 * SWS_WATCHDOG_TICK_SEC ))s). $( [ -f "${AC_LOST_FLAG}" ] && echo "AC was lost mid-run (mailed at the time)." || echo "No AC loss seen mid-run." ) The deadline fired $(( DEADLINE_LATE_SEC / 60 ))m late.
 $( [ "${SUSPENDED_SEC}" -gt 3600 ] && echo "Most of this run was spent asleep, not stuck: keep the Mac on AC and awake through the run." )
@@ -481,6 +560,24 @@ Next run: ${RESUME_NOTE}
 Body exit code before abort: ${body_rc}.
 
 The 2026-08-08 run ran 24h36m and silently consumed the following day's slot; this bound exists so that cannot recur."
+  # ── overrun re-exec (extracted verbatim by test/swsNightlySlotDeadline.test.sh) ──
+  # The teardown is bounded on wall clock, but on a host that wakes for ~5s every
+  # ~15 min it can still finish after a slot — and launchd, which fired that slot
+  # while this instance was alive, dropped it. Start that run here rather than
+  # lose the day. exec keeps this PID, so launchd still sees one job and cannot
+  # start a second; the resume marker above is already on disk, so the fresh run
+  # reuses whatever this one fetched recently. exec skips the EXIT trap: release
+  # the lock by hand. SWS_NIGHTLY_REEXECED is cleared so the fresh run re-execs
+  # origin/main's wrapper exactly as a launchd fire would. Never for a run under
+  # 1h (no tight loop), never without a known slot (sws_slot_overrun).
+  if [ "${SLOT_REEXEC:-0}" = "1" ]; then
+    echo "[isolated-nightly] the $(date -r "${SWS_NIGHTLY_NEXT_SLOT_EPOCH}" '+%m-%d %H:%M' 2>/dev/null || echo next) slot passed while this run was alive and launchd dropped that fire — starting it now ($(ts))"
+    rm -rf "${LOCK_DIR}" 2>/dev/null || true
+    trap - EXIT
+    unset SWS_NIGHTLY_REEXECED
+    exec /bin/bash "${PRIMARY_REPO}/scripts/sws-nightly-isolated.sh"
+  fi
+  # ── end overrun re-exec ─────────────────────────────────────────────────────
   exit 10
 fi
 
