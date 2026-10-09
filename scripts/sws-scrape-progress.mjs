@@ -17,6 +17,8 @@
  *                    deadline abort (sws-nightly-isolated.sh, exit 10)
  *   consume-resume   evaluate + archive the marker (sws-refresh-api.sh step 3).
  *                    key=value lines, `---`, human summary. Exit 0; 2 = error.
+ *   topup-list       --log FILE... — after a resumed pass: skipped stocks that are
+ *                    no longer fresh enough (step 4b). key=value lines.
  *
  * Only node: builtins plus sws-shard-partition.mjs (→ sws-config.mjs, builtins
  * only) are imported, so bash tests can copy these three files into a fixture.
@@ -139,16 +141,24 @@ export function formatSummary(rows, now = Date.now()) {
 // RESUME_FRESH_MAX_AGE_HOURS when the shard reaches them. Ages are per ticker,
 // so a universe change between the runs cannot misattribute anything.
 //
-// The bound, pinned against both real gates by test/swsScrapeProgress.test.mjs:
-//   age at publish ≤ RESUME_FRESH_MAX_AGE_HOURS (7) + RESUME_TAIL_HOURS (5) = 12h
-//     RESUME_TAIL_HOURS: what follows a skip decision in a resumed run — ≤ ~1/3
-//     of the universe left to fetch (~1.3h) + ~3.5h of parse/score/aux/ship on a
-//     healthy night (6.3-8.6h total, scrape ~3.5-3.9h of it).
+// The bound is MEASURED, not assumed. A skip decision cannot know how long the
+// rest of the run will take — a resumed run follows a night the host slept
+// through, and may sleep again, finishing as late as its deadline (~21h out).
+// So once the shards finish, sws-refresh-api.sh step 4b re-checks every skipped
+// stock and refetches (--tickers) any whose payload is now older than
+// RESUME_TOPUP_MAX_AGE_HOURS. Fast night: nothing to refetch. Slow night:
+// exactly the stocks that would otherwise go stale.
+//
+// Pinned against both real gates by test/swsScrapeProgress.test.mjs:
+//   age at publish ≤ RESUME_TOPUP_MAX_AGE_HOURS (8) + RESUME_POST_SCRAPE_TAIL_HOURS (4) = 12h
+//     the tail: ~2h15m parse/score + the nightly's post-barrier ship on a
+//     healthy night (6.3-8.6h total, scrape ~3.5-3.9h of it). A host that
+//     sleeps through parse/score ages every early-fetched stock alike.
 //   sanity gate: fresh = parsed_at within 24h of finish → 12h of slack.
 //   36h top-up demotion (Math.round(age) > 36, i.e. ≥ 36.5h, at VIEW time):
 //     lands ≥ 24.5h after publish — after the next on-time publish.
-// Both gates keep their meaning; nothing about them changes. A larger bound
-// buys more reuse at the cost of carried names showing HOLD before the next
+// Both gates keep their meaning; nothing about them changes. Larger bounds buy
+// more reuse at the cost of carried names showing HOLD before the next
 // publish — a product call, not a tuning detail.
 //
 // The marker is the gate on all this: only a run that follows a deadline abort
@@ -157,7 +167,8 @@ export function formatSummary(rows, now = Date.now()) {
 export const RESUME_MAX_MARKER_AGE_HOURS = 30;
 export const RESUME_MAX_CARRY = 1;
 export const RESUME_FRESH_MAX_AGE_HOURS = 7;
-export const RESUME_TAIL_HOURS = 5;
+export const RESUME_TOPUP_MAX_AGE_HOURS = 8;
+export const RESUME_POST_SCRAPE_TAIL_HOURS = 4;
 // aborted_at further in the future than this is a clock/hand-edit problem.
 const FUTURE_SKEW_MS = 5 * 60_000;
 
@@ -264,7 +275,10 @@ export function payloadAgeMs(file, now = Date.now()) {
   return Math.max(0, now - fetchedMs);
 }
 
-/** How many universe stocks a resumed run would skip right now (for the abort mail). */
+/**
+ * How many universe stocks a resumed run would skip right now — the full
+ * payloadAgeMs check (JSON.parse of ~5.6k × ~465KB, ~20s of CPU).
+ */
 export function freshPayloadCount({ dataDir = DEFAULT_DATA_DIR, now = Date.now(), maxAgeMs = RESUME_FRESH_MAX_AGE_HOURS * HOUR_MS, universe = loadUniverse(dataDir) } = {}) {
   const { rawDir } = resumePaths(dataDir);
   let fresh = 0;
@@ -275,6 +289,51 @@ export function freshPayloadCount({ dataDir = DEFAULT_DATA_DIR, now = Date.now()
     if (age !== null && age <= maxAgeMs) fresh++;
   }
   return { fresh, total: universe.length };
+}
+
+/**
+ * Same question answered from file mtimes only (the scraper writes each payload
+ * right after fetching it) — an estimate for the abort mail. mark-abort runs in
+ * the deadline teardown on a host that may be awake ~5s per 15 min, so it must
+ * not spend ~20s of CPU parsing payloads before the lock is released.
+ */
+export function recentPayloadEstimate({ dataDir = DEFAULT_DATA_DIR, now = Date.now(), maxAgeMs = RESUME_FRESH_MAX_AGE_HOURS * HOUR_MS, universe = loadUniverse(dataDir) } = {}) {
+  const { rawDir } = resumePaths(dataDir);
+  let recent = 0;
+  for (const s of universe) {
+    if (!s?.ticker) continue;
+    try {
+      if (now - fs.statSync(path.join(rawDir, `${s.ticker}.json`)).mtimeMs <= maxAgeMs) recent++;
+    } catch { /* missing */ }
+  }
+  return { recent, total: universe.length };
+}
+
+/**
+ * Step 4b: which stocks the shard skipped as fresh (its "fresh_payload" skip
+ * events in refresh-api-shard-<n>.log) are no longer fresh enough to publish.
+ * A payload that is now unusable (payloadAgeMs → null) is refetched too.
+ */
+export function topUpTickers({ dataDir = DEFAULT_DATA_DIR, logFiles = [], now = Date.now(), maxAgeMs = RESUME_TOPUP_MAX_AGE_HOURS * HOUR_MS } = {}) {
+  const { rawDir } = resumePaths(dataDir);
+  const skipped = new Set();
+  for (const f of logFiles) {
+    let raw = "";
+    try { raw = fs.readFileSync(f, "utf8"); } catch { continue; }
+    for (const line of raw.split("\n")) {
+      if (!line.includes('"fresh_payload"')) continue;
+      try {
+        const e = JSON.parse(line);
+        if (e?.event === "skip" && e.reason === "fresh_payload" && e.ticker) skipped.add(String(e.ticker));
+      } catch { /* not a JSON event line */ }
+    }
+  }
+  const topup = [];
+  for (const t of skipped) {
+    const age = payloadAgeMs(path.join(rawDir, `${t}.json`), now);
+    if (age === null || age > maxAgeMs) topup.push(t);
+  }
+  return { skipped: skipped.size, topup };
 }
 
 function resumeSummary(ev, now) {
@@ -295,6 +354,7 @@ function parseArgs(argv) {
     const a = argv[i];
     if (a === "--data-dir") opts.dataDir = argv[++i];
     else if (a === "--run-started-epoch") opts.runStartedEpoch = argv[++i];
+    else if (a === "--log") (opts.logs ||= []).push(argv[++i]);
     else opts._.push(a);
   }
   return opts;
@@ -313,8 +373,13 @@ function cli(argv) {
     case "mark-abort": {
       const sec = Number(opts.runStartedEpoch);
       const m = markAbort({ dataDir, now, runStartedMs: Number.isFinite(sec) && sec > 0 ? sec * 1000 : null });
-      const { fresh, total } = freshPayloadCount({ dataDir, now });
-      console.log(`resume marker written (carry ${m.carry}${m.carry > RESUME_MAX_CARRY ? " — over the limit, the next run fetches everything" : ""}): the next run skips stocks whose raw payload is under ${RESUME_FRESH_MAX_AGE_HOURS}h old when its shards reach them — ${fresh}/${total} qualify right now`);
+      // The marker is on disk: say so before anything else can fail.
+      let qualify = "";
+      try {
+        const { recent, total } = recentPayloadEstimate({ dataDir, now });
+        qualify = ` — ~${recent}/${total} payloads were written in the last ${RESUME_FRESH_MAX_AGE_HOURS}h`;
+      } catch { /* the estimate is decoration */ }
+      console.log(`resume marker written (carry ${m.carry}${m.carry > RESUME_MAX_CARRY ? " — over the limit, the next run fetches everything" : ""}): the next run skips stocks whose raw payload is under ${RESUME_FRESH_MAX_AGE_HOURS}h old when its shards reach them${qualify}`);
       return 0;
     }
     case "consume-resume": {
@@ -326,8 +391,15 @@ function cli(argv) {
       console.log(resumeSummary(ev, now));
       return 0;
     }
+    case "topup-list": {
+      const r = topUpTickers({ dataDir, logFiles: (opts.logs || []).map((f) => path.resolve(f)), now });
+      console.log(`skipped=${r.skipped}`);
+      console.log(`topup_count=${r.topup.length}`);
+      console.log(`topup=${r.topup.join(",")}`);
+      return 0;
+    }
     default:
-      console.error("usage: node scripts/sws-scrape-progress.mjs <summary|mark-abort|consume-resume> [--data-dir DIR] [--run-started-epoch S]");
+      console.error("usage: node scripts/sws-scrape-progress.mjs <summary|mark-abort|consume-resume|topup-list> [--data-dir DIR] [--run-started-epoch S] [--log FILE]...");
       return 2;
   }
 }

@@ -123,6 +123,70 @@ echo "${out}" | grep -qx 'SKIP=0' && echo "${out}" | grep -q 'consume-resume fai
 grep -q 'SWS_SCRAPE_SKIP_FRESH_SEC="${RESUME_SKIP_FRESH_SEC:-0}"' "${SCRIPT}" \
   && ok 1 "run_shard_with_retry passes the skip to every shard attempt" || ok 0 "shards receive the skip"
 
+# ── step 4b: top-up after a resumed pass ───────────────────────────────────
+echo "--- step 4b top-up ---"
+TOPUP="$(awk '
+  index($0, "  # ── resume top-up (extracted verbatim") == 1 { f=1 }
+  f { print }
+  index($0, "  # ── end resume top-up ──") == 1 { exit }
+' "${SCRIPT}")"
+printf '%s' "${TOPUP}" | grep -q 'topup-list' \
+  && ok 1 "step-4b block extracted" || ok 0 "step-4b block extracted" "(markers moved?)"
+
+# Stub scraper: records how it was called and, like the real --tickers mode,
+# rewrites next_local_index as an index into its own short list.
+cat > "${WORK}/scripts/sws-api-scrape.mjs" <<'STUB'
+import fs from "node:fs";
+fs.appendFileSync(process.env.STUB_CALLS, process.argv.slice(2).join(" ") + "\n");
+const f = `data/sws/progress-api-${process.argv[2]}.json`;
+const p = JSON.parse(fs.readFileSync(f, "utf8"));
+p.next_local_index = 1;
+fs.writeFileSync(f, JSON.stringify(p));
+STUB
+
+topup_fixture() {
+  fresh_fixture
+  node -e '
+    const fs = require("fs"), dir = process.argv[1], H = 3600e3;
+    fs.mkdirSync(dir + "/deep-api", { recursive: true });
+    const put = (t, h) => fs.writeFileSync(`${dir}/deep-api/${t}.json`, JSON.stringify({ ticker: t,
+      fetchedAt: new Date(Date.now() - h * H).toISOString(), graphql: { CompanySummary: { Company: { id: 1 } } }, errors: [] }));
+    put("AA", 1); put("BB", 10); put("CC", 2);
+    const skip = (sid, t) => JSON.stringify({ event: "skip", shard: sid, ticker: t, reason: "fresh_payload", age_min: 60 });
+    fs.writeFileSync(dir + "/refresh-api-shard-1.log", [skip(1, "AA"), skip(1, "BB")].join("\n") + "\n");
+    fs.writeFileSync(dir + "/refresh-api-shard-2.log", skip(2, "CC") + "\n");
+    fs.writeFileSync(dir + "/refresh-api-shard-3.log", "");
+  ' "${WORK}/data/sws"
+  : > "${WORK}/stub-calls"
+}
+run_topup() {  # run_topup <RESUME_SKIP_FRESH_SEC>
+  ( cd "${WORK}" && RESUME_SKIP_FRESH_SEC="$1" && eval "${TOPUP}"; echo "CARRIED=${RESUME_CARRIED}" ) 2>&1
+}
+
+topup_fixture
+out="$(STUB_CALLS="${WORK}/stub-calls" run_topup 25200)"
+[ "$(cat "${WORK}/stub-calls")" = "1 --tickers BB" ] \
+  && ok 1 "only the skipped stock that aged past 8h is refetched (shard 1: BB), via --tickers" \
+  || ok 0 "top-up refetches exactly the aged skip" "(calls: $(cat "${WORK}/stub-calls" | tr '\n' '|'); ${out})"
+[ "$(cursors)" = "2,2,2" ] && ok 1 "…and every cursor is put back after --tickers rewrote it" || ok 0 "cursor restored" "($(cursors))"
+echo "${out}" | grep -qx 'CARRIED=2' \
+  && ok 1 "…and the 2 still-carried stocks are counted (feeds the panic clean_run --exclude)" || ok 0 "carried count" "(${out})"
+echo "${out}" | grep -q '^\[resume\] shard 1: 2 stocks reused, 1 now older than 8h' && ok 1 "…and it says so per shard" || ok 0 "top-up log line" "(${out})"
+
+topup_fixture
+out="$(STUB_CALLS="${WORK}/stub-calls" run_topup 0)"
+[ ! -s "${WORK}/stub-calls" ] && echo "${out}" | grep -qx 'CARRIED=0' \
+  && ok 1 "not a resumed run → no top-up at all" || ok 0 "no top-up without resume" "(${out})"
+
+topup_fixture
+echo '{}' > "${WORK}/data/sws/panic-stop.flag"
+out="$(STUB_CALLS="${WORK}/stub-calls" run_topup 25200)"
+rm -f "${WORK}/data/sws/panic-stop.flag"
+[ ! -s "${WORK}/stub-calls" ] && ok 1 "panic flag raised during the pass → no top-up requests" || ok 0 "no top-up under a panic flag" "(${out})"
+
+grep -q -- '--exclude "${RESUME_CARRIED:-0}"' "${SCRIPT}" \
+  && ok 1 "clean_run is measured against what the run requested (--exclude carried)" || ok 0 "record-clean gets --exclude"
+
 # ── the marker must survive the wrapper's reset ────────────────────────────
 echo "--- git clean -fd keeps the marker ---"
 G="${WORK}/git"

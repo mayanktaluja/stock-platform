@@ -62,8 +62,9 @@
  *   status        human summary only (exit 0)
  *   record-trip   REASON SHARD_ID EVIDENCE... (writes the flag; exit 0)
  *   served-count  Σ done_count over progress-api-*.json (snapshot before shards)
- *   record-clean  --served-since N [--note TEXT] — records clean_run only if
- *                 the run served ≥ CLEAN_MIN_FRACTION of universe.json; without
+ *   record-clean  --served-since N [--exclude K] [--note TEXT] — records clean_run
+ *                 only if the run served ≥ CLEAN_MIN_FRACTION of universe.json
+ *                 minus K deliberately-unrequested stocks (≤ half); without
  *                 --served-since it records unconditionally (tests / manual)
  *   clear         --reason TEXT — manual override: archive the flag now
  *
@@ -299,9 +300,16 @@ export function universeSize(dataDir = DEFAULT_DATA_DIR) {
  * a shard exits 0 after a night of 503s, and one that died on auth_expired
  * can sit beside two that served thousands of stocks.
  */
-export function recordCleanIfServed({ dataDir = DEFAULT_DATA_DIR, servedSince, note = "", now = Date.now(), minFraction = CLEAN_MIN_FRACTION } = {}) {
+export function recordCleanIfServed({ dataDir = DEFAULT_DATA_DIR, servedSince, note = "", now = Date.now(), minFraction = CLEAN_MIN_FRACTION, excluded = 0 } = {}) {
   const served = Math.max(0, servedCount(dataDir) - (Number(servedSince) || 0));
-  const expected = universeSize(dataDir);
+  // `excluded`: stocks this run deliberately did not request — a resumed run
+  // reuses fresh payloads from the aborted one (sws-scrape-progress.mjs). Without
+  // it a healthy resumed run that skipped 60% "served" 40% and never reset the
+  // streak. Never below half the universe: a bogus count must not make
+  // clean_run cheap.
+  const universe = universeSize(dataDir);
+  const ex = Math.min(Math.max(0, Math.floor(Number(excluded) || 0)), Math.floor(universe / 2));
+  const expected = universe - ex;
   const flagged = evaluateFlag({ dataDir, now }).state !== "absent";
   const recorded = !flagged && expected > 0 && served >= minFraction * expected;
   if (recorded) recordClean({ dataDir, note, now, extra: { served, expected } });
@@ -479,6 +487,7 @@ function parseArgs(argv) {
     else if (a === "--reason") opts.reason = argv[++i];
     else if (a === "--note") opts.note = argv[++i];
     else if (a === "--served-since") opts.servedSince = argv[++i];
+    else if (a === "--exclude") opts.exclude = argv[++i];
     else opts._.push(a);
   }
   return opts;
@@ -527,7 +536,7 @@ function cli(argv) {
         console.log("clean_run recorded (unconditional)");
         return 0;
       }
-      const r = recordCleanIfServed({ dataDir, servedSince: opts.servedSince, note: opts.note || "", now });
+      const r = recordCleanIfServed({ dataDir, servedSince: opts.servedSince, note: opts.note || "", now, excluded: opts.exclude });
       console.log(r.recorded
         ? `clean_run recorded — served ${r.served}/${r.expected}`
         : `clean_run NOT recorded — served ${r.served}/${r.expected}${r.flagged ? ", panic flag present" : ""} (needs ≥${Math.round(CLEAN_MIN_FRACTION * 100)}%)`);

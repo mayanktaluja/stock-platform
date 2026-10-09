@@ -275,6 +275,52 @@ EOF
   if [ "${SWS_PANIC_LADDER:-0}" = "1" ]; then
     node scripts/sws-panic-ladder.mjs status --data-dir data/sws --run-id "${SWS_PANIC_RUN_ID}" 2>&1 | sed 's/^/[panic-ladder] /'
   fi
+
+  # ---------- 4b. Resume top-up ----------
+  # ── resume top-up (extracted verbatim by test/swsResumeAfterAbort.test.sh) ──
+  # A resumed pass skipped stocks whose payload was < 7h old WHEN THE SHARD GOT
+  # THERE. How long the rest of the run takes is not knowable then: a resumed
+  # run follows a night the host slept through and may sleep again, and every
+  # hour it takes ages those skipped payloads toward the sanity gate's 24h
+  # window (and the 36h top-up demotion). So measure instead of assume: any
+  # skipped stock now older than 8h is refetched with the scraper's own
+  # --tickers mode, which leaves it ≤ 8h + the ~4h post-scrape tail at publish.
+  # A fast night refetches nothing. --tickers rewrites next_local_index as an
+  # index into its own list, so each shard's cursor is put back afterwards.
+  # Non-fatal: the gate measures fresh_pct directly either way.
+  RESUME_CARRIED=0
+  if [ "${RESUME_SKIP_FRESH_SEC:-0}" -gt 0 ] && [ ! -e data/sws/panic-stop.flag ]; then
+    TOPUP_PIDS=()
+    for SHARD in 1 2 3; do
+      SHARD_LOG="data/sws/refresh-api-shard-${SHARD}.log"
+      TOPUP_OUT="$(node scripts/sws-scrape-progress.mjs topup-list --data-dir data/sws --log "${SHARD_LOG}" 2>&1)"
+      T_SKIPPED="$(printf '%s\n' "${TOPUP_OUT}" | sed -n 's/^skipped=//p' | head -1)"
+      T_COUNT="$(printf '%s\n' "${TOPUP_OUT}" | sed -n 's/^topup_count=//p' | head -1)"
+      T_LIST="$(printf '%s\n' "${TOPUP_OUT}" | sed -n 's/^topup=//p' | head -1)"
+      case "${T_SKIPPED}${T_COUNT}" in ''|*[!0-9]*)
+        printf '%s\n' "${TOPUP_OUT}" | tail -3 | sed "s/^/[resume] shard ${SHARD} top-up check failed — skipping it: /"
+        continue ;;
+      esac
+      RESUME_CARRIED=$(( RESUME_CARRIED + T_SKIPPED - T_COUNT ))
+      echo "[resume] shard ${SHARD}: ${T_SKIPPED} stocks reused, ${T_COUNT} now older than 8h → refetching"
+      [ -n "${T_LIST}" ] || continue
+      (
+        cursor="$(node -e 'try{console.log(JSON.parse(require("fs").readFileSync(process.argv[1])).next_local_index)}catch{}' "data/sws/progress-api-${SHARD}.json")"
+        node scripts/sws-api-scrape.mjs "${SHARD}" --tickers "${T_LIST}" >> "${SHARD_LOG}" 2>&1
+        rc=$?
+        case "${cursor}" in ''|*[!0-9]*) ;; *)
+          node -e 'const fs=require("fs"),[f,c]=process.argv.slice(1);const p=JSON.parse(fs.readFileSync(f));p.next_local_index=Number(c);fs.writeFileSync(f,JSON.stringify(p,null,2)+"\n")' \
+            "data/sws/progress-api-${SHARD}.json" "${cursor}" 2>/dev/null || true ;;
+        esac
+        exit "${rc}"
+      ) &
+      TOPUP_PIDS+=("$!")
+    done
+    for P in ${TOPUP_PIDS[@]+"${TOPUP_PIDS[@]}"}; do
+      wait "${P}" || echo "[resume] a top-up pass exited non-zero — non-fatal, the sanity gate measures freshness directly"
+    done
+  fi
+  # ── end resume top-up ──
 fi
 
 # ---------- 5. Re-check panic mid-run ----------
@@ -312,7 +358,7 @@ case "${PANIC_SERVED_BEFORE}" in
     if [ "${LADDER_CONFIRMED}" != "0" ]; then
       echo "[refresh-api] panic policy: ${LADDER_CONFIRMED:-unknown} confirmed ladder incident(s) this run — not recording clean_run"
     else
-      node scripts/sws-panic-policy.mjs record-clean --data-dir data/sws --served-since "${PANIC_SERVED_BEFORE}" \
+      node scripts/sws-panic-policy.mjs record-clean --data-dir data/sws --served-since "${PANIC_SERVED_BEFORE}" --exclude "${RESUME_CARRIED:-0}" \
         --note "refresh-api ${ELAPSED}s, ${FAIL} shard(s) failed" 2>&1 | sed 's/^/[panic-policy] /'
     fi
     ;;

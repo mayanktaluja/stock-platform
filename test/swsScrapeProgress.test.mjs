@@ -33,7 +33,10 @@ import {
   RESUME_MAX_MARKER_AGE_HOURS,
   RESUME_MAX_CARRY,
   RESUME_FRESH_MAX_AGE_HOURS,
-  RESUME_TAIL_HOURS,
+  RESUME_TOPUP_MAX_AGE_HOURS,
+  RESUME_POST_SCRAPE_TAIL_HOURS,
+  topUpTickers,
+  recentPayloadEstimate,
   resumePaths,
   markAbort,
   evaluateResume,
@@ -192,14 +195,54 @@ console.log("--- marker verdicts ---");
   assert("max carry is 1 (spec)", RESUME_MAX_CARRY === 1, RESUME_MAX_CARRY);
 }
 
-console.log("--- the 7h bound still fits BOTH real gates ---");
+console.log("--- step 4b top-up: refetch skipped stocks that aged on a slow pass ---");
+{
+  const dir = fixture({ tickers: TEN });
+  payload(dir, "AA", { ageH: 2 });                                   // still fresh → kept
+  payload(dir, "BB", { ageH: RESUME_TOPUP_MAX_AGE_HOURS + 3 });      // aged during a slow pass → refetch
+  payload(dir, "CC", { raw: "{ torn" });                             // unusable now → refetch
+  payload(dir, "DD", { ageH: 30 });                                  // fetched-and-old but NOT a skip → ignored
+  const log = path.join(dir, "refresh-api-shard-1.log");
+  fs.writeFileSync(log, [
+    "[refresh-api] shard 1 attempt 1 (SWS_RESUME=0)",
+    JSON.stringify({ event: "skip", shard: 1, ticker: "AA", reason: "fresh_payload", age_min: 200 }),
+    JSON.stringify({ event: "skip", shard: 1, ticker: "BB", reason: "fresh_payload", age_min: 400 }),
+    JSON.stringify({ event: "skip", shard: 1, ticker: "ZZ", reason: "no_canonical_url" }),
+    "not json at all \"fresh_payload\"",
+    JSON.stringify({ event: "skip", shard: 1, ticker: "BB", reason: "fresh_payload", age_min: 401 }), // retry attempt
+    JSON.stringify({ event: "skip", shard: 1, ticker: "CC", reason: "fresh_payload", age_min: 100 }),
+    JSON.stringify({ event: "stock_done", shard: 1, ticker: "DD" }),
+  ].join("\n"));
+  const r = topUpTickers({ dataDir: dir, logFiles: [log], now: NOW });
+  assert("counts each skipped ticker once (retries dedupe; other skip reasons ignored)", r.skipped === 3, r);
+  assert("refetches the aged and the now-unusable, keeps the fresh one", JSON.stringify(r.topup.sort()) === JSON.stringify(["BB", "CC"]), r.topup);
+  assert("missing log → nothing to do", topUpTickers({ dataDir: dir, logFiles: [path.join(dir, "nope.log")], now: NOW }).skipped === 0, null);
+  const cli = spawnSync(process.execPath, [CLI, "topup-list", "--data-dir", dir, "--log", log], { encoding: "utf8" });
+  assert("topup-list prints skipped / topup_count / topup", cli.status === 0 && /^skipped=3$/m.test(cli.stdout) && /^topup_count=\d+$/m.test(cli.stdout) && /^topup=.*BB/m.test(cli.stdout), cli.stdout + cli.stderr);
+}
+
+console.log("--- abort-mail estimate is mtime-only (no payload parsing in the teardown) ---");
+{
+  const dir = fixture({ tickers: TEN });
+  payload(dir, "AA", { raw: "{ torn" });                 // mtime = now → counted, never parsed
+  const old = payload(dir, "BB");
+  const t = (NOW - 20 * H) / 1000;
+  fs.utimesSync(old, t, t);
+  const e = recentPayloadEstimate({ dataDir: dir, now: NOW + 60_000 });
+  assert("counts by mtime (a torn file still counts; it is an estimate)", e.recent === 1 && e.total === 10, e);
+}
+
+console.log("--- the bounds still fit BOTH real gates ---");
 {
   const root = path.resolve(__dirname, "..");
   const gateSrc = fs.readFileSync(path.join(root, "scripts/sws-sanity-gate.mjs"), "utf8");
   const holdingSrc = fs.readFileSync(path.join(root, "services/swsHoldingEngine.js"), "utf8");
   const windowH = Number(gateSrc.match(/const RUN_WINDOW_HOURS\s*=\s*(\d+)/)?.[1]);
   const demoteH = Number(holdingSrc.match(/dataAgeHoursPre\)\s*&&\s*dataAgeHoursPre\s*>\s*(\d+)/)?.[1]);
-  const atPublish = RESUME_FRESH_MAX_AGE_HOURS + RESUME_TAIL_HOURS;
+  // A skipped stock reaches publish at most TOPUP (step 4b refetches anything
+  // older once the shards finish) + the post-scrape tail.
+  const atPublish = RESUME_TOPUP_MAX_AGE_HOURS + RESUME_POST_SCRAPE_TAIL_HOURS;
+  assert("the skip bound sits inside the top-up bound (a skip is never refetched on a fast night)", RESUME_FRESH_MAX_AGE_HOURS < RESUME_TOPUP_MAX_AGE_HOURS, [RESUME_FRESH_MAX_AGE_HOURS, RESUME_TOPUP_MAX_AGE_HOURS]);
   assert("read RUN_WINDOW_HOURS from sws-sanity-gate.mjs", windowH === 24, windowH);
   assert("read the top-up demotion threshold from swsHoldingEngine.js", demoteH === 36, demoteH);
   assert(`a skipped stock (≤ ${atPublish}h at publish) counts as fresh in the ${windowH}h gate window`, atPublish <= windowH, { atPublish, windowH });
@@ -215,7 +258,7 @@ console.log("--- CLI ---");
   assert("summary exits 0", r.status === 0, r.stderr);
   assert("summary prints shard 2's line", /shard 2: next_local_index 2\/3 \(67%\)/.test(r.stdout), r.stdout);
   const mk = spawnSync(process.execPath, [CLI, "mark-abort", "--data-dir", dir, "--run-started-epoch", String(Math.floor(Date.now() / 1000) - 3600)], { encoding: "utf8" });
-  assert("mark-abort exits 0 and reports what qualifies", mk.status === 0 && /resume marker written \(carry 1\).*0\/10 qualify/.test(mk.stdout), mk.stdout + mk.stderr);
+  assert("mark-abort exits 0 and reports what qualifies", mk.status === 0 && /resume marker written \(carry 1\).*~0\/10 payloads were written in the last 7h/.test(mk.stdout), mk.stdout + mk.stderr);
   const cr = spawnSync(process.execPath, [CLI, "consume-resume", "--data-dir", dir], { encoding: "utf8" });
   assert("consume-resume prints verdict / skip_fresh_sec / ---", cr.status === 0 && /^verdict=resume$/m.test(cr.stdout) && new RegExp(`^skip_fresh_sec=${RESUME_FRESH_MAX_AGE_HOURS * 3600}$`, "m").test(cr.stdout) && /^---$/m.test(cr.stdout), cr.stdout);
   const none = spawnSync(process.execPath, [CLI, "consume-resume", "--data-dir", dir], { encoding: "utf8" });

@@ -214,7 +214,8 @@ preconditions. Two Darwin facts drive all of it:
 | Overrun re-exec | A deadline abort that finishes after a slot passed execs a fresh run in place of the dropped fire (same PID, lock released by hand, `SWS_NIGHTLY_REEXECED` cleared). Off: `SWS_NIGHTLY_SLOT_REEXEC=0`. |
 | Watchdog | 5s tick. Logs suspended time (tick wall-gap − tick), mails once on a battery start, once on AC loss after AC was seen, and the deadline lateness. TERM→KILL grace and drain are wall-clock; the main process waits for the KILL escalation instead of killing the watchdog. |
 | Abort mail | Suspended h vs run h, AC loss, lateness, per-shard `next_local_index/slice` (`node scripts/sws-scrape-progress.mjs summary`). Lock skips are mailed too. |
-| Resume after abort | Exit 10 writes gitignored `data/sws/_resume-scrape.json`. The next `sws-refresh-api.sh` step 3 **still rewinds every cursor**, consumes the marker (once; <30h old, carry ≤ 1) and exports `SWS_SCRAPE_SKIP_FRESH_SEC=25200`: shards skip a stock whose raw payload is < 7h old and complete. |
+| Resume after abort | Exit 10 writes gitignored `data/sws/_resume-scrape.json`. The next `sws-refresh-api.sh` step 3 **still rewinds every cursor**, consumes the marker (once; <30h old, carry ≤ 1) and exports `SWS_SCRAPE_SKIP_FRESH_SEC=25200`: shards skip a stock whose raw payload is < 7h old and complete. Step 4b then **measures**: any skipped stock now > 8h old is refetched (`--tickers`, cursors restored), and the panic `clean_run` excludes the still-carried count. |
+| Mails | Mid-run heads-ups (battery start, AC loss) are async → `data/sws/sws-nightly-mail.log`; the abort mail waits ≤ `SWS_ABORT_MAIL_MAX_SEC` (120s) of wall clock; the Resend fetch has a 30s `AbortSignal`. A hung send used to stop the watchdog ticking. |
 | Step timeouts | `scripts/sws-with-timeout.sh` is the one `with_timeout` (gtimeout → timeout → bash watchdog), sourced by `sws-nightly.sh` and `sws-refresh-api.sh`. launchd's PATH has no `timeout` binary. |
 
 **Why per-stock reuse, not a carried cursor:** carrying the cursor was replayed
@@ -222,9 +223,11 @@ against the real sanity gate and fails it every time — `fresh_pct` counts
 `parsed_at` (= the raw payload's `fetchedAt`) within 24h of finish, and carried
 payloads are 20-30h old (33-79% vs the 85 floor). It would also trip the 36h
 view-time top-up demotion, and a finished shard's carried cursor scrapes
-nothing. The 7h bound keeps a skipped stock ≤ 12h old at publish, so both gates
-keep their meaning; `test/swsScrapeProgress.test.mjs` reads both thresholds out
-of their source files and fails if either moves under the bound.
+nothing. A skip cannot know how long the rest of a resumed run takes (it
+follows a night the host slept through), so step 4b re-checks after the shards:
+≤ 8h then + the ~4h post-scrape tail = ≤ 12h at publish, so both gates keep
+their meaning; `test/swsScrapeProgress.test.mjs` reads both thresholds out of
+their source files and fails if either moves under the bound.
 
 ```bash
 bash test/swsNightlySlotDeadline.test.sh   # deadline table, %z math, overrun decision + exec
