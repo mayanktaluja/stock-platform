@@ -428,8 +428,11 @@ shard_progress_summary() {
 #     timer clock advanced 39ms across a 284s suspend), while `date +%s` jumps
 #     by the full suspend. So a tick whose wall-clock gap exceeds 3 ticks was
 #     suspended for (gap − tick), almost exactly.
-#   - AC loss mid-run, mailed ONCE, only after a run that launched on AC (an
-#     operator-forced battery run, SWS_NIGHTLY_AC_WAIT=0, is not news).
+#   - A start on battery, mailed once at launch. Since #1645 the run starts at
+#     its slot whatever the power state (owner decision 2026-10-09) — so this
+#     mail is the heads-up the AC wait used to be: a shut lid will suspend it.
+#   - AC loss mid-run, mailed ONCE, once the run has been on AC at any point
+#     (at launch or plugged in later); a battery start is not itself a loss.
 #   - How late the deadline itself fired.
 # The same awake-only `sleep` is why the tick is 5s, not 30s: on battery the
 # host DarkWakes for ~5s (median; p90 9s) every ~15 min, so a 30s tick could
@@ -450,9 +453,20 @@ rm -f "${AC_LOST_FLAG}" "${DEADLINE_LATE_FILE}" 2>/dev/null || true
 BODY_LAUNCH_EPOCH="$(date +%s)"
 AC_AT_LAUNCH=0
 sws_on_ac && AC_AT_LAUNCH=1
+if [ "${AC_AT_LAUNCH}" = "0" ]; then
+  batt_pct="$(pmset -g batt 2>/dev/null | grep -o '[0-9]*%' | head -1)"
+  echo "[isolated-nightly] starting on battery (${batt_pct:-charge unknown})"
+  send_mail "🔋 SWS nightly — starting on battery (${batt_pct:-charge unknown})" \
+"The nightly started at $(ts) on battery. It runs anyway (by design since 2026-10-09), but on battery this Mac idle-sleeps after a minute and a shut lid suspends the scrape; 2026-09-26 and 09-29 ran out of time that way. A healthy run needs 6-9h of awake time; this one aborts at $(date -r "${SWS_NIGHTLY_DEADLINE_EPOCH}" '+%Y-%m-%d %H:%M:%S' 2>/dev/null || echo "${SWS_NIGHTLY_DEADLINE_EPOCH}"), and whatever it fetched recently is reused by the next run.
+
+Plug in and keep it awake for a clean night.
+
+$(pmset -g batt 2>&1 | head -3)"
+fi
 (
   wd_last="$(date +%s)"
   wd_suspended=0
+  wd_seen_ac="${AC_AT_LAUNCH}"
   while [ "${wd_last}" -lt "${SWS_NIGHTLY_DEADLINE_EPOCH}" ]; do
     sleep "${SWS_WATCHDOG_TICK_SEC}"
     wd_now="$(date +%s)"
@@ -463,7 +477,11 @@ sws_on_ac && AC_AT_LAUNCH=1
       echo "${wd_suspended}" > "${SUSPENDED_FILE}"
       echo "[isolated-nightly] host was suspended ~$(( (wd_gap - SWS_WATCHDOG_TICK_SEC) / 60 ))m before $(ts) (watchdog tick took ${wd_gap}s); $(( wd_suspended / 60 ))m suspended this run so far"
     fi
-    if [ "${AC_AT_LAUNCH}" = "1" ] && [ ! -f "${AC_LOST_FLAG}" ] && ! sws_on_ac; then
+    if [ -f "${AC_LOST_FLAG}" ]; then
+      :
+    elif sws_on_ac; then
+      wd_seen_ac=1
+    elif [ "${wd_seen_ac}" = "1" ]; then
       : > "${AC_LOST_FLAG}"
       echo "[isolated-nightly] AC power lost mid-run at $(ts)"
       send_mail "⚠️ SWS nightly — AC lost mid-run" \

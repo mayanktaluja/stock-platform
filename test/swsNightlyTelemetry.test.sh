@@ -211,9 +211,15 @@ if ! grep -q 'deadline exceeded' "${MAIL_LOG}"; then
 else
   bad "no abort mail on a normal run" "abort mail sent"
 fi
+if ! grep -q 'starting on battery' "${MAIL_LOG}"; then
+  ok "a run launched on AC sends no battery-start mail"
+else
+  bad "no battery-start mail on AC" "sent anyway"
+fi
 
-# A run that STARTED on battery (operator forced it, SWS_NIGHTLY_AC_WAIT=0) is
-# not an AC loss.
+# A start on battery is the DEFAULT since #1645 (owner, 2026-10-09: start at the
+# slot whatever the power state). It gets one heads-up mail, and is not itself
+# an "AC loss".
 reset_state
 echo battery > "${PMSET_MODE_FILE}"
 write_body <<'BODY'
@@ -223,10 +229,38 @@ exit 0
 BODY
 supervisor_harness "${WORK}/lock-s2" > "${WORK}/s2.sh"
 SWS_WATCHDOG_TICK_SEC=1 bash "${WORK}/s2.sh" 3600 >/dev/null 2>&1
+if [ "$(grep -c '^SUBJECT: 🔋 SWS nightly — starting on battery (41%)' "${MAIL_LOG}")" = "1" ]; then
+  ok "a start on battery is mailed once, with the charge"
+else
+  bad "battery-start mail once" "$(grep '^SUBJECT' "${MAIL_LOG}" | tr '\n' ' ')"
+fi
 if ! grep -q 'AC lost' "${MAIL_LOG}"; then
-  ok "a run launched on battery does not mail 'AC lost'"
+  ok "…and is not reported as 'AC lost'"
 else
   bad "launched on battery → no AC-lost mail" "mailed anyway"
+fi
+
+# Battery start → plugged in → unplugged again: THAT is an AC loss, once, and
+# never while it is actually on AC.
+reset_state
+echo battery > "${PMSET_MODE_FILE}"
+write_body <<BODY
+#!/usr/bin/env bash
+sleep 3
+echo ac > "${PMSET_MODE_FILE}"
+sleep 3
+grep -c 'AC lost' "${MAIL_LOG}" > "${WORK}/s3-while-on-ac"
+echo battery > "${PMSET_MODE_FILE}"
+sleep 4
+exit 0
+BODY
+supervisor_harness "${WORK}/lock-s3" > "${WORK}/s3.sh"
+SWS_WATCHDOG_TICK_SEC=1 bash "${WORK}/s3.sh" 3600 >/dev/null 2>&1
+if [ "$(cat "${WORK}/s3-while-on-ac" 2>/dev/null)" = "0" ] \
+   && [ "$(grep -c '^SUBJECT: ⚠️ SWS nightly — AC lost mid-run' "${MAIL_LOG}")" = "1" ]; then
+  ok "plugged in after a battery start, then unplugged → 'AC lost' once, not while on AC"
+else
+  bad "battery → AC → battery" "while_on_ac=$(cat "${WORK}/s3-while-on-ac" 2>/dev/null) mails=$(grep -c 'AC lost' "${MAIL_LOG}")"
 fi
 
 # ─────────────────────────────────────────────── abort mail content
