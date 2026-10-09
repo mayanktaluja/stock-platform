@@ -224,12 +224,20 @@ else
     shift
     "$@" &
     local child_pid=$!
+    # The sleeps MUST NOT inherit stdout/stderr. Killing the watchdog subshell
+    # below does not kill its `sleep`, and an orphaned sleep holding the write
+    # end of `with_timeout N cmd 2>&1 | sed ...` keeps that pipe open — so the
+    # pipeline only finished when the sleep did, padding EVERY piped step to
+    # its full timeout. This fallback is the one that runs under launchd (no
+    # gtimeout/timeout on its PATH): the early-aux branch always took exactly
+    # the sum of its timeouts (4621s / 7023s / 7621s), and ~25 min a night sat
+    # on the critical path after the barrier.
     (
-      sleep "${seconds}"
+      sleep "${seconds}" >/dev/null 2>&1 </dev/null
       if kill -0 "${child_pid}" >/dev/null 2>&1; then
         echo "[timeout] command exceeded ${seconds}s; terminating pid ${child_pid}: $*" >&2
         kill -TERM "${child_pid}" >/dev/null 2>&1 || true
-        sleep 5
+        sleep 5 >/dev/null 2>&1 </dev/null
         kill -KILL "${child_pid}" >/dev/null 2>&1 || true
       fi
     ) &
@@ -1138,13 +1146,23 @@ fi
 
 SWS_BRANCH_LOG="data/sws/sws-nightly-sws-branch.log"
 AUX_BRANCH_LOG="data/sws/sws-nightly-early-aux-branch.log"
-: > "${SWS_BRANCH_LOG}"
-: > "${AUX_BRANCH_LOG}"
+# Keep the previous run's raw branch logs one generation back instead of
+# truncating them: when a run is killed (deadline, sleep), these are the only
+# unprefixed record of where each branch was.
+for branch_log in "${SWS_BRANCH_LOG}" "${AUX_BRANCH_LOG}"; do
+  [ -s "${branch_log}" ] && mv -f "${branch_log}" "${branch_log%.log}.prev.log" 2>/dev/null
+  : > "${branch_log}"
+done
 
+# Prefix with awk + fflush(), NOT sed: sed writing into a pipe block-buffers,
+# so [sws-branch] lines reached launchd-stdout.log in one burst when the branch
+# ended (2026-09-28: all 139 lines 18.7h late), and a killed run lost them
+# entirely (09-26 and 09-29 showed zero sws-branch lines and looked "hung").
+# `sed -l` is not an option: BSD-only, and on GNU sed -l means line length.
 echo "[nightly] starting SWS/Groww primary branch and early auxiliary branch in parallel..."
-run_timed_step "sws_primary_branch" "git_sync" run_sws_primary_branch > >(tee -a "${SWS_BRANCH_LOG}" | sed 's/^/[sws-branch] /') 2>&1 &
+run_timed_step "sws_primary_branch" "git_sync" run_sws_primary_branch > >(tee -a "${SWS_BRANCH_LOG}" | awk '{ print "[sws-branch] " $0; fflush() }') 2>&1 &
 SWS_BRANCH_PID=$!
-run_timed_step "early_aux_branch" "git_sync" run_early_aux_branch > >(tee -a "${AUX_BRANCH_LOG}" | sed 's/^/[aux-branch] /') 2>&1 &
+run_timed_step "early_aux_branch" "git_sync" run_early_aux_branch > >(tee -a "${AUX_BRANCH_LOG}" | awk '{ print "[aux-branch] " $0; fflush() }') 2>&1 &
 AUX_BRANCH_PID=$!
 
 SWS_BRANCH_RC=0
