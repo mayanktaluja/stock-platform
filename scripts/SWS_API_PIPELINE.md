@@ -44,6 +44,7 @@ hooks, ~25× faster end-to-end.
 │   - Every 50 stocks: 30-180s burst pause            │
 │   - Honors panic flag, per-minute rate cap          │
 │   - On Cloudflare 403 / 429 → IMMEDIATE panic      │
+│     (SWS_PANIC_LADDER=1: retry ladder + quorum)     │
 │   - Output: data/sws/deep-api/<TICKER>.json (raw)   │
 └──────────┬──────────────────────────────────────────┘
            │
@@ -82,7 +83,11 @@ The client is invisible to Cloudflare for these reasons:
    `expires_at` (6h → 30h → 78h for consecutive trips with no clean scrape
    between, then human-only) and the run-start gates archive it once expired.
    A permanent flag is what turned one transient 403 on 2026-09-30 into nine
-   refused nightlies.
+   refused nightlies. With `SWS_PANIC_LADDER=1` a challenge/429 is first
+   confirmed over time (reprime + probes at 0/60/180/600s), against a control
+   ticker, and across shards (≥2 shards' votes, nobody served since, held for
+   240s) before it writes the flag; see
+   `scripts/sws-panic-ladder.mjs` and CLAUDE.md.
 
 ## Daily refresh
 
@@ -203,6 +208,8 @@ Re-scoring is then offline — no re-scrape needed.
 |---|---|---|
 | `panic_recorded` with `kind:"blocked"` (Cloudflare 403) | SWS Cloudflare flagged us as bot | STOP. Investigate. May need to reduce parallelism or wait. |
 | `panic_recorded` with `kind:"rate_limited"` (HTTP 429) | SWS rate-limited us | STOP. Wait an hour, lower `RATE_CAPS.maxStocksPerMinutePerShard` in `scripts/sws-config.mjs`, retry. |
+| `incident_open` / `ladder_probe` / `incident_cleared` (ladder on) | One shard got a challenge/429; the ladder is probing | Nothing — a cleared incident retried the stock. |
+| `halt` with `reason:"ladder_no_quorum"`, shard exit 7 (ladder on) | This shard stayed blocked through the ladder but peers were still served | Nothing — refresh-api retries it with a fresh browser; the run's other shards keep scraping. 4 confirmed incidents in one run go global. |
 | `halt` with `reason:"auth_expired"` | JWT in browser session expired | Re-run with fresh stealth context launch (orchestrator does this on each invocation) |
 | `halt` with `reason:"browser_closed"` | Playwright browser crashed | Respawn the shard. Progress preserved. |
 | `stock_failed` `kind:"graphql_error"` (search_phase_execution_exception) | SWS OpenSearch backend overloaded — sheds load briefly | Non-fatal, single stock. Retry sweep at end. |
