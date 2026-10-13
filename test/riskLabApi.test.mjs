@@ -137,9 +137,15 @@ console.log("riskLabApi: testing forced degraded state");
 {
   let server;
   try {
+    // -1, not 0: server.js rounds artifact age to 0.1h and tests `age > max`,
+    // so an artifact built < 3 min before the test reads as age 0.0 — NOT stale
+    // at max 0, and the scenario silently stops being degraded. That is exactly
+    // a nightly data PR: refresh-risk-lab.mjs runs minutes before the PR opens,
+    // CI starts at once, and #1649 (2026-10-10 data) sat red for 4 days while
+    // prod served 2026-09-28 picks. Every age is > -1.
     server = await bootServer({
-      RISK_LAB_MAX_ARTIFACT_AGE_HOURS: "0",
-      RISK_LAB_SOURCE_DRIFT_MAX_HOURS: "0",
+      RISK_LAB_MAX_ARTIFACT_AGE_HOURS: "-1",
+      RISK_LAB_SOURCE_DRIFT_MAX_HOURS: "-1",
     });
 
     const picksRes = await fetch(`http://localhost:${server.port}/api/risk-lab/picks-adjusted`);
