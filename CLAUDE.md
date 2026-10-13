@@ -233,6 +233,7 @@ their source files and fails if either moves under the bound.
 bash test/swsNightlySlotDeadline.test.sh   # deadline table, %z math, overrun decision + exec
 bash test/swsNightlyTelemetry.test.sh      # date shim fakes suspends: suspend log, AC/battery mails, abort mail, KILL escalation
 bash test/swsResumeAfterAbort.test.sh      # real step-3 block, git-clean survival, scraper skip ordering
+node test/swsApiScrapeResumeSkip.test.mjs  # the REAL scraper loop (injected page): skip young, refetch torn/old, done_count untouched
 node test/swsScrapeProgress.test.mjs       # slice math, payload usability, marker carry chain, gate invariant
 bash test/swsRefreshApiTimeout.test.sh     # sector steps bounded under the bash fallback
 ```

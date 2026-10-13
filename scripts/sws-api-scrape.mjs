@@ -380,7 +380,7 @@ async function main() {
           logEvent({ event: "skip", shard: shardId, ticker, reason: "fresh_payload", age_min: Math.round(ageMs / 60_000) });
           skippedFresh++;
           progress.next_local_index = i + 1;
-          saveProgress(shardId, progress);
+          saveProgress(shardId, progress, client);
           continue;
         }
       }
