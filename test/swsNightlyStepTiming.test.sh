@@ -13,13 +13,16 @@
 #    (2026-09-28: 18.7h late) and a killed run lost them (09-26, 09-29 looked
 #    hung with zero sws-branch lines while the Mac was really asleep mid-scrape).
 #
-# The fallback is extracted from the real script (no copy), so this pins the
+# The fallback is extracted from the real helper (no copy), so this pins the
 # shipped code; it is eval'd directly, so it runs even on a host with coreutils.
+# It lives in scripts/sws-with-timeout.sh, sourced by sws-nightly.sh and
+# sws-refresh-api.sh (test/swsRefreshApiTimeout.test.sh pins the refresh-api side).
 
 set -uo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 NIGHTLY="${REPO_ROOT}/scripts/sws-nightly.sh"
+HELPER="${REPO_ROOT}/scripts/sws-with-timeout.sh"
 WORK="$(mktemp -d "/tmp/sws-step-timing-$$.XXXXXX")"
 trap 'rm -rf "${WORK}" 2>/dev/null || true' EXIT
 
@@ -32,9 +35,15 @@ FALLBACK="$(awk '
   in_else && /^  with_timeout\(\) \{$/ { f=1 }
   f { print }
   f && /^  \}$/ { exit }
-' "${NIGHTLY}")"
+' "${HELPER}")"
 [ -n "${FALLBACK}" ] && ok 1 "with_timeout bash fallback extracted" || ok 0 "with_timeout bash fallback extracted" "(markers moved?)"
 eval "${FALLBACK}"
+grep -q '^\. "\${REPO_DIR}/scripts/sws-with-timeout.sh"$' "${NIGHTLY}" \
+  && ok 1 "sws-nightly.sh sources the shared helper" \
+  || ok 0 "sws-nightly.sh sources the shared helper"
+grep -qE '^[[:space:]]*with_timeout\(\) *\{' "${NIGHTLY}" \
+  && ok 0 "sws-nightly.sh has no private with_timeout copy" \
+  || ok 1 "sws-nightly.sh has no private with_timeout copy"
 
 echo "--- with_timeout fallback ---"
 # The command must outlive the watchdog's fork of `sleep` (any real step does);

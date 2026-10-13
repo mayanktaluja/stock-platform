@@ -57,7 +57,9 @@ GRANDCHILD_PIDFILE="${WORK}/grandchild.pid"
 export GRANDCHILD_PIDFILE
 ts() { date "+%H:%M:%S"; }
 send_mail() { echo "[mail] \$1"; }
+sws_on_ac() { true; }
 SWS_NIGHTLY_DEADLINE_SEC="\$1"
+SWS_NIGHTLY_START_EPOCH=\$(date +%s)
 SWS_NIGHTLY_DEADLINE_EPOCH=\$(( \$(date +%s) + \$1 ))
 shift
 EOF

@@ -296,6 +296,14 @@ try {
     prog(1, 1030); prog(2, 2010);
     r = recordCleanIfServed({ dataDir: d, servedSince: before, now: t + 31 * H });
     assert("40% served → NOT clean", r.recorded === false && r.served === 40, r);
+    // A resumed run (sws-scrape-progress.mjs) deliberately re-used 30 fresh
+    // payloads instead of requesting them: 40 of the 70 it asked for is 57%.
+    r = recordCleanIfServed({ dataDir: d, servedSince: before, now: t + 31 * H, excluded: 30 });
+    assert("resumed run: 40 served of 70 requested (30 reused) → clean", r.recorded === true && r.expected === 70, r);
+    r = recordCleanIfServed({ dataDir: d, servedSince: before, now: t + 31 * H, excluded: 95 });
+    assert("…an exclusion is capped at half the universe, so clean always needs ≥ 25% actually served", r.expected === 50, r);
+    // Drop those two clean_runs so the streak assertions below see the original story.
+    fs.writeFileSync(panicPaths(d).history, fs.readFileSync(panicPaths(d).history, "utf8").split("\n").filter((l) => !l.includes("clean_run")).join("\n"));
 
     prog(3, 3015);
     recordTrip({ dataDir: d, reason: "api:blocked", shardId: 2, evidence: "", now: t + 32 * H });

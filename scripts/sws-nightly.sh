@@ -210,45 +210,10 @@ slack_notify_on_exit() {
 }
 trap slack_notify_on_exit EXIT
 
-# Portable timeout wrapper: GNU `timeout` ships with Linux but not macOS
-# (stock macOS has no equivalent; Homebrew's coreutils provides `gtimeout`).
-# Prefer gtimeout, then timeout, then use a small bash watchdog so vanilla
-# macOS still enforces step deadlines.
-if command -v gtimeout >/dev/null 2>&1; then
-  with_timeout() { gtimeout "$@"; }
-elif command -v timeout >/dev/null 2>&1; then
-  with_timeout() { timeout "$@"; }
-else
-  with_timeout() {
-    local seconds="$1"
-    shift
-    "$@" &
-    local child_pid=$!
-    # The sleeps MUST NOT inherit stdout/stderr. Killing the watchdog subshell
-    # below does not kill its `sleep`, and an orphaned sleep holding the write
-    # end of `with_timeout N cmd 2>&1 | sed ...` keeps that pipe open — so the
-    # pipeline only finished when the sleep did, padding EVERY piped step to
-    # its full timeout. This fallback is the one that runs under launchd (no
-    # gtimeout/timeout on its PATH): the early-aux branch always took exactly
-    # the sum of its timeouts (4621s / 7023s / 7621s), and ~25 min a night sat
-    # on the critical path after the barrier.
-    (
-      sleep "${seconds}" >/dev/null 2>&1 </dev/null
-      if kill -0 "${child_pid}" >/dev/null 2>&1; then
-        echo "[timeout] command exceeded ${seconds}s; terminating pid ${child_pid}: $*" >&2
-        kill -TERM "${child_pid}" >/dev/null 2>&1 || true
-        sleep 5 >/dev/null 2>&1 </dev/null
-        kill -KILL "${child_pid}" >/dev/null 2>&1 || true
-      fi
-    ) &
-    local watchdog_pid=$!
-    wait "${child_pid}"
-    local rc=$?
-    kill "${watchdog_pid}" >/dev/null 2>&1 || true
-    wait "${watchdog_pid}" >/dev/null 2>&1 || true
-    return "${rc}"
-  }
-fi
+# Portable step timeout (gtimeout → timeout → bash watchdog). Shared with
+# sws-refresh-api.sh so the launchd-only fallback has exactly one definition.
+# shellcheck source=scripts/sws-with-timeout.sh
+. "${REPO_DIR}/scripts/sws-with-timeout.sh"
 
 # shellcheck source=scripts/sws-auto-ship.sh
 . "${REPO_DIR}/scripts/sws-auto-ship.sh"
@@ -653,8 +618,8 @@ fi
 # these files changed.
 #
 # Each step is wrapped in `with_timeout` (GNU timeout / gtimeout when
-# available, falls through to a no-op cap on stock macOS — see helper
-# definition near the top) and treated as warning-only. A transient NSE
+# available, else a bash watchdog on stock macOS — see
+# scripts/sws-with-timeout.sh) and treated as warning-only. A transient NSE
 # failure here MUST NOT block the SWS push that may still succeed below.
 # Mirrors the news-refresh pattern at step 3b.
 #

@@ -104,6 +104,10 @@ data/sws/universe-sitemap-dropped.json
 data/sws/universe_scraped.json
 data/sws/refresh-requested.json
 data/sws/panic-stop.flag
+# Resume-after-abort marker (written by sws-nightly-isolated.sh on a deadline
+# abort, archived by sws-refresh-api.sh step 3). MUST stay ignored: the next
+# run's `git clean -fd` (no -x) would otherwise delete it before step 3 reads it.
+data/sws/_resume-scrape*
 # Panic-policy state (scripts/sws-panic-policy.mjs). MUST stay ignored: the
 # isolated nightly resets with `git clean -fd` (no -x), which deletes untracked
 # files but keeps ignored ones — so ignoring is what lets the escalation streak

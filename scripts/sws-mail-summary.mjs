@@ -78,7 +78,12 @@ const payload = {
   ...(isHtml ? { html: body } : { text: body }),
 };
 
+// Bounded: the nightly wrapper mails from its watchdog and its deadline-abort
+// path, and an unbounded fetch on a sleeping laptop's dead socket (undici allows
+// 300s for headers + 300s for the body, counted in AWAKE time like `sleep`) could
+// hold either for hours of wall clock.
 const res = await fetch("https://api.resend.com/emails", {
+  signal: AbortSignal.timeout(Number(process.env.SWS_MAIL_TIMEOUT_MS) || 30_000),
   method: "POST",
   headers: {
     Authorization: `Bearer ${API_KEY}`,
@@ -87,7 +92,8 @@ const res = await fetch("https://api.resend.com/emails", {
   body: JSON.stringify(payload),
 }).catch((e) => ({ ok: false, status: 0, text: async () => `network: ${e.message}` }));
 
-const text = await res.text();
+// The timeout can also land mid-body.
+const text = await res.text().catch((e) => `network: ${e.message}`);
 if (!res.ok) {
   console.error(`[mail] FAILED status=${res.status} body=${text.slice(0, 200)}`);
   process.exit(1);

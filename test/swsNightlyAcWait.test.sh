@@ -83,11 +83,13 @@ echo "sws-nightly-isolated.sh AC wait"
 echo ""
 
 # ---------------------------------------------------------------- case 1
-# On battery for 3 polls, then the charger comes back → proceed.
-harness 300 > "${WORK}/ac1.sh"
+# On battery for 3 polls, then the charger comes back → proceed. 4 battery
+# answers: the entry check, the deferral mail's own `pmset -g batt` read, then
+# two polls that sleep.
+harness 7200 > "${WORK}/ac1.sh"
 : > "${WORK}/count1"
 START=$(date +%s)
-OUT=$(PMSET_COUNT_FILE="${WORK}/count1" PMSET_BATTERY_CALLS=3 \
+OUT=$(PMSET_COUNT_FILE="${WORK}/count1" PMSET_BATTERY_CALLS=4 \
       SWS_AC_POLL_SEC=1 \
       bash "${WORK}/ac1.sh" 2>&1)
 RC=$?
@@ -109,6 +111,26 @@ if printf '%s' "${OUT}" | grep -q "AC restored"; then
   ok "announces recovery"
 else
   bad "announces recovery" "missing"
+fi
+# The wait cannot move the deadline (it protects the next slot), so after it the
+# remaining budget is re-checked and reported.
+if printf '%s' "${OUT}" | grep -qE "AC restored at .* proceeding with 1h59m left, less than a full run needs"; then
+  ok "re-checks the budget after the wait and says it is short of a full run"
+else
+  bad "post-wait budget re-check" "$(printf '%s' "${OUT}" | grep 'AC restored')"
+fi
+
+# The deferral is mailed while it can still be fixed: plugging in at 01:00
+# buys the whole budget, plugging in at 18:00 buys a run that cannot finish.
+if printf '%s' "${OUT}" | grep -q "\[mail\] 🔌 SWS nightly — on battery, waiting for AC"; then
+  ok "mails when the deferral starts"
+else
+  bad "mails when the deferral starts" "$(printf '%s' "${OUT}" | tr '\n' ' ')"
+fi
+if [ "$(printf '%s\n' "${OUT}" | grep -c '\[mail\] 🔌')" = "1" ]; then
+  ok "…once, not once per poll"
+else
+  bad "deferral mailed once" "$(printf '%s\n' "${OUT}" | grep -c '\[mail\] 🔌') mails"
 fi
 
 if [ "${ELAPSED}" -ge 2 ] && [ "${ELAPSED}" -lt 30 ]; then
@@ -144,9 +166,25 @@ else
   bad "mails the give-up reason" "$(printf '%s' "${OUT2}" | tr '\n' ' ')"
 fi
 
+# ---------------------------------------------------------------- case 2b
+# Under an hour of budget left → give up at once rather than start a run that
+# cannot get through setup (SWS_NIGHTLY_MIN_START_SEC, default 1h).
+harness 1800 > "${WORK}/ac2b.sh"
+: > "${WORK}/count2b"
+START2B=$(date +%s)
+OUT2B=$(PMSET_COUNT_FILE="${WORK}/count2b" PMSET_BATTERY_CALLS=always \
+        SWS_AC_POLL_SEC=1 bash "${WORK}/ac2b.sh" 2>&1)
+RC2B=$?
+ELAPSED2B=$(( $(date +%s) - START2B ))
+if [ "${RC2B}" -eq 4 ] && [ "${ELAPSED2B}" -lt 3 ] && printf '%s' "${OUT2B}" | grep -q "never got AC"; then
+  ok "< 1h of budget left on battery → gives up at once (${ELAPSED2B}s), exit 4"
+else
+  bad "< 1h left → immediate give-up" "rc=${RC2B} ${ELAPSED2B}s $(printf '%s' "${OUT2B}" | tr '\n' ' ')"
+fi
+
 # ---------------------------------------------------------------- case 3
 # Already on AC → no wait at all, no deferral message.
-harness 300 > "${WORK}/ac3.sh"
+harness 7200 > "${WORK}/ac3.sh"
 : > "${WORK}/count3"
 START3=$(date +%s)
 OUT3=$(PMSET_COUNT_FILE="${WORK}/count3" PMSET_BATTERY_CALLS=0 \
@@ -159,6 +197,11 @@ if printf '%s' "${OUT3}" | grep -q "PROCEEDED" && ! printf '%s' "${OUT3}" | grep
 else
   bad "already on AC → proceeds immediately" "$(printf '%s' "${OUT3}" | tr '\n' ' ')"
 fi
+if ! printf '%s' "${OUT3}" | grep -q "\[mail\]"; then
+  ok "already on AC → no mail"
+else
+  bad "already on AC → no mail" "$(printf '%s' "${OUT3}" | grep '\[mail\]')"
+fi
 
 if [ "${ELAPSED3}" -lt 3 ]; then
   ok "already on AC → costs no wall clock (${ELAPSED3}s)"
@@ -170,7 +213,7 @@ fi
 # The opt-out still works, so an operator can force a battery run. Note this is
 # SWS_NIGHTLY_AC_WAIT, not SWS_NIGHTLY_SKIP_BATTERY — see the wrapper for why
 # the two policies are deliberately separate.
-harness 300 > "${WORK}/ac4.sh"
+harness 7200 > "${WORK}/ac4.sh"
 : > "${WORK}/count4"
 OUT4=$(PMSET_COUNT_FILE="${WORK}/count4" PMSET_BATTERY_CALLS=always \
        SWS_NIGHTLY_AC_WAIT=0 SWS_AC_POLL_SEC=1 \
