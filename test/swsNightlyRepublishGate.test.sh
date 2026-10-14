@@ -72,8 +72,10 @@ chmod +x "${WORK}/bin/gh"
 ORIGIN="${WORK}/origin.git"
 SEED="${WORK}/seed"
 CLONE="${WORK}/clone"
-git init -q --bare "${ORIGIN}"
-git init -q "${SEED}"
+# Pin the branch name: the fixture checks out / pushes "main" by name, and a
+# runner without init.defaultBranch (GitHub Actions) would create "master".
+git init -q --bare --initial-branch=main "${ORIGIN}"
+git init -q --initial-branch=main "${SEED}"
 git -C "${SEED}" config user.email t@t
 git -C "${SEED}" config user.name t
 git -C "${SEED}" remote add origin "${ORIGIN}"
