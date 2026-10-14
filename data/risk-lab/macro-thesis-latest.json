@@ -1,21 +1,20 @@
 {
   "schema_version": "macro-thesis-v1",
-  "generated_at": "2026-09-28T14:02:07.386Z",
+  "generated_at": "2026-10-14T07:17:38.277Z",
   "regime": {
     "regime": "CALM",
     "severity": 1,
     "confidence": 0.78,
     "label": "Calm",
-    "generated_at": "2026-09-27T18:30:24.279Z",
+    "generated_at": "2026-10-14T04:30:25.348Z",
     "days_in_state": 0,
     "stale": false,
-    "reasoning": "Headlines are mixed with IPO, technicals and modest macro cues, no clear dominant shock",
+    "reasoning": "Most headlines are company‑specific with no clear macro driver, only isolated oil/war mentions.",
     "key_events": [
-      "Geopolitical developments, crude oil likely to steer stock market this week (Business Standard)",
-      "Natural gas defies energy shock as strong supply keeps prices in check (Economic Times)",
-      "Will US jobs data add to pressure on Fed policymakers? (FT Markets)",
-      "RBI may hike 50-75 bps; Archit Shah on what’s next for bonds (Economic Times)",
-      "Value of old supertankers soars past new builds as market goes ‘bananas’ (FT Markets)"
+      "Saudi Aramco HQ attacked in suspected Houthi strike (FT Markets)",
+      "Oil prices rise as traders weigh Saudi supply risk, Russian diesel flow (Business Standard)",
+      "Rupee strengthens beyond 95/$ (Business Standard)",
+      "Jewellery stocks ahead of festive season: rising rates, bond yields (Economic Times)"
     ],
     "classifier_provider": "groq",
     "source_health": {
@@ -42,14 +41,21 @@
     },
     "sector_impacts": []
   },
-  "catalyst_proximity_days": 3,
+  "catalyst_proximity_days": 15,
   "upcoming_catalysts": [
     {
-      "date": "2026-10-01",
-      "kind": "RBI_MPC",
-      "label": "RBI Monetary Policy Committee — October 2026",
+      "date": "2026-10-29",
+      "kind": "FOMC",
+      "label": "US FOMC Meeting — October 2026",
       "severity_potential": 3,
-      "days_until": 3
+      "days_until": 15
+    },
+    {
+      "date": "2026-11-05",
+      "kind": "GST_COUNCIL",
+      "label": "GST Council Meeting (provisional)",
+      "severity_potential": 2,
+      "days_until": 22
     }
   ],
   "position_cap_pct": 10,
@@ -57,7 +63,7 @@
     {
       "key": "continue",
       "label": "CALM continues at current severity",
-      "probability": 0.52,
+      "probability": 0.58,
       "duration_days": 14,
       "n_analogs": 9,
       "indeterminate": false,
@@ -107,7 +113,7 @@
     {
       "key": "escalate",
       "label": "CALM escalates (severity +1)",
-      "probability": 0.1,
+      "probability": 0.11,
       "duration_days": 7,
       "n_analogs": 9,
       "indeterminate": false,
@@ -157,7 +163,7 @@
     {
       "key": "de_escalate",
       "label": "CALM de-escalates → CALM",
-      "probability": 0.19,
+      "probability": 0.21,
       "duration_days": 21,
       "n_analogs": 9,
       "indeterminate": false,
@@ -207,14 +213,14 @@
     {
       "key": "new_shock",
       "label": "New unrelated shock supersedes CALM",
-      "probability": 0.19,
+      "probability": 0.1,
       "duration_days": 7,
       "n_analogs": 0,
       "indeterminate": false,
       "beneficiaries": [],
       "losers": [],
       "reasoning": {
-        "modulator_applied": 2,
+        "modulator_applied": 1,
         "base_probability": 0.1,
         "analog_pool_regime": "n/a (new regime — projection suppressed by design)",
         "analog_warnings": [],
@@ -229,7 +235,7 @@
   "indeterminate": false,
   "audit": {
     "thesis_schema": "macro-thesis-v1",
-    "regime_generated_at": "2026-09-27T18:30:24.279Z",
+    "regime_generated_at": "2026-10-14T04:30:25.348Z",
     "regime_classifier": "groq",
     "scenario_engine_version": "scenario-prob-v1"
   }
