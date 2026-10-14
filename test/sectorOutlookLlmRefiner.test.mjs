@@ -4,6 +4,9 @@ import path from "node:path";
 
 import {
   classifyNewsBatch,
+  classifyBatch,
+  createLlmCircuitBreaker,
+  llmUnavailableReason,
   isWithinRecencyWindow,
   needsLlmRefine,
   newsItemHash,
@@ -330,6 +333,124 @@ console.log("llmRefiner: classifier_version bump cold-invalidates cache");
   // above), and the documentation invariant is enforced by the source.
   // Here we just assert that the hash exists and is well-formed.
   assert("hash includes version (well-formed)", /^[0-9a-f]{24}$/.test(h1));
+}
+
+// ─── circuit breaker ─────────────────────────────────────────────────
+console.log("llmRefiner: circuit breaker opens after N consecutive failures, success resets");
+{
+  const b = createLlmCircuitBreaker({ threshold: 3 });
+  b.recordFailure("gemini", { status: 429 });
+  b.recordFailure("gemini", { status: 429 });
+  b.recordSuccess("gemini");
+  b.recordFailure("gemini", { status: 429 });
+  b.recordFailure("gemini", { status: 429 });
+  assert("2 + success + 2 failures → still closed", !b.isOpen("gemini"), b.snapshot());
+  b.recordFailure("gemini", { status: 429 });
+  assert("3rd consecutive failure opens it", b.isOpen("gemini"), b.snapshot());
+  assert("snapshot keeps the last error", b.snapshot().gemini.last_error === "429", b.snapshot());
+  assert("other providers unaffected", !b.isOpen("groq"));
+}
+
+console.log("llmRefiner: open circuit is half-open after the cooldown");
+{
+  let clock = 0;
+  const b = createLlmCircuitBreaker({ threshold: 3, cooldownMs: 120_000, now: () => clock });
+  for (let i = 0; i < 3; i += 1) b.recordFailure("gemini", { status: 429 });
+  assert("open right after the 3rd failure", b.isOpen("gemini"));
+  clock += 119_000;
+  assert("still open at 119s", b.isOpen("gemini"));
+  clock += 2_000;
+  assert("admits a probe after 120s", !b.isOpen("gemini"));
+  b.recordFailure("gemini", { status: 429 });
+  assert("failed probe re-opens for another cooldown", b.isOpen("gemini") && b.snapshot().gemini.times_opened === 2, b.snapshot());
+  clock += 121_000;
+  b.recordSuccess("gemini");
+  assert("successful probe closes it", !b.isOpen("gemini") && b.snapshot().gemini.open === false && b.snapshot().gemini.consecutive === 0, b.snapshot());
+}
+
+console.log("llmRefiner: legacy 'heuristic-only' stamp on a refine candidate is retried");
+{
+  // Before 2026-10-14 capped-out candidates were stamped heuristic-only, which
+  // the lookup treated as a permanent hit. The 14 MB May cache is full of them.
+  const item = { id: "legacy1", date: "2026-05-15", title: "Board meeting scheduled next month legacy", body: "" };
+  const cache = { entries: { [newsItemHash(item)]: {
+    theme: "NEUTRAL", sign: 0, intensity: 1, confidence: 0.2, time_hint: "medium",
+    classifier_provider: "heuristic", classifier_version: CLASSIFIER_VERSION,
+    _cached_at: "2026-05-26T00:00:00.000Z", _last_provider_attempt: "heuristic-only",
+  } } };
+  let calls = 0;
+  const out = await classifyNewsBatch([item], {
+    cache,
+    llmAvailable: true,
+    nowMs: NOW_MS,
+    providerOverride: async (xs) => { calls += 1; return xs.map(() => ({
+      theme: "ORDER_WINS", sign: 1, intensity: 2, confidence: 0.8, time_hint: "medium",
+      top_reason: "", classifier_provider: "llm", classifier_version: CLASSIFIER_VERSION,
+    })); },
+  });
+  assert("provider called for the legacy entry", calls === 1 && out.stats.heuristic_cache_invalidations === 1, out.stats);
+  assert("entry upgraded to succeeded", cache.entries[newsItemHash(item)]._last_provider_attempt === "succeeded");
+}
+
+console.log("llmRefiner: classifyBatch skips open providers and honours llmGate between providers");
+{
+  const items = [{ id: "g1", date: "2026-05-15", title: "Board meeting scheduled next month", body: "" }];
+  const ok = (provider) => async (xs) => xs.map(() => ({
+    theme: "ORDER_WINS", sign: 1, intensity: 2, confidence: 0.8, time_hint: "medium",
+    top_reason: "", classifier_provider: provider, classifier_version: CLASSIFIER_VERSION,
+  }));
+  const calls = { gemini: 0, groq: 0 };
+  const providers = [
+    { name: "gemini", classify: async () => { calls.gemini += 1; const e = new Error("429"); e.status = 429; throw e; } },
+    { name: "groq", classify: async (xs) => { calls.groq += 1; return ok("groq")(xs); } },
+  ];
+  const breaker = createLlmCircuitBreaker({ threshold: 1 });
+  const first = await classifyBatch(items, { providers, breaker });
+  assert("falls through to groq on gemini failure", first?.[0]?.classifier_provider === "groq", first);
+  await classifyBatch(items, { providers, breaker });
+  assert("open gemini is not called again", calls.gemini === 1 && calls.groq === 2, calls);
+
+  // Gate closes while gemini is failing → don't start groq; null = deferred.
+  const calls2 = { groq: 0 };
+  let gateOpen = true;
+  const providers2 = [
+    { name: "gemini", classify: async () => { gateOpen = false; throw new Error("timeout"); } },
+    { name: "groq", classify: async (xs) => { calls2.groq += 1; return ok("groq")(xs); } },
+  ];
+  const gated = await classifyBatch(items, { providers: providers2, llmGate: () => gateOpen });
+  assert("gate closed mid-batch → null (deferred), groq not started", gated === null && calls2.groq === 0, { gated, calls2 });
+
+  assert("llmUnavailableReason: no providers", llmUnavailableReason(null, { providers: [] }) === "no_llm_provider");
+  const all = createLlmCircuitBreaker({ threshold: 1 });
+  all.recordFailure("gemini", {}); all.recordFailure("groq", {});
+  assert("llmUnavailableReason: every circuit open", llmUnavailableReason(all, { providers }) === "providers_tripped");
+  assert("llmUnavailableReason: usable → null", llmUnavailableReason(createLlmCircuitBreaker(), { providers }) === null);
+}
+
+console.log("llmRefiner: caller-owned cache — no file I/O, capped-out candidates not stamped");
+{
+  const cachePath = tmpCachePath("caller-owned");
+  const items = Array.from({ length: 20 }, (_, i) => ({
+    id: `c${i}`, date: "2026-05-15", title: `Board meeting scheduled next month ${i}`, body: "",
+  }));
+  const cache = { entries: {} };
+  const used = new Set();
+  const out = await classifyNewsBatch(items, {
+    cachePath,
+    cache,
+    usedHashes: used,
+    providerOverride: async (xs) => xs.map(() => ({
+      theme: "NEUTRAL", sign: 0, intensity: 1, confidence: 0.6, time_hint: "medium",
+      top_reason: "", classifier_provider: "llm", classifier_version: CLASSIFIER_VERSION,
+    })),
+    llmAvailable: true,
+    maxLlmCalls: 1,
+    nowMs: NOW_MS,
+  });
+  assert("no cache file written (caller checkpoints)", !fs.existsSync(cachePath));
+  assert("only the 8 LLM'd items are cached", Object.keys(cache.entries).length === 8, Object.keys(cache.entries).length);
+  assert("12 capped-out candidates reported deferred", out.stats.llm_deferred === 12, out.stats);
+  assert("usedHashes collects all 20", used.size === 20, used.size);
 }
 
 if (_failed > 0) {

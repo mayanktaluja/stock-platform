@@ -1,11 +1,14 @@
 /**
  * Sector Outlook — LLM Theme Refiner.
  *
- * Second-pass classifier that only sees the ~5% of news items the
- * heuristic flagged as ambiguous (`isHighConfidenceHeuristic(...) === false`)
- * AND that are still within the 365-day recency window (anything older
- * than that doesn't contribute to even the long-horizon aggregator
- * window, so spending LLM budget on it is wasted).
+ * Second-pass classifier that only sees the news items the heuristic
+ * flagged as ambiguous (`isHighConfidenceHeuristic(...) === false`) AND
+ * that are still within the 365-day recency window (anything older than
+ * that doesn't contribute to even the long-horizon aggregator window, so
+ * spending LLM budget on it is wasted). That was meant to be ~5%; measured
+ * on 2026-10-14 it is ~96% (48.5k of 50.7k items), so the nightly's call
+ * cap — not the scoping — is what bounds cost, and the persisted cache is
+ * what lets coverage accumulate across nights.
  *
  * Pattern mirrors services/earnings/earningsLlmBatcher.js — same hash-
  * cache discipline, same Gemini → Groq → heuristic provider chain via
@@ -55,6 +58,20 @@ const DEFAULT_CONCURRENCY = 2;
 const CACHE_TTL_DAYS = 90;
 const FAILED_RETRY_MS = 24 * 60 * 60 * 1000;
 const RECENCY_WINDOW_DAYS = 365;
+// One HTTP attempt is bounded here; withOpenAIRetry owns the retries. The SDK
+// default (10 min timeout, 2 internal retries) turned one Gemini 429 into up
+// to 9 requests and let a single hung call outlive the nightly's 900s step.
+const LLM_REQUEST_TIMEOUT_MS = 45_000;
+// Consecutive post-retry failures before a provider is skipped for the rest
+// of the run. Gemini's free tier runs out of daily quota partway through the
+// 400-call budget and then 429s every call — 2026-10-14 spent its whole 900s
+// re-learning that, one 1s+4s backoff at a time.
+export const DEFAULT_BREAKER_THRESHOLD = 3;
+// An open circuit re-admits one probe after this long. A per-minute 429
+// (Gemini free tier is 10 RPM; Groq's TPM fits ~2 of these 4k-token batches)
+// must not end the LLM for the whole night — only a quota that stays gone does,
+// and that costs one failed probe per cooldown.
+export const DEFAULT_BREAKER_COOLDOWN_MS = 120_000;
 
 // Whitelist of fields that constitute the wire contract for a theme entry.
 // Anything starting with "_" is internal cache metadata and is stripped
@@ -83,10 +100,12 @@ export function loadCache(p = CACHE_PATH) {
   }
 }
 
+// Compact JSON: the cache is gitignored local state (never diffed), and at
+// ~50k entries the pretty-printed form is a third bigger to write per checkpoint.
 export function writeCacheAtomic(cache, p = CACHE_PATH) {
   const tmp = p + ".tmp." + process.pid;
   fs.mkdirSync(path.dirname(p), { recursive: true });
-  fs.writeFileSync(tmp, JSON.stringify(cache, null, 2));
+  fs.writeFileSync(tmp, JSON.stringify(cache));
   fs.renameSync(tmp, p);
 }
 
@@ -114,7 +133,7 @@ export function stripCacheMeta(entry) {
   return out;
 }
 
-function pruneCache(cache, usedHashes) {
+export function pruneCache(cache, usedHashes) {
   const cutoff = Date.now() - CACHE_TTL_DAYS * 86400000;
   for (const [hash, entry] of Object.entries(cache.entries)) {
     if (usedHashes.has(hash)) continue;
@@ -155,7 +174,12 @@ let _groq = null;
 function getGroqClient() {
   if (_groq) return _groq;
   if (!process.env.GROQ_API_KEY) return null;
-  _groq = new OpenAI({ apiKey: process.env.GROQ_API_KEY, baseURL: GROQ_BASE_URL });
+  _groq = new OpenAI({
+    apiKey: process.env.GROQ_API_KEY,
+    baseURL: GROQ_BASE_URL,
+    timeout: LLM_REQUEST_TIMEOUT_MS,
+    maxRetries: 0,
+  });
   return _groq;
 }
 
@@ -163,8 +187,120 @@ let _gemini = null;
 function getGeminiClient() {
   if (_gemini) return _gemini;
   if (!process.env.GEMINI_API_KEY) return null;
-  _gemini = new OpenAI({ apiKey: process.env.GEMINI_API_KEY, baseURL: GEMINI_BASE_URL });
+  _gemini = new OpenAI({
+    apiKey: process.env.GEMINI_API_KEY,
+    baseURL: GEMINI_BASE_URL,
+    timeout: LLM_REQUEST_TIMEOUT_MS,
+    maxRetries: 0,
+  });
   return _gemini;
+}
+
+/**
+ * Per-run circuit breaker over the provider chain. A provider that fails
+ * `threshold` times in a row (after withOpenAIRetry's own retries) is skipped
+ * for `cooldownMs`, then half-open: calls are let through again, the first
+ * success closes it, a failure re-opens it for another cooldown. In-memory
+ * only — a new nightly starts with every provider closed.
+ */
+export function createLlmCircuitBreaker({
+  threshold = DEFAULT_BREAKER_THRESHOLD,
+  cooldownMs = DEFAULT_BREAKER_COOLDOWN_MS,
+  now = () => Date.now(),
+} = {}) {
+  const state = new Map();
+  const get = (name) => {
+    if (!state.has(name)) {
+      state.set(name, { consecutive: 0, failures: 0, successes: 0, open: false, opened_at: null, times_opened: 0, last_error: null });
+    }
+    return state.get(name);
+  };
+  return {
+    // Open = skip. Past the cooldown the circuit stays flagged open (so the
+    // snapshot shows it) but admits calls until the next outcome decides.
+    isOpen: (name) => {
+      const s = get(name);
+      return s.open && now() - s.opened_at < cooldownMs;
+    },
+    recordSuccess(name) {
+      const s = get(name);
+      if (s.open) console.warn(`[sector-outlook-llm] ${name} circuit closed — probe succeeded`);
+      s.open = false;
+      s.consecutive = 0;
+      s.successes += 1;
+    },
+    recordFailure(name, err) {
+      const s = get(name);
+      s.consecutive += 1;
+      s.failures += 1;
+      s.last_error = String(err?.status || err?.code || err?.message || (typeof err === "string" ? err : "error")).slice(0, 80);
+      if (s.consecutive >= threshold) {
+        if (!s.open || now() - s.opened_at >= cooldownMs) {
+          s.times_opened += 1;
+          console.warn(
+            `[sector-outlook-llm] ${name} circuit OPEN after ${s.consecutive} consecutive failures ` +
+            `(last: ${s.last_error}) — skipping ${name} for ${Math.round(cooldownMs / 1000)}s`,
+          );
+        }
+        s.open = true;
+        s.opened_at = now();
+      }
+    },
+    snapshot: () => Object.fromEntries([...state].map(([name, s]) => [name, { ...s }])),
+  };
+}
+
+/**
+ * The provider chain in priority order. `providerOverride` (one fake) and
+ * `providers` (an explicit [{ name, classify }] chain) are test hooks that
+ * bypass the network; otherwise Gemini → Groq, whichever keys are set.
+ */
+function resolveProviders(opts = {}) {
+  if (typeof opts.providerOverride === "function") {
+    const fn = opts.providerOverride;
+    return [{
+      name: "override",
+      classify: async (items) => {
+        const out = await fn(items);
+        if (!Array.isArray(out) || out.length !== items.length) throw new Error("override returned a malformed batch");
+        return out;
+      },
+    }];
+  }
+  if (Array.isArray(opts.providers)) return opts.providers;
+  const chain = [];
+  const gemini = getGeminiClient();
+  if (gemini) {
+    chain.push({
+      name: "gemini",
+      classify: (items) => classifyBatchViaProvider(items, {
+        client: gemini, model: GEMINI_MODEL, label: "SECTOR-OUTLOOK-LLM/gemini",
+      }),
+    });
+  }
+  const groq = getGroqClient();
+  if (groq) {
+    chain.push({
+      name: "groq",
+      skip: () => getGroqQuotaState().limited,
+      classify: (items) => classifyBatchViaProvider(items, {
+        client: groq, model: GROQ_MODEL, label: "SECTOR-OUTLOOK-LLM/groq",
+      }),
+    });
+  }
+  return chain;
+}
+
+/**
+ * Why no LLM call can be made right now, or null if one can. "no_llm_provider"
+ * = no keys / hooks configured; "providers_tripped" = every configured provider
+ * has an open circuit or a known quota window.
+ */
+export function llmUnavailableReason(breaker, opts = {}) {
+  const chain = resolveProviders(opts);
+  if (chain.length === 0) return "no_llm_provider";
+  const usable = chain.some((p) => !(breaker && breaker.isOpen(p.name)) && !(p.skip && p.skip()));
+  return usable ? null : "providers_tripped";
 }
 
 function buildSystemPrompt() {
@@ -285,40 +421,32 @@ async function classifyBatchViaProvider(newsItems, { client, model, label }) {
 /**
  * Classify a batch of ≤8 news items with Gemini → Groq → heuristic
  * fallback. Never throws. Mirrors earningsLlmSignal.classifyBatch shape.
+ *
+ * opts.breaker  skip providers whose circuit is open; record each outcome.
+ * opts.llmGate  checked before EACH provider attempt; when it turns false
+ *               (e.g. the run's LLM deadline passed while Gemini was failing)
+ *               returns null instead of starting the next provider, so one
+ *               batch can't stack Gemini's and Groq's worst cases past the
+ *               step timeout. null = "not classified" — the caller must
+ *               treat the items as deferred, not as a failed LLM attempt.
  */
 export async function classifyBatch(newsItems, opts = {}) {
   if (!Array.isArray(newsItems) || newsItems.length === 0) return [];
+  const breaker = opts.breaker || null;
 
-  // Test hook — bypass the network entirely.
-  if (typeof opts.providerOverride === "function") {
+  for (const provider of resolveProviders(opts)) {
+    if (breaker && breaker.isOpen(provider.name)) continue;
+    if (provider.skip && provider.skip()) continue;
+    if (typeof opts.llmGate === "function" && !opts.llmGate()) return null;
     try {
-      const out = await opts.providerOverride(newsItems);
-      if (Array.isArray(out) && out.length === newsItems.length) return out;
-    } catch {
-      // fall through to heuristic
-    }
-    return newsItems.map(heuristicClassifyOne);
-  }
-
-  const gemini = getGeminiClient();
-  if (gemini) {
-    try {
-      return await classifyBatchViaProvider(newsItems, {
-        client: gemini, model: GEMINI_MODEL, label: "SECTOR-OUTLOOK-LLM/gemini",
-      });
+      const out = await provider.classify(newsItems);
+      if (breaker) breaker.recordSuccess(provider.name);
+      return out;
     } catch (err) {
-      console.warn(`[sector-outlook-llm] Gemini failed: ${err.message} — trying Groq`);
-    }
-  }
-
-  const groq = getGroqClient();
-  if (groq && !getGroqQuotaState().limited) {
-    try {
-      return await classifyBatchViaProvider(newsItems, {
-        client: groq, model: GROQ_MODEL, label: "SECTOR-OUTLOOK-LLM/groq",
-      });
-    } catch (err) {
-      console.warn(`[sector-outlook-llm] Groq failed: ${err.message} — using heuristic`);
+      if (breaker) breaker.recordFailure(provider.name, err);
+      if (provider.name !== "override") {
+        console.warn(`[sector-outlook-llm] ${provider.name} failed: ${err?.message || err} — trying next provider`);
+      }
     }
   }
 
@@ -357,8 +485,26 @@ export async function runChunks(chunks, fn, concurrency) {
  * @param {number}  [opts.maxLlmCalls]       cap LLM batches; remainder
  *                                            heuristic-only this run
  * @param {number}  [opts.nowMs]             override Date.now() for tests
+ * @param {object}  [opts.cache]             caller-owned in-memory cache. When
+ *                                            set, this call neither loads,
+ *                                            prunes nor writes the file — the
+ *                                            caller checkpoints. (Re-reading
+ *                                            and re-writing a 10-14 MB file per
+ *                                            ticker cost ~90 ms × 6k tickers.)
+ * @param {Set}     [opts.usedHashes]        collects every hash seen, for the
+ *                                            caller's end-of-run prune
+ * @param {function}[opts.llmGate]           () => boolean; false = make no
+ *                                            further LLM calls (deadline,
+ *                                            budget, tripped providers)
+ * @param {object}  [opts.breaker]           createLlmCircuitBreaker() instance
  * @returns {Promise<{results, stats}>}
  *          results[i] aligns with newsItems[i]
+ *
+ * Refine candidates the LLM never saw (over the cap, or gated off) are NOT
+ * cached: they keep their heuristic result this run and stay eligible next
+ * run. Stamping them "heuristic-only" made them permanent cache hits, which
+ * — once the cache persists across runs — would freeze the LLM's coverage at
+ * whatever alphabetical prefix fit the first night's budget.
  */
 export async function classifyNewsBatch(newsItems, opts = {}) {
   if (!Array.isArray(newsItems) || newsItems.length === 0) {
@@ -393,8 +539,10 @@ export async function classifyNewsBatch(newsItems, opts = {}) {
 
   // Pass 2 — cache lookup for items that need refinement.
   const cachePath = opts.cachePath || CACHE_PATH;
-  const cache = loadCache(cachePath);
+  const callerOwnsCache = !!(opts.cache && opts.cache.entries);
+  const cache = callerOwnsCache ? opts.cache : loadCache(cachePath);
   const hashes = newsItems.map(newsItemHash);
+  if (opts.usedHashes instanceof Set) for (const h of hashes) opts.usedHashes.add(h);
   const refineCandidates = [];
   let cacheHits = 0;
   let heuristicCacheInvalidations = 0;
@@ -408,8 +556,11 @@ export async function classifyNewsBatch(newsItems, opts = {}) {
     const failedRetryEligible = priorAttempt === "failed"
       && Number.isFinite(cachedMs)
       && (nowMs - cachedMs) >= FAILED_RETRY_MS;
+    // "heuristic-only" is only stamped on items that never need the LLM, so
+    // finding one on a refine candidate means a pre-2026-10-14 stamp of a
+    // capped-out item (or a heuristic that changed) — retry it.
     const isStaleHeuristic = isCachedHeuristic && llmAvailable && (
-      priorAttempt === "none" || priorAttempt === undefined ||
+      priorAttempt === "none" || priorAttempt === undefined || priorAttempt === "heuristic-only" ||
       (priorAttempt === "failed" && failedRetryEligible)
     );
     if (cached && cached.theme && !isStaleHeuristic) {
@@ -424,30 +575,48 @@ export async function classifyNewsBatch(newsItems, opts = {}) {
 
   // Pass 3 — LLM chunk over remaining ambiguous items, capped by maxLlmCalls.
   const chunks = [];
-  let llmItems = 0;
   for (let i = 0; i < refineCandidates.length; i += chunkSize) {
     if (chunks.length >= maxLlmCalls) break;
-    const slice = refineCandidates.slice(i, i + chunkSize);
-    chunks.push(slice);
-    llmItems += slice.length;
+    chunks.push(refineCandidates.slice(i, i + chunkSize));
   }
 
   let llmCalls = 0;
+  let llmItems = 0;
   let llmHeuristicCount = 0;
+  let cacheWrites = 0;
+  const llmGate = typeof opts.llmGate === "function" ? opts.llmGate : null;
+  // Every refine candidate starts deferred; a chunk that comes back with
+  // signals (LLM or the post-failure heuristic) takes its items off the list.
+  const deferred = new Set(refineCandidates);
 
   const chunkResults = await runChunks(
     chunks,
     async (chunkIdxs) => {
+      if (llmGate && !llmGate()) return { chunkIdxs, signals: null };
       const items = chunkIdxs.map((idx) => newsItems[idx]);
       llmCalls += 1;
-      const signals = await classifyBatch(items, { providerOverride: opts.providerOverride });
-      return { chunkIdxs, signals };
+      llmItems += items.length;
+      const signals = await classifyBatch(items, {
+        providerOverride: opts.providerOverride,
+        providers: opts.providers,
+        breaker: opts.breaker,
+        llmGate,
+      });
+      return { chunkIdxs, signals, sent: true };
     },
     concurrency,
   );
 
-  for (const { chunkIdxs, signals } of chunkResults) {
+  for (const { chunkIdxs, signals, sent } of chunkResults) {
+    if (!signals) {
+      // Gated off mid-batch: the provider attempt still counts against the
+      // call budget, but its items are deferred, not LLM-classified.
+      if (sent) llmItems -= chunkIdxs.length;
+      continue;
+    }
     chunkIdxs.forEach((newsIdx, j) => {
+      deferred.delete(newsIdx);
+      cacheWrites += 1;
       const sig = signals[j] || heuristicClassifyOne(newsItems[newsIdx]);
       const wire = stripCacheMeta(sig);
       if (sig.classifier_provider === "heuristic") llmHeuristicCount += 1;
@@ -466,32 +635,39 @@ export async function classifyNewsBatch(newsItems, opts = {}) {
   // For uncached items that ran the heuristic (heuristic was high-conf
   // OR item was outside the recency window), also stamp the cache so
   // subsequent runs are zero-LLM. This is the "zero LLM call on cache-
-  // hit re-run" invariant the PR-2 test asserts.
+  // hit re-run" invariant the PR-2 test asserts. Deferred refine
+  // candidates are skipped on purpose — see the JSDoc above.
   for (let i = 0; i < newsItems.length; i += 1) {
     if (cache.entries[hashes[i]]) continue;
+    if (deferred.has(i)) continue;
     const wire = stripCacheMeta({ ...heuristics[i], top_reason: heuristics[i].top_reason || "" });
     cache.entries[hashes[i]] = {
       ...wire,
       _cached_at: nowIso,
       _last_provider_attempt: "heuristic-only",
     };
+    cacheWrites += 1;
   }
 
-  // Prune + write atomically.
-  pruneCache(cache, new Set(hashes));
-  cache.schema_version = CACHE_SCHEMA;
-  cache.updated_at = nowIso;
-  writeCacheAtomic(cache, cachePath);
+  if (!callerOwnsCache) {
+    // Prune + write atomically.
+    pruneCache(cache, new Set(hashes));
+    cache.schema_version = CACHE_SCHEMA;
+    cache.updated_at = nowIso;
+    writeCacheAtomic(cache, cachePath);
+  }
 
   return {
     results: heuristics,
     stats: {
       total: newsItems.length,
-      heuristic: newsItems.length - llmCalls * chunkSize + llmHeuristicCount,
+      heuristic: newsItems.length - llmItems + llmHeuristicCount,
       cache_hits: cacheHits,
       heuristic_cache_invalidations: heuristicCacheInvalidations,
       llm_calls: llmCalls,
       llm_items: llmItems,
+      llm_deferred: deferred.size,
+      cache_writes: cacheWrites,
       llm_available: llmAvailable,
       skip_llm: false,
     },
@@ -501,6 +677,9 @@ export async function classifyNewsBatch(newsItems, opts = {}) {
 export default {
   classifyNewsBatch,
   classifyBatch,
+  createLlmCircuitBreaker,
+  llmUnavailableReason,
+  pruneCache,
   isWithinRecencyWindow,
   needsLlmRefine,
   newsItemHash,

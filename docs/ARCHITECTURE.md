@@ -513,7 +513,7 @@ Logs to `data/sws/sws-nightly.log`. Ordered steps (✗ = fatal):
 | 9 | Resolve actuals | `resolve-earnings-actuals.mjs` | `earnings-history/<date>.json#actual_*` | 300s |
 | 9a | 5x strategy | `refresh-5x-strategy.mjs` | `data/strategy/multibagger-*.json` | 120s |
 | 9b | Risk Lab | `refresh-risk-lab.mjs` | `data/risk-lab/picks-adjusted-latest.json` | 60s |
-| 9d2/3 | Sector news + outlook | `refresh-sector-news-themes` · `refresh-sector-outlook` | `data/sectorOutlook/*` | 900s (≤400 LLM calls) |
+| 9d2/3 | Sector news + outlook | `refresh-sector-news-themes` · `refresh-sector-outlook` | `data/sectorOutlook/*` | 900s (≤400 LLM calls, LLM stops at 600s; walk always finishes) + 300s no-LLM re-run if killed |
 | 4✗ | Sanity gate | `sws-sanity-gate.mjs` | `data/sws/_sanity/_latest.json` | exit 7 → data-only PR |
 | 4b | Coverage drift | `coverage-gap-analysis.mjs --refresh-sme` | `data/coverage/*` | — |
 | 5✗ | Commit + push | branch `chore/sws-auto-refresh-<date>-<time>` | — | exit 8 |
@@ -657,7 +657,7 @@ remain active and separate.
 | `data/macro-headlines/`, `data/macroRegime-history/` | headline archive, regime snapshots | macro history (single-writer) |
 | `data/risk-lab/` | `picks-adjusted-latest`, `quality-flags-latest`, `macro-thesis-latest` | Risk Lab |
 | `data/strategy/` | `multibagger-scores-latest`, `catalyst-slate-latest`, `multibagger-health-latest` | 5x Lab |
-| `data/sectorOutlook/` | `outlook-latest`, `classified-news/*.jsonl`, `llm-theme-cache` | Sector Outlook |
+| `data/sectorOutlook/` | `outlook-latest`, `classified-news/*.jsonl`, `llm-theme-cache` (gitignored local state, persists across nightlies) | Sector Outlook |
 | `data/paper-trades/` | active Track Record/paper-trade artifacts | Track Record |
 | `data/nse-fo/` | `oi-deltas-latest`, `bhavcopy/`, `history/<T>` | F&O OI screener |
 | `data/coverage/` | coverage-gap audit, ground truth, SME/Emerge | universe coverage QA |

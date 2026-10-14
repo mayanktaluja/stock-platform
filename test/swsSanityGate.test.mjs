@@ -34,6 +34,10 @@ import {
   MAX_FV_COVERAGE_DROP_PCT,
   MIN_FRESH_PCT,
   MIN_FRESH_PCT_BLOCK,
+  SECTOR_EVIDENCE_MIN_BASELINE,
+  GSV_MIN_BASELINE,
+  evaluateSectorEvidence,
+  evaluateGrowingSectorValue,
 } from "../scripts/sws-sanity-gate.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -72,6 +76,28 @@ assert(
 // We only care about the picks_recent / picks_matches_last_refresh findings
 // here, so other layers can be in whatever shape — they'll fail BLOCK and
 // FAIL the verdict, but our assertions target specific findings regardless.
+function gsvRows(n) {
+  return Array.from({ length: n }, (_, i) => ({ ticker: `GSV${i}` }));
+}
+
+// 24 sectors, `evidence` of which carry 90-day news in the 3-12m horizon.
+function outlookDoc(evidence) {
+  return {
+    generated_at: new Date().toISOString(),
+    sectors: Array.from({ length: 24 }, (_, i) => ({
+      sector: `Sector${i}`,
+      horizons: {
+        "3_12m": {
+          outlook_label: i < evidence ? "TAILWIND" : "NEUTRAL",
+          confidence: i < evidence ? "MED" : "LOW",
+          bottom_up: { n_news: i < evidence ? 12 : 0, score: i < evidence ? 0.4 : 0.2 },
+        },
+      },
+    })),
+    audit: { total_entries: evidence * 100 },
+  };
+}
+
 function buildFixture(ageHours, opts = {}) {
   const root = mkdtempSync(join(tmpdir(), "sws-sanity-test-"));
   mkdirSync(join(root, "deep"), { recursive: true });
@@ -98,9 +124,22 @@ function buildFixture(ageHours, opts = {}) {
         top_ranked_30_v3: top30,
         best_to_buy_now: Array.from({ length: opts.bestToBuyCount ?? 0 }, (_, i) => ({ ticker: `BUY${i}` })),
         upcoming_earnings: [],
+        ...(opts.sectorOutlook ? { growing_sector_value: gsvRows(opts.sectorOutlook.gsv) } : {}),
       },
+      ...(opts.sectorOutlook ? { section_audit: { growing_sector_value: { reason: "ok", future_growth_candidate_count: opts.sectorOutlook.gsv * 3 } } } : {}),
     }),
   );
+  // opts.sectorOutlook → current + committed-baseline Sector Outlook and picks,
+  // wired through the SWS_SANITY_*_PATH overrides (see runGateAndGetFindings).
+  if (opts.sectorOutlook) {
+    const so = opts.sectorOutlook;
+    writeFileSync(join(root, "outlook.json"), JSON.stringify(outlookDoc(so.evidence)));
+    writeFileSync(join(root, "outlook-baseline.json"), JSON.stringify(outlookDoc(so.baselineEvidence)));
+    writeFileSync(join(root, "picks-baseline.json"), JSON.stringify({
+      sections: { growing_sector_value: gsvRows(so.baselineGsv) },
+      section_audit: { growing_sector_value: { reason: "ok", future_growth_candidate_count: so.baselineGsv * 3 } },
+    }));
+  }
 
   // Minimal last-refresh.json — present-but-empty is enough to let
   // layer1() reach the picks_recent block. Other L1 checks will fail
@@ -260,6 +299,11 @@ function runGateAndGetFindings(ageHours, opts = {}) {
         SWS_SANITY_ROOT: root,
         SWS_RUN_ID: "",
         ...(opts.fvCoverageBaseline ? { SWS_SANITY_FV_BASELINE_PATH: join(root, "fv-baseline.json") } : {}),
+        ...(opts.sectorOutlook ? {
+          SWS_SANITY_SECTOR_OUTLOOK_PATH: join(root, "outlook.json"),
+          SWS_SANITY_SECTOR_OUTLOOK_BASELINE_PATH: join(root, "outlook-baseline.json"),
+          SWS_SANITY_PICKS_BASELINE_PATH: join(root, "picks-baseline.json"),
+        } : {}),
       },
       encoding: "utf-8",
     });
@@ -286,6 +330,9 @@ function runGateAndGetFindings(ageHours, opts = {}) {
       shardsFailed: l1.find((c) => c.name === "shards_failed_zero"),
       freshPctFloor: l2.find((c) => c.name === "fresh_pct_floor"),
       freshPctWarn: l2.find((c) => c.name === "fresh_pct_threshold"),
+      sectorEvidence: report.layers.L_sector_outlook?.checks.find((c) => c.name === "sector_outlook_evidence_breadth"),
+      gsvCollapse: report.layers.L_sector_outlook?.checks.find((c) => c.name === "growing_sector_value_not_collapsed"),
+      sectorOutlookLayer: report.layers.L_sector_outlook,
       blockingNames: Object.values(report.layers)
         .flatMap((L) => L.checks || [])
         .filter((c) => !c.ok && c.severity === "BLOCK")
@@ -888,6 +935,128 @@ assert(
   scrapeNeverRan.freshPctFloor?.ok === false
     && scrapeNeverRan.blockingNames.includes("fresh_pct_floor"),
   { floor: scrapeNeverRan.freshPctFloor?.detail, blocking: scrapeNeverRan.blockingNames },
+);
+
+// ---------------------------------------------------------------- assert 23
+// L_sector_outlook. Replays 2026-10-14 at fixture scale: a themes walk killed
+// mid-alphabet shipped Sector Outlook 90-day evidence 24 → 3 sectors and
+// growing_sector_value 100 → 0 while the gate stayed silent. Both checks must
+// WARN with the counts (the mail subject flips on verdict=WARN), and must not
+// BLOCK — the SWS scrape itself was fine and still ships.
+const sectorCollapse = runGateAndGetFindings(1, {
+  sectorOutlook: { evidence: 3, baselineEvidence: 24, gsv: 0, baselineGsv: 100 },
+});
+assert(
+  "2026-10-14 replay: sector_outlook_evidence_breadth WARNs with 3 vs 24",
+  sectorCollapse.sectorEvidence?.ok === false
+    && sectorCollapse.sectorEvidence?.severity === "WARN"
+    && sectorCollapse.sectorEvidence?.detail?.evidence_sectors_90d === 3
+    && sectorCollapse.sectorEvidence?.detail?.baseline_evidence_sectors_90d === 24,
+  sectorCollapse.sectorEvidence,
+);
+assert(
+  "2026-10-14 replay: growing_sector_value_not_collapsed WARNs with served 0 vs 100 and the evidence counts inline",
+  sectorCollapse.gsvCollapse?.ok === false
+    && sectorCollapse.gsvCollapse?.severity === "WARN"
+    && sectorCollapse.gsvCollapse?.detail?.served === 0
+    && sectorCollapse.gsvCollapse?.detail?.baseline_served === 100
+    && sectorCollapse.gsvCollapse?.detail?.baseline_future_growth_candidate_count === 300
+    && sectorCollapse.gsvCollapse?.detail?.evidence_sectors_90d === 3,
+  sectorCollapse.gsvCollapse,
+);
+assert(
+  "2026-10-14 replay: neither sector check is a blocker",
+  !sectorCollapse.blockingNames.includes("sector_outlook_evidence_breadth")
+    && !sectorCollapse.blockingNames.includes("growing_sector_value_not_collapsed"),
+  sectorCollapse.blockingNames,
+);
+
+const sectorHealthy = runGateAndGetFindings(1, {
+  sectorOutlook: { evidence: 22, baselineEvidence: 24, gsv: 90, baselineGsv: 100 },
+});
+assert(
+  "healthy night (22/24 sectors, 90/100 GSV) → both sector checks pass",
+  sectorHealthy.sectorEvidence?.ok === true && sectorHealthy.gsvCollapse?.ok === true,
+  { evidence: sectorHealthy.sectorEvidence, gsv: sectorHealthy.gsvCollapse },
+);
+
+const noSectorOpts = runGateAndGetFindings(1, {});
+assert(
+  "fixture root without sector overrides → L_sector_outlook records nothing (never reads the repo's HEAD)",
+  noSectorOpts.sectorOutlookLayer === undefined,
+  noSectorOpts.sectorOutlookLayer,
+);
+
+// First nights after this ships: HEAD is #1681 itself (3 sectors, 0 picks), so
+// the relative checks have no usable baseline. A repeat must still WARN.
+const degradedBaseline = runGateAndGetFindings(1, {
+  sectorOutlook: { evidence: 3, baselineEvidence: 3, gsv: 0, baselineGsv: 0 },
+});
+assert(
+  "degraded HEAD baseline + degraded night → evidence still WARNs (absolute floor: half of 24 sectors)",
+  degradedBaseline.sectorEvidence?.ok === false && degradedBaseline.sectorEvidence?.detail?.abs_floor === 12,
+  degradedBaseline.sectorEvidence,
+);
+assert(
+  "degraded HEAD baseline + degraded night → GSV 0 still WARNs",
+  degradedBaseline.gsvCollapse?.ok === false && degradedBaseline.gsvCollapse?.detail?.served === 0,
+  degradedBaseline.gsvCollapse,
+);
+const recoveredOnDegraded = runGateAndGetFindings(1, {
+  sectorOutlook: { evidence: 24, baselineEvidence: 3, gsv: 100, baselineGsv: 0 },
+});
+assert(
+  "recovery night on a degraded baseline → both pass",
+  recoveredOnDegraded.sectorEvidence?.ok === true && recoveredOnDegraded.gsvCollapse?.ok === true,
+  { evidence: recoveredOnDegraded.sectorEvidence, gsv: recoveredOnDegraded.gsvCollapse },
+);
+
+// Pure evaluator edges.
+assert(
+  "evidence: nothing current and no comparable baseline → not evaluated (null)",
+  evaluateSectorEvidence(null, { evidence_sectors_90d: SECTOR_EVIDENCE_MIN_BASELINE - 1 }) === null,
+);
+assert(
+  "evidence: tiny baseline is ignored, absolute floor still judges (relative floor null)",
+  evaluateSectorEvidence({ sectors: 24, evidence_sectors_90d: 20 }, { evidence_sectors_90d: 3 })?.ok === true
+    && evaluateSectorEvidence({ sectors: 24, evidence_sectors_90d: 20 }, { evidence_sectors_90d: 3 })?.detail?.floor === null,
+);
+assert(
+  "evidence: slow decay below half the universe WARNs even when each night was ≥ half the last (13 → 7)",
+  evaluateSectorEvidence({ sectors: 24, evidence_sectors_90d: 7 }, { evidence_sectors_90d: 13 })?.ok === false,
+);
+assert(
+  "evidence: outlook missing entirely vs a real baseline → WARN outlook_missing",
+  evaluateSectorEvidence(null, { evidence_sectors_90d: 24, tailwind_3_12m: 22, total_entries: 1 })?.ok === false
+    && evaluateSectorEvidence(null, { evidence_sectors_90d: 24 })?.detail?.reason === "outlook_missing",
+);
+assert(
+  "evidence: an outlook with zero sectors is not healthy",
+  evaluateSectorEvidence({ sectors: 0, evidence_sectors_90d: 0 }, null)?.ok === false,
+);
+assert(
+  "evidence: exactly half passes (12 of 24), 11 warns",
+  evaluateSectorEvidence({ sectors: 24, evidence_sectors_90d: 12 }, { evidence_sectors_90d: 24 })?.ok === true
+    && evaluateSectorEvidence({ sectors: 24, evidence_sectors_90d: 11 }, { evidence_sectors_90d: 24 })?.ok === false,
+);
+assert(
+  "gsv: no section audit and no comparable baseline → not evaluated (null)",
+  evaluateGrowingSectorValue({ served: 0, has_audit: false }, { served: GSV_MIN_BASELINE - 1 }) === null,
+);
+assert(
+  "gsv: served 0 WARNs on its own, whatever the baseline and audit reason",
+  evaluateGrowingSectorValue({ served: 0, has_audit: true, reason: "sector_outlook_stale" }, { served: 0 })?.ok === false
+    && evaluateGrowingSectorValue({ served: 0, has_audit: true, reason: "ok" }, null)?.detail?.audit_reason === "ok",
+);
+assert(
+  "gsv: picks missing the section entirely counts as 0 served",
+  evaluateGrowingSectorValue(null, { served: 100 })?.ok === false
+    && evaluateGrowingSectorValue(null, { served: 100 })?.detail?.served === 0,
+);
+assert(
+  "gsv: a quarter of the baseline passes (25 of 100), below it warns",
+  evaluateGrowingSectorValue({ served: 25, has_audit: true }, { served: 100 })?.ok === true
+    && evaluateGrowingSectorValue({ served: 24, has_audit: true }, { served: 100 })?.ok === false,
 );
 
 // ---------------------------------------------------------------- summary
