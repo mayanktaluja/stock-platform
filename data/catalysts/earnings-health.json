@@ -1,10 +1,10 @@
 {
   "schema_version": "earnings-health-v1",
-  "generated_at": "2026-10-14T07:17:19.925Z",
+  "generated_at": "2026-10-15T04:30:05.884Z",
   "resolved": {
-    "count": 1107,
-    "delta_vs_prior": 6,
-    "prior_count": 1101
+    "count": 1117,
+    "delta_vs_prior": 10,
+    "prior_count": 1107
   },
   "llm_providers": {
     "groq": 20,
@@ -31,9 +31,9 @@
   "cap_lift_gate": {
     "state": false,
     "enough_data_to_lift_cap": false,
-    "days_in_current_state": 126,
+    "days_in_current_state": 127,
     "current_resolved": 0,
-    "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (1107 across all versions)",
+    "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (1117 across all versions)",
     "detail": {
       "resolved_required": 30,
       "bucket_60_64_hit_rate_required": 55,
@@ -46,7 +46,7 @@
   },
   "weight_tuning_gate": {
     "met": true,
-    "resolved_count": 999,
+    "resolved_count": 1009,
     "distinct_quarters": 3,
     "sectors_with_min_events": 20,
     "detail": {
@@ -62,27 +62,27 @@
       "by_sector": {
         "Pharmaceuticals & Biotech": 77,
         "Consumer Durables": 68,
-        "Capital Goods": 152,
+        "Capital Goods": 153,
         "Food, Beverage & Tobacco": 39,
         "Materials": 160,
-        "Consumer Services": 37,
-        "Diversified Financials": 89,
-        "Automobiles": 65,
+        "Consumer Services": 38,
+        "Diversified Financials": 90,
+        "Automobiles": 66,
         "Healthcare": 39,
         "Media": 16,
         "Utilities": 31,
-        "Semiconductors": 6,
+        "Semiconductors": 7,
         "Retail": 31,
         "Transportation": 26,
         "Telecom": 7,
         "Commercial Services": 20,
         "Energy": 15,
-        "Software": 46,
-        "Banks": 29,
+        "Software": 47,
+        "Banks": 30,
         "Tech": 17,
         "Consumer Retailing": 4,
-        "Household": 13,
-        "Insurance": 10,
+        "Household": 14,
+        "Insurance": 12,
         "Unknown": 1,
         "Real Estate": 1
       }
@@ -97,9 +97,9 @@
       "gate": {
         "state": false,
         "enough_data_to_lift_cap": false,
-        "days_in_current_state": 126,
+        "days_in_current_state": 127,
         "current_resolved": 0,
-        "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (1107 across all versions)",
+        "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (1117 across all versions)",
         "detail": {
           "resolved_required": 30,
           "bucket_60_64_hit_rate_required": 55,
@@ -117,7 +117,7 @@
       "reason": "Weight tuning review is eligible from the separate tuning sample gate.",
       "gate": {
         "met": true,
-        "resolved_count": 999,
+        "resolved_count": 1009,
         "distinct_quarters": 3,
         "sectors_with_min_events": 20,
         "detail": {
@@ -133,27 +133,27 @@
           "by_sector": {
             "Pharmaceuticals & Biotech": 77,
             "Consumer Durables": 68,
-            "Capital Goods": 152,
+            "Capital Goods": 153,
             "Food, Beverage & Tobacco": 39,
             "Materials": 160,
-            "Consumer Services": 37,
-            "Diversified Financials": 89,
-            "Automobiles": 65,
+            "Consumer Services": 38,
+            "Diversified Financials": 90,
+            "Automobiles": 66,
             "Healthcare": 39,
             "Media": 16,
             "Utilities": 31,
-            "Semiconductors": 6,
+            "Semiconductors": 7,
             "Retail": 31,
             "Transportation": 26,
             "Telecom": 7,
             "Commercial Services": 20,
             "Energy": 15,
-            "Software": 46,
-            "Banks": 29,
+            "Software": 47,
+            "Banks": 30,
             "Tech": 17,
             "Consumer Retailing": 4,
-            "Household": 13,
-            "Insurance": 10,
+            "Household": 14,
+            "Insurance": 12,
             "Unknown": 1,
             "Real Estate": 1
           }
@@ -196,10 +196,10 @@
   },
   "macro_regime": {
     "present": true,
-    "generated_at": "2026-10-13T20:30:41.393Z",
-    "age_hours": 11,
+    "generated_at": "2026-10-14T14:30:32.666Z",
+    "age_hours": 14,
     "classifier_provider": "groq",
-    "regime": "WAR_ESCALATION",
+    "regime": "RATE_HIKE",
     "stale": false,
     "alert": null
   },
@@ -211,31 +211,31 @@
   "history_files": 111,
   "hit_rate_summary": {
     "schema_version": "hit-rate-summary-v1",
-    "generated_at": "2026-10-14T07:17:20.059Z",
-    "resolved_count": 984,
-    "unresolved_count": 3446,
+    "generated_at": "2026-10-15T04:30:06.577Z",
+    "resolved_count": 994,
+    "unresolved_count": 3436,
     "strict": {
-      "hit_rate_pct": 41.2,
-      "ci_low_pct": 38.2,
-      "ci_high_pct": 44.5,
-      "sample_size": 984
+      "hit_rate_pct": 41.1,
+      "ci_low_pct": 38,
+      "ci_high_pct": 44,
+      "sample_size": 994
     },
     "lenient": {
-      "hit_rate_pct": 79.9,
-      "ci_low_pct": 77.5,
-      "ci_high_pct": 82.4,
-      "sample_size": 982
+      "hit_rate_pct": 79.7,
+      "ci_low_pct": 77.3,
+      "ci_high_pct": 82.1,
+      "sample_size": 992
     },
     "catastrophic": {
-      "rate_pct": 20.1,
-      "ci_low_pct": 17.6,
-      "ci_high_pct": 22.5,
-      "sample_size": 982
+      "rate_pct": 20.3,
+      "ci_low_pct": 17.7,
+      "ci_high_pct": 22.9,
+      "sample_size": 992
     },
     "rolling_30": {
       "window": 30,
-      "catastrophic_count": 8,
-      "catastrophic_rate_pct": 26.7
+      "catastrophic_count": 9,
+      "catastrophic_rate_pct": 30
     },
     "catastrophic_alert": true,
     "catastrophic_alert_threshold_pct": 12
@@ -243,7 +243,7 @@
   "alerts": [
     "LLM heuristic share (above V3 floor): 105/185 = 57% (threshold 20%; 150 below-floor skips excluded by design) — LLM tier may be failing on eligible events; check earningsLlmSignal.js logs",
     "INSUFFICIENT_DATA predictions trending UP: 15 in last 30d vs 11 prior 30d (+36.4%) — predictor coverage may be degrading",
-    "Catastrophic rate alert: rolling-30 26.7% (8/30) exceeds 12% threshold — Risk Lab promotion gate cannot clear"
+    "Catastrophic rate alert: rolling-30 30% (9/30) exceeds 12% threshold — Risk Lab promotion gate cannot clear"
   ],
   "healthy": false
 }

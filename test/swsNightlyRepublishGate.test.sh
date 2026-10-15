@@ -201,6 +201,8 @@ run_case() {
     echo 'COMMIT_BODY="fixture body"'
     echo "BRANCH=\"${branch}\""
     echo 'PR_URL="https://github.com/mayanktaluja/stock-platform/pull/1649"'
+    # sws-nightly.sh sources the push helper at startup; the extract doesn't.
+    echo ". \"${HERE}/../scripts/sws-git-push.sh\""
     printf '%s\n' "${ship}"
     printf '%s\n' "${FN}"
     echo 'republish_conflicted_pr_on_latest_main "${PR_URL}" "${BRANCH}"'

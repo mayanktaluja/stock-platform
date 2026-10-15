@@ -238,6 +238,37 @@ node test/swsScrapeProgress.test.mjs       # slice math, payload usability, mark
 bash test/swsRefreshApiTimeout.test.sh     # sector steps bounded under the bash fallback
 ```
 
+### Publish push — `sws_git_push`, never a bare `git push`
+
+Every SWS publish path (nightly main + data-only + conflicted-PR republish,
+`sws-auto-ship.sh`, `sws-refresh-api.sh`'s standalone auto-PR) pushes through
+`scripts/sws-git-push.sh`. On 2026-10-15 a clean run's ~50 MB push stalled ~1h
+on an awake host, GitHub returned `RPC failed; HTTP 408 … the remote end hung
+up`, and the single-shot push exited 8 — prod kept the previous day's data. The
+helper:
+
+- aborts a stalled upload (`http.lowSpeedLimit` 1 KB/s for 300s — not less:
+  GitHub sends only ~1 B/s of keepalives while indexing the pack) and caps each
+  attempt at 20 min wall clock, killing the attempt's whole **process group**
+  (`set -m`). launchd has no `gtimeout`; `with_timeout`'s fallback kills only
+  `git`, leaving `git-remote-https` uploading and holding any output pipe;
+- retries up to 4× with wall-clock backoff (60/180/600s), HTTP/1.1 from attempt
+  2, every attempt fitted inside `SWS_NIGHTLY_DEADLINE_EPOCH`;
+- reconciles every non-zero rc with `ls-remote`, and polls it for 3 more
+  minutes before giving up (a pack can land after the client disconnects — git
+  even printed "Everything up-to-date" after the 408). A reconciled push
+  recreates the tracking ref + upstream `push -u` would write; `gh pr create`
+  calls also pass `--head` explicitly;
+- does NOT retry deterministic failures: pre-push `Push blocked`, `[rejected]`,
+  auth/401/403/404. Unknown errors ARE retried.
+
+A failed push leaves the commit on the local branch; the mail carries the
+re-push + `gh pr create` commands. Nothing needs re-scraping.
+
+```bash
+bash test/swsGitPush.test.sh   # verbatim 408 replay, stall + child kill, landed/late-landing reconcile, no-retry classes, wall-clock backoff
+```
+
 ---
 
 ## Dividends to capture (Portfolio Analyzer)

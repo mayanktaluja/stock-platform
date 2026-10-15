@@ -129,12 +129,26 @@ function gitOrNull(...args) {
 const HAS_HISTORY = gitOrNull("rev-parse", "HEAD~1") !== null;
 
 // A real nightly auto-refresh commit — the exact shape that has been blocked.
-// --grep matches ANY line of the message, so a bare "auto-refresh" picked up
-// #1689, a code fix whose body discusses auto-refresh PRs, and every non-data
-// push went red. Anchor to the auto-refresh subject shape instead.
-const dataCommit = HAS_HISTORY
-  ? gitOrNull("rev-list", "-1", "-E", "--grep=^chore\\([a-z-]+\\): auto-refresh ", "origin/main")
-  : null;
+/**
+ * The newest auto-refresh commit on main, matched on the SUBJECT line only.
+ *
+ * This used to be `rev-list -1 --grep=auto-refresh`, which matches anywhere in
+ * the message. On 2026-10-15 main's tip became #1689, a code fix whose BODY
+ * talks about a conflicted auto-refresh PR — so it was sampled as the
+ * "data-only" commit and the suite went red on a clean main until the next
+ * macro refresh happened to land on top.
+ */
+function findAutoRefreshCommit(limit = 200) {
+  const log = gitOrNull("log", `-${limit}`, "--format=%H%x09%s", "origin/main");
+  if (!log) return null;
+  for (const line of log.split("\n")) {
+    const [sha, subject = ""] = line.split("\t");
+    if (/^chore\([\w-]+\): auto-refresh\b/.test(subject)) return sha;
+  }
+  return null;
+}
+
+const dataCommit = HAS_HISTORY ? findAutoRefreshCommit() : null;
 
 const isDataPath = (f) =>
   f.startsWith("data/") || /^(fundamentals|surveillance|governance|fundamentalsHistory)\.json$/.test(f);
