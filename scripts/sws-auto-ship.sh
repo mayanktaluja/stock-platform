@@ -36,6 +36,13 @@ _auto_ship_fail() {
   return 1
 }
 
+# Bounded + retrying + ls-remote-reconciled push (see sws-git-push.sh). Sourced
+# here too because sws-refresh-us.sh sources this file without sws-nightly.sh.
+if ! declare -F sws_git_push >/dev/null 2>&1; then
+  # shellcheck source=scripts/sws-git-push.sh
+  . "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/sws-git-push.sh"
+fi
+
 sws_auto_ship_market() {
   local market="${SWS_SHIP_MARKET:-}"
   if [ -z "${market}" ]; then
@@ -215,8 +222,8 @@ ${body}" 2>&1 | sed 's/^/[git] /'
     return $?
   fi
 
-  git -C "${tmpdir}" push -u origin "${branch}" 2>&1 | sed 's/^/[git] /'
-  local push_rc=${PIPESTATUS[0]}
+  sws_git_push -C "${tmpdir}" "${branch}"
+  local push_rc=$?
   if [ "${push_rc}" -ne 0 ]; then
     echo "[auto-ship] ${market}: push failed — leaving local branch ${branch}"
     cleanup_auto_ship_worktree
@@ -227,8 +234,9 @@ keep showing stale values until this is resolved. The commit still exists on the
 local branch ${branch}, so it can be re-pushed once the cause is fixed rather
 than requiring a full re-scrape.
 
-Most likely causes: the pre-push hook rejected the push (see the [git] lines
-above), no network, or expired credentials."
+Transient network failures were already retried (sws-git-push.sh), so the most
+likely causes are: the pre-push hook rejected the push (see the [git] lines
+above), a sustained outage, or expired credentials."
     return $?
   fi
 

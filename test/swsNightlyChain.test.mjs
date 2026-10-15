@@ -673,7 +673,7 @@ assert(
 );
 assert(
   "sws-nightly.sh runs sanity gate inside recovery worktree before republish push",
-  /republish_conflicted_pr_on_latest_main\(\)[\s\S]*?cd "\$\{tmpdir\}" && node scripts\/sws-sanity-gate\.mjs[\s\S]*?git -C "\$\{tmpdir\}" push -u origin "\$\{recovery_branch\}"/.test(nightly),
+  /republish_conflicted_pr_on_latest_main\(\)[\s\S]*?cd "\$\{tmpdir\}" && node scripts\/sws-sanity-gate\.mjs[\s\S]*?sws_git_push -C "\$\{tmpdir\}" "\$\{recovery_branch\}"/.test(nightly),
   null,
 );
 assert(

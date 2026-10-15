@@ -139,6 +139,8 @@ run_republish() {
     echo "REPO_DIR=\"${WORK}/no-repo\""
     echo 'RUN_LABEL="2026-10-14 00:30"'
     echo 'COMMIT_BODY="fixture body"'
+    # sws-nightly.sh sources the push helper at startup; the extract doesn't.
+    echo ". \"${HERE}/../scripts/sws-git-push.sh\""
     printf '%s\n' "${SHIP}"
     printf '%s\n' "$1"
     echo 'republish_conflicted_pr_on_latest_main https://github.com/mayanktaluja/stock-platform/pull/1649 chore/sws-auto-refresh-x'

@@ -89,6 +89,7 @@ function runShip({ failing, extraEnv = "" }) {
 
   const script = `
 export PATH="${bin}:$PATH"
+export SWS_PUSH_BACKOFF_SEC=0 SWS_PUSH_SETTLE_SEC=0
 send_mail() { echo "MAIL_SENT: $1"; touch "${tmp}/mail.sent"; }
 cd "${tmp}"
 source "${SHIP}"
@@ -128,6 +129,7 @@ console.log("swsAutoShipFailurePropagation: US path has no send_mail and must no
   writeStubs("push");
   const script = `
 export PATH="${bin}:$PATH"
+export SWS_PUSH_BACKOFF_SEC=0 SWS_PUSH_SETTLE_SEC=0
 cd "${tmp}"
 source "${SHIP}"
 SWS_SHIP_MARKET=us SWS_SHIP_ALLOW_WITHOUT_PICKS=1 sws_auto_ship_market data/catalysts

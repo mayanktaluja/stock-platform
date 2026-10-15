@@ -37,7 +37,7 @@ assert(
 );
 assert(
   "shared helper uses local git + gh create + gh auto-merge with immediate fallback",
-  /git -C "\$\{tmpdir\}" push -u origin "\$\{branch\}"/.test(autoShip) &&
+  /sws_git_push -C "\$\{tmpdir\}" "\$\{branch\}"/.test(autoShip) &&
     /gh pr create --base main --head "\$\{branch\}"/.test(autoShip) &&
     /gh pr merge "\$\{pr_url\}" --squash --auto/.test(autoShip) &&
     /gh pr merge "\$\{pr_url\}" --squash/.test(autoShip),

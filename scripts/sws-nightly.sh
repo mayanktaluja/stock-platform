@@ -215,6 +215,11 @@ trap slack_notify_on_exit EXIT
 # shellcheck source=scripts/sws-with-timeout.sh
 . "${REPO_DIR}/scripts/sws-with-timeout.sh"
 
+# Bounded + retrying + ls-remote-reconciled `git push` for every publish path
+# below (2026-10-15: one stalled upload → HTTP 408 → exit 8 lost a clean run).
+# shellcheck source=scripts/sws-git-push.sh
+. "${REPO_DIR}/scripts/sws-git-push.sh"
+
 # shellcheck source=scripts/sws-auto-ship.sh
 . "${REPO_DIR}/scripts/sws-auto-ship.sh"
 
@@ -1519,8 +1524,9 @@ Sanity verdict: ${SANITY_SUMMARY:-unknown}
 
 Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>" 2>&1 | sed 's/^/[git] /'; then
 
-      if git push -u origin "${DATA_BRANCH}" 2>&1 | sed 's/^/[git] /'; then
+      if sws_git_push "${DATA_BRANCH}"; then
         DATA_PR_OUTPUT=$(gh pr create \
+          --head "${DATA_BRANCH}" \
           --title "chore(data): non-SWS refresh ${RUN_LABEL} — SWS sanity blocked" \
           --body "Sanity gate FAILED on the SWS scrape, but the catalysts/fundamentals/fo-oi/earnings/macro-calendar refresh ran cleanly. Shipping those files separately so the dashboard's Fundamentals + Earnings tabs don't stagnate while we debug the scrape.
 
@@ -1836,9 +1842,19 @@ $(tail -30 ${LOG})"
   exit 8
 fi
 
-if ! git push -u origin "${BRANCH}" 2>&1 | sed 's/^/[git] /'; then
+# sws_git_push retries transient failures (stall / HTTP 408 / 5xx / hang-up)
+# with wall-clock backoff and reconciles against ls-remote, so reaching the
+# failure branch means every attempt failed or the error was non-retryable.
+if ! sws_git_push "${BRANCH}"; then
   echo "[nightly] git push failed"
-  send_mail "🚨 SWS nightly — git push failed" "Commit succeeded but git push origin ${BRANCH} failed at $(ts). Manual investigation needed.
+  send_mail "🚨 SWS nightly — git push failed" "Commit succeeded but git push origin ${BRANCH} failed at $(ts), after sws_git_push's retries (see the [git] lines below for each attempt).
+
+The data is NOT lost: commit $(git rev-parse --short HEAD 2>/dev/null) is on the local branch ${BRANCH} in ${REPO_DIR}. Nothing needs re-scraping — re-ship it once GitHub is reachable:
+
+  cd ${REPO_DIR}
+  git push -u origin ${BRANCH}
+  gh pr create --base main --head ${BRANCH} --title \"chore(sws): auto-refresh ${RUN_LABEL} — full universe rescan\" --body \"Re-push of a nightly whose push failed.\"
+  gh pr merge <pr-url> --squash --auto
 
 Last 30 lines of nightly log:
 $(tail -30 ${LOG})"
@@ -1899,6 +1915,7 @@ while [ "${pr_attempt}" -le "${PR_CREATE_ATTEMPTS}" ]; do
   fi
 
   PR_OUTPUT=$(gh pr create \
+    --head "${BRANCH}" \
     --title "chore(sws): auto-refresh ${RUN_LABEL} — full universe rescan" \
     --body "${PR_BODY}" 2>&1)
   PR_RC=$?
@@ -2103,7 +2120,7 @@ Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>" 2>&1 | sed
     return 1
   fi
 
-  if ! git -C "${tmpdir}" push -u origin "${recovery_branch}" 2>&1 | sed 's/^/[git] /'; then
+  if ! sws_git_push -C "${tmpdir}" "${recovery_branch}"; then
     echo "[nightly] republish push failed"
     cleanup_republish_worktree
     return 1
