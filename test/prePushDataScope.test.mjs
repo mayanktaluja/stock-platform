@@ -122,7 +122,12 @@ function gitOrNull(...args) {
 const HAS_HISTORY = gitOrNull("rev-parse", "HEAD~1") !== null;
 
 // A real nightly auto-refresh commit — the exact shape that has been blocked.
-const dataCommit = HAS_HISTORY ? gitOrNull("rev-list", "-1", "--grep=auto-refresh", "origin/main") : null;
+// --grep matches ANY line of the message, so a bare "auto-refresh" picked up
+// #1689, a code fix whose body discusses auto-refresh PRs, and every non-data
+// push went red. Anchor to the auto-refresh subject shape instead.
+const dataCommit = HAS_HISTORY
+  ? gitOrNull("rev-list", "-1", "-E", "--grep=^chore\\([a-z-]+\\): auto-refresh ", "origin/main")
+  : null;
 
 const isDataPath = (f) =>
   f.startsWith("data/") || /^(fundamentals|surveillance|governance|fundamentalsHistory)\.json$/.test(f);
