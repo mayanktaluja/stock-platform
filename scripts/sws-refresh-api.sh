@@ -467,9 +467,21 @@ echo "${SCORING_OUT}" | tail -12 | sed 's/^/[scoring] /'
 # Both sector steps stay non-fatal so the SWS scrape can still ship; the scorer
 # withholds growing_sector_value when outlook is stale/missing/macro-mismatched.
 
+#
+# The themes walk must reach EVERY ticker: one it never reaches keeps the stale
+# JSONL from git, and on 2026-10-14 a walk SIGTERMed mid-alphabet (Gemini 429
+# backoff ate the 900s) left 3 of 24 sectors with 90-day evidence and zeroed
+# growing_sector_value. --llm-budget-sec stops LLM calls at 600s so the walk
+# finishes on cache + heuristic inside the 900s bound. If it is killed anyway
+# (a suspended laptop blows a wall-clock timeout instantly on wake), the cache
+# was flushed on SIGTERM and a no-LLM re-run (--max-llm-calls=0, no network,
+# ~10s) rewrites every ticker from this run's deep briefs.
 echo "[refresh-api] refreshing sector news themes for growing-sector section..."
-if ! with_timeout 900 node scripts/refresh-sector-news-themes.mjs --max-llm-calls=400 2>&1 | tail -12 | sed 's/^/[sector-themes] /'; then
-  echo "[sector-themes] non-zero exit — continuing with prior themes/outlook"
+if ! with_timeout 900 node scripts/refresh-sector-news-themes.mjs --max-llm-calls=400 --llm-budget-sec=600 2>&1 | tail -12 | sed 's/^/[sector-themes] /'; then
+  echo "[sector-themes] non-zero exit — re-running on cache + heuristic only (no LLM) so every ticker carries this run's news"
+  if ! with_timeout 300 node scripts/refresh-sector-news-themes.mjs --max-llm-calls=0 2>&1 | tail -12 | sed 's/^/[sector-themes] /'; then
+    echo "[sector-themes] no-LLM re-run also failed — continuing with prior themes/outlook"
+  fi
 fi
 echo "[refresh-api] refreshing sector outlook for growing-sector section..."
 if ! with_timeout 120 node scripts/refresh-sector-outlook.mjs 2>&1 | tail -12 | sed 's/^/[sector-outlook] /'; then

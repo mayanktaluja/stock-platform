@@ -123,6 +123,17 @@ data/sws/panic-incidents-*.json
 data/sws/panic-incidents-*.json.tmp.*
 data/sws/progress-*.json.tmp.*
 data/sws/picks-latest.json.tmp.*
+# Sector Outlook LLM theme cache (services/sectorOutlook/llmThemeRefiner.js).
+# MUST stay ignored, same reason as panic-history: it is the only thing that
+# carries LLM classifications from one night to the next. While it was tracked
+# but never staged by the nightly, `git reset --hard` put back the 2026-05-26
+# copy every night and the first ticker's TTL prune emptied it, so every run
+# started cold and needed the whole LLM budget. Not committed nightly on
+# purpose: 10+ MB of churn in every auto-refresh PR, and overlapping PRs would
+# conflict on it.
+data/sectorOutlook/llm-theme-cache.json
+# (Its `.tmp.<pid>` stays un-ignored on purpose, so `git clean -fd` sweeps a
+# 10+ MB leftover from a SIGKILLed write instead of keeping it forever.)
 data/sws/chronos-ohlcv-cache/
 data/sws/chronos-model-cache/
 data/sws/chronos-debug/

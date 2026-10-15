@@ -165,6 +165,22 @@ const MIN_UPCOMING_EARNINGS_STRONG  = 50;   // WARN  — preserves prior visibil
 export const MIN_TOP30_FV_COUNT = 24;        // BLOCK — catches AnalystPriceTarget/FV extraction collapse
 export const MAX_FV_COVERAGE_DROP_PCT = 20;  // BLOCK — current FV coverage cannot fall >20% vs committed baseline
 
+// L_sector_outlook — WARN-only, vs the committed (prod) copy like the FV floor.
+// 2026-10-14 shipped growing_sector_value 100 → 0 and Sector Outlook's 90-day
+// evidence 24 → 3 sectors with the gate silent: a themes walk SIGTERMed mid-
+// alphabet left most tickers on stale JSONL. WARN, not BLOCK — the SWS scrape
+// itself was fine and should still ship; the point is that nobody finds out
+// from the empty tab. The verdict=WARN flips the success mail's subject.
+// Each check has a floor that needs no baseline, because the baseline can be
+// degraded too: the HEAD this ships on top of is #1681 itself (3 sectors, 0
+// picks), and every WARN night that ships becomes the next night's baseline.
+export const SECTOR_EVIDENCE_MIN_SHARE = 0.5;   // absolute: half the outlook's own sectors carry 90d evidence
+export const SECTOR_EVIDENCE_MIN_RATIO = 0.5;   // relative: no fewer than half the baseline's
+export const SECTOR_EVIDENCE_MIN_BASELINE = 6;  // ...compared only when the baseline had this many
+export const GSV_MIN_RATIO = 0.25;              // relative: growing_sector_value below a quarter of the baseline
+export const GSV_MIN_BASELINE = 10;             // ...compared only when the baseline served this many
+                                                // absolute: served 0 always WARNs (any audit reason)
+
 // ---------------------------- severities -------------------------------
 
 const BLOCK = "BLOCK";
@@ -1068,6 +1084,120 @@ function layerPriceFreshness() {
   }
 }
 
+// ======================== L_sector_outlook ==============================
+
+const IS_DEFAULT_ROOT = path.normalize(ROOT) === path.normalize("data/sws");
+
+// Env override (tests), else the committed copy — only for the real data root,
+// so a fixture run never compares itself against the repo's HEAD.
+function loadBaselineJson(envVar, gitPath) {
+  const envPath = process.env[envVar];
+  if (envPath) return readJson(envPath);
+  if (!IS_DEFAULT_ROOT) return null;
+  const result = spawnSync("git", ["show", `HEAD:${gitPath}`], {
+    encoding: "utf-8",
+    maxBuffer: 64 * 1024 * 1024, // picks-latest.json is ~21 MB
+  });
+  if (result.status !== 0 || !result.stdout) return null;
+  try { return JSON.parse(result.stdout); }
+  catch { return null; }
+}
+
+export function sectorOutlookEvidenceStats(outlook) {
+  if (!outlook || !Array.isArray(outlook.sectors)) return null;
+  const h = outlook.sectors.map((s) => s?.horizons?.["3_12m"] || {});
+  return {
+    generated_at: outlook.generated_at || null,
+    sectors: outlook.sectors.length,
+    evidence_sectors_90d: h.filter((x) => (Number(x.bottom_up?.n_news) || 0) > 0).length,
+    tailwind_3_12m: h.filter((x) => x.outlook_label === "TAILWIND" || x.outlook_label === "STRONG_TAILWIND").length,
+    total_entries: outlook.audit?.total_entries ?? null,
+  };
+}
+
+export function growingSectorValueStats(picks) {
+  if (!picks?.sections) return null;
+  const audit = picks.section_audit?.growing_sector_value || {};
+  const items = picks.sections.growing_sector_value;
+  return {
+    served: Array.isArray(items) ? items.length : 0,
+    has_audit: !!picks.section_audit?.growing_sector_value,
+    future_growth_candidate_count: audit.future_growth_candidate_count ?? null,
+    base_eligible_count: audit.base_eligible_count ?? null,
+    reason: audit.reason ?? null,
+  };
+}
+
+// Both evaluators return null only when there is nothing to judge (no current
+// artifact and no comparable baseline) — no free pass inflating the report.
+export function evaluateSectorEvidence(current, baseline) {
+  const comparable = !!baseline && baseline.evidence_sectors_90d >= SECTOR_EVIDENCE_MIN_BASELINE;
+  if (!current && !comparable) return null;
+  const n = current?.evidence_sectors_90d ?? 0;
+  const absFloor = current ? Math.ceil(current.sectors * SECTOR_EVIDENCE_MIN_SHARE) : null;
+  const relFloor = comparable ? Math.ceil(baseline.evidence_sectors_90d * SECTOR_EVIDENCE_MIN_RATIO) : null;
+  return {
+    ok: !!current && current.sectors > 0 && n >= absFloor && (relFloor == null || n >= relFloor),
+    detail: {
+      reason: current ? null : "outlook_missing",
+      evidence_sectors_90d: current ? n : null,
+      sectors: current?.sectors ?? null,
+      abs_floor: absFloor,
+      baseline_evidence_sectors_90d: baseline?.evidence_sectors_90d ?? null,
+      floor: relFloor,
+      tailwind_3_12m: current?.tailwind_3_12m ?? null,
+      baseline_tailwind_3_12m: baseline?.tailwind_3_12m ?? null,
+      total_entries: current?.total_entries ?? null,
+      baseline_total_entries: baseline?.total_entries ?? null,
+      generated_at: current?.generated_at ?? null,
+    },
+  };
+}
+
+export function evaluateGrowingSectorValue(current, baseline, outlookNow = null, outlookBaseline = null) {
+  const comparable = !!baseline && baseline.served >= GSV_MIN_BASELINE;
+  if (!current?.has_audit && !comparable) return null;
+  const served = current?.served ?? 0;
+  const floor = comparable ? Math.ceil(baseline.served * GSV_MIN_RATIO) : null;
+  return {
+    ok: served > 0 && (floor == null || served >= floor),
+    detail: {
+      served,
+      baseline_served: baseline?.served ?? null,
+      floor,
+      future_growth_candidate_count: current?.future_growth_candidate_count ?? null,
+      baseline_future_growth_candidate_count: baseline?.future_growth_candidate_count ?? null,
+      base_eligible_count: current?.base_eligible_count ?? null,
+      // reason "ok" with 0 served is the silent case (2026-10-14); a fail-closed
+      // reason (sector_outlook_stale, …) at least says which input failed.
+      audit_reason: current?.reason ?? null,
+      evidence_sectors_90d: outlookNow?.evidence_sectors_90d ?? null,
+      baseline_evidence_sectors_90d: outlookBaseline?.evidence_sectors_90d ?? null,
+    },
+  };
+}
+
+function layerSectorOutlook(picks) {
+  const layer = "L_sector_outlook";
+  const outlookPath = process.env.SWS_SANITY_SECTOR_OUTLOOK_PATH
+    || (IS_DEFAULT_ROOT ? "data/sectorOutlook/outlook-latest.json" : null);
+  const outlookNow = outlookPath ? sectorOutlookEvidenceStats(readJson(outlookPath)) : null;
+  const outlookBaseline = outlookPath
+    ? sectorOutlookEvidenceStats(loadBaselineJson("SWS_SANITY_SECTOR_OUTLOOK_BASELINE_PATH", "data/sectorOutlook/outlook-latest.json"))
+    : null;
+
+  const evidence = evaluateSectorEvidence(outlookNow, outlookBaseline);
+  if (evidence) record(layer, "sector_outlook_evidence_breadth", WARN, evidence.ok, evidence.detail);
+
+  const gsv = evaluateGrowingSectorValue(
+    growingSectorValueStats(picks),
+    growingSectorValueStats(loadBaselineJson("SWS_SANITY_PICKS_BASELINE_PATH", "data/sws/picks-latest.json")),
+    outlookNow,
+    outlookBaseline,
+  );
+  if (gsv) record(layer, "growing_sector_value_not_collapsed", WARN, gsv.ok, gsv.detail);
+}
+
 // ============================== main ===================================
 
 // --inline mode runs the gate INSIDE sws-refresh-api.sh between stamp
@@ -1098,6 +1228,7 @@ function main() {
   layer6(picks, scored, insaneOffenders);
   layerPriceFreshness();
   layerMacro();
+  layerSectorOutlook(picks);
 
   const blocks = findings.filter(f => !f.ok && f.severity === BLOCK);
   const warns  = findings.filter(f => !f.ok && f.severity === WARN);

@@ -46,6 +46,19 @@ grep -vE '^[[:space:]]*#' "${SCRIPT}" | grep -q 'run_with_timeout' \
   && ok 1 "both sector steps go through with_timeout" \
   || ok 0 "both sector steps go through with_timeout" "($(grep -n 'refresh-sector-' "${SCRIPT}" | tr '\n' ' '))"
 
+# The themes walk must FINISH inside its timeout (a ticker it never reaches keeps
+# stale JSONL from git — 2026-10-14 zeroed growing_sector_value that way), so the
+# LLM budget has to stop calls well before the step's kill.
+themes_line="$(grep '^if ! with_timeout [0-9]* node scripts/refresh-sector-news-themes.mjs' "${SCRIPT}")"
+themes_timeout="$(printf '%s' "${themes_line}" | sed -E 's/^if ! with_timeout ([0-9]+) .*/\1/')"
+themes_budget="$(printf '%s' "${themes_line}" | sed -nE 's/.*--llm-budget-sec=([0-9]+).*/\1/p')"
+[ -n "${themes_budget}" ] && [ "${themes_budget}" -le $(( themes_timeout * 3 / 4 )) ] \
+  && ok 1 "themes LLM budget (${themes_budget}s) leaves ≥25% of the ${themes_timeout}s timeout to finish the walk" \
+  || ok 0 "themes LLM budget leaves room to finish the walk" "(line: ${themes_line})"
+grep -qE '^  if ! with_timeout [0-9]+ node scripts/refresh-sector-news-themes\.mjs --max-llm-calls=0 ' "${SCRIPT}" \
+  && ok 1 "a killed themes run falls back to a bounded no-LLM re-run" \
+  || ok 0 "a killed themes run falls back to a bounded no-LLM re-run"
+
 # Sourcing the helper must define with_timeout no matter which branch it takes.
 ( . "${HELPER}"; declare -F with_timeout >/dev/null ) \
   && ok 1 "helper defines with_timeout when sourced" \
@@ -82,6 +95,12 @@ cat > "${WORK}/bin/node" <<'STUB'
 case "${NODE_STUB_MODE:-hang}" in
   hang) exec sleep 60 ;;
   fast) echo "stub ran: $*"; exit 0 ;;
+  # The LLM run dies (e.g. killed on a laptop wake); the no-LLM re-run works.
+  fail-first)
+    case "$*" in
+      *--max-llm-calls=0*) echo "stub ran: $*"; exit 0 ;;
+      *) echo "stub died: $*"; exit 143 ;;
+    esac ;;
 esac
 STUB
 chmod +x "${WORK}/bin/node"
@@ -103,8 +122,8 @@ echo "${out}" | grep -q 'command not found' \
   && ok 0 "the block's timeout helper resolves (no 'command not found')" "(${out})" \
   || ok 1 "the block's timeout helper resolves (no 'command not found')"
 [ "${elapsed}" -le 15 ] \
-  && ok 1 "two hung steps are killed at their bound (${elapsed}s; was unbounded)" \
-  || ok 0 "two hung steps are killed at their bound" "(took ${elapsed}s)"
+  && ok 1 "three hung steps (themes, its no-LLM re-run, outlook) are killed at their bound (${elapsed}s; was unbounded)" \
+  || ok 0 "three hung steps are killed at their bound" "(took ${elapsed}s)"
 echo "${out}" | grep -q 'BLOCK_DONE' \
   && ok 1 "…and the pipeline continues past them" || ok 0 "…and the pipeline continues past them" "(${out})"
 echo "${out}" | grep -q '^\[sector-themes\] \[timeout\] command exceeded 2s' \
@@ -118,6 +137,21 @@ echo "${out}" | grep -q '^\[sector-themes\] non-zero exit' \
 echo "${out}" | grep -q '^\[sector-outlook\] non-zero exit' \
   && ok 1 "a killed sector-outlook step is reported as non-zero" \
   || ok 0 "a killed sector-outlook step is reported as non-zero" "(${out})"
+echo "${out}" | grep -q '^\[sector-themes\] no-LLM re-run also failed' \
+  && ok 1 "a hung no-LLM re-run is reported, and the pipeline still continues" \
+  || ok 0 "a hung no-LLM re-run is reported" "(${out})"
+
+echo "--- runtime: LLM run killed, no-LLM re-run succeeds ---"
+out="$(run_block fail-first)"
+echo "${out}" | grep -q '^\[sector-themes\] non-zero exit — re-running on cache + heuristic only' \
+  && ok 1 "a dead themes run triggers the no-LLM re-run" \
+  || ok 0 "a dead themes run triggers the no-LLM re-run" "(${out})"
+echo "${out}" | grep -q '^\[sector-themes\] stub ran: scripts/refresh-sector-news-themes.mjs --max-llm-calls=0$' \
+  && ok 1 "…which runs with --max-llm-calls=0 (zero, no network)" \
+  || ok 0 "…which runs with --max-llm-calls=0" "(${out})"
+echo "${out}" | grep -q 'also failed' \
+  && ok 0 "a successful re-run is not reported as a failure" "(${out})" \
+  || ok 1 "a successful re-run is not reported as a failure"
 
 echo "--- runtime: healthy step ---"
 start=$(date +%s)
@@ -132,6 +166,9 @@ echo "${out}" | grep -q '^\[sector-themes\] stub ran: scripts/refresh-sector-new
 echo "${out}" | grep -q 'non-zero exit' \
   && ok 0 "a successful step is not reported as a failure" "(${out})" \
   || ok 1 "a successful step is not reported as a failure"
+echo "${out}" | grep -q -- '--max-llm-calls=0' \
+  && ok 0 "a healthy themes run does not trigger the no-LLM re-run" "(${out})" \
+  || ok 1 "a healthy themes run does not trigger the no-LLM re-run"
 
 echo ""
 echo "=== ${pass} passed, ${fail} failed ==="

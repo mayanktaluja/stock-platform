@@ -85,7 +85,14 @@ process.on("exit", () => {
   } catch {}
 });
 
-function runHook(localSha, remoteSha, { timeoutMs = 90_000, stubNpm = false, skipContentTests = false } = {}) {
+// npm is ALWAYS stubbed. spawnSync's timeout SIGKILLs only the bash hook; a real
+// `npm test` it started is reparented to PID 1 and keeps running the whole suite
+// alongside the outer one. On 2026-10-15 the data-commit case below hit exactly
+// that: its sampler matched a code commit (#1689), the hook took the slow path,
+// and two orphaned suites raced the foreground run — swsInputAlertsApi failed
+// on fixtures the orphan rewrote, and an orphaned refresh-macro-regime.mjs
+// (its kill timer died with its parent) rewrote data/macroRegime.json.
+function runHook(localSha, remoteSha, { timeoutMs = 90_000, skipContentTests = false } = {}) {
   const res = spawnSync("bash", [HOOK, "origin", "git@github.com:mayanktaluja/stock-platform.git"], {
     input: `refs/heads/t ${localSha} refs/heads/t ${remoteSha}\n`,
     cwd: REPO_ROOT,
@@ -94,7 +101,7 @@ function runHook(localSha, remoteSha, { timeoutMs = 90_000, stubNpm = false, ski
     killSignal: "SIGKILL",
     env: {
       ...process.env,
-      ...(stubNpm ? { PATH: `${stubBin}:${process.env.PATH}` } : {}),
+      PATH: `${stubBin}:${process.env.PATH}`,
       ...(skipContentTests ? { PREPUSH_VALIDATE_EXTRA_ARGS: "--skip-content-tests" } : {}),
     },
   });
@@ -192,11 +199,11 @@ if (!codeCommit) {
 } else {
   // A commit that touches code must never take the fast path. The hook then runs
   // the full suite, which is slow — assert on the classification line and stop.
-  // stubNpm: assert the hook REACHES the suite without actually running it.
+  // npm is stubbed (see runHook): assert the hook REACHES the suite without running it.
   const { sha: head, parent: prev } = codeCommit;
   const codeFiles = git("diff", "--name-only", prev, head).split("\n").filter(Boolean).filter((f) => !isDataPath(f));
   assert(`the sampled commit ${head.slice(0, 8)} genuinely touches code`, codeFiles.length > 0, codeFiles);
-  const r = runHook(head, prev, { timeoutMs: 60_000, stubNpm: true });
+  const r = runHook(head, prev, { timeoutMs: 60_000 });
   assert("a code push is classified as not-pure-data", /Not a pure-data push/.test(r.out), r.out.slice(0, 300));
   assert("a code push proceeds to the unit suite", /Running unit tests/.test(r.out), r.out.slice(0, 400));
 }
