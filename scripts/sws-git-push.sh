@@ -54,6 +54,14 @@
 # bash 3.2 compatible (launchd resolves /bin/bash): no empty-array expansions
 # under `set -u`, no `local -n`, no GNU-only tools.
 
+# bash only. Sourced into zsh (a hand re-ship from an interactive shell), the
+# attempt subshell's `set -m` errors out before git runs, so every attempt
+# "fails" in 0s with no git output — refuse up front instead.
+if [ -z "${BASH_VERSION:-}" ]; then
+  echo "sws-git-push.sh: requires bash — run it as: bash -c '. scripts/sws-git-push.sh && sws_git_push <branch>'" >&2
+  return 1 2>/dev/null || exit 1
+fi
+
 # Exit 0 when the captured push output shows a failure a retry cannot fix.
 #   "Push blocked"            — this repo's pre-push hook refused (tests/data
 #                               validation). Re-running it would just fail again.
