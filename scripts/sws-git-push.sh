@@ -186,7 +186,7 @@ sws_git_push() {
     sed 's/^/[git] /' "${out}"
     if [ "${rc}" -eq 0 ]; then
       [ "${attempt}" -gt 1 ] && echo "[git] push of ${branch} succeeded on attempt ${attempt}/${attempts}"
-      rm -f "${base}" "${base}".*
+      rm -f "${base}" "${base}".* 2>/dev/null
       return 0
     fi
 
@@ -238,10 +238,10 @@ sws_git_push() {
     git -C "${dir}" update-ref "refs/remotes/origin/${branch}" "${local_sha}" >/dev/null 2>&1 || true
     git -C "${dir}" config "branch.${branch}.remote" origin >/dev/null 2>&1 || true
     git -C "${dir}" config "branch.${branch}.merge" "refs/heads/${branch}" >/dev/null 2>&1 || true
-    rm -f "${base}" "${base}".*
+    rm -f "${base}" "${base}".* 2>/dev/null
     return 0
   fi
 
-  rm -f "${base}" "${base}".*
+  rm -f "${base}" "${base}".* 2>/dev/null
   return "${rc}"
 }
