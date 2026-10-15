@@ -21,6 +21,14 @@
 #   4. The extracted loose briefs never reach the recovery commit, even if a
 #      future edit widens the allow-list to cover data/sws/deep/.
 #   5. node_modules is linked into the throwaway worktree (the gate needs it).
+#   6. The recovery commit ships the Track Record artifacts step 5 ships: the
+#      branch's section-performance-latest.json (the republish allow-list used
+#      to lack it, re-shipping main's stale Section Alpha), and a per-row merge
+#      of paper-trades-live.jsonl that keeps the row main gained after the fork.
+#   7. An unmergeable ledger fails closed: nothing pushed.
+#
+# The function reads the top-level SWS_SHIP_PATHS array, so the driver loads
+# that block (also extracted verbatim) ahead of the function.
 #
 # The fixture's scripts/sws-sanity-gate.mjs runs the REAL gate from this repo
 # against the throwaway worktree, then gates only on fresh_pct_floor: the rest
@@ -49,6 +57,8 @@ check() { if eval "$2"; then ok "$1"; else bad "$1" "${3:-}"; fi; }
 
 FN="$(awk '/── conflicted-PR republish \(extracted verbatim/{f=1} f{print} /── end conflicted-PR republish/{f=0}' "${SCRIPT}")"
 [ -n "${FN}" ] || { echo "FAIL: could not extract republish_conflicted_pr_on_latest_main from ${SCRIPT}"; exit 1; }
+SHIP="$(awk '/── SWS ship paths \(extracted verbatim/{f=1} f{print} /── end SWS ship paths/{f=0}' "${SCRIPT}")"
+[ -n "${SHIP}" ] || { echo "FAIL: could not extract the SWS_SHIP_PATHS block from ${SCRIPT}"; exit 1; }
 
 WORK="$(mktemp -d "${TMPDIR:-/tmp}/sws-republish-test-$$.XXXXXX")"
 trap 'rm -rf "${WORK}"' EXIT
@@ -88,6 +98,15 @@ universe() {  # universe <ticker>...
   for t in "$@"; do out+="${sep}{\"ticker\":\"${t}\",\"slug\":\"${t}\"}"; sep=","; done
   echo "${out}]" > "${SEED}/data/sws/universe.json"
 }
+LEDGER="data/track-record/paper-trades-live.jsonl"
+SECTION_PERF="data/track-record/section-performance-latest.json"
+row() {  # row <id> [closingPrice] — one ledger line as FileStorage writes it
+  if [ -n "${2:-}" ]; then
+    printf '{"id":"%s","type":"sws","closingPrice":%s}\n' "$1" "$2"
+  else
+    printf '{"id":"%s","type":"sws"}\n' "$1"
+  fi
+}
 pack() {  # pack <parsed_at> <ticker>... — same layout as scripts/sws-pack-deep.sh
   local at="$1" t stage
   shift
@@ -97,7 +116,8 @@ pack() {  # pack <parsed_at> <ticker>... — same layout as scripts/sws-pack-dee
   tar -czf "${SEED}/data/sws/deep.tar.gz" -C "${stage}" deep
 }
 
-mkdir -p "${SEED}/scripts" "${SEED}/data/sws/deep"
+mkdir -p "${SEED}/scripts" "${SEED}/data/sws/deep" "${SEED}/data/track-record"
+cp "${HERE}/../scripts/sws-merge-paper-ledger.mjs" "${SEED}/scripts/"
 cat > "${SEED}/scripts/sws-sanity-gate.mjs" <<'SHIM'
 import { spawnSync } from "child_process";
 import { existsSync, readFileSync, rmSync } from "fs";
@@ -118,6 +138,8 @@ universe AAA BBB CCC DDD EEE
 pack "${STALE_ISO}" AAA BBB CCC DDD EEE
 echo "{\"finished_at\":\"${STALE_ISO}\"}" > "${SEED}/data/sws/last-refresh.json"
 echo '{"scanned_at":"2026-06-15"}' > "${SEED}/data/sws/picks-latest.json"
+echo '{"generated_at":"2026-06-15"}' > "${SEED}/${SECTION_PERF}"
+{ row a; row b; } > "${SEED}/${LEDGER}"
 git -C "${SEED}" add -A
 git -C "${SEED}" add -f data/sws/deep
 git -C "${SEED}" commit -qm "main: loose briefs frozen 2026-06-15"
@@ -125,8 +147,9 @@ git -C "${SEED}" push -q origin HEAD:main
 
 # Nightly branches fork here. Like the real nightly they commit the tarball +
 # allow-listed JSON and never the loose briefs. FFF is a brand-new ticker that
-# exists only inside the tarball (untracked + ignored once extracted).
-nightly_branch() {  # nightly_branch <name> <tarball parsed_at|corrupt>
+# exists only inside the tarball (untracked + ignored once extracted). Each
+# run rebuilds Section Alpha, resolves ledger row a and appends today's row c.
+nightly_branch() {  # nightly_branch <name> <tarball parsed_at|corrupt> [bad-ledger]
   git -C "${SEED}" checkout -q -b "$1" main
   universe AAA BBB CCC DDD EEE FFF
   if [ "$2" = corrupt ]; then
@@ -136,6 +159,12 @@ nightly_branch() {  # nightly_branch <name> <tarball parsed_at|corrupt>
   fi
   echo "{\"finished_at\":\"${NOW_ISO}\"}" > "${SEED}/data/sws/last-refresh.json"
   echo "{\"scanned_at\":\"${NOW_ISO}\"}" > "${SEED}/data/sws/picks-latest.json"
+  echo "{\"generated_at\":\"${NOW_ISO}\"}" > "${SEED}/${SECTION_PERF}"
+  if [ "${3:-}" = bad-ledger ]; then
+    { row a 120; row b; row b; } > "${SEED}/${LEDGER}"   # duplicate id: unkeyable
+  else
+    { row a 120; row b; row c; } > "${SEED}/${LEDGER}"
+  fi
   git -C "${SEED}" add -A
   git -C "${SEED}" commit -qm "chore(sws): auto-refresh $1"
   git -C "${SEED}" push -q origin "$1"
@@ -145,10 +174,14 @@ nightly_branch chore/sws-auto-refresh-fresh  "${FRESH_ISO}"
 nightly_branch chore/sws-auto-refresh-stale  "${STALE_ISO}"
 nightly_branch chore/sws-auto-refresh-broken corrupt
 nightly_branch chore/sws-auto-refresh-guard  "${FRESH_ISO}"
+nightly_branch chore/sws-auto-refresh-ledger "${FRESH_ISO}" bad-ledger
 
-# main advances while the nightly waits for auto-merge → the PRs conflict.
+# main advances while the nightly waits for auto-merge → the PRs conflict. The
+# commit that lands first is an earlier run's ship: it also appends ledger row
+# m, which a blind checkout of the branch's ledger would drop.
 echo '{"scanned_at":"main-moved-on"}' > "${SEED}/data/sws/picks-latest.json"
-git -C "${SEED}" commit -qam "main: unrelated ship lands first"
+row m >> "${SEED}/${LEDGER}"
+git -C "${SEED}" commit -qam "main: an earlier run's ship lands first"
 git -C "${SEED}" push -q origin HEAD:main
 
 git clone -q "${ORIGIN}" "${CLONE}"
@@ -156,10 +189,10 @@ git -C "${CLONE}" config user.email t@t
 git -C "${CLONE}" config user.name t
 mkdir -p "${CLONE}/node_modules" && touch "${CLONE}/node_modules/.fixture-marker"
 
-# run_case <source branch> [function body] — prints the function's output plus
-# a RESULT_ trailer. The body defaults to the verbatim extract.
+# run_case <source branch> [ship-paths block] — prints the function's output
+# plus a RESULT_ trailer. Both blocks default to the verbatim extracts.
 run_case() {
-  local branch="$1" body="${2:-${FN}}"
+  local branch="$1" ship="${2:-${SHIP}}"
   : > "${WORK}/gh-calls.log"
   {
     echo 'set -uo pipefail'
@@ -168,7 +201,8 @@ run_case() {
     echo 'COMMIT_BODY="fixture body"'
     echo "BRANCH=\"${branch}\""
     echo 'PR_URL="https://github.com/mayanktaluja/stock-platform/pull/1649"'
-    printf '%s\n' "${body}"
+    printf '%s\n' "${ship}"
+    printf '%s\n' "${FN}"
     echo 'republish_conflicted_pr_on_latest_main "${PR_URL}" "${BRANCH}"'
     echo 'echo "RESULT_RC=$? RESULT_PR_URL=${PR_URL}"'
   } > "${WORK}/driver.sh"
@@ -203,6 +237,13 @@ if [ -n "${REC}" ]; then
     '[ "$(git -C "${CLONE}" rev-parse test/recovery:data/sws/deep.tar.gz)" = "$(git -C "${CLONE}" rev-parse origin/chore/sws-auto-refresh-fresh:data/sws/deep.tar.gz)" ]'
   check "recovery commit touches no loose data/sws/deep/ path" \
     '! grep -q "^data/sws/deep/" <<<"${CHANGED}"' "${CHANGED}"
+  check "recovery commit ships the branch's Section Alpha (was missing from the republish list)" \
+    '[ "$(git -C "${CLONE}" rev-parse "test/recovery:${SECTION_PERF}")" = "$(git -C "${CLONE}" rev-parse "origin/chore/sws-auto-refresh-fresh:${SECTION_PERF}")" ]'
+  REC_LEDGER="$(git -C "${CLONE}" show "test/recovery:${LEDGER}")"
+  WANT_LEDGER="$(row a 120; row b; row m; row c)"
+  check "recovery ledger = per-row merge: branch's resolution + new row, main's interim row kept" \
+    '[ "${REC_LEDGER}" = "${WANT_LEDGER}" ]' "${REC_LEDGER}"
+  check "ledger merge is logged" 'grep -q "\[ledger-merge\] merged .*main_only=1" <<<"${OUT}"' "${OUT}"
 fi
 check "throwaway worktree removed" '[ "$(worktrees)" = 1 ]' "$(git -C "${CLONE}" worktree list)"
 
@@ -225,9 +266,9 @@ check "corrupt tarball: nothing pushed" '[ -z "$(recovery_ref chore/sws-auto-ref
 # ── 4. allow-list widened to data/sws/deep/ → staging guard refuses ─────────
 # A gate that passes plus an allow-list that sweeps in the extracted briefs:
 # only the staged-path guard stands between that and committing ~5.5k files.
-WIDENED="$(awk '{print} /^    data\/sws\/deep\.tar\.gz$/{print "    data/sws/deep/"}' <<<"${FN}")"
+WIDENED="$(awk '{print} /^  data\/sws\/deep\.tar\.gz$/{print "  data/sws/deep/"}' <<<"${SHIP}")"
 check "mutation applied (allow-list now includes data/sws/deep/)" \
-  'grep -q "^    data/sws/deep/$" <<<"${WIDENED}"'
+  'grep -q "^  data/sws/deep/$" <<<"${WIDENED}"'
 OUT="$(run_case chore/sws-auto-refresh-guard "${WIDENED}")"
 check "widened allow-list: gate passed, so only the guard can stop it" \
   'grep -q "FIXTURE_FRESH_PCT=100 ok=true" <<<"${OUT}"' "${OUT}"
@@ -236,6 +277,15 @@ check "widened allow-list: republish refuses loose deep paths" \
 check "widened allow-list: nothing pushed, no PR opened" \
   '[ -z "$(recovery_ref chore/sws-auto-refresh-guard)" ] && [ "$(gh_calls pr-create)" = 0 ]'
 check "widened allow-list: throwaway worktree removed" '[ "$(worktrees)" = 1 ]'
+
+# ── 5. unmergeable ledger → fail closed before the gate ─────────────────────
+OUT="$(run_case chore/sws-auto-refresh-ledger)"
+check "unkeyable branch ledger: republish returns 1" 'grep -q "RESULT_RC=1 " <<<"${OUT}"' "${OUT}"
+check "unkeyable branch ledger: refused at the merge, gate never ran" \
+  'grep -q "could not merge ${LEDGER}" <<<"${OUT}" && grep -q "duplicate id b" <<<"${OUT}" && ! grep -q "FIXTURE_FRESH_PCT" <<<"${OUT}"' "${OUT}"
+check "unkeyable branch ledger: nothing pushed, no PR opened" \
+  '[ -z "$(recovery_ref chore/sws-auto-refresh-ledger)" ] && [ "$(gh_calls pr-create)" = 0 ]'
+check "unkeyable branch ledger: throwaway worktree removed" '[ "$(worktrees)" = 1 ]'
 
 echo ""
 echo "${pass} passed, ${fail} failed"
