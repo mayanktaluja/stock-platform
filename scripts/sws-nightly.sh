@@ -750,6 +750,67 @@ HEALTH_CRITICAL_FILES=(
   data/catalysts/earnings-health.json
 )
 
+# ── SWS ship paths (extracted verbatim by test/swsNightlyShipPaths.test.sh + test/swsNightlyRepublishGate.test.sh) ──
+# The ONE allow-list of generated artifacts a nightly publishes. Step 5's
+# change check and `git add`, and republish_conflicted_pr_on_latest_main, all
+# read this array. They used to be three hand-copied lists, and the republish
+# copy drifted: it lacked data/track-record/*, so a republished run shipped
+# main's stale Track Record Section Alpha — the staleness step 5 exits 8 to
+# avoid. test/swsNightlyShipPaths.test.sh fails if the consumers diverge again.
+#
+# Deliberately NOT listed:
+#   data/macroRegime.json — single-writer rule per the 2026-05-17 fix; the
+#     standalone com.starbhai.macro-only cron commits it.
+#   data/sws/deep/        — prod reads only data/sws/deep.tar.gz; the loose
+#     briefs are gitignored local working state.
+#
+# SWS_PAPER_LEDGER accrues rather than snapshots, so the republish merges it
+# per row instead of copying it (scripts/sws-merge-paper-ledger.mjs).
+SWS_PAPER_LEDGER="data/track-record/paper-trades-live.jsonl"
+SWS_SHIP_PATHS=(
+  data/sws/deep.tar.gz
+  data/sws/picks-latest.json
+  data/sws/last-refresh.json
+  data/sws/sws-scored-universe.json
+  data/sws/discovery-feed-latest.json
+  data/sws/v4-universe-stats.json
+  data/sws/v3-universe-stats.json
+  data/sws/_sanity/_latest.json
+  data/sws/alerts/input-signatures-latest.json
+  data/sws/alerts/input-alert-confirmation-state.json
+  data/sws/alerts/fundamental-changes-latest.json
+  data/sws/groww-stock-failed.json
+  data/sws/groww-pe-latest.json
+  data/sws/groww-pe-failed.json
+  data/sws/universe.json
+  data/sws/universe-meta.json
+  data/sws/nse-event-calendar.json
+  data/sws/chronos-forecast-latest.json
+  data/sws/chronos-forecast-health.json
+  data/sws/nightly-timings-latest.json
+  data/track-record/section-performance-latest.json
+  "${SWS_PAPER_LEDGER}"
+  data/sws-us/deep-us.tar.gz
+  data/sectorOutlook/outlook-latest.json
+  data/coverage/bse_equity_active.json
+  data/risk-lab/picks-adjusted-latest.json
+  data/risk-lab/quality-flags-latest.json
+  data/risk-lab/macro-thesis-latest.json
+  data/strategy/multibagger-scores-latest.json
+  data/strategy/catalyst-slate-latest.json
+  data/strategy/multibagger-health-latest.json
+  data/strategy/multibagger-portfolio.json
+  data/nse-index-constituents.json
+  data/catalysts/
+  data/nse-fo/oi-deltas-latest.json
+  data/macroCalendar.json
+  fundamentals.json
+  surveillance.json
+  governance.json
+  fundamentalsHistory.json
+)
+# ── end SWS ship paths ──
+
 assert_health_critical_staged() {
   local unstaged
   unstaged=$(git diff --name-only -- "${HEALTH_CRITICAL_FILES[@]}" 2>/dev/null || true)
@@ -1639,50 +1700,9 @@ fi
 
 # ---- 5. Commit + push ----
 
-# data/macroRegime.json deliberately excluded — single-writer rule per
-# the 2026-05-17 fix. The standalone com.starbhai.macro-only cron commits it.
-CHANGED_FILES=$(git status --short \
-  data/sws/deep.tar.gz \
-  data/sws/picks-latest.json \
-  data/sws/last-refresh.json \
-  data/sws/sws-scored-universe.json \
-  data/sws/discovery-feed-latest.json \
-  data/sws/v4-universe-stats.json \
-  data/sws/v3-universe-stats.json \
-  data/sws/universe.json \
-  data/sws/universe-meta.json \
-  data/sws/_sanity/_latest.json \
-  data/sws/alerts/input-signatures-latest.json \
-  data/sws/alerts/input-alert-confirmation-state.json \
-  data/sws/alerts/fundamental-changes-latest.json \
-  data/sws/groww-stock-failed.json \
-  data/sws/groww-pe-latest.json \
-  data/sws/groww-pe-failed.json \
-  data/sws/nse-event-calendar.json \
-  data/sws/chronos-forecast-latest.json \
-  data/sws/chronos-forecast-health.json \
-  data/sws/nightly-timings-latest.json \
-  data/track-record/section-performance-latest.json \
-  data/track-record/paper-trades-live.jsonl \
-  data/sws-us/deep-us.tar.gz \
-  data/sectorOutlook/outlook-latest.json \
-  data/coverage/bse_equity_active.json \
-  data/risk-lab/picks-adjusted-latest.json \
-  data/risk-lab/quality-flags-latest.json \
-  data/risk-lab/macro-thesis-latest.json \
-  data/strategy/multibagger-scores-latest.json \
-  data/strategy/catalyst-slate-latest.json \
-  data/strategy/multibagger-health-latest.json \
-  data/strategy/multibagger-portfolio.json \
-  data/nse-index-constituents.json \
-  data/catalysts/ \
-  data/nse-fo/oi-deltas-latest.json \
-  data/macroCalendar.json \
-  fundamentals.json \
-  surveillance.json \
-  governance.json \
-  fundamentalsHistory.json \
-  2>/dev/null | wc -l | tr -d ' ')
+# What ships is SWS_SHIP_PATHS (defined beside HEALTH_CRITICAL_FILES), which
+# also documents why data/macroRegime.json and data/sws/deep/ are excluded.
+CHANGED_FILES=$(git status --short -- "${SWS_SHIP_PATHS[@]}" 2>/dev/null | wc -l | tr -d ' ')
 if [ "${CHANGED_FILES}" -eq 0 ]; then
   echo "[nightly] no SWS data changes detected — nothing to commit"
   send_mail "ℹ️ SWS nightly — no data changes" "Pipeline ran clean but no files changed. Likely SWS upstream returned identical data, or scrape was skipped."
@@ -1715,48 +1735,7 @@ fi
 # The next run's git-sync (git checkout -B ${BASE_BRANCH} origin/main) does
 # not care what branch it starts on, so no restore step is needed here.
 
-# data/macroRegime.json deliberately excluded — single-writer rule per
-# the 2026-05-17 fix. The standalone com.starbhai.macro-only cron commits it.
-git add data/sws/deep.tar.gz \
-        data/sws/picks-latest.json \
-        data/sws/last-refresh.json \
-        data/sws/sws-scored-universe.json \
-        data/sws/discovery-feed-latest.json \
-        data/sws/v4-universe-stats.json \
-        data/sws/v3-universe-stats.json \
-        data/sws/_sanity/_latest.json \
-        data/sws/alerts/input-signatures-latest.json \
-        data/sws/alerts/input-alert-confirmation-state.json \
-        data/sws/alerts/fundamental-changes-latest.json \
-        data/sws/groww-stock-failed.json \
-        data/sws/groww-pe-latest.json \
-        data/sws/groww-pe-failed.json \
-        data/sws/universe.json \
-        data/sws/universe-meta.json \
-        data/sws/nse-event-calendar.json \
-        data/sws/chronos-forecast-latest.json \
-        data/sws/chronos-forecast-health.json \
-        data/sws/nightly-timings-latest.json \
-        data/track-record/section-performance-latest.json \
-        data/track-record/paper-trades-live.jsonl \
-        data/sws-us/deep-us.tar.gz \
-        data/sectorOutlook/outlook-latest.json \
-        data/coverage/bse_equity_active.json \
-        data/risk-lab/picks-adjusted-latest.json \
-        data/risk-lab/quality-flags-latest.json \
-        data/risk-lab/macro-thesis-latest.json \
-        data/strategy/multibagger-scores-latest.json \
-        data/strategy/catalyst-slate-latest.json \
-        data/strategy/multibagger-health-latest.json \
-        data/strategy/multibagger-portfolio.json \
-        data/nse-index-constituents.json \
-        data/catalysts/ \
-        data/nse-fo/oi-deltas-latest.json \
-        data/macroCalendar.json \
-        fundamentals.json \
-        surveillance.json \
-        governance.json \
-        fundamentalsHistory.json
+git add -- "${SWS_SHIP_PATHS[@]}"
 assert_health_critical_staged
 
 # Inner pipeline regenerates the daily picks PDF — ship it in this same PR
@@ -2044,51 +2023,30 @@ republish_conflicted_pr_on_latest_main() {
     ln -sfn "${REPO_DIR}/node_modules" "${tmpdir}/node_modules" 2>/dev/null || true
   fi
 
-  local recovery_paths=(
-    data/sws/deep.tar.gz
-    data/sws/picks-latest.json
-    data/sws/last-refresh.json
-    data/sws/sws-scored-universe.json
-    data/sws/discovery-feed-latest.json
-    data/sws/v4-universe-stats.json
-    data/sws/v3-universe-stats.json
-    data/sws/_sanity/_latest.json
-    data/sws/alerts/input-signatures-latest.json
-    data/sws/alerts/input-alert-confirmation-state.json
-    data/sws/alerts/fundamental-changes-latest.json
-    data/sws/groww-stock-failed.json
-    data/sws/groww-pe-latest.json
-    data/sws/groww-pe-failed.json
-    data/sws/universe.json
-    data/sws/universe-meta.json
-    data/sws/nse-event-calendar.json
-    data/sws/chronos-forecast-latest.json
-    data/sws/chronos-forecast-health.json
-    data/sws/nightly-timings-latest.json
-    data/sws-us/deep-us.tar.gz
-    data/sectorOutlook/outlook-latest.json
-    data/coverage/bse_equity_active.json
-    data/risk-lab/picks-adjusted-latest.json
-    data/risk-lab/quality-flags-latest.json
-    data/risk-lab/macro-thesis-latest.json
-    data/strategy/multibagger-scores-latest.json
-    data/strategy/catalyst-slate-latest.json
-    data/strategy/multibagger-health-latest.json
-    data/strategy/multibagger-portfolio.json
-    data/nse-index-constituents.json
-    data/catalysts/
-    data/nse-fo/oi-deltas-latest.json
-    data/macroCalendar.json
-    fundamentals.json
-    surveillance.json
-    governance.json
-    fundamentalsHistory.json
-  )
-
+  # Same allow-list step 5 staged (SWS_SHIP_PATHS), so a republish ships
+  # everything the original PR did.
   local path
-  for path in "${recovery_paths[@]}"; do
+  for path in "${SWS_SHIP_PATHS[@]}"; do
+    [ "${path}" = "${SWS_PAPER_LEDGER}" ] && continue   # merged below, never overwritten
     git -C "${tmpdir}" checkout "origin/${source_branch}" -- "${path}" 2>/dev/null || true
   done
+
+  # The forward Track Record ledger accrues: each nightly appends a day of picks
+  # and rewrites matured rows. Main's copy can move after this branch forked (an
+  # earlier run's orphaned PR merged by hand, a hand-replayed ship), and a
+  # ledger that moved on both sides is itself what makes this PR conflict.
+  # Checking out the branch's copy would drop main's new rows, so merge per row
+  # id against the merge base. Fail closed: an unmergeable ledger ships nothing.
+  if git -C "${tmpdir}" cat-file -e "origin/${source_branch}:${SWS_PAPER_LEDGER}" 2>/dev/null; then
+    local ledger_base
+    ledger_base="$(git -C "${tmpdir}" merge-base origin/main "origin/${source_branch}" 2>/dev/null || true)"
+    if ! (cd "${tmpdir}" && node scripts/sws-merge-paper-ledger.mjs --path "${SWS_PAPER_LEDGER}" \
+        --base-rev "${ledger_base}" --theirs-rev "origin/${source_branch}" 2>&1) | sed 's/^/[ledger-merge] /'; then
+      echo "[nightly] republish could not merge ${SWS_PAPER_LEDGER} — refusing to drop either side's rows"
+      cleanup_republish_worktree
+      return 1
+    fi
+  fi
   if git -C "${tmpdir}" ls-tree -r --name-only "origin/${source_branch}" reports/sws-picks 2>/dev/null | grep -q '\.pdf$'; then
     git -C "${tmpdir}" checkout "origin/${source_branch}" -- reports/sws-picks 2>/dev/null || true
   fi
@@ -2119,7 +2077,7 @@ republish_conflicted_pr_on_latest_main() {
   fi
 
   local add_paths=()
-  for path in "${recovery_paths[@]}"; do
+  for path in "${SWS_SHIP_PATHS[@]}"; do
     if [ -e "${tmpdir}/${path%/}" ]; then
       add_paths+=("${path}")
     fi
@@ -2175,7 +2133,7 @@ Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>" 2>&1 | sed
     --title "chore(sws): republish ${RUN_LABEL} on latest main" \
     --body "Automated recovery for ${old_pr_url}.
 
-The original SWS auto-refresh PR became conflicted after main advanced while the long-running nightly waited for auto-merge. This replacement branch is based on current origin/main and copies only the generated artifact allow-list from ${source_branch}.
+The original SWS auto-refresh PR became conflicted after main advanced while the long-running nightly waited for auto-merge. This replacement branch is based on current origin/main and copies only the generated artifact allow-list (SWS_SHIP_PATHS) from ${source_branch}; the forward Track Record ledger is merged per row so rows main gained since the fork are kept.
 
 ${COMMIT_BODY}
 
