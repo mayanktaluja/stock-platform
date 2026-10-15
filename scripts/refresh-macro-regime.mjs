@@ -128,14 +128,17 @@ async function main() {
   );
 
   // PR B1.2 — append-only archive. Never fatal: failure here is logged
-  // but doesn't break the regime refresh.
-  try {
-    const arc = _archiveHeadlines(headlines, { meta });
-    if (arc.written > 0 || arc.skipped > 0) {
-      console.log(`[macro-refresh] archived headlines: +${arc.written} new, ${arc.skipped} dup → ${arc.path}`);
+  // but doesn't break the regime refresh. Skipped on --dry-run, which
+  // promises no writes (test/refreshMacroEnvFlag.test.mjs relies on it).
+  if (!DRY_RUN) {
+    try {
+      const arc = _archiveHeadlines(headlines, { meta });
+      if (arc.written > 0 || arc.skipped > 0) {
+        console.log(`[macro-refresh] archived headlines: +${arc.written} new, ${arc.skipped} dup → ${arc.path}`);
+      }
+    } catch (err) {
+      console.warn(`[macro-refresh] archive failed (non-fatal): ${err.message}`);
     }
-  } catch (err) {
-    console.warn(`[macro-refresh] archive failed (non-fatal): ${err.message}`);
   }
 
   if (headlines.length === 0) {
