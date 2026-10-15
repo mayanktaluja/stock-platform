@@ -115,11 +115,34 @@ assert(
 
 // Both files must be staged for commit, checked for changes, AND included in
 // the sanity-fail data-only PR — otherwise a successful refresh never ships.
-const gitAddBlock = (nightly.match(/git add data\/sws\/deep\.tar\.gz[\s\S]*?fundamentalsHistory\.json/) || [""])[0];
+// Step 5's `git add` and CHANGED_FILES check and the conflict-recovery
+// republish all read the one SWS_SHIP_PATHS array, and
+// test/swsNightlyShipPaths.test.sh runs each consumer to pin that it passes
+// exactly that list. So here "staged", "counted" and "carried in recovery" all
+// mean "listed in SWS_SHIP_PATHS" — once these wiring asserts hold.
+const shipPathsBlock = (nightly.match(/^SWS_SHIP_PATHS=\([\s\S]*?^\)/m) || [""])[0];
+const republishFn =
+  (nightly.match(/^republish_conflicted_pr_on_latest_main\(\) \{[\s\S]*?^\}/m) || [""])[0];
+assert("SWS_SHIP_PATHS allow-list exists", shipPathsBlock.length > 0, null);
+assert(
+  "step 5 git add stages SWS_SHIP_PATHS",
+  /^git add -- "\$\{SWS_SHIP_PATHS\[@\]\}"$/m.test(nightly),
+  null,
+);
+assert(
+  "step 5 CHANGED_FILES check counts SWS_SHIP_PATHS",
+  /^CHANGED_FILES=\$\(git status --short -- "\$\{SWS_SHIP_PATHS\[@\]\}"/m.test(nightly),
+  null,
+);
+assert(
+  "conflict recovery copies and stages SWS_SHIP_PATHS",
+  (republishFn.match(/for path in "\$\{SWS_SHIP_PATHS\[@\]\}"; do/g) || []).length === 2,
+  null,
+);
+const gitAddBlock = shipPathsBlock;
 const dataFilesBlock = (nightly.match(/DATA_FILES=\([\s\S]*?\)/) || [""])[0];
-const changedFilesBlock =
-  (nightly.match(/CHANGED_FILES=\$\(git status --short[\s\S]*?wc -l/) || [""])[0];
-const recoveryPathsBlock = (nightly.match(/recovery_paths=\([\s\S]*?\)/) || [""])[0];
+const changedFilesBlock = shipPathsBlock;
+const recoveryPathsBlock = shipPathsBlock;
 
 for (const f of ["surveillance.json", "governance.json"]) {
   assert(`${f} is staged in the git add list`, gitAddBlock.includes(f), null);

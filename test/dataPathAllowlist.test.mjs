@@ -103,22 +103,31 @@ console.log("dataPathAllowlist: no drift from scripts/sws-nightly.sh");
 console.log("dataPathAllowlist: the nightly's staged set is entirely data");
 {
   // Whatever the full nightly `git add`s must also be fast-path-eligible,
-  // otherwise the nightly silently reverts to the slow suite forever.
+  // otherwise the nightly silently reverts to the slow suite forever. Step 5
+  // and the conflicted-PR republish both stage SWS_SHIP_PATHS
+  // (test/swsNightlyShipPaths.test.sh pins that they stay in step).
   const sh = fs.readFileSync(NIGHTLY, "utf-8");
-  const m = /git add (data\/sws\/deep\.tar\.gz[\s\S]*?)\n\s*\n/.exec(sh);
-  assert("found the nightly's git add allow-list", !!m);
+  assert(
+    "step 5 stages SWS_SHIP_PATHS",
+    /^git add -- "\$\{SWS_SHIP_PATHS\[@\]\}"$/m.test(sh)
+  );
+  const m = /^SWS_SHIP_PATHS=\(([\s\S]*?)^\)/m.exec(sh);
+  assert("found the nightly's SWS_SHIP_PATHS allow-list", !!m);
   if (m) {
-    // A `git add a \` / `b \` / `c` continuation ends at the first line WITHOUT a
-    // trailing backslash. Stop there, or the next shell statement gets swallowed.
-    const paths = [];
-    for (const raw of m[1].split("\n")) {
-      const line = raw.trim();
-      if (!line) continue;
-      const continues = line.endsWith("\\");
-      const token = line.replace(/\\$/, "").trim();
-      if (token) paths.push(token);
-      if (!continues) break;
-    }
+    // Entries are bare paths, or "${VAR}" for a path named once at top level
+    // (SWS_PAPER_LEDGER) — resolve those against their VAR="..." assignment.
+    const vars = Object.fromEntries(
+      [...sh.matchAll(/^([A-Z_][A-Z0-9_]*)="([^"$`]*)"$/gm)].map((v) => [v[1], v[2]])
+    );
+    const paths = m[1]
+      .split("\n")
+      .map((l) => l.replace(/#.*$/, "").trim())
+      .filter(Boolean)
+      .map((p) => {
+        const ref = /^"?\$\{([A-Z_][A-Z0-9_]*)\}"?$/.exec(p);
+        return ref ? vars[ref[1]] : p;
+      });
+    assert("every \"${VAR}\" entry resolves", paths.every(Boolean), paths);
     assert("the staged allow-list is non-trivial", paths.length > 20, paths.length);
     const bad = paths.filter((p) => !isDataPushPath(p));
     assert("every staged path classifies as data", bad.length === 0, bad);
