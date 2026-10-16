@@ -1,23 +1,23 @@
 {
   "schema_version": "macro-thesis-v1",
-  "generated_at": "2026-10-15T04:31:04.283Z",
+  "generated_at": "2026-10-16T00:49:28.244Z",
   "regime": {
-    "regime": "RATE_HIKE",
+    "regime": "GLOBAL_RISK_OFF",
     "severity": 3,
-    "confidence": 0.78,
-    "label": "Rate Hike",
-    "generated_at": "2026-10-14T14:30:32.666Z",
+    "confidence": 0.7,
+    "label": "Global Risk-Off",
+    "generated_at": "2026-10-15T18:30:25.906Z",
     "days_in_state": 0,
     "stale": false,
-    "reasoning": "Hot US inflation data and RBI comments push rate‑hike expectations, driving bond sell‑off and currency pressure.",
+    "reasoning": "Global markets are showing signs of risk aversion, particularly in AI-related tech, with rising yields and concerns over AI valuations impacting investor sentiment.",
     "key_events": [
-      "US stocks dip as hot CPI data fuels rate‑hike bets (Economic Times)",
-      "India bonds sink deeper on RBI commentary, inflation concerns (Economic Times)",
-      "Rupee falters past 95/USD on importer hedging, outflows (Economic Times)",
-      "Global diesel prices set to rise again, warns IEA (FT Markets)",
-      "Houthis attack Saudi Aramco headquarters (FT Markets)"
+      "Risk of an AI crunch for stock markets is rising (FT Markets)",
+      "Treasuries rally as investors seek shelter from AI turbulence (FT Markets)",
+      "US stocks: Nasdaq slides toward one-month low as AI selloff deepens, inflation pressures build (Economic Times)",
+      "S&P 500’s road to 8,000 grows tougher as yields rise, AI doubts mount (Economic Times)",
+      "Investors dump data centre bonds as AI borrowers face ‘Darwin moment’ (FT Markets)"
     ],
-    "classifier_provider": "groq",
+    "classifier_provider": "gemini",
     "source_health": {
       "RBI Press": "blocked",
       "SEBI Press": "ok",
@@ -42,190 +42,134 @@
     },
     "sector_impacts": [
       {
+        "sector": "IT Services",
+        "impact": -2,
+        "reason": "Global AI tech selloff and rising yields could impact IT services demand and valuations, especially those tied to data centers."
+      },
+      {
         "sector": "Banking",
-        "impact": 2,
-        "reason": "Higher rates boost NIMs"
+        "impact": 1,
+        "reason": "Indian banks show strong Q2 profit growth, with some benefiting from higher interest income, despite global risk-off sentiment."
       },
       {
         "sector": "NBFC",
-        "impact": 2,
-        "reason": "Rate rise improves loan spreads"
-      },
-      {
-        "sector": "Real Estate",
-        "impact": -2,
-        "reason": "Higher financing costs curb demand"
-      },
-      {
-        "sector": "Oil & Gas",
         "impact": 1,
-        "reason": "Diesel price rise lifts margins"
+        "reason": "NBFCs like IIFL Finance and L&T Finance report strong Q2 profit growth, indicating resilience despite broader market concerns."
       },
       {
         "sector": "Metals",
         "impact": -1,
-        "reason": "Costlier financing dampens demand"
+        "reason": "Copper hits 10-day low on profit-taking as supply worries ease, suggesting potential weakness in commodity prices."
       }
     ]
   },
-  "catalyst_proximity_days": 14,
+  "catalyst_proximity_days": 13,
   "upcoming_catalysts": [
     {
       "date": "2026-10-29",
       "kind": "FOMC",
       "label": "US FOMC Meeting — October 2026",
       "severity_potential": 3,
-      "days_until": 14
+      "days_until": 13
     },
     {
       "date": "2026-11-05",
       "kind": "GST_COUNCIL",
       "label": "GST Council Meeting (provisional)",
       "severity_potential": 2,
-      "days_until": 21
+      "days_until": 20
     }
   ],
   "position_cap_pct": 10,
   "branches": [
     {
       "key": "continue",
-      "label": "RATE_HIKE continues at current severity",
+      "label": "GLOBAL_RISK_OFF continues at current severity",
       "probability": 0.53,
       "duration_days": 14,
-      "n_analogs": 9,
+      "n_analogs": 11,
       "indeterminate": false,
       "beneficiaries": [
         {
           "sector_index_key": null,
-          "sector_label": "PSU Banks",
-          "sector_bucket": "PSU Banks",
+          "sector_label": "Consumer Staples",
+          "sector_bucket": "Consumer Staples",
           "expected_return_pct": null,
           "template_delta": 2,
           "n_analogs": 0,
           "source": "template",
           "direction": "BENEFICIARY",
           "stock_candidates": {
-            "sector": "PSU Banks",
-            "candidates_total": 32,
-            "passed_filters": 19,
+            "sector": "Consumer Staples",
+            "candidates_total": 0,
+            "passed_filters": 0,
             "excluded_conglomerates": [],
-            "stocks": [
-              {
-                "ticker": "SURYODAY",
-                "name": "Suryoday Small Finance Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 70.8,
-                "composite_score": 57.2,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 88.8,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "CAPITALSFB",
-                "name": "Capital Small Finance Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 65.4,
-                "composite_score": 54.5,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 55.8,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "UJJIVANSFB",
-                "name": "Ujjivan Small Finance Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 72.3,
-                "composite_score": 44.8,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 25.9,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "HDFCBANK",
-                "name": "HDFC Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 48.8,
-                "composite_score": 43.9,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 37.7,
-                "verdict": "STRONG"
-              },
-              {
-                "ticker": "J&KBANK",
-                "name": "Jammu and Kashmir Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 60.3,
-                "composite_score": 42.7,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 57.1,
-                "verdict": "TOP_PICK"
-              }
-            ]
+            "stocks": []
           }
         },
         {
           "sector_index_key": null,
-          "sector_label": "Private Banks",
-          "sector_bucket": "Private Banks",
+          "sector_label": "Pharmaceuticals",
+          "sector_bucket": "Pharmaceuticals",
           "expected_return_pct": null,
           "template_delta": 1,
           "n_analogs": 0,
           "source": "template",
           "direction": "BENEFICIARY",
           "stock_candidates": {
-            "sector": "Private Banks",
-            "candidates_total": 32,
-            "passed_filters": 19,
+            "sector": "Pharmaceuticals",
+            "candidates_total": 88,
+            "passed_filters": 37,
             "excluded_conglomerates": [],
             "stocks": [
               {
-                "ticker": "SURYODAY",
-                "name": "Suryoday Small Finance Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 70.8,
-                "composite_score": 57.2,
+                "ticker": "VIYASH",
+                "name": "Viyash Scientific Limited",
+                "sector": "Pharmaceuticals & Biotech",
+                "v4_score_100": 73.2,
+                "composite_score": 51.9,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 88.8,
+                "upside_pct": 44.4,
                 "verdict": "TOP_PICK"
               },
               {
-                "ticker": "CAPITALSFB",
-                "name": "Capital Small Finance Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 65.4,
-                "composite_score": 54.5,
+                "ticker": "RUBICON",
+                "name": "Rubicon Research Limited",
+                "sector": "Pharmaceuticals & Biotech",
+                "v4_score_100": 57.1,
+                "composite_score": 47.4,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 55.8,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "UJJIVANSFB",
-                "name": "Ujjivan Small Finance Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 72.3,
-                "composite_score": 44.8,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 25.9,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "HDFCBANK",
-                "name": "HDFC Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 48.8,
-                "composite_score": 43.9,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 37.7,
+                "upside_pct": 28.5,
                 "verdict": "STRONG"
               },
               {
-                "ticker": "J&KBANK",
-                "name": "Jammu and Kashmir Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 60.3,
-                "composite_score": 42.7,
+                "ticker": "APLLTD",
+                "name": "Alembic Pharmaceuticals Limited",
+                "sector": "Pharmaceuticals & Biotech",
+                "v4_score_100": 66.2,
+                "composite_score": 47.3,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 21.3,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "SENORES",
+                "name": "Senores Pharmaceuticals Limited",
+                "sector": "Pharmaceuticals & Biotech",
+                "v4_score_100": 66,
+                "composite_score": 46.1,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 57.1,
+                "upside_pct": 28.2,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "ERIS",
+                "name": "Eris Lifesciences Limited",
+                "sector": "Pharmaceuticals & Biotech",
+                "v4_score_100": 60.2,
+                "composite_score": 44.4,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 42.1,
                 "verdict": "TOP_PICK"
               }
             ]
@@ -245,8 +189,8 @@
         },
         {
           "sector_index_key": null,
-          "sector_label": "Automobiles",
-          "sector_bucket": "Automobiles",
+          "sector_label": "Banks",
+          "sector_bucket": "Banks",
           "expected_return_pct": null,
           "template_delta": -2,
           "n_analogs": 0,
@@ -255,10 +199,10 @@
         },
         {
           "sector_index_key": null,
-          "sector_label": "Capital Goods",
-          "sector_bucket": "Capital Goods",
+          "sector_label": "Metals & Mining",
+          "sector_bucket": "Metals & Mining",
           "expected_return_pct": null,
-          "template_delta": -1,
+          "template_delta": -2,
           "n_analogs": 0,
           "source": "template",
           "direction": "HIT"
@@ -267,38 +211,38 @@
       "reasoning": {
         "modulator_applied": 1,
         "base_probability": 0.55,
-        "analog_pool_regime": "RATE_HIKE",
+        "analog_pool_regime": "GLOBAL_RISK_OFF",
         "analog_warnings": [
           "no sector-index data found for any analog date — run scripts/refresh-sector-indices.mjs --backfill-months=24"
         ],
         "analogs": [
           {
-            "date": "2022-05-04",
-            "label": "RBI surprise repo rate hike",
+            "date": "2021-04-20",
+            "label": "COVID Delta 2nd wave peak",
             "severity": 3,
             "source": "manual-seed"
           },
           {
-            "date": "2026-05-20",
-            "label": "Rate Hike",
+            "date": "2023-03-10",
+            "label": "SVB collapse + global banking stress",
+            "severity": 3,
+            "source": "manual-seed"
+          },
+          {
+            "date": "2024-08-05",
+            "label": "Yen carry-trade unwind (global vol spike)",
+            "severity": 2,
+            "source": "manual-seed"
+          },
+          {
+            "date": "2026-05-29",
+            "label": "Global Risk-Off",
             "severity": 2,
             "source": "heuristic"
           },
           {
-            "date": "2026-05-23",
-            "label": "Rate Hike",
-            "severity": 2,
-            "source": "heuristic"
-          },
-          {
-            "date": "2026-06-04",
-            "label": "Rate Hike",
-            "severity": 2,
-            "source": "heuristic"
-          },
-          {
-            "date": "2026-06-05",
-            "label": "Rate Hike",
+            "date": "2026-05-30",
+            "label": "Global Risk-Off",
             "severity": 2,
             "source": "heuristic"
           }
@@ -307,143 +251,92 @@
     },
     {
       "key": "escalate",
-      "label": "RATE_HIKE escalates (severity +1)",
+      "label": "GLOBAL_RISK_OFF escalates (severity +1)",
       "probability": 0.14,
       "duration_days": 7,
-      "n_analogs": 3,
+      "n_analogs": 7,
       "indeterminate": false,
       "beneficiaries": [
         {
           "sector_index_key": null,
-          "sector_label": "PSU Banks",
-          "sector_bucket": "PSU Banks",
+          "sector_label": "Consumer Staples",
+          "sector_bucket": "Consumer Staples",
           "expected_return_pct": null,
           "template_delta": 2,
           "n_analogs": 0,
           "source": "template",
           "direction": "BENEFICIARY",
           "stock_candidates": {
-            "sector": "PSU Banks",
-            "candidates_total": 32,
-            "passed_filters": 19,
+            "sector": "Consumer Staples",
+            "candidates_total": 0,
+            "passed_filters": 0,
             "excluded_conglomerates": [],
-            "stocks": [
-              {
-                "ticker": "SURYODAY",
-                "name": "Suryoday Small Finance Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 70.8,
-                "composite_score": 57.2,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 88.8,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "CAPITALSFB",
-                "name": "Capital Small Finance Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 65.4,
-                "composite_score": 54.5,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 55.8,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "UJJIVANSFB",
-                "name": "Ujjivan Small Finance Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 72.3,
-                "composite_score": 44.8,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 25.9,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "HDFCBANK",
-                "name": "HDFC Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 48.8,
-                "composite_score": 43.9,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 37.7,
-                "verdict": "STRONG"
-              },
-              {
-                "ticker": "J&KBANK",
-                "name": "Jammu and Kashmir Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 60.3,
-                "composite_score": 42.7,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 57.1,
-                "verdict": "TOP_PICK"
-              }
-            ]
+            "stocks": []
           }
         },
         {
           "sector_index_key": null,
-          "sector_label": "Private Banks",
-          "sector_bucket": "Private Banks",
+          "sector_label": "Pharmaceuticals",
+          "sector_bucket": "Pharmaceuticals",
           "expected_return_pct": null,
           "template_delta": 1,
           "n_analogs": 0,
           "source": "template",
           "direction": "BENEFICIARY",
           "stock_candidates": {
-            "sector": "Private Banks",
-            "candidates_total": 32,
-            "passed_filters": 19,
+            "sector": "Pharmaceuticals",
+            "candidates_total": 88,
+            "passed_filters": 37,
             "excluded_conglomerates": [],
             "stocks": [
               {
-                "ticker": "SURYODAY",
-                "name": "Suryoday Small Finance Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 70.8,
-                "composite_score": 57.2,
+                "ticker": "VIYASH",
+                "name": "Viyash Scientific Limited",
+                "sector": "Pharmaceuticals & Biotech",
+                "v4_score_100": 73.2,
+                "composite_score": 51.9,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 88.8,
+                "upside_pct": 44.4,
                 "verdict": "TOP_PICK"
               },
               {
-                "ticker": "CAPITALSFB",
-                "name": "Capital Small Finance Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 65.4,
-                "composite_score": 54.5,
+                "ticker": "RUBICON",
+                "name": "Rubicon Research Limited",
+                "sector": "Pharmaceuticals & Biotech",
+                "v4_score_100": 57.1,
+                "composite_score": 47.4,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 55.8,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "UJJIVANSFB",
-                "name": "Ujjivan Small Finance Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 72.3,
-                "composite_score": 44.8,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 25.9,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "HDFCBANK",
-                "name": "HDFC Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 48.8,
-                "composite_score": 43.9,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 37.7,
+                "upside_pct": 28.5,
                 "verdict": "STRONG"
               },
               {
-                "ticker": "J&KBANK",
-                "name": "Jammu and Kashmir Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 60.3,
-                "composite_score": 42.7,
+                "ticker": "APLLTD",
+                "name": "Alembic Pharmaceuticals Limited",
+                "sector": "Pharmaceuticals & Biotech",
+                "v4_score_100": 66.2,
+                "composite_score": 47.3,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 21.3,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "SENORES",
+                "name": "Senores Pharmaceuticals Limited",
+                "sector": "Pharmaceuticals & Biotech",
+                "v4_score_100": 66,
+                "composite_score": 46.1,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 57.1,
+                "upside_pct": 28.2,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "ERIS",
+                "name": "Eris Lifesciences Limited",
+                "sector": "Pharmaceuticals & Biotech",
+                "v4_score_100": 60.2,
+                "composite_score": 44.4,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 42.1,
                 "verdict": "TOP_PICK"
               }
             ]
@@ -463,8 +356,8 @@
         },
         {
           "sector_index_key": null,
-          "sector_label": "Automobiles",
-          "sector_bucket": "Automobiles",
+          "sector_label": "Banks",
+          "sector_bucket": "Banks",
           "expected_return_pct": null,
           "template_delta": -2,
           "n_analogs": 0,
@@ -473,10 +366,10 @@
         },
         {
           "sector_index_key": null,
-          "sector_label": "Capital Goods",
-          "sector_bucket": "Capital Goods",
+          "sector_label": "Metals & Mining",
+          "sector_bucket": "Metals & Mining",
           "expected_return_pct": null,
-          "template_delta": -1,
+          "template_delta": -2,
           "n_analogs": 0,
           "source": "template",
           "direction": "HIT"
@@ -485,26 +378,38 @@
       "reasoning": {
         "modulator_applied": 1,
         "base_probability": 0.15,
-        "analog_pool_regime": "RATE_HIKE (severity +1)",
+        "analog_pool_regime": "GLOBAL_RISK_OFF (severity +1)",
         "analog_warnings": [
           "no sector-index data found for any analog date — run scripts/refresh-sector-indices.mjs --backfill-months=24"
         ],
         "analogs": [
           {
-            "date": "2022-05-04",
-            "label": "RBI surprise repo rate hike",
+            "date": "2008-09-15",
+            "label": "Lehman Brothers collapse",
+            "severity": 5,
+            "source": "manual-seed"
+          },
+          {
+            "date": "2020-03-16",
+            "label": "COVID-19 circuit-breaker crash",
+            "severity": 5,
+            "source": "manual-seed"
+          },
+          {
+            "date": "2021-04-20",
+            "label": "COVID Delta 2nd wave peak",
             "severity": 3,
             "source": "manual-seed"
           },
           {
-            "date": "2026-06-05",
-            "label": "Rate Hike",
+            "date": "2023-03-10",
+            "label": "SVB collapse + global banking stress",
             "severity": 3,
-            "source": "heuristic"
+            "source": "manual-seed"
           },
           {
             "date": "2026-06-06",
-            "label": "Rate Hike",
+            "label": "Global Risk-Off",
             "severity": 3,
             "source": "heuristic"
           }
@@ -513,7 +418,7 @@
     },
     {
       "key": "de_escalate",
-      "label": "RATE_HIKE de-escalates → CALM",
+      "label": "GLOBAL_RISK_OFF de-escalates → CALM",
       "probability": 0.19,
       "duration_days": 21,
       "n_analogs": 9,
@@ -563,7 +468,7 @@
     },
     {
       "key": "new_shock",
-      "label": "New unrelated shock supersedes RATE_HIKE",
+      "label": "New unrelated shock supersedes GLOBAL_RISK_OFF",
       "probability": 0.13,
       "duration_days": 7,
       "n_analogs": 0,
@@ -571,135 +476,84 @@
       "beneficiaries": [
         {
           "sector_index_key": null,
-          "sector_label": "PSU Banks",
-          "sector_bucket": "PSU Banks",
+          "sector_label": "Consumer Staples",
+          "sector_bucket": "Consumer Staples",
           "expected_return_pct": null,
           "template_delta": 2,
           "n_analogs": 0,
           "source": "template",
           "direction": "BENEFICIARY",
           "stock_candidates": {
-            "sector": "PSU Banks",
-            "candidates_total": 32,
-            "passed_filters": 19,
+            "sector": "Consumer Staples",
+            "candidates_total": 0,
+            "passed_filters": 0,
             "excluded_conglomerates": [],
-            "stocks": [
-              {
-                "ticker": "SURYODAY",
-                "name": "Suryoday Small Finance Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 70.8,
-                "composite_score": 57.2,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 88.8,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "CAPITALSFB",
-                "name": "Capital Small Finance Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 65.4,
-                "composite_score": 54.5,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 55.8,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "UJJIVANSFB",
-                "name": "Ujjivan Small Finance Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 72.3,
-                "composite_score": 44.8,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 25.9,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "HDFCBANK",
-                "name": "HDFC Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 48.8,
-                "composite_score": 43.9,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 37.7,
-                "verdict": "STRONG"
-              },
-              {
-                "ticker": "J&KBANK",
-                "name": "Jammu and Kashmir Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 60.3,
-                "composite_score": 42.7,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 57.1,
-                "verdict": "TOP_PICK"
-              }
-            ]
+            "stocks": []
           }
         },
         {
           "sector_index_key": null,
-          "sector_label": "Private Banks",
-          "sector_bucket": "Private Banks",
+          "sector_label": "Pharmaceuticals",
+          "sector_bucket": "Pharmaceuticals",
           "expected_return_pct": null,
           "template_delta": 1,
           "n_analogs": 0,
           "source": "template",
           "direction": "BENEFICIARY",
           "stock_candidates": {
-            "sector": "Private Banks",
-            "candidates_total": 32,
-            "passed_filters": 19,
+            "sector": "Pharmaceuticals",
+            "candidates_total": 88,
+            "passed_filters": 37,
             "excluded_conglomerates": [],
             "stocks": [
               {
-                "ticker": "SURYODAY",
-                "name": "Suryoday Small Finance Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 70.8,
-                "composite_score": 57.2,
+                "ticker": "VIYASH",
+                "name": "Viyash Scientific Limited",
+                "sector": "Pharmaceuticals & Biotech",
+                "v4_score_100": 73.2,
+                "composite_score": 51.9,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 88.8,
+                "upside_pct": 44.4,
                 "verdict": "TOP_PICK"
               },
               {
-                "ticker": "CAPITALSFB",
-                "name": "Capital Small Finance Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 65.4,
-                "composite_score": 54.5,
+                "ticker": "RUBICON",
+                "name": "Rubicon Research Limited",
+                "sector": "Pharmaceuticals & Biotech",
+                "v4_score_100": 57.1,
+                "composite_score": 47.4,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 55.8,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "UJJIVANSFB",
-                "name": "Ujjivan Small Finance Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 72.3,
-                "composite_score": 44.8,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 25.9,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "HDFCBANK",
-                "name": "HDFC Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 48.8,
-                "composite_score": 43.9,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 37.7,
+                "upside_pct": 28.5,
                 "verdict": "STRONG"
               },
               {
-                "ticker": "J&KBANK",
-                "name": "Jammu and Kashmir Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 60.3,
-                "composite_score": 42.7,
+                "ticker": "APLLTD",
+                "name": "Alembic Pharmaceuticals Limited",
+                "sector": "Pharmaceuticals & Biotech",
+                "v4_score_100": 66.2,
+                "composite_score": 47.3,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 21.3,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "SENORES",
+                "name": "Senores Pharmaceuticals Limited",
+                "sector": "Pharmaceuticals & Biotech",
+                "v4_score_100": 66,
+                "composite_score": 46.1,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 57.1,
+                "upside_pct": 28.2,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "ERIS",
+                "name": "Eris Lifesciences Limited",
+                "sector": "Pharmaceuticals & Biotech",
+                "v4_score_100": 60.2,
+                "composite_score": 44.4,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 42.1,
                 "verdict": "TOP_PICK"
               }
             ]
@@ -719,8 +573,8 @@
         },
         {
           "sector_index_key": null,
-          "sector_label": "Automobiles",
-          "sector_bucket": "Automobiles",
+          "sector_label": "Banks",
+          "sector_bucket": "Banks",
           "expected_return_pct": null,
           "template_delta": -2,
           "n_analogs": 0,
@@ -729,10 +583,10 @@
         },
         {
           "sector_index_key": null,
-          "sector_label": "Capital Goods",
-          "sector_bucket": "Capital Goods",
+          "sector_label": "Metals & Mining",
+          "sector_bucket": "Metals & Mining",
           "expected_return_pct": null,
-          "template_delta": -1,
+          "template_delta": -2,
           "n_analogs": 0,
           "source": "template",
           "direction": "HIT"
@@ -754,8 +608,8 @@
   "indeterminate": false,
   "audit": {
     "thesis_schema": "macro-thesis-v1",
-    "regime_generated_at": "2026-10-14T14:30:32.666Z",
-    "regime_classifier": "groq",
+    "regime_generated_at": "2026-10-15T18:30:25.906Z",
+    "regime_classifier": "gemini",
     "scenario_engine_version": "scenario-prob-v1"
   }
 }
