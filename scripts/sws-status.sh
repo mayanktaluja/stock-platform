@@ -25,12 +25,20 @@ process_cwd() {
   lsof -Fn -a -p "${pid}" -d cwd 2>/dev/null | sed -n 's/^n//p' | head -1
 }
 
+# sws-nightly.sh re-execs itself from a stable temp copy
+# ($TMPDIR/sws-nightly.<pid>.sh) before doing any work, so once the shards and
+# sws-refresh-api.sh have exited (parse → aux → commit → PR → deploy wait, ~2h)
+# that copy is the only process whose cwd is the isolated worktree. Without its
+# pattern the post-scrape phase fell back to the primary checkout and reported
+# months-old shard counts and log lines. The wrapper (sws-nightly-isolated.sh)
+# must NOT match: its cwd is the primary checkout.
 active_data_dir() {
   local pattern pid cwd
   for pattern in \
     'sws-api-scrape\.mjs[[:space:]]+[123]' \
     'scripts/sws-refresh-api\.sh' \
-    'scripts/sws-nightly\.sh'; do
+    'scripts/sws-nightly\.sh' \
+    '/sws-nightly\.[0-9]+\.sh'; do
     while read -r pid; do
       [ -n "${pid}" ] || continue
       cwd="$(process_cwd "${pid}")"
@@ -46,6 +54,10 @@ active_data_dir() {
 
   printf '%s|primary checkout\n' "${REPO_DIR}"
 }
+
+# Quote the phrase: unquoted, GitHub search reads `chore(sws):` as a qualifier
+# and matches nothing, so this section printed "(none yet)" for every run.
+AUTO_REFRESH_PR_SEARCH='"chore(sws): auto-refresh" in:title'
 
 DATA_SOURCE="$(active_data_dir)"
 DATA_DIR="${DATA_SOURCE%%|*}"
@@ -196,7 +208,7 @@ show() {
     echo "── recent auto-refresh PRs ──"
   fi
   if command -v gh >/dev/null 2>&1; then
-    gh pr list --search "chore(sws): auto-refresh in:title" --state all --limit 5 \
+    gh pr list --search "${AUTO_REFRESH_PR_SEARCH}" --state all --limit 5 \
       --json number,state,title,mergedAt,createdAt 2>/dev/null | \
       node --input-type=module -e '
         let s = ""; for await (const c of process.stdin) s += c;
@@ -225,7 +237,7 @@ show() {
 case "$MODE" in
   pr-only)
     if command -v gh >/dev/null 2>&1; then
-      gh pr list --search "chore(sws): auto-refresh in:title" --state all --limit 10 \
+      gh pr list --search "${AUTO_REFRESH_PR_SEARCH}" --state all --limit 10 \
         --json number,state,title,mergedAt,createdAt 2>/dev/null | \
         node --input-type=module -e '
           let s = ""; for await (const c of process.stdin) s += c;
