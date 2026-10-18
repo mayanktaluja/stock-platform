@@ -1,23 +1,22 @@
 {
   "schema_version": "macro-thesis-v1",
-  "generated_at": "2026-10-17T00:56:10.687Z",
+  "generated_at": "2026-10-18T00:03:51.520Z",
   "regime": {
-    "regime": "RATE_HIKE",
-    "severity": 3,
-    "confidence": 0.72,
-    "label": "Rate Hike",
-    "generated_at": "2026-10-16T14:30:31.586Z",
+    "regime": "OIL_SHOCK",
+    "severity": 4,
+    "confidence": 0.8,
+    "label": "Oil Shock",
+    "generated_at": "2026-10-17T18:30:43.132Z",
     "days_in_state": 0,
     "stale": false,
-    "reasoning": "RBI's aggressive policy moves and bond losses, coupled with a strengthening rupee, point to a rate‑hike environment.",
+    "reasoning": "Brent crude oil prices surged to $110, a five-month high, due to escalating Middle East tensions and attacks on energy infrastructure.",
     "key_events": [
-      "Aggressive RBI measures hand India bonds a ninth weekly loss (Economic Times)",
-      "Rupee posts best week in seven months, fundamentals key for lasting turnaround (Economic Times)",
-      "Ujjivan SFB to raise Rs 409 crore from IFC, three insurers (Economic Times)",
-      "DLF Q2 profit rises to Rs 1,301 crore as luxury project sells out (Economic Times)",
-      "Yes Bank AT-1 bond reinstatement may hit CET1 ratio by 250 basis points (Business Standard)"
+      "Brent crude oil prices hit $110 for first time since May as Iran attacks continue, Ukraine eyes Russia energy infra (Economic Times)",
+      "Oil hits five-month high of $110 on new escalation in Middle East (FT Markets)",
+      "Trump exempts Russia from further sanctions mandated by new law (FT Markets)",
+      "RBI's rupee defence comes at a cost ($60 billion in 6 weeks) (Economic Times)"
     ],
-    "classifier_provider": "groq",
+    "classifier_provider": "gemini",
     "source_health": {
       "RBI Press": "blocked",
       "SEBI Press": "ok",
@@ -42,117 +41,122 @@
     },
     "sector_impacts": [
       {
-        "sector": "Banking",
+        "sector": "Oil & Gas",
         "impact": 2,
-        "reason": "Higher rates boost NII and profit growth"
+        "reason": "Higher crude prices generally benefit upstream oil and gas companies due to increased realizations."
       },
       {
-        "sector": "NBFC",
-        "impact": 1,
-        "reason": "Capital raise and bond reinstatement improve outlook"
+        "sector": "Aviation",
+        "impact": -2,
+        "reason": "Rising crude oil prices directly increase fuel costs, negatively impacting airline profitability."
       },
       {
-        "sector": "Real Estate",
-        "impact": 1,
-        "reason": "DLF profit surge on luxury sales"
+        "sector": "Chemicals",
+        "impact": -1,
+        "reason": "Higher crude prices can increase feedstock costs for chemical manufacturers, impacting margins."
       },
       {
-        "sector": "Infrastructure",
+        "sector": "Automobile",
+        "impact": -1,
+        "reason": "Increased fuel costs can dampen consumer demand for vehicles, especially those with lower fuel efficiency."
+      },
+      {
+        "sector": "IT Services",
         "impact": 1,
-        "reason": "Nuclear power framework pact signals project pipeline"
+        "reason": "Weakening rupee due to oil imports could benefit IT services companies with significant dollar revenues."
       }
     ]
   },
-  "catalyst_proximity_days": 12,
+  "catalyst_proximity_days": 11,
   "upcoming_catalysts": [
     {
       "date": "2026-10-29",
       "kind": "FOMC",
       "label": "US FOMC Meeting — October 2026",
       "severity_potential": 3,
-      "days_until": 12
+      "days_until": 11
     },
     {
       "date": "2026-11-05",
       "kind": "GST_COUNCIL",
       "label": "GST Council Meeting (provisional)",
       "severity_potential": 2,
-      "days_until": 19
+      "days_until": 18
     }
   ],
   "position_cap_pct": 10,
   "branches": [
     {
       "key": "continue",
-      "label": "RATE_HIKE continues at current severity",
-      "probability": 0.53,
+      "label": "OIL_SHOCK continues at current severity",
+      "probability": 0.55,
       "duration_days": 14,
-      "n_analogs": 9,
-      "indeterminate": false,
+      "n_analogs": 0,
+      "indeterminate": true,
       "beneficiaries": [
         {
           "sector_index_key": null,
-          "sector_label": "PSU Banks",
-          "sector_bucket": "PSU Banks",
+          "sector_label": "Energy",
+          "sector_bucket": "Energy",
           "expected_return_pct": null,
-          "template_delta": 2,
+          "template_delta": 3,
           "n_analogs": 0,
           "source": "template",
           "direction": "BENEFICIARY",
           "stock_candidates": {
-            "sector": "PSU Banks",
-            "candidates_total": 32,
-            "passed_filters": 21,
+            "sector": "Energy",
+            "candidates_total": 25,
+            "passed_filters": 8,
             "excluded_conglomerates": [],
             "stocks": [
               {
-                "ticker": "SURYODAY",
-                "name": "Suryoday Small Finance Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 71.3,
-                "composite_score": 57.2,
+                "ticker": "SEAMECLTD",
+                "name": "Seamec Limited",
+                "sector": "Energy",
+                "v4_score_100": 69.8,
+                "composite_score": 47.6,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 89.2,
+                "upside_pct": 31.9,
                 "verdict": "TOP_PICK"
               },
               {
-                "ticker": "CAPITALSFB",
-                "name": "Capital Small Finance Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 65.2,
-                "composite_score": 54.5,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 55,
+                "ticker": "PETRONET",
+                "name": "Petronet LNG Limited",
+                "sector": "Energy",
+                "v4_score_100": 60.9,
+                "composite_score": 39.9,
+                "valuation_band": "FAIR",
+                "upside_pct": 8.8,
                 "verdict": "TOP_PICK"
               },
               {
-                "ticker": "UJJIVANSFB",
-                "name": "Ujjivan Small Finance Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 75,
-                "composite_score": 47.5,
+                "ticker": "ONGC",
+                "name": "Oil and Natural Gas Corporation Limited",
+                "sector": "Energy",
+                "v4_score_100": 50.8,
+                "composite_score": 35.8,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 29.6,
+                "upside_pct": 32,
+                "verdict": "STRONG"
+              },
+              {
+                "ticker": "CHENNPETRO",
+                "name": "Chennai Petroleum Corporation Limited",
+                "sector": "Energy",
+                "v4_score_100": 69.2,
+                "composite_score": 32.5,
+                "valuation_band": "FAIR",
+                "upside_pct": 9.5,
                 "verdict": "TOP_PICK"
               },
               {
-                "ticker": "J&KBANK",
-                "name": "Jammu and Kashmir Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 59.8,
-                "composite_score": 42.7,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 62.3,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "HDFCBANK",
-                "name": "HDFC Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 48.8,
-                "composite_score": 42.5,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 34.3,
+                "ticker": "DEEPINDS",
+                "name": "Deep Industries Limited",
+                "sector": "Energy",
+                "v4_score_100": 57.1,
+                "composite_score": 28.8,
+                "valuation_band": "PREMIUM",
+                "upside_pct": -10.4,
                 "verdict": "STRONG"
               }
             ]
@@ -160,84 +164,23 @@
         },
         {
           "sector_index_key": null,
-          "sector_label": "Private Banks",
-          "sector_bucket": "Private Banks",
+          "sector_label": "Consumer Staples",
+          "sector_bucket": "Consumer Staples",
           "expected_return_pct": null,
           "template_delta": 1,
           "n_analogs": 0,
           "source": "template",
           "direction": "BENEFICIARY",
           "stock_candidates": {
-            "sector": "Private Banks",
-            "candidates_total": 32,
-            "passed_filters": 21,
+            "sector": "Consumer Staples",
+            "candidates_total": 0,
+            "passed_filters": 0,
             "excluded_conglomerates": [],
-            "stocks": [
-              {
-                "ticker": "SURYODAY",
-                "name": "Suryoday Small Finance Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 71.3,
-                "composite_score": 57.2,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 89.2,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "CAPITALSFB",
-                "name": "Capital Small Finance Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 65.2,
-                "composite_score": 54.5,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 55,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "UJJIVANSFB",
-                "name": "Ujjivan Small Finance Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 75,
-                "composite_score": 47.5,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 29.6,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "J&KBANK",
-                "name": "Jammu and Kashmir Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 59.8,
-                "composite_score": 42.7,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 62.3,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "HDFCBANK",
-                "name": "HDFC Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 48.8,
-                "composite_score": 42.5,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 34.3,
-                "verdict": "STRONG"
-              }
-            ]
+            "stocks": []
           }
         }
       ],
       "losers": [
-        {
-          "sector_index_key": null,
-          "sector_label": "Real Estate",
-          "sector_bucket": "Real Estate",
-          "expected_return_pct": null,
-          "template_delta": -3,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "HIT"
-        },
         {
           "sector_index_key": null,
           "sector_label": "Automobiles",
@@ -250,8 +193,18 @@
         },
         {
           "sector_index_key": null,
-          "sector_label": "Capital Goods",
-          "sector_bucket": "Capital Goods",
+          "sector_label": "Software",
+          "sector_bucket": "Software",
+          "expected_return_pct": null,
+          "template_delta": -1,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Real Estate",
+          "sector_bucket": "Real Estate",
           "expected_return_pct": null,
           "template_delta": -1,
           "n_analogs": 0,
@@ -260,117 +213,87 @@
         }
       ],
       "reasoning": {
-        "modulator_applied": 1,
+        "modulator_applied": 1.15,
         "base_probability": 0.55,
-        "analog_pool_regime": "RATE_HIKE",
+        "analog_pool_regime": "OIL_SHOCK",
         "analog_warnings": [
-          "no sector-index data found for any analog date — run scripts/refresh-sector-indices.mjs --backfill-months=24"
+          "n_analogs=0 < 3 — INDETERMINATE; do not act on these sector ranges",
+          "only 0/15 sectors had data — partial analog"
         ],
-        "analogs": [
-          {
-            "date": "2022-05-04",
-            "label": "RBI surprise repo rate hike",
-            "severity": 3,
-            "source": "manual-seed"
-          },
-          {
-            "date": "2026-05-20",
-            "label": "Rate Hike",
-            "severity": 2,
-            "source": "heuristic"
-          },
-          {
-            "date": "2026-05-23",
-            "label": "Rate Hike",
-            "severity": 2,
-            "source": "heuristic"
-          },
-          {
-            "date": "2026-06-04",
-            "label": "Rate Hike",
-            "severity": 2,
-            "source": "heuristic"
-          },
-          {
-            "date": "2026-06-05",
-            "label": "Rate Hike",
-            "severity": 2,
-            "source": "heuristic"
-          }
-        ]
+        "analogs": []
       }
     },
     {
       "key": "escalate",
-      "label": "RATE_HIKE escalates (severity +1)",
-      "probability": 0.14,
+      "label": "OIL_SHOCK escalates (severity +1)",
+      "probability": 0.18,
       "duration_days": 7,
-      "n_analogs": 3,
-      "indeterminate": false,
+      "n_analogs": 0,
+      "indeterminate": true,
       "beneficiaries": [
         {
           "sector_index_key": null,
-          "sector_label": "PSU Banks",
-          "sector_bucket": "PSU Banks",
+          "sector_label": "Energy",
+          "sector_bucket": "Energy",
           "expected_return_pct": null,
-          "template_delta": 2,
+          "template_delta": 3,
           "n_analogs": 0,
           "source": "template",
           "direction": "BENEFICIARY",
           "stock_candidates": {
-            "sector": "PSU Banks",
-            "candidates_total": 32,
-            "passed_filters": 21,
+            "sector": "Energy",
+            "candidates_total": 25,
+            "passed_filters": 8,
             "excluded_conglomerates": [],
             "stocks": [
               {
-                "ticker": "SURYODAY",
-                "name": "Suryoday Small Finance Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 71.3,
-                "composite_score": 57.2,
+                "ticker": "SEAMECLTD",
+                "name": "Seamec Limited",
+                "sector": "Energy",
+                "v4_score_100": 69.8,
+                "composite_score": 47.6,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 89.2,
+                "upside_pct": 31.9,
                 "verdict": "TOP_PICK"
               },
               {
-                "ticker": "CAPITALSFB",
-                "name": "Capital Small Finance Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 65.2,
-                "composite_score": 54.5,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 55,
+                "ticker": "PETRONET",
+                "name": "Petronet LNG Limited",
+                "sector": "Energy",
+                "v4_score_100": 60.9,
+                "composite_score": 39.9,
+                "valuation_band": "FAIR",
+                "upside_pct": 8.8,
                 "verdict": "TOP_PICK"
               },
               {
-                "ticker": "UJJIVANSFB",
-                "name": "Ujjivan Small Finance Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 75,
-                "composite_score": 47.5,
+                "ticker": "ONGC",
+                "name": "Oil and Natural Gas Corporation Limited",
+                "sector": "Energy",
+                "v4_score_100": 50.8,
+                "composite_score": 35.8,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 29.6,
+                "upside_pct": 32,
+                "verdict": "STRONG"
+              },
+              {
+                "ticker": "CHENNPETRO",
+                "name": "Chennai Petroleum Corporation Limited",
+                "sector": "Energy",
+                "v4_score_100": 69.2,
+                "composite_score": 32.5,
+                "valuation_band": "FAIR",
+                "upside_pct": 9.5,
                 "verdict": "TOP_PICK"
               },
               {
-                "ticker": "J&KBANK",
-                "name": "Jammu and Kashmir Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 59.8,
-                "composite_score": 42.7,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 62.3,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "HDFCBANK",
-                "name": "HDFC Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 48.8,
-                "composite_score": 42.5,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 34.3,
+                "ticker": "DEEPINDS",
+                "name": "Deep Industries Limited",
+                "sector": "Energy",
+                "v4_score_100": 57.1,
+                "composite_score": 28.8,
+                "valuation_band": "PREMIUM",
+                "upside_pct": -10.4,
                 "verdict": "STRONG"
               }
             ]
@@ -378,84 +301,23 @@
         },
         {
           "sector_index_key": null,
-          "sector_label": "Private Banks",
-          "sector_bucket": "Private Banks",
+          "sector_label": "Consumer Staples",
+          "sector_bucket": "Consumer Staples",
           "expected_return_pct": null,
           "template_delta": 1,
           "n_analogs": 0,
           "source": "template",
           "direction": "BENEFICIARY",
           "stock_candidates": {
-            "sector": "Private Banks",
-            "candidates_total": 32,
-            "passed_filters": 21,
+            "sector": "Consumer Staples",
+            "candidates_total": 0,
+            "passed_filters": 0,
             "excluded_conglomerates": [],
-            "stocks": [
-              {
-                "ticker": "SURYODAY",
-                "name": "Suryoday Small Finance Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 71.3,
-                "composite_score": 57.2,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 89.2,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "CAPITALSFB",
-                "name": "Capital Small Finance Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 65.2,
-                "composite_score": 54.5,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 55,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "UJJIVANSFB",
-                "name": "Ujjivan Small Finance Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 75,
-                "composite_score": 47.5,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 29.6,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "J&KBANK",
-                "name": "Jammu and Kashmir Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 59.8,
-                "composite_score": 42.7,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 62.3,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "HDFCBANK",
-                "name": "HDFC Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 48.8,
-                "composite_score": 42.5,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 34.3,
-                "verdict": "STRONG"
-              }
-            ]
+            "stocks": []
           }
         }
       ],
       "losers": [
-        {
-          "sector_index_key": null,
-          "sector_label": "Real Estate",
-          "sector_bucket": "Real Estate",
-          "expected_return_pct": null,
-          "template_delta": -3,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "HIT"
-        },
         {
           "sector_index_key": null,
           "sector_label": "Automobiles",
@@ -468,8 +330,18 @@
         },
         {
           "sector_index_key": null,
-          "sector_label": "Capital Goods",
-          "sector_bucket": "Capital Goods",
+          "sector_label": "Software",
+          "sector_bucket": "Software",
+          "expected_return_pct": null,
+          "template_delta": -1,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Real Estate",
+          "sector_bucket": "Real Estate",
           "expected_return_pct": null,
           "template_delta": -1,
           "n_analogs": 0,
@@ -478,45 +350,27 @@
         }
       ],
       "reasoning": {
-        "modulator_applied": 1,
+        "modulator_applied": 1.4,
         "base_probability": 0.15,
-        "analog_pool_regime": "RATE_HIKE (severity +1)",
+        "analog_pool_regime": "OIL_SHOCK (severity +1)",
         "analog_warnings": [
-          "no sector-index data found for any analog date — run scripts/refresh-sector-indices.mjs --backfill-months=24"
+          "n_analogs=0 < 3 — INDETERMINATE; do not act on these sector ranges",
+          "only 0/15 sectors had data — partial analog"
         ],
-        "analogs": [
-          {
-            "date": "2022-05-04",
-            "label": "RBI surprise repo rate hike",
-            "severity": 3,
-            "source": "manual-seed"
-          },
-          {
-            "date": "2026-06-05",
-            "label": "Rate Hike",
-            "severity": 3,
-            "source": "heuristic"
-          },
-          {
-            "date": "2026-06-06",
-            "label": "Rate Hike",
-            "severity": 3,
-            "source": "heuristic"
-          }
-        ]
+        "analogs": []
       }
     },
     {
       "key": "de_escalate",
-      "label": "RATE_HIKE de-escalates → CALM",
-      "probability": 0.19,
+      "label": "OIL_SHOCK de-escalates → CALM",
+      "probability": 0.15,
       "duration_days": 21,
       "n_analogs": 9,
       "indeterminate": false,
       "beneficiaries": [],
       "losers": [],
       "reasoning": {
-        "modulator_applied": 1,
+        "modulator_applied": 0.85,
         "base_probability": 0.2,
         "analog_pool_regime": "CALM",
         "analog_warnings": [
@@ -558,75 +412,75 @@
     },
     {
       "key": "new_shock",
-      "label": "New unrelated shock supersedes RATE_HIKE",
-      "probability": 0.13,
+      "label": "New unrelated shock supersedes OIL_SHOCK",
+      "probability": 0.12,
       "duration_days": 7,
       "n_analogs": 0,
       "indeterminate": false,
       "beneficiaries": [
         {
           "sector_index_key": null,
-          "sector_label": "PSU Banks",
-          "sector_bucket": "PSU Banks",
+          "sector_label": "Energy",
+          "sector_bucket": "Energy",
           "expected_return_pct": null,
-          "template_delta": 2,
+          "template_delta": 3,
           "n_analogs": 0,
           "source": "template",
           "direction": "BENEFICIARY",
           "stock_candidates": {
-            "sector": "PSU Banks",
-            "candidates_total": 32,
-            "passed_filters": 21,
+            "sector": "Energy",
+            "candidates_total": 25,
+            "passed_filters": 8,
             "excluded_conglomerates": [],
             "stocks": [
               {
-                "ticker": "SURYODAY",
-                "name": "Suryoday Small Finance Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 71.3,
-                "composite_score": 57.2,
+                "ticker": "SEAMECLTD",
+                "name": "Seamec Limited",
+                "sector": "Energy",
+                "v4_score_100": 69.8,
+                "composite_score": 47.6,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 89.2,
+                "upside_pct": 31.9,
                 "verdict": "TOP_PICK"
               },
               {
-                "ticker": "CAPITALSFB",
-                "name": "Capital Small Finance Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 65.2,
-                "composite_score": 54.5,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 55,
+                "ticker": "PETRONET",
+                "name": "Petronet LNG Limited",
+                "sector": "Energy",
+                "v4_score_100": 60.9,
+                "composite_score": 39.9,
+                "valuation_band": "FAIR",
+                "upside_pct": 8.8,
                 "verdict": "TOP_PICK"
               },
               {
-                "ticker": "UJJIVANSFB",
-                "name": "Ujjivan Small Finance Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 75,
-                "composite_score": 47.5,
+                "ticker": "ONGC",
+                "name": "Oil and Natural Gas Corporation Limited",
+                "sector": "Energy",
+                "v4_score_100": 50.8,
+                "composite_score": 35.8,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 29.6,
+                "upside_pct": 32,
+                "verdict": "STRONG"
+              },
+              {
+                "ticker": "CHENNPETRO",
+                "name": "Chennai Petroleum Corporation Limited",
+                "sector": "Energy",
+                "v4_score_100": 69.2,
+                "composite_score": 32.5,
+                "valuation_band": "FAIR",
+                "upside_pct": 9.5,
                 "verdict": "TOP_PICK"
               },
               {
-                "ticker": "J&KBANK",
-                "name": "Jammu and Kashmir Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 59.8,
-                "composite_score": 42.7,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 62.3,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "HDFCBANK",
-                "name": "HDFC Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 48.8,
-                "composite_score": 42.5,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 34.3,
+                "ticker": "DEEPINDS",
+                "name": "Deep Industries Limited",
+                "sector": "Energy",
+                "v4_score_100": 57.1,
+                "composite_score": 28.8,
+                "valuation_band": "PREMIUM",
+                "upside_pct": -10.4,
                 "verdict": "STRONG"
               }
             ]
@@ -634,84 +488,23 @@
         },
         {
           "sector_index_key": null,
-          "sector_label": "Private Banks",
-          "sector_bucket": "Private Banks",
+          "sector_label": "Consumer Staples",
+          "sector_bucket": "Consumer Staples",
           "expected_return_pct": null,
           "template_delta": 1,
           "n_analogs": 0,
           "source": "template",
           "direction": "BENEFICIARY",
           "stock_candidates": {
-            "sector": "Private Banks",
-            "candidates_total": 32,
-            "passed_filters": 21,
+            "sector": "Consumer Staples",
+            "candidates_total": 0,
+            "passed_filters": 0,
             "excluded_conglomerates": [],
-            "stocks": [
-              {
-                "ticker": "SURYODAY",
-                "name": "Suryoday Small Finance Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 71.3,
-                "composite_score": 57.2,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 89.2,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "CAPITALSFB",
-                "name": "Capital Small Finance Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 65.2,
-                "composite_score": 54.5,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 55,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "UJJIVANSFB",
-                "name": "Ujjivan Small Finance Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 75,
-                "composite_score": 47.5,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 29.6,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "J&KBANK",
-                "name": "Jammu and Kashmir Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 59.8,
-                "composite_score": 42.7,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 62.3,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "HDFCBANK",
-                "name": "HDFC Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 48.8,
-                "composite_score": 42.5,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 34.3,
-                "verdict": "STRONG"
-              }
-            ]
+            "stocks": []
           }
         }
       ],
       "losers": [
-        {
-          "sector_index_key": null,
-          "sector_label": "Real Estate",
-          "sector_bucket": "Real Estate",
-          "expected_return_pct": null,
-          "template_delta": -3,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "HIT"
-        },
         {
           "sector_index_key": null,
           "sector_label": "Automobiles",
@@ -724,8 +517,18 @@
         },
         {
           "sector_index_key": null,
-          "sector_label": "Capital Goods",
-          "sector_bucket": "Capital Goods",
+          "sector_label": "Software",
+          "sector_bucket": "Software",
+          "expected_return_pct": null,
+          "template_delta": -1,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Real Estate",
+          "sector_bucket": "Real Estate",
           "expected_return_pct": null,
           "template_delta": -1,
           "n_analogs": 0,
@@ -744,13 +547,14 @@
   ],
   "caveats": [
     "Position-sizing cap: max 10% of portfolio per thesis — multi-thesis diversification mandatory.",
+    "INDETERMINATE branches (n<3 analogs): continue, escalate — sector projections suppressed for these branches.",
     "Analog backtester is heuristic-seeded (~12 events); recommendations require user judgement, not auto-trading."
   ],
   "indeterminate": false,
   "audit": {
     "thesis_schema": "macro-thesis-v1",
-    "regime_generated_at": "2026-10-16T14:30:31.586Z",
-    "regime_classifier": "groq",
+    "regime_generated_at": "2026-10-17T18:30:43.132Z",
+    "regime_classifier": "gemini",
     "scenario_engine_version": "scenario-prob-v1"
   }
 }
