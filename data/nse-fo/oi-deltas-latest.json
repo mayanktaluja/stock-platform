@@ -1,7 +1,7 @@
 {
   "schemaVersion": "fo-screener-v1",
   "asOf": "2026-10-16",
-  "fetchedAt": "2026-10-16T19:32:22.572Z",
+  "fetchedAt": "2026-10-17T19:01:24.144Z",
   "urlUsed": "https://nsearchives.nseindia.com/content/fo/BhavCopy_NSE_FO_0_0_0_20261016_F_0000.csv.zip",
   "methodology": "OI aggregated across all stock-futures expiries (avoids rollover-Thursday phantoms); Δ vs prior session = ChngInOpnIntrst / (OI − ChngInOpnIntrst). Volume confirmation: today's vol vs 20-session mean. Decoupling co-flag: |OI Δ| ≥ 20% with |price Δ| < 0.5%. Score 0–100 = scaled OI move × volume confirmation × decouple boost × direction consistency. Educational content only.",
   "stats": {
@@ -54,6 +54,25 @@
         "signal": "short_buildup",
         "decoupled": false,
         "score": 16,
+        "interpretation": "Bears adding fresh shorts — OI up while price drops."
+      },
+      {
+        "underlying": "ANGELONE",
+        "instrumentType": "STF",
+        "expiryCount": 3,
+        "nearMonthExpiry": "2026-10-27",
+        "nearMonthSettle": 299.05,
+        "underlyingPrice": 299.98,
+        "oiTotal": 45755000,
+        "oiChangeTotal": 5037500,
+        "volumeTotal": 12132,
+        "oiDeltaPct": 12.371830294099588,
+        "priceDeltaPct": -4.517879948914424,
+        "volumeRatio": null,
+        "volumeBucket": "unknown",
+        "signal": "short_buildup",
+        "decoupled": false,
+        "score": 13,
         "interpretation": "Bears adding fresh shorts — OI up while price drops."
       },
       {
@@ -283,25 +302,6 @@
         "decoupled": false,
         "score": 3,
         "interpretation": "No meaningful conviction — OI/price moves both within noise."
-      },
-      {
-        "underlying": "SHREECEM",
-        "instrumentType": "STF",
-        "expiryCount": 3,
-        "nearMonthExpiry": "2026-10-27",
-        "nearMonthSettle": 22605,
-        "underlyingPrice": 22460,
-        "oiTotal": 379775,
-        "oiChangeTotal": 8425,
-        "volumeTotal": 1530,
-        "oiDeltaPct": 2.2687491584758317,
-        "priceDeltaPct": 0.9377093101138647,
-        "volumeRatio": null,
-        "volumeBucket": "unknown",
-        "signal": "long_buildup",
-        "decoupled": false,
-        "score": 3,
-        "interpretation": "Bulls adding fresh longs — OI up with price."
       }
     ],
     "broader": [
@@ -341,25 +341,6 @@
         "signal": "short_buildup",
         "decoupled": false,
         "score": 16,
-        "interpretation": "Bears adding fresh shorts — OI up while price drops."
-      },
-      {
-        "underlying": "ANGELONE",
-        "instrumentType": "STF",
-        "expiryCount": 3,
-        "nearMonthExpiry": "2026-10-27",
-        "nearMonthSettle": 299.05,
-        "underlyingPrice": 299.98,
-        "oiTotal": 45755000,
-        "oiChangeTotal": 5037500,
-        "volumeTotal": 12132,
-        "oiDeltaPct": 12.371830294099588,
-        "priceDeltaPct": -4.517879948914424,
-        "volumeRatio": null,
-        "volumeBucket": "unknown",
-        "signal": "short_buildup",
-        "decoupled": false,
-        "score": 13,
         "interpretation": "Bears adding fresh shorts — OI up while price drops."
       },
       {
@@ -589,6 +570,25 @@
         "decoupled": false,
         "score": 4,
         "interpretation": "Bears adding fresh shorts — OI up while price drops."
+      },
+      {
+        "underlying": "AMBER",
+        "instrumentType": "STF",
+        "expiryCount": 3,
+        "nearMonthExpiry": "2026-10-27",
+        "nearMonthSettle": 6674.5,
+        "underlyingPrice": 6669.51,
+        "oiTotal": 1166600,
+        "oiChangeTotal": -40000,
+        "volumeTotal": 2059,
+        "oiDeltaPct": -3.3151002817835242,
+        "priceDeltaPct": -0.4400357995226731,
+        "volumeRatio": null,
+        "volumeBucket": "unknown",
+        "signal": "neutral",
+        "decoupled": false,
+        "score": 4,
+        "interpretation": "No meaningful conviction — OI/price moves both within noise."
       }
     ]
   }
