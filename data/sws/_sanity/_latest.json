@@ -1,16 +1,16 @@
 {
-  "run_id": "2026-10-19T23-31-51-310Z",
-  "generated_at": "2026-10-20T00:42:28.487Z",
+  "run_id": "2026-10-23T07-39-31-713Z",
+  "generated_at": "2026-10-23T09:12:45.919Z",
   "verdict": "WARN",
   "block_count": 0,
-  "warn_count": 2,
-  "pass_count": 55,
+  "warn_count": 3,
+  "pass_count": 54,
   "total_checks": 57,
-  "summary_line": "verdict=WARN · scored=6398 · top30=30 · warns=2",
+  "summary_line": "verdict=WARN · scored=6398 · top30=30 · warns=3",
   "layers": {
     "L1_run_integrity": {
-      "pass": 21,
-      "warn": 0,
+      "pass": 20,
+      "warn": 1,
       "block": 0,
       "checks": [
         {
@@ -62,9 +62,9 @@
           "layer": "L1_run_integrity",
           "name": "duration_within_bounds",
           "severity": "WARN",
-          "ok": true,
+          "ok": false,
           "detail": {
-            "duration_seconds": 13524,
+            "duration_seconds": 39145,
             "max": 21600
           }
         },
@@ -81,7 +81,7 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {
-            "news_populated_count": 6302,
+            "news_populated_count": 6304,
             "threshold": 1000
           }
         },
@@ -91,7 +91,7 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "news_populated_count": 6302,
+            "news_populated_count": 6304,
             "threshold": 1500
           }
         },
@@ -101,8 +101,8 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {
-            "rewards_populated_count": 5382,
-            "risks_populated_count": 5968,
+            "rewards_populated_count": 5374,
+            "risks_populated_count": 5978,
             "threshold": 1000
           }
         },
@@ -112,7 +112,7 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "rewards_populated_count": 5382,
+            "rewards_populated_count": 5374,
             "threshold": 4500
           }
         },
@@ -122,7 +122,7 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "risks_populated_count": 5968,
+            "risks_populated_count": 5978,
             "threshold": 500
           }
         },
@@ -132,7 +132,7 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {
-            "age_hours": 1.27,
+            "age_hours": 1.67,
             "threshold": 20
           }
         },
@@ -142,9 +142,9 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {
-            "picks_scanned_at": "2026-10-19T23:24:32.024Z",
-            "lr_started_at": "2026-10-19T19:22:24.000Z",
-            "lr_finished_at": "2026-10-19T23:31:51.310Z",
+            "picks_scanned_at": "2026-10-23T07:31:23.711Z",
+            "lr_started_at": "2026-10-22T20:18:58.000Z",
+            "lr_finished_at": "2026-10-23T07:39:31.713Z",
             "drift_outside_run_seconds": 0,
             "slack_seconds": 60
           }
@@ -207,11 +207,11 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {
-            "count": 458,
+            "count": 639,
             "threshold": 25,
-            "nse_calendar_event_count": 466,
-            "nse_calendar_raw_event_count": 480,
-            "nse_calendar_fetched_at": "2026-10-19T23:07:50.895Z",
+            "nse_calendar_event_count": 652,
+            "nse_calendar_raw_event_count": 672,
+            "nse_calendar_fetched_at": "2026-10-23T07:11:25.597Z",
             "nse_calendar_window_days": 60
           }
         },
@@ -221,7 +221,7 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "count": 458,
+            "count": 639,
             "threshold": 50
           }
         }
@@ -245,13 +245,13 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "coverage_pct": 85.04,
+            "coverage_pct": 85.09,
             "warn_at": 85,
-            "usable_count": 4792,
+            "usable_count": 4795,
             "target_count": 5635,
-            "pe_coverage_pct": 64.72,
-            "fetched_at": "2026-10-19T23:07:52.142Z",
-            "age_days": 0.06
+            "pe_coverage_pct": 64.77,
+            "fetched_at": "2026-10-23T07:11:26.748Z",
+            "age_days": 0.08
           }
         },
         {
@@ -260,14 +260,14 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {
-            "coverage_pct": 85.04,
+            "coverage_pct": 85.09,
             "block_at": 70,
             "stale_grace_days": 3,
             "stale_fallback_usable": true,
-            "usable_count": 4792,
+            "usable_count": 4795,
             "target_count": 5635,
-            "fetched_at": "2026-10-19T23:07:52.142Z",
-            "age_days": 0.06
+            "fetched_at": "2026-10-23T07:11:26.748Z",
+            "age_days": 0.08
           }
         },
         {
@@ -276,7 +276,7 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "age_days": 0.06,
+            "age_days": 0.08,
             "stale_grace_days": 3
           }
         },
@@ -293,12 +293,12 @@
           "severity": "WARN",
           "ok": false,
           "detail": {
-            "coverage_pct": 64.72,
+            "coverage_pct": 64.77,
             "warn_at": 85,
-            "usable_count": 3647,
+            "usable_count": 3650,
             "target_count": 5635,
-            "fetched_at": "2026-10-19T23:07:52.142Z",
-            "age_days": 0.06
+            "fetched_at": "2026-10-23T07:11:26.748Z",
+            "age_days": 0.08
           }
         },
         {
@@ -307,14 +307,14 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {
-            "coverage_pct": 64.72,
+            "coverage_pct": 64.77,
             "block_at": 70,
             "stale_grace_days": 21,
             "stale_fallback_usable": true,
-            "usable_count": 3647,
+            "usable_count": 3650,
             "target_count": 5635,
-            "fetched_at": "2026-10-19T23:07:52.142Z",
-            "age_days": 0.06
+            "fetched_at": "2026-10-23T07:11:26.748Z",
+            "age_days": 0.08
           }
         },
         {
@@ -323,7 +323,7 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "age_days": 0.06,
+            "age_days": 0.08,
             "stale_grace_days": 21
           }
         },
@@ -365,9 +365,9 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {
-            "fresh_pct": 98.88,
+            "fresh_pct": 99.13,
             "threshold": 85,
-            "fresh_count": 5571,
+            "fresh_count": 5585,
             "total": 5634,
             "scope": "universe_members",
             "orphans_excluded": 764
@@ -379,9 +379,9 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "fresh_pct": 98.88,
+            "fresh_pct": 99.13,
             "threshold": 95,
-            "fresh_count": 5571,
+            "fresh_count": 5585,
             "total": 5634,
             "scope": "universe_members",
             "orphans_excluded": 764
@@ -393,7 +393,7 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "stale_pct": 0.75,
+            "stale_pct": 0.87,
             "warn_at": 5,
             "sample": [
               "501479",
@@ -405,7 +405,7 @@
               "512345",
               "512359",
               "519242",
-              "523722"
+              "521176"
             ]
           }
         },
@@ -480,27 +480,32 @@
           "severity": "WARN",
           "ok": false,
           "detail": {
-            "insane_pct": 0.124,
-            "insane_ticker_pct": 0.124,
-            "insane_finding_count": 7,
-            "insane_unique_tickers": 7,
+            "insane_pct": 0.142,
+            "insane_ticker_pct": 0.142,
+            "insane_finding_count": 8,
+            "insane_unique_tickers": 8,
             "warn_at": 0.1,
             "block_at": 0.5,
             "sample": [
               {
                 "ticker": "524727",
                 "field": "upside_pct",
-                "value": 40876.9
+                "value": 40965.6
+              },
+              {
+                "ticker": "ALEMBICLTD",
+                "field": "upside_pct",
+                "value": 528.8
               },
               {
                 "ticker": "GFLLIMITED",
                 "field": "upside_pct",
-                "value": 6031.3
+                "value": 6404.2
               },
               {
                 "ticker": "SPARC",
                 "field": "upside_pct",
-                "value": 980.7
+                "value": 1055.5
               },
               {
                 "ticker": "509910",
@@ -666,9 +671,9 @@
               "deep_files": 6398,
               "raw_newer_than_deep": 0,
               "raw_deep_checked": 6233,
-              "picks_cards_checked": 2380,
-              "raw_latest_fetched_at": "2026-10-19T23:07:43.328Z",
-              "raw_latest_price_as_of": "2026-10-19T00:00:00.000Z"
+              "picks_cards_checked": 2450,
+              "raw_latest_fetched_at": "2026-10-23T07:11:17.143Z",
+              "raw_latest_price_as_of": "2026-10-22T00:00:00.000Z"
             },
             "sample": [],
             "finding_count": 0
@@ -711,11 +716,11 @@
             "abs_floor": 12,
             "baseline_evidence_sectors_90d": 24,
             "floor": 12,
-            "tailwind_3_12m": 17,
-            "baseline_tailwind_3_12m": 23,
-            "total_entries": 22202,
-            "baseline_total_entries": 22088,
-            "generated_at": "2026-10-19T23:24:03.909Z"
+            "tailwind_3_12m": 20,
+            "baseline_tailwind_3_12m": 17,
+            "total_entries": 23083,
+            "baseline_total_entries": 22202,
+            "generated_at": "2026-10-23T07:30:58.296Z"
           }
         },
         {
@@ -727,9 +732,9 @@
             "served": 100,
             "baseline_served": 100,
             "floor": 25,
-            "future_growth_candidate_count": 246,
-            "baseline_future_growth_candidate_count": 323,
-            "base_eligible_count": 364,
+            "future_growth_candidate_count": 398,
+            "baseline_future_growth_candidate_count": 246,
+            "base_eligible_count": 423,
             "audit_reason": "ok",
             "evidence_sectors_90d": 24,
             "baseline_evidence_sectors_90d": 24
@@ -741,9 +746,9 @@
   "inputs": {
     "scored_count": 6398,
     "universe_size": 6398,
-    "started_at": "2026-10-19T19:22:24.000Z",
-    "finished_at": "2026-10-19T23:31:51.310Z",
-    "picks_scanned_at": "2026-10-19T23:24:32.024Z",
+    "started_at": "2026-10-22T20:18:58.000Z",
+    "finished_at": "2026-10-23T07:39:31.713Z",
+    "picks_scanned_at": "2026-10-23T07:31:23.711Z",
     "pipeline_status": "success"
   }
 }

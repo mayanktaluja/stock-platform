@@ -1,13 +1,105 @@
 {
   "schema_version": "multibagger-scores-v1",
-  "today_iso": "2026-10-20",
-  "built_at": "2026-10-20T00:40:12.571Z",
-  "universe_size": 2399,
+  "today_iso": "2026-10-23",
+  "built_at": "2026-10-23T09:10:42.788Z",
+  "universe_size": 2469,
   "five_x_count": 2,
-  "high_conviction_count": 54,
-  "watch_count": 310,
-  "hard_reject_count": 68,
+  "high_conviction_count": 59,
+  "watch_count": 322,
+  "hard_reject_count": 69,
   "top_50": [
+    {
+      "ticker": "IDEAFORGE",
+      "sector": "Capital Goods",
+      "score_0_100": 74.2,
+      "verdict": "5X_CANDIDATE",
+      "gate_blocked": false,
+      "gate_reasons": [],
+      "breakdown": {
+        "mcap": 8,
+        "v3_future": 10,
+        "v3_valuation": 3.3,
+        "fv_upside": 10,
+        "inflection": 17,
+        "sector_tailwind": 12,
+        "momentum": 5.6,
+        "liquidity_bonus": 0,
+        "health": 3.3,
+        "forward_growth": 5,
+        "story_bonus": 0,
+        "penalty_surveillance": 0,
+        "penalty_data_completeness": 0,
+        "penalty_miss_streak": 0
+      },
+      "diagnostics": {
+        "inflection": {
+          "score": 17,
+          "reasons": [
+            "loss_to_profit_flip"
+          ],
+          "latest_growth_pct": null,
+          "three_year_cagr_pct": null,
+          "loss_to_profit": true,
+          "one_off_flagged": false
+        },
+        "tailwind": {
+          "pts": 12,
+          "base_weight": 12,
+          "regime_multiplier": 1,
+          "cohort_freshness": 1,
+          "cohort_exhausted": false,
+          "reasons": []
+        },
+        "story": {
+          "tags": [],
+          "score_bonus": 0
+        },
+        "pledge": {
+          "pass": true,
+          "reasons": [],
+          "matched_events": 0,
+          "source": "text_scan",
+          "sample_subjects": []
+        },
+        "adv_inr_30d": null,
+        "health_cap_applied": false,
+        "quality_cap_applied": false
+      },
+      "quality_factor_v2": {
+        "schema_version": "quality-factor-v2-shadow",
+        "growth_quality": 4,
+        "balance_sheet_quality": 1.3,
+        "accounting_quality": 1,
+        "governance_quality": 1,
+        "data_confidence": 50,
+        "total_score": 7.3,
+        "quality_gate_pass": true,
+        "reasons": [
+          "revenue_improving",
+          "netIncome_improving",
+          "operatingCashFlow_missing",
+          "totalDebt_missing",
+          "no_audit_risk_seen"
+        ],
+        "metrics": {
+          "revenue_yoy_pct": 208.3,
+          "net_income_yoy_pct": 104.2,
+          "operating_cash_flow_yoy_pct": null,
+          "debt_yoy_pct": null,
+          "snowflake_health": 4
+        }
+      },
+      "entry_price_inr": 679.8,
+      "current_price_inr": 679.8,
+      "market_cap_inr": 33790000000,
+      "market_cap_band": "small3",
+      "data_confidence": {
+        "completeness_pct": 92,
+        "has_deep_brief": true,
+        "has_entry_price": true,
+        "has_adv": true
+      }
+    },
     {
       "ticker": "HEG",
       "sector": "Capital Goods",
@@ -100,23 +192,23 @@
       }
     },
     {
-      "ticker": "IDEAFORGE",
+      "ticker": "SWSOLAR",
       "sector": "Capital Goods",
-      "score_0_100": 72.6,
-      "verdict": "5X_CANDIDATE",
+      "score_0_100": 69.6,
+      "verdict": "HIGH_CONVICTION",
       "gate_blocked": false,
       "gate_reasons": [],
       "breakdown": {
         "mcap": 8,
         "v3_future": 10,
-        "v3_valuation": 3.3,
+        "v3_valuation": 6.7,
         "fv_upside": 8,
         "inflection": 17,
         "sector_tailwind": 12,
-        "momentum": 6,
+        "momentum": 1.6,
         "liquidity_bonus": 0,
         "health": 3.3,
-        "forward_growth": 5,
+        "forward_growth": 3,
         "story_bonus": 0,
         "penalty_surveillance": 0,
         "penalty_data_completeness": 0,
@@ -149,8 +241,7 @@
           "pass": true,
           "reasons": [],
           "matched_events": 0,
-          "source": "text_scan",
-          "sample_subjects": []
+          "source": "no_data"
         },
         "adv_inr_30d": null,
         "health_cap_applied": false,
@@ -158,34 +249,125 @@
       },
       "quality_factor_v2": {
         "schema_version": "quality-factor-v2-shadow",
-        "growth_quality": 4,
+        "growth_quality": 2,
         "balance_sheet_quality": 1.3,
         "accounting_quality": 1,
         "governance_quality": 1,
         "data_confidence": 50,
-        "total_score": 7.3,
+        "total_score": 5.3,
         "quality_gate_pass": true,
         "reasons": [
-          "revenue_improving",
+          "revenue_deteriorating",
           "netIncome_improving",
           "operatingCashFlow_missing",
           "totalDebt_missing",
           "no_audit_risk_seen"
         ],
         "metrics": {
-          "revenue_yoy_pct": 157.5,
-          "net_income_yoy_pct": 100,
+          "revenue_yoy_pct": -9,
+          "net_income_yoy_pct": 155.3,
           "operating_cash_flow_yoy_pct": null,
           "debt_yoy_pct": null,
           "snowflake_health": 4
         }
       },
-      "entry_price_inr": 704.95,
-      "current_price_inr": 704.95,
-      "market_cap_inr": 35040000000,
+      "entry_price_inr": 148.43,
+      "current_price_inr": 148.43,
+      "market_cap_inr": 34720000000,
       "market_cap_band": "small3",
       "data_confidence": {
-        "completeness_pct": 92,
+        "completeness_pct": 100,
+        "has_deep_brief": true,
+        "has_entry_price": true,
+        "has_adv": true
+      }
+    },
+    {
+      "ticker": "PRINCEPIPE",
+      "sector": "Capital Goods",
+      "score_0_100": 69.5,
+      "verdict": "HIGH_CONVICTION",
+      "gate_blocked": false,
+      "gate_reasons": [],
+      "breakdown": {
+        "mcap": 8,
+        "v3_future": 8,
+        "v3_valuation": 6.7,
+        "fv_upside": 5,
+        "inflection": 17,
+        "sector_tailwind": 12,
+        "momentum": 5.6,
+        "liquidity_bonus": 0,
+        "health": 4.2,
+        "forward_growth": 3,
+        "story_bonus": 0,
+        "penalty_surveillance": 0,
+        "penalty_data_completeness": 0,
+        "penalty_miss_streak": 0
+      },
+      "diagnostics": {
+        "inflection": {
+          "score": 17,
+          "reasons": [
+            "ni_yoy_348.8pct_>50"
+          ],
+          "latest_growth_pct": 348.8,
+          "three_year_cagr_pct": -22,
+          "loss_to_profit": false,
+          "one_off_flagged": false
+        },
+        "tailwind": {
+          "pts": 12,
+          "base_weight": 12,
+          "regime_multiplier": 1,
+          "cohort_freshness": 1,
+          "cohort_exhausted": false,
+          "reasons": []
+        },
+        "story": {
+          "tags": [],
+          "score_bonus": 0
+        },
+        "pledge": {
+          "pass": true,
+          "reasons": [],
+          "matched_events": 0,
+          "source": "no_data"
+        },
+        "adv_inr_30d": null,
+        "health_cap_applied": false,
+        "quality_cap_applied": false
+      },
+      "quality_factor_v2": {
+        "schema_version": "quality-factor-v2-shadow",
+        "growth_quality": 3,
+        "balance_sheet_quality": 1.7,
+        "accounting_quality": 1,
+        "governance_quality": 1,
+        "data_confidence": 50,
+        "total_score": 6.7,
+        "quality_gate_pass": true,
+        "reasons": [
+          "revenue_stable",
+          "netIncome_improving",
+          "operatingCashFlow_missing",
+          "totalDebt_missing",
+          "no_audit_risk_seen"
+        ],
+        "metrics": {
+          "revenue_yoy_pct": 6.3,
+          "net_income_yoy_pct": 348.8,
+          "operating_cash_flow_yoy_pct": null,
+          "debt_yoy_pct": null,
+          "snowflake_health": 5
+        }
+      },
+      "entry_price_inr": 262.3,
+      "current_price_inr": 262.3,
+      "market_cap_inr": 29020000000,
+      "market_cap_band": "small3",
+      "data_confidence": {
+        "completeness_pct": 100,
         "has_deep_brief": true,
         "has_entry_price": true,
         "has_adv": true
@@ -272,9 +454,9 @@
           "snowflake_health": 6
         }
       },
-      "entry_price_inr": 369.75,
-      "current_price_inr": 369.75,
-      "market_cap_inr": 45980000000,
+      "entry_price_inr": 349.45,
+      "current_price_inr": 349.45,
+      "market_cap_inr": 43420000000,
       "market_cap_band": "small3",
       "data_confidence": {
         "completeness_pct": 100,
@@ -286,7 +468,7 @@
     {
       "ticker": "SURYODAY",
       "sector": "Banks",
-      "score_0_100": 68.4,
+      "score_0_100": 67.5,
       "verdict": "HIGH_CONVICTION",
       "gate_blocked": false,
       "gate_reasons": [],
@@ -297,7 +479,7 @@
         "fv_upside": 10,
         "inflection": 17,
         "sector_tailwind": 5,
-        "momentum": 5.1,
+        "momentum": 4.2,
         "liquidity_bonus": 0,
         "health": 3.3,
         "forward_growth": 5,
@@ -363,101 +545,9 @@
           "snowflake_health": 4
         }
       },
-      "entry_price_inr": 149.75,
-      "current_price_inr": 149.75,
-      "market_cap_inr": 15920000000,
-      "market_cap_band": "micro2",
-      "data_confidence": {
-        "completeness_pct": 100,
-        "has_deep_brief": true,
-        "has_entry_price": true,
-        "has_adv": true
-      }
-    },
-    {
-      "ticker": "SPORTKING",
-      "sector": "Consumer Durables",
-      "score_0_100": 67.8,
-      "verdict": "HIGH_CONVICTION",
-      "gate_blocked": false,
-      "gate_reasons": [],
-      "breakdown": {
-        "mcap": 8,
-        "v3_future": 10,
-        "v3_valuation": 5,
-        "fv_upside": 5,
-        "inflection": 17,
-        "sector_tailwind": 5,
-        "momentum": 8.6,
-        "liquidity_bonus": 0,
-        "health": 4.2,
-        "forward_growth": 5,
-        "story_bonus": 0,
-        "penalty_surveillance": 0,
-        "penalty_data_completeness": 0,
-        "penalty_miss_streak": 0
-      },
-      "diagnostics": {
-        "inflection": {
-          "score": 17,
-          "reasons": [
-            "ni_yoy_43.5pct_>25",
-            "3y_cagr_34.1pct_bonus_+5"
-          ],
-          "latest_growth_pct": 43.5,
-          "three_year_cagr_pct": 34.1,
-          "loss_to_profit": false,
-          "one_off_flagged": false
-        },
-        "tailwind": {
-          "pts": 5,
-          "base_weight": 5,
-          "regime_multiplier": 1,
-          "cohort_freshness": 1,
-          "cohort_exhausted": false,
-          "reasons": []
-        },
-        "story": {
-          "tags": [],
-          "score_bonus": 0
-        },
-        "pledge": {
-          "pass": true,
-          "reasons": [],
-          "matched_events": 0,
-          "source": "no_data"
-        },
-        "adv_inr_30d": null,
-        "health_cap_applied": false,
-        "quality_cap_applied": false
-      },
-      "quality_factor_v2": {
-        "schema_version": "quality-factor-v2-shadow",
-        "growth_quality": 3,
-        "balance_sheet_quality": 1.7,
-        "accounting_quality": 1,
-        "governance_quality": 1,
-        "data_confidence": 50,
-        "total_score": 6.7,
-        "quality_gate_pass": true,
-        "reasons": [
-          "revenue_stable",
-          "netIncome_improving",
-          "operatingCashFlow_missing",
-          "totalDebt_missing",
-          "no_audit_risk_seen"
-        ],
-        "metrics": {
-          "revenue_yoy_pct": 5.6,
-          "net_income_yoy_pct": 43.5,
-          "operating_cash_flow_yoy_pct": null,
-          "debt_yoy_pct": null,
-          "snowflake_health": 5
-        }
-      },
-      "entry_price_inr": 217.87,
-      "current_price_inr": 217.87,
-      "market_cap_inr": 27550000000,
+      "entry_price_inr": 137.97,
+      "current_price_inr": 137.97,
+      "market_cap_inr": 14760000000,
       "market_cap_band": "micro2",
       "data_confidence": {
         "completeness_pct": 100,
@@ -546,100 +636,9 @@
           "snowflake_health": 6
         }
       },
-      "entry_price_inr": 249.35,
-      "current_price_inr": 249.35,
-      "market_cap_inr": 31150000000,
-      "market_cap_band": "small3",
-      "data_confidence": {
-        "completeness_pct": 100,
-        "has_deep_brief": true,
-        "has_entry_price": true,
-        "has_adv": true
-      }
-    },
-    {
-      "ticker": "PRINCEPIPE",
-      "sector": "Capital Goods",
-      "score_0_100": 66.5,
-      "verdict": "HIGH_CONVICTION",
-      "gate_blocked": false,
-      "gate_reasons": [],
-      "breakdown": {
-        "mcap": 8,
-        "v3_future": 8,
-        "v3_valuation": 3.3,
-        "fv_upside": 5,
-        "inflection": 17,
-        "sector_tailwind": 12,
-        "momentum": 6,
-        "liquidity_bonus": 0,
-        "health": 4.2,
-        "forward_growth": 3,
-        "story_bonus": 0,
-        "penalty_surveillance": 0,
-        "penalty_data_completeness": 0,
-        "penalty_miss_streak": 0
-      },
-      "diagnostics": {
-        "inflection": {
-          "score": 17,
-          "reasons": [
-            "ni_yoy_348.8pct_>50"
-          ],
-          "latest_growth_pct": 348.8,
-          "three_year_cagr_pct": -22,
-          "loss_to_profit": false,
-          "one_off_flagged": false
-        },
-        "tailwind": {
-          "pts": 12,
-          "base_weight": 12,
-          "regime_multiplier": 1,
-          "cohort_freshness": 1,
-          "cohort_exhausted": false,
-          "reasons": []
-        },
-        "story": {
-          "tags": [],
-          "score_bonus": 0
-        },
-        "pledge": {
-          "pass": true,
-          "reasons": [],
-          "matched_events": 0,
-          "source": "no_data"
-        },
-        "adv_inr_30d": null,
-        "health_cap_applied": false,
-        "quality_cap_applied": false
-      },
-      "quality_factor_v2": {
-        "schema_version": "quality-factor-v2-shadow",
-        "growth_quality": 3,
-        "balance_sheet_quality": 1.7,
-        "accounting_quality": 1,
-        "governance_quality": 1,
-        "data_confidence": 50,
-        "total_score": 6.7,
-        "quality_gate_pass": true,
-        "reasons": [
-          "revenue_stable",
-          "netIncome_improving",
-          "operatingCashFlow_missing",
-          "totalDebt_missing",
-          "no_audit_risk_seen"
-        ],
-        "metrics": {
-          "revenue_yoy_pct": 6.3,
-          "net_income_yoy_pct": 348.8,
-          "operating_cash_flow_yoy_pct": null,
-          "debt_yoy_pct": null,
-          "snowflake_health": 5
-        }
-      },
-      "entry_price_inr": 277.25,
-      "current_price_inr": 277.25,
-      "market_cap_inr": 30700000000,
+      "entry_price_inr": 243.15,
+      "current_price_inr": 243.15,
+      "market_cap_inr": 30290000000,
       "market_cap_band": "small3",
       "data_confidence": {
         "completeness_pct": 100,
@@ -651,18 +650,18 @@
     {
       "ticker": "AEQUS",
       "sector": "Capital Goods",
-      "score_0_100": 65.4,
+      "score_0_100": 66.8,
       "verdict": "HIGH_CONVICTION",
       "gate_blocked": false,
       "gate_reasons": [],
       "breakdown": {
         "mcap": 4,
         "v3_future": 10,
-        "v3_valuation": 1.7,
+        "v3_valuation": 3.3,
         "fv_upside": 3,
         "inflection": 17,
         "sector_tailwind": 12,
-        "momentum": 8.5,
+        "momentum": 8.3,
         "liquidity_bonus": 0,
         "health": 4.2,
         "forward_growth": 5,
@@ -728,9 +727,9 @@
           "snowflake_health": 5
         }
       },
-      "entry_price_inr": 256.65,
-      "current_price_inr": 256.65,
-      "market_cap_inr": 172290000000,
+      "entry_price_inr": 245.75,
+      "current_price_inr": 245.75,
+      "market_cap_inr": 164780000000,
       "market_cap_band": "medium5",
       "data_confidence": {
         "completeness_pct": 92,
@@ -740,20 +739,112 @@
       }
     },
     {
+      "ticker": "SPORTKING",
+      "sector": "Consumer Durables",
+      "score_0_100": 66.6,
+      "verdict": "HIGH_CONVICTION",
+      "gate_blocked": false,
+      "gate_reasons": [],
+      "breakdown": {
+        "mcap": 8,
+        "v3_future": 10,
+        "v3_valuation": 5,
+        "fv_upside": 5,
+        "inflection": 17,
+        "sector_tailwind": 5,
+        "momentum": 7.4,
+        "liquidity_bonus": 0,
+        "health": 4.2,
+        "forward_growth": 5,
+        "story_bonus": 0,
+        "penalty_surveillance": 0,
+        "penalty_data_completeness": 0,
+        "penalty_miss_streak": 0
+      },
+      "diagnostics": {
+        "inflection": {
+          "score": 17,
+          "reasons": [
+            "ni_yoy_43.5pct_>25",
+            "3y_cagr_34.1pct_bonus_+5"
+          ],
+          "latest_growth_pct": 43.5,
+          "three_year_cagr_pct": 34.1,
+          "loss_to_profit": false,
+          "one_off_flagged": false
+        },
+        "tailwind": {
+          "pts": 5,
+          "base_weight": 5,
+          "regime_multiplier": 1,
+          "cohort_freshness": 1,
+          "cohort_exhausted": false,
+          "reasons": []
+        },
+        "story": {
+          "tags": [],
+          "score_bonus": 0
+        },
+        "pledge": {
+          "pass": true,
+          "reasons": [],
+          "matched_events": 0,
+          "source": "no_data"
+        },
+        "adv_inr_30d": null,
+        "health_cap_applied": false,
+        "quality_cap_applied": false
+      },
+      "quality_factor_v2": {
+        "schema_version": "quality-factor-v2-shadow",
+        "growth_quality": 3,
+        "balance_sheet_quality": 1.7,
+        "accounting_quality": 1,
+        "governance_quality": 1,
+        "data_confidence": 50,
+        "total_score": 6.7,
+        "quality_gate_pass": true,
+        "reasons": [
+          "revenue_stable",
+          "netIncome_improving",
+          "operatingCashFlow_missing",
+          "totalDebt_missing",
+          "no_audit_risk_seen"
+        ],
+        "metrics": {
+          "revenue_yoy_pct": 5.6,
+          "net_income_yoy_pct": 43.5,
+          "operating_cash_flow_yoy_pct": null,
+          "debt_yoy_pct": null,
+          "snowflake_health": 5
+        }
+      },
+      "entry_price_inr": 205.52,
+      "current_price_inr": 205.52,
+      "market_cap_inr": 26080000000,
+      "market_cap_band": "micro2",
+      "data_confidence": {
+        "completeness_pct": 100,
+        "has_deep_brief": true,
+        "has_entry_price": true,
+        "has_adv": true
+      }
+    },
+    {
       "ticker": "HARSHA",
       "sector": "Capital Goods",
-      "score_0_100": 65.2,
+      "score_0_100": 66.1,
       "verdict": "HIGH_CONVICTION",
       "gate_blocked": false,
       "gate_reasons": [],
       "breakdown": {
         "mcap": 8,
         "v3_future": 6,
-        "v3_valuation": 5,
+        "v3_valuation": 6.7,
         "fv_upside": 5,
         "inflection": 17,
         "sector_tailwind": 12,
-        "momentum": 7,
+        "momentum": 6.2,
         "liquidity_bonus": 0,
         "health": 4.2,
         "forward_growth": 1,
@@ -819,9 +910,282 @@
           "snowflake_health": 5
         }
       },
-      "entry_price_inr": 438,
-      "current_price_inr": 438,
-      "market_cap_inr": 39860000000,
+      "entry_price_inr": 420.35,
+      "current_price_inr": 420.35,
+      "market_cap_inr": 38270000000,
+      "market_cap_band": "small3",
+      "data_confidence": {
+        "completeness_pct": 100,
+        "has_deep_brief": true,
+        "has_entry_price": true,
+        "has_adv": true
+      }
+    },
+    {
+      "ticker": "JUNIPER",
+      "sector": "Consumer Services",
+      "score_0_100": 65.3,
+      "verdict": "HIGH_CONVICTION",
+      "gate_blocked": false,
+      "gate_reasons": [],
+      "breakdown": {
+        "mcap": 8,
+        "v3_future": 8,
+        "v3_valuation": 6.7,
+        "fv_upside": 10,
+        "inflection": 17,
+        "sector_tailwind": 5,
+        "momentum": 4.3,
+        "liquidity_bonus": 0,
+        "health": 3.3,
+        "forward_growth": 3,
+        "story_bonus": 0,
+        "penalty_surveillance": 0,
+        "penalty_data_completeness": 0,
+        "penalty_miss_streak": 0
+      },
+      "diagnostics": {
+        "inflection": {
+          "score": 17,
+          "reasons": [
+            "ni_yoy_106.4pct_>50"
+          ],
+          "latest_growth_pct": 106.4,
+          "three_year_cagr_pct": null,
+          "loss_to_profit": false,
+          "one_off_flagged": false
+        },
+        "tailwind": {
+          "pts": 5,
+          "base_weight": 5,
+          "regime_multiplier": 1,
+          "cohort_freshness": 1,
+          "cohort_exhausted": false,
+          "reasons": []
+        },
+        "story": {
+          "tags": [],
+          "score_bonus": 0
+        },
+        "pledge": {
+          "pass": true,
+          "reasons": [],
+          "matched_events": 0,
+          "source": "no_data"
+        },
+        "adv_inr_30d": null,
+        "health_cap_applied": false,
+        "quality_cap_applied": false
+      },
+      "quality_factor_v2": {
+        "schema_version": "quality-factor-v2-shadow",
+        "growth_quality": 3,
+        "balance_sheet_quality": 1.3,
+        "accounting_quality": 1,
+        "governance_quality": 1,
+        "data_confidence": 50,
+        "total_score": 6.3,
+        "quality_gate_pass": true,
+        "reasons": [
+          "revenue_stable",
+          "netIncome_improving",
+          "operatingCashFlow_missing",
+          "totalDebt_missing",
+          "no_audit_risk_seen"
+        ],
+        "metrics": {
+          "revenue_yoy_pct": 8.5,
+          "net_income_yoy_pct": 106.4,
+          "operating_cash_flow_yoy_pct": null,
+          "debt_yoy_pct": null,
+          "snowflake_health": 4
+        }
+      },
+      "entry_price_inr": 199.04,
+      "current_price_inr": 199.04,
+      "market_cap_inr": 44110000000,
+      "market_cap_band": "small3",
+      "data_confidence": {
+        "completeness_pct": 100,
+        "has_deep_brief": true,
+        "has_entry_price": true,
+        "has_adv": true
+      }
+    },
+    {
+      "ticker": "STAR",
+      "sector": "Pharmaceuticals & Biotech",
+      "score_0_100": 65.2,
+      "verdict": "HIGH_CONVICTION",
+      "gate_blocked": false,
+      "gate_reasons": [],
+      "breakdown": {
+        "mcap": 4,
+        "v3_future": 8,
+        "v3_valuation": 10,
+        "fv_upside": 8,
+        "inflection": 17,
+        "sector_tailwind": 5,
+        "momentum": 6,
+        "liquidity_bonus": 0,
+        "health": 4.2,
+        "forward_growth": 3,
+        "story_bonus": 0,
+        "penalty_surveillance": 0,
+        "penalty_data_completeness": 0,
+        "penalty_miss_streak": 0
+      },
+      "diagnostics": {
+        "inflection": {
+          "score": 17,
+          "reasons": [
+            "ni_yoy_54.4pct_>50"
+          ],
+          "latest_growth_pct": 54.4,
+          "three_year_cagr_pct": null,
+          "loss_to_profit": false,
+          "one_off_flagged": false
+        },
+        "tailwind": {
+          "pts": 5,
+          "base_weight": 5,
+          "regime_multiplier": 1,
+          "cohort_freshness": 1,
+          "cohort_exhausted": false,
+          "reasons": []
+        },
+        "story": {
+          "tags": [],
+          "score_bonus": 0
+        },
+        "pledge": {
+          "pass": true,
+          "reasons": [],
+          "matched_events": 0,
+          "source": "no_data"
+        },
+        "adv_inr_30d": null,
+        "health_cap_applied": false,
+        "quality_cap_applied": false
+      },
+      "quality_factor_v2": {
+        "schema_version": "quality-factor-v2-shadow",
+        "growth_quality": 3,
+        "balance_sheet_quality": 1.7,
+        "accounting_quality": 1,
+        "governance_quality": 1,
+        "data_confidence": 50,
+        "total_score": 6.7,
+        "quality_gate_pass": true,
+        "reasons": [
+          "revenue_stable",
+          "netIncome_improving",
+          "operatingCashFlow_missing",
+          "totalDebt_missing",
+          "no_audit_risk_seen"
+        ],
+        "metrics": {
+          "revenue_yoy_pct": 6.8,
+          "net_income_yoy_pct": 54.4,
+          "operating_cash_flow_yoy_pct": null,
+          "debt_yoy_pct": null,
+          "snowflake_health": 5
+        }
+      },
+      "entry_price_inr": 998.4,
+      "current_price_inr": 998.4,
+      "market_cap_inr": 91990000000,
+      "market_cap_band": "midsmall4",
+      "data_confidence": {
+        "completeness_pct": 100,
+        "has_deep_brief": true,
+        "has_entry_price": true,
+        "has_adv": true
+      }
+    },
+    {
+      "ticker": "PSPPROJECT",
+      "sector": "Capital Goods",
+      "score_0_100": 64.9,
+      "verdict": "HIGH_CONVICTION",
+      "gate_blocked": false,
+      "gate_reasons": [],
+      "breakdown": {
+        "mcap": 8,
+        "v3_future": 8,
+        "v3_valuation": 1.7,
+        "fv_upside": 5,
+        "inflection": 17,
+        "sector_tailwind": 12,
+        "momentum": 4,
+        "liquidity_bonus": 0,
+        "health": 4.2,
+        "forward_growth": 5,
+        "story_bonus": 0,
+        "penalty_surveillance": 0,
+        "penalty_data_completeness": 0,
+        "penalty_miss_streak": 0
+      },
+      "diagnostics": {
+        "inflection": {
+          "score": 17,
+          "reasons": [
+            "ni_yoy_231.4pct_>50"
+          ],
+          "latest_growth_pct": 231.4,
+          "three_year_cagr_pct": -19.5,
+          "loss_to_profit": false,
+          "one_off_flagged": false
+        },
+        "tailwind": {
+          "pts": 12,
+          "base_weight": 12,
+          "regime_multiplier": 1,
+          "cohort_freshness": 1,
+          "cohort_exhausted": false,
+          "reasons": []
+        },
+        "story": {
+          "tags": [],
+          "score_bonus": 0
+        },
+        "pledge": {
+          "pass": true,
+          "reasons": [],
+          "matched_events": 0,
+          "source": "no_data"
+        },
+        "adv_inr_30d": null,
+        "health_cap_applied": false,
+        "quality_cap_applied": false
+      },
+      "quality_factor_v2": {
+        "schema_version": "quality-factor-v2-shadow",
+        "growth_quality": 4,
+        "balance_sheet_quality": 1.7,
+        "accounting_quality": 1,
+        "governance_quality": 1,
+        "data_confidence": 50,
+        "total_score": 7.7,
+        "quality_gate_pass": true,
+        "reasons": [
+          "revenue_improving",
+          "netIncome_improving",
+          "operatingCashFlow_missing",
+          "totalDebt_missing",
+          "no_audit_risk_seen"
+        ],
+        "metrics": {
+          "revenue_yoy_pct": 44.8,
+          "net_income_yoy_pct": 231.4,
+          "operating_cash_flow_yoy_pct": null,
+          "debt_yoy_pct": null,
+          "snowflake_health": 5
+        }
+      },
+      "entry_price_inr": 755.45,
+      "current_price_inr": 755.45,
+      "market_cap_inr": 29960000000,
       "market_cap_band": "small3",
       "data_confidence": {
         "completeness_pct": 100,
@@ -833,7 +1197,7 @@
     {
       "ticker": "FLAIR",
       "sector": "Commercial Services",
-      "score_0_100": 64.3,
+      "score_0_100": 63.9,
       "verdict": "HIGH_CONVICTION",
       "gate_blocked": false,
       "gate_reasons": [],
@@ -844,7 +1208,7 @@
         "fv_upside": 10,
         "inflection": 11,
         "sector_tailwind": 5,
-        "momentum": 4.3,
+        "momentum": 3.9,
         "liquidity_bonus": 0,
         "health": 5,
         "forward_growth": 3,
@@ -911,9 +1275,9 @@
           "snowflake_health": 6
         }
       },
-      "entry_price_inr": 233.25,
-      "current_price_inr": 233.25,
-      "market_cap_inr": 24570000000,
+      "entry_price_inr": 225.72,
+      "current_price_inr": 225.72,
+      "market_cap_inr": 23970000000,
       "market_cap_band": "micro2",
       "data_confidence": {
         "completeness_pct": 100,
@@ -923,23 +1287,23 @@
       }
     },
     {
-      "ticker": "JUNIPER",
-      "sector": "Consumer Services",
-      "score_0_100": 64,
+      "ticker": "V2RETAIL",
+      "sector": "Retail",
+      "score_0_100": 63.8,
       "verdict": "HIGH_CONVICTION",
       "gate_blocked": false,
       "gate_reasons": [],
       "breakdown": {
-        "mcap": 8,
-        "v3_future": 8,
+        "mcap": 4,
+        "v3_future": 12,
         "v3_valuation": 5,
         "fv_upside": 10,
         "inflection": 17,
         "sector_tailwind": 5,
-        "momentum": 4.7,
+        "momentum": 2.5,
         "liquidity_bonus": 0,
         "health": 3.3,
-        "forward_growth": 3,
+        "forward_growth": 5,
         "story_bonus": 0,
         "penalty_surveillance": 0,
         "penalty_data_completeness": 0,
@@ -949,10 +1313,11 @@
         "inflection": {
           "score": 17,
           "reasons": [
-            "ni_yoy_106.4pct_>50"
+            "ni_yoy_80.1pct_>50",
+            "3y_cagr_336.6pct_bonus_+5"
           ],
-          "latest_growth_pct": 106.4,
-          "three_year_cagr_pct": null,
+          "latest_growth_pct": 80.1,
+          "three_year_cagr_pct": 336.6,
           "loss_to_profit": false,
           "one_off_flagged": false
         },
@@ -980,32 +1345,32 @@
       },
       "quality_factor_v2": {
         "schema_version": "quality-factor-v2-shadow",
-        "growth_quality": 3,
+        "growth_quality": 4,
         "balance_sheet_quality": 1.3,
         "accounting_quality": 1,
         "governance_quality": 1,
         "data_confidence": 50,
-        "total_score": 6.3,
+        "total_score": 7.3,
         "quality_gate_pass": true,
         "reasons": [
-          "revenue_stable",
+          "revenue_improving",
           "netIncome_improving",
           "operatingCashFlow_missing",
           "totalDebt_missing",
           "no_audit_risk_seen"
         ],
         "metrics": {
-          "revenue_yoy_pct": 8.5,
-          "net_income_yoy_pct": 106.4,
+          "revenue_yoy_pct": 41.2,
+          "net_income_yoy_pct": 80.1,
           "operating_cash_flow_yoy_pct": null,
           "debt_yoy_pct": null,
           "snowflake_health": 4
         }
       },
-      "entry_price_inr": 209.57,
-      "current_price_inr": 209.57,
-      "market_cap_inr": 46410000000,
-      "market_cap_band": "small3",
+      "entry_price_inr": 170.14,
+      "current_price_inr": 170.14,
+      "market_cap_inr": 62350000000,
+      "market_cap_band": "midsmall4",
       "data_confidence": {
         "completeness_pct": 100,
         "has_deep_brief": true,
@@ -1014,22 +1379,22 @@
       }
     },
     {
-      "ticker": "MUTHOOTMF",
-      "sector": "Diversified Financials",
-      "score_0_100": 64,
+      "ticker": "POWERINDIA",
+      "sector": "Capital Goods",
+      "score_0_100": 63.7,
       "verdict": "HIGH_CONVICTION",
       "gate_blocked": false,
       "gate_reasons": [],
       "breakdown": {
-        "mcap": 8,
-        "v3_future": 10,
-        "v3_valuation": 6.7,
+        "mcap": 0,
+        "v3_future": 12,
+        "v3_valuation": 1.7,
         "fv_upside": 8,
         "inflection": 17,
-        "sector_tailwind": 5,
-        "momentum": 3.8,
+        "sector_tailwind": 12,
+        "momentum": 5.8,
         "liquidity_bonus": 0,
-        "health": 2.5,
+        "health": 4.2,
         "forward_growth": 3,
         "story_bonus": 0,
         "penalty_surveillance": 0,
@@ -1040,285 +1405,11 @@
         "inflection": {
           "score": 17,
           "reasons": [
-            "loss_to_profit_flip"
+            "ni_yoy_60.4pct_>50",
+            "3y_cagr_140.7pct_bonus_+5"
           ],
-          "latest_growth_pct": null,
-          "three_year_cagr_pct": null,
-          "loss_to_profit": true,
-          "one_off_flagged": false
-        },
-        "tailwind": {
-          "pts": 5,
-          "base_weight": 5,
-          "regime_multiplier": 1,
-          "cohort_freshness": 1,
-          "cohort_exhausted": false,
-          "reasons": []
-        },
-        "story": {
-          "tags": [],
-          "score_bonus": 0
-        },
-        "pledge": {
-          "pass": true,
-          "reasons": [],
-          "matched_events": 0,
-          "source": "no_data"
-        },
-        "adv_inr_30d": null,
-        "health_cap_applied": false,
-        "quality_cap_applied": false
-      },
-      "quality_factor_v2": {
-        "schema_version": "quality-factor-v2-shadow",
-        "growth_quality": 4,
-        "balance_sheet_quality": 1,
-        "accounting_quality": 1,
-        "governance_quality": 1,
-        "data_confidence": 50,
-        "total_score": 7,
-        "quality_gate_pass": true,
-        "reasons": [
-          "revenue_improving",
-          "netIncome_improving",
-          "operatingCashFlow_missing",
-          "totalDebt_missing",
-          "no_audit_risk_seen"
-        ],
-        "metrics": {
-          "revenue_yoy_pct": 156.8,
-          "net_income_yoy_pct": 174.5,
-          "operating_cash_flow_yoy_pct": null,
-          "debt_yoy_pct": null,
-          "snowflake_health": 3
-        }
-      },
-      "entry_price_inr": 167.79,
-      "current_price_inr": 167.79,
-      "market_cap_inr": 28660000000,
-      "market_cap_band": "small3",
-      "data_confidence": {
-        "completeness_pct": 100,
-        "has_deep_brief": true,
-        "has_entry_price": true,
-        "has_adv": true
-      }
-    },
-    {
-      "ticker": "DEEPINDS",
-      "sector": "Energy",
-      "score_0_100": 63.5,
-      "verdict": "HIGH_CONVICTION",
-      "gate_blocked": false,
-      "gate_reasons": [],
-      "breakdown": {
-        "mcap": 8,
-        "v3_future": 10,
-        "v3_valuation": 5,
-        "fv_upside": 0,
-        "inflection": 17,
-        "sector_tailwind": 6,
-        "momentum": 8.3,
-        "liquidity_bonus": 0,
-        "health": 4.2,
-        "forward_growth": 5,
-        "story_bonus": 0,
-        "penalty_surveillance": 0,
-        "penalty_data_completeness": 0,
-        "penalty_miss_streak": 0
-      },
-      "diagnostics": {
-        "inflection": {
-          "score": 17,
-          "reasons": [
-            "loss_to_profit_flip"
-          ],
-          "latest_growth_pct": null,
-          "three_year_cagr_pct": null,
-          "loss_to_profit": true,
-          "one_off_flagged": false
-        },
-        "tailwind": {
-          "pts": 6,
-          "base_weight": 6,
-          "regime_multiplier": 1,
-          "cohort_freshness": 1,
-          "cohort_exhausted": false,
-          "reasons": []
-        },
-        "story": {
-          "tags": [],
-          "score_bonus": 0
-        },
-        "pledge": {
-          "pass": true,
-          "reasons": [],
-          "matched_events": 0,
-          "source": "no_data"
-        },
-        "adv_inr_30d": null,
-        "health_cap_applied": false,
-        "quality_cap_applied": false
-      },
-      "quality_factor_v2": {
-        "schema_version": "quality-factor-v2-shadow",
-        "growth_quality": 4,
-        "balance_sheet_quality": 1.7,
-        "accounting_quality": 1,
-        "governance_quality": 1,
-        "data_confidence": 50,
-        "total_score": 7.7,
-        "quality_gate_pass": true,
-        "reasons": [
-          "revenue_improving",
-          "netIncome_improving",
-          "operatingCashFlow_missing",
-          "totalDebt_missing",
-          "no_audit_risk_seen"
-        ],
-        "metrics": {
-          "revenue_yoy_pct": 47.2,
-          "net_income_yoy_pct": 363.3,
-          "operating_cash_flow_yoy_pct": null,
-          "debt_yoy_pct": null,
-          "snowflake_health": 5
-        }
-      },
-      "entry_price_inr": 720.3,
-      "current_price_inr": 720.3,
-      "market_cap_inr": 46180000000,
-      "market_cap_band": "small3",
-      "data_confidence": {
-        "completeness_pct": 100,
-        "has_deep_brief": true,
-        "has_entry_price": true,
-        "has_adv": true
-      }
-    },
-    {
-      "ticker": "KRISHNADEF",
-      "sector": "Capital Goods",
-      "score_0_100": 63.3,
-      "verdict": "HIGH_CONVICTION",
-      "gate_blocked": false,
-      "gate_reasons": [],
-      "breakdown": {
-        "mcap": 8,
-        "v3_future": 12,
-        "v3_valuation": 3.3,
-        "fv_upside": 10,
-        "inflection": 0,
-        "sector_tailwind": 12,
-        "momentum": 7,
-        "liquidity_bonus": 0,
-        "health": 5,
-        "forward_growth": 5,
-        "story_bonus": 1,
-        "penalty_surveillance": 0,
-        "penalty_data_completeness": 0,
-        "penalty_miss_streak": 0
-      },
-      "diagnostics": {
-        "inflection": {
-          "score": 0,
-          "reasons": [
-            "no_history"
-          ],
-          "latest_growth_pct": null,
-          "three_year_cagr_pct": null,
-          "loss_to_profit": false,
-          "one_off_flagged": false
-        },
-        "tailwind": {
-          "pts": 12,
-          "base_weight": 12,
-          "regime_multiplier": 1,
-          "cohort_freshness": 1,
-          "cohort_exhausted": false,
-          "reasons": []
-        },
-        "story": {
-          "tags": [
-            "DEFENSE"
-          ],
-          "score_bonus": 1
-        },
-        "pledge": {
-          "pass": true,
-          "reasons": [],
-          "matched_events": 0,
-          "source": "no_data"
-        },
-        "adv_inr_30d": null,
-        "health_cap_applied": false,
-        "quality_cap_applied": false
-      },
-      "quality_factor_v2": {
-        "schema_version": "quality-factor-v2-shadow",
-        "growth_quality": 0,
-        "balance_sheet_quality": 2,
-        "accounting_quality": 1,
-        "governance_quality": 1,
-        "data_confidence": 0,
-        "total_score": 4,
-        "quality_gate_pass": false,
-        "reasons": [
-          "revenue_missing",
-          "netIncome_missing",
-          "operatingCashFlow_missing",
-          "totalDebt_missing",
-          "no_audit_risk_seen"
-        ],
-        "metrics": {
-          "revenue_yoy_pct": null,
-          "net_income_yoy_pct": null,
-          "operating_cash_flow_yoy_pct": null,
-          "debt_yoy_pct": null,
-          "snowflake_health": 6
-        }
-      },
-      "entry_price_inr": 1148.3,
-      "current_price_inr": 1148.3,
-      "market_cap_inr": 17160000000,
-      "market_cap_band": null,
-      "data_confidence": {
-        "completeness_pct": 100,
-        "has_deep_brief": true,
-        "has_entry_price": true,
-        "has_adv": true
-      }
-    },
-    {
-      "ticker": "PSPPROJECT",
-      "sector": "Capital Goods",
-      "score_0_100": 63.3,
-      "verdict": "HIGH_CONVICTION",
-      "gate_blocked": false,
-      "gate_reasons": [],
-      "breakdown": {
-        "mcap": 8,
-        "v3_future": 8,
-        "v3_valuation": 1.7,
-        "fv_upside": 3,
-        "inflection": 17,
-        "sector_tailwind": 12,
-        "momentum": 4.4,
-        "liquidity_bonus": 0,
-        "health": 4.2,
-        "forward_growth": 5,
-        "story_bonus": 0,
-        "penalty_surveillance": 0,
-        "penalty_data_completeness": 0,
-        "penalty_miss_streak": 0
-      },
-      "diagnostics": {
-        "inflection": {
-          "score": 17,
-          "reasons": [
-            "ni_yoy_231.4pct_>50"
-          ],
-          "latest_growth_pct": 231.4,
-          "three_year_cagr_pct": -19.5,
+          "latest_growth_pct": 60.4,
+          "three_year_cagr_pct": 140.7,
           "loss_to_profit": false,
           "one_off_flagged": false
         },
@@ -1361,17 +1452,17 @@
           "no_audit_risk_seen"
         ],
         "metrics": {
-          "revenue_yoy_pct": 44.8,
-          "net_income_yoy_pct": 231.4,
+          "revenue_yoy_pct": 34.4,
+          "net_income_yoy_pct": 60.4,
           "operating_cash_flow_yoy_pct": null,
           "debt_yoy_pct": null,
           "snowflake_health": 5
         }
       },
-      "entry_price_inr": 786.2,
-      "current_price_inr": 786.2,
-      "market_cap_inr": 31580000000,
-      "market_cap_band": "small3",
+      "entry_price_inr": 27035,
+      "current_price_inr": 27035,
+      "market_cap_inr": 1205010000000,
+      "market_cap_band": "mega8",
       "data_confidence": {
         "completeness_pct": 100,
         "has_deep_brief": true,
@@ -1382,7 +1473,7 @@
     {
       "ticker": "KOLTEPATIL",
       "sector": "Diversified Financials",
-      "score_0_100": 63.2,
+      "score_0_100": 63.5,
       "verdict": "HIGH_CONVICTION",
       "gate_blocked": false,
       "gate_reasons": [],
@@ -1393,7 +1484,7 @@
         "fv_upside": 5,
         "inflection": 17,
         "sector_tailwind": 5,
-        "momentum": 6.6,
+        "momentum": 6.9,
         "liquidity_bonus": 0,
         "health": 3.3,
         "forward_growth": 5,
@@ -1459,9 +1550,9 @@
           "snowflake_health": 4
         }
       },
-      "entry_price_inr": 425.6,
-      "current_price_inr": 425.6,
-      "market_cap_inr": 37690000000,
+      "entry_price_inr": 431.4,
+      "current_price_inr": 431.4,
+      "market_cap_inr": 38230000000,
       "market_cap_band": "small3",
       "data_confidence": {
         "completeness_pct": 100,
@@ -1471,25 +1562,25 @@
       }
     },
     {
-      "ticker": "GLOBUSSPR",
-      "sector": "Food, Beverage & Tobacco",
-      "score_0_100": 62.7,
+      "ticker": "MTARTECH",
+      "sector": "Capital Goods",
+      "score_0_100": 63.3,
       "verdict": "HIGH_CONVICTION",
       "gate_blocked": false,
       "gate_reasons": [],
       "breakdown": {
-        "mcap": 8,
-        "v3_future": 6,
-        "v3_valuation": 6.7,
-        "fv_upside": 10,
+        "mcap": 0,
+        "v3_future": 12,
+        "v3_valuation": 1.7,
+        "fv_upside": 8,
         "inflection": 17,
-        "sector_tailwind": 5,
-        "momentum": 3.7,
+        "sector_tailwind": 12,
+        "momentum": 8.4,
         "liquidity_bonus": 0,
-        "health": 3.3,
-        "forward_growth": 3,
+        "health": 4.2,
+        "forward_growth": 5,
         "story_bonus": 0,
-        "penalty_surveillance": 0,
+        "penalty_surveillance": -5,
         "penalty_data_completeness": 0,
         "penalty_miss_streak": 0
       },
@@ -1497,16 +1588,16 @@
         "inflection": {
           "score": 17,
           "reasons": [
-            "ni_yoy_119pct_>50"
+            "ni_yoy_198.2pct_>50"
           ],
-          "latest_growth_pct": 119,
-          "three_year_cagr_pct": -4.3,
+          "latest_growth_pct": 198.2,
+          "three_year_cagr_pct": 8.9,
           "loss_to_profit": false,
           "one_off_flagged": false
         },
         "tailwind": {
-          "pts": 5,
-          "base_weight": 5,
+          "pts": 12,
+          "base_weight": 12,
           "regime_multiplier": 1,
           "cohort_freshness": 1,
           "cohort_exhausted": false,
@@ -1528,32 +1619,32 @@
       },
       "quality_factor_v2": {
         "schema_version": "quality-factor-v2-shadow",
-        "growth_quality": 3,
-        "balance_sheet_quality": 1.3,
+        "growth_quality": 4,
+        "balance_sheet_quality": 1.7,
         "accounting_quality": 1,
         "governance_quality": 1,
         "data_confidence": 50,
-        "total_score": 6.3,
+        "total_score": 7.7,
         "quality_gate_pass": true,
         "reasons": [
-          "revenue_stable",
+          "revenue_improving",
           "netIncome_improving",
           "operatingCashFlow_missing",
           "totalDebt_missing",
           "no_audit_risk_seen"
         ],
         "metrics": {
-          "revenue_yoy_pct": 6.9,
-          "net_income_yoy_pct": 119,
+          "revenue_yoy_pct": 66.3,
+          "net_income_yoy_pct": 198.2,
           "operating_cash_flow_yoy_pct": null,
           "debt_yoy_pct": null,
-          "snowflake_health": 4
+          "snowflake_health": 5
         }
       },
-      "entry_price_inr": 807,
-      "current_price_inr": 807,
-      "market_cap_inr": 25340000000,
-      "market_cap_band": "micro2",
+      "entry_price_inr": 6800,
+      "current_price_inr": 6800,
+      "market_cap_inr": 208950000000,
+      "market_cap_band": "medium5",
       "data_confidence": {
         "completeness_pct": 100,
         "has_deep_brief": true,
@@ -1564,7 +1655,7 @@
     {
       "ticker": "QPOWER",
       "sector": "Capital Goods",
-      "score_0_100": 62.6,
+      "score_0_100": 63.2,
       "verdict": "HIGH_CONVICTION",
       "gate_blocked": false,
       "gate_reasons": [],
@@ -1575,7 +1666,7 @@
         "fv_upside": 3,
         "inflection": 17,
         "sector_tailwind": 12,
-        "momentum": 7.4,
+        "momentum": 8,
         "liquidity_bonus": 0,
         "health": 4.2,
         "forward_growth": 5,
@@ -1643,9 +1734,9 @@
           "snowflake_health": 5
         }
       },
-      "entry_price_inr": 1407.1,
-      "current_price_inr": 1407.1,
-      "market_cap_inr": 109070000000,
+      "entry_price_inr": 1391.1,
+      "current_price_inr": 1391.1,
+      "market_cap_inr": 107940000000,
       "market_cap_band": "midsmall4",
       "data_confidence": {
         "completeness_pct": 100,
@@ -1655,22 +1746,22 @@
       }
     },
     {
-      "ticker": "LANDMARK",
-      "sector": "Retail",
-      "score_0_100": 61.8,
+      "ticker": "DEEPINDS",
+      "sector": "Energy",
+      "score_0_100": 63.1,
       "verdict": "HIGH_CONVICTION",
       "gate_blocked": false,
       "gate_reasons": [],
       "breakdown": {
         "mcap": 8,
-        "v3_future": 8,
+        "v3_future": 10,
         "v3_valuation": 5,
-        "fv_upside": 8,
+        "fv_upside": 0,
         "inflection": 17,
-        "sector_tailwind": 5,
-        "momentum": 3.3,
+        "sector_tailwind": 6,
+        "momentum": 7.9,
         "liquidity_bonus": 0,
-        "health": 2.5,
+        "health": 4.2,
         "forward_growth": 5,
         "story_bonus": 0,
         "penalty_surveillance": 0,
@@ -1681,11 +1772,195 @@
         "inflection": {
           "score": 17,
           "reasons": [
-            "ni_yoy_128.6pct_>50"
+            "loss_to_profit_flip"
           ],
-          "latest_growth_pct": 128.6,
-          "three_year_cagr_pct": -15.2,
+          "latest_growth_pct": null,
+          "three_year_cagr_pct": null,
+          "loss_to_profit": true,
+          "one_off_flagged": false
+        },
+        "tailwind": {
+          "pts": 6,
+          "base_weight": 6,
+          "regime_multiplier": 1,
+          "cohort_freshness": 1,
+          "cohort_exhausted": false,
+          "reasons": []
+        },
+        "story": {
+          "tags": [],
+          "score_bonus": 0
+        },
+        "pledge": {
+          "pass": true,
+          "reasons": [],
+          "matched_events": 0,
+          "source": "no_data"
+        },
+        "adv_inr_30d": null,
+        "health_cap_applied": false,
+        "quality_cap_applied": false
+      },
+      "quality_factor_v2": {
+        "schema_version": "quality-factor-v2-shadow",
+        "growth_quality": 4,
+        "balance_sheet_quality": 1.7,
+        "accounting_quality": 1,
+        "governance_quality": 1,
+        "data_confidence": 50,
+        "total_score": 7.7,
+        "quality_gate_pass": true,
+        "reasons": [
+          "revenue_improving",
+          "netIncome_improving",
+          "operatingCashFlow_missing",
+          "totalDebt_missing",
+          "no_audit_risk_seen"
+        ],
+        "metrics": {
+          "revenue_yoy_pct": 47.2,
+          "net_income_yoy_pct": 363.3,
+          "operating_cash_flow_yoy_pct": null,
+          "debt_yoy_pct": null,
+          "snowflake_health": 5
+        }
+      },
+      "entry_price_inr": 695.75,
+      "current_price_inr": 695.75,
+      "market_cap_inr": 44550000000,
+      "market_cap_band": "small3",
+      "data_confidence": {
+        "completeness_pct": 100,
+        "has_deep_brief": true,
+        "has_entry_price": true,
+        "has_adv": true
+      }
+    },
+    {
+      "ticker": "KRISHNADEF",
+      "sector": "Capital Goods",
+      "score_0_100": 63,
+      "verdict": "HIGH_CONVICTION",
+      "gate_blocked": false,
+      "gate_reasons": [],
+      "breakdown": {
+        "mcap": 8,
+        "v3_future": 12,
+        "v3_valuation": 3.3,
+        "fv_upside": 10,
+        "inflection": 0,
+        "sector_tailwind": 12,
+        "momentum": 6.7,
+        "liquidity_bonus": 0,
+        "health": 5,
+        "forward_growth": 5,
+        "story_bonus": 1,
+        "penalty_surveillance": 0,
+        "penalty_data_completeness": 0,
+        "penalty_miss_streak": 0
+      },
+      "diagnostics": {
+        "inflection": {
+          "score": 0,
+          "reasons": [
+            "no_history"
+          ],
+          "latest_growth_pct": null,
+          "three_year_cagr_pct": null,
           "loss_to_profit": false,
+          "one_off_flagged": false
+        },
+        "tailwind": {
+          "pts": 12,
+          "base_weight": 12,
+          "regime_multiplier": 1,
+          "cohort_freshness": 1,
+          "cohort_exhausted": false,
+          "reasons": []
+        },
+        "story": {
+          "tags": [
+            "DEFENSE"
+          ],
+          "score_bonus": 1
+        },
+        "pledge": {
+          "pass": true,
+          "reasons": [],
+          "matched_events": 0,
+          "source": "no_data"
+        },
+        "adv_inr_30d": null,
+        "health_cap_applied": false,
+        "quality_cap_applied": false
+      },
+      "quality_factor_v2": {
+        "schema_version": "quality-factor-v2-shadow",
+        "growth_quality": 0,
+        "balance_sheet_quality": 2,
+        "accounting_quality": 1,
+        "governance_quality": 1,
+        "data_confidence": 0,
+        "total_score": 4,
+        "quality_gate_pass": false,
+        "reasons": [
+          "revenue_missing",
+          "netIncome_missing",
+          "operatingCashFlow_missing",
+          "totalDebt_missing",
+          "no_audit_risk_seen"
+        ],
+        "metrics": {
+          "revenue_yoy_pct": null,
+          "net_income_yoy_pct": null,
+          "operating_cash_flow_yoy_pct": null,
+          "debt_yoy_pct": null,
+          "snowflake_health": 6
+        }
+      },
+      "entry_price_inr": 1094.2,
+      "current_price_inr": 1094.2,
+      "market_cap_inr": 16360000000,
+      "market_cap_band": null,
+      "data_confidence": {
+        "completeness_pct": 100,
+        "has_deep_brief": true,
+        "has_entry_price": true,
+        "has_adv": true
+      }
+    },
+    {
+      "ticker": "MOBIKWIK",
+      "sector": "Diversified Financials",
+      "score_0_100": 63,
+      "verdict": "HIGH_CONVICTION",
+      "gate_blocked": false,
+      "gate_reasons": [],
+      "breakdown": {
+        "mcap": 8,
+        "v3_future": 4,
+        "v3_valuation": 5,
+        "fv_upside": 10,
+        "inflection": 17,
+        "sector_tailwind": 5,
+        "momentum": 6.8,
+        "liquidity_bonus": 0,
+        "health": 4.2,
+        "forward_growth": 3,
+        "story_bonus": 0,
+        "penalty_surveillance": 0,
+        "penalty_data_completeness": 0,
+        "penalty_miss_streak": 0
+      },
+      "diagnostics": {
+        "inflection": {
+          "score": 17,
+          "reasons": [
+            "loss_to_profit_flip"
+          ],
+          "latest_growth_pct": null,
+          "three_year_cagr_pct": null,
+          "loss_to_profit": true,
           "one_off_flagged": false
         },
         "tailwind": {
@@ -1712,12 +1987,104 @@
       },
       "quality_factor_v2": {
         "schema_version": "quality-factor-v2-shadow",
-        "growth_quality": 4,
-        "balance_sheet_quality": 1,
+        "growth_quality": 2,
+        "balance_sheet_quality": 1.7,
         "accounting_quality": 1,
         "governance_quality": 1,
         "data_confidence": 50,
-        "total_score": 7,
+        "total_score": 5.7,
+        "quality_gate_pass": true,
+        "reasons": [
+          "revenue_deteriorating",
+          "netIncome_improving",
+          "operatingCashFlow_missing",
+          "totalDebt_missing",
+          "no_audit_risk_seen"
+        ],
+        "metrics": {
+          "revenue_yoy_pct": -6.1,
+          "net_income_yoy_pct": 100,
+          "operating_cash_flow_yoy_pct": null,
+          "debt_yoy_pct": null,
+          "snowflake_health": 5
+        }
+      },
+      "entry_price_inr": 226.67,
+      "current_price_inr": 226.67,
+      "market_cap_inr": 17930000000,
+      "market_cap_band": "micro2",
+      "data_confidence": {
+        "completeness_pct": 92,
+        "has_deep_brief": true,
+        "has_entry_price": true,
+        "has_adv": true
+      }
+    },
+    {
+      "ticker": "KSHINTL",
+      "sector": "Capital Goods",
+      "score_0_100": 62.8,
+      "verdict": "HIGH_CONVICTION",
+      "gate_blocked": false,
+      "gate_reasons": [],
+      "breakdown": {
+        "mcap": 4,
+        "v3_future": 8,
+        "v3_valuation": 3.3,
+        "fv_upside": 3,
+        "inflection": 17,
+        "sector_tailwind": 12,
+        "momentum": 7.2,
+        "liquidity_bonus": 0,
+        "health": 3.3,
+        "forward_growth": 5,
+        "story_bonus": 0,
+        "penalty_surveillance": 0,
+        "penalty_data_completeness": 0,
+        "penalty_miss_streak": 0
+      },
+      "diagnostics": {
+        "inflection": {
+          "score": 17,
+          "reasons": [
+            "ni_yoy_64.6pct_>50",
+            "3y_cagr_69.5pct_bonus_+5"
+          ],
+          "latest_growth_pct": 64.6,
+          "three_year_cagr_pct": 69.5,
+          "loss_to_profit": false,
+          "one_off_flagged": false
+        },
+        "tailwind": {
+          "pts": 12,
+          "base_weight": 12,
+          "regime_multiplier": 1,
+          "cohort_freshness": 1,
+          "cohort_exhausted": false,
+          "reasons": []
+        },
+        "story": {
+          "tags": [],
+          "score_bonus": 0
+        },
+        "pledge": {
+          "pass": true,
+          "reasons": [],
+          "matched_events": 0,
+          "source": "no_data"
+        },
+        "adv_inr_30d": null,
+        "health_cap_applied": false,
+        "quality_cap_applied": false
+      },
+      "quality_factor_v2": {
+        "schema_version": "quality-factor-v2-shadow",
+        "growth_quality": 4,
+        "balance_sheet_quality": 1.3,
+        "accounting_quality": 1,
+        "governance_quality": 1,
+        "data_confidence": 50,
+        "total_score": 7.3,
         "quality_gate_pass": true,
         "reasons": [
           "revenue_improving",
@@ -1727,17 +2094,108 @@
           "no_audit_risk_seen"
         ],
         "metrics": {
-          "revenue_yoy_pct": 20.7,
-          "net_income_yoy_pct": 128.6,
+          "revenue_yoy_pct": 82.5,
+          "net_income_yoy_pct": 64.6,
           "operating_cash_flow_yoy_pct": null,
           "debt_yoy_pct": null,
-          "snowflake_health": 3
+          "snowflake_health": 4
         }
       },
-      "entry_price_inr": 470.5,
-      "current_price_inr": 470.5,
-      "market_cap_inr": 19420000000,
-      "market_cap_band": "micro2",
+      "entry_price_inr": 903.1,
+      "current_price_inr": 903.1,
+      "market_cap_inr": 61210000000,
+      "market_cap_band": "midsmall4",
+      "data_confidence": {
+        "completeness_pct": 100,
+        "has_deep_brief": true,
+        "has_entry_price": true,
+        "has_adv": true
+      }
+    },
+    {
+      "ticker": "MAHLOG",
+      "sector": "Transportation",
+      "score_0_100": 62.3,
+      "verdict": "HIGH_CONVICTION",
+      "gate_blocked": false,
+      "gate_reasons": [],
+      "breakdown": {
+        "mcap": 8,
+        "v3_future": 8,
+        "v3_valuation": 5,
+        "fv_upside": 5,
+        "inflection": 17,
+        "sector_tailwind": 5,
+        "momentum": 6,
+        "liquidity_bonus": 0,
+        "health": 3.3,
+        "forward_growth": 5,
+        "story_bonus": 0,
+        "penalty_surveillance": 0,
+        "penalty_data_completeness": 0,
+        "penalty_miss_streak": 0
+      },
+      "diagnostics": {
+        "inflection": {
+          "score": 17,
+          "reasons": [
+            "loss_to_profit_flip"
+          ],
+          "latest_growth_pct": null,
+          "three_year_cagr_pct": null,
+          "loss_to_profit": true,
+          "one_off_flagged": false
+        },
+        "tailwind": {
+          "pts": 5,
+          "base_weight": 5,
+          "regime_multiplier": 1,
+          "cohort_freshness": 1,
+          "cohort_exhausted": false,
+          "reasons": []
+        },
+        "story": {
+          "tags": [],
+          "score_bonus": 0
+        },
+        "pledge": {
+          "pass": true,
+          "reasons": [],
+          "matched_events": 0,
+          "source": "no_data"
+        },
+        "adv_inr_30d": null,
+        "health_cap_applied": false,
+        "quality_cap_applied": false
+      },
+      "quality_factor_v2": {
+        "schema_version": "quality-factor-v2-shadow",
+        "growth_quality": 3,
+        "balance_sheet_quality": 1.3,
+        "accounting_quality": 1,
+        "governance_quality": 1,
+        "data_confidence": 50,
+        "total_score": 6.3,
+        "quality_gate_pass": true,
+        "reasons": [
+          "revenue_stable",
+          "netIncome_improving",
+          "operatingCashFlow_missing",
+          "totalDebt_missing",
+          "no_audit_risk_seen"
+        ],
+        "metrics": {
+          "revenue_yoy_pct": 10.9,
+          "net_income_yoy_pct": 106.1,
+          "operating_cash_flow_yoy_pct": null,
+          "debt_yoy_pct": null,
+          "snowflake_health": 4
+        }
+      },
+      "entry_price_inr": 383.6,
+      "current_price_inr": 383.6,
+      "market_cap_inr": 37970000000,
+      "market_cap_band": "small3",
       "data_confidence": {
         "completeness_pct": 100,
         "has_deep_brief": true,
@@ -1748,7 +2206,7 @@
     {
       "ticker": "SPANDANA",
       "sector": "Diversified Financials",
-      "score_0_100": 61.7,
+      "score_0_100": 62,
       "verdict": "HIGH_CONVICTION",
       "gate_blocked": false,
       "gate_reasons": [],
@@ -1759,7 +2217,7 @@
         "fv_upside": 3,
         "inflection": 17,
         "sector_tailwind": 5,
-        "momentum": 6.2,
+        "momentum": 6.5,
         "liquidity_bonus": 0,
         "health": 4.2,
         "forward_growth": 5,
@@ -1839,7 +2297,7 @@
     {
       "ticker": "UFBL",
       "sector": "Consumer Services",
-      "score_0_100": 61.5,
+      "score_0_100": 61.7,
       "verdict": "HIGH_CONVICTION",
       "gate_blocked": false,
       "gate_reasons": [],
@@ -1847,10 +2305,10 @@
         "mcap": 8,
         "v3_future": 8,
         "v3_valuation": 5,
-        "fv_upside": 8,
+        "fv_upside": 10,
         "inflection": 17,
         "sector_tailwind": 5,
-        "momentum": 8,
+        "momentum": 6.2,
         "liquidity_bonus": 0,
         "health": 2.5,
         "forward_growth": 5,
@@ -1916,9 +2374,9 @@
           "snowflake_health": 3
         }
       },
-      "entry_price_inr": 668.4,
-      "current_price_inr": 668.4,
-      "market_cap_inr": 26140000000,
+      "entry_price_inr": 603.25,
+      "current_price_inr": 603.25,
+      "market_cap_inr": 23590000000,
       "market_cap_band": "micro2",
       "data_confidence": {
         "completeness_pct": 92,
@@ -1928,23 +2386,23 @@
       }
     },
     {
-      "ticker": "MAHLOG",
-      "sector": "Transportation",
-      "score_0_100": 61.4,
+      "ticker": "GLOBUSSPR",
+      "sector": "Food, Beverage & Tobacco",
+      "score_0_100": 61.3,
       "verdict": "HIGH_CONVICTION",
       "gate_blocked": false,
       "gate_reasons": [],
       "breakdown": {
         "mcap": 8,
-        "v3_future": 8,
-        "v3_valuation": 3.3,
-        "fv_upside": 5,
+        "v3_future": 6,
+        "v3_valuation": 6.7,
+        "fv_upside": 10,
         "inflection": 17,
         "sector_tailwind": 5,
-        "momentum": 6.8,
+        "momentum": 2.3,
         "liquidity_bonus": 0,
         "health": 3.3,
-        "forward_growth": 5,
+        "forward_growth": 3,
         "story_bonus": 0,
         "penalty_surveillance": 0,
         "penalty_data_completeness": 0,
@@ -1954,11 +2412,11 @@
         "inflection": {
           "score": 17,
           "reasons": [
-            "loss_to_profit_flip"
+            "ni_yoy_119pct_>50"
           ],
-          "latest_growth_pct": null,
-          "three_year_cagr_pct": null,
-          "loss_to_profit": true,
+          "latest_growth_pct": 119,
+          "three_year_cagr_pct": -4.3,
+          "loss_to_profit": false,
           "one_off_flagged": false
         },
         "tailwind": {
@@ -2000,841 +2458,17 @@
           "no_audit_risk_seen"
         ],
         "metrics": {
-          "revenue_yoy_pct": 10.9,
-          "net_income_yoy_pct": 106.1,
+          "revenue_yoy_pct": 6.9,
+          "net_income_yoy_pct": 119,
           "operating_cash_flow_yoy_pct": null,
           "debt_yoy_pct": null,
           "snowflake_health": 4
         }
       },
-      "entry_price_inr": 397.5,
-      "current_price_inr": 397.5,
-      "market_cap_inr": 39490000000,
-      "market_cap_band": "small3",
-      "data_confidence": {
-        "completeness_pct": 100,
-        "has_deep_brief": true,
-        "has_entry_price": true,
-        "has_adv": true
-      }
-    },
-    {
-      "ticker": "KSHINTL",
-      "sector": "Capital Goods",
-      "score_0_100": 61.1,
-      "verdict": "HIGH_CONVICTION",
-      "gate_blocked": false,
-      "gate_reasons": [],
-      "breakdown": {
-        "mcap": 4,
-        "v3_future": 8,
-        "v3_valuation": 1.7,
-        "fv_upside": 3,
-        "inflection": 17,
-        "sector_tailwind": 12,
-        "momentum": 7.1,
-        "liquidity_bonus": 0,
-        "health": 3.3,
-        "forward_growth": 5,
-        "story_bonus": 0,
-        "penalty_surveillance": 0,
-        "penalty_data_completeness": 0,
-        "penalty_miss_streak": 0
-      },
-      "diagnostics": {
-        "inflection": {
-          "score": 17,
-          "reasons": [
-            "ni_yoy_64.6pct_>50",
-            "3y_cagr_69.5pct_bonus_+5"
-          ],
-          "latest_growth_pct": 64.6,
-          "three_year_cagr_pct": 69.5,
-          "loss_to_profit": false,
-          "one_off_flagged": false
-        },
-        "tailwind": {
-          "pts": 12,
-          "base_weight": 12,
-          "regime_multiplier": 1,
-          "cohort_freshness": 1,
-          "cohort_exhausted": false,
-          "reasons": []
-        },
-        "story": {
-          "tags": [],
-          "score_bonus": 0
-        },
-        "pledge": {
-          "pass": true,
-          "reasons": [],
-          "matched_events": 0,
-          "source": "no_data"
-        },
-        "adv_inr_30d": null,
-        "health_cap_applied": false,
-        "quality_cap_applied": false
-      },
-      "quality_factor_v2": {
-        "schema_version": "quality-factor-v2-shadow",
-        "growth_quality": 4,
-        "balance_sheet_quality": 1.3,
-        "accounting_quality": 1,
-        "governance_quality": 1,
-        "data_confidence": 50,
-        "total_score": 7.3,
-        "quality_gate_pass": true,
-        "reasons": [
-          "revenue_improving",
-          "netIncome_improving",
-          "operatingCashFlow_missing",
-          "totalDebt_missing",
-          "no_audit_risk_seen"
-        ],
-        "metrics": {
-          "revenue_yoy_pct": 82.5,
-          "net_income_yoy_pct": 64.6,
-          "operating_cash_flow_yoy_pct": null,
-          "debt_yoy_pct": null,
-          "snowflake_health": 4
-        }
-      },
-      "entry_price_inr": 927.6,
-      "current_price_inr": 927.6,
-      "market_cap_inr": 62840000000,
-      "market_cap_band": "midsmall4",
-      "data_confidence": {
-        "completeness_pct": 100,
-        "has_deep_brief": true,
-        "has_entry_price": true,
-        "has_adv": true
-      }
-    },
-    {
-      "ticker": "POWERINDIA",
-      "sector": "Capital Goods",
-      "score_0_100": 60.7,
-      "verdict": "HIGH_CONVICTION",
-      "gate_blocked": false,
-      "gate_reasons": [],
-      "breakdown": {
-        "mcap": 0,
-        "v3_future": 12,
-        "v3_valuation": 1.7,
-        "fv_upside": 5,
-        "inflection": 17,
-        "sector_tailwind": 12,
-        "momentum": 5.8,
-        "liquidity_bonus": 0,
-        "health": 4.2,
-        "forward_growth": 3,
-        "story_bonus": 0,
-        "penalty_surveillance": 0,
-        "penalty_data_completeness": 0,
-        "penalty_miss_streak": 0
-      },
-      "diagnostics": {
-        "inflection": {
-          "score": 17,
-          "reasons": [
-            "ni_yoy_60.4pct_>50",
-            "3y_cagr_140.7pct_bonus_+5"
-          ],
-          "latest_growth_pct": 60.4,
-          "three_year_cagr_pct": 140.7,
-          "loss_to_profit": false,
-          "one_off_flagged": false
-        },
-        "tailwind": {
-          "pts": 12,
-          "base_weight": 12,
-          "regime_multiplier": 1,
-          "cohort_freshness": 1,
-          "cohort_exhausted": false,
-          "reasons": []
-        },
-        "story": {
-          "tags": [],
-          "score_bonus": 0
-        },
-        "pledge": {
-          "pass": true,
-          "reasons": [],
-          "matched_events": 0,
-          "source": "no_data"
-        },
-        "adv_inr_30d": null,
-        "health_cap_applied": false,
-        "quality_cap_applied": false
-      },
-      "quality_factor_v2": {
-        "schema_version": "quality-factor-v2-shadow",
-        "growth_quality": 4,
-        "balance_sheet_quality": 1.7,
-        "accounting_quality": 1,
-        "governance_quality": 1,
-        "data_confidence": 50,
-        "total_score": 7.7,
-        "quality_gate_pass": true,
-        "reasons": [
-          "revenue_improving",
-          "netIncome_improving",
-          "operatingCashFlow_missing",
-          "totalDebt_missing",
-          "no_audit_risk_seen"
-        ],
-        "metrics": {
-          "revenue_yoy_pct": 34.4,
-          "net_income_yoy_pct": 60.4,
-          "operating_cash_flow_yoy_pct": null,
-          "debt_yoy_pct": null,
-          "snowflake_health": 5
-        }
-      },
-      "entry_price_inr": 28730,
-      "current_price_inr": 28730,
-      "market_cap_inr": 1279230000000,
-      "market_cap_band": "mega8",
-      "data_confidence": {
-        "completeness_pct": 100,
-        "has_deep_brief": true,
-        "has_entry_price": true,
-        "has_adv": true
-      }
-    },
-    {
-      "ticker": "MTARTECH",
-      "sector": "Capital Goods",
-      "score_0_100": 60.7,
-      "verdict": "HIGH_CONVICTION",
-      "gate_blocked": false,
-      "gate_reasons": [],
-      "breakdown": {
-        "mcap": 0,
-        "v3_future": 12,
-        "v3_valuation": 1.7,
-        "fv_upside": 5,
-        "inflection": 17,
-        "sector_tailwind": 12,
-        "momentum": 8.8,
-        "liquidity_bonus": 0,
-        "health": 4.2,
-        "forward_growth": 5,
-        "story_bonus": 0,
-        "penalty_surveillance": -5,
-        "penalty_data_completeness": 0,
-        "penalty_miss_streak": 0
-      },
-      "diagnostics": {
-        "inflection": {
-          "score": 17,
-          "reasons": [
-            "ni_yoy_198.2pct_>50"
-          ],
-          "latest_growth_pct": 198.2,
-          "three_year_cagr_pct": 8.9,
-          "loss_to_profit": false,
-          "one_off_flagged": false
-        },
-        "tailwind": {
-          "pts": 12,
-          "base_weight": 12,
-          "regime_multiplier": 1,
-          "cohort_freshness": 1,
-          "cohort_exhausted": false,
-          "reasons": []
-        },
-        "story": {
-          "tags": [],
-          "score_bonus": 0
-        },
-        "pledge": {
-          "pass": true,
-          "reasons": [],
-          "matched_events": 0,
-          "source": "no_data"
-        },
-        "adv_inr_30d": null,
-        "health_cap_applied": false,
-        "quality_cap_applied": false
-      },
-      "quality_factor_v2": {
-        "schema_version": "quality-factor-v2-shadow",
-        "growth_quality": 4,
-        "balance_sheet_quality": 1.7,
-        "accounting_quality": 1,
-        "governance_quality": 1,
-        "data_confidence": 50,
-        "total_score": 7.7,
-        "quality_gate_pass": true,
-        "reasons": [
-          "revenue_improving",
-          "netIncome_improving",
-          "operatingCashFlow_missing",
-          "totalDebt_missing",
-          "no_audit_risk_seen"
-        ],
-        "metrics": {
-          "revenue_yoy_pct": 66.3,
-          "net_income_yoy_pct": 198.2,
-          "operating_cash_flow_yoy_pct": null,
-          "debt_yoy_pct": null,
-          "snowflake_health": 5
-        }
-      },
-      "entry_price_inr": 7178,
-      "current_price_inr": 7178,
-      "market_cap_inr": 220640000000,
-      "market_cap_band": "medium5",
-      "data_confidence": {
-        "completeness_pct": 100,
-        "has_deep_brief": true,
-        "has_entry_price": true,
-        "has_adv": true
-      }
-    },
-    {
-      "ticker": "TECHNOE",
-      "sector": "Capital Goods",
-      "score_0_100": 60.6,
-      "verdict": "HIGH_CONVICTION",
-      "gate_blocked": false,
-      "gate_reasons": [],
-      "breakdown": {
-        "mcap": 4,
-        "v3_future": 10,
-        "v3_valuation": 3.3,
-        "fv_upside": 10,
-        "inflection": 11,
-        "sector_tailwind": 12,
-        "momentum": 3.1,
-        "liquidity_bonus": 0,
-        "health": 4.2,
-        "forward_growth": 3,
-        "story_bonus": 0,
-        "penalty_surveillance": 0,
-        "penalty_data_completeness": 0,
-        "penalty_miss_streak": 0
-      },
-      "diagnostics": {
-        "inflection": {
-          "score": 11,
-          "reasons": [
-            "ni_yoy_3pct_>0",
-            "3y_cagr_65.5pct_bonus_+5"
-          ],
-          "latest_growth_pct": 3,
-          "three_year_cagr_pct": 65.5,
-          "loss_to_profit": false,
-          "one_off_flagged": false
-        },
-        "tailwind": {
-          "pts": 12,
-          "base_weight": 12,
-          "regime_multiplier": 1,
-          "cohort_freshness": 1,
-          "cohort_exhausted": false,
-          "reasons": []
-        },
-        "story": {
-          "tags": [],
-          "score_bonus": 0
-        },
-        "pledge": {
-          "pass": true,
-          "reasons": [],
-          "matched_events": 0,
-          "source": "no_data"
-        },
-        "adv_inr_30d": null,
-        "health_cap_applied": false,
-        "quality_cap_applied": false
-      },
-      "quality_factor_v2": {
-        "schema_version": "quality-factor-v2-shadow",
-        "growth_quality": 3,
-        "balance_sheet_quality": 1.7,
-        "accounting_quality": 1,
-        "governance_quality": 1,
-        "data_confidence": 50,
-        "total_score": 6.7,
-        "quality_gate_pass": true,
-        "reasons": [
-          "revenue_improving",
-          "netIncome_stable",
-          "operatingCashFlow_missing",
-          "totalDebt_missing",
-          "no_audit_risk_seen"
-        ],
-        "metrics": {
-          "revenue_yoy_pct": 34.4,
-          "net_income_yoy_pct": 3,
-          "operating_cash_flow_yoy_pct": null,
-          "debt_yoy_pct": null,
-          "snowflake_health": 5
-        }
-      },
-      "entry_price_inr": 940,
-      "current_price_inr": 940,
-      "market_cap_inr": 109430000000,
-      "market_cap_band": "midsmall4",
-      "data_confidence": {
-        "completeness_pct": 100,
-        "has_deep_brief": true,
-        "has_entry_price": true,
-        "has_adv": true
-      }
-    },
-    {
-      "ticker": "FIRSTCRY",
-      "sector": "Retail",
-      "score_0_100": 60.3,
-      "verdict": "HIGH_CONVICTION",
-      "gate_blocked": false,
-      "gate_reasons": [],
-      "breakdown": {
-        "mcap": 4,
-        "v3_future": 8,
-        "v3_valuation": 6.7,
-        "fv_upside": 8,
-        "inflection": 17,
-        "sector_tailwind": 5,
-        "momentum": 2.4,
-        "liquidity_bonus": 0,
-        "health": 4.2,
-        "forward_growth": 5,
-        "story_bonus": 0,
-        "penalty_surveillance": 0,
-        "penalty_data_completeness": 0,
-        "penalty_miss_streak": 0
-      },
-      "diagnostics": {
-        "inflection": {
-          "score": 17,
-          "reasons": [
-            "loss_to_profit_flip"
-          ],
-          "latest_growth_pct": null,
-          "three_year_cagr_pct": null,
-          "loss_to_profit": true,
-          "one_off_flagged": false
-        },
-        "tailwind": {
-          "pts": 5,
-          "base_weight": 5,
-          "regime_multiplier": 1,
-          "cohort_freshness": 1,
-          "cohort_exhausted": false,
-          "reasons": []
-        },
-        "story": {
-          "tags": [],
-          "score_bonus": 0
-        },
-        "pledge": {
-          "pass": true,
-          "reasons": [],
-          "matched_events": 0,
-          "source": "text_scan",
-          "sample_subjects": []
-        },
-        "adv_inr_30d": null,
-        "health_cap_applied": false,
-        "quality_cap_applied": false
-      },
-      "quality_factor_v2": {
-        "schema_version": "quality-factor-v2-shadow",
-        "growth_quality": 3,
-        "balance_sheet_quality": 1.7,
-        "accounting_quality": 1,
-        "governance_quality": 1,
-        "data_confidence": 50,
-        "total_score": 6.7,
-        "quality_gate_pass": true,
-        "reasons": [
-          "revenue_stable",
-          "netIncome_improving",
-          "operatingCashFlow_missing",
-          "totalDebt_missing",
-          "no_audit_risk_seen"
-        ],
-        "metrics": {
-          "revenue_yoy_pct": 9,
-          "net_income_yoy_pct": 100,
-          "operating_cash_flow_yoy_pct": null,
-          "debt_yoy_pct": null,
-          "snowflake_health": 5
-        }
-      },
-      "entry_price_inr": 174.18,
-      "current_price_inr": 174.18,
-      "market_cap_inr": 91050000000,
-      "market_cap_band": "midsmall4",
-      "data_confidence": {
-        "completeness_pct": 92,
-        "has_deep_brief": true,
-        "has_entry_price": true,
-        "has_adv": true
-      }
-    },
-    {
-      "ticker": "STAR",
-      "sector": "Pharmaceuticals & Biotech",
-      "score_0_100": 60,
-      "verdict": "HIGH_CONVICTION",
-      "gate_blocked": false,
-      "gate_reasons": [],
-      "breakdown": {
-        "mcap": 4,
-        "v3_future": 8,
-        "v3_valuation": 10,
-        "fv_upside": 8,
-        "inflection": 12,
-        "sector_tailwind": 5,
-        "momentum": 5.8,
-        "liquidity_bonus": 0,
-        "health": 4.2,
-        "forward_growth": 3,
-        "story_bonus": 0,
-        "penalty_surveillance": 0,
-        "penalty_data_completeness": 0,
-        "penalty_miss_streak": 0
-      },
-      "diagnostics": {
-        "inflection": {
-          "score": 12,
-          "reasons": [
-            "ni_yoy_49.7pct_>25"
-          ],
-          "latest_growth_pct": 49.7,
-          "three_year_cagr_pct": null,
-          "loss_to_profit": false,
-          "one_off_flagged": false
-        },
-        "tailwind": {
-          "pts": 5,
-          "base_weight": 5,
-          "regime_multiplier": 1,
-          "cohort_freshness": 1,
-          "cohort_exhausted": false,
-          "reasons": []
-        },
-        "story": {
-          "tags": [],
-          "score_bonus": 0
-        },
-        "pledge": {
-          "pass": true,
-          "reasons": [],
-          "matched_events": 0,
-          "source": "no_data"
-        },
-        "adv_inr_30d": null,
-        "health_cap_applied": false,
-        "quality_cap_applied": false
-      },
-      "quality_factor_v2": {
-        "schema_version": "quality-factor-v2-shadow",
-        "growth_quality": 3,
-        "balance_sheet_quality": 1.7,
-        "accounting_quality": 1,
-        "governance_quality": 1,
-        "data_confidence": 50,
-        "total_score": 6.7,
-        "quality_gate_pass": true,
-        "reasons": [
-          "revenue_stable",
-          "netIncome_improving",
-          "operatingCashFlow_missing",
-          "totalDebt_missing",
-          "no_audit_risk_seen"
-        ],
-        "metrics": {
-          "revenue_yoy_pct": 2,
-          "net_income_yoy_pct": 49.7,
-          "operating_cash_flow_yoy_pct": null,
-          "debt_yoy_pct": null,
-          "snowflake_health": 5
-        }
-      },
-      "entry_price_inr": 1029.3,
-      "current_price_inr": 1029.3,
-      "market_cap_inr": 94910000000,
-      "market_cap_band": "midsmall4",
-      "data_confidence": {
-        "completeness_pct": 100,
-        "has_deep_brief": true,
-        "has_entry_price": true,
-        "has_adv": true
-      }
-    },
-    {
-      "ticker": "LUMAXTECH",
-      "sector": "Automobiles",
-      "score_0_100": 60,
-      "verdict": "HIGH_CONVICTION",
-      "gate_blocked": false,
-      "gate_reasons": [],
-      "breakdown": {
-        "mcap": 4,
-        "v3_future": 10,
-        "v3_valuation": 5,
-        "fv_upside": 5,
-        "inflection": 17,
-        "sector_tailwind": 5,
-        "momentum": 7.7,
-        "liquidity_bonus": 0,
-        "health": 3.3,
-        "forward_growth": 3,
-        "story_bonus": 0,
-        "penalty_surveillance": 0,
-        "penalty_data_completeness": 0,
-        "penalty_miss_streak": 0
-      },
-      "diagnostics": {
-        "inflection": {
-          "score": 17,
-          "reasons": [
-            "ni_yoy_53.3pct_>50",
-            "3y_cagr_52.4pct_bonus_+5"
-          ],
-          "latest_growth_pct": 53.3,
-          "three_year_cagr_pct": 52.4,
-          "loss_to_profit": false,
-          "one_off_flagged": false
-        },
-        "tailwind": {
-          "pts": 5,
-          "base_weight": 5,
-          "regime_multiplier": 1,
-          "cohort_freshness": 1,
-          "cohort_exhausted": false,
-          "reasons": []
-        },
-        "story": {
-          "tags": [],
-          "score_bonus": 0
-        },
-        "pledge": {
-          "pass": true,
-          "reasons": [],
-          "matched_events": 0,
-          "source": "no_data"
-        },
-        "adv_inr_30d": null,
-        "health_cap_applied": false,
-        "quality_cap_applied": false
-      },
-      "quality_factor_v2": {
-        "schema_version": "quality-factor-v2-shadow",
-        "growth_quality": 4,
-        "balance_sheet_quality": 1.3,
-        "accounting_quality": 1,
-        "governance_quality": 1,
-        "data_confidence": 50,
-        "total_score": 7.3,
-        "quality_gate_pass": true,
-        "reasons": [
-          "revenue_improving",
-          "netIncome_improving",
-          "operatingCashFlow_missing",
-          "totalDebt_missing",
-          "no_audit_risk_seen"
-        ],
-        "metrics": {
-          "revenue_yoy_pct": 23.4,
-          "net_income_yoy_pct": 53.3,
-          "operating_cash_flow_yoy_pct": null,
-          "debt_yoy_pct": null,
-          "snowflake_health": 4
-        }
-      },
-      "entry_price_inr": 1902.9,
-      "current_price_inr": 1902.9,
-      "market_cap_inr": 129770000000,
-      "market_cap_band": "medium5",
-      "data_confidence": {
-        "completeness_pct": 100,
-        "has_deep_brief": true,
-        "has_entry_price": true,
-        "has_adv": true
-      }
-    },
-    {
-      "ticker": "NITINSPIN",
-      "sector": "Consumer Durables",
-      "score_0_100": 59.9,
-      "verdict": "HIGH_CONVICTION",
-      "gate_blocked": false,
-      "gate_reasons": [],
-      "breakdown": {
-        "mcap": 8,
-        "v3_future": 6,
-        "v3_valuation": 10,
-        "fv_upside": 5,
-        "inflection": 12,
-        "sector_tailwind": 5,
-        "momentum": 8.7,
-        "liquidity_bonus": 0,
-        "health": 4.2,
-        "forward_growth": 1,
-        "story_bonus": 0,
-        "penalty_surveillance": 0,
-        "penalty_data_completeness": 0,
-        "penalty_miss_streak": 0
-      },
-      "diagnostics": {
-        "inflection": {
-          "score": 12,
-          "reasons": [
-            "ni_yoy_26.9pct_>25"
-          ],
-          "latest_growth_pct": 26.9,
-          "three_year_cagr_pct": 17.5,
-          "loss_to_profit": false,
-          "one_off_flagged": false
-        },
-        "tailwind": {
-          "pts": 5,
-          "base_weight": 5,
-          "regime_multiplier": 1,
-          "cohort_freshness": 1,
-          "cohort_exhausted": false,
-          "reasons": []
-        },
-        "story": {
-          "tags": [],
-          "score_bonus": 0
-        },
-        "pledge": {
-          "pass": true,
-          "reasons": [],
-          "matched_events": 0,
-          "source": "no_data"
-        },
-        "adv_inr_30d": null,
-        "health_cap_applied": false,
-        "quality_cap_applied": false
-      },
-      "quality_factor_v2": {
-        "schema_version": "quality-factor-v2-shadow",
-        "growth_quality": 3,
-        "balance_sheet_quality": 1.7,
-        "accounting_quality": 1,
-        "governance_quality": 1,
-        "data_confidence": 50,
-        "total_score": 6.7,
-        "quality_gate_pass": true,
-        "reasons": [
-          "revenue_stable",
-          "netIncome_improving",
-          "operatingCashFlow_missing",
-          "totalDebt_missing",
-          "no_audit_risk_seen"
-        ],
-        "metrics": {
-          "revenue_yoy_pct": 1.9,
-          "net_income_yoy_pct": 26.9,
-          "operating_cash_flow_yoy_pct": null,
-          "debt_yoy_pct": null,
-          "snowflake_health": 5
-        }
-      },
-      "entry_price_inr": 646.1,
-      "current_price_inr": 646.1,
-      "market_cap_inr": 36330000000,
-      "market_cap_band": "small3",
-      "data_confidence": {
-        "completeness_pct": 100,
-        "has_deep_brief": true,
-        "has_entry_price": true,
-        "has_adv": true
-      }
-    },
-    {
-      "ticker": "DIVGIITTS",
-      "sector": "Automobiles",
-      "score_0_100": 59.9,
-      "verdict": "HIGH_CONVICTION",
-      "gate_blocked": false,
-      "gate_reasons": [],
-      "breakdown": {
-        "mcap": 8,
-        "v3_future": 8,
-        "v3_valuation": 3.3,
-        "fv_upside": 5,
-        "inflection": 17,
-        "sector_tailwind": 5,
-        "momentum": 6.4,
-        "liquidity_bonus": 0,
-        "health": 4.2,
-        "forward_growth": 3,
-        "story_bonus": 0,
-        "penalty_surveillance": 0,
-        "penalty_data_completeness": 0,
-        "penalty_miss_streak": 0
-      },
-      "diagnostics": {
-        "inflection": {
-          "score": 17,
-          "reasons": [
-            "ni_yoy_108.9pct_>50"
-          ],
-          "latest_growth_pct": 108.9,
-          "three_year_cagr_pct": 10.7,
-          "loss_to_profit": false,
-          "one_off_flagged": false
-        },
-        "tailwind": {
-          "pts": 5,
-          "base_weight": 5,
-          "regime_multiplier": 1,
-          "cohort_freshness": 1,
-          "cohort_exhausted": false,
-          "reasons": []
-        },
-        "story": {
-          "tags": [],
-          "score_bonus": 0
-        },
-        "pledge": {
-          "pass": true,
-          "reasons": [],
-          "matched_events": 0,
-          "source": "no_data"
-        },
-        "adv_inr_30d": null,
-        "health_cap_applied": false,
-        "quality_cap_applied": false
-      },
-      "quality_factor_v2": {
-        "schema_version": "quality-factor-v2-shadow",
-        "growth_quality": 4,
-        "balance_sheet_quality": 1.7,
-        "accounting_quality": 1,
-        "governance_quality": 1,
-        "data_confidence": 50,
-        "total_score": 7.7,
-        "quality_gate_pass": true,
-        "reasons": [
-          "revenue_improving",
-          "netIncome_improving",
-          "operatingCashFlow_missing",
-          "totalDebt_missing",
-          "no_audit_risk_seen"
-        ],
-        "metrics": {
-          "revenue_yoy_pct": 57.6,
-          "net_income_yoy_pct": 108.9,
-          "operating_cash_flow_yoy_pct": null,
-          "debt_yoy_pct": null,
-          "snowflake_health": 5
-        }
-      },
-      "entry_price_inr": 944.1,
-      "current_price_inr": 944.1,
-      "market_cap_inr": 28860000000,
-      "market_cap_band": "small3",
+      "entry_price_inr": 728.1,
+      "current_price_inr": 728.1,
+      "market_cap_inr": 22930000000,
+      "market_cap_band": "micro2",
       "data_confidence": {
         "completeness_pct": 100,
         "has_deep_brief": true,
@@ -2845,7 +2479,7 @@
     {
       "ticker": "WPIL",
       "sector": "Capital Goods",
-      "score_0_100": 59.8,
+      "score_0_100": 61,
       "verdict": "HIGH_CONVICTION",
       "gate_blocked": false,
       "gate_reasons": [],
@@ -2853,10 +2487,10 @@
         "mcap": 8,
         "v3_future": 10,
         "v3_valuation": 8.3,
-        "fv_upside": 8,
+        "fv_upside": 10,
         "inflection": 0,
         "sector_tailwind": 12,
-        "momentum": 6.3,
+        "momentum": 5.5,
         "liquidity_bonus": 0,
         "health": 4.2,
         "forward_growth": 3,
@@ -2922,9 +2556,9 @@
           "snowflake_health": 5
         }
       },
-      "entry_price_inr": 436.05,
-      "current_price_inr": 436.05,
-      "market_cap_inr": 42540000000,
+      "entry_price_inr": 412.95,
+      "current_price_inr": 412.95,
+      "market_cap_inr": 40400000000,
       "market_cap_band": null,
       "data_confidence": {
         "completeness_pct": 100,
@@ -2934,115 +2568,23 @@
       }
     },
     {
-      "ticker": "TRANSRAILL",
-      "sector": "Capital Goods",
-      "score_0_100": 59.8,
-      "verdict": "HIGH_CONVICTION",
-      "gate_blocked": false,
-      "gate_reasons": [],
-      "breakdown": {
-        "mcap": 4,
-        "v3_future": 12,
-        "v3_valuation": 5,
-        "fv_upside": 10,
-        "inflection": 5,
-        "sector_tailwind": 12,
-        "momentum": 3.8,
-        "liquidity_bonus": 0,
-        "health": 5,
-        "forward_growth": 3,
-        "story_bonus": 0,
-        "penalty_surveillance": 0,
-        "penalty_data_completeness": 0,
-        "penalty_miss_streak": 0
-      },
-      "diagnostics": {
-        "inflection": {
-          "score": 5,
-          "reasons": [
-            "ni_yoy_-2.5pct_negative",
-            "3y_cagr_55.7pct_bonus_+5"
-          ],
-          "latest_growth_pct": -2.5,
-          "three_year_cagr_pct": 55.7,
-          "loss_to_profit": false,
-          "one_off_flagged": false
-        },
-        "tailwind": {
-          "pts": 12,
-          "base_weight": 12,
-          "regime_multiplier": 1,
-          "cohort_freshness": 1,
-          "cohort_exhausted": false,
-          "reasons": []
-        },
-        "story": {
-          "tags": [],
-          "score_bonus": 0
-        },
-        "pledge": {
-          "pass": true,
-          "reasons": [],
-          "matched_events": 0,
-          "source": "no_data"
-        },
-        "adv_inr_30d": null,
-        "health_cap_applied": false,
-        "quality_cap_applied": false
-      },
-      "quality_factor_v2": {
-        "schema_version": "quality-factor-v2-shadow",
-        "growth_quality": 1,
-        "balance_sheet_quality": 2,
-        "accounting_quality": 1,
-        "governance_quality": 1,
-        "data_confidence": 50,
-        "total_score": 5,
-        "quality_gate_pass": true,
-        "reasons": [
-          "revenue_stable",
-          "netIncome_deteriorating",
-          "operatingCashFlow_missing",
-          "totalDebt_missing",
-          "no_audit_risk_seen"
-        ],
-        "metrics": {
-          "revenue_yoy_pct": 6.1,
-          "net_income_yoy_pct": -2.5,
-          "operating_cash_flow_yoy_pct": null,
-          "debt_yoy_pct": null,
-          "snowflake_health": 6
-        }
-      },
-      "entry_price_inr": 450.75,
-      "current_price_inr": 450.75,
-      "market_cap_inr": 60630000000,
-      "market_cap_band": "midsmall4",
-      "data_confidence": {
-        "completeness_pct": 100,
-        "has_deep_brief": true,
-        "has_entry_price": true,
-        "has_adv": true
-      }
-    },
-    {
-      "ticker": "UJJIVANSFB",
-      "sector": "Banks",
-      "score_0_100": 59.5,
+      "ticker": "SOBHA",
+      "sector": "Diversified Financials",
+      "score_0_100": 60.5,
       "verdict": "HIGH_CONVICTION",
       "gate_blocked": false,
       "gate_reasons": [],
       "breakdown": {
         "mcap": 4,
         "v3_future": 8,
-        "v3_valuation": 6.7,
+        "v3_valuation": 5,
         "fv_upside": 8,
         "inflection": 17,
         "sector_tailwind": 5,
-        "momentum": 6.5,
+        "momentum": 4.3,
         "liquidity_bonus": 0,
-        "health": 3.3,
-        "forward_growth": 1,
+        "health": 4.2,
+        "forward_growth": 5,
         "story_bonus": 0,
         "penalty_surveillance": 0,
         "penalty_data_completeness": 0,
@@ -3052,10 +2594,10 @@
         "inflection": {
           "score": 17,
           "reasons": [
-            "ni_yoy_71.5pct_>50"
+            "ni_yoy_88.4pct_>50"
           ],
-          "latest_growth_pct": 71.5,
-          "three_year_cagr_pct": -8.9,
+          "latest_growth_pct": 88.4,
+          "three_year_cagr_pct": 15.1,
           "loss_to_profit": false,
           "one_off_flagged": false
         },
@@ -3075,8 +2617,7 @@
           "pass": true,
           "reasons": [],
           "matched_events": 0,
-          "source": "text_scan",
-          "sample_subjects": []
+          "source": "no_data"
         },
         "adv_inr_30d": null,
         "health_cap_applied": false,
@@ -3085,11 +2626,11 @@
       "quality_factor_v2": {
         "schema_version": "quality-factor-v2-shadow",
         "growth_quality": 4,
-        "balance_sheet_quality": 1.3,
+        "balance_sheet_quality": 1.7,
         "accounting_quality": 1,
         "governance_quality": 1,
         "data_confidence": 50,
-        "total_score": 7.3,
+        "total_score": 7.7,
         "quality_gate_pass": true,
         "reasons": [
           "revenue_improving",
@@ -3099,293 +2640,17 @@
           "no_audit_risk_seen"
         ],
         "metrics": {
-          "revenue_yoy_pct": 28.7,
-          "net_income_yoy_pct": 71.5,
+          "revenue_yoy_pct": 40.7,
+          "net_income_yoy_pct": 88.4,
           "operating_cash_flow_yoy_pct": null,
           "debt_yoy_pct": null,
-          "snowflake_health": 4
+          "snowflake_health": 5
         }
       },
-      "entry_price_inr": 63.2,
-      "current_price_inr": 63.2,
-      "market_cap_inr": 123350000000,
+      "entry_price_inr": 1196.1,
+      "current_price_inr": 1196.1,
+      "market_cap_inr": 127840000000,
       "market_cap_band": "medium5",
-      "data_confidence": {
-        "completeness_pct": 100,
-        "has_deep_brief": true,
-        "has_entry_price": true,
-        "has_adv": true
-      }
-    },
-    {
-      "ticker": "ZAGGLE",
-      "sector": "Software",
-      "score_0_100": 59.5,
-      "verdict": "HIGH_CONVICTION",
-      "gate_blocked": false,
-      "gate_reasons": [],
-      "breakdown": {
-        "mcap": 8,
-        "v3_future": 10,
-        "v3_valuation": 5,
-        "fv_upside": 10,
-        "inflection": 11,
-        "sector_tailwind": 5,
-        "momentum": 1.3,
-        "liquidity_bonus": 0,
-        "health": 4.2,
-        "forward_growth": 5,
-        "story_bonus": 0,
-        "penalty_surveillance": 0,
-        "penalty_data_completeness": 0,
-        "penalty_miss_streak": 0
-      },
-      "diagnostics": {
-        "inflection": {
-          "score": 11,
-          "reasons": [
-            "ni_yoy_15.7pct_>0",
-            "3y_cagr_78.2pct_bonus_+5"
-          ],
-          "latest_growth_pct": 15.7,
-          "three_year_cagr_pct": 78.2,
-          "loss_to_profit": false,
-          "one_off_flagged": false
-        },
-        "tailwind": {
-          "pts": 5,
-          "base_weight": 5,
-          "regime_multiplier": 1,
-          "cohort_freshness": 1,
-          "cohort_exhausted": false,
-          "reasons": []
-        },
-        "story": {
-          "tags": [],
-          "score_bonus": 0
-        },
-        "pledge": {
-          "pass": true,
-          "reasons": [],
-          "matched_events": 0,
-          "source": "no_data"
-        },
-        "adv_inr_30d": null,
-        "health_cap_applied": false,
-        "quality_cap_applied": false
-      },
-      "quality_factor_v2": {
-        "schema_version": "quality-factor-v2-shadow",
-        "growth_quality": 3,
-        "balance_sheet_quality": 1.7,
-        "accounting_quality": 1,
-        "governance_quality": 1,
-        "data_confidence": 50,
-        "total_score": 6.7,
-        "quality_gate_pass": true,
-        "reasons": [
-          "revenue_improving",
-          "netIncome_stable",
-          "operatingCashFlow_missing",
-          "totalDebt_missing",
-          "no_audit_risk_seen"
-        ],
-        "metrics": {
-          "revenue_yoy_pct": 31.8,
-          "net_income_yoy_pct": 15.7,
-          "operating_cash_flow_yoy_pct": null,
-          "debt_yoy_pct": null,
-          "snowflake_health": 5
-        }
-      },
-      "entry_price_inr": 162.78,
-      "current_price_inr": 162.78,
-      "market_cap_inr": 21900000000,
-      "market_cap_band": "micro2",
-      "data_confidence": {
-        "completeness_pct": 100,
-        "has_deep_brief": true,
-        "has_entry_price": true,
-        "has_adv": true
-      }
-    },
-    {
-      "ticker": "DIAMONDYD",
-      "sector": "Food, Beverage & Tobacco",
-      "score_0_100": 59,
-      "verdict": "HIGH_CONVICTION",
-      "gate_blocked": false,
-      "gate_reasons": [],
-      "breakdown": {
-        "mcap": 8,
-        "v3_future": 8,
-        "v3_valuation": 3.3,
-        "fv_upside": 3,
-        "inflection": 17,
-        "sector_tailwind": 5,
-        "momentum": 5.5,
-        "liquidity_bonus": 0,
-        "health": 4.2,
-        "forward_growth": 5,
-        "story_bonus": 0,
-        "penalty_surveillance": 0,
-        "penalty_data_completeness": 0,
-        "penalty_miss_streak": 0
-      },
-      "diagnostics": {
-        "inflection": {
-          "score": 17,
-          "reasons": [
-            "loss_to_profit_flip"
-          ],
-          "latest_growth_pct": null,
-          "three_year_cagr_pct": null,
-          "loss_to_profit": true,
-          "one_off_flagged": false
-        },
-        "tailwind": {
-          "pts": 5,
-          "base_weight": 5,
-          "regime_multiplier": 1,
-          "cohort_freshness": 1,
-          "cohort_exhausted": false,
-          "reasons": []
-        },
-        "story": {
-          "tags": [],
-          "score_bonus": 0
-        },
-        "pledge": {
-          "pass": true,
-          "reasons": [],
-          "matched_events": 0,
-          "source": "no_data"
-        },
-        "adv_inr_30d": null,
-        "health_cap_applied": false,
-        "quality_cap_applied": false
-      },
-      "quality_factor_v2": {
-        "schema_version": "quality-factor-v2-shadow",
-        "growth_quality": 3,
-        "balance_sheet_quality": 1.7,
-        "accounting_quality": 1,
-        "governance_quality": 1,
-        "data_confidence": 50,
-        "total_score": 6.7,
-        "quality_gate_pass": true,
-        "reasons": [
-          "revenue_stable",
-          "netIncome_improving",
-          "operatingCashFlow_missing",
-          "totalDebt_missing",
-          "no_audit_risk_seen"
-        ],
-        "metrics": {
-          "revenue_yoy_pct": 1.6,
-          "net_income_yoy_pct": 122.6,
-          "operating_cash_flow_yoy_pct": null,
-          "debt_yoy_pct": null,
-          "snowflake_health": 5
-        }
-      },
-      "entry_price_inr": 1051.1,
-      "current_price_inr": 1051.1,
-      "market_cap_inr": 24940000000,
-      "market_cap_band": "micro2",
-      "data_confidence": {
-        "completeness_pct": 100,
-        "has_deep_brief": true,
-        "has_entry_price": true,
-        "has_adv": true
-      }
-    },
-    {
-      "ticker": "RRKABEL",
-      "sector": "Capital Goods",
-      "score_0_100": 58.9,
-      "verdict": "HARD_REJECT",
-      "gate_blocked": true,
-      "gate_reasons": [
-        "audit_quality_flag"
-      ],
-      "breakdown": {
-        "mcap": 0,
-        "v3_future": 8,
-        "v3_valuation": 3.3,
-        "fv_upside": 5,
-        "inflection": 17,
-        "sector_tailwind": 12,
-        "momentum": 7.6,
-        "liquidity_bonus": 0,
-        "health": 5,
-        "forward_growth": 1,
-        "story_bonus": 0,
-        "penalty_surveillance": 0,
-        "penalty_data_completeness": 0,
-        "penalty_miss_streak": 0
-      },
-      "diagnostics": {
-        "inflection": {
-          "score": 17,
-          "reasons": [
-            "ni_yoy_51.3pct_>50"
-          ],
-          "latest_growth_pct": 51.3,
-          "three_year_cagr_pct": 28.7,
-          "loss_to_profit": false,
-          "one_off_flagged": false
-        },
-        "tailwind": {
-          "pts": 12,
-          "base_weight": 12,
-          "regime_multiplier": 1,
-          "cohort_freshness": 1,
-          "cohort_exhausted": false,
-          "reasons": []
-        },
-        "story": {
-          "tags": [],
-          "score_bonus": 0
-        },
-        "pledge": {
-          "pass": true,
-          "reasons": [],
-          "matched_events": 0,
-          "source": "no_data"
-        },
-        "adv_inr_30d": null,
-        "health_cap_applied": false,
-        "quality_cap_applied": false
-      },
-      "quality_factor_v2": {
-        "schema_version": "quality-factor-v2-shadow",
-        "growth_quality": 4,
-        "balance_sheet_quality": 2,
-        "accounting_quality": 0,
-        "governance_quality": 0,
-        "data_confidence": 50,
-        "total_score": 6,
-        "quality_gate_pass": false,
-        "reasons": [
-          "revenue_improving",
-          "netIncome_improving",
-          "operatingCashFlow_missing",
-          "totalDebt_missing",
-          "audit_or_restatement_risk"
-        ],
-        "metrics": {
-          "revenue_yoy_pct": 31.7,
-          "net_income_yoy_pct": 51.3,
-          "operating_cash_flow_yoy_pct": null,
-          "debt_yoy_pct": null,
-          "snowflake_health": 6
-        }
-      },
-      "entry_price_inr": 2387.8,
-      "current_price_inr": 2387.8,
-      "market_cap_inr": 269970000000,
-      "market_cap_band": "midlarge6",
       "data_confidence": {
         "completeness_pct": 100,
         "has_deep_brief": true,
@@ -3396,7 +2661,7 @@
     {
       "ticker": "STYLAMIND",
       "sector": "Capital Goods",
-      "score_0_100": 58.9,
+      "score_0_100": 60.5,
       "verdict": "HIGH_CONVICTION",
       "gate_blocked": false,
       "gate_reasons": [],
@@ -3404,10 +2669,10 @@
         "mcap": 4,
         "v3_future": 8,
         "v3_valuation": 1.7,
-        "fv_upside": 3,
+        "fv_upside": 5,
         "inflection": 17,
         "sector_tailwind": 12,
-        "momentum": 7.2,
+        "momentum": 6.8,
         "liquidity_bonus": 0,
         "health": 5,
         "forward_growth": 1,
@@ -3474,102 +2739,10 @@
           "snowflake_health": 6
         }
       },
-      "entry_price_inr": 3305.2,
-      "current_price_inr": 3305.2,
-      "market_cap_inr": 55990000000,
+      "entry_price_inr": 3120.8,
+      "current_price_inr": 3120.8,
+      "market_cap_inr": 52850000000,
       "market_cap_band": "small3",
-      "data_confidence": {
-        "completeness_pct": 100,
-        "has_deep_brief": true,
-        "has_entry_price": true,
-        "has_adv": true
-      }
-    },
-    {
-      "ticker": "SHARDACROP",
-      "sector": "Materials",
-      "score_0_100": 58.5,
-      "verdict": "HIGH_CONVICTION",
-      "gate_blocked": false,
-      "gate_reasons": [],
-      "breakdown": {
-        "mcap": 4,
-        "v3_future": 4,
-        "v3_valuation": 10,
-        "fv_upside": 10,
-        "inflection": 17,
-        "sector_tailwind": 5,
-        "momentum": 3.5,
-        "liquidity_bonus": 0,
-        "health": 5,
-        "forward_growth": 0,
-        "story_bonus": 0,
-        "penalty_surveillance": 0,
-        "penalty_data_completeness": 0,
-        "penalty_miss_streak": 0
-      },
-      "diagnostics": {
-        "inflection": {
-          "score": 17,
-          "reasons": [
-            "ni_yoy_38.6pct_>25",
-            "3y_cagr_48.5pct_bonus_+5"
-          ],
-          "latest_growth_pct": 38.6,
-          "three_year_cagr_pct": 48.5,
-          "loss_to_profit": false,
-          "one_off_flagged": false
-        },
-        "tailwind": {
-          "pts": 5,
-          "base_weight": 5,
-          "regime_multiplier": 1,
-          "cohort_freshness": 1,
-          "cohort_exhausted": false,
-          "reasons": []
-        },
-        "story": {
-          "tags": [],
-          "score_bonus": 0
-        },
-        "pledge": {
-          "pass": true,
-          "reasons": [],
-          "matched_events": 0,
-          "source": "no_data"
-        },
-        "adv_inr_30d": null,
-        "health_cap_applied": false,
-        "quality_cap_applied": false
-      },
-      "quality_factor_v2": {
-        "schema_version": "quality-factor-v2-shadow",
-        "growth_quality": 3,
-        "balance_sheet_quality": 2,
-        "accounting_quality": 1,
-        "governance_quality": 1,
-        "data_confidence": 50,
-        "total_score": 7,
-        "quality_gate_pass": true,
-        "reasons": [
-          "revenue_stable",
-          "netIncome_improving",
-          "operatingCashFlow_missing",
-          "totalDebt_missing",
-          "no_audit_risk_seen"
-        ],
-        "metrics": {
-          "revenue_yoy_pct": 13.1,
-          "net_income_yoy_pct": 38.6,
-          "operating_cash_flow_yoy_pct": null,
-          "debt_yoy_pct": null,
-          "snowflake_health": 6
-        }
-      },
-      "entry_price_inr": 699.8,
-      "current_price_inr": 699.8,
-      "market_cap_inr": 63140000000,
-      "market_cap_band": "midsmall4",
       "data_confidence": {
         "completeness_pct": 100,
         "has_deep_brief": true,
@@ -3580,7 +2753,7 @@
     {
       "ticker": "IIFL",
       "sector": "Diversified Financials",
-      "score_0_100": 58,
+      "score_0_100": 60.2,
       "verdict": "HIGH_CONVICTION",
       "gate_blocked": false,
       "gate_reasons": [],
@@ -3588,10 +2761,10 @@
         "mcap": 0,
         "v3_future": 8,
         "v3_valuation": 10,
-        "fv_upside": 5,
+        "fv_upside": 8,
         "inflection": 17,
         "sector_tailwind": 5,
-        "momentum": 7.5,
+        "momentum": 6.7,
         "liquidity_bonus": 0,
         "health": 2.5,
         "forward_growth": 3,
@@ -3657,9 +2830,9 @@
           "snowflake_health": 3
         }
       },
-      "entry_price_inr": 612.5,
-      "current_price_inr": 612.5,
-      "market_cap_inr": 261380000000,
+      "entry_price_inr": 567.9,
+      "current_price_inr": 567.9,
+      "market_cap_inr": 242980000000,
       "market_cap_band": "midlarge6",
       "data_confidence": {
         "completeness_pct": 100,
@@ -3669,22 +2842,22 @@
       }
     },
     {
-      "ticker": "SIGNATURE",
-      "sector": "Diversified Financials",
-      "score_0_100": 58,
+      "ticker": "TECHNOE",
+      "sector": "Capital Goods",
+      "score_0_100": 60.1,
       "verdict": "HIGH_CONVICTION",
       "gate_blocked": false,
       "gate_reasons": [],
       "breakdown": {
         "mcap": 4,
-        "v3_future": 6,
-        "v3_valuation": 6.7,
+        "v3_future": 10,
+        "v3_valuation": 3.3,
         "fv_upside": 10,
-        "inflection": 17,
-        "sector_tailwind": 5,
-        "momentum": 3,
+        "inflection": 11,
+        "sector_tailwind": 12,
+        "momentum": 2.6,
         "liquidity_bonus": 0,
-        "health": 3.3,
+        "health": 4.2,
         "forward_growth": 3,
         "story_bonus": 0,
         "penalty_surveillance": 0,
@@ -3693,12 +2866,104 @@
       },
       "diagnostics": {
         "inflection": {
-          "score": 17,
+          "score": 11,
           "reasons": [
-            "ni_yoy_750.3pct_>50"
+            "ni_yoy_3pct_>0",
+            "3y_cagr_65.5pct_bonus_+5"
           ],
-          "latest_growth_pct": 750.3,
-          "three_year_cagr_pct": null,
+          "latest_growth_pct": 3,
+          "three_year_cagr_pct": 65.5,
+          "loss_to_profit": false,
+          "one_off_flagged": false
+        },
+        "tailwind": {
+          "pts": 12,
+          "base_weight": 12,
+          "regime_multiplier": 1,
+          "cohort_freshness": 1,
+          "cohort_exhausted": false,
+          "reasons": []
+        },
+        "story": {
+          "tags": [],
+          "score_bonus": 0
+        },
+        "pledge": {
+          "pass": true,
+          "reasons": [],
+          "matched_events": 0,
+          "source": "no_data"
+        },
+        "adv_inr_30d": null,
+        "health_cap_applied": false,
+        "quality_cap_applied": false
+      },
+      "quality_factor_v2": {
+        "schema_version": "quality-factor-v2-shadow",
+        "growth_quality": 3,
+        "balance_sheet_quality": 1.7,
+        "accounting_quality": 1,
+        "governance_quality": 1,
+        "data_confidence": 50,
+        "total_score": 6.7,
+        "quality_gate_pass": true,
+        "reasons": [
+          "revenue_improving",
+          "netIncome_stable",
+          "operatingCashFlow_missing",
+          "totalDebt_missing",
+          "no_audit_risk_seen"
+        ],
+        "metrics": {
+          "revenue_yoy_pct": 34.4,
+          "net_income_yoy_pct": 3,
+          "operating_cash_flow_yoy_pct": null,
+          "debt_yoy_pct": null,
+          "snowflake_health": 5
+        }
+      },
+      "entry_price_inr": 869.4,
+      "current_price_inr": 869.4,
+      "market_cap_inr": 101060000000,
+      "market_cap_band": "midsmall4",
+      "data_confidence": {
+        "completeness_pct": 100,
+        "has_deep_brief": true,
+        "has_entry_price": true,
+        "has_adv": true
+      }
+    },
+    {
+      "ticker": "NITINSPIN",
+      "sector": "Consumer Durables",
+      "score_0_100": 60,
+      "verdict": "HIGH_CONVICTION",
+      "gate_blocked": false,
+      "gate_reasons": [],
+      "breakdown": {
+        "mcap": 8,
+        "v3_future": 6,
+        "v3_valuation": 10,
+        "fv_upside": 5,
+        "inflection": 12,
+        "sector_tailwind": 5,
+        "momentum": 8.8,
+        "liquidity_bonus": 0,
+        "health": 4.2,
+        "forward_growth": 1,
+        "story_bonus": 0,
+        "penalty_surveillance": 0,
+        "penalty_data_completeness": 0,
+        "penalty_miss_streak": 0
+      },
+      "diagnostics": {
+        "inflection": {
+          "score": 12,
+          "reasons": [
+            "ni_yoy_26.9pct_>25"
+          ],
+          "latest_growth_pct": 26.9,
+          "three_year_cagr_pct": 17.5,
           "loss_to_profit": false,
           "one_off_flagged": false
         },
@@ -3726,32 +2991,32 @@
       },
       "quality_factor_v2": {
         "schema_version": "quality-factor-v2-shadow",
-        "growth_quality": 2,
-        "balance_sheet_quality": 1.3,
+        "growth_quality": 3,
+        "balance_sheet_quality": 1.7,
         "accounting_quality": 1,
         "governance_quality": 1,
         "data_confidence": 50,
-        "total_score": 5.3,
+        "total_score": 6.7,
         "quality_gate_pass": true,
         "reasons": [
-          "revenue_deteriorating",
+          "revenue_stable",
           "netIncome_improving",
           "operatingCashFlow_missing",
           "totalDebt_missing",
           "no_audit_risk_seen"
         ],
         "metrics": {
-          "revenue_yoy_pct": -12.4,
-          "net_income_yoy_pct": 750.3,
+          "revenue_yoy_pct": 1.9,
+          "net_income_yoy_pct": 26.9,
           "operating_cash_flow_yoy_pct": null,
           "debt_yoy_pct": null,
-          "snowflake_health": 4
+          "snowflake_health": 5
         }
       },
-      "entry_price_inr": 718.8,
-      "current_price_inr": 718.8,
-      "market_cap_inr": 100980000000,
-      "market_cap_band": "midsmall4",
+      "entry_price_inr": 622.95,
+      "current_price_inr": 622.95,
+      "market_cap_inr": 35070000000,
+      "market_cap_band": "small3",
       "data_confidence": {
         "completeness_pct": 100,
         "has_deep_brief": true,
@@ -3760,9 +3025,101 @@
       }
     },
     {
+      "ticker": "FIRSTCRY",
+      "sector": "Retail",
+      "score_0_100": 59.9,
+      "verdict": "HIGH_CONVICTION",
+      "gate_blocked": false,
+      "gate_reasons": [],
+      "breakdown": {
+        "mcap": 4,
+        "v3_future": 8,
+        "v3_valuation": 6.7,
+        "fv_upside": 8,
+        "inflection": 17,
+        "sector_tailwind": 5,
+        "momentum": 2,
+        "liquidity_bonus": 0,
+        "health": 4.2,
+        "forward_growth": 5,
+        "story_bonus": 0,
+        "penalty_surveillance": 0,
+        "penalty_data_completeness": 0,
+        "penalty_miss_streak": 0
+      },
+      "diagnostics": {
+        "inflection": {
+          "score": 17,
+          "reasons": [
+            "loss_to_profit_flip"
+          ],
+          "latest_growth_pct": null,
+          "three_year_cagr_pct": null,
+          "loss_to_profit": true,
+          "one_off_flagged": false
+        },
+        "tailwind": {
+          "pts": 5,
+          "base_weight": 5,
+          "regime_multiplier": 1,
+          "cohort_freshness": 1,
+          "cohort_exhausted": false,
+          "reasons": []
+        },
+        "story": {
+          "tags": [],
+          "score_bonus": 0
+        },
+        "pledge": {
+          "pass": true,
+          "reasons": [],
+          "matched_events": 0,
+          "source": "text_scan",
+          "sample_subjects": []
+        },
+        "adv_inr_30d": null,
+        "health_cap_applied": false,
+        "quality_cap_applied": false
+      },
+      "quality_factor_v2": {
+        "schema_version": "quality-factor-v2-shadow",
+        "growth_quality": 3,
+        "balance_sheet_quality": 1.7,
+        "accounting_quality": 1,
+        "governance_quality": 1,
+        "data_confidence": 50,
+        "total_score": 6.7,
+        "quality_gate_pass": true,
+        "reasons": [
+          "revenue_stable",
+          "netIncome_improving",
+          "operatingCashFlow_missing",
+          "totalDebt_missing",
+          "no_audit_risk_seen"
+        ],
+        "metrics": {
+          "revenue_yoy_pct": 9,
+          "net_income_yoy_pct": 100,
+          "operating_cash_flow_yoy_pct": null,
+          "debt_yoy_pct": null,
+          "snowflake_health": 5
+        }
+      },
+      "entry_price_inr": 166.84,
+      "current_price_inr": 166.84,
+      "market_cap_inr": 87110000000,
+      "market_cap_band": "midsmall4",
+      "data_confidence": {
+        "completeness_pct": 92,
+        "has_deep_brief": true,
+        "has_entry_price": true,
+        "has_adv": true
+      }
+    },
+    {
       "ticker": "AURUM",
       "sector": "Software",
-      "score_0_100": 57.9,
+      "score_0_100": 59.9,
       "verdict": "HIGH_CONVICTION",
       "gate_blocked": false,
       "gate_reasons": [],
@@ -3770,7 +3127,7 @@
         "mcap": 8,
         "v3_future": 4,
         "v3_valuation": 1.7,
-        "fv_upside": 8,
+        "fv_upside": 10,
         "inflection": 17,
         "sector_tailwind": 5,
         "momentum": 6.7,
@@ -3840,9 +3197,9 @@
           "snowflake_health": 3
         }
       },
-      "entry_price_inr": 220.02,
-      "current_price_inr": 220.02,
-      "market_cap_inr": 15850000000,
+      "entry_price_inr": 212.69,
+      "current_price_inr": 212.69,
+      "market_cap_inr": 15390000000,
       "market_cap_band": "micro2",
       "data_confidence": {
         "completeness_pct": 100,
@@ -3852,23 +3209,23 @@
       }
     },
     {
-      "ticker": "SHADOWFAX",
-      "sector": "Transportation",
-      "score_0_100": 57.6,
+      "ticker": "LUMAXTECH",
+      "sector": "Automobiles",
+      "score_0_100": 59.8,
       "verdict": "HIGH_CONVICTION",
       "gate_blocked": false,
       "gate_reasons": [],
       "breakdown": {
         "mcap": 4,
         "v3_future": 10,
-        "v3_valuation": 0,
-        "fv_upside": 3,
+        "v3_valuation": 5,
+        "fv_upside": 5,
         "inflection": 17,
         "sector_tailwind": 5,
-        "momentum": 9.4,
+        "momentum": 7.5,
         "liquidity_bonus": 0,
-        "health": 4.2,
-        "forward_growth": 5,
+        "health": 3.3,
+        "forward_growth": 3,
         "story_bonus": 0,
         "penalty_surveillance": 0,
         "penalty_data_completeness": 0,
@@ -3878,10 +3235,102 @@
         "inflection": {
           "score": 17,
           "reasons": [
-            "ni_yoy_859.3pct_>50"
+            "ni_yoy_53.3pct_>50",
+            "3y_cagr_52.4pct_bonus_+5"
           ],
-          "latest_growth_pct": 859.3,
-          "three_year_cagr_pct": null,
+          "latest_growth_pct": 53.3,
+          "three_year_cagr_pct": 52.4,
+          "loss_to_profit": false,
+          "one_off_flagged": false
+        },
+        "tailwind": {
+          "pts": 5,
+          "base_weight": 5,
+          "regime_multiplier": 1,
+          "cohort_freshness": 1,
+          "cohort_exhausted": false,
+          "reasons": []
+        },
+        "story": {
+          "tags": [],
+          "score_bonus": 0
+        },
+        "pledge": {
+          "pass": true,
+          "reasons": [],
+          "matched_events": 0,
+          "source": "no_data"
+        },
+        "adv_inr_30d": null,
+        "health_cap_applied": false,
+        "quality_cap_applied": false
+      },
+      "quality_factor_v2": {
+        "schema_version": "quality-factor-v2-shadow",
+        "growth_quality": 4,
+        "balance_sheet_quality": 1.3,
+        "accounting_quality": 1,
+        "governance_quality": 1,
+        "data_confidence": 50,
+        "total_score": 7.3,
+        "quality_gate_pass": true,
+        "reasons": [
+          "revenue_improving",
+          "netIncome_improving",
+          "operatingCashFlow_missing",
+          "totalDebt_missing",
+          "no_audit_risk_seen"
+        ],
+        "metrics": {
+          "revenue_yoy_pct": 23.4,
+          "net_income_yoy_pct": 53.3,
+          "operating_cash_flow_yoy_pct": null,
+          "debt_yoy_pct": null,
+          "snowflake_health": 4
+        }
+      },
+      "entry_price_inr": 1817.4,
+      "current_price_inr": 1817.4,
+      "market_cap_inr": 123910000000,
+      "market_cap_band": "medium5",
+      "data_confidence": {
+        "completeness_pct": 100,
+        "has_deep_brief": true,
+        "has_entry_price": true,
+        "has_adv": true
+      }
+    },
+    {
+      "ticker": "DIVGIITTS",
+      "sector": "Automobiles",
+      "score_0_100": 59.8,
+      "verdict": "HIGH_CONVICTION",
+      "gate_blocked": false,
+      "gate_reasons": [],
+      "breakdown": {
+        "mcap": 8,
+        "v3_future": 8,
+        "v3_valuation": 3.3,
+        "fv_upside": 5,
+        "inflection": 17,
+        "sector_tailwind": 5,
+        "momentum": 6.3,
+        "liquidity_bonus": 0,
+        "health": 4.2,
+        "forward_growth": 3,
+        "story_bonus": 0,
+        "penalty_surveillance": 0,
+        "penalty_data_completeness": 0,
+        "penalty_miss_streak": 0
+      },
+      "diagnostics": {
+        "inflection": {
+          "score": 17,
+          "reasons": [
+            "ni_yoy_108.9pct_>50"
+          ],
+          "latest_growth_pct": 108.9,
+          "three_year_cagr_pct": 10.7,
           "loss_to_profit": false,
           "one_off_flagged": false
         },
@@ -3924,17 +3373,17 @@
           "no_audit_risk_seen"
         ],
         "metrics": {
-          "revenue_yoy_pct": 47.2,
-          "net_income_yoy_pct": 859.3,
+          "revenue_yoy_pct": 57.6,
+          "net_income_yoy_pct": 108.9,
           "operating_cash_flow_yoy_pct": null,
           "debt_yoy_pct": null,
           "snowflake_health": 5
         }
       },
-      "entry_price_inr": 284.25,
-      "current_price_inr": 284.25,
-      "market_cap_inr": 166810000000,
-      "market_cap_band": "medium5",
+      "entry_price_inr": 921.4,
+      "current_price_inr": 921.4,
+      "market_cap_inr": 28120000000,
+      "market_cap_band": "micro2",
       "data_confidence": {
         "completeness_pct": 100,
         "has_deep_brief": true,
@@ -3943,205 +3392,22 @@
       }
     },
     {
-      "ticker": "PRICOLLTD",
-      "sector": "Automobiles",
-      "score_0_100": 57.1,
-      "verdict": "HIGH_CONVICTION",
-      "gate_blocked": false,
-      "gate_reasons": [],
-      "breakdown": {
-        "mcap": 4,
-        "v3_future": 10,
-        "v3_valuation": 1.7,
-        "fv_upside": 5,
-        "inflection": 17,
-        "sector_tailwind": 5,
-        "momentum": 6.4,
-        "liquidity_bonus": 0,
-        "health": 5,
-        "forward_growth": 3,
-        "story_bonus": 0,
-        "penalty_surveillance": 0,
-        "penalty_data_completeness": 0,
-        "penalty_miss_streak": 0
-      },
-      "diagnostics": {
-        "inflection": {
-          "score": 17,
-          "reasons": [
-            "ni_yoy_40.8pct_>25",
-            "3y_cagr_30.1pct_bonus_+5"
-          ],
-          "latest_growth_pct": 40.8,
-          "three_year_cagr_pct": 30.1,
-          "loss_to_profit": false,
-          "one_off_flagged": false
-        },
-        "tailwind": {
-          "pts": 5,
-          "base_weight": 5,
-          "regime_multiplier": 1,
-          "cohort_freshness": 1,
-          "cohort_exhausted": false,
-          "reasons": []
-        },
-        "story": {
-          "tags": [],
-          "score_bonus": 0
-        },
-        "pledge": {
-          "pass": true,
-          "reasons": [],
-          "matched_events": 0,
-          "source": "no_data"
-        },
-        "adv_inr_30d": null,
-        "health_cap_applied": false,
-        "quality_cap_applied": false
-      },
-      "quality_factor_v2": {
-        "schema_version": "quality-factor-v2-shadow",
-        "growth_quality": 4,
-        "balance_sheet_quality": 2,
-        "accounting_quality": 1,
-        "governance_quality": 1,
-        "data_confidence": 50,
-        "total_score": 8,
-        "quality_gate_pass": true,
-        "reasons": [
-          "revenue_improving",
-          "netIncome_improving",
-          "operatingCashFlow_missing",
-          "totalDebt_missing",
-          "no_audit_risk_seen"
-        ],
-        "metrics": {
-          "revenue_yoy_pct": 28.6,
-          "net_income_yoy_pct": 40.8,
-          "operating_cash_flow_yoy_pct": null,
-          "debt_yoy_pct": null,
-          "snowflake_health": 6
-        }
-      },
-      "entry_price_inr": 662.7,
-      "current_price_inr": 662.7,
-      "market_cap_inr": 80720000000,
-      "market_cap_band": "midsmall4",
-      "data_confidence": {
-        "completeness_pct": 100,
-        "has_deep_brief": true,
-        "has_entry_price": true,
-        "has_adv": true
-      }
-    },
-    {
-      "ticker": "CAPITALSFB",
-      "sector": "Banks",
-      "score_0_100": 56.9,
+      "ticker": "DIAMONDYD",
+      "sector": "Food, Beverage & Tobacco",
+      "score_0_100": 59.6,
       "verdict": "HIGH_CONVICTION",
       "gate_blocked": false,
       "gate_reasons": [],
       "breakdown": {
         "mcap": 8,
-        "v3_future": 10,
-        "v3_valuation": 6.7,
-        "fv_upside": 10,
-        "inflection": 6,
-        "sector_tailwind": 5,
-        "momentum": 4.9,
-        "liquidity_bonus": 0,
-        "health": 3.3,
-        "forward_growth": 3,
-        "story_bonus": 0,
-        "penalty_surveillance": 0,
-        "penalty_data_completeness": 0,
-        "penalty_miss_streak": 0
-      },
-      "diagnostics": {
-        "inflection": {
-          "score": 6,
-          "reasons": [
-            "ni_yoy_7.6pct_>0"
-          ],
-          "latest_growth_pct": 7.6,
-          "three_year_cagr_pct": 15.3,
-          "loss_to_profit": false,
-          "one_off_flagged": false
-        },
-        "tailwind": {
-          "pts": 5,
-          "base_weight": 5,
-          "regime_multiplier": 1,
-          "cohort_freshness": 1,
-          "cohort_exhausted": false,
-          "reasons": []
-        },
-        "story": {
-          "tags": [],
-          "score_bonus": 0
-        },
-        "pledge": {
-          "pass": true,
-          "reasons": [],
-          "matched_events": 0,
-          "source": "no_data"
-        },
-        "adv_inr_30d": null,
-        "health_cap_applied": false,
-        "quality_cap_applied": false
-      },
-      "quality_factor_v2": {
-        "schema_version": "quality-factor-v2-shadow",
-        "growth_quality": 2,
-        "balance_sheet_quality": 1.3,
-        "accounting_quality": 1,
-        "governance_quality": 1,
-        "data_confidence": 50,
-        "total_score": 5.3,
-        "quality_gate_pass": true,
-        "reasons": [
-          "revenue_stable",
-          "netIncome_stable",
-          "operatingCashFlow_missing",
-          "totalDebt_missing",
-          "no_audit_risk_seen"
-        ],
-        "metrics": {
-          "revenue_yoy_pct": 7.7,
-          "net_income_yoy_pct": 7.6,
-          "operating_cash_flow_yoy_pct": null,
-          "debt_yoy_pct": null,
-          "snowflake_health": 4
-        }
-      },
-      "entry_price_inr": 267.85,
-      "current_price_inr": 267.85,
-      "market_cap_inr": 12210000000,
-      "market_cap_band": "nano1",
-      "data_confidence": {
-        "completeness_pct": 100,
-        "has_deep_brief": true,
-        "has_entry_price": true,
-        "has_adv": true
-      }
-    },
-    {
-      "ticker": "SOBHA",
-      "sector": "Diversified Financials",
-      "score_0_100": 56.9,
-      "verdict": "HIGH_CONVICTION",
-      "gate_blocked": false,
-      "gate_reasons": [],
-      "breakdown": {
-        "mcap": 4,
         "v3_future": 8,
-        "v3_valuation": 1.7,
-        "fv_upside": 8,
+        "v3_valuation": 3.3,
+        "fv_upside": 3,
         "inflection": 17,
         "sector_tailwind": 5,
-        "momentum": 3.2,
+        "momentum": 6.1,
         "liquidity_bonus": 0,
-        "health": 5,
+        "health": 4.2,
         "forward_growth": 5,
         "story_bonus": 0,
         "penalty_surveillance": 0,
@@ -4152,103 +3418,11 @@
         "inflection": {
           "score": 17,
           "reasons": [
-            "ni_yoy_88.4pct_>50"
+            "loss_to_profit_flip"
           ],
-          "latest_growth_pct": 88.4,
-          "three_year_cagr_pct": 15.1,
-          "loss_to_profit": false,
-          "one_off_flagged": false
-        },
-        "tailwind": {
-          "pts": 5,
-          "base_weight": 5,
-          "regime_multiplier": 1,
-          "cohort_freshness": 1,
-          "cohort_exhausted": false,
-          "reasons": []
-        },
-        "story": {
-          "tags": [],
-          "score_bonus": 0
-        },
-        "pledge": {
-          "pass": true,
-          "reasons": [],
-          "matched_events": 0,
-          "source": "no_data"
-        },
-        "adv_inr_30d": null,
-        "health_cap_applied": false,
-        "quality_cap_applied": false
-      },
-      "quality_factor_v2": {
-        "schema_version": "quality-factor-v2-shadow",
-        "growth_quality": 4,
-        "balance_sheet_quality": 2,
-        "accounting_quality": 1,
-        "governance_quality": 1,
-        "data_confidence": 50,
-        "total_score": 8,
-        "quality_gate_pass": true,
-        "reasons": [
-          "revenue_improving",
-          "netIncome_improving",
-          "operatingCashFlow_missing",
-          "totalDebt_missing",
-          "no_audit_risk_seen"
-        ],
-        "metrics": {
-          "revenue_yoy_pct": 40.7,
-          "net_income_yoy_pct": 88.4,
-          "operating_cash_flow_yoy_pct": null,
-          "debt_yoy_pct": null,
-          "snowflake_health": 6
-        }
-      },
-      "entry_price_inr": 1176,
-      "current_price_inr": 1176,
-      "market_cap_inr": 125590000000,
-      "market_cap_band": "medium5",
-      "data_confidence": {
-        "completeness_pct": 100,
-        "has_deep_brief": true,
-        "has_entry_price": true,
-        "has_adv": true
-      }
-    },
-    {
-      "ticker": "IKS",
-      "sector": "Healthcare",
-      "score_0_100": 56.6,
-      "verdict": "HIGH_CONVICTION",
-      "gate_blocked": false,
-      "gate_reasons": [],
-      "breakdown": {
-        "mcap": 0,
-        "v3_future": 12,
-        "v3_valuation": 5,
-        "fv_upside": 5,
-        "inflection": 17,
-        "sector_tailwind": 5,
-        "momentum": 5.4,
-        "liquidity_bonus": 0,
-        "health": 4.2,
-        "forward_growth": 3,
-        "story_bonus": 0,
-        "penalty_surveillance": 0,
-        "penalty_data_completeness": 0,
-        "penalty_miss_streak": 0
-      },
-      "diagnostics": {
-        "inflection": {
-          "score": 17,
-          "reasons": [
-            "ni_yoy_25.3pct_>25",
-            "3y_cagr_35.8pct_bonus_+5"
-          ],
-          "latest_growth_pct": 25.3,
-          "three_year_cagr_pct": 35.8,
-          "loss_to_profit": false,
+          "latest_growth_pct": null,
+          "three_year_cagr_pct": null,
+          "loss_to_profit": true,
           "one_off_flagged": false
         },
         "tailwind": {
@@ -4290,17 +3464,17 @@
           "no_audit_risk_seen"
         ],
         "metrics": {
-          "revenue_yoy_pct": 15.3,
-          "net_income_yoy_pct": 25.3,
+          "revenue_yoy_pct": 1.6,
+          "net_income_yoy_pct": 122.6,
           "operating_cash_flow_yoy_pct": null,
           "debt_yoy_pct": null,
           "snowflake_health": 5
         }
       },
-      "entry_price_inr": 1685.8,
-      "current_price_inr": 1685.8,
-      "market_cap_inr": 290020000000,
-      "market_cap_band": "midlarge6",
+      "entry_price_inr": 1051,
+      "current_price_inr": 1051,
+      "market_cap_inr": 25070000000,
+      "market_cap_band": "micro2",
       "data_confidence": {
         "completeness_pct": 100,
         "has_deep_brief": true,
@@ -4309,23 +3483,23 @@
       }
     },
     {
-      "ticker": "IFBIND",
-      "sector": "Consumer Durables",
-      "score_0_100": 56.6,
+      "ticker": "TRANSRAILL",
+      "sector": "Capital Goods",
+      "score_0_100": 59.5,
       "verdict": "HIGH_CONVICTION",
       "gate_blocked": false,
       "gate_reasons": [],
       "breakdown": {
-        "mcap": 8,
-        "v3_future": 4,
-        "v3_valuation": 6.7,
-        "fv_upside": 8,
-        "inflection": 17,
-        "sector_tailwind": 5,
-        "momentum": 1.9,
+        "mcap": 4,
+        "v3_future": 12,
+        "v3_valuation": 5,
+        "fv_upside": 10,
+        "inflection": 5,
+        "sector_tailwind": 12,
+        "momentum": 3.5,
         "liquidity_bonus": 0,
         "health": 5,
-        "forward_growth": 1,
+        "forward_growth": 3,
         "story_bonus": 0,
         "penalty_surveillance": 0,
         "penalty_data_completeness": 0,
@@ -4333,13 +3507,196 @@
       },
       "diagnostics": {
         "inflection": {
-          "score": 17,
+          "score": 5,
           "reasons": [
-            "ni_yoy_33.5pct_>25",
-            "3y_cagr_126.1pct_bonus_+5"
+            "ni_yoy_-2.5pct_negative",
+            "3y_cagr_55.7pct_bonus_+5"
           ],
-          "latest_growth_pct": 33.5,
-          "three_year_cagr_pct": 126.1,
+          "latest_growth_pct": -2.5,
+          "three_year_cagr_pct": 55.7,
+          "loss_to_profit": false,
+          "one_off_flagged": false
+        },
+        "tailwind": {
+          "pts": 12,
+          "base_weight": 12,
+          "regime_multiplier": 1,
+          "cohort_freshness": 1,
+          "cohort_exhausted": false,
+          "reasons": []
+        },
+        "story": {
+          "tags": [],
+          "score_bonus": 0
+        },
+        "pledge": {
+          "pass": true,
+          "reasons": [],
+          "matched_events": 0,
+          "source": "no_data"
+        },
+        "adv_inr_30d": null,
+        "health_cap_applied": false,
+        "quality_cap_applied": false
+      },
+      "quality_factor_v2": {
+        "schema_version": "quality-factor-v2-shadow",
+        "growth_quality": 1,
+        "balance_sheet_quality": 2,
+        "accounting_quality": 1,
+        "governance_quality": 1,
+        "data_confidence": 50,
+        "total_score": 5,
+        "quality_gate_pass": true,
+        "reasons": [
+          "revenue_stable",
+          "netIncome_deteriorating",
+          "operatingCashFlow_missing",
+          "totalDebt_missing",
+          "no_audit_risk_seen"
+        ],
+        "metrics": {
+          "revenue_yoy_pct": 6.1,
+          "net_income_yoy_pct": -2.5,
+          "operating_cash_flow_yoy_pct": null,
+          "debt_yoy_pct": null,
+          "snowflake_health": 6
+        }
+      },
+      "entry_price_inr": 453.8,
+      "current_price_inr": 453.8,
+      "market_cap_inr": 61250000000,
+      "market_cap_band": "midsmall4",
+      "data_confidence": {
+        "completeness_pct": 100,
+        "has_deep_brief": true,
+        "has_entry_price": true,
+        "has_adv": true
+      }
+    },
+    {
+      "ticker": "ZAGGLE",
+      "sector": "Software",
+      "score_0_100": 59.4,
+      "verdict": "HIGH_CONVICTION",
+      "gate_blocked": false,
+      "gate_reasons": [],
+      "breakdown": {
+        "mcap": 8,
+        "v3_future": 10,
+        "v3_valuation": 5,
+        "fv_upside": 10,
+        "inflection": 11,
+        "sector_tailwind": 5,
+        "momentum": 1.2,
+        "liquidity_bonus": 0,
+        "health": 4.2,
+        "forward_growth": 5,
+        "story_bonus": 0,
+        "penalty_surveillance": 0,
+        "penalty_data_completeness": 0,
+        "penalty_miss_streak": 0
+      },
+      "diagnostics": {
+        "inflection": {
+          "score": 11,
+          "reasons": [
+            "ni_yoy_15.7pct_>0",
+            "3y_cagr_78.2pct_bonus_+5"
+          ],
+          "latest_growth_pct": 15.7,
+          "three_year_cagr_pct": 78.2,
+          "loss_to_profit": false,
+          "one_off_flagged": false
+        },
+        "tailwind": {
+          "pts": 5,
+          "base_weight": 5,
+          "regime_multiplier": 1,
+          "cohort_freshness": 1,
+          "cohort_exhausted": false,
+          "reasons": []
+        },
+        "story": {
+          "tags": [],
+          "score_bonus": 0
+        },
+        "pledge": {
+          "pass": true,
+          "reasons": [],
+          "matched_events": 0,
+          "source": "no_data"
+        },
+        "adv_inr_30d": null,
+        "health_cap_applied": false,
+        "quality_cap_applied": false
+      },
+      "quality_factor_v2": {
+        "schema_version": "quality-factor-v2-shadow",
+        "growth_quality": 3,
+        "balance_sheet_quality": 1.7,
+        "accounting_quality": 1,
+        "governance_quality": 1,
+        "data_confidence": 50,
+        "total_score": 6.7,
+        "quality_gate_pass": true,
+        "reasons": [
+          "revenue_improving",
+          "netIncome_stable",
+          "operatingCashFlow_missing",
+          "totalDebt_missing",
+          "no_audit_risk_seen"
+        ],
+        "metrics": {
+          "revenue_yoy_pct": 31.8,
+          "net_income_yoy_pct": 15.7,
+          "operating_cash_flow_yoy_pct": null,
+          "debt_yoy_pct": null,
+          "snowflake_health": 5
+        }
+      },
+      "entry_price_inr": 156.81,
+      "current_price_inr": 156.81,
+      "market_cap_inr": 21090000000,
+      "market_cap_band": "micro2",
+      "data_confidence": {
+        "completeness_pct": 100,
+        "has_deep_brief": true,
+        "has_entry_price": true,
+        "has_adv": true
+      }
+    },
+    {
+      "ticker": "ORIENTELEC",
+      "sector": "Consumer Durables",
+      "score_0_100": 59.3,
+      "verdict": "HIGH_CONVICTION",
+      "gate_blocked": false,
+      "gate_reasons": [],
+      "breakdown": {
+        "mcap": 8,
+        "v3_future": 8,
+        "v3_valuation": 3.3,
+        "fv_upside": 8,
+        "inflection": 12,
+        "sector_tailwind": 5,
+        "momentum": 7,
+        "liquidity_bonus": 0,
+        "health": 5,
+        "forward_growth": 3,
+        "story_bonus": 0,
+        "penalty_surveillance": 0,
+        "penalty_data_completeness": 0,
+        "penalty_miss_streak": 0
+      },
+      "diagnostics": {
+        "inflection": {
+          "score": 12,
+          "reasons": [
+            "ni_yoy_41.8pct_>25"
+          ],
+          "latest_growth_pct": 41.8,
+          "three_year_cagr_pct": 9.4,
           "loss_to_profit": false,
           "one_off_flagged": false
         },
@@ -4382,16 +3739,16 @@
           "no_audit_risk_seen"
         ],
         "metrics": {
-          "revenue_yoy_pct": 8.9,
-          "net_income_yoy_pct": 33.5,
+          "revenue_yoy_pct": 16.9,
+          "net_income_yoy_pct": 41.8,
           "operating_cash_flow_yoy_pct": null,
           "debt_yoy_pct": null,
           "snowflake_health": 6
         }
       },
-      "entry_price_inr": 1108.4,
-      "current_price_inr": 1108.4,
-      "market_cap_inr": 45090000000,
+      "entry_price_inr": 188.91,
+      "current_price_inr": 188.91,
+      "market_cap_inr": 40280000000,
       "market_cap_band": "small3",
       "data_confidence": {
         "completeness_pct": 100,
@@ -4401,23 +3758,23 @@
       }
     },
     {
-      "ticker": "NETWEB",
-      "sector": "Tech",
-      "score_0_100": 56.5,
+      "ticker": "UJJIVANSFB",
+      "sector": "Banks",
+      "score_0_100": 59.1,
       "verdict": "HIGH_CONVICTION",
       "gate_blocked": false,
       "gate_reasons": [],
       "breakdown": {
-        "mcap": 0,
-        "v3_future": 12,
-        "v3_valuation": 0,
-        "fv_upside": 5,
+        "mcap": 4,
+        "v3_future": 8,
+        "v3_valuation": 6.7,
+        "fv_upside": 8,
         "inflection": 17,
         "sector_tailwind": 5,
-        "momentum": 7.5,
+        "momentum": 6.1,
         "liquidity_bonus": 0,
-        "health": 5,
-        "forward_growth": 5,
+        "health": 3.3,
+        "forward_growth": 1,
         "story_bonus": 0,
         "penalty_surveillance": 0,
         "penalty_data_completeness": 0,
@@ -4427,11 +3784,10 @@
         "inflection": {
           "score": 17,
           "reasons": [
-            "ni_yoy_100.9pct_>50",
-            "3y_cagr_77.7pct_bonus_+5"
+            "ni_yoy_175.7pct_>50"
           ],
-          "latest_growth_pct": 100.9,
-          "three_year_cagr_pct": 77.7,
+          "latest_growth_pct": 175.7,
+          "three_year_cagr_pct": -2.3,
           "loss_to_profit": false,
           "one_off_flagged": false
         },
@@ -4461,11 +3817,11 @@
       "quality_factor_v2": {
         "schema_version": "quality-factor-v2-shadow",
         "growth_quality": 4,
-        "balance_sheet_quality": 2,
+        "balance_sheet_quality": 1.3,
         "accounting_quality": 1,
         "governance_quality": 1,
         "data_confidence": 50,
-        "total_score": 8,
+        "total_score": 7.3,
         "quality_gate_pass": true,
         "reasons": [
           "revenue_improving",
@@ -4475,17 +3831,384 @@
           "no_audit_risk_seen"
         ],
         "metrics": {
-          "revenue_yoy_pct": 107.7,
-          "net_income_yoy_pct": 100.9,
+          "revenue_yoy_pct": 44.9,
+          "net_income_yoy_pct": 175.7,
+          "operating_cash_flow_yoy_pct": null,
+          "debt_yoy_pct": null,
+          "snowflake_health": 4
+        }
+      },
+      "entry_price_inr": 61.99,
+      "current_price_inr": 61.99,
+      "market_cap_inr": 120340000000,
+      "market_cap_band": "medium5",
+      "data_confidence": {
+        "completeness_pct": 100,
+        "has_deep_brief": true,
+        "has_entry_price": true,
+        "has_adv": true
+      }
+    },
+    {
+      "ticker": "SIGNATURE",
+      "sector": "Diversified Financials",
+      "score_0_100": 58.6,
+      "verdict": "HIGH_CONVICTION",
+      "gate_blocked": false,
+      "gate_reasons": [],
+      "breakdown": {
+        "mcap": 4,
+        "v3_future": 6,
+        "v3_valuation": 6.7,
+        "fv_upside": 10,
+        "inflection": 17,
+        "sector_tailwind": 5,
+        "momentum": 3.6,
+        "liquidity_bonus": 0,
+        "health": 3.3,
+        "forward_growth": 3,
+        "story_bonus": 0,
+        "penalty_surveillance": 0,
+        "penalty_data_completeness": 0,
+        "penalty_miss_streak": 0
+      },
+      "diagnostics": {
+        "inflection": {
+          "score": 17,
+          "reasons": [
+            "ni_yoy_750.3pct_>50"
+          ],
+          "latest_growth_pct": 750.3,
+          "three_year_cagr_pct": null,
+          "loss_to_profit": false,
+          "one_off_flagged": false
+        },
+        "tailwind": {
+          "pts": 5,
+          "base_weight": 5,
+          "regime_multiplier": 1,
+          "cohort_freshness": 1,
+          "cohort_exhausted": false,
+          "reasons": []
+        },
+        "story": {
+          "tags": [],
+          "score_bonus": 0
+        },
+        "pledge": {
+          "pass": true,
+          "reasons": [],
+          "matched_events": 0,
+          "source": "no_data"
+        },
+        "adv_inr_30d": null,
+        "health_cap_applied": false,
+        "quality_cap_applied": false
+      },
+      "quality_factor_v2": {
+        "schema_version": "quality-factor-v2-shadow",
+        "growth_quality": 2,
+        "balance_sheet_quality": 1.3,
+        "accounting_quality": 1,
+        "governance_quality": 1,
+        "data_confidence": 50,
+        "total_score": 5.3,
+        "quality_gate_pass": true,
+        "reasons": [
+          "revenue_deteriorating",
+          "netIncome_improving",
+          "operatingCashFlow_missing",
+          "totalDebt_missing",
+          "no_audit_risk_seen"
+        ],
+        "metrics": {
+          "revenue_yoy_pct": -12.4,
+          "net_income_yoy_pct": 750.3,
+          "operating_cash_flow_yoy_pct": null,
+          "debt_yoy_pct": null,
+          "snowflake_health": 4
+        }
+      },
+      "entry_price_inr": 713.25,
+      "current_price_inr": 713.25,
+      "market_cap_inr": 100330000000,
+      "market_cap_band": "midsmall4",
+      "data_confidence": {
+        "completeness_pct": 100,
+        "has_deep_brief": true,
+        "has_entry_price": true,
+        "has_adv": true
+      }
+    },
+    {
+      "ticker": "SHARDACROP",
+      "sector": "Materials",
+      "score_0_100": 57.9,
+      "verdict": "HIGH_CONVICTION",
+      "gate_blocked": false,
+      "gate_reasons": [],
+      "breakdown": {
+        "mcap": 4,
+        "v3_future": 4,
+        "v3_valuation": 10,
+        "fv_upside": 10,
+        "inflection": 17,
+        "sector_tailwind": 5,
+        "momentum": 2.9,
+        "liquidity_bonus": 0,
+        "health": 5,
+        "forward_growth": 0,
+        "story_bonus": 0,
+        "penalty_surveillance": 0,
+        "penalty_data_completeness": 0,
+        "penalty_miss_streak": 0
+      },
+      "diagnostics": {
+        "inflection": {
+          "score": 17,
+          "reasons": [
+            "ni_yoy_38.6pct_>25",
+            "3y_cagr_48.5pct_bonus_+5"
+          ],
+          "latest_growth_pct": 38.6,
+          "three_year_cagr_pct": 48.5,
+          "loss_to_profit": false,
+          "one_off_flagged": false
+        },
+        "tailwind": {
+          "pts": 5,
+          "base_weight": 5,
+          "regime_multiplier": 1,
+          "cohort_freshness": 1,
+          "cohort_exhausted": false,
+          "reasons": []
+        },
+        "story": {
+          "tags": [],
+          "score_bonus": 0
+        },
+        "pledge": {
+          "pass": true,
+          "reasons": [],
+          "matched_events": 0,
+          "source": "no_data"
+        },
+        "adv_inr_30d": null,
+        "health_cap_applied": false,
+        "quality_cap_applied": false
+      },
+      "quality_factor_v2": {
+        "schema_version": "quality-factor-v2-shadow",
+        "growth_quality": 3,
+        "balance_sheet_quality": 2,
+        "accounting_quality": 1,
+        "governance_quality": 1,
+        "data_confidence": 50,
+        "total_score": 7,
+        "quality_gate_pass": true,
+        "reasons": [
+          "revenue_stable",
+          "netIncome_improving",
+          "operatingCashFlow_missing",
+          "totalDebt_missing",
+          "no_audit_risk_seen"
+        ],
+        "metrics": {
+          "revenue_yoy_pct": 13.1,
+          "net_income_yoy_pct": 38.6,
           "operating_cash_flow_yoy_pct": null,
           "debt_yoy_pct": null,
           "snowflake_health": 6
         }
       },
-      "entry_price_inr": 4699.9,
-      "current_price_inr": 4699.9,
-      "market_cap_inr": 279460000000,
+      "entry_price_inr": 659.6,
+      "current_price_inr": 659.6,
+      "market_cap_inr": 59520000000,
+      "market_cap_band": "midsmall4",
+      "data_confidence": {
+        "completeness_pct": 100,
+        "has_deep_brief": true,
+        "has_entry_price": true,
+        "has_adv": true
+      }
+    },
+    {
+      "ticker": "RRKABEL",
+      "sector": "Capital Goods",
+      "score_0_100": 57.9,
+      "verdict": "HARD_REJECT",
+      "gate_blocked": true,
+      "gate_reasons": [
+        "audit_quality_flag"
+      ],
+      "breakdown": {
+        "mcap": 0,
+        "v3_future": 8,
+        "v3_valuation": 3.3,
+        "fv_upside": 5,
+        "inflection": 17,
+        "sector_tailwind": 12,
+        "momentum": 6.6,
+        "liquidity_bonus": 0,
+        "health": 5,
+        "forward_growth": 1,
+        "story_bonus": 0,
+        "penalty_surveillance": 0,
+        "penalty_data_completeness": 0,
+        "penalty_miss_streak": 0
+      },
+      "diagnostics": {
+        "inflection": {
+          "score": 17,
+          "reasons": [
+            "ni_yoy_51.3pct_>50"
+          ],
+          "latest_growth_pct": 51.3,
+          "three_year_cagr_pct": 28.7,
+          "loss_to_profit": false,
+          "one_off_flagged": false
+        },
+        "tailwind": {
+          "pts": 12,
+          "base_weight": 12,
+          "regime_multiplier": 1,
+          "cohort_freshness": 1,
+          "cohort_exhausted": false,
+          "reasons": []
+        },
+        "story": {
+          "tags": [],
+          "score_bonus": 0
+        },
+        "pledge": {
+          "pass": true,
+          "reasons": [],
+          "matched_events": 0,
+          "source": "no_data"
+        },
+        "adv_inr_30d": null,
+        "health_cap_applied": false,
+        "quality_cap_applied": false
+      },
+      "quality_factor_v2": {
+        "schema_version": "quality-factor-v2-shadow",
+        "growth_quality": 4,
+        "balance_sheet_quality": 2,
+        "accounting_quality": 0,
+        "governance_quality": 0,
+        "data_confidence": 50,
+        "total_score": 6,
+        "quality_gate_pass": false,
+        "reasons": [
+          "revenue_improving",
+          "netIncome_improving",
+          "operatingCashFlow_missing",
+          "totalDebt_missing",
+          "audit_or_restatement_risk"
+        ],
+        "metrics": {
+          "revenue_yoy_pct": 31.7,
+          "net_income_yoy_pct": 51.3,
+          "operating_cash_flow_yoy_pct": null,
+          "debt_yoy_pct": null,
+          "snowflake_health": 6
+        }
+      },
+      "entry_price_inr": 2263.1,
+      "current_price_inr": 2263.1,
+      "market_cap_inr": 256180000000,
       "market_cap_band": "midlarge6",
+      "data_confidence": {
+        "completeness_pct": 100,
+        "has_deep_brief": true,
+        "has_entry_price": true,
+        "has_adv": true
+      }
+    },
+    {
+      "ticker": "ROLEXRINGS",
+      "sector": "Capital Goods",
+      "score_0_100": 57.7,
+      "verdict": "HIGH_CONVICTION",
+      "gate_blocked": false,
+      "gate_reasons": [],
+      "breakdown": {
+        "mcap": 8,
+        "v3_future": 8,
+        "v3_valuation": 6.7,
+        "fv_upside": 8,
+        "inflection": 0,
+        "sector_tailwind": 12,
+        "momentum": 7,
+        "liquidity_bonus": 0,
+        "health": 5,
+        "forward_growth": 3,
+        "story_bonus": 0,
+        "penalty_surveillance": 0,
+        "penalty_data_completeness": 0,
+        "penalty_miss_streak": 0
+      },
+      "diagnostics": {
+        "inflection": {
+          "score": 0,
+          "reasons": [
+            "ni_yoy_-9.6pct_negative"
+          ],
+          "latest_growth_pct": -9.6,
+          "three_year_cagr_pct": -7.9,
+          "loss_to_profit": false,
+          "one_off_flagged": false
+        },
+        "tailwind": {
+          "pts": 12,
+          "base_weight": 12,
+          "regime_multiplier": 1,
+          "cohort_freshness": 1,
+          "cohort_exhausted": false,
+          "reasons": []
+        },
+        "story": {
+          "tags": [],
+          "score_bonus": 0
+        },
+        "pledge": {
+          "pass": true,
+          "reasons": [],
+          "matched_events": 0,
+          "source": "no_data"
+        },
+        "adv_inr_30d": null,
+        "health_cap_applied": false,
+        "quality_cap_applied": false
+      },
+      "quality_factor_v2": {
+        "schema_version": "quality-factor-v2-shadow",
+        "growth_quality": 1,
+        "balance_sheet_quality": 2,
+        "accounting_quality": 1,
+        "governance_quality": 1,
+        "data_confidence": 50,
+        "total_score": 5,
+        "quality_gate_pass": true,
+        "reasons": [
+          "revenue_stable",
+          "netIncome_deteriorating",
+          "operatingCashFlow_missing",
+          "totalDebt_missing",
+          "no_audit_risk_seen"
+        ],
+        "metrics": {
+          "revenue_yoy_pct": 4.5,
+          "net_income_yoy_pct": -9.6,
+          "operating_cash_flow_yoy_pct": null,
+          "debt_yoy_pct": null,
+          "snowflake_health": 6
+        }
+      },
+      "entry_price_inr": 154.08,
+      "current_price_inr": 154.08,
+      "market_cap_inr": 40290000000,
+      "market_cap_band": "small3",
       "data_confidence": {
         "completeness_pct": 100,
         "has_deep_brief": true,
@@ -4496,14 +4219,14 @@
     {
       "ticker": "BLACKBUCK",
       "sector": "Software",
-      "score_0_100": 55.9,
+      "score_0_100": 57.6,
       "verdict": "HIGH_CONVICTION",
       "gate_blocked": false,
       "gate_reasons": [],
       "breakdown": {
         "mcap": 4,
         "v3_future": 10,
-        "v3_valuation": 0,
+        "v3_valuation": 1.7,
         "fv_upside": 5,
         "inflection": 17,
         "sector_tailwind": 5,
@@ -4573,9 +4296,283 @@
           "snowflake_health": 6
         }
       },
-      "entry_price_inr": 584.3,
-      "current_price_inr": 584.3,
-      "market_cap_inr": 106560000000,
+      "entry_price_inr": 555.7,
+      "current_price_inr": 555.7,
+      "market_cap_inr": 101080000000,
+      "market_cap_band": "midsmall4",
+      "data_confidence": {
+        "completeness_pct": 100,
+        "has_deep_brief": true,
+        "has_entry_price": true,
+        "has_adv": true
+      }
+    },
+    {
+      "ticker": "SHADOWFAX",
+      "sector": "Transportation",
+      "score_0_100": 57.1,
+      "verdict": "HIGH_CONVICTION",
+      "gate_blocked": false,
+      "gate_reasons": [],
+      "breakdown": {
+        "mcap": 4,
+        "v3_future": 10,
+        "v3_valuation": 0,
+        "fv_upside": 3,
+        "inflection": 17,
+        "sector_tailwind": 5,
+        "momentum": 8.9,
+        "liquidity_bonus": 0,
+        "health": 4.2,
+        "forward_growth": 5,
+        "story_bonus": 0,
+        "penalty_surveillance": 0,
+        "penalty_data_completeness": 0,
+        "penalty_miss_streak": 0
+      },
+      "diagnostics": {
+        "inflection": {
+          "score": 17,
+          "reasons": [
+            "ni_yoy_859.3pct_>50"
+          ],
+          "latest_growth_pct": 859.3,
+          "three_year_cagr_pct": null,
+          "loss_to_profit": false,
+          "one_off_flagged": false
+        },
+        "tailwind": {
+          "pts": 5,
+          "base_weight": 5,
+          "regime_multiplier": 1,
+          "cohort_freshness": 1,
+          "cohort_exhausted": false,
+          "reasons": []
+        },
+        "story": {
+          "tags": [],
+          "score_bonus": 0
+        },
+        "pledge": {
+          "pass": true,
+          "reasons": [],
+          "matched_events": 0,
+          "source": "no_data"
+        },
+        "adv_inr_30d": null,
+        "health_cap_applied": false,
+        "quality_cap_applied": false
+      },
+      "quality_factor_v2": {
+        "schema_version": "quality-factor-v2-shadow",
+        "growth_quality": 4,
+        "balance_sheet_quality": 1.7,
+        "accounting_quality": 1,
+        "governance_quality": 1,
+        "data_confidence": 50,
+        "total_score": 7.7,
+        "quality_gate_pass": true,
+        "reasons": [
+          "revenue_improving",
+          "netIncome_improving",
+          "operatingCashFlow_missing",
+          "totalDebt_missing",
+          "no_audit_risk_seen"
+        ],
+        "metrics": {
+          "revenue_yoy_pct": 47.2,
+          "net_income_yoy_pct": 859.3,
+          "operating_cash_flow_yoy_pct": null,
+          "debt_yoy_pct": null,
+          "snowflake_health": 5
+        }
+      },
+      "entry_price_inr": 276.25,
+      "current_price_inr": 276.25,
+      "market_cap_inr": 162320000000,
+      "market_cap_band": "medium5",
+      "data_confidence": {
+        "completeness_pct": 100,
+        "has_deep_brief": true,
+        "has_entry_price": true,
+        "has_adv": true
+      }
+    },
+    {
+      "ticker": "CAPITALSFB",
+      "sector": "Banks",
+      "score_0_100": 57,
+      "verdict": "HIGH_CONVICTION",
+      "gate_blocked": false,
+      "gate_reasons": [],
+      "breakdown": {
+        "mcap": 8,
+        "v3_future": 10,
+        "v3_valuation": 6.7,
+        "fv_upside": 10,
+        "inflection": 6,
+        "sector_tailwind": 5,
+        "momentum": 5,
+        "liquidity_bonus": 0,
+        "health": 3.3,
+        "forward_growth": 3,
+        "story_bonus": 0,
+        "penalty_surveillance": 0,
+        "penalty_data_completeness": 0,
+        "penalty_miss_streak": 0
+      },
+      "diagnostics": {
+        "inflection": {
+          "score": 6,
+          "reasons": [
+            "ni_yoy_7.6pct_>0"
+          ],
+          "latest_growth_pct": 7.6,
+          "three_year_cagr_pct": 15.3,
+          "loss_to_profit": false,
+          "one_off_flagged": false
+        },
+        "tailwind": {
+          "pts": 5,
+          "base_weight": 5,
+          "regime_multiplier": 1,
+          "cohort_freshness": 1,
+          "cohort_exhausted": false,
+          "reasons": []
+        },
+        "story": {
+          "tags": [],
+          "score_bonus": 0
+        },
+        "pledge": {
+          "pass": true,
+          "reasons": [],
+          "matched_events": 0,
+          "source": "no_data"
+        },
+        "adv_inr_30d": null,
+        "health_cap_applied": false,
+        "quality_cap_applied": false
+      },
+      "quality_factor_v2": {
+        "schema_version": "quality-factor-v2-shadow",
+        "growth_quality": 2,
+        "balance_sheet_quality": 1.3,
+        "accounting_quality": 1,
+        "governance_quality": 1,
+        "data_confidence": 50,
+        "total_score": 5.3,
+        "quality_gate_pass": true,
+        "reasons": [
+          "revenue_stable",
+          "netIncome_stable",
+          "operatingCashFlow_missing",
+          "totalDebt_missing",
+          "no_audit_risk_seen"
+        ],
+        "metrics": {
+          "revenue_yoy_pct": 7.7,
+          "net_income_yoy_pct": 7.6,
+          "operating_cash_flow_yoy_pct": null,
+          "debt_yoy_pct": null,
+          "snowflake_health": 4
+        }
+      },
+      "entry_price_inr": 262.1,
+      "current_price_inr": 262.1,
+      "market_cap_inr": 11860000000,
+      "market_cap_band": "nano1",
+      "data_confidence": {
+        "completeness_pct": 100,
+        "has_deep_brief": true,
+        "has_entry_price": true,
+        "has_adv": true
+      }
+    },
+    {
+      "ticker": "PRICOLLTD",
+      "sector": "Automobiles",
+      "score_0_100": 57,
+      "verdict": "HIGH_CONVICTION",
+      "gate_blocked": false,
+      "gate_reasons": [],
+      "breakdown": {
+        "mcap": 4,
+        "v3_future": 10,
+        "v3_valuation": 1.7,
+        "fv_upside": 5,
+        "inflection": 17,
+        "sector_tailwind": 5,
+        "momentum": 6.3,
+        "liquidity_bonus": 0,
+        "health": 5,
+        "forward_growth": 3,
+        "story_bonus": 0,
+        "penalty_surveillance": 0,
+        "penalty_data_completeness": 0,
+        "penalty_miss_streak": 0
+      },
+      "diagnostics": {
+        "inflection": {
+          "score": 17,
+          "reasons": [
+            "ni_yoy_40.8pct_>25",
+            "3y_cagr_30.1pct_bonus_+5"
+          ],
+          "latest_growth_pct": 40.8,
+          "three_year_cagr_pct": 30.1,
+          "loss_to_profit": false,
+          "one_off_flagged": false
+        },
+        "tailwind": {
+          "pts": 5,
+          "base_weight": 5,
+          "regime_multiplier": 1,
+          "cohort_freshness": 1,
+          "cohort_exhausted": false,
+          "reasons": []
+        },
+        "story": {
+          "tags": [],
+          "score_bonus": 0
+        },
+        "pledge": {
+          "pass": true,
+          "reasons": [],
+          "matched_events": 0,
+          "source": "no_data"
+        },
+        "adv_inr_30d": null,
+        "health_cap_applied": false,
+        "quality_cap_applied": false
+      },
+      "quality_factor_v2": {
+        "schema_version": "quality-factor-v2-shadow",
+        "growth_quality": 4,
+        "balance_sheet_quality": 2,
+        "accounting_quality": 1,
+        "governance_quality": 1,
+        "data_confidence": 50,
+        "total_score": 8,
+        "quality_gate_pass": true,
+        "reasons": [
+          "revenue_improving",
+          "netIncome_improving",
+          "operatingCashFlow_missing",
+          "totalDebt_missing",
+          "no_audit_risk_seen"
+        ],
+        "metrics": {
+          "revenue_yoy_pct": 28.6,
+          "net_income_yoy_pct": 40.8,
+          "operating_cash_flow_yoy_pct": null,
+          "debt_yoy_pct": null,
+          "snowflake_health": 6
+        }
+      },
+      "entry_price_inr": 648.05,
+      "current_price_inr": 648.05,
+      "market_cap_inr": 79220000000,
       "market_cap_band": "midsmall4",
       "data_confidence": {
         "completeness_pct": 100,
@@ -4585,5 +4582,5 @@
       }
     }
   ],
-  "macro_regime": "RATE_HIKE"
+  "macro_regime": "OIL_SHOCK"
 }
