@@ -212,10 +212,11 @@ preconditions. Two Darwin facts drive all of it:
 |---|---|
 | Deadline | `min(start + 21h, S − 3h)`, S = first 00:30 leaving ≥ 9h. Launchd starts (00:30–12:30, on time or late) all abort at 21:30; manual afternoon runs keep start + 21h. **Do not shrink the 3h margin to "00:00"**: on 4 of 14 nights the host was awake ≤ 13s between 00:00 and 00:30 — too little to tear down before launchd fires. |
 | Overrun re-exec | A deadline abort that finishes after a slot passed execs a fresh run in place of the dropped fire (same PID, lock released by hand, `SWS_NIGHTLY_REEXECED` cleared). Off: `SWS_NIGHTLY_SLOT_REEXEC=0`. |
-| Watchdog | 5s tick. Logs suspended time (tick wall-gap − tick), mails once on a battery start, once on AC loss after AC was seen, and the deadline lateness. TERM→KILL grace and drain are wall-clock; the main process waits for the KILL escalation instead of killing the watchdog. |
+| Watchdog | 5s tick. Logs suspended time (tick wall-gap − tick; ONE clock read per tick, chained — a second read after the tick's pmset call lost 7 of 10 Deep Idle sleeps on 2026-10-25), mails once on a battery start, once on AC loss after AC was seen, and the deadline lateness. TERM→KILL grace and drain are wall-clock; the main process waits for the KILL escalation instead of killing the watchdog. |
 | Abort mail | Suspended h vs run h, AC loss, lateness, per-shard `next_local_index/slice` (`node scripts/sws-scrape-progress.mjs summary`). Lock skips are mailed too. |
 | Resume after abort | Exit 10 writes gitignored `data/sws/_resume-scrape.json`. The next `sws-refresh-api.sh` step 3 **still rewinds every cursor**, consumes the marker (once; <30h old, carry ≤ 1) and exports `SWS_SCRAPE_SKIP_FRESH_SEC=25200`: shards skip a stock whose raw payload is < 7h old and complete. Step 4b then **measures**: any skipped stock now > 8h old is refetched (`--tickers`, cursors restored), and the panic `clean_run` excludes the still-carried count. |
 | Mails | Mid-run heads-ups (battery start, AC loss) are async → `data/sws/sws-nightly-mail.log`; the abort mail waits ≤ `SWS_ABORT_MAIL_MAX_SEC` (120s) of wall clock; the Resend fetch has a 30s `AbortSignal`. A hung send used to stop the watchdog ticking. |
+| Shard retry | **No attempt starts with the lid closed on battery** (owner, 2026-10-27: AC with lid open or closed, or lid open on battery; never a closed lid on battery — it only runs in 2-7s DarkWakes and costs battery). `run_shard_with_retry` waits on `sws_host_can_scrape` (`scripts/sws-suspend-clock.sh`: pmset AC, or `ioreg` AppleClamshellState) and resumes from the saved cursor once the lid opens or AC returns. An attempt the host was suspended during (same tick rule as the watchdog) does not spend the 2 retries: it waits `SHARD_RETRY_SLEEP_SEC` on the **wall clock**, then the gate, up to `SHARD_MAX_SUSPENDED_RETRIES` (48). rc 3/4/7 unchanged. Each wait/failure logs wall + suspended seconds to stdout, a final failure tails the shard log into `refresh-api.log`, and the previous run's shard log is kept as `refresh-api-shard-N.prev.log` (10-24/10-25's 0-stock failures were truncated away). Do NOT add a keep-awake override for a closed lid. |
 | Step timeouts | `scripts/sws-with-timeout.sh` is the one `with_timeout` (gtimeout → timeout → bash watchdog), sourced by `sws-nightly.sh` and `sws-refresh-api.sh`. launchd's PATH has no `timeout` binary. |
 
 **Why per-stock reuse, not a carried cursor:** carrying the cursor was replayed
@@ -236,6 +237,7 @@ bash test/swsResumeAfterAbort.test.sh      # real step-3 block, git-clean surviv
 node test/swsApiScrapeResumeSkip.test.mjs  # the REAL scraper loop (injected page): skip young, refetch torn/old, done_count untouched
 node test/swsScrapeProgress.test.mjs       # slice math, payload usability, marker carry chain, gate invariant
 bash test/swsRefreshApiTimeout.test.sh     # sector steps bounded under the bash fallback
+bash test/swsShardSuspendRetry.test.sh     # host gate (lid/AC), suspend clock, forgiven attempts, wall-clock pause, .prev.log rotation
 ```
 
 ### Publish push — `sws_git_push`, never a bare `git push`

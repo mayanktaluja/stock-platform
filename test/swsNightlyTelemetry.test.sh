@@ -75,8 +75,15 @@ SHIM
 chmod +x "${WORK}/bin/date"
 
 PMSET_MODE_FILE="${WORK}/pmset-mode"
+# SUSPEND_IN_PMSET_FILE present: the next pmset call "sleeps" 1080s — the host
+# suspends while the watchdog is in its own work, not in its `sleep`.
+SUSPEND_IN_PMSET_FILE="${WORK}/suspend-in-pmset"
 cat > "${WORK}/bin/pmset" <<STUB
 #!/usr/bin/env bash
+if [ -f "${SUSPEND_IN_PMSET_FILE}" ]; then
+  rm -f "${SUSPEND_IN_PMSET_FILE}"
+  echo \$(( \$(cat "${DATE_OFFSET_FILE}") + 1080 )) > "${DATE_OFFSET_FILE}"
+fi
 if [ "\$(cat "${PMSET_MODE_FILE}" 2>/dev/null)" = "battery" ]; then
   echo "Now drawing from 'Battery Power'"
   echo " -InternalBattery-0 (id=1)	41%; discharging; 3:10 remaining present: true"
@@ -131,7 +138,7 @@ lock_harness() {  # lock_harness <lock_dir>
 }
 
 write_body() { cat > "${WORK}/wt/scripts/sws-nightly.sh"; }
-reset_state() { echo 0 > "${DATE_OFFSET_FILE}"; echo ac > "${PMSET_MODE_FILE}"; : > "${MAIL_LOG}"; }
+reset_state() { echo 0 > "${DATE_OFFSET_FILE}"; echo ac > "${PMSET_MODE_FILE}"; : > "${MAIL_LOG}"; rm -f "${SUSPEND_IN_PMSET_FILE}"; }
 
 echo ""
 echo "sws-nightly-isolated.sh watchdog telemetry + lock-skip mail"
@@ -222,6 +229,27 @@ if ! grep -q 'starting on battery' "${MAIL_LOG}"; then
   ok "a run launched on AC sends no battery-start mail"
 else
   bad "no battery-start mail on AC" "sent anyway"
+fi
+
+# The 2026-10-25 undercount: 0.7h reported vs pmset's 2.5h. A suspend that began
+# while the watchdog was in its pmset call landed between the tick's two clock
+# reads and vanished — 7 of that night's 10 Deep Idle sleeps (1.7h). One read
+# per tick, chained, puts it in the next gap.
+reset_state
+write_body <<BODY
+#!/usr/bin/env bash
+sleep 3
+: > "${SUSPEND_IN_PMSET_FILE}"
+sleep 4
+exit 0
+BODY
+supervisor_harness "${WORK}/lock-s4" > "${WORK}/s4.sh"
+OUT="$(SWS_WATCHDOG_TICK_SEC=1 bash "${WORK}/s4.sh" 3600 2>&1)"
+if [ ! -e "${SUSPEND_IN_PMSET_FILE}" ] && printf '%s' "${OUT}" | grep -q 'host was suspended ~18m' \
+   && printf '%s' "${OUT}" | grep -q 'host suspended ~0.3h of this run'; then
+  ok "a suspend that begins during the tick's pmset call is still counted (1080s → ~18m, 0.3h)"
+else
+  bad "suspend during pmset counted" "$(printf '%s' "${OUT}" | grep -i suspended | tr '\n' ' ')"
 fi
 
 # A start on battery is the DEFAULT since #1645 (owner, 2026-10-09: start at the
