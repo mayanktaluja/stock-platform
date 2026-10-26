@@ -61,7 +61,7 @@ export const CODE_EXTENSIONS = [
 ];
 
 /** Binary/compressed payloads: integrity-checked by existence only, never scanned. */
-export const BINARY_EXTENSIONS = [".gz", ".tgz", ".zip", ".pdf", ".png", ".jpg", ".jpeg", ".webp"];
+export const BINARY_EXTENSIONS = [".gz", ".tgz", ".br", ".zip", ".pdf", ".png", ".jpg", ".jpeg", ".webp"];
 
 /**
  * Is this repo-relative path a data artifact safe to ship without the full suite?

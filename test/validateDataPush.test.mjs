@@ -109,6 +109,16 @@ console.log("validateDataPush: malformed data");
   const r = run([f]);
   assert("empty binary artifact → exit 3", r.code === 3, r.code);
 }
+{
+  // Brotli payload (the earnings-history archive) is binary: existence-checked,
+  // never utf-8-scanned. Scanned as text, these bytes would read as a conflict marker.
+  const f = fixture(
+    "data/catalysts/earnings-history.tar.br",
+    Buffer.concat([Buffer.from([0x1b, 0x00, 0xff, 0x0a]), Buffer.from("<<<<<<< x\n")]),
+  );
+  const r = run([f]);
+  assert("non-empty .tar.br passes as binary → exit 0", r.code === 0, r.code);
+}
 
 console.log("validateDataPush: non-data paths fall through to the full suite");
 for (const [label, p] of [

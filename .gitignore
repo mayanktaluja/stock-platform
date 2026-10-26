@@ -202,3 +202,8 @@ data/track-record/buildleaderboard-backtest-latest.json
 
 # Tier-3 shadow-scoring comparison artifact (rebuild via scripts/build-shadow-comparison.mjs)
 data/shadow/
+
+# Atomic-write temp file of scripts/pack-earnings-history.sh. A pack killed by
+# the nightly's step timeout skips its cleanup, and `git add data/catalysts/`
+# would otherwise commit (and bundle) the partial archive.
+data/catalysts/earnings-history.tar.br.tmp.*

@@ -207,6 +207,11 @@ const REQUIRED_NESTED_RUNTIME_FILES = [
   "data/disclosures/holdings.json",
   "data/sws/alerts/fundamental-changes-latest.json",
   "data/track-record/section-performance-latest.json",
+  // earningsHistoryStore.js lazy-extracts it on Vercel (hit-rate summary, audit
+  // route, prediction freeze, email digest).
+  "data/catalysts/earnings-history.tar.br",
+  // services/swsTierGate.js — the BUY gate silently no-ops without it.
+  "data/coverage/bse_equity_active.json",
 ];
 
 const LOCAL_ONLY_GENERATED_WORKSETS = [
@@ -226,6 +231,18 @@ const LOCAL_ONLY_GENERATED_WORKSETS = [
   "data/sws/alerts/input-alert-confirmation-state.json",
   "data/catalysts/llm-signal-cache.json",
   "data/catalysts/earnings-history/2026-07-26.json",
+  // Superseded by earnings-history.tar.br; a stale copy must not ship.
+  "data/catalysts/earnings-history.tar.gz",
+  // Coverage-audit scripts' working files: no runtime reader (2026-10-27 audit).
+  "data/coverage/coverage_gap.json",
+  "data/coverage/coverage_report.md",
+  "data/coverage/ground_truth.json",
+  "data/coverage/groww_missing_candidates.json",
+  "data/coverage/nse_equity_l.csv",
+  "data/coverage/nse_sme_emerge.json",
+  "data/coverage/sws_availability_probe.json",
+  "data/coverage/sws_unavailable.json",
+  "data/coverage/sws_universe_delta.json",
 ];
 
 console.log("\nvercel.json includeFiles — market deep tarballs + regional picks must be bundled\n");
@@ -327,11 +344,13 @@ check("the glob matcher discriminates (covers sws tarballs, rejects unrelated pa
 });
 
 check("nested runtime snapshots served by API routes are in includeFiles", () => {
-  const missing = REQUIRED_NESTED_RUNTIME_FILES.filter((f) => !isCovered(f) || isExcluded(f));
+  // .vercelignore counts too: an ignored file is never uploaded, so includeFiles
+  // cannot bundle it. data/coverage/ is partly ignored, file by file.
+  const missing = REQUIRED_NESTED_RUNTIME_FILES.filter((f) => !isCovered(f) || isExcluded(f) || isIgnored(f));
   assert.deepEqual(
     missing,
     [],
-    `Runtime file(s) missing from the Vercel function bundle or excluded:\n    ${missing.join("\n    ")}`,
+    `Runtime file(s) missing from the Vercel function bundle, excluded or .vercelignore'd:\n    ${missing.join("\n    ")}`,
   );
 });
 

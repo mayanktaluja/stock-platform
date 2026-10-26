@@ -40,11 +40,31 @@ data/sws/alerts/input-alert-confirmation-state.json
 # what the /api/earnings/* routes read.
 data/catalysts/llm-signal-cache.json
 
-# Per-day prediction snapshots (~5 MB/day, 64 MB and climbing). Prod reads them
-# from the sibling earnings-history.tar.gz via lazy /tmp extraction — see
+# Per-day prediction snapshots (~5 MB/day, 260 MB and climbing). Prod reads them
+# from the sibling earnings-history.tar.br via lazy /tmp extraction — see
 # services/earnings/earningsHistoryStore.js. The loose files stay in git for the
 # local backtest / weight-tuning / actuals-resolution scripts.
 data/catalysts/earnings-history/**
+# The gzip archive the .tar.br replaced (21.1 MB on 2026-10-27). Nothing reads it;
+# scripts/pack-earnings-history.sh deletes it, and this keeps a stale copy (e.g.
+# one re-committed by a nightly that started before the switch) out of the bundle.
+data/catalysts/earnings-history.tar.gz
+
+# Coverage-audit working files, written and read only by local scripts
+# (coverage-gap-analysis.mjs, sws-probe-availability.mjs, sws-build-delta.mjs);
+# sws-nightly.sh already restores four of them as "non-deployable generated
+# working sets". The only data/coverage file the function reads is
+# bse_equity_active.json (services/swsTierGate.js), which stays bundled. These
+# were 4.5 MB of the bundle.
+data/coverage/coverage_gap.json
+data/coverage/coverage_report.md
+data/coverage/ground_truth.json
+data/coverage/groww_missing_candidates.json
+data/coverage/nse_equity_l.csv
+data/coverage/nse_sme_emerge.json
+data/coverage/sws_availability_probe.json
+data/coverage/sws_unavailable.json
+data/coverage/sws_universe_delta.json
 data/sectorOutlook/classified-news/**
 data/sectorOutlook/llm-theme-cache.json
 data/nse-fo/history/**
