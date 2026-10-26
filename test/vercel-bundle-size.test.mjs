@@ -12,9 +12,18 @@
  * then fell off a cliff. This is the guard that turns that cliff into a test
  * failure weeks ahead of time.
  *
- * The budget is deliberately well under Vercel's hard 250 MB so a red build here
- * is an early warning with room to act, not an outage. When it fires, do not
- * just raise the number — find what grew and pack, prune, or .vercelignore it.
+ * Two thresholds, because a warning that blocks is an outage:
+ *   - 200 MB budget  → WARNING only. Printed (and mailed by the nightly via
+ *     its publish warnings), never a failure. When it fires, do not just raise
+ *     the number — find what grew and pack, prune, or .vercelignore it.
+ *   - 240 MB block   → FAILS. 10 MB under Vercel's hard limit, so the push is
+ *     refused while every deploy still succeeds.
+ * Until 2026-10-27 the 200 MB budget was itself the failure. This file runs on
+ * the nightly's data-only push (scripts/validate-data-push.mjs), so the night
+ * the bundle reached 200.4 MB (10-26) the "early warning" refused the push and
+ * prod sat on 10-23 data with 50 MB of real headroom left. It also runs in
+ * `npm test`, where a whole-tree size check would have turned every code PR
+ * red over data growth the PR did not cause.
  *
  * Sizing method: git-tracked paths (the deploy uploads the committed tree), each
  * measured on disk, filtered through .vercelignore → includeFiles → excludeFiles.
@@ -37,7 +46,10 @@ const REPO_ROOT = path.resolve(__dirname, "..");
 
 // Vercel's hard limit. Exceeding it fails the DEPLOY, not the build.
 const VERCEL_HARD_LIMIT_BYTES = 250_000_000;
-// Our ratchet. Leaves ~50 MB of runway so this goes red with weeks of warning.
+// Push block. 10 MB under the hard limit: the sizing model is accurate to
+// ~0.1 MB, and at ~1 MB/night of growth that is still a week+ to act.
+const BUNDLE_BLOCK_BYTES = 240_000_000;
+// Early warning (prints, never fails). ~50 MB of runway before deploys fail.
 const BUNDLE_BUDGET_BYTES = 200_000_000;
 
 let pass = 0,
@@ -192,7 +204,10 @@ const top = [...groups.entries()].sort((a, b) => b[1] - a[1]).slice(0, 10);
 const topReport = top.map(([k, v]) => `      ${mb(v).padStart(8)} MB  ${k}`).join("\n");
 
 console.log(`  bundle: ${mb(total)} MB across ${files.length} files`);
-console.log(`  budget: ${mb(BUNDLE_BUDGET_BYTES)} MB    Vercel hard limit: ${mb(VERCEL_HARD_LIMIT_BYTES)} MB`);
+console.log(
+  `  budget: ${mb(BUNDLE_BUDGET_BYTES)} MB (warn)    block: ${mb(BUNDLE_BLOCK_BYTES)} MB    ` +
+    `Vercel hard limit: ${mb(VERCEL_HARD_LIMIT_BYTES)} MB`,
+);
 console.log("  largest groups:");
 console.log(topReport);
 console.log("");
@@ -216,15 +231,27 @@ check("api/index stays under Vercel's hard 250 MB uncompressed limit", () => {
   );
 });
 
-check(`api/index stays under the ${mb(BUNDLE_BUDGET_BYTES)} MB budget`, () => {
+check(`api/index stays under the ${mb(BUNDLE_BLOCK_BYTES)} MB push block`, () => {
   assert.ok(
-    total <= BUNDLE_BUDGET_BYTES,
-    `Bundle is ${mb(total)} MB, over the ${mb(BUNDLE_BUDGET_BYTES)} MB budget ` +
+    total <= BUNDLE_BLOCK_BYTES,
+    `Bundle is ${mb(total)} MB, over the ${mb(BUNDLE_BLOCK_BYTES)} MB push block ` +
       `(${mb(VERCEL_HARD_LIMIT_BYTES - total)} MB left before deploys start failing).\n${topReport}\n` +
       `  Pack a growing directory into a tarball (see scripts/pack-earnings-history.sh) or\n` +
       `  .vercelignore a local-only cache. Raising this number is the last resort, not the first.`,
   );
 });
+
+// Not a check: over budget must stay a passing run. scripts/validate-data-push.mjs
+// and scripts/sws-nightly.sh both grep for this exact "WARNING: api/index bundle"
+// prefix to carry it into the push log and the nightly mail.
+if (total > BUNDLE_BUDGET_BYTES) {
+  console.log(
+    `  ⚠ WARNING: api/index bundle ${mb(total)} MB is over the ${mb(BUNDLE_BUDGET_BYTES)} MB budget — ` +
+      `${mb(BUNDLE_BLOCK_BYTES - total)} MB until the push block, ` +
+      `${mb(VERCEL_HARD_LIMIT_BYTES - total)} MB until Vercel rejects deploys. ` +
+      `Pack, prune, or .vercelignore the largest group above.`,
+  );
+}
 
 check("the growing earnings-history archive ships packed, not loose", () => {
   // The specific regression that caused the 2026-07-25 outage. The loose
