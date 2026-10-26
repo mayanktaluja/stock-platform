@@ -195,7 +195,12 @@ function runDataContentTests(problems) {
   for (const t of DATA_CONTENT_TESTS) {
     if (!fs.existsSync(path.resolve(t))) continue;
     try {
-      execFileSync(process.execPath, [t], { stdio: "pipe", encoding: "utf-8" });
+      const out = execFileSync(process.execPath, [t], { stdio: "pipe", encoding: "utf-8" });
+      // A passing suite's output is dropped, so echo its warnings (e.g. the
+      // bundle-size budget) or they never reach the push log.
+      for (const line of out.split("\n")) {
+        if (line.includes("WARNING:")) console.log(`[validate-data-push] ${t}: ${line.trim()}`);
+      }
     } catch (err) {
       const detail = `${err.stdout || ""}${err.stderr || ""}`.trim().split("\n").slice(-8).join("\n");
       problems.push(`${t}: FAILED\n${detail}`);

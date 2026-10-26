@@ -688,6 +688,18 @@ assert(
     /exit 8/.test(nightly),
   null,
 );
+{
+  // The bundle budget is a warning; it reaches the mail only through the
+  // publish-warnings file, and the size is only right once the data is staged.
+  const stageIdx = nightly.indexOf('git add -- "${SWS_SHIP_PATHS[@]}"');
+  const warnIdx = nightly.indexOf("\nwarn_if_bundle_over_budget\n");
+  const bodyIdx = nightly.indexOf("COMMIT_BODY=$(");
+  assert(
+    "sws-nightly.sh records the bundle-budget warning after staging, before the commit body",
+    stageIdx > 0 && warnIdx > stageIdx && bodyIdx > warnIdx,
+    { stageIdx, warnIdx, bodyIdx },
+  );
+}
 
 console.log(`\n  ${pass} passed, ${fail} failed\n`);
 process.exit(fail === 0 ? 0 : 1);

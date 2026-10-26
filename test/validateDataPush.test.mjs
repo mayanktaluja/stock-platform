@@ -131,5 +131,33 @@ for (const [label, p] of [
   assert("one code file among many data files → exit 2", r.code === 2, r.code);
 }
 
+// 2026-10-26: the bundle-size budget (an early warning) failed the nightly's
+// data push at 201.09 MB and prod stayed on 10-23 data. A content suite that
+// only WARNS must pass the push and still be visible in the push log; a failing
+// one must still block. Stubbed here so the real 200 MB tree-walk never runs.
+console.log("validateDataPush: content-suite warnings pass, failures block");
+{
+  const stub = "test/vercel-bundle-size.test.mjs";
+  const f = fixture("data/catalysts/ok3.json", "{}");
+
+  fixture(stub, `console.log("  ⚠ WARNING: api/index bundle 201.09 MB is over the 200.00 MB budget");\n`);
+  let r = run([f]);
+  assert("warning-only content suite → exit 0 (a warning never blocks the push)", r.code === 0, {
+    code: r.code,
+    out: r.out,
+  });
+  assert(
+    "the warning is echoed into the push log",
+    r.out.includes("WARNING: api/index bundle 201.09 MB"),
+    r.out,
+  );
+
+  fixture(stub, `console.log("  ✗ over the 240.00 MB push block");\nprocess.exit(1);\n`);
+  r = run([f]);
+  assert("failing content suite → exit 3 (the block still blocks)", r.code === 3, { code: r.code, out: r.out });
+
+  fs.rmSync(path.join(tmp, stub));
+}
+
 console.log(`\n=== ${pass} passed, ${fail} failed ===`);
 process.exit(fail === 0 ? 0 : 1);

@@ -185,6 +185,18 @@ warn_if_publish_late() {
   fi
 }
 
+# The Vercel bundle budget (200 MB) is a warning; only the 240 MB block fails the
+# pre-push gate. A warning printed only inside the push log is never read, so put
+# it in the commit body + mail. Call after `git add`: the test sizes tracked files.
+warn_if_bundle_over_budget() {
+  local line
+  line="$(node test/vercel-bundle-size.test.mjs 2>/dev/null | grep -m1 'WARNING: api/index bundle' | sed 's/^[[:space:]]*⚠[[:space:]]*//')"
+  if [ -n "${line}" ]; then
+    echo "[nightly] ${line}"
+    printf '%s\n' "[nightly] ${line}" >> "${PUBLISH_WARNINGS_FILE}"
+  fi
+}
+
 # ---- Slack failure trap (P3.3) ----
 #
 # Catch-all for any non-zero exit — including signals (SIGTERM/SIGHUP from
@@ -1737,6 +1749,7 @@ fi
 
 git add -- "${SWS_SHIP_PATHS[@]}"
 assert_health_critical_staged
+warn_if_bundle_over_budget
 
 # Inner pipeline regenerates the daily picks PDF — ship it in this same PR
 # (previously the inner script's auto-PR added it; now we own that step).
