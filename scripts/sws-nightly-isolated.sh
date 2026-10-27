@@ -488,9 +488,9 @@ if [ "${AC_AT_LAUNCH}" = "0" ]; then
   batt_pct="$(pmset -g batt 2>/dev/null | grep -o '[0-9]*%' | head -1)"
   echo "[isolated-nightly] starting on battery (${batt_pct:-charge unknown})"
   sws_mail_async "🔋 SWS nightly — starting on battery (${batt_pct:-charge unknown})" \
-"The nightly started at $(ts) on battery. It runs anyway (by design since 2026-10-09), but on battery this Mac idle-sleeps after a minute and a shut lid suspends the scrape; 2026-09-26 and 09-29 ran out of time that way. A healthy run needs 6-9h of awake time; this one aborts at $(date -r "${SWS_NIGHTLY_DEADLINE_EPOCH}" '+%Y-%m-%d %H:%M:%S' 2>/dev/null || echo "${SWS_NIGHTLY_DEADLINE_EPOCH}"), and whatever it fetched recently is reused by the next run.
+"The nightly started at $(ts) on battery. It runs anyway (by design since 2026-10-09), but no scrape shard starts while the lid is closed on battery (owner, 2026-10-27): shards wait, and resume from their saved cursors once the lid opens or AC returns. A healthy run needs 6-9h of awake time; this one aborts at $(date -r "${SWS_NIGHTLY_DEADLINE_EPOCH}" '+%Y-%m-%d %H:%M:%S' 2>/dev/null || echo "${SWS_NIGHTLY_DEADLINE_EPOCH}"), and whatever it fetched recently is reused by the next run.
 
-Plug in and keep it awake for a clean night.
+Plug in (lid open or closed) or open the lid for a clean night.
 
 $(pmset -g batt 2>&1 | head -3)"
 fi
@@ -515,17 +515,22 @@ fi
       : > "${AC_LOST_FLAG}"
       echo "[isolated-nightly] AC power lost mid-run at $(ts)"
       sws_mail_async "⚠️ SWS nightly — AC lost mid-run" \
-"The Mac went onto battery at $(ts), $(( (wd_now - BODY_LAUNCH_EPOCH) / 60 ))m into the run. On battery it idle-sleeps after a minute and the scrape stops while the lid is shut; 2026-09-26 and 09-29 were lost to the deadline this way.
+"The Mac went onto battery at $(ts), $(( (wd_now - BODY_LAUNCH_EPOCH) / 60 ))m into the run. With the lid closed on battery the host sleeps, the scrape stops, and no shard restarts until the lid opens or AC returns; 2026-09-26 and 09-29 were lost to the deadline this way.
 
-Plug back in to keep this run alive. It aborts at $(date -r "${SWS_NIGHTLY_DEADLINE_EPOCH}" '+%Y-%m-%d %H:%M:%S' 2>/dev/null || echo "${SWS_NIGHTLY_DEADLINE_EPOCH}").
+Plug back in or keep the lid open to keep this run alive. It aborts at $(date -r "${SWS_NIGHTLY_DEADLINE_EPOCH}" '+%Y-%m-%d %H:%M:%S' 2>/dev/null || echo "${SWS_NIGHTLY_DEADLINE_EPOCH}").
 
 $(shard_progress_summary)
 
 $(pmset -g batt 2>&1 | head -3)"
     fi
-    # Stamped after this tick's own work (pmset, summary), so only the sleep
-    # itself can ever be counted as suspended time.
-    wd_last="$(date +%s)"
+    # The gap runs from this tick's ONE clock read, not from a fresh read after
+    # the work above. That second read (meant to keep slow work out of the
+    # count) lost every suspend that began during the pmset call or the echo: on
+    # 2026-10-25 the run reported 0.7h asleep against pmset's 2.5h, missing 7 of
+    # 10 Deep Idle sleeps (1.7h); 10-24 missed 13 (2.8h). Chained reads put each
+    # wall-clock second in exactly one gap. Work is seconds at most, well inside
+    # the 3-tick threshold. Same rule as scripts/sws-suspend-clock.sh.
+    wd_last="${wd_now}"
   done
   # Re-verify before signalling: the body may have exited during the last tick.
   kill -0 "${body_pid}" 2>/dev/null || exit 0

@@ -32,6 +32,12 @@
       (SWS_NIGHTLY_AC_WAIT=1; OFF by default since 2026-10-09 — the owner wants
       the run to start at its slot on battery) and bounds the run so it can never
       suppress the next 00:30 slot (SWS_NIGHTLY_DEADLINE_SEC).
+
+      No `pmset repeat` wake belongs to this job: launchd fires a missed 00:30
+      at the next wake, and a battery host DarkWakes every ~15 min. The
+      "wakepoweron at 1:55AM every day" that `pmset -g sched` still showed on
+      2026-10-27 is left over from the old 02:00 slot (it is what started
+      2026-09-27's run at 01:55). `sudo pmset repeat cancel` clears it.
     -->
     <key>ProgramArguments</key>
     <array>

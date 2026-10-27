@@ -158,7 +158,12 @@ assert(
 );
 
 assert(
-  "isolated wrapper waits for AC before starting (root-cause fix)",
+  "plist comment does not claim the wrapper always waits for AC (stale since #1645)",
+  !/which waits for AC/.test(plist) && /SWS_NIGHTLY_AC_WAIT=1; OFF by default/.test(plist),
+  null,
+);
+assert(
+  "isolated wrapper can wait for AC before starting (opt-in)",
   /SWS_NIGHTLY_AC_WAIT/.test(isolated) &&
     /pmset -g batt 2>\/dev\/null \| head -1 \| grep -q "AC Power"/.test(isolated),
   null,

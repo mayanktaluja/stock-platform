@@ -85,6 +85,11 @@ echo "${out}" | grep -q 'PASSED_GATE' && ok 1 "no flag → proceeds" || ok 0 "no
 # ── 2. shard retry loop ─────────────────────────────────────────────────────
 RETRY_FN="$(awk '/^  run_shard_with_retry\(\) \{/{f=1} f{print} f&&/^  \}$/{exit}' "${SCRIPT}")"
 [ -n "${RETRY_FN}" ] && ok 1 "run_shard_with_retry extracted" || ok 0 "run_shard_with_retry extracted"
+# It times each attempt with the shared suspend clock and stamps it with ts()
+# (test/swsShardSuspendRetry.test.sh covers that side).
+. "${REPO_ROOT}/scripts/sws-suspend-clock.sh"
+ts() { date -u +"%Y-%m-%dT%H:%M:%SZ"; }
+sws_host_can_scrape() { return 0; }  # hermetic: never wait on this host's lid
 
 # Stub scraper: counts attempts and exits with STUB_RC.
 cat > "${WORK}/scripts/sws-api-scrape.mjs" <<'EOF'
@@ -98,7 +103,7 @@ attempts_for_rc() {
   : > "${WORK}/attempts"
   ( cd "${WORK}" && eval "${RETRY_FN}"
     SHARD_MAX_RETRIES=2 SHARD_RETRY_SLEEP_SEC=0 ATTEMPTS="${WORK}/attempts" STUB_RC="${want_rc}" \
-      run_shard_with_retry 2
+      run_shard_with_retry 2 >/dev/null  # failure lines also go to stdout
     echo "rc=$?" > "${WORK}/rc" )
   echo "$(wc -l < "${WORK}/attempts" | tr -d ' ') $(sed 's/rc=//' "${WORK}/rc")"
 }
@@ -178,7 +183,7 @@ ladder_run() {  # ladder_run <start_epoch> [seed_shard1_confirmed] → prints "<
     fi
     SHARD_MAX_RETRIES=2 SHARD_RETRY_SLEEP_SEC=0 SWS_PANIC_LADDER=1 SWS_INJECT_BLOCK=999 \
       SWS_INJECT_DATA_DIR="${WORK}/data/sws" SWS_INJECT_TIME_SCALE=0.002 \
-      REAL_SCRAPER="${REPO_ROOT}/scripts/sws-api-scrape.mjs" run_shard_with_retry 2
+      REAL_SCRAPER="${REPO_ROOT}/scripts/sws-api-scrape.mjs" run_shard_with_retry 2 >/dev/null
     echo "$? $(grep -c '^\[refresh-api\] shard 2 attempt' data/sws/refresh-api-shard-2.log) ${SWS_PANIC_RUN_ID}" )
 }
 incidents2() { node -e 'const s=JSON.parse(require("fs").readFileSync(process.argv[1],"utf8")); console.log(`${s.run_id} ${s.opened} ${s.confirmed}`)' "${WORK}/data/sws/panic-incidents-2.json" 2>/dev/null; }

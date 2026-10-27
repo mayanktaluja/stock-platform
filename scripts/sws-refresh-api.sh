@@ -33,6 +33,7 @@
 # fresh browser, and counts toward the run's confirmed-incident cap.
 #
 # Logs: data/sws/refresh-api.log + data/sws/refresh-api-shard-{1,2,3}.log
+#       (the previous run's shard logs: refresh-api-shard-{1,2,3}.prev.log)
 # Summary: data/sws/last-refresh.json (read by dashboard)
 
 set -uo pipefail
@@ -61,6 +62,9 @@ ts() { date -u +"%Y-%m-%dT%H:%M:%SZ"; }
 # guard once ran 2h40m. The shared helper has a real bash fallback.
 # shellcheck source=scripts/sws-with-timeout.sh
 . "${SCRIPT_DIR}/sws-with-timeout.sh"
+# Host-suspend measurement for the shard retry loop (step 3).
+# shellcheck source=scripts/sws-suspend-clock.sh
+. "${SCRIPT_DIR}/sws-suspend-clock.sh"
 # Bounded + retrying + ls-remote-reconciled push for the auto-PR step.
 # shellcheck source=scripts/sws-git-push.sh
 . "${SCRIPT_DIR}/sws-git-push.sh"
@@ -214,28 +218,67 @@ EOF
   # every stock — no work is lost). Only counts as FAIL once retries are
   # exhausted, preventing a single transient crash from blocking the
   # sanity gate (the failure mode that crashed shard 2 on 2026-05-17).
+  #
+  # Lid closed on battery: no attempt starts (owner, 2026-10-27 — it costs
+  # battery, and that host only runs in 2-7s DarkWakes). On 2026-10-24 (shards
+  # 1+2) and 10-25 (shard 2) the nightly launched into exactly that and the
+  # shards exited non-zero after all retries with 0 stocks — the 2026-08-08
+  # signature, a wall-clock timeout (Playwright launch) expiring while the
+  # process sat frozen; the `sleep` between attempts counts AWAKE seconds only,
+  # so all three burned inside a few DarkWakes. On 10-25 shard 2 was already
+  # dead when the lid opened at 03:47. Each attempt now waits until the host is
+  # on AC or the lid is open, and resumes from the saved cursor once it is.
+  #
+  # An attempt the host was SUSPENDED during (lid shut mid-scrape) does not
+  # spend the budget either: it says nothing about the shard. It waits the
+  # retry pause on the WALL clock, then for the gate, up to
+  # SHARD_MAX_SUSPENDED_RETRIES times; past that, failures count again. The
+  # nightly deadline bounds every wait. Never for rc 7: a ladder halt is
+  # evidence about SWS, not about the host, and stays on the normal budget.
+  # ── shard retry (extracted verbatim by test/swsShardSuspendRetry.test.sh) ──
   SHARD_MAX_RETRIES=${SHARD_MAX_RETRIES:-2}
   SHARD_RETRY_SLEEP_SEC=${SHARD_RETRY_SLEEP_SEC:-30}
+  SHARD_MAX_SUSPENDED_RETRIES=${SHARD_MAX_SUSPENDED_RETRIES:-48}
+  SHARD_HOST_POLL_SEC=${SHARD_HOST_POLL_SEC:-5}
 
   run_shard_with_retry() {
     local SHARD="$1"
     local LOG="data/sws/refresh-api-shard-${SHARD}.log"
+    # Rotate, never truncate: 10-24's and 10-25's failures were unreadable by
+    # morning because the next run wiped them. One run back is kept.
+    [ -s "${LOG}" ] && mv -f "${LOG}" "${LOG%.log}.prev.log" 2>/dev/null
     : > "${LOG}"
+    local CLOCK="${TMPDIR:-/tmp}/sws-shard-clock-$$-${SHARD}"
     local attempt=0
+    local forgiven=0
     local rc=0
+    local t0 wall resume_at
     while : ; do
+      if ! sws_host_can_scrape; then
+        t0="$(date +%s)"
+        echo "[refresh-api] shard ${SHARD} waiting at $(ts): lid closed on battery — no scraping until the lid opens or AC returns" | tee -a "${LOG}"
+        while ! sws_host_can_scrape; do sleep "${SHARD_HOST_POLL_SEC}"; done
+        echo "[refresh-api] shard ${SHARD} resuming at $(ts) after $(( $(date +%s) - t0 ))s wall clock ($(sws_on_ac_power && echo 'on AC' || echo 'lid open'))" | tee -a "${LOG}"
+      fi
       local resume=0
-      [ "${attempt}" -gt 0 ] && resume=1
-      echo "[refresh-api] shard ${SHARD} attempt $((attempt+1)) (SWS_RESUME=${resume})" >> "${LOG}"
+      [ $(( attempt + forgiven )) -gt 0 ] && resume=1
+      echo "[refresh-api] shard ${SHARD} attempt $((attempt+forgiven+1)) (SWS_RESUME=${resume}) at $(ts)" >> "${LOG}"
+      t0="$(date +%s)"
+      sws_suspend_clock_start "${CLOCK}"
       # Capture rc BEFORE any `if` test — bash resets $? to 0 after a failed
       # `if cmd; then ...; fi` with no else branch, which would silently
       # mask the real exit code in this helper.
       SWS_RESUME="${resume}" SWS_SCRAPE_SKIP_FRESH_SEC="${RESUME_SKIP_FRESH_SEC:-0}" \
         node scripts/sws-api-scrape.mjs "${SHARD}" >> "${LOG}" 2>&1
       rc=$?
+      sws_suspend_clock_stop "${CLOCK}"
+      wall=$(( $(date +%s) - t0 ))
       if [ "${rc}" -eq 0 ]; then
         return 0
       fi
+      # Also on stdout (→ refresh-api.log and the nightly log), which outlives
+      # the shard log's one-run rotation.
+      echo "[refresh-api] shard ${SHARD} exited rc=${rc} at $(ts) after ${wall}s wall clock, host suspended ~${SWS_SUSPENDED_SEC:-0}s of it" | tee -a "${LOG}"
       # 3 = panic flag already set at start, 4 = this shard raised it. A retry
       # can only hit the flag and exit 3 again (2026-09-30: rc 4 → 3 → 3, 60s
       # of sleeps for nothing), so stop here and let step 5 report the panic.
@@ -247,16 +290,25 @@ EOF
       # relaunches its browser; the incident count persists (SWS_PANIC_RUN_ID).
       if [ "${rc}" -eq 7 ]; then
         echo "[refresh-api] shard ${SHARD} exited rc=7 (panic ladder: halted alone, peers still served)" >> "${LOG}"
+      elif [ "${SWS_SUSPENDED_SEC:-0}" -gt 0 ] && [ "${forgiven}" -lt "${SHARD_MAX_SUSPENDED_RETRIES}" ]; then
+        forgiven=$((forgiven + 1))
+        echo "[refresh-api] shard ${SHARD} was suspended mid-attempt — not counted against its ${SHARD_MAX_RETRIES} retries (suspend-affected ${forgiven}/${SHARD_MAX_SUSPENDED_RETRIES}); retrying with SWS_RESUME=1 after ${SHARD_RETRY_SLEEP_SEC}s of wall clock, once the lid is open or on AC" | tee -a "${LOG}"
+        # Wall clock, not `sleep N`: a suspend during the pause counts toward it.
+        resume_at=$(( $(date +%s) + SHARD_RETRY_SLEEP_SEC ))
+        while [ "$(date +%s)" -lt "${resume_at}" ]; do sleep 1; done
+        continue
       fi
       attempt=$((attempt + 1))
       if [ "${attempt}" -gt "${SHARD_MAX_RETRIES}" ]; then
-        echo "[refresh-api] shard ${SHARD} failed after ${SHARD_MAX_RETRIES} retries (last rc=${rc})" >> "${LOG}"
+        echo "[refresh-api] shard ${SHARD} failed after ${SHARD_MAX_RETRIES} retries (last rc=${rc}; ${forgiven} suspend-affected attempts not counted)" >> "${LOG}"
+        tail -n 25 "${LOG}" | sed "s/^/[refresh-api] shard ${SHARD} log: /"
         return "${rc}"
       fi
       echo "[refresh-api] shard ${SHARD} exited rc=${rc} — retrying (${attempt}/${SHARD_MAX_RETRIES}) with SWS_RESUME=1" >> "${LOG}"
       sleep "${SHARD_RETRY_SLEEP_SEC}"
     done
   }
+  # ── end shard retry ──
 
   PANIC_SERVED_BEFORE="$(node scripts/sws-panic-policy.mjs served-count --data-dir data/sws 2>/dev/null || true)"
   for SHARD in 1 2 3; do
