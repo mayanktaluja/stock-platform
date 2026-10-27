@@ -41,6 +41,8 @@ import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import assert from "node:assert/strict";
 
+import { unpackArchiveSync } from "../services/earnings/earningsHistoryPack.js";
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, "..");
 
@@ -253,30 +255,40 @@ if (total > BUNDLE_BUDGET_BYTES) {
   );
 }
 
+const ARCHIVE = "data/catalysts/earnings-history.tar.br";
+const LEGACY_GZIP_ARCHIVE = "data/catalysts/earnings-history.tar.gz";
+
 check("the growing earnings-history archive ships packed, not loose", () => {
   // The specific regression that caused the 2026-07-25 outage. The loose
-  // directory grows ~5 MB/day; only the tarball may ship.
+  // directory grows ~5 MB/day; only the archive may ship.
   const loose = files.filter((f) => f.rel.startsWith("data/catalysts/earnings-history/"));
   assert.deepEqual(
     loose.map((f) => f.rel).slice(0, 5),
     [],
     `Loose earnings-history snapshots are back in the bundle (${loose.length} files, ` +
       `${mb(loose.reduce((a, f) => a + f.size, 0))} MB). They must stay .vercelignore'd and ship ` +
-      `via data/catalysts/earnings-history.tar.gz.`,
+      `via ${ARCHIVE}.`,
   );
   assert.ok(
-    fs.existsSync(path.join(REPO_ROOT, "data/catalysts/earnings-history.tar.gz")),
-    "data/catalysts/earnings-history.tar.gz is missing — run: bash scripts/pack-earnings-history.sh",
+    fs.existsSync(path.join(REPO_ROOT, ARCHIVE)),
+    `${ARCHIVE} is missing — run: bash scripts/pack-earnings-history.sh`,
   );
   assert.ok(
-    files.some((f) => f.rel === "data/catalysts/earnings-history.tar.gz"),
-    "earnings-history.tar.gz exists but is not bundled — prod would serve an empty archive",
+    files.some((f) => f.rel === ARCHIVE),
+    `${ARCHIVE} exists but is not bundled — prod would serve an empty archive`,
+  );
+  // The gzip archive compressed each day on its own: 21.1 MB on 2026-10-27 for
+  // what brotli packs into ~3.4 MB. Nothing reads it any more, so a stale copy
+  // in the tree must not ride along in the bundle.
+  assert.ok(
+    !files.some((f) => f.rel === LEGACY_GZIP_ARCHIVE),
+    `${LEGACY_GZIP_ARCHIVE} is bundled again — it is dead weight next to ${ARCHIVE}; keep it .vercelignore'd`,
   );
 });
 
 check("the packed archive matches the loose snapshots byte-for-byte", () => {
-  // Packing is a separate step from archiving, so the tarball can lag the
-  // directory. Prod reads ONLY the tarball — a stale one silently serves
+  // Packing is a separate step from archiving, so the archive can lag the
+  // directory. Prod reads ONLY the archive — a stale one silently serves
   // yesterday's predictions and pre-resolution verdicts with no other symptom.
   //
   // Comparing only the newest filename is NOT enough: resolve-earnings-actuals
@@ -284,28 +296,27 @@ check("the packed archive matches the loose snapshots byte-for-byte", () => {
   // re-checks up to 90 days back), so a manual resolver run committed without a
   // repack changes no filename at all. Equal-length verdicts like BEAT→MISS
   // don't even change the file size, so this hashes content.
+  //
+  // Unpacked with the same code prod runs (earningsHistoryStore.js), so this
+  // also proves the committed archive decodes.
   const looseDir = path.join(REPO_ROOT, "data/catalysts/earnings-history");
-  const tarball = path.join(REPO_ROOT, "data/catalysts/earnings-history.tar.gz");
-  if (!fs.existsSync(looseDir) || !fs.existsSync(tarball)) return;
+  const archive = path.join(REPO_ROOT, ARCHIVE);
+  if (!fs.existsSync(looseDir) || !fs.existsSync(archive)) return;
 
   const digest = (buf) => crypto.createHash("sha256").update(buf).digest("hex").slice(0, 16);
+  const manifest = (dir) =>
+    fs
+      .readdirSync(dir)
+      .filter((f) => /^\d{4}-\d{2}-\d{2}\.json$/.test(f))
+      .sort()
+      .map((f) => `${f} ${digest(fs.readFileSync(path.join(dir, f)))}`);
 
-  const looseManifest = fs
-    .readdirSync(looseDir)
-    .filter((f) => /^\d{4}-\d{2}-\d{2}\.json$/.test(f))
-    .sort()
-    .map((f) => `${f} ${digest(fs.readFileSync(path.join(looseDir, f)))}`);
-
+  const looseManifest = manifest(looseDir);
   const scratch = fs.mkdtempSync(path.join(os.tmpdir(), "eh-verify-"));
   let packedManifest;
   try {
-    execFileSync("tar", ["-xzf", tarball, "-C", scratch], { stdio: ["ignore", "ignore", "pipe"] });
-    const packedDir = path.join(scratch, "earnings-history");
-    packedManifest = fs
-      .readdirSync(packedDir)
-      .filter((f) => /^\d{4}-\d{2}-\d{2}\.json$/.test(f))
-      .sort()
-      .map((f) => `${f} ${digest(fs.readFileSync(path.join(packedDir, f)))}`);
+    unpackArchiveSync({ archivePath: archive, extractBase: scratch });
+    packedManifest = manifest(path.join(scratch, "earnings-history"));
   } finally {
     fs.rmSync(scratch, { recursive: true, force: true });
   }
@@ -317,9 +328,9 @@ check("the packed archive matches the loose snapshots byte-for-byte", () => {
 
   assert.ok(
     missing.length === 0 && extra.length === 0,
-    `earnings-history.tar.gz is out of sync with the loose snapshots. Prod reads the tarball only.\n` +
-      (missing.length ? `      stale or absent in the tarball: ${missing.slice(0, 5).join(", ")}\n` : "") +
-      (extra.length ? `      in the tarball but not on disk: ${extra.slice(0, 5).join(", ")}\n` : "") +
+    `${ARCHIVE} is out of sync with the loose snapshots. Prod reads the archive only.\n` +
+      (missing.length ? `      stale or absent in the archive: ${missing.slice(0, 5).join(", ")}\n` : "") +
+      (extra.length ? `      in the archive but not on disk: ${extra.slice(0, 5).join(", ")}\n` : "") +
       `      Re-pack: bash scripts/pack-earnings-history.sh`,
   );
 });
