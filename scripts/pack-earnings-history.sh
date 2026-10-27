@@ -1,19 +1,24 @@
 #!/usr/bin/env bash
-# Pack data/catalysts/earnings-history/ (one JSON snapshot per day, ~64 MB and
-# growing ~5 MB/day) into a single gzipped tarball for the Vercel function.
+# Pack data/catalysts/earnings-history/ (one JSON snapshot per day, ~260 MB and
+# growing ~5 MB/day) into a single brotli-compressed tar for the Vercel function.
 #
-# WHY: the daily snapshots are near-duplicates of each other, so they compress
-# ~13x. Shipped loose they were 63.8 MB of the function bundle and on 2026-07-25
-# pushed it past Vercel's 250 MB uncompressed limit — every production and
-# preview deploy failed until the archive was packed.
+# WHY: shipped loose, the snapshots were 63.8 MB of the function bundle and on
+# 2026-07-25 pushed it past Vercel's 250 MB uncompressed limit — every
+# production and preview deploy failed until the archive was packed. It was then
+# packed with `tar -czf`, but gzip compresses each snapshot on its own (its 32 KB
+# window can't see the previous day's near-identical file): 21.1 MB by
+# 2026-10-27, +0.2-0.6 MB a night, and the main reason the bundle hit its 200 MB
+# budget. The brotli pack reaches back across days: ~3.4 MB, ~0.1 MB a night.
+# Format + rationale: services/earnings/earningsHistoryPack.js.
 #
-# Output: data/catalysts/earnings-history.tar.gz (~5 MB). Lazy-extracted in
+# Output: data/catalysts/earnings-history.tar.br. Lazy-extracted in
 # services/earnings/earningsHistoryStore.js:earningsHistoryReadDir() on first
 # read in a cold Vercel container (extract target: /tmp/earnings-history).
 #
 # The loose directory stays in git — the local backtest, weight-tuning and
 # actuals-resolution scripts all read it, and .vercelignore keeps it out of the
-# upload. Only the tarball ships.
+# upload. Only the archive ships. test/vercel-bundle-size.test.mjs fails the push
+# when the archive and the loose snapshots disagree.
 #
 # Run anywhere: `bash scripts/pack-earnings-history.sh`
 
@@ -26,13 +31,12 @@ if [ ! -d data/catalysts/earnings-history ]; then
   exit 1
 fi
 
-# Atomic write: pack to a sibling temp file, then mv. Avoids a deploy or a
-# concurrent reader capturing a half-written tarball mid-pack.
-TMP="data/catalysts/earnings-history.tar.gz.tmp.$$"
-trap 'rm -f "$TMP"' EXIT
-tar -czf "$TMP" -C data/catalysts earnings-history
-mv -f "$TMP" data/catalysts/earnings-history.tar.gz
+# Atomic (temp file + rename) and deterministic: the same snapshots always pack
+# to the same bytes.
+node services/earnings/earningsHistoryPack.js pack \
+  data/catalysts/earnings-history data/catalysts/earnings-history.tar.br |
+  sed 's/^/[pack-earnings-history] /'
 
-SIZE=$(ls -lh data/catalysts/earnings-history.tar.gz | awk '{print $5}')
-COUNT=$(find data/catalysts/earnings-history -name '*.json' | wc -l | tr -d ' ')
-echo "[pack-earnings-history] packed $COUNT files -> data/catalysts/earnings-history.tar.gz ($SIZE)"
+# The gzip archive this replaced. .vercelignore keeps it out of the bundle; the
+# nightly's `git add data/catalysts/` stages this deletion.
+rm -f data/catalysts/earnings-history.tar.gz
