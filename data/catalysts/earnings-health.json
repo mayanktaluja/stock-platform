@@ -1,10 +1,10 @@
 {
   "schema_version": "earnings-health-v1",
-  "generated_at": "2026-10-27T23:05:07.491Z",
+  "generated_at": "2026-10-29T11:04:23.664Z",
   "resolved": {
-    "count": 1267,
-    "delta_vs_prior": 29,
-    "prior_count": 1238
+    "count": 1313,
+    "delta_vs_prior": 46,
+    "prior_count": 1267
   },
   "llm_providers": {
     "groq": 205,
@@ -31,9 +31,9 @@
   "cap_lift_gate": {
     "state": false,
     "enough_data_to_lift_cap": false,
-    "days_in_current_state": 136,
+    "days_in_current_state": 137,
     "current_resolved": 0,
-    "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (1267 across all versions)",
+    "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (1313 across all versions)",
     "detail": {
       "resolved_required": 30,
       "bucket_60_64_hit_rate_required": 55,
@@ -46,7 +46,7 @@
   },
   "weight_tuning_gate": {
     "met": true,
-    "resolved_count": 1159,
+    "resolved_count": 1205,
     "distinct_quarters": 3,
     "sectors_with_min_events": 20,
     "detail": {
@@ -60,29 +60,29 @@
         "Q4 FY26"
       ],
       "by_sector": {
-        "Pharmaceuticals & Biotech": 85,
-        "Consumer Durables": 71,
-        "Capital Goods": 163,
-        "Food, Beverage & Tobacco": 46,
-        "Materials": 180,
+        "Pharmaceuticals & Biotech": 87,
+        "Consumer Durables": 76,
+        "Capital Goods": 169,
+        "Food, Beverage & Tobacco": 49,
+        "Materials": 185,
         "Consumer Services": 48,
-        "Diversified Financials": 119,
-        "Automobiles": 72,
+        "Diversified Financials": 121,
+        "Automobiles": 78,
         "Healthcare": 40,
-        "Media": 18,
-        "Utilities": 34,
+        "Media": 20,
+        "Utilities": 36,
         "Semiconductors": 8,
-        "Retail": 35,
-        "Transportation": 29,
+        "Retail": 37,
+        "Transportation": 32,
         "Telecom": 9,
-        "Commercial Services": 21,
+        "Commercial Services": 22,
         "Energy": 18,
-        "Software": 59,
-        "Banks": 46,
+        "Software": 62,
+        "Banks": 48,
         "Tech": 22,
         "Consumer Retailing": 4,
-        "Household": 15,
-        "Insurance": 14,
+        "Household": 16,
+        "Insurance": 15,
         "Unknown": 2,
         "Real Estate": 1
       }
@@ -97,9 +97,9 @@
       "gate": {
         "state": false,
         "enough_data_to_lift_cap": false,
-        "days_in_current_state": 136,
+        "days_in_current_state": 137,
         "current_resolved": 0,
-        "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (1267 across all versions)",
+        "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (1313 across all versions)",
         "detail": {
           "resolved_required": 30,
           "bucket_60_64_hit_rate_required": 55,
@@ -117,7 +117,7 @@
       "reason": "Weight tuning review is eligible from the separate tuning sample gate.",
       "gate": {
         "met": true,
-        "resolved_count": 1159,
+        "resolved_count": 1205,
         "distinct_quarters": 3,
         "sectors_with_min_events": 20,
         "detail": {
@@ -131,29 +131,29 @@
             "Q4 FY26"
           ],
           "by_sector": {
-            "Pharmaceuticals & Biotech": 85,
-            "Consumer Durables": 71,
-            "Capital Goods": 163,
-            "Food, Beverage & Tobacco": 46,
-            "Materials": 180,
+            "Pharmaceuticals & Biotech": 87,
+            "Consumer Durables": 76,
+            "Capital Goods": 169,
+            "Food, Beverage & Tobacco": 49,
+            "Materials": 185,
             "Consumer Services": 48,
-            "Diversified Financials": 119,
-            "Automobiles": 72,
+            "Diversified Financials": 121,
+            "Automobiles": 78,
             "Healthcare": 40,
-            "Media": 18,
-            "Utilities": 34,
+            "Media": 20,
+            "Utilities": 36,
             "Semiconductors": 8,
-            "Retail": 35,
-            "Transportation": 29,
+            "Retail": 37,
+            "Transportation": 32,
             "Telecom": 9,
-            "Commercial Services": 21,
+            "Commercial Services": 22,
             "Energy": 18,
-            "Software": 59,
-            "Banks": 46,
+            "Software": 62,
+            "Banks": 48,
             "Tech": 22,
             "Consumer Retailing": 4,
-            "Household": 15,
-            "Insurance": 14,
+            "Household": 16,
+            "Insurance": 15,
             "Unknown": 2,
             "Real Estate": 1
           }
@@ -189,17 +189,17 @@
   },
   "insufficient_data": {
     "count_total": 156,
-    "count_7d": 18,
+    "count_7d": 15,
     "count_30d": 35,
     "count_prior_30d": 8,
     "trend_pct_30d_vs_prior": 337.5
   },
   "macro_regime": {
     "present": true,
-    "generated_at": "2026-10-27T18:30:32.377Z",
-    "age_hours": 5,
+    "generated_at": "2026-10-28T18:30:26.815Z",
+    "age_hours": 17,
     "classifier_provider": "gemini",
-    "regime": "CALM",
+    "regime": "WAR_ESCALATION",
     "stale": false,
     "alert": null
   },
@@ -211,26 +211,26 @@
   "history_files": 120,
   "hit_rate_summary": {
     "schema_version": "hit-rate-summary-v1",
-    "generated_at": "2026-10-27T23:05:08.036Z",
-    "resolved_count": 1144,
-    "unresolved_count": 4220,
+    "generated_at": "2026-10-29T11:04:24.387Z",
+    "resolved_count": 1190,
+    "unresolved_count": 4174,
     "strict": {
-      "hit_rate_pct": 40,
-      "ci_low_pct": 37.1,
-      "ci_high_pct": 42.9,
-      "sample_size": 1144
+      "hit_rate_pct": 39.7,
+      "ci_low_pct": 37,
+      "ci_high_pct": 42.5,
+      "sample_size": 1190
     },
     "lenient": {
-      "hit_rate_pct": 78.4,
-      "ci_low_pct": 76.3,
-      "ci_high_pct": 80.6,
-      "sample_size": 1141
+      "hit_rate_pct": 78.1,
+      "ci_low_pct": 75.7,
+      "ci_high_pct": 80.5,
+      "sample_size": 1187
     },
     "catastrophic": {
-      "rate_pct": 21.6,
-      "ci_low_pct": 19.3,
-      "ci_high_pct": 24,
-      "sample_size": 1141
+      "rate_pct": 21.9,
+      "ci_low_pct": 19.5,
+      "ci_high_pct": 24.3,
+      "sample_size": 1187
     },
     "rolling_30": {
       "window": 30,
