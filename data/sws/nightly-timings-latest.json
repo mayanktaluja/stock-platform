@@ -1,61 +1,61 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-27T00:17:50.000Z",
-  "started_at": "2026-10-26T19:00:20.000Z",
-  "finished_at": "2026-10-27T00:17:50.000Z",
-  "duration_seconds": 19050,
+  "generated_at": "2026-10-29T11:09:26.000Z",
+  "started_at": "2026-10-28T19:00:13.000Z",
+  "finished_at": "2026-10-29T11:09:26.000Z",
+  "duration_seconds": 58153,
   "target_publish_by_ist": "08:45",
   "stages": [
     {
       "stage": "early_aux_branch",
       "dependency": "git_sync",
-      "started_at": "2026-10-26T19:00:26.000Z",
-      "finished_at": "2026-10-26T19:05:51.000Z",
-      "duration_seconds": 325,
+      "started_at": "2026-10-28T19:00:20.000Z",
+      "finished_at": "2026-10-28T19:05:14.000Z",
+      "duration_seconds": 294,
       "status": "ok",
       "exit_code": 0
     },
     {
       "stage": "sws_primary_branch",
       "dependency": "git_sync",
-      "started_at": "2026-10-26T19:00:26.000Z",
-      "finished_at": "2026-10-27T00:01:53.000Z",
-      "duration_seconds": 18087,
+      "started_at": "2026-10-28T19:00:20.000Z",
+      "finished_at": "2026-10-29T10:52:36.000Z",
+      "duration_seconds": 57136,
       "status": "ok",
       "exit_code": 0
     },
     {
       "stage": "earnings_watch",
       "dependency": "sws_primary_branch,early_aux_branch",
-      "started_at": "2026-10-27T00:01:53.000Z",
-      "finished_at": "2026-10-27T00:11:12.000Z",
-      "duration_seconds": 559,
-      "status": "ok",
-      "exit_code": 0
+      "started_at": "2026-10-29T10:52:36.000Z",
+      "finished_at": "2026-10-29T11:02:36.000Z",
+      "duration_seconds": 600,
+      "status": "failed",
+      "exit_code": 143
     },
     {
       "stage": "pack_deep_tarball",
       "dependency": "sanity_gate",
-      "started_at": "2026-10-27T00:14:53.000Z",
-      "finished_at": "2026-10-27T00:15:40.000Z",
-      "duration_seconds": 47,
+      "started_at": "2026-10-29T11:06:50.000Z",
+      "finished_at": "2026-10-29T11:07:34.000Z",
+      "duration_seconds": 44,
       "status": "ok",
       "exit_code": 0
     },
     {
       "stage": "packed_price_freshness_gate",
       "dependency": "pack_deep_tarball",
-      "started_at": "2026-10-27T00:15:41.000Z",
-      "finished_at": "2026-10-27T00:17:38.000Z",
-      "duration_seconds": 117,
+      "started_at": "2026-10-29T11:07:34.000Z",
+      "finished_at": "2026-10-29T11:09:16.000Z",
+      "duration_seconds": 102,
       "status": "ok",
       "exit_code": 0
     },
     {
       "stage": "coverage_gap_analysis",
       "dependency": "packed_price_freshness_gate",
-      "started_at": "2026-10-27T00:17:38.000Z",
-      "finished_at": "2026-10-27T00:17:40.000Z",
+      "started_at": "2026-10-29T11:09:16.000Z",
+      "finished_at": "2026-10-29T11:09:18.000Z",
       "duration_seconds": 2,
       "status": "ok",
       "exit_code": 0
@@ -63,8 +63,8 @@
     {
       "stage": "local_publish_ready",
       "dependency": "coverage_gap_analysis",
-      "started_at": "2026-10-27T00:17:50.000Z",
-      "finished_at": "2026-10-27T00:17:50.000Z",
+      "started_at": "2026-10-29T11:09:26.000Z",
+      "finished_at": "2026-10-29T11:09:26.000Z",
       "duration_seconds": 0,
       "status": "ok",
       "exit_code": 0
@@ -74,53 +74,53 @@
     "early_aux_branch": {
       "stage": "early_aux_branch",
       "dependency": "git_sync",
-      "started_at": "2026-10-26T19:00:26.000Z",
-      "finished_at": "2026-10-26T19:05:51.000Z",
-      "duration_seconds": 325,
+      "started_at": "2026-10-28T19:00:20.000Z",
+      "finished_at": "2026-10-28T19:05:14.000Z",
+      "duration_seconds": 294,
       "status": "ok",
       "exit_code": 0
     },
     "sws_primary_branch": {
       "stage": "sws_primary_branch",
       "dependency": "git_sync",
-      "started_at": "2026-10-26T19:00:26.000Z",
-      "finished_at": "2026-10-27T00:01:53.000Z",
-      "duration_seconds": 18087,
+      "started_at": "2026-10-28T19:00:20.000Z",
+      "finished_at": "2026-10-29T10:52:36.000Z",
+      "duration_seconds": 57136,
       "status": "ok",
       "exit_code": 0
     },
     "earnings_watch": {
       "stage": "earnings_watch",
       "dependency": "sws_primary_branch,early_aux_branch",
-      "started_at": "2026-10-27T00:01:53.000Z",
-      "finished_at": "2026-10-27T00:11:12.000Z",
-      "duration_seconds": 559,
-      "status": "ok",
-      "exit_code": 0
+      "started_at": "2026-10-29T10:52:36.000Z",
+      "finished_at": "2026-10-29T11:02:36.000Z",
+      "duration_seconds": 600,
+      "status": "failed",
+      "exit_code": 143
     },
     "pack_deep_tarball": {
       "stage": "pack_deep_tarball",
       "dependency": "sanity_gate",
-      "started_at": "2026-10-27T00:14:53.000Z",
-      "finished_at": "2026-10-27T00:15:40.000Z",
-      "duration_seconds": 47,
+      "started_at": "2026-10-29T11:06:50.000Z",
+      "finished_at": "2026-10-29T11:07:34.000Z",
+      "duration_seconds": 44,
       "status": "ok",
       "exit_code": 0
     },
     "packed_price_freshness_gate": {
       "stage": "packed_price_freshness_gate",
       "dependency": "pack_deep_tarball",
-      "started_at": "2026-10-27T00:15:41.000Z",
-      "finished_at": "2026-10-27T00:17:38.000Z",
-      "duration_seconds": 117,
+      "started_at": "2026-10-29T11:07:34.000Z",
+      "finished_at": "2026-10-29T11:09:16.000Z",
+      "duration_seconds": 102,
       "status": "ok",
       "exit_code": 0
     },
     "coverage_gap_analysis": {
       "stage": "coverage_gap_analysis",
       "dependency": "packed_price_freshness_gate",
-      "started_at": "2026-10-27T00:17:38.000Z",
-      "finished_at": "2026-10-27T00:17:40.000Z",
+      "started_at": "2026-10-29T11:09:16.000Z",
+      "finished_at": "2026-10-29T11:09:18.000Z",
       "duration_seconds": 2,
       "status": "ok",
       "exit_code": 0
@@ -128,8 +128,8 @@
     "local_publish_ready": {
       "stage": "local_publish_ready",
       "dependency": "coverage_gap_analysis",
-      "started_at": "2026-10-27T00:17:50.000Z",
-      "finished_at": "2026-10-27T00:17:50.000Z",
+      "started_at": "2026-10-29T11:09:26.000Z",
+      "finished_at": "2026-10-29T11:09:26.000Z",
       "duration_seconds": 0,
       "status": "ok",
       "exit_code": 0

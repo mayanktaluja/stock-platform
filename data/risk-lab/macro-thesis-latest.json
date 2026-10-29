@@ -1,23 +1,23 @@
 {
   "schema_version": "macro-thesis-v1",
-  "generated_at": "2026-10-27T00:13:11.740Z",
+  "generated_at": "2026-10-29T11:05:11.611Z",
   "regime": {
-    "regime": "CALM",
-    "severity": 1,
-    "confidence": 0.9,
-    "label": "Calm",
-    "generated_at": "2026-10-26T18:39:27.823Z",
+    "regime": "WAR_ESCALATION",
+    "severity": 4,
+    "confidence": 0.8,
+    "label": "War Escalation",
+    "generated_at": "2026-10-28T18:30:26.815Z",
     "days_in_state": 0,
     "stale": false,
-    "reasoning": "No clear macro shock; headlines focus on AI IPO hype, earnings and modest oil‑price impact.",
+    "reasoning": "Escalating tensions in the Middle East, particularly involving Iran, are driving fears of higher commodity prices and impacting global markets.",
     "key_events": [
-      "Anthropic IPO puts AI spending under the spotlight as losses mount (Economic Times)",
-      "Benchmark bond yield nears 7.5% on rising crude oil prices, US cues (Business Standard)",
-      "The Rs 1.5 lakh crore MTF problem: How shrinking leveraged positions are deepening India's smallcap sell-off (Economic Times)",
-      "Paytm Q2 Results: Profit rockets 976% YoY to Rs 226 crore (Economic Times)",
-      "Raymond Realty raises Rs 210 cr from ICICI Prudential Real Estate Development Fund (Economic Times)"
+      "World Bank sees commodity prices surging 23% in 2026 on Middle East war (Economic Times)",
+      "European gas prices jump above €100 on fears of Iran war escalation (FT Markets)",
+      "Iran threatens South Korean shipping group over Hormuz transits (FT Markets)",
+      "India not yet a consensus buy amid oil, tech disruptions: Global brokerages (Business Standard)",
+      "Israeli stocks fall, shekel weakens as Netanyahu bloc beats election forecasts (Economic Times)"
     ],
-    "classifier_provider": "groq",
+    "classifier_provider": "gemini",
     "source_health": {
       "RBI Press": "blocked",
       "SEBI Press": "ok",
@@ -42,96 +42,285 @@
     },
     "sector_impacts": [
       {
-        "sector": "IT Services",
+        "sector": "Oil & Gas",
         "impact": 2,
-        "reason": "AI IPO hype boosts sector outlook"
-      },
-      {
-        "sector": "Banking",
-        "impact": 1,
-        "reason": "Strong profit growth and loan income"
-      },
-      {
-        "sector": "NBFC",
-        "impact": -1,
-        "reason": "Yes Bank hitting 52‑week lows signals stress"
-      },
-      {
-        "sector": "Real Estate",
-        "impact": 1,
-        "reason": "Capital raise indicates demand"
+        "reason": "Rising commodity prices, especially oil and gas, due to Middle East tensions will benefit upstream companies."
       },
       {
         "sector": "Energy",
+        "impact": 1,
+        "reason": "Higher energy prices generally support the sector, though specific impacts vary by sub-segment."
+      },
+      {
+        "sector": "Automobile",
         "impact": -1,
-        "reason": "Rising crude prices pressure bond yields"
+        "reason": "Higher fuel costs could dampen consumer demand and increase operational expenses for manufacturers."
+      },
+      {
+        "sector": "Aviation",
+        "impact": -2,
+        "reason": "Surging crude oil prices will significantly increase fuel costs, impacting airline profitability."
+      },
+      {
+        "sector": "Chemicals",
+        "impact": -1,
+        "reason": "Higher input costs from crude oil derivatives could squeeze margins for chemical producers."
       }
     ]
   },
-  "catalyst_proximity_days": 2,
+  "catalyst_proximity_days": 0,
   "upcoming_catalysts": [
     {
       "date": "2026-10-29",
       "kind": "FOMC",
       "label": "US FOMC Meeting — October 2026",
       "severity_potential": 3,
-      "days_until": 2
+      "days_until": 0
     },
     {
       "date": "2026-11-05",
       "kind": "GST_COUNCIL",
       "label": "GST Council Meeting (provisional)",
       "severity_potential": 2,
-      "days_until": 9
+      "days_until": 7
     }
   ],
   "position_cap_pct": 10,
   "branches": [
     {
       "key": "continue",
-      "label": "CALM continues at current severity",
+      "label": "WAR_ESCALATION continues at current severity",
       "probability": 0.52,
       "duration_days": 14,
-      "n_analogs": 9,
+      "n_analogs": 5,
       "indeterminate": false,
-      "beneficiaries": [],
-      "losers": [],
+      "beneficiaries": [
+        {
+          "sector_index_key": null,
+          "sector_label": "Energy",
+          "sector_bucket": "Energy",
+          "expected_return_pct": null,
+          "template_delta": 2,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "BENEFICIARY",
+          "stock_candidates": {
+            "sector": "Energy",
+            "candidates_total": 29,
+            "passed_filters": 9,
+            "excluded_conglomerates": [
+              "RELIANCE"
+            ],
+            "stocks": [
+              {
+                "ticker": "SEAMECLTD",
+                "name": "Seamec Limited",
+                "sector": "Energy",
+                "v4_score_100": 69.8,
+                "composite_score": 49.4,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 36.4,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "PETRONET",
+                "name": "Petronet LNG Limited",
+                "sector": "Energy",
+                "v4_score_100": 60.9,
+                "composite_score": 41.1,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 11.9,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "ONGC",
+                "name": "Oil and Natural Gas Corporation Limited",
+                "sector": "Energy",
+                "v4_score_100": 51.9,
+                "composite_score": 34.9,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 29.8,
+                "verdict": "STRONG"
+              },
+              {
+                "ticker": "AEGISLOG",
+                "name": "Aegis Logistics Limited",
+                "sector": "Energy",
+                "v4_score_100": 63.5,
+                "composite_score": 32.1,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 20.6,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "DEEPINDS",
+                "name": "Deep Industries Limited",
+                "sector": "Energy",
+                "v4_score_100": 55.9,
+                "composite_score": 28.8,
+                "valuation_band": "FAIR",
+                "upside_pct": -0.4,
+                "verdict": "STRONG"
+              }
+            ]
+          }
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Metals & Mining",
+          "sector_bucket": "Metals & Mining",
+          "expected_return_pct": null,
+          "template_delta": 2,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "BENEFICIARY",
+          "stock_candidates": {
+            "sector": "Metals & Mining",
+            "candidates_total": 0,
+            "passed_filters": 0,
+            "excluded_conglomerates": [],
+            "stocks": []
+          }
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Capital Goods",
+          "sector_bucket": "Capital Goods",
+          "expected_return_pct": null,
+          "template_delta": 1,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "BENEFICIARY",
+          "stock_candidates": {
+            "sector": "Capital Goods",
+            "candidates_total": 455,
+            "passed_filters": 139,
+            "excluded_conglomerates": [
+              "ADANIENT"
+            ],
+            "stocks": [
+              {
+                "ticker": "WPIL",
+                "name": "WPIL Limited",
+                "sector": "Capital Goods",
+                "v4_score_100": 79.5,
+                "composite_score": 58.8,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 64.6,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "TRANSRAILL",
+                "name": "Transrail Lighting Limited",
+                "sector": "Capital Goods",
+                "v4_score_100": 70.2,
+                "composite_score": 58.3,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 98.3,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "HEG",
+                "name": "HEG Advanced Materials Limited",
+                "sector": "Capital Goods",
+                "v4_score_100": 72.6,
+                "composite_score": 56.2,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 185.7,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "KRISHNADEF",
+                "name": "Krishna Defence and Allied Industries Limited",
+                "sector": "Capital Goods",
+                "v4_score_100": 80.9,
+                "composite_score": 55.3,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 49.8,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "CERA",
+                "name": "Cera Sanitaryware Limited",
+                "sector": "Capital Goods",
+                "v4_score_100": 52.9,
+                "composite_score": 53.7,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 57,
+                "verdict": "STRONG"
+              }
+            ]
+          }
+        }
+      ],
+      "losers": [
+        {
+          "sector_index_key": null,
+          "sector_label": "Real Estate",
+          "sector_bucket": "Real Estate",
+          "expected_return_pct": null,
+          "template_delta": -3,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Automobiles",
+          "sector_bucket": "Automobiles",
+          "expected_return_pct": null,
+          "template_delta": -2,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Software",
+          "sector_bucket": "Software",
+          "expected_return_pct": null,
+          "template_delta": -1,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
+        }
+      ],
       "reasoning": {
-        "modulator_applied": 1,
+        "modulator_applied": 1.15,
         "base_probability": 0.55,
-        "analog_pool_regime": "CALM",
+        "analog_pool_regime": "WAR_ESCALATION",
         "analog_warnings": [
           "no sector-index data found for any analog date — run scripts/refresh-sector-indices.mjs --backfill-months=24"
         ],
         "analogs": [
           {
-            "date": "2026-05-21",
-            "label": "Calm",
-            "severity": 1,
-            "source": "heuristic"
+            "date": "2022-02-24",
+            "label": "Russia invades Ukraine",
+            "severity": 4,
+            "source": "manual-seed"
           },
           {
-            "date": "2026-05-22",
-            "label": "Calm",
-            "severity": 1,
-            "source": "heuristic"
+            "date": "2023-10-07",
+            "label": "Israel-Hamas conflict begins",
+            "severity": 3,
+            "source": "manual-seed"
           },
           {
-            "date": "2026-05-24",
-            "label": "Calm",
-            "severity": 1,
-            "source": "heuristic"
-          },
-          {
-            "date": "2026-05-25",
-            "label": "Calm",
-            "severity": 1,
-            "source": "heuristic"
+            "date": "2025-05-07",
+            "label": "India-Pakistan border tensions (Operation Sindoor)",
+            "severity": 3,
+            "source": "manual-seed"
           },
           {
             "date": "2026-05-26",
-            "label": "Calm",
-            "severity": 1,
+            "label": "War Escalation",
+            "severity": 3,
+            "source": "heuristic"
+          },
+          {
+            "date": "2026-06-01",
+            "label": "War Escalation",
+            "severity": 3,
             "source": "heuristic"
           }
         ]
@@ -139,65 +328,231 @@
     },
     {
       "key": "escalate",
-      "label": "CALM escalates (severity +1)",
-      "probability": 0.1,
+      "label": "WAR_ESCALATION escalates (severity +1)",
+      "probability": 0.17,
       "duration_days": 7,
-      "n_analogs": 9,
-      "indeterminate": false,
-      "beneficiaries": [],
-      "losers": [],
+      "n_analogs": 1,
+      "indeterminate": true,
+      "beneficiaries": [
+        {
+          "sector_index_key": null,
+          "sector_label": "Energy",
+          "sector_bucket": "Energy",
+          "expected_return_pct": null,
+          "template_delta": 2,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "BENEFICIARY",
+          "stock_candidates": {
+            "sector": "Energy",
+            "candidates_total": 29,
+            "passed_filters": 9,
+            "excluded_conglomerates": [
+              "RELIANCE"
+            ],
+            "stocks": [
+              {
+                "ticker": "SEAMECLTD",
+                "name": "Seamec Limited",
+                "sector": "Energy",
+                "v4_score_100": 69.8,
+                "composite_score": 49.4,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 36.4,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "PETRONET",
+                "name": "Petronet LNG Limited",
+                "sector": "Energy",
+                "v4_score_100": 60.9,
+                "composite_score": 41.1,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 11.9,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "ONGC",
+                "name": "Oil and Natural Gas Corporation Limited",
+                "sector": "Energy",
+                "v4_score_100": 51.9,
+                "composite_score": 34.9,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 29.8,
+                "verdict": "STRONG"
+              },
+              {
+                "ticker": "AEGISLOG",
+                "name": "Aegis Logistics Limited",
+                "sector": "Energy",
+                "v4_score_100": 63.5,
+                "composite_score": 32.1,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 20.6,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "DEEPINDS",
+                "name": "Deep Industries Limited",
+                "sector": "Energy",
+                "v4_score_100": 55.9,
+                "composite_score": 28.8,
+                "valuation_band": "FAIR",
+                "upside_pct": -0.4,
+                "verdict": "STRONG"
+              }
+            ]
+          }
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Metals & Mining",
+          "sector_bucket": "Metals & Mining",
+          "expected_return_pct": null,
+          "template_delta": 2,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "BENEFICIARY",
+          "stock_candidates": {
+            "sector": "Metals & Mining",
+            "candidates_total": 0,
+            "passed_filters": 0,
+            "excluded_conglomerates": [],
+            "stocks": []
+          }
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Capital Goods",
+          "sector_bucket": "Capital Goods",
+          "expected_return_pct": null,
+          "template_delta": 1,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "BENEFICIARY",
+          "stock_candidates": {
+            "sector": "Capital Goods",
+            "candidates_total": 455,
+            "passed_filters": 139,
+            "excluded_conglomerates": [
+              "ADANIENT"
+            ],
+            "stocks": [
+              {
+                "ticker": "WPIL",
+                "name": "WPIL Limited",
+                "sector": "Capital Goods",
+                "v4_score_100": 79.5,
+                "composite_score": 58.8,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 64.6,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "TRANSRAILL",
+                "name": "Transrail Lighting Limited",
+                "sector": "Capital Goods",
+                "v4_score_100": 70.2,
+                "composite_score": 58.3,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 98.3,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "HEG",
+                "name": "HEG Advanced Materials Limited",
+                "sector": "Capital Goods",
+                "v4_score_100": 72.6,
+                "composite_score": 56.2,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 185.7,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "KRISHNADEF",
+                "name": "Krishna Defence and Allied Industries Limited",
+                "sector": "Capital Goods",
+                "v4_score_100": 80.9,
+                "composite_score": 55.3,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 49.8,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "CERA",
+                "name": "Cera Sanitaryware Limited",
+                "sector": "Capital Goods",
+                "v4_score_100": 52.9,
+                "composite_score": 53.7,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 57,
+                "verdict": "STRONG"
+              }
+            ]
+          }
+        }
+      ],
+      "losers": [
+        {
+          "sector_index_key": null,
+          "sector_label": "Real Estate",
+          "sector_bucket": "Real Estate",
+          "expected_return_pct": null,
+          "template_delta": -3,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Automobiles",
+          "sector_bucket": "Automobiles",
+          "expected_return_pct": null,
+          "template_delta": -2,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Software",
+          "sector_bucket": "Software",
+          "expected_return_pct": null,
+          "template_delta": -1,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
+        }
+      ],
       "reasoning": {
-        "modulator_applied": 0.7,
+        "modulator_applied": 1.4,
         "base_probability": 0.15,
-        "analog_pool_regime": "CALM (severity +1)",
+        "analog_pool_regime": "WAR_ESCALATION (severity +1)",
         "analog_warnings": [
+          "n_analogs=1 < 3 — INDETERMINATE; do not act on these sector ranges",
           "no sector-index data found for any analog date — run scripts/refresh-sector-indices.mjs --backfill-months=24"
         ],
         "analogs": [
           {
-            "date": "2026-05-21",
-            "label": "Calm",
-            "severity": 1,
-            "source": "heuristic"
-          },
-          {
-            "date": "2026-05-22",
-            "label": "Calm",
-            "severity": 1,
-            "source": "heuristic"
-          },
-          {
-            "date": "2026-05-24",
-            "label": "Calm",
-            "severity": 1,
-            "source": "heuristic"
-          },
-          {
-            "date": "2026-05-25",
-            "label": "Calm",
-            "severity": 1,
-            "source": "heuristic"
-          },
-          {
-            "date": "2026-05-26",
-            "label": "Calm",
-            "severity": 1,
-            "source": "heuristic"
+            "date": "2022-02-24",
+            "label": "Russia invades Ukraine",
+            "severity": 4,
+            "source": "manual-seed"
           }
         ]
       }
     },
     {
       "key": "de_escalate",
-      "label": "CALM de-escalates → CALM",
-      "probability": 0.19,
+      "label": "WAR_ESCALATION de-escalates → CALM",
+      "probability": 0.14,
       "duration_days": 21,
       "n_analogs": 9,
       "indeterminate": false,
       "beneficiaries": [],
       "losers": [],
       "reasoning": {
-        "modulator_applied": 1,
+        "modulator_applied": 0.85,
         "base_probability": 0.2,
         "analog_pool_regime": "CALM",
         "analog_warnings": [
@@ -239,13 +594,202 @@
     },
     {
       "key": "new_shock",
-      "label": "New unrelated shock supersedes CALM",
-      "probability": 0.19,
+      "label": "New unrelated shock supersedes WAR_ESCALATION",
+      "probability": 0.16,
       "duration_days": 7,
       "n_analogs": 0,
       "indeterminate": false,
-      "beneficiaries": [],
-      "losers": [],
+      "beneficiaries": [
+        {
+          "sector_index_key": null,
+          "sector_label": "Energy",
+          "sector_bucket": "Energy",
+          "expected_return_pct": null,
+          "template_delta": 2,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "BENEFICIARY",
+          "stock_candidates": {
+            "sector": "Energy",
+            "candidates_total": 29,
+            "passed_filters": 9,
+            "excluded_conglomerates": [
+              "RELIANCE"
+            ],
+            "stocks": [
+              {
+                "ticker": "SEAMECLTD",
+                "name": "Seamec Limited",
+                "sector": "Energy",
+                "v4_score_100": 69.8,
+                "composite_score": 49.4,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 36.4,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "PETRONET",
+                "name": "Petronet LNG Limited",
+                "sector": "Energy",
+                "v4_score_100": 60.9,
+                "composite_score": 41.1,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 11.9,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "ONGC",
+                "name": "Oil and Natural Gas Corporation Limited",
+                "sector": "Energy",
+                "v4_score_100": 51.9,
+                "composite_score": 34.9,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 29.8,
+                "verdict": "STRONG"
+              },
+              {
+                "ticker": "AEGISLOG",
+                "name": "Aegis Logistics Limited",
+                "sector": "Energy",
+                "v4_score_100": 63.5,
+                "composite_score": 32.1,
+                "valuation_band": "DISCOUNT",
+                "upside_pct": 20.6,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "DEEPINDS",
+                "name": "Deep Industries Limited",
+                "sector": "Energy",
+                "v4_score_100": 55.9,
+                "composite_score": 28.8,
+                "valuation_band": "FAIR",
+                "upside_pct": -0.4,
+                "verdict": "STRONG"
+              }
+            ]
+          }
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Metals & Mining",
+          "sector_bucket": "Metals & Mining",
+          "expected_return_pct": null,
+          "template_delta": 2,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "BENEFICIARY",
+          "stock_candidates": {
+            "sector": "Metals & Mining",
+            "candidates_total": 0,
+            "passed_filters": 0,
+            "excluded_conglomerates": [],
+            "stocks": []
+          }
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Capital Goods",
+          "sector_bucket": "Capital Goods",
+          "expected_return_pct": null,
+          "template_delta": 1,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "BENEFICIARY",
+          "stock_candidates": {
+            "sector": "Capital Goods",
+            "candidates_total": 455,
+            "passed_filters": 139,
+            "excluded_conglomerates": [
+              "ADANIENT"
+            ],
+            "stocks": [
+              {
+                "ticker": "WPIL",
+                "name": "WPIL Limited",
+                "sector": "Capital Goods",
+                "v4_score_100": 79.5,
+                "composite_score": 58.8,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 64.6,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "TRANSRAILL",
+                "name": "Transrail Lighting Limited",
+                "sector": "Capital Goods",
+                "v4_score_100": 70.2,
+                "composite_score": 58.3,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 98.3,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "HEG",
+                "name": "HEG Advanced Materials Limited",
+                "sector": "Capital Goods",
+                "v4_score_100": 72.6,
+                "composite_score": 56.2,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 185.7,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "KRISHNADEF",
+                "name": "Krishna Defence and Allied Industries Limited",
+                "sector": "Capital Goods",
+                "v4_score_100": 80.9,
+                "composite_score": 55.3,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 49.8,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "CERA",
+                "name": "Cera Sanitaryware Limited",
+                "sector": "Capital Goods",
+                "v4_score_100": 52.9,
+                "composite_score": 53.7,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 57,
+                "verdict": "STRONG"
+              }
+            ]
+          }
+        }
+      ],
+      "losers": [
+        {
+          "sector_index_key": null,
+          "sector_label": "Real Estate",
+          "sector_bucket": "Real Estate",
+          "expected_return_pct": null,
+          "template_delta": -3,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Automobiles",
+          "sector_bucket": "Automobiles",
+          "expected_return_pct": null,
+          "template_delta": -2,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
+        },
+        {
+          "sector_index_key": null,
+          "sector_label": "Software",
+          "sector_bucket": "Software",
+          "expected_return_pct": null,
+          "template_delta": -1,
+          "n_analogs": 0,
+          "source": "template",
+          "direction": "HIT"
+        }
+      ],
       "reasoning": {
         "modulator_applied": 2,
         "base_probability": 0.1,
@@ -257,13 +801,14 @@
   ],
   "caveats": [
     "Position-sizing cap: max 10% of portfolio per thesis — multi-thesis diversification mandatory.",
+    "INDETERMINATE branches (n<3 analogs): escalate — sector projections suppressed for these branches.",
     "Analog backtester is heuristic-seeded (~12 events); recommendations require user judgement, not auto-trading."
   ],
   "indeterminate": false,
   "audit": {
     "thesis_schema": "macro-thesis-v1",
-    "regime_generated_at": "2026-10-26T18:39:27.823Z",
-    "regime_classifier": "groq",
+    "regime_generated_at": "2026-10-28T18:30:26.815Z",
+    "regime_classifier": "gemini",
     "scenario_engine_version": "scenario-prob-v1"
   }
 }
