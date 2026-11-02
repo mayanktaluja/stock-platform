@@ -1,10 +1,10 @@
 {
   "schema_version": "earnings-health-v1",
-  "generated_at": "2026-11-01T00:34:53.046Z",
+  "generated_at": "2026-11-02T00:07:56.747Z",
   "resolved": {
     "count": 1408,
-    "delta_vs_prior": 84,
-    "prior_count": 1324
+    "delta_vs_prior": 0,
+    "prior_count": 1408
   },
   "llm_providers": {
     "groq": 58,
@@ -31,7 +31,7 @@
   "cap_lift_gate": {
     "state": false,
     "enough_data_to_lift_cap": false,
-    "days_in_current_state": 139,
+    "days_in_current_state": 140,
     "current_resolved": 0,
     "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (1408 across all versions)",
     "detail": {
@@ -97,7 +97,7 @@
       "gate": {
         "state": false,
         "enough_data_to_lift_cap": false,
-        "days_in_current_state": 139,
+        "days_in_current_state": 140,
         "current_resolved": 0,
         "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (1408 across all versions)",
         "detail": {
@@ -189,17 +189,17 @@
   },
   "insufficient_data": {
     "count_total": 167,
-    "count_7d": 21,
+    "count_7d": 20,
     "count_30d": 45,
-    "count_prior_30d": 8,
-    "trend_pct_30d_vs_prior": 462.5
+    "count_prior_30d": 7,
+    "trend_pct_30d_vs_prior": 542.9
   },
   "macro_regime": {
     "present": true,
-    "generated_at": "2026-10-31T14:30:37.475Z",
-    "age_hours": 10,
+    "generated_at": "2026-11-01T18:30:27.779Z",
+    "age_hours": 6,
     "classifier_provider": "gemini",
-    "regime": "OIL_SHOCK",
+    "regime": "REGULATORY_SHOCK",
     "stale": false,
     "alert": null
   },
@@ -211,25 +211,25 @@
   "history_files": 121,
   "hit_rate_summary": {
     "schema_version": "hit-rate-summary-v1",
-    "generated_at": "2026-11-01T00:34:53.777Z",
+    "generated_at": "2026-11-02T00:07:57.521Z",
     "resolved_count": 1285,
     "unresolved_count": 4370,
     "strict": {
       "hit_rate_pct": 40.3,
-      "ci_low_pct": 37.9,
-      "ci_high_pct": 42.7,
+      "ci_low_pct": 37.4,
+      "ci_high_pct": 43,
       "sample_size": 1285
     },
     "lenient": {
       "hit_rate_pct": 78,
-      "ci_low_pct": 75.9,
+      "ci_low_pct": 75.8,
       "ci_high_pct": 80.3,
       "sample_size": 1282
     },
     "catastrophic": {
       "rate_pct": 22,
-      "ci_low_pct": 19.9,
-      "ci_high_pct": 24.3,
+      "ci_low_pct": 19.7,
+      "ci_high_pct": 24.4,
       "sample_size": 1282
     },
     "rolling_30": {
@@ -242,7 +242,7 @@
   },
   "alerts": [
     "LLM heuristic share (above V3 floor): 326/467 = 70% (threshold 20%; 476 below-floor skips excluded by design) — LLM tier may be failing on eligible events; check earningsLlmSignal.js logs",
-    "INSUFFICIENT_DATA predictions trending UP: 45 in last 30d vs 8 prior 30d (+462.5%) — predictor coverage may be degrading",
+    "INSUFFICIENT_DATA predictions trending UP: 45 in last 30d vs 7 prior 30d (+542.9%) — predictor coverage may be degrading",
     "Catastrophic rate alert: rolling-30 20% (6/30) exceeds 12% threshold — Risk Lab promotion gate cannot clear"
   ],
   "healthy": false
