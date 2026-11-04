@@ -1,52 +1,52 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-30T00:16:05.000Z",
-  "started_at": "2026-10-29T19:00:16.000Z",
-  "finished_at": "2026-10-30T00:16:05.000Z",
-  "duration_seconds": 18949,
+  "generated_at": "2026-11-04T01:48:26.000Z",
+  "started_at": "2026-11-03T19:00:25.000Z",
+  "finished_at": "2026-11-04T01:48:26.000Z",
+  "duration_seconds": 24481,
   "target_publish_by_ist": "08:45",
   "stages": [
     {
       "stage": "early_aux_branch",
       "dependency": "git_sync",
-      "started_at": "2026-10-29T19:00:21.000Z",
-      "finished_at": "2026-10-29T19:04:27.000Z",
-      "duration_seconds": 246,
+      "started_at": "2026-11-03T19:00:30.000Z",
+      "finished_at": "2026-11-03T19:04:59.000Z",
+      "duration_seconds": 269,
       "status": "ok",
       "exit_code": 0
     },
     {
       "stage": "sws_primary_branch",
       "dependency": "git_sync",
-      "started_at": "2026-10-29T19:00:21.000Z",
-      "finished_at": "2026-10-30T00:00:56.000Z",
-      "duration_seconds": 18035,
+      "started_at": "2026-11-03T19:00:30.000Z",
+      "finished_at": "2026-11-04T01:32:51.000Z",
+      "duration_seconds": 23541,
       "status": "ok",
       "exit_code": 0
     },
     {
       "stage": "earnings_watch",
       "dependency": "sws_primary_branch,early_aux_branch",
-      "started_at": "2026-10-30T00:00:57.000Z",
-      "finished_at": "2026-10-30T00:09:42.000Z",
-      "duration_seconds": 525,
+      "started_at": "2026-11-04T01:32:52.000Z",
+      "finished_at": "2026-11-04T01:41:54.000Z",
+      "duration_seconds": 542,
       "status": "ok",
       "exit_code": 0
     },
     {
       "stage": "pack_deep_tarball",
       "dependency": "sanity_gate",
-      "started_at": "2026-10-30T00:13:29.000Z",
-      "finished_at": "2026-10-30T00:14:19.000Z",
-      "duration_seconds": 50,
+      "started_at": "2026-11-04T01:46:01.000Z",
+      "finished_at": "2026-11-04T01:46:38.000Z",
+      "duration_seconds": 37,
       "status": "ok",
       "exit_code": 0
     },
     {
       "stage": "packed_price_freshness_gate",
       "dependency": "pack_deep_tarball",
-      "started_at": "2026-10-30T00:14:19.000Z",
-      "finished_at": "2026-10-30T00:15:56.000Z",
+      "started_at": "2026-11-04T01:46:39.000Z",
+      "finished_at": "2026-11-04T01:48:16.000Z",
       "duration_seconds": 97,
       "status": "ok",
       "exit_code": 0
@@ -54,8 +54,8 @@
     {
       "stage": "coverage_gap_analysis",
       "dependency": "packed_price_freshness_gate",
-      "started_at": "2026-10-30T00:15:57.000Z",
-      "finished_at": "2026-10-30T00:15:58.000Z",
+      "started_at": "2026-11-04T01:48:17.000Z",
+      "finished_at": "2026-11-04T01:48:18.000Z",
       "duration_seconds": 1,
       "status": "ok",
       "exit_code": 0
@@ -63,8 +63,8 @@
     {
       "stage": "local_publish_ready",
       "dependency": "coverage_gap_analysis",
-      "started_at": "2026-10-30T00:16:05.000Z",
-      "finished_at": "2026-10-30T00:16:05.000Z",
+      "started_at": "2026-11-04T01:48:26.000Z",
+      "finished_at": "2026-11-04T01:48:26.000Z",
       "duration_seconds": 0,
       "status": "ok",
       "exit_code": 0
@@ -74,44 +74,44 @@
     "early_aux_branch": {
       "stage": "early_aux_branch",
       "dependency": "git_sync",
-      "started_at": "2026-10-29T19:00:21.000Z",
-      "finished_at": "2026-10-29T19:04:27.000Z",
-      "duration_seconds": 246,
+      "started_at": "2026-11-03T19:00:30.000Z",
+      "finished_at": "2026-11-03T19:04:59.000Z",
+      "duration_seconds": 269,
       "status": "ok",
       "exit_code": 0
     },
     "sws_primary_branch": {
       "stage": "sws_primary_branch",
       "dependency": "git_sync",
-      "started_at": "2026-10-29T19:00:21.000Z",
-      "finished_at": "2026-10-30T00:00:56.000Z",
-      "duration_seconds": 18035,
+      "started_at": "2026-11-03T19:00:30.000Z",
+      "finished_at": "2026-11-04T01:32:51.000Z",
+      "duration_seconds": 23541,
       "status": "ok",
       "exit_code": 0
     },
     "earnings_watch": {
       "stage": "earnings_watch",
       "dependency": "sws_primary_branch,early_aux_branch",
-      "started_at": "2026-10-30T00:00:57.000Z",
-      "finished_at": "2026-10-30T00:09:42.000Z",
-      "duration_seconds": 525,
+      "started_at": "2026-11-04T01:32:52.000Z",
+      "finished_at": "2026-11-04T01:41:54.000Z",
+      "duration_seconds": 542,
       "status": "ok",
       "exit_code": 0
     },
     "pack_deep_tarball": {
       "stage": "pack_deep_tarball",
       "dependency": "sanity_gate",
-      "started_at": "2026-10-30T00:13:29.000Z",
-      "finished_at": "2026-10-30T00:14:19.000Z",
-      "duration_seconds": 50,
+      "started_at": "2026-11-04T01:46:01.000Z",
+      "finished_at": "2026-11-04T01:46:38.000Z",
+      "duration_seconds": 37,
       "status": "ok",
       "exit_code": 0
     },
     "packed_price_freshness_gate": {
       "stage": "packed_price_freshness_gate",
       "dependency": "pack_deep_tarball",
-      "started_at": "2026-10-30T00:14:19.000Z",
-      "finished_at": "2026-10-30T00:15:56.000Z",
+      "started_at": "2026-11-04T01:46:39.000Z",
+      "finished_at": "2026-11-04T01:48:16.000Z",
       "duration_seconds": 97,
       "status": "ok",
       "exit_code": 0
@@ -119,8 +119,8 @@
     "coverage_gap_analysis": {
       "stage": "coverage_gap_analysis",
       "dependency": "packed_price_freshness_gate",
-      "started_at": "2026-10-30T00:15:57.000Z",
-      "finished_at": "2026-10-30T00:15:58.000Z",
+      "started_at": "2026-11-04T01:48:17.000Z",
+      "finished_at": "2026-11-04T01:48:18.000Z",
       "duration_seconds": 1,
       "status": "ok",
       "exit_code": 0
@@ -128,8 +128,8 @@
     "local_publish_ready": {
       "stage": "local_publish_ready",
       "dependency": "coverage_gap_analysis",
-      "started_at": "2026-10-30T00:16:05.000Z",
-      "finished_at": "2026-10-30T00:16:05.000Z",
+      "started_at": "2026-11-04T01:48:26.000Z",
+      "finished_at": "2026-11-04T01:48:26.000Z",
       "duration_seconds": 0,
       "status": "ok",
       "exit_code": 0
