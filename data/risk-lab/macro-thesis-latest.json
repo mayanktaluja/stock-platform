@@ -1,21 +1,21 @@
 {
   "schema_version": "macro-thesis-v1",
-  "generated_at": "2026-11-05T02:03:34.730Z",
+  "generated_at": "2026-11-07T00:01:30.964Z",
   "regime": {
     "regime": "CALM",
-    "severity": 2,
-    "confidence": 0.88,
+    "severity": 1,
+    "confidence": 0.72,
     "label": "Calm",
-    "generated_at": "2026-11-04T19:51:26.739Z",
+    "generated_at": "2026-11-06T18:30:19.447Z",
     "days_in_state": 0,
     "stale": false,
-    "reasoning": "US midterm outcome drives lower oil, bond rally and modest equity gains, no major shock",
+    "reasoning": "Headlines show mixed but no clear shock; markets appear stable with modest positive cues.",
     "key_events": [
-      "Oil tumbles below $100 on post-election peace hopes (FT Markets)",
-      "Indian bonds rally most since April as oil slides after US midterm verdict (Economic Times)",
-      "US midterms results: Democrats sweep, markets rally (FT Markets)",
-      "Rupee gains 17 paise to settle at 94.58 against US dollar (Economic Times)",
-      "Aptus Value Housing Finance Q2 profit rises 18% (Economic Times)"
+      "Commodities witness sharp volatility as crude surges (Business Standard)",
+      "Rupee hits six-month high of 93.91 against dollar on oil price decline (Business Standard)",
+      "US stocks rebound after tech rout (FT Markets)",
+      "Record IPOs raise ₹2.23 trillion (Business Standard)",
+      "Weakest Samvat in 15 years ends on a high for mkts as Sensex, Nifty rally (Business Standard)"
     ],
     "classifier_provider": "groq",
     "source_health": {
@@ -44,51 +44,33 @@
       {
         "sector": "Energy",
         "impact": -2,
-        "reason": "Oil price drop hurts sector"
+        "reason": "Oil price slide pressures earnings"
       },
       {
         "sector": "Oil & Gas",
         "impact": -2,
-        "reason": "Lower crude prices reduce margins"
+        "reason": "Crude volatility hurts margins"
       },
       {
         "sector": "Banking",
+        "impact": -1,
+        "reason": "Falling yields compress NIM"
+      },
+      {
+        "sector": "FMCG",
         "impact": 1,
-        "reason": "Bond yields fall supports credit growth"
-      },
-      {
-        "sector": "Real Estate",
-        "impact": 2,
-        "reason": "Housing finance profit surge boosts outlook"
-      },
-      {
-        "sector": "Automobile",
-        "impact": -1,
-        "reason": "Auto sales expected to cool post‑festive"
-      },
-      {
-        "sector": "IT Services",
-        "impact": -1,
-        "reason": "AI data centre stocks dip on market rotation"
+        "reason": "Consumer spend surge ahead of Diwali"
       }
     ]
   },
-  "catalyst_proximity_days": 0,
-  "upcoming_catalysts": [
-    {
-      "date": "2026-11-05",
-      "kind": "GST_COUNCIL",
-      "label": "GST Council Meeting (provisional)",
-      "severity_potential": 2,
-      "days_until": 0
-    }
-  ],
+  "catalyst_proximity_days": null,
+  "upcoming_catalysts": [],
   "position_cap_pct": 10,
   "branches": [
     {
       "key": "continue",
       "label": "CALM continues at current severity",
-      "probability": 0.52,
+      "probability": 0.58,
       "duration_days": 14,
       "n_analogs": 9,
       "indeterminate": false,
@@ -138,10 +120,10 @@
     {
       "key": "escalate",
       "label": "CALM escalates (severity +1)",
-      "probability": 0.1,
+      "probability": 0.11,
       "duration_days": 7,
-      "n_analogs": 0,
-      "indeterminate": true,
+      "n_analogs": 9,
+      "indeterminate": false,
       "beneficiaries": [],
       "losers": [],
       "reasoning": {
@@ -149,16 +131,46 @@
         "base_probability": 0.15,
         "analog_pool_regime": "CALM (severity +1)",
         "analog_warnings": [
-          "n_analogs=0 < 3 — INDETERMINATE; do not act on these sector ranges",
-          "only 0/15 sectors had data — partial analog"
+          "no sector-index data found for any analog date — run scripts/refresh-sector-indices.mjs --backfill-months=24"
         ],
-        "analogs": []
+        "analogs": [
+          {
+            "date": "2026-05-21",
+            "label": "Calm",
+            "severity": 1,
+            "source": "heuristic"
+          },
+          {
+            "date": "2026-05-22",
+            "label": "Calm",
+            "severity": 1,
+            "source": "heuristic"
+          },
+          {
+            "date": "2026-05-24",
+            "label": "Calm",
+            "severity": 1,
+            "source": "heuristic"
+          },
+          {
+            "date": "2026-05-25",
+            "label": "Calm",
+            "severity": 1,
+            "source": "heuristic"
+          },
+          {
+            "date": "2026-05-26",
+            "label": "Calm",
+            "severity": 1,
+            "source": "heuristic"
+          }
+        ]
       }
     },
     {
       "key": "de_escalate",
       "label": "CALM de-escalates → CALM",
-      "probability": 0.19,
+      "probability": 0.21,
       "duration_days": 21,
       "n_analogs": 9,
       "indeterminate": false,
@@ -208,14 +220,14 @@
     {
       "key": "new_shock",
       "label": "New unrelated shock supersedes CALM",
-      "probability": 0.19,
+      "probability": 0.1,
       "duration_days": 7,
       "n_analogs": 0,
       "indeterminate": false,
       "beneficiaries": [],
       "losers": [],
       "reasoning": {
-        "modulator_applied": 2,
+        "modulator_applied": 1,
         "base_probability": 0.1,
         "analog_pool_regime": "n/a (new regime — projection suppressed by design)",
         "analog_warnings": [],
@@ -225,13 +237,12 @@
   ],
   "caveats": [
     "Position-sizing cap: max 10% of portfolio per thesis — multi-thesis diversification mandatory.",
-    "INDETERMINATE branches (n<3 analogs): escalate — sector projections suppressed for these branches.",
     "Analog backtester is heuristic-seeded (~12 events); recommendations require user judgement, not auto-trading."
   ],
   "indeterminate": false,
   "audit": {
     "thesis_schema": "macro-thesis-v1",
-    "regime_generated_at": "2026-11-04T19:51:26.739Z",
+    "regime_generated_at": "2026-11-06T18:30:19.447Z",
     "regime_classifier": "groq",
     "scenario_engine_version": "scenario-prob-v1"
   }
