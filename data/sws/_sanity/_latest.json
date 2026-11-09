@@ -1,12 +1,12 @@
 {
-  "run_id": "2026-11-06T22-59-23-299Z",
-  "generated_at": "2026-11-07T00:03:12.019Z",
+  "run_id": "2026-11-08T23-04-16-639Z",
+  "generated_at": "2026-11-09T00:12:23.793Z",
   "verdict": "WARN",
   "block_count": 0,
-  "warn_count": 2,
-  "pass_count": 55,
+  "warn_count": 3,
+  "pass_count": 54,
   "total_checks": 57,
-  "summary_line": "verdict=WARN · scored=6407 · top30=30 · warns=2",
+  "summary_line": "verdict=WARN · scored=6407 · top30=30 · warns=3",
   "layers": {
     "L1_run_integrity": {
       "pass": 21,
@@ -64,7 +64,7 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "duration_seconds": 12993,
+            "duration_seconds": 13229,
             "max": 21600
           }
         },
@@ -81,7 +81,7 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {
-            "news_populated_count": 6309,
+            "news_populated_count": 6314,
             "threshold": 1000
           }
         },
@@ -91,7 +91,7 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "news_populated_count": 6309,
+            "news_populated_count": 6314,
             "threshold": 1500
           }
         },
@@ -101,8 +101,8 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {
-            "rewards_populated_count": 5384,
-            "risks_populated_count": 6000,
+            "rewards_populated_count": 5391,
+            "risks_populated_count": 6014,
             "threshold": 1000
           }
         },
@@ -112,7 +112,7 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "rewards_populated_count": 5384,
+            "rewards_populated_count": 5391,
             "threshold": 4500
           }
         },
@@ -122,7 +122,7 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "risks_populated_count": 6000,
+            "risks_populated_count": 6014,
             "threshold": 500
           }
         },
@@ -132,7 +132,7 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {
-            "age_hours": 1.16,
+            "age_hours": 1.24,
             "threshold": 20
           }
         },
@@ -142,9 +142,9 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {
-            "picks_scanned_at": "2026-11-06T22:51:50.444Z",
-            "lr_started_at": "2026-11-06T19:00:23.000Z",
-            "lr_finished_at": "2026-11-06T22:59:23.299Z",
+            "picks_scanned_at": "2026-11-08T22:56:33.733Z",
+            "lr_started_at": "2026-11-08T19:00:14.000Z",
+            "lr_finished_at": "2026-11-08T23:04:16.639Z",
             "drift_outside_run_seconds": 0,
             "slack_seconds": 60
           }
@@ -207,11 +207,11 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {
-            "count": 551,
+            "count": 568,
             "threshold": 25,
-            "nse_calendar_event_count": 589,
-            "nse_calendar_raw_event_count": 603,
-            "nse_calendar_fetched_at": "2026-11-06T22:36:57.382Z",
+            "nse_calendar_event_count": 607,
+            "nse_calendar_raw_event_count": 626,
+            "nse_calendar_fetched_at": "2026-11-08T22:40:46.635Z",
             "nse_calendar_window_days": 60
           }
         },
@@ -221,15 +221,15 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "count": 551,
+            "count": 568,
             "threshold": 50
           }
         }
       ]
     },
     "L2_coverage_audit": {
-      "pass": 17,
-      "warn": 1,
+      "pass": 16,
+      "warn": 2,
       "block": 0,
       "checks": [
         {
@@ -245,12 +245,12 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "coverage_pct": 85.03,
+            "coverage_pct": 85,
             "warn_at": 85,
-            "usable_count": 4798,
-            "target_count": 5643,
-            "pe_coverage_pct": 64.77,
-            "fetched_at": "2026-11-06T22:36:58.160Z",
+            "usable_count": 4804,
+            "target_count": 5652,
+            "pe_coverage_pct": 64.46,
+            "fetched_at": "2026-11-08T22:40:47.436Z",
             "age_days": 0.06
           }
         },
@@ -260,13 +260,13 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {
-            "coverage_pct": 85.03,
+            "coverage_pct": 85,
             "block_at": 70,
             "stale_grace_days": 3,
             "stale_fallback_usable": true,
-            "usable_count": 4798,
-            "target_count": 5643,
-            "fetched_at": "2026-11-06T22:36:58.160Z",
+            "usable_count": 4804,
+            "target_count": 5652,
+            "fetched_at": "2026-11-08T22:40:47.436Z",
             "age_days": 0.06
           }
         },
@@ -293,11 +293,11 @@
           "severity": "WARN",
           "ok": false,
           "detail": {
-            "coverage_pct": 64.77,
+            "coverage_pct": 64.46,
             "warn_at": 85,
-            "usable_count": 3655,
-            "target_count": 5643,
-            "fetched_at": "2026-11-06T22:36:58.160Z",
+            "usable_count": 3643,
+            "target_count": 5652,
+            "fetched_at": "2026-11-08T22:40:47.436Z",
             "age_days": 0.06
           }
         },
@@ -307,13 +307,13 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {
-            "coverage_pct": 64.77,
+            "coverage_pct": 64.46,
             "block_at": 70,
             "stale_grace_days": 21,
             "stale_fallback_usable": true,
-            "usable_count": 3655,
-            "target_count": 5643,
-            "fetched_at": "2026-11-06T22:36:58.160Z",
+            "usable_count": 3643,
+            "target_count": 5652,
+            "fetched_at": "2026-11-08T22:40:47.436Z",
             "age_days": 0.06
           }
         },
@@ -341,8 +341,8 @@
           "ok": true,
           "detail": {
             "dupes_count": 0,
-            "universe_size": 5643,
-            "distinct_companies": 5643,
+            "universe_size": 5652,
+            "distinct_companies": 5652,
             "sample": []
           }
         },
@@ -350,11 +350,21 @@
           "layer": "L2_coverage_audit",
           "name": "coverage_within_tolerance",
           "severity": "WARN",
-          "ok": true,
+          "ok": false,
           "detail": {
-            "missing_count": 0,
+            "missing_count": 9,
             "tolerance": 5,
-            "sample": []
+            "sample": [
+              "BLSPOLY",
+              "HGSINDIALT",
+              "IGLSPIRITS",
+              "MAXENGS",
+              "MKJEWELS",
+              "PARASHLTH",
+              "BSE_509003",
+              "BSE_545010",
+              "BSE_545015"
+            ]
           }
         },
         {
@@ -363,9 +373,9 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {
-            "fresh_pct": 98.92,
+            "fresh_pct": 98.95,
             "threshold": 85,
-            "fresh_count": 5582,
+            "fresh_count": 5584,
             "total": 5643,
             "scope": "universe_members",
             "orphans_excluded": 764
@@ -377,9 +387,9 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "fresh_pct": 98.92,
+            "fresh_pct": 98.95,
             "threshold": 95,
-            "fresh_count": 5582,
+            "fresh_count": 5584,
             "total": 5643,
             "scope": "universe_members",
             "orphans_excluded": 764
@@ -391,7 +401,7 @@
           "severity": "WARN",
           "ok": true,
           "detail": {
-            "stale_pct": 1.08,
+            "stale_pct": 1.05,
             "warn_at": 5,
             "sample": [
               "507968",
@@ -416,7 +426,7 @@
             "orphan_count": 764,
             "warn_at": 800,
             "deep_files": 6407,
-            "universe_size": 5643
+            "universe_size": 5652
           }
         },
         {
@@ -488,22 +498,22 @@
               {
                 "ticker": "524727",
                 "field": "upside_pct",
-                "value": 33243.2
+                "value": 34904.2
               },
               {
                 "ticker": "ALEMBICLTD",
                 "field": "upside_pct",
-                "value": 618
+                "value": 633
               },
               {
                 "ticker": "GFLLIMITED",
                 "field": "upside_pct",
-                "value": 6844.4
+                "value": 6766.5
               },
               {
                 "ticker": "SPARC",
                 "field": "upside_pct",
-                "value": 933.5
+                "value": 915.1
               },
               {
                 "ticker": "509910",
@@ -548,7 +558,7 @@
           "severity": "BLOCK",
           "ok": true,
           "detail": {
-            "current_count": 1005,
+            "current_count": 1007,
             "current_total": 5653,
             "current_pct": 17.8,
             "baseline_count": 1005,
@@ -665,13 +675,13 @@
             "stats": {
               "source": "loose",
               "raw_files": 6294,
-              "raw_with_price": 6240,
+              "raw_with_price": 6243,
               "deep_files": 6407,
               "raw_newer_than_deep": 0,
-              "raw_deep_checked": 6240,
-              "picks_cards_checked": 2370,
-              "raw_latest_fetched_at": "2026-11-06T22:36:51.152Z",
-              "raw_latest_price_as_of": "2026-11-06T00:00:00.000Z"
+              "raw_deep_checked": 6243,
+              "picks_cards_checked": 2402,
+              "raw_latest_fetched_at": "2026-11-08T22:40:38.620Z",
+              "raw_latest_price_as_of": "2026-11-08T00:00:00.000Z"
             },
             "sample": [],
             "finding_count": 0
@@ -715,10 +725,10 @@
             "baseline_evidence_sectors_90d": 17,
             "floor": 9,
             "tailwind_3_12m": 13,
-            "baseline_tailwind_3_12m": 11,
-            "total_entries": 21589,
-            "baseline_total_entries": 22055,
-            "generated_at": "2026-11-06T22:51:32.297Z"
+            "baseline_tailwind_3_12m": 13,
+            "total_entries": 22244,
+            "baseline_total_entries": 21589,
+            "generated_at": "2026-11-08T22:56:16.378Z"
           }
         },
         {
@@ -730,9 +740,9 @@
             "served": 100,
             "baseline_served": 100,
             "floor": 25,
-            "future_growth_candidate_count": 331,
-            "baseline_future_growth_candidate_count": 283,
-            "base_eligible_count": 363,
+            "future_growth_candidate_count": 302,
+            "baseline_future_growth_candidate_count": 331,
+            "base_eligible_count": 334,
             "audit_reason": "ok",
             "evidence_sectors_90d": 17,
             "baseline_evidence_sectors_90d": 17
@@ -744,9 +754,9 @@
   "inputs": {
     "scored_count": 6407,
     "universe_size": 6407,
-    "started_at": "2026-11-06T19:00:23.000Z",
-    "finished_at": "2026-11-06T22:59:23.299Z",
-    "picks_scanned_at": "2026-11-06T22:51:50.444Z",
+    "started_at": "2026-11-08T19:00:14.000Z",
+    "finished_at": "2026-11-08T23:04:16.639Z",
+    "picks_scanned_at": "2026-11-08T22:56:33.733Z",
     "pipeline_status": "success"
   }
 }
