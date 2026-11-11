@@ -1,7 +1,7 @@
 {
   "schemaVersion": "fo-screener-v1",
   "asOf": "2026-11-09",
-  "fetchedAt": "2026-11-09T22:19:14.044Z",
+  "fetchedAt": "2026-11-10T19:00:54.334Z",
   "urlUsed": "https://nsearchives.nseindia.com/content/fo/BhavCopy_NSE_FO_0_0_0_20261109_F_0000.csv.zip",
   "methodology": "OI aggregated across all stock-futures expiries (avoids rollover-Thursday phantoms); Δ vs prior session = ChngInOpnIntrst / (OI − ChngInOpnIntrst). Volume confirmation: today's vol vs 20-session mean. Decoupling co-flag: |OI Δ| ≥ 20% with |price Δ| < 0.5%. Score 0–100 = scaled OI move × volume confirmation × decouple boost × direction consistency. Educational content only.",
   "stats": {
@@ -13,7 +13,7 @@
     "broaderCount": 15,
     "historyPointsAppended": 224,
     "historyRestoredFromKV": 14,
-    "walkedBack": 1
+    "walkedBack": 2
   },
   "sections": {
     "inBook": [],
@@ -266,25 +266,6 @@
         "interpretation": "Shorts covering — OI falling as price recovers."
       },
       {
-        "underlying": "VOLTAS",
-        "instrumentType": "STF",
-        "expiryCount": 3,
-        "nearMonthExpiry": "2026-11-23",
-        "nearMonthSettle": 1089,
-        "underlyingPrice": 1090.07,
-        "oiTotal": 10328725,
-        "oiChangeTotal": 371300,
-        "volumeTotal": 11727,
-        "oiDeltaPct": 3.728875688242693,
-        "priceDeltaPct": 3.3599088838268885,
-        "volumeRatio": null,
-        "volumeBucket": "unknown",
-        "signal": "long_buildup",
-        "decoupled": false,
-        "score": 4,
-        "interpretation": "Bulls adding fresh longs — OI up with price."
-      },
-      {
         "underlying": "LAURUSLABS",
         "instrumentType": "STF",
         "expiryCount": 3,
@@ -302,6 +283,25 @@
         "decoupled": false,
         "score": 4,
         "interpretation": "Bulls adding fresh longs — OI up with price."
+      },
+      {
+        "underlying": "VMM",
+        "instrumentType": "STF",
+        "expiryCount": 3,
+        "nearMonthExpiry": "2026-11-23",
+        "nearMonthSettle": 91.61,
+        "underlyingPrice": 92.62,
+        "oiTotal": 74069200,
+        "oiChangeTotal": 2745100,
+        "volumeTotal": 1477,
+        "oiDeltaPct": 3.8487692098463215,
+        "priceDeltaPct": -1.7903087478559194,
+        "volumeRatio": null,
+        "volumeBucket": "unknown",
+        "signal": "short_buildup",
+        "decoupled": false,
+        "score": 4,
+        "interpretation": "Bears adding fresh shorts — OI up while price drops."
       }
     ],
     "broader": [
