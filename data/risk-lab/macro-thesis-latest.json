@@ -1,20 +1,21 @@
 {
   "schema_version": "macro-thesis-v1",
-  "generated_at": "2026-11-11T00:12:47.510Z",
+  "generated_at": "2026-11-14T00:08:43.034Z",
   "regime": {
     "regime": "RATE_HIKE",
     "severity": 3,
-    "confidence": 0.85,
+    "confidence": 0.78,
     "label": "Rate Hike",
-    "generated_at": "2026-11-10T18:30:21.152Z",
+    "generated_at": "2026-11-13T14:30:40.823Z",
     "days_in_state": 0,
     "stale": false,
-    "reasoning": "Multiple recent A‑grade headlines flag hotter US inflation and imminent Fed hikes, outweighing oil‑price moves.",
+    "reasoning": "Rising global yields, hawkish Fed comments and inflation‑linked bond moves dominate headlines",
     "key_events": [
-      "Fed's Logan calls for two more rate hikes, possibly rapidly (Economic Times)",
-      "Higher-than-expected October inflation sparks Treasury sell‑off (FT Markets)",
-      "US consumer prices rise above expectations in October (Economic Times)",
-      "Oil falls below $90 as Trump pulls back from threat to strike Iran (FT Markets)"
+      "US Treasuries set for worst week since Trump’s ‘liberation day’ (FT Markets)",
+      "India 10-year bond yield reverses half of last week's drop on elevated inflation (Economic Times)",
+      "Indian rupee snaps rising streak on hawkish Fed, oil rise (Economic Times)",
+      "Crude-sensitive stocks fall as oil trades at $95; BPCL, IndiGo down over 2% (Business Standard)",
+      "Global oil markets swing to surplus as Gulf shipments rebound (FT Markets)"
     ],
     "classifier_provider": "groq",
     "source_health": {
@@ -41,45 +42,45 @@
     },
     "sector_impacts": [
       {
-        "sector": "Banking",
+        "sector": "Energy",
         "impact": 2,
-        "reason": "Higher policy rates boost NIM and loan growth"
+        "reason": "Higher oil prices boost upstream earnings"
       },
       {
-        "sector": "Real Estate",
-        "impact": -2,
-        "reason": "Rising rates dampen mortgage demand and project financing"
-      },
-      {
-        "sector": "Capital Goods",
-        "impact": -2,
-        "reason": "Rate‑sensitive corporate capex likely to stall"
-      },
-      {
-        "sector": "IT Services",
-        "impact": -1,
-        "reason": "Cost pressures and weaker client spending curb order flow"
-      },
-      {
-        "sector": "FMCG",
-        "impact": -1,
-        "reason": "Higher financing costs squeeze consumer discretionary spend"
-      },
-      {
-        "sector": "Metals",
+        "sector": "Oil & Gas",
         "impact": 1,
-        "reason": "Inflation‑linked commodity prices support metal earnings"
+        "reason": "Oil price rally supports margins"
+      },
+      {
+        "sector": "Automobile",
+        "impact": -2,
+        "reason": "Rising fuel costs and rates pressure demand"
+      },
+      {
+        "sector": "Aviation",
+        "impact": -2,
+        "reason": "Fuel cost surge hurts airlines"
+      },
+      {
+        "sector": "Banking",
+        "impact": -1,
+        "reason": "Higher rates may curb loan growth"
+      },
+      {
+        "sector": "NBFC",
+        "impact": -1,
+        "reason": "Rate hikes increase funding costs"
       }
     ]
   },
-  "catalyst_proximity_days": 29,
+  "catalyst_proximity_days": 26,
   "upcoming_catalysts": [
     {
       "date": "2026-12-10",
       "kind": "RBI_MPC",
       "label": "RBI Monetary Policy Committee — December 2026",
       "severity_potential": 3,
-      "days_until": 29
+      "days_until": 26
     }
   ],
   "position_cap_pct": 10,
@@ -103,58 +104,58 @@
           "direction": "BENEFICIARY",
           "stock_candidates": {
             "sector": "PSU Banks",
-            "candidates_total": 11,
-            "passed_filters": 11,
+            "candidates_total": 9,
+            "passed_filters": 9,
             "excluded_conglomerates": [],
             "stocks": [
-              {
-                "ticker": "SURYODAY",
-                "name": "Suryoday Small Finance Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 70.4,
-                "composite_score": 57.2,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 52.5,
-                "verdict": "TOP_PICK"
-              },
               {
                 "ticker": "CAPITALSFB",
                 "name": "Capital Small Finance Bank Limited",
                 "sector": "Banks",
-                "v4_score_100": 71.1,
+                "v4_score_100": 71.8,
                 "composite_score": 56.6,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 55.3,
+                "upside_pct": 50.9,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "SURYODAY",
+                "name": "Suryoday Small Finance Bank Limited",
+                "sector": "Banks",
+                "v4_score_100": 72,
+                "composite_score": 53.9,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 41.8,
                 "verdict": "TOP_PICK"
               },
               {
                 "ticker": "UJJIVANSFB",
                 "name": "Ujjivan Small Finance Bank Limited",
                 "sector": "Banks",
-                "v4_score_100": 66.6,
-                "composite_score": 45.8,
+                "v4_score_100": 66,
+                "composite_score": 45.5,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 41.6,
+                "upside_pct": 40.9,
                 "verdict": "TOP_PICK"
               },
               {
                 "ticker": "J&KBANK",
                 "name": "Jammu and Kashmir Bank Limited",
                 "sector": "Banks",
-                "v4_score_100": 60.5,
+                "v4_score_100": 61.2,
                 "composite_score": 43.5,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 69,
+                "upside_pct": 60.3,
                 "verdict": "TOP_PICK"
               },
               {
                 "ticker": "CSBBANK",
                 "name": "CSB Bank Limited",
                 "sector": "Banks",
-                "v4_score_100": 66.2,
-                "composite_score": 43.4,
+                "v4_score_100": 66,
+                "composite_score": 43.1,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 30.3,
+                "upside_pct": 29.5,
                 "verdict": "TOP_PICK"
               }
             ]
@@ -171,58 +172,58 @@
           "direction": "BENEFICIARY",
           "stock_candidates": {
             "sector": "Private Banks",
-            "candidates_total": 11,
-            "passed_filters": 11,
+            "candidates_total": 9,
+            "passed_filters": 9,
             "excluded_conglomerates": [],
             "stocks": [
-              {
-                "ticker": "SURYODAY",
-                "name": "Suryoday Small Finance Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 70.4,
-                "composite_score": 57.2,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 52.5,
-                "verdict": "TOP_PICK"
-              },
               {
                 "ticker": "CAPITALSFB",
                 "name": "Capital Small Finance Bank Limited",
                 "sector": "Banks",
-                "v4_score_100": 71.1,
+                "v4_score_100": 71.8,
                 "composite_score": 56.6,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 55.3,
+                "upside_pct": 50.9,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "SURYODAY",
+                "name": "Suryoday Small Finance Bank Limited",
+                "sector": "Banks",
+                "v4_score_100": 72,
+                "composite_score": 53.9,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 41.8,
                 "verdict": "TOP_PICK"
               },
               {
                 "ticker": "UJJIVANSFB",
                 "name": "Ujjivan Small Finance Bank Limited",
                 "sector": "Banks",
-                "v4_score_100": 66.6,
-                "composite_score": 45.8,
+                "v4_score_100": 66,
+                "composite_score": 45.5,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 41.6,
+                "upside_pct": 40.9,
                 "verdict": "TOP_PICK"
               },
               {
                 "ticker": "J&KBANK",
                 "name": "Jammu and Kashmir Bank Limited",
                 "sector": "Banks",
-                "v4_score_100": 60.5,
+                "v4_score_100": 61.2,
                 "composite_score": 43.5,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 69,
+                "upside_pct": 60.3,
                 "verdict": "TOP_PICK"
               },
               {
                 "ticker": "CSBBANK",
                 "name": "CSB Bank Limited",
                 "sector": "Banks",
-                "v4_score_100": 66.2,
-                "composite_score": 43.4,
+                "v4_score_100": 66,
+                "composite_score": 43.1,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 30.3,
+                "upside_pct": 29.5,
                 "verdict": "TOP_PICK"
               }
             ]
@@ -321,58 +322,58 @@
           "direction": "BENEFICIARY",
           "stock_candidates": {
             "sector": "PSU Banks",
-            "candidates_total": 11,
-            "passed_filters": 11,
+            "candidates_total": 9,
+            "passed_filters": 9,
             "excluded_conglomerates": [],
             "stocks": [
-              {
-                "ticker": "SURYODAY",
-                "name": "Suryoday Small Finance Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 70.4,
-                "composite_score": 57.2,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 52.5,
-                "verdict": "TOP_PICK"
-              },
               {
                 "ticker": "CAPITALSFB",
                 "name": "Capital Small Finance Bank Limited",
                 "sector": "Banks",
-                "v4_score_100": 71.1,
+                "v4_score_100": 71.8,
                 "composite_score": 56.6,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 55.3,
+                "upside_pct": 50.9,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "SURYODAY",
+                "name": "Suryoday Small Finance Bank Limited",
+                "sector": "Banks",
+                "v4_score_100": 72,
+                "composite_score": 53.9,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 41.8,
                 "verdict": "TOP_PICK"
               },
               {
                 "ticker": "UJJIVANSFB",
                 "name": "Ujjivan Small Finance Bank Limited",
                 "sector": "Banks",
-                "v4_score_100": 66.6,
-                "composite_score": 45.8,
+                "v4_score_100": 66,
+                "composite_score": 45.5,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 41.6,
+                "upside_pct": 40.9,
                 "verdict": "TOP_PICK"
               },
               {
                 "ticker": "J&KBANK",
                 "name": "Jammu and Kashmir Bank Limited",
                 "sector": "Banks",
-                "v4_score_100": 60.5,
+                "v4_score_100": 61.2,
                 "composite_score": 43.5,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 69,
+                "upside_pct": 60.3,
                 "verdict": "TOP_PICK"
               },
               {
                 "ticker": "CSBBANK",
                 "name": "CSB Bank Limited",
                 "sector": "Banks",
-                "v4_score_100": 66.2,
-                "composite_score": 43.4,
+                "v4_score_100": 66,
+                "composite_score": 43.1,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 30.3,
+                "upside_pct": 29.5,
                 "verdict": "TOP_PICK"
               }
             ]
@@ -389,58 +390,58 @@
           "direction": "BENEFICIARY",
           "stock_candidates": {
             "sector": "Private Banks",
-            "candidates_total": 11,
-            "passed_filters": 11,
+            "candidates_total": 9,
+            "passed_filters": 9,
             "excluded_conglomerates": [],
             "stocks": [
-              {
-                "ticker": "SURYODAY",
-                "name": "Suryoday Small Finance Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 70.4,
-                "composite_score": 57.2,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 52.5,
-                "verdict": "TOP_PICK"
-              },
               {
                 "ticker": "CAPITALSFB",
                 "name": "Capital Small Finance Bank Limited",
                 "sector": "Banks",
-                "v4_score_100": 71.1,
+                "v4_score_100": 71.8,
                 "composite_score": 56.6,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 55.3,
+                "upside_pct": 50.9,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "SURYODAY",
+                "name": "Suryoday Small Finance Bank Limited",
+                "sector": "Banks",
+                "v4_score_100": 72,
+                "composite_score": 53.9,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 41.8,
                 "verdict": "TOP_PICK"
               },
               {
                 "ticker": "UJJIVANSFB",
                 "name": "Ujjivan Small Finance Bank Limited",
                 "sector": "Banks",
-                "v4_score_100": 66.6,
-                "composite_score": 45.8,
+                "v4_score_100": 66,
+                "composite_score": 45.5,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 41.6,
+                "upside_pct": 40.9,
                 "verdict": "TOP_PICK"
               },
               {
                 "ticker": "J&KBANK",
                 "name": "Jammu and Kashmir Bank Limited",
                 "sector": "Banks",
-                "v4_score_100": 60.5,
+                "v4_score_100": 61.2,
                 "composite_score": 43.5,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 69,
+                "upside_pct": 60.3,
                 "verdict": "TOP_PICK"
               },
               {
                 "ticker": "CSBBANK",
                 "name": "CSB Bank Limited",
                 "sector": "Banks",
-                "v4_score_100": 66.2,
-                "composite_score": 43.4,
+                "v4_score_100": 66,
+                "composite_score": 43.1,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 30.3,
+                "upside_pct": 29.5,
                 "verdict": "TOP_PICK"
               }
             ]
@@ -577,58 +578,58 @@
           "direction": "BENEFICIARY",
           "stock_candidates": {
             "sector": "PSU Banks",
-            "candidates_total": 11,
-            "passed_filters": 11,
+            "candidates_total": 9,
+            "passed_filters": 9,
             "excluded_conglomerates": [],
             "stocks": [
-              {
-                "ticker": "SURYODAY",
-                "name": "Suryoday Small Finance Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 70.4,
-                "composite_score": 57.2,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 52.5,
-                "verdict": "TOP_PICK"
-              },
               {
                 "ticker": "CAPITALSFB",
                 "name": "Capital Small Finance Bank Limited",
                 "sector": "Banks",
-                "v4_score_100": 71.1,
+                "v4_score_100": 71.8,
                 "composite_score": 56.6,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 55.3,
+                "upside_pct": 50.9,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "SURYODAY",
+                "name": "Suryoday Small Finance Bank Limited",
+                "sector": "Banks",
+                "v4_score_100": 72,
+                "composite_score": 53.9,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 41.8,
                 "verdict": "TOP_PICK"
               },
               {
                 "ticker": "UJJIVANSFB",
                 "name": "Ujjivan Small Finance Bank Limited",
                 "sector": "Banks",
-                "v4_score_100": 66.6,
-                "composite_score": 45.8,
+                "v4_score_100": 66,
+                "composite_score": 45.5,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 41.6,
+                "upside_pct": 40.9,
                 "verdict": "TOP_PICK"
               },
               {
                 "ticker": "J&KBANK",
                 "name": "Jammu and Kashmir Bank Limited",
                 "sector": "Banks",
-                "v4_score_100": 60.5,
+                "v4_score_100": 61.2,
                 "composite_score": 43.5,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 69,
+                "upside_pct": 60.3,
                 "verdict": "TOP_PICK"
               },
               {
                 "ticker": "CSBBANK",
                 "name": "CSB Bank Limited",
                 "sector": "Banks",
-                "v4_score_100": 66.2,
-                "composite_score": 43.4,
+                "v4_score_100": 66,
+                "composite_score": 43.1,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 30.3,
+                "upside_pct": 29.5,
                 "verdict": "TOP_PICK"
               }
             ]
@@ -645,58 +646,58 @@
           "direction": "BENEFICIARY",
           "stock_candidates": {
             "sector": "Private Banks",
-            "candidates_total": 11,
-            "passed_filters": 11,
+            "candidates_total": 9,
+            "passed_filters": 9,
             "excluded_conglomerates": [],
             "stocks": [
-              {
-                "ticker": "SURYODAY",
-                "name": "Suryoday Small Finance Bank Limited",
-                "sector": "Banks",
-                "v4_score_100": 70.4,
-                "composite_score": 57.2,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 52.5,
-                "verdict": "TOP_PICK"
-              },
               {
                 "ticker": "CAPITALSFB",
                 "name": "Capital Small Finance Bank Limited",
                 "sector": "Banks",
-                "v4_score_100": 71.1,
+                "v4_score_100": 71.8,
                 "composite_score": 56.6,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 55.3,
+                "upside_pct": 50.9,
+                "verdict": "TOP_PICK"
+              },
+              {
+                "ticker": "SURYODAY",
+                "name": "Suryoday Small Finance Bank Limited",
+                "sector": "Banks",
+                "v4_score_100": 72,
+                "composite_score": 53.9,
+                "valuation_band": "DEEP_DISCOUNT",
+                "upside_pct": 41.8,
                 "verdict": "TOP_PICK"
               },
               {
                 "ticker": "UJJIVANSFB",
                 "name": "Ujjivan Small Finance Bank Limited",
                 "sector": "Banks",
-                "v4_score_100": 66.6,
-                "composite_score": 45.8,
+                "v4_score_100": 66,
+                "composite_score": 45.5,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 41.6,
+                "upside_pct": 40.9,
                 "verdict": "TOP_PICK"
               },
               {
                 "ticker": "J&KBANK",
                 "name": "Jammu and Kashmir Bank Limited",
                 "sector": "Banks",
-                "v4_score_100": 60.5,
+                "v4_score_100": 61.2,
                 "composite_score": 43.5,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 69,
+                "upside_pct": 60.3,
                 "verdict": "TOP_PICK"
               },
               {
                 "ticker": "CSBBANK",
                 "name": "CSB Bank Limited",
                 "sector": "Banks",
-                "v4_score_100": 66.2,
-                "composite_score": 43.4,
+                "v4_score_100": 66,
+                "composite_score": 43.1,
                 "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 30.3,
+                "upside_pct": 29.5,
                 "verdict": "TOP_PICK"
               }
             ]
@@ -751,7 +752,7 @@
   "indeterminate": false,
   "audit": {
     "thesis_schema": "macro-thesis-v1",
-    "regime_generated_at": "2026-11-10T18:30:21.152Z",
+    "regime_generated_at": "2026-11-13T14:30:40.823Z",
     "regime_classifier": "groq",
     "scenario_engine_version": "scenario-prob-v1"
   }
