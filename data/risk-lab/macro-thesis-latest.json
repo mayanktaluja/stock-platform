@@ -1,21 +1,20 @@
 {
   "schema_version": "macro-thesis-v1",
-  "generated_at": "2026-11-14T00:08:43.034Z",
+  "generated_at": "2026-11-15T00:11:19.917Z",
   "regime": {
     "regime": "RATE_HIKE",
     "severity": 3,
     "confidence": 0.78,
     "label": "Rate Hike",
-    "generated_at": "2026-11-13T14:30:40.823Z",
+    "generated_at": "2026-11-14T18:30:23.017Z",
     "days_in_state": 0,
     "stale": false,
-    "reasoning": "Rising global yields, hawkish Fed comments and inflation‑linked bond moves dominate headlines",
+    "reasoning": "Fed hike cues, strong dollar and Treasury weakness dominate recent headlines affecting Indian markets",
     "key_events": [
-      "US Treasuries set for worst week since Trump’s ‘liberation day’ (FT Markets)",
-      "India 10-year bond yield reverses half of last week's drop on elevated inflation (Economic Times)",
-      "Indian rupee snaps rising streak on hawkish Fed, oil rise (Economic Times)",
-      "Crude-sensitive stocks fall as oil trades at $95; BPCL, IndiGo down over 2% (Business Standard)",
-      "Global oil markets swing to surplus as Gulf shipments rebound (FT Markets)"
+      "US Treasuries record worst week since Trump’s ‘liberation day’ (FT Markets)",
+      "Fed's Jefferson says he is taking his policy cues from inflation (Economic Times)",
+      "BofA adds January Fed hike to forecast (Economic Times)",
+      "Base metals lose momentum amid strong dollar and demand concerns (Economic Times)"
     ],
     "classifier_provider": "groq",
     "source_health": {
@@ -42,45 +41,45 @@
     },
     "sector_impacts": [
       {
-        "sector": "Energy",
-        "impact": 2,
-        "reason": "Higher oil prices boost upstream earnings"
+        "sector": "Metals",
+        "impact": -2,
+        "reason": "Strong dollar depresses metal prices"
       },
       {
         "sector": "Oil & Gas",
-        "impact": 1,
-        "reason": "Oil price rally supports margins"
-      },
-      {
-        "sector": "Automobile",
         "impact": -2,
-        "reason": "Rising fuel costs and rates pressure demand"
-      },
-      {
-        "sector": "Aviation",
-        "impact": -2,
-        "reason": "Fuel cost surge hurts airlines"
+        "reason": "Oil surplus pressures crude prices"
       },
       {
         "sector": "Banking",
-        "impact": -1,
-        "reason": "Higher rates may curb loan growth"
+        "impact": 1,
+        "reason": "Higher rates boost NIMs"
       },
       {
         "sector": "NBFC",
+        "impact": 1,
+        "reason": "Rate rise improves loan pricing"
+      },
+      {
+        "sector": "Real Estate",
         "impact": -1,
-        "reason": "Rate hikes increase funding costs"
+        "reason": "Higher financing costs curb demand"
+      },
+      {
+        "sector": "Automobile",
+        "impact": -1,
+        "reason": "Rate hikes damp consumer financing"
       }
     ]
   },
-  "catalyst_proximity_days": 26,
+  "catalyst_proximity_days": 25,
   "upcoming_catalysts": [
     {
       "date": "2026-12-10",
       "kind": "RBI_MPC",
       "label": "RBI Monetary Policy Committee — December 2026",
       "severity_potential": 3,
-      "days_until": 26
+      "days_until": 25
     }
   ],
   "position_cap_pct": 10,
@@ -122,7 +121,7 @@
                 "ticker": "SURYODAY",
                 "name": "Suryoday Small Finance Bank Limited",
                 "sector": "Banks",
-                "v4_score_100": 72,
+                "v4_score_100": 71.9,
                 "composite_score": 53.9,
                 "valuation_band": "DEEP_DISCOUNT",
                 "upside_pct": 41.8,
@@ -190,7 +189,7 @@
                 "ticker": "SURYODAY",
                 "name": "Suryoday Small Finance Bank Limited",
                 "sector": "Banks",
-                "v4_score_100": 72,
+                "v4_score_100": 71.9,
                 "composite_score": 53.9,
                 "valuation_band": "DEEP_DISCOUNT",
                 "upside_pct": 41.8,
@@ -340,7 +339,7 @@
                 "ticker": "SURYODAY",
                 "name": "Suryoday Small Finance Bank Limited",
                 "sector": "Banks",
-                "v4_score_100": 72,
+                "v4_score_100": 71.9,
                 "composite_score": 53.9,
                 "valuation_band": "DEEP_DISCOUNT",
                 "upside_pct": 41.8,
@@ -408,7 +407,7 @@
                 "ticker": "SURYODAY",
                 "name": "Suryoday Small Finance Bank Limited",
                 "sector": "Banks",
-                "v4_score_100": 72,
+                "v4_score_100": 71.9,
                 "composite_score": 53.9,
                 "valuation_band": "DEEP_DISCOUNT",
                 "upside_pct": 41.8,
@@ -596,7 +595,7 @@
                 "ticker": "SURYODAY",
                 "name": "Suryoday Small Finance Bank Limited",
                 "sector": "Banks",
-                "v4_score_100": 72,
+                "v4_score_100": 71.9,
                 "composite_score": 53.9,
                 "valuation_band": "DEEP_DISCOUNT",
                 "upside_pct": 41.8,
@@ -664,7 +663,7 @@
                 "ticker": "SURYODAY",
                 "name": "Suryoday Small Finance Bank Limited",
                 "sector": "Banks",
-                "v4_score_100": 72,
+                "v4_score_100": 71.9,
                 "composite_score": 53.9,
                 "valuation_band": "DEEP_DISCOUNT",
                 "upside_pct": 41.8,
@@ -752,7 +751,7 @@
   "indeterminate": false,
   "audit": {
     "thesis_schema": "macro-thesis-v1",
-    "regime_generated_at": "2026-11-13T14:30:40.823Z",
+    "regime_generated_at": "2026-11-14T18:30:23.017Z",
     "regime_classifier": "groq",
     "scenario_engine_version": "scenario-prob-v1"
   }
