@@ -1,0 +1,1068 @@
+{
+  "schema_version": "earnings-history-v5",
+  "refresh_iso": "2026-11-20T09:00:39.587Z",
+  "today_iso": "2026-11-20",
+  "event_count": 7,
+  "predictions": [
+    {
+      "symbol": "GVPTECH",
+      "fiscal_quarter": "Q2 FY27",
+      "event_iso_date": "2026-11-20",
+      "days_until": 0,
+      "data_quality": "MEDIUM",
+      "predictor_version": "earnings-predict-v3-2026-05",
+      "playbook_version": "earnings-playbook-v1-2026-05",
+      "predicted_verdict": "INLINE",
+      "confidence_pct": 54,
+      "score_100": 41.2,
+      "price_at_snapshot_inr": null,
+      "runup_signal": "lagging",
+      "sector": "Software",
+      "actual_verdict": null,
+      "actual_guidance_tone": null,
+      "actual_t1_close_inr": null,
+      "actual_t1_open_gap_pct": null,
+      "resolved_at_iso": null,
+      "actual_source": null,
+      "actual_evidence": null,
+      "actual_revised_iso": null,
+      "actual_history": [],
+      "backfilled": false,
+      "llm_signal": {
+        "bias": "lean_miss",
+        "confidence_delta_pct": -3,
+        "classifier_provider": "heuristic",
+        "model_id": "heuristic-v2"
+      },
+      "score_breakdown": {
+        "v3_future_past": -18,
+        "v3_valuation": -2,
+        "v3_overlay": 0,
+        "runup": 5,
+        "sector_momentum": -0.8,
+        "trajectory": 15,
+        "last_quarter_echo": 0,
+        "announcements": 0,
+        "deal_flow": 0,
+        "llm_signal": -6,
+        "missing_data_penalty": -2,
+        "missing_data_components": [
+          "announcements"
+        ],
+        "raw_sum": -8.8,
+        "sws_quality": -18,
+        "fv_upside": -2,
+        "threshold_version": "v3-2026-05",
+        "threshold_source": "empirical",
+        "miss_cut": 34,
+        "beat_cut": 56
+      },
+      "display_snapshot": {
+        "prediction": {
+          "verdict": "INLINE",
+          "confidence_pct": 54,
+          "score_100": 41.2,
+          "score_breakdown": {
+            "v3_future_past": -18,
+            "v3_valuation": -2,
+            "v3_overlay": 0,
+            "runup": 5,
+            "sector_momentum": -0.8,
+            "trajectory": 15,
+            "last_quarter_echo": 0,
+            "announcements": 0,
+            "deal_flow": 0,
+            "llm_signal": -6,
+            "missing_data_penalty": -2,
+            "missing_data_components": [
+              "announcements"
+            ],
+            "raw_sum": -8.8,
+            "sws_quality": -18,
+            "fv_upside": -2,
+            "threshold_version": "v3-2026-05",
+            "threshold_source": "empirical",
+            "miss_cut": 34,
+            "beat_cut": 56
+          },
+          "reasons_top": [
+            "V4 valuation: fair-value imputed (no FV anchor)",
+            "missing-data caution: announcements unavailable (-2 pts, MEDIUM)",
+            "sector Software -1.6% over 1M"
+          ],
+          "reasons_against": [],
+          "components_by_impact": [
+            {
+              "name": "v3_future_past",
+              "pts": -18,
+              "why": "V4 future 0/22 · past 0/16 (ACCEPTABLE)"
+            },
+            {
+              "name": "trajectory",
+              "pts": 15,
+              "why": "EPS YoY +61.5%"
+            },
+            {
+              "name": "llm_signal",
+              "pts": -6,
+              "why": "LLM (heuristic): 2 SWS-vetted reward bullet(s) on file"
+            },
+            {
+              "name": "runup",
+              "pts": 5,
+              "why": "lagging sector (-5.8% vs sector — room to surprise)"
+            },
+            {
+              "name": "v3_valuation",
+              "pts": -2,
+              "why": "V4 valuation: fair-value imputed (no FV anchor)"
+            },
+            {
+              "name": "missing_data_penalty",
+              "pts": -2,
+              "why": "missing-data caution: announcements unavailable (-2 pts, MEDIUM)"
+            },
+            {
+              "name": "sector_momentum",
+              "pts": -0.8,
+              "why": "sector Software -1.6% over 1M"
+            },
+            {
+              "name": "v3_overlay",
+              "pts": 0,
+              "why": "no V4 risk flags"
+            },
+            {
+              "name": "last_quarter_echo",
+              "pts": 0,
+              "why": "no last-quarter signal"
+            },
+            {
+              "name": "announcements",
+              "pts": 0,
+              "why": "no recent announcements"
+            },
+            {
+              "name": "deal_flow",
+              "pts": 0,
+              "why": "no recent bulk/block deals"
+            }
+          ],
+          "predictor_version": "earnings-predict-v3-2026-05",
+          "freeze": {
+            "frozen": true,
+            "source": "display_snapshot",
+            "archive_today_iso": "2026-11-18"
+          }
+        },
+        "price_band": {
+          "anchored": false,
+          "basis": "pct_only · vol≈3.7% · conf×0.6",
+          "current_price_inr": null,
+          "bull": {
+            "pct": 2.1,
+            "price_inr": null
+          },
+          "base": {
+            "pct": 0,
+            "price_inr": null
+          },
+          "bear": {
+            "pct": -2.1,
+            "price_inr": null
+          },
+          "version": "earnings-bands-v1-2026-05"
+        },
+        "rationale": {
+          "headline": "INLINE expected (54% conf) — GVPTECH Q2 FY27 in 2d.",
+          "paragraphs": [
+            "GVPTECH reports Q2 FY27 in 2d. Our model expects the result to land INLINE, with 54% confidence (V1 cap is 65% — see methodology). Strongest input: V4 valuation: fair-value imputed (no FV anchor); reinforced by missing-data caution: announcements unavailable (-2 pts, MEDIUM).",
+            "Component breakdown (41/100 composite): pulling toward INLINE: V4 valuation: fair-value imputed (no FV anchor); missing-data caution: announcements unavailable (-2 pts, MEDIUM); sector Software -1.6% over 1M. No strong opposing signal — INLINE reflects balanced inputs, not absent ones. Sector Software momentum acts as the prevailing tide; treat any single-stock thesis as conditional on it not flipping mid-week.",
+            "1-day post-result range: bull +2.1%, base +0%, bear -2.1% (no live price anchor — SWS row not present). Earnings are binary events — size to survive bear, not maximise bull."
+          ],
+          "falsification_triggers": [
+            "Reported EPS or revenue surprises by ≥ 5% in either direction",
+            "Guidance is materially raised or cut",
+            "Pre-result block-deal flow flips heavily institutional in 48h before"
+          ],
+          "version": "earnings-narrate-v1-2026-05"
+        },
+        "playbook": {
+          "mode": "preview",
+          "tradable": true,
+          "predicted_verdict": "INLINE",
+          "highlight_branch": "RAISE",
+          "pre_runup_signal": "lagging",
+          "primary": {
+            "key": "INLINE_MAINTAIN",
+            "label": "Inline + Maintain (skip)",
+            "stance": "Skip — no edge; chop likely",
+            "time_horizon": "none",
+            "entry": "Stand aside",
+            "stoploss": "n/a",
+            "target": "n/a",
+            "rationale": "No catalyst either way. Stock often drifts down because the 'inline' result resolves uncertainty without new positive news. Not worth the screen time.",
+            "confidence": "MEDIUM",
+            "falsification": [
+              "Surprise sector tailwind in the days following",
+              "Block-deal flow reveals an institutional buyer post-print"
+            ],
+            "leans": "skip"
+          },
+          "branches": [
+            {
+              "guidance": "RAISE",
+              "plan": {
+                "key": "INLINE_RAISE",
+                "label": "Inline + Raise (underrated bullish)",
+                "stance": "Buy — best 2–3 day swing in the matrix",
+                "time_horizon": "swing_3d",
+                "entry": "Buy at T+1 close OR on T+1 morning pullback to opening 30-min low",
+                "stoploss": "Below T+1 opening 30-min low",
+                "target": "+3–5% over T+2 to T+3; analysts re-rate on the forward bump",
+                "rationale": "Market underreacts because the headline is 'inline' — boring. Forward guidance bump is the real signal; analyst PTs follow. Cleanest cell for a 2–3 day hold.",
+                "confidence": "HIGH",
+                "falsification": [
+                  "Guidance bump is one-time / FY-restatement, not organic",
+                  "Sector reverses"
+                ],
+                "leans": "long"
+              },
+              "is_highlighted": true
+            },
+            {
+              "guidance": "MAINTAIN",
+              "plan": {
+                "key": "INLINE_MAINTAIN",
+                "label": "Inline + Maintain (skip)",
+                "stance": "Skip — no edge; chop likely",
+                "time_horizon": "none",
+                "entry": "Stand aside",
+                "stoploss": "n/a",
+                "target": "n/a",
+                "rationale": "No catalyst either way. Stock often drifts down because the 'inline' result resolves uncertainty without new positive news. Not worth the screen time.",
+                "confidence": "MEDIUM",
+                "falsification": [
+                  "Surprise sector tailwind in the days following",
+                  "Block-deal flow reveals an institutional buyer post-print"
+                ],
+                "leans": "skip"
+              },
+              "is_highlighted": false
+            },
+            {
+              "guidance": "CUT",
+              "plan": {
+                "key": "INLINE_CUT",
+                "label": "Inline + Cut (strong negative drift)",
+                "stance": "Short or stay flat — 5–10 day downside drift",
+                "time_horizon": "swing_5d",
+                "entry": "Short on T+1 bounce to VWAP, OR enter on T+2 if T+1 closes red",
+                "stoploss": "Above T+1 high; 2.5% above entry as backstop",
+                "target": "-4–6% over T+2 to T+5",
+                "rationale": "Forward downgrade is the real signal; the 'inline' headline buys the stock 24–48h before the analyst-PT cuts hit. This is the post-earnings drift in negative form.",
+                "confidence": "HIGH",
+                "falsification": [
+                  "Macro tailwind (rate cut, oil crash) shifts the sector",
+                  "Activist or strategic announcement during the drift window"
+                ],
+                "leans": "short_or_skip"
+              },
+              "is_highlighted": false
+            }
+          ],
+          "headline": "Lagging into INLINE result — INLINE_RAISE is the highest-edge cell if guidance bumps.",
+          "position_size_multiplier": 0.6,
+          "position_size_tier": {
+            "label": "Reduced size",
+            "min_confidence": 48
+          },
+          "version": "earnings-playbook-v1-2026-05"
+        },
+        "signals": {
+          "data_quality": "MEDIUM",
+          "sector": "Software",
+          "momentum": {
+            "ret_1m_pct": -7.39,
+            "ret_3m_pct": -4.32,
+            "ret_6m_pct": -26.22,
+            "ret_1y_pct": -32.73,
+            "sector_avg_1m_pct": -1.61,
+            "sector_sample_size": 298,
+            "sector_volatility_1m_pct": null,
+            "pre_runup_signal": "lagging",
+            "runup_vs_sector_pct": -5.78
+          },
+          "snowflake_total": 12,
+          "upside_pct": null,
+          "v3": {
+            "v3_score_100": 37.2,
+            "v3_verdict": "ACCEPTABLE",
+            "source": "computed",
+            "breakdown": {
+              "pts_health": 20,
+              "pts_future": 0,
+              "pts_valuation": 9,
+              "pts_past": 0,
+              "pts_fv_total": 4.5,
+              "fv_imputed": true,
+              "fv_industry_imputed": true,
+              "fv_industry_average_pts": 4.5,
+              "fv_industry_average_count": 31,
+              "fv_industry_average_key": "industry_code:8030000",
+              "fv_industry_average_label": "Software",
+              "fv_max_inflation_haircut": false,
+              "upside_haircut_factor": 1,
+              "upside_display_basis": null,
+              "fv_subsignals_present": 0,
+              "fv_benchmark_used": false,
+              "pts_fv_upside_effective": null,
+              "pts_fv_pe_effective": null,
+              "fv_upside_relative_pts": null,
+              "fv_upside_rz": null,
+              "fv_pe_ratio": null,
+              "fv_pe_bucket": null,
+              "fv_pe_source": "sws_industry_api",
+              "fv_pe_source_label": "SWS industry API",
+              "fv_pe_industry_name": "Software",
+              "fv_pe_company_pe": null,
+              "fv_pe_industry_pe": 22.141,
+              "fv_pe_fetched_at": null,
+              "fv_pe_source_url": null,
+              "pts_mom_1y": 1.6,
+              "pts_mom_3m": 1.5,
+              "pts_mom_1m": 0.6,
+              "momentum_imputed": false,
+              "pts_overlay": 0,
+              "overlay_reasons": [],
+              "surveillance": null
+            }
+          },
+          "llm_signal": {
+            "bias": "lean_miss",
+            "confidence_delta_pct": -3,
+            "top_reason": "2 SWS-vetted reward bullet(s) on file",
+            "top_risk": "5 SWS-vetted risk bullet(s) on file",
+            "classifier_provider": "heuristic",
+            "model_id": "heuristic-v2",
+            "signal_version": "earnings-llm-v2-2026-05",
+            "generated_at": "2026-11-18T12:11:16.917Z"
+          },
+          "market_cap_inr": 1081400933.736864,
+          "announcements": {
+            "top3": []
+          }
+        }
+      }
+    },
+    {
+      "symbol": "VALECHAENG",
+      "fiscal_quarter": "Q2 FY27",
+      "event_iso_date": "2026-11-20",
+      "days_until": 0,
+      "data_quality": "LOW",
+      "predictor_version": "earnings-predict-v3-2026-05",
+      "playbook_version": "earnings-playbook-v1-2026-05",
+      "predicted_verdict": "INSUFFICIENT_DATA",
+      "confidence_pct": null,
+      "score_100": null,
+      "price_at_snapshot_inr": null,
+      "runup_signal": "neutral",
+      "sector": null,
+      "actual_verdict": null,
+      "actual_guidance_tone": null,
+      "actual_t1_close_inr": null,
+      "actual_t1_open_gap_pct": null,
+      "resolved_at_iso": null,
+      "actual_source": null,
+      "actual_evidence": null,
+      "actual_revised_iso": null,
+      "actual_history": [],
+      "backfilled": false,
+      "llm_signal": null,
+      "score_breakdown": {
+        "reason": "data_quality:LOW"
+      },
+      "display_snapshot": {
+        "prediction": {
+          "verdict": "INSUFFICIENT_DATA",
+          "confidence_pct": null,
+          "score_100": null,
+          "score_breakdown": {
+            "reason": "data_quality:LOW"
+          },
+          "reasons_top": [],
+          "reasons_against": [],
+          "predictor_version": "earnings-predict-v3-2026-05",
+          "freeze": {
+            "frozen": true,
+            "source": "display_snapshot",
+            "archive_today_iso": "2026-11-18"
+          }
+        },
+        "price_band": {
+          "anchored": false,
+          "basis": "insufficient_data",
+          "bull": null,
+          "base": null,
+          "bear": null,
+          "version": "earnings-bands-v1-2026-05"
+        },
+        "rationale": {
+          "headline": "Calendar event only — insufficient signal coverage to predict outcome.",
+          "paragraphs": [
+            "This stock isn't covered in the SWS deep-scrape, has no fundamentalsHistory entry, or both. We can confirm the board meeting is scheduled but cannot score directional risk.",
+            "Watch the actual print for direction — we'll re-score the post-result T+1 playbook once outcome data lands.",
+            "Position sizing should reflect this opacity: treat as a binary unknown, not a directional bet."
+          ],
+          "falsification_triggers": [],
+          "version": "earnings-narrate-v1-2026-05"
+        },
+        "playbook": {
+          "mode": "preview",
+          "tradable": false,
+          "primary": null,
+          "branches": [],
+          "headline": "Insufficient data — no playbook.",
+          "version": "earnings-playbook-v1-2026-05"
+        },
+        "signals": {
+          "data_quality": "LOW",
+          "sector": null,
+          "momentum": {
+            "ret_1m_pct": null,
+            "ret_3m_pct": null,
+            "ret_6m_pct": null,
+            "ret_1y_pct": null,
+            "sector_avg_1m_pct": null,
+            "sector_sample_size": null,
+            "sector_volatility_1m_pct": null,
+            "pre_runup_signal": "neutral",
+            "runup_vs_sector_pct": null
+          },
+          "snowflake_total": null,
+          "upside_pct": null,
+          "v3": null,
+          "market_cap_inr": null,
+          "announcements": {
+            "top3": []
+          }
+        }
+      }
+    },
+    {
+      "symbol": "BCSSL",
+      "fiscal_quarter": "Q2 FY27",
+      "event_iso_date": "2026-11-23",
+      "days_until": 3,
+      "data_quality": "LOW",
+      "predictor_version": "earnings-predict-v3-2026-05",
+      "playbook_version": "earnings-playbook-v1-2026-05",
+      "predicted_verdict": "INSUFFICIENT_DATA",
+      "confidence_pct": null,
+      "score_100": null,
+      "price_at_snapshot_inr": null,
+      "runup_signal": "neutral",
+      "sector": null,
+      "actual_verdict": null,
+      "actual_guidance_tone": null,
+      "actual_t1_close_inr": null,
+      "actual_t1_open_gap_pct": null,
+      "resolved_at_iso": null,
+      "actual_source": null,
+      "actual_evidence": null,
+      "actual_revised_iso": null,
+      "actual_history": [],
+      "backfilled": false,
+      "llm_signal": null,
+      "score_breakdown": {
+        "reason": "data_quality:LOW"
+      },
+      "display_snapshot": {
+        "prediction": {
+          "verdict": "INSUFFICIENT_DATA",
+          "confidence_pct": null,
+          "score_100": null,
+          "score_breakdown": {
+            "reason": "data_quality:LOW"
+          },
+          "reasons_top": [],
+          "reasons_against": [],
+          "predictor_version": "earnings-predict-v3-2026-05"
+        },
+        "price_band": {
+          "anchored": false,
+          "basis": "insufficient_data",
+          "bull": null,
+          "base": null,
+          "bear": null,
+          "version": "earnings-bands-v1-2026-05"
+        },
+        "rationale": {
+          "headline": "Calendar event only — insufficient signal coverage to predict outcome.",
+          "paragraphs": [
+            "This stock isn't covered in the SWS deep-scrape, has no fundamentalsHistory entry, or both. We can confirm the board meeting is scheduled but cannot score directional risk.",
+            "Watch the actual print for direction — we'll re-score the post-result T+1 playbook once outcome data lands.",
+            "Position sizing should reflect this opacity: treat as a binary unknown, not a directional bet."
+          ],
+          "falsification_triggers": [],
+          "version": "earnings-narrate-v1-2026-05"
+        },
+        "playbook": {
+          "mode": "preview",
+          "tradable": false,
+          "primary": null,
+          "branches": [],
+          "headline": "Insufficient data — no playbook.",
+          "version": "earnings-playbook-v1-2026-05"
+        },
+        "signals": {
+          "data_quality": "LOW",
+          "sector": null,
+          "momentum": {
+            "ret_1m_pct": null,
+            "ret_3m_pct": null,
+            "ret_6m_pct": null,
+            "ret_1y_pct": null,
+            "sector_avg_1m_pct": null,
+            "sector_sample_size": null,
+            "sector_volatility_1m_pct": null,
+            "pre_runup_signal": "neutral",
+            "runup_vs_sector_pct": null
+          },
+          "snowflake_total": null,
+          "upside_pct": null,
+          "v3": null,
+          "market_cap_inr": null,
+          "announcements": {
+            "top3": []
+          },
+          "deals_7d": {
+            "net_notional_inr": 26406250
+          }
+        }
+      }
+    },
+    {
+      "symbol": "SETCO",
+      "fiscal_quarter": "Q2 FY27",
+      "event_iso_date": "2026-11-24",
+      "days_until": 4,
+      "data_quality": "HIGH",
+      "predictor_version": "earnings-predict-v3-2026-05",
+      "playbook_version": "earnings-playbook-v1-2026-05",
+      "predicted_verdict": "INLINE",
+      "confidence_pct": 56,
+      "score_100": 44.6,
+      "price_at_snapshot_inr": 17.08,
+      "runup_signal": "neutral",
+      "sector": "Automobiles",
+      "actual_verdict": null,
+      "actual_guidance_tone": null,
+      "actual_t1_close_inr": null,
+      "actual_t1_open_gap_pct": null,
+      "resolved_at_iso": null,
+      "actual_source": null,
+      "actual_evidence": null,
+      "actual_revised_iso": null,
+      "actual_history": [],
+      "backfilled": false,
+      "llm_signal": {
+        "bias": "neutral",
+        "confidence_delta_pct": 0,
+        "classifier_provider": "heuristic",
+        "model_id": "heuristic-v2"
+      },
+      "score_breakdown": {
+        "v3_future_past": -18,
+        "v3_valuation": -0.7,
+        "v3_overlay": 0,
+        "runup": 0,
+        "sector_momentum": 0.3,
+        "trajectory": 15,
+        "last_quarter_echo": 0,
+        "announcements": 0,
+        "deal_flow": 0,
+        "llm_signal": 0,
+        "missing_data_penalty": -2,
+        "missing_data_components": [
+          "announcements"
+        ],
+        "raw_sum": -5.4,
+        "sws_quality": -18,
+        "fv_upside": -0.7,
+        "threshold_version": "v3-2026-05",
+        "threshold_source": "empirical",
+        "miss_cut": 34,
+        "beat_cut": 56
+      },
+      "display_snapshot": {
+        "prediction": {
+          "verdict": "INLINE",
+          "confidence_pct": 56,
+          "score_100": 44.6,
+          "score_breakdown": {
+            "v3_future_past": -18,
+            "v3_valuation": -0.7,
+            "v3_overlay": 0,
+            "runup": 0,
+            "sector_momentum": 0.3,
+            "trajectory": 15,
+            "last_quarter_echo": 0,
+            "announcements": 0,
+            "deal_flow": 0,
+            "llm_signal": 0,
+            "missing_data_penalty": -2,
+            "missing_data_components": [
+              "announcements"
+            ],
+            "raw_sum": -5.4,
+            "sws_quality": -18,
+            "fv_upside": -0.7,
+            "threshold_version": "v3-2026-05",
+            "threshold_source": "empirical",
+            "miss_cut": 34,
+            "beat_cut": 56
+          },
+          "reasons_top": [
+            "missing-data caution: announcements unavailable (-2 pts, HIGH)",
+            "V4 valuation: fair-value imputed (no FV anchor)",
+            "sector Automobiles +0.6% over 1M"
+          ],
+          "reasons_against": [],
+          "components_by_impact": [
+            {
+              "name": "v3_future_past",
+              "pts": -18,
+              "why": "V4 future 0/22 · past 0/16 (WATCH)"
+            },
+            {
+              "name": "trajectory",
+              "pts": 15,
+              "why": "EPS YoY +683.1%"
+            },
+            {
+              "name": "missing_data_penalty",
+              "pts": -2,
+              "why": "missing-data caution: announcements unavailable (-2 pts, HIGH)"
+            },
+            {
+              "name": "v3_valuation",
+              "pts": -0.7,
+              "why": "V4 valuation: fair-value imputed (no FV anchor)"
+            },
+            {
+              "name": "sector_momentum",
+              "pts": 0.3,
+              "why": "sector Automobiles +0.6% over 1M"
+            },
+            {
+              "name": "v3_overlay",
+              "pts": 0,
+              "why": "no V4 risk flags"
+            },
+            {
+              "name": "runup",
+              "pts": 0,
+              "why": "neutral runup vs sector"
+            },
+            {
+              "name": "last_quarter_echo",
+              "pts": 0,
+              "why": "no last-quarter signal"
+            },
+            {
+              "name": "announcements",
+              "pts": 0,
+              "why": "no recent announcements"
+            },
+            {
+              "name": "deal_flow",
+              "pts": 0,
+              "why": "no recent bulk/block deals"
+            },
+            {
+              "name": "llm_signal",
+              "pts": 0,
+              "why": "LLM read: neutral (heuristic)"
+            }
+          ],
+          "predictor_version": "earnings-predict-v3-2026-05"
+        },
+        "price_band": {
+          "anchored": true,
+          "basis": "anchored ₹17.08 · vol≈2.5% · conf×0.6",
+          "current_price_inr": 17.08,
+          "bull": {
+            "pct": 1.6,
+            "price_inr": 17.35
+          },
+          "base": {
+            "pct": 0,
+            "price_inr": 17.08
+          },
+          "bear": {
+            "pct": -1.6,
+            "price_inr": 16.81
+          },
+          "version": "earnings-bands-v1-2026-05"
+        },
+        "rationale": {
+          "headline": "INLINE expected (56% conf) — SETCO Q2 FY27 in 4d.",
+          "paragraphs": [
+            "SETCO reports Q2 FY27 in 4d. Our model expects the result to land INLINE, with 56% confidence (V1 cap is 65% — see methodology). Strongest input: missing-data caution: announcements unavailable (-2 pts, HIGH); reinforced by V4 valuation: fair-value imputed (no FV anchor).",
+            "Component breakdown (45/100 composite): pulling toward INLINE: missing-data caution: announcements unavailable (-2 pts, HIGH); V4 valuation: fair-value imputed (no FV anchor); sector Automobiles +0.6% over 1M. No strong opposing signal — INLINE reflects balanced inputs, not absent ones. Sector Automobiles momentum acts as the prevailing tide; treat any single-stock thesis as conditional on it not flipping mid-week.",
+            "1-day post-result band: Bull ₹17.35 (+1.6%) · Base ₹17.08 · Bear ₹16.81 (-1.6%). Magnitudes are confidence-scaled and capped at ±15%. Earnings are binary events — size positions to survive a Bear-case print, not to maximise the Bull case."
+          ],
+          "falsification_triggers": [
+            "a material catalyst lands in the next 30 days (PT raise / beat / surveillance change)",
+            "V4 score moves into TOP_PICK (≥59) or AVOID (<28) on next refresh"
+          ],
+          "version": "earnings-narrate-v1-2026-05"
+        },
+        "playbook": {
+          "mode": "preview",
+          "tradable": true,
+          "predicted_verdict": "INLINE",
+          "highlight_branch": "MAINTAIN",
+          "pre_runup_signal": "neutral",
+          "primary": {
+            "key": "INLINE_MAINTAIN",
+            "label": "Inline + Maintain (skip)",
+            "stance": "Skip — no edge; chop likely",
+            "time_horizon": "none",
+            "entry": "Stand aside",
+            "stoploss": "n/a",
+            "target": "n/a",
+            "rationale": "No catalyst either way. Stock often drifts down because the 'inline' result resolves uncertainty without new positive news. Not worth the screen time.",
+            "confidence": "MEDIUM",
+            "falsification": [
+              "Surprise sector tailwind in the days following",
+              "Block-deal flow reveals an institutional buyer post-print"
+            ],
+            "leans": "skip"
+          },
+          "branches": [
+            {
+              "guidance": "RAISE",
+              "plan": {
+                "key": "INLINE_RAISE",
+                "label": "Inline + Raise (underrated bullish)",
+                "stance": "Buy — best 2–3 day swing in the matrix",
+                "time_horizon": "swing_3d",
+                "entry": "Buy at T+1 close OR on T+1 morning pullback to opening 30-min low",
+                "stoploss": "Below T+1 opening 30-min low",
+                "target": "+3–5% over T+2 to T+3; analysts re-rate on the forward bump",
+                "rationale": "Market underreacts because the headline is 'inline' — boring. Forward guidance bump is the real signal; analyst PTs follow. Cleanest cell for a 2–3 day hold.",
+                "confidence": "HIGH",
+                "falsification": [
+                  "Guidance bump is one-time / FY-restatement, not organic",
+                  "Sector reverses"
+                ],
+                "leans": "long"
+              },
+              "is_highlighted": false
+            },
+            {
+              "guidance": "MAINTAIN",
+              "plan": {
+                "key": "INLINE_MAINTAIN",
+                "label": "Inline + Maintain (skip)",
+                "stance": "Skip — no edge; chop likely",
+                "time_horizon": "none",
+                "entry": "Stand aside",
+                "stoploss": "n/a",
+                "target": "n/a",
+                "rationale": "No catalyst either way. Stock often drifts down because the 'inline' result resolves uncertainty without new positive news. Not worth the screen time.",
+                "confidence": "MEDIUM",
+                "falsification": [
+                  "Surprise sector tailwind in the days following",
+                  "Block-deal flow reveals an institutional buyer post-print"
+                ],
+                "leans": "skip"
+              },
+              "is_highlighted": true
+            },
+            {
+              "guidance": "CUT",
+              "plan": {
+                "key": "INLINE_CUT",
+                "label": "Inline + Cut (strong negative drift)",
+                "stance": "Short or stay flat — 5–10 day downside drift",
+                "time_horizon": "swing_5d",
+                "entry": "Short on T+1 bounce to VWAP, OR enter on T+2 if T+1 closes red",
+                "stoploss": "Above T+1 high; 2.5% above entry as backstop",
+                "target": "-4–6% over T+2 to T+5",
+                "rationale": "Forward downgrade is the real signal; the 'inline' headline buys the stock 24–48h before the analyst-PT cuts hit. This is the post-earnings drift in negative form.",
+                "confidence": "HIGH",
+                "falsification": [
+                  "Macro tailwind (rate cut, oil crash) shifts the sector",
+                  "Activist or strategic announcement during the drift window"
+                ],
+                "leans": "short_or_skip"
+              },
+              "is_highlighted": false
+            }
+          ],
+          "headline": "Predicted INLINE. Three guidance scenarios mapped — pick the branch after concall.",
+          "position_size_multiplier": 0.6,
+          "position_size_tier": {
+            "label": "Reduced size",
+            "min_confidence": 48
+          },
+          "version": "earnings-playbook-v1-2026-05"
+        },
+        "signals": {
+          "data_quality": "HIGH",
+          "sector": "Automobiles",
+          "momentum": {
+            "ret_1m_pct": -3.77,
+            "ret_3m_pct": -4.63,
+            "ret_6m_pct": -5.01,
+            "ret_1y_pct": 17.15,
+            "sector_avg_1m_pct": 0.64,
+            "sector_sample_size": 496,
+            "sector_volatility_1m_pct": null,
+            "pre_runup_signal": "neutral",
+            "runup_vs_sector_pct": -4.41
+          },
+          "snowflake_total": 10,
+          "upside_pct": null,
+          "v3": {
+            "v3_score_100": 31.3,
+            "v3_verdict": "WATCH",
+            "source": "upcoming",
+            "breakdown": {
+              "pts_health": 6.7,
+              "pts_future": 0,
+              "pts_valuation": 12,
+              "pts_past": 0,
+              "pts_fv_total": 5,
+              "fv_imputed": true,
+              "fv_industry_imputed": true,
+              "fv_industry_average_pts": 5,
+              "fv_industry_average_count": 59,
+              "fv_industry_average_key": "industry_code:4011000",
+              "fv_industry_average_label": "Automobiles",
+              "fv_max_inflation_haircut": false,
+              "upside_haircut_factor": 1,
+              "upside_display_basis": null,
+              "fv_subsignals_present": 1,
+              "fv_benchmark_used": false,
+              "pts_fv_upside_effective": null,
+              "pts_fv_pe_effective": null,
+              "fv_upside_relative_pts": null,
+              "fv_upside_rz": null,
+              "fv_pe_ratio": 0.026,
+              "fv_pe_bucket": "cheap",
+              "fv_pe_source": "groww_refinitiv",
+              "fv_pe_source_label": "Groww/Refinitiv",
+              "fv_pe_industry_name": "Auto Ancillary",
+              "fv_pe_company_pe": 0.95,
+              "fv_pe_industry_pe": 36.62,
+              "fv_pe_fetched_at": "2026-11-20T07:38:53.396Z",
+              "fv_pe_source_url": "https://groww.in/stocks/setco-automotive-ltd",
+              "pts_mom_1y": 5.4,
+              "pts_mom_3m": 1.5,
+              "pts_mom_1m": 0.8,
+              "momentum_imputed": false,
+              "pts_overlay": 0,
+              "overlay_reasons": [],
+              "surveillance": null
+            }
+          },
+          "llm_signal": {
+            "bias": "neutral",
+            "confidence_delta_pct": 0,
+            "top_reason": "4 SWS-vetted reward bullet(s) on file",
+            "top_risk": "3 SWS-vetted risk bullet(s) on file",
+            "classifier_provider": "heuristic",
+            "model_id": "heuristic-v2",
+            "signal_version": "earnings-llm-v2-2026-05",
+            "generated_at": "2026-11-18T12:11:16.917Z"
+          },
+          "market_cap_inr": 2290000000,
+          "sws_upcoming_earnings": {
+            "composite_verdict": "WATCH",
+            "one_line": "P/E 0.9x · snow 10/30",
+            "counter_thesis": {
+              "verdict_bias": "neutral",
+              "text": "No strong opposing signal in the layer outputs — single-source view; verify thesis independently before acting.",
+              "falsification_trigger": [
+                "a material catalyst lands in the next 30 days (PT raise / beat / surveillance change)",
+                "V4 score moves into TOP_PICK (≥59) or AVOID (<28) on next refresh"
+              ]
+            },
+            "current_price_inr": 17.08
+          },
+          "announcements": {
+            "top3": []
+          }
+        }
+      }
+    },
+    {
+      "symbol": "BRNL",
+      "fiscal_quarter": "Q2 FY27",
+      "event_iso_date": "2026-11-28",
+      "days_until": 8,
+      "data_quality": "HIGH",
+      "predictor_version": "earnings-predict-v3-2026-05",
+      "playbook_version": "earnings-playbook-v1-2026-05",
+      "predicted_verdict": "MISS",
+      "confidence_pct": 61,
+      "score_100": 23.3,
+      "price_at_snapshot_inr": 15.54,
+      "runup_signal": "smooth",
+      "sector": "Capital Goods",
+      "actual_verdict": null,
+      "actual_guidance_tone": null,
+      "actual_t1_close_inr": null,
+      "actual_t1_open_gap_pct": null,
+      "resolved_at_iso": null,
+      "actual_source": null,
+      "actual_evidence": null,
+      "actual_revised_iso": null,
+      "actual_history": [],
+      "backfilled": false,
+      "llm_signal": {
+        "bias": "neutral",
+        "confidence_delta_pct": 0,
+        "classifier_provider": "heuristic",
+        "model_id": "heuristic-v2"
+      },
+      "score_breakdown": {
+        "v3_future_past": -18,
+        "v3_valuation": -1.1,
+        "v3_overlay": 0,
+        "runup": 8,
+        "sector_momentum": -0.6,
+        "trajectory": -15,
+        "last_quarter_echo": 0,
+        "announcements": 0,
+        "deal_flow": 0,
+        "llm_signal": 0,
+        "missing_data_penalty": 0,
+        "missing_data_components": [],
+        "raw_sum": -26.7,
+        "sws_quality": -18,
+        "fv_upside": -1.1,
+        "threshold_version": "v3-2026-05",
+        "threshold_source": "empirical",
+        "miss_cut": 34,
+        "beat_cut": 56
+      },
+      "display_snapshot": null
+    },
+    {
+      "symbol": "LATTEYS",
+      "fiscal_quarter": "Q2 FY27",
+      "event_iso_date": "2026-12-05",
+      "days_until": 15,
+      "data_quality": "HIGH",
+      "predictor_version": "earnings-predict-v3-2026-05",
+      "playbook_version": "earnings-playbook-v1-2026-05",
+      "predicted_verdict": "INLINE",
+      "confidence_pct": 50,
+      "score_100": 55.8,
+      "price_at_snapshot_inr": 16.86,
+      "runup_signal": "lagging",
+      "sector": "Capital Goods",
+      "actual_verdict": null,
+      "actual_guidance_tone": null,
+      "actual_t1_close_inr": null,
+      "actual_t1_open_gap_pct": null,
+      "resolved_at_iso": null,
+      "actual_source": null,
+      "actual_evidence": null,
+      "actual_revised_iso": null,
+      "actual_history": [],
+      "backfilled": false,
+      "llm_signal": {
+        "bias": "neutral",
+        "confidence_delta_pct": 0,
+        "classifier_provider": "heuristic",
+        "model_id": "heuristic-v2"
+      },
+      "score_breakdown": {
+        "v3_future_past": -11,
+        "v3_valuation": -0.6,
+        "v3_overlay": 0,
+        "runup": 5,
+        "sector_momentum": -0.6,
+        "trajectory": 15,
+        "last_quarter_echo": 0,
+        "announcements": 0,
+        "deal_flow": 0,
+        "llm_signal": 0,
+        "missing_data_penalty": -2,
+        "missing_data_components": [
+          "announcements"
+        ],
+        "raw_sum": 5.8,
+        "sws_quality": -11,
+        "fv_upside": -0.6,
+        "threshold_version": "v3-2026-05",
+        "threshold_source": "empirical",
+        "miss_cut": 34,
+        "beat_cut": 56
+      },
+      "display_snapshot": null
+    },
+    {
+      "symbol": "RNBDENIMS",
+      "fiscal_quarter": "Q2 FY27",
+      "event_iso_date": "2026-12-05",
+      "days_until": 15,
+      "data_quality": "HIGH",
+      "predictor_version": "earnings-predict-v3-2026-05",
+      "playbook_version": "earnings-playbook-v1-2026-05",
+      "predicted_verdict": "MISS",
+      "confidence_pct": 56,
+      "score_100": 28.4,
+      "price_at_snapshot_inr": 8.35,
+      "runup_signal": "smooth",
+      "sector": "Consumer Durables",
+      "actual_verdict": null,
+      "actual_guidance_tone": null,
+      "actual_t1_close_inr": null,
+      "actual_t1_open_gap_pct": null,
+      "resolved_at_iso": null,
+      "actual_source": null,
+      "actual_evidence": null,
+      "actual_revised_iso": null,
+      "actual_history": [],
+      "backfilled": false,
+      "llm_signal": {
+        "bias": "lean_miss",
+        "confidence_delta_pct": -2,
+        "classifier_provider": "heuristic",
+        "model_id": "heuristic-v2"
+      },
+      "score_breakdown": {
+        "v3_future_past": -17,
+        "v3_valuation": 0,
+        "v3_overlay": 0,
+        "runup": 8,
+        "sector_momentum": -0.4,
+        "trajectory": -6.2,
+        "last_quarter_echo": 0,
+        "announcements": 0,
+        "deal_flow": 0,
+        "llm_signal": -4,
+        "missing_data_penalty": -2,
+        "missing_data_components": [
+          "announcements"
+        ],
+        "raw_sum": -21.6,
+        "sws_quality": -17,
+        "fv_upside": 0,
+        "threshold_version": "v3-2026-05",
+        "threshold_source": "empirical",
+        "miss_cut": 34,
+        "beat_cut": 56
+      },
+      "display_snapshot": null
+    }
+  ]
+}

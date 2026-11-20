@@ -1,29 +1,29 @@
 {
   "schema_version": "earnings-health-v1",
-  "generated_at": "2026-11-18T12:14:20.812Z",
+  "generated_at": "2026-11-20T09:03:42.095Z",
   "resolved": {
     "count": 1697,
-    "delta_vs_prior": 2,
-    "prior_count": 1695
+    "delta_vs_prior": 0,
+    "prior_count": 1697
   },
   "llm_providers": {
-    "groq": 1,
+    "groq": 0,
     "gemini": 0,
-    "heuristic": 9,
+    "heuristic": 5,
     "none": 2,
-    "total": 12
+    "total": 7
   },
   "llm_offline": false,
   "llm_heuristic_share_pct": 0,
   "llm_stats": {
-    "total": 12,
-    "classified": 10,
+    "total": 7,
+    "classified": 5,
     "cache_hits": 3,
-    "llm_calls": 1,
-    "heuristic": 6,
+    "llm_calls": 0,
+    "heuristic": 2,
     "heuristic_cache_invalidations": 0,
     "cross_floor_invalidations": 0,
-    "below_v3_floor": 6,
+    "below_v3_floor": 2,
     "composite_floor": 47,
     "llm_available": true,
     "skip_llm": false
@@ -31,7 +31,7 @@
   "cap_lift_gate": {
     "state": false,
     "enough_data_to_lift_cap": false,
-    "days_in_current_state": 152,
+    "days_in_current_state": 153,
     "current_resolved": 0,
     "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (1697 across all versions)",
     "detail": {
@@ -97,7 +97,7 @@
       "gate": {
         "state": false,
         "enough_data_to_lift_cap": false,
-        "days_in_current_state": 152,
+        "days_in_current_state": 153,
         "current_resolved": 0,
         "current_resolved_note": "0 of latest predictor version (earnings-predict-v3-2026-05) (1697 across all versions)",
         "detail": {
@@ -172,10 +172,10 @@
     }
   },
   "archive_schema": {
-    "earnings-history-v5": 133
+    "earnings-history-v5": 134
   },
   "predictor_versions": {
-    "earnings-predict-v3-2026-05": 12
+    "earnings-predict-v3-2026-05": 7
   },
   "restatements": {
     "count": 0,
@@ -189,47 +189,47 @@
   },
   "insufficient_data": {
     "count_total": 231,
-    "count_7d": 3,
-    "count_30d": 93,
-    "count_prior_30d": 19,
-    "trend_pct_30d_vs_prior": 389.5
+    "count_7d": 2,
+    "count_30d": 90,
+    "count_prior_30d": 22,
+    "trend_pct_30d_vs_prior": 309.1
   },
   "macro_regime": {
     "present": true,
-    "generated_at": "2026-11-17T14:30:34.330Z",
-    "age_hours": 22,
-    "classifier_provider": "groq",
-    "regime": "CALM",
+    "generated_at": "2026-11-18T14:30:46.248Z",
+    "age_hours": 43,
+    "classifier_provider": "gemini",
+    "regime": "GLOBAL_RISK_OFF",
     "stale": true,
-    "alert": "Macro regime is 22h old (threshold 18h) — com.starbhai.macro-only cron is unhealthy; check data/macroRegime-refresh.log"
+    "alert": "Macro regime is 43h old (threshold 18h) — com.starbhai.macro-only cron is unhealthy; check data/macroRegime-refresh.log"
   },
   "picks_snapshot_fv_drift": {
     "pipeline": null,
     "runtime_24h": null,
     "alert": null
   },
-  "history_files": 133,
+  "history_files": 134,
   "hit_rate_summary": {
     "schema_version": "hit-rate-summary-v1",
-    "generated_at": "2026-11-18T12:14:21.710Z",
+    "generated_at": "2026-11-20T09:03:42.779Z",
     "resolved_count": 1574,
     "unresolved_count": 4939,
     "strict": {
       "hit_rate_pct": 39.6,
-      "ci_low_pct": 36.9,
-      "ci_high_pct": 41.9,
+      "ci_low_pct": 37.4,
+      "ci_high_pct": 42,
       "sample_size": 1574
     },
     "lenient": {
       "hit_rate_pct": 77.4,
-      "ci_low_pct": 75.2,
-      "ci_high_pct": 79.2,
+      "ci_low_pct": 75.3,
+      "ci_high_pct": 79.3,
       "sample_size": 1568
     },
     "catastrophic": {
       "rate_pct": 22.6,
-      "ci_low_pct": 20.5,
-      "ci_high_pct": 24.6,
+      "ci_low_pct": 20.6,
+      "ci_high_pct": 24.7,
       "sample_size": 1568
     },
     "rolling_30": {
@@ -241,8 +241,9 @@
     "catastrophic_alert_threshold_pct": 12
   },
   "alerts": [
-    "INSUFFICIENT_DATA predictions trending UP: 93 in last 30d vs 19 prior 30d (+389.5%) — predictor coverage may be degrading",
-    "Macro regime is 22h old (threshold 18h) — com.starbhai.macro-only cron is unhealthy; check data/macroRegime-refresh.log",
+    "LLM signal is 100% heuristic (5/7) — GROQ_API_KEY / GEMINI_API_KEY likely not configured on the refresh host, OR every cached entry is from a no-keys run and the cache hasn't been re-classified (try `node scripts/refresh-earnings.mjs --purge-heuristic-cache --yes` followed by a refresh)",
+    "INSUFFICIENT_DATA predictions trending UP: 90 in last 30d vs 22 prior 30d (+309.1%) — predictor coverage may be degrading",
+    "Macro regime is 43h old (threshold 18h) — com.starbhai.macro-only cron is unhealthy; check data/macroRegime-refresh.log",
     "Catastrophic rate alert: rolling-30 23.3% (7/30) exceeds 12% threshold — Risk Lab promotion gate cannot clear"
   ],
   "healthy": false
