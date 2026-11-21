@@ -1,41 +1,45 @@
 {
   "schema_version": "earnings-watch-stats-v4",
-  "built_at": "2026-11-20T09:00:18.557Z",
-  "today_iso": "2026-11-20",
+  "built_at": "2026-11-20T23:55:24.819Z",
+  "today_iso": "2026-11-21",
   "window_days": 60,
-  "upstream_event_count": 19,
-  "upstream_fetched_at": "2026-11-17T23:03:12.362Z",
-  "event_count": 7,
-  "recent_results_count": 845,
+  "upstream_event_count": 21,
+  "upstream_fetched_at": "2026-11-20T19:00:26.754Z",
+  "event_count": 11,
+  "recent_results_count": 730,
   "past_window_days": 14,
   "bucket_by_days": {
-    "d0": 2,
-    "d1to3": 1,
-    "d4to7": 1,
-    "d8to14": 1,
-    "d15to30": 2,
+    "d0": 0,
+    "d1to3": 6,
+    "d4to7": 3,
+    "d8to14": 2,
+    "d15to30": 0,
     "d31to60": 0
   },
   "signals": {
     "by_data_quality": {
-      "HIGH": 4,
-      "MEDIUM": 1,
+      "HIGH": 9,
+      "MEDIUM": 0,
       "LOW": 2
     },
     "by_pre_runup": {
-      "spike": 0,
-      "smooth": 2,
-      "lagging": 2,
-      "neutral": 3
+      "spike": 1,
+      "smooth": 4,
+      "lagging": 4,
+      "neutral": 2
     },
-    "sector_count": 4,
+    "sector_count": 5,
     "top_sectors": [
       {
         "sector": "Capital Goods",
+        "count": 4
+      },
+      {
+        "sector": "Consumer Durables",
         "count": 2
       },
       {
-        "sector": "Software",
+        "sector": "Retail",
         "count": 1
       },
       {
@@ -43,41 +47,41 @@
         "count": 1
       },
       {
-        "sector": "Consumer Durables",
+        "sector": "Food, Beverage & Tobacco",
         "count": 1
       }
     ]
   },
   "predictions": {
     "by_verdict": {
-      "BEAT": 0,
-      "INLINE": 3,
-      "MISS": 2,
+      "BEAT": 2,
+      "INLINE": 2,
+      "MISS": 5,
       "INSUFFICIENT_DATA": 2
     },
-    "avg_confidence_pct": 55,
+    "avg_confidence_pct": 59,
     "confidence_cap_pct": 65,
     "predictor_version": "earnings-predict-v3-2026-05"
   },
   "playbooks": {
-    "tradable_count": 5,
+    "tradable_count": 9,
     "by_highlighted_branch": {
-      "RAISE": 4,
-      "MAINTAIN": 1,
-      "CUT": 0,
+      "RAISE": 8,
+      "MAINTAIN": 0,
+      "CUT": 1,
       "none": 2
     },
     "playbook_version": "earnings-playbook-v1-2026-05"
   },
   "llm_stats": {
-    "total": 7,
-    "classified": 5,
-    "cache_hits": 3,
-    "llm_calls": 0,
-    "heuristic": 2,
+    "total": 11,
+    "classified": 9,
+    "cache_hits": 4,
+    "llm_calls": 1,
+    "heuristic": 3,
     "heuristic_cache_invalidations": 0,
     "cross_floor_invalidations": 0,
-    "below_v3_floor": 2,
+    "below_v3_floor": 3,
     "composite_floor": 47,
     "llm_available": true,
     "skip_llm": false
