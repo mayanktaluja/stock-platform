@@ -1,20 +1,20 @@
 {
   "schema_version": "macro-thesis-v1",
-  "generated_at": "2026-11-20T23:59:13.999Z",
+  "generated_at": "2026-11-22T09:49:14.343Z",
   "regime": {
     "regime": "GLOBAL_RISK_OFF",
     "severity": 3,
     "confidence": 0.78,
     "label": "Global Risk-Off",
-    "generated_at": "2026-11-20T18:30:29.740Z",
+    "generated_at": "2026-11-21T12:46:02.103Z",
     "days_in_state": 0,
     "stale": false,
-    "reasoning": "AI‑driven tech sell‑off and safe‑haven flows dominate, outweighing modest rupee and oil moves.",
+    "reasoning": "Multiple headlines show AI‑driven market sell‑off, Nasdaq bear market and falling oil prices, indicating risk‑off sentiment.",
     "key_events": [
-      "Anthropic shares tumble as AI trade concerns spark market rout (FT Markets)",
-      "Rupee climbs past 93/USD, boosting Indian stocks and FPI inflows (Business Standard)",
-      "Nasdaq slides over 850 points amid AI fears, prompting safe‑haven demand (Economic Times)",
-      "Oil prices decline on West Asia export flows, easing inflation pressures (Business Standard)"
+      "Oil shipped through Hormuz falls as Iranian strikes increase (FT Markets)",
+      "Nasdaq 100 enters bear market, Anthropic shares drop 8.5% (FT Markets)",
+      "US Treasury yields drop, safe‑haven bid (Economic Times)",
+      "Markets gain 2.6% on FPI inflows, rupee rally and cooling crude oil prices (Business Standard)"
     ],
     "classifier_provider": "groq",
     "source_health": {
@@ -41,37 +41,62 @@
     },
     "sector_impacts": [
       {
-        "sector": "Banking",
-        "impact": 2,
-        "reason": "Strong FPI inflows and earnings boost bank stocks"
-      },
-      {
-        "sector": "IT Services",
+        "sector": "Energy",
         "impact": -2,
-        "reason": "Rupee appreciation cuts export‑linked IT earnings"
+        "reason": "Oil price decline amid West Asia tensions"
       },
       {
         "sector": "Oil & Gas",
         "impact": -2,
-        "reason": "Falling crude prices hurt oil‑producer margins"
+        "reason": "Lower crude prices hurt sector earnings"
+      },
+      {
+        "sector": "IT Services",
+        "impact": -2,
+        "reason": "Global risk‑off hurts tech exposure"
+      },
+      {
+        "sector": "Banking",
+        "impact": -2,
+        "reason": "Risk‑off reduces credit growth outlook"
+      },
+      {
+        "sector": "Automobile",
+        "impact": -2,
+        "reason": "Cyclical demand pressured by market sell‑off"
+      },
+      {
+        "sector": "FMCG",
+        "impact": 2,
+        "reason": "Defensive consumer staples gain appeal"
+      },
+      {
+        "sector": "Pharma",
+        "impact": 2,
+        "reason": "Defensive health sector benefits in risk‑off"
+      },
+      {
+        "sector": "Metals",
+        "impact": -2,
+        "reason": "Commodity exposure weakens in risk‑off"
       }
     ]
   },
-  "catalyst_proximity_days": 20,
+  "catalyst_proximity_days": 18,
   "upcoming_catalysts": [
     {
       "date": "2026-12-10",
       "kind": "RBI_MPC",
       "label": "RBI Monetary Policy Committee — December 2026",
       "severity_potential": 3,
-      "days_until": 20
+      "days_until": 18
     },
     {
       "date": "2026-12-17",
       "kind": "FOMC",
       "label": "US FOMC Meeting — December 2026",
       "severity_potential": 3,
-      "days_until": 27
+      "days_until": 25
     }
   ],
   "position_cap_pct": 10,
@@ -112,15 +137,15 @@
           "direction": "BENEFICIARY",
           "stock_candidates": {
             "sector": "Pharmaceuticals",
-            "candidates_total": 72,
-            "passed_filters": 29,
+            "candidates_total": 73,
+            "passed_filters": 30,
             "excluded_conglomerates": [],
             "stocks": [
               {
                 "ticker": "VIYASH",
                 "name": "Viyash Scientific Limited",
                 "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 68.1,
+                "v4_score_100": 68.4,
                 "composite_score": 50.2,
                 "valuation_band": "DEEP_DISCOUNT",
                 "upside_pct": 45.8,
@@ -130,7 +155,7 @@
                 "ticker": "SENORES",
                 "name": "Senores Pharmaceuticals Limited",
                 "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 68,
+                "v4_score_100": 68.1,
                 "composite_score": 49.5,
                 "valuation_band": "DEEP_DISCOUNT",
                 "upside_pct": 44.1,
@@ -140,7 +165,7 @@
                 "ticker": "PGHL",
                 "name": "Procter & Gamble Health Limited",
                 "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 73.2,
+                "v4_score_100": 73.1,
                 "composite_score": 47.3,
                 "valuation_band": "DEEP_DISCOUNT",
                 "upside_pct": 32.7,
@@ -150,7 +175,7 @@
                 "ticker": "CONCORDBIO",
                 "name": "Concord Biotech Limited",
                 "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 56,
+                "v4_score_100": 55.9,
                 "composite_score": 47.3,
                 "valuation_band": "DEEP_DISCOUNT",
                 "upside_pct": 38.7,
@@ -160,7 +185,7 @@
                 "ticker": "NEULANDLAB",
                 "name": "Neuland Laboratories Limited",
                 "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 69.4,
+                "v4_score_100": 69.5,
                 "composite_score": 45.8,
                 "valuation_band": "DISCOUNT",
                 "upside_pct": 19.6,
@@ -279,15 +304,15 @@
           "direction": "BENEFICIARY",
           "stock_candidates": {
             "sector": "Pharmaceuticals",
-            "candidates_total": 72,
-            "passed_filters": 29,
+            "candidates_total": 73,
+            "passed_filters": 30,
             "excluded_conglomerates": [],
             "stocks": [
               {
                 "ticker": "VIYASH",
                 "name": "Viyash Scientific Limited",
                 "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 68.1,
+                "v4_score_100": 68.4,
                 "composite_score": 50.2,
                 "valuation_band": "DEEP_DISCOUNT",
                 "upside_pct": 45.8,
@@ -297,7 +322,7 @@
                 "ticker": "SENORES",
                 "name": "Senores Pharmaceuticals Limited",
                 "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 68,
+                "v4_score_100": 68.1,
                 "composite_score": 49.5,
                 "valuation_band": "DEEP_DISCOUNT",
                 "upside_pct": 44.1,
@@ -307,7 +332,7 @@
                 "ticker": "PGHL",
                 "name": "Procter & Gamble Health Limited",
                 "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 73.2,
+                "v4_score_100": 73.1,
                 "composite_score": 47.3,
                 "valuation_band": "DEEP_DISCOUNT",
                 "upside_pct": 32.7,
@@ -317,7 +342,7 @@
                 "ticker": "CONCORDBIO",
                 "name": "Concord Biotech Limited",
                 "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 56,
+                "v4_score_100": 55.9,
                 "composite_score": 47.3,
                 "valuation_band": "DEEP_DISCOUNT",
                 "upside_pct": 38.7,
@@ -327,7 +352,7 @@
                 "ticker": "NEULANDLAB",
                 "name": "Neuland Laboratories Limited",
                 "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 69.4,
+                "v4_score_100": 69.5,
                 "composite_score": 45.8,
                 "valuation_band": "DISCOUNT",
                 "upside_pct": 19.6,
@@ -496,15 +521,15 @@
           "direction": "BENEFICIARY",
           "stock_candidates": {
             "sector": "Pharmaceuticals",
-            "candidates_total": 72,
-            "passed_filters": 29,
+            "candidates_total": 73,
+            "passed_filters": 30,
             "excluded_conglomerates": [],
             "stocks": [
               {
                 "ticker": "VIYASH",
                 "name": "Viyash Scientific Limited",
                 "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 68.1,
+                "v4_score_100": 68.4,
                 "composite_score": 50.2,
                 "valuation_band": "DEEP_DISCOUNT",
                 "upside_pct": 45.8,
@@ -514,7 +539,7 @@
                 "ticker": "SENORES",
                 "name": "Senores Pharmaceuticals Limited",
                 "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 68,
+                "v4_score_100": 68.1,
                 "composite_score": 49.5,
                 "valuation_band": "DEEP_DISCOUNT",
                 "upside_pct": 44.1,
@@ -524,7 +549,7 @@
                 "ticker": "PGHL",
                 "name": "Procter & Gamble Health Limited",
                 "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 73.2,
+                "v4_score_100": 73.1,
                 "composite_score": 47.3,
                 "valuation_band": "DEEP_DISCOUNT",
                 "upside_pct": 32.7,
@@ -534,7 +559,7 @@
                 "ticker": "CONCORDBIO",
                 "name": "Concord Biotech Limited",
                 "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 56,
+                "v4_score_100": 55.9,
                 "composite_score": 47.3,
                 "valuation_band": "DEEP_DISCOUNT",
                 "upside_pct": 38.7,
@@ -544,7 +569,7 @@
                 "ticker": "NEULANDLAB",
                 "name": "Neuland Laboratories Limited",
                 "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 69.4,
+                "v4_score_100": 69.5,
                 "composite_score": 45.8,
                 "valuation_band": "DISCOUNT",
                 "upside_pct": 19.6,
@@ -602,7 +627,7 @@
   "indeterminate": false,
   "audit": {
     "thesis_schema": "macro-thesis-v1",
-    "regime_generated_at": "2026-11-20T18:30:29.740Z",
+    "regime_generated_at": "2026-11-21T12:46:02.103Z",
     "regime_classifier": "groq",
     "scenario_engine_version": "scenario-prob-v1"
   }
