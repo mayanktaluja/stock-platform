@@ -1,7 +1,7 @@
 {
   "schemaVersion": "fo-screener-v1",
   "asOf": "2026-11-20",
-  "fetchedAt": "2026-11-20T19:01:03.688Z",
+  "fetchedAt": "2026-11-22T19:00:59.349Z",
   "urlUsed": "https://nsearchives.nseindia.com/content/fo/BhavCopy_NSE_FO_0_0_0_20261120_F_0000.csv.zip",
   "methodology": "OI aggregated across all stock-futures expiries (avoids rollover-Thursday phantoms); Δ vs prior session = ChngInOpnIntrst / (OI − ChngInOpnIntrst). Volume confirmation: today's vol vs 20-session mean. Decoupling co-flag: |OI Δ| ≥ 20% with |price Δ| < 0.5%. Score 0–100 = scaled OI move × volume confirmation × decouple boost × direction consistency. Educational content only.",
   "stats": {
@@ -13,7 +13,7 @@
     "broaderCount": 15,
     "historyPointsAppended": 224,
     "historyRestoredFromKV": 14,
-    "walkedBack": 0
+    "walkedBack": 1
   },
   "sections": {
     "inBook": [],
@@ -171,6 +171,25 @@
         "interpretation": "Bulls adding fresh longs — OI up with price."
       },
       {
+        "underlying": "COFORGE",
+        "instrumentType": "STF",
+        "expiryCount": 3,
+        "nearMonthExpiry": "2026-11-23",
+        "nearMonthSettle": 2089.8,
+        "underlyingPrice": 2086.71,
+        "oiTotal": 11338250,
+        "oiChangeTotal": 780425,
+        "volumeTotal": 25010,
+        "oiDeltaPct": 7.391910739191074,
+        "priceDeltaPct": 2.8748646253815147,
+        "volumeRatio": null,
+        "volumeBucket": "unknown",
+        "signal": "long_buildup",
+        "decoupled": false,
+        "score": 9,
+        "interpretation": "Bulls adding fresh longs — OI up with price."
+      },
+      {
         "underlying": "SAGILITY",
         "instrumentType": "STF",
         "expiryCount": 3,
@@ -283,25 +302,6 @@
         "decoupled": false,
         "score": 5,
         "interpretation": "Longs being booked — OI falling with price."
-      },
-      {
-        "underlying": "NATIONALUM",
-        "instrumentType": "STF",
-        "expiryCount": 3,
-        "nearMonthExpiry": "2026-11-23",
-        "nearMonthSettle": 304.4,
-        "underlyingPrice": 303.2,
-        "oiTotal": 47193750,
-        "oiChangeTotal": 2077500,
-        "volumeTotal": 16283,
-        "oiDeltaPct": 4.6047710082287425,
-        "priceDeltaPct": -0.6040816326530686,
-        "volumeRatio": null,
-        "volumeBucket": "unknown",
-        "signal": "short_buildup",
-        "decoupled": false,
-        "score": 5,
-        "interpretation": "Bears adding fresh shorts — OI up while price drops."
       }
     ],
     "broader": [
@@ -553,25 +553,6 @@
         "interpretation": "Longs being booked — OI falling with price."
       },
       {
-        "underlying": "COFORGE",
-        "instrumentType": "STF",
-        "expiryCount": 3,
-        "nearMonthExpiry": "2026-11-23",
-        "nearMonthSettle": 2089.8,
-        "underlyingPrice": 2086.71,
-        "oiTotal": 11338250,
-        "oiChangeTotal": 780425,
-        "volumeTotal": 25010,
-        "oiDeltaPct": 7.391910739191074,
-        "priceDeltaPct": 2.8748646253815147,
-        "volumeRatio": null,
-        "volumeBucket": "unknown",
-        "signal": "long_buildup",
-        "decoupled": false,
-        "score": 9,
-        "interpretation": "Bulls adding fresh longs — OI up with price."
-      },
-      {
         "underlying": "ICICILIFE",
         "instrumentType": "STF",
         "expiryCount": 3,
@@ -585,6 +566,25 @@
         "priceDeltaPct": 1.6301969365426672,
         "volumeRatio": 1.7687714350376909,
         "volumeBucket": "confirmed",
+        "signal": "short_covering",
+        "decoupled": false,
+        "score": 8,
+        "interpretation": "Shorts covering — OI falling as price recovers."
+      },
+      {
+        "underlying": "TATAELXSI",
+        "instrumentType": "STF",
+        "expiryCount": 3,
+        "nearMonthExpiry": "2026-11-23",
+        "nearMonthSettle": 3853.8,
+        "underlyingPrice": 3850,
+        "oiTotal": 1726000,
+        "oiChangeTotal": -146325,
+        "volumeTotal": 13363,
+        "oiDeltaPct": -7.81514961344852,
+        "priceDeltaPct": 3.758548274190953,
+        "volumeRatio": null,
+        "volumeBucket": "unknown",
         "signal": "short_covering",
         "decoupled": false,
         "score": 8,

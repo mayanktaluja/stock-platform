@@ -1,20 +1,21 @@
 {
   "schema_version": "macro-thesis-v1",
-  "generated_at": "2026-11-22T09:49:14.343Z",
+  "generated_at": "2026-11-23T00:35:41.910Z",
   "regime": {
     "regime": "GLOBAL_RISK_OFF",
     "severity": 3,
     "confidence": 0.78,
     "label": "Global Risk-Off",
-    "generated_at": "2026-11-21T12:46:02.103Z",
+    "generated_at": "2026-11-22T08:30:29.842Z",
     "days_in_state": 0,
     "stale": false,
-    "reasoning": "Multiple headlines show AI‑driven market sell‑off, Nasdaq bear market and falling oil prices, indicating risk‑off sentiment.",
+    "reasoning": "Widespread AI‑driven market sell‑off, falling yields and safe‑haven flows dominate headlines",
     "key_events": [
       "Oil shipped through Hormuz falls as Iranian strikes increase (FT Markets)",
-      "Nasdaq 100 enters bear market, Anthropic shares drop 8.5% (FT Markets)",
-      "US Treasury yields drop, safe‑haven bid (Economic Times)",
-      "Markets gain 2.6% on FPI inflows, rupee rally and cooling crude oil prices (Business Standard)"
+      "Anthropic shares tumble after record IPO as AI trade faces reality check (Business Standard)",
+      "US Treasury yields drop for day and week; AI trade concern spurs safe‑haven bid (Economic Times)",
+      "Gold's slide deepens as AI rout, rate‑hike bets hurt bullion (Economic Times)",
+      "European shares post worst week in over a year as AI trade unravels (Economic Times)"
     ],
     "classifier_provider": "groq",
     "source_health": {
@@ -41,62 +42,62 @@
     },
     "sector_impacts": [
       {
-        "sector": "Energy",
-        "impact": -2,
-        "reason": "Oil price decline amid West Asia tensions"
-      },
-      {
-        "sector": "Oil & Gas",
-        "impact": -2,
-        "reason": "Lower crude prices hurt sector earnings"
-      },
-      {
         "sector": "IT Services",
-        "impact": -2,
-        "reason": "Global risk‑off hurts tech exposure"
+        "impact": -3,
+        "reason": "AI trade rout drags tech stocks lower"
       },
       {
         "sector": "Banking",
         "impact": -2,
-        "reason": "Risk‑off reduces credit growth outlook"
-      },
-      {
-        "sector": "Automobile",
-        "impact": -2,
-        "reason": "Cyclical demand pressured by market sell‑off"
+        "reason": "Risk‑off sentiment pressures financials"
       },
       {
         "sector": "FMCG",
         "impact": 2,
-        "reason": "Defensive consumer staples gain appeal"
+        "reason": "Defensive demand rises amid market uncertainty"
       },
       {
         "sector": "Pharma",
         "impact": 2,
-        "reason": "Defensive health sector benefits in risk‑off"
+        "reason": "Defensive sector benefits from risk‑off flows"
       },
       {
         "sector": "Metals",
         "impact": -2,
-        "reason": "Commodity exposure weakens in risk‑off"
+        "reason": "Global sell‑off hits miners and commodity exposure"
+      },
+      {
+        "sector": "Oil & Gas",
+        "impact": -1,
+        "reason": "Oil price decline and geopolitical tension weigh on energy"
+      },
+      {
+        "sector": "Real Estate",
+        "impact": -2,
+        "reason": "Risk‑off reduces exposure to property assets"
+      },
+      {
+        "sector": "Power",
+        "impact": 1,
+        "reason": "Utility exposure gains as investors seek safety"
       }
     ]
   },
-  "catalyst_proximity_days": 18,
+  "catalyst_proximity_days": 17,
   "upcoming_catalysts": [
     {
       "date": "2026-12-10",
       "kind": "RBI_MPC",
       "label": "RBI Monetary Policy Committee — December 2026",
       "severity_potential": 3,
-      "days_until": 18
+      "days_until": 17
     },
     {
       "date": "2026-12-17",
       "kind": "FOMC",
       "label": "US FOMC Meeting — December 2026",
       "severity_potential": 3,
-      "days_until": 25
+      "days_until": 24
     }
   ],
   "position_cap_pct": 10,
@@ -627,7 +628,7 @@
   "indeterminate": false,
   "audit": {
     "thesis_schema": "macro-thesis-v1",
-    "regime_generated_at": "2026-11-21T12:46:02.103Z",
+    "regime_generated_at": "2026-11-22T08:30:29.842Z",
     "regime_classifier": "groq",
     "scenario_engine_version": "scenario-prob-v1"
   }
