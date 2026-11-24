@@ -1,21 +1,21 @@
 {
   "schema_version": "macro-thesis-v1",
-  "generated_at": "2026-11-23T00:35:41.910Z",
+  "generated_at": "2026-11-24T00:08:37.113Z",
   "regime": {
-    "regime": "GLOBAL_RISK_OFF",
-    "severity": 3,
-    "confidence": 0.78,
-    "label": "Global Risk-Off",
-    "generated_at": "2026-11-22T08:30:29.842Z",
+    "regime": "CALM",
+    "severity": 2,
+    "confidence": 0.68,
+    "label": "Calm",
+    "generated_at": "2026-11-23T18:30:23.585Z",
     "days_in_state": 0,
     "stale": false,
-    "reasoning": "Widespread AI‑driven market sell‑off, falling yields and safe‑haven flows dominate headlines",
+    "reasoning": "Mixed headlines show US AI rally and modest Indian market dip, no clear shock driver",
     "key_events": [
-      "Oil shipped through Hormuz falls as Iranian strikes increase (FT Markets)",
-      "Anthropic shares tumble after record IPO as AI trade faces reality check (Business Standard)",
-      "US Treasury yields drop for day and week; AI trade concern spurs safe‑haven bid (Economic Times)",
-      "Gold's slide deepens as AI rout, rate‑hike bets hurt bullion (Economic Times)",
-      "European shares post worst week in over a year as AI trade unravels (Economic Times)"
+      "Nvidia stock soars 29% as CEO returns (Business Standard)",
+      "Indian Sensex slides over 1.7% wiping ₹5.6 trn (Business Standard)",
+      "Rupee retreats amid bond profit‑booking (Economic Times)",
+      "Gold imports fall 40% YoY (Business Standard)",
+      "Adani Airport raises $300 mn equity (Economic Times)"
     ],
     "classifier_provider": "groq",
     "source_health": {
@@ -43,227 +43,90 @@
     "sector_impacts": [
       {
         "sector": "IT Services",
-        "impact": -3,
-        "reason": "AI trade rout drags tech stocks lower"
+        "impact": 2,
+        "reason": "AI hype lifts tech sentiment"
       },
       {
         "sector": "Banking",
-        "impact": -2,
-        "reason": "Risk‑off sentiment pressures financials"
+        "impact": -1,
+        "reason": "Market dip pressures loan growth"
       },
       {
-        "sector": "FMCG",
-        "impact": 2,
-        "reason": "Defensive demand rises amid market uncertainty"
-      },
-      {
-        "sector": "Pharma",
-        "impact": 2,
-        "reason": "Defensive sector benefits from risk‑off flows"
+        "sector": "Real Estate",
+        "impact": 1,
+        "reason": "Residential pipeline seen strong"
       },
       {
         "sector": "Metals",
         "impact": -2,
-        "reason": "Global sell‑off hits miners and commodity exposure"
-      },
-      {
-        "sector": "Oil & Gas",
-        "impact": -1,
-        "reason": "Oil price decline and geopolitical tension weigh on energy"
-      },
-      {
-        "sector": "Real Estate",
-        "impact": -2,
-        "reason": "Risk‑off reduces exposure to property assets"
-      },
-      {
-        "sector": "Power",
-        "impact": 1,
-        "reason": "Utility exposure gains as investors seek safety"
+        "reason": "Metal price fall hurts steel and related stocks"
       }
     ]
   },
-  "catalyst_proximity_days": 17,
+  "catalyst_proximity_days": 16,
   "upcoming_catalysts": [
     {
       "date": "2026-12-10",
       "kind": "RBI_MPC",
       "label": "RBI Monetary Policy Committee — December 2026",
       "severity_potential": 3,
-      "days_until": 17
+      "days_until": 16
     },
     {
       "date": "2026-12-17",
       "kind": "FOMC",
       "label": "US FOMC Meeting — December 2026",
       "severity_potential": 3,
-      "days_until": 24
+      "days_until": 23
     }
   ],
   "position_cap_pct": 10,
   "branches": [
     {
       "key": "continue",
-      "label": "GLOBAL_RISK_OFF continues at current severity",
-      "probability": 0.55,
+      "label": "CALM continues at current severity",
+      "probability": 0.58,
       "duration_days": 14,
-      "n_analogs": 11,
+      "n_analogs": 9,
       "indeterminate": false,
-      "beneficiaries": [
-        {
-          "sector_index_key": null,
-          "sector_label": "Consumer Staples",
-          "sector_bucket": "Consumer Staples",
-          "expected_return_pct": null,
-          "template_delta": 2,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "BENEFICIARY",
-          "stock_candidates": {
-            "sector": "Consumer Staples",
-            "candidates_total": 0,
-            "passed_filters": 0,
-            "excluded_conglomerates": [],
-            "stocks": []
-          }
-        },
-        {
-          "sector_index_key": null,
-          "sector_label": "Pharmaceuticals",
-          "sector_bucket": "Pharmaceuticals",
-          "expected_return_pct": null,
-          "template_delta": 1,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "BENEFICIARY",
-          "stock_candidates": {
-            "sector": "Pharmaceuticals",
-            "candidates_total": 73,
-            "passed_filters": 30,
-            "excluded_conglomerates": [],
-            "stocks": [
-              {
-                "ticker": "VIYASH",
-                "name": "Viyash Scientific Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 68.4,
-                "composite_score": 50.2,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 45.8,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "SENORES",
-                "name": "Senores Pharmaceuticals Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 68.1,
-                "composite_score": 49.5,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 44.1,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "PGHL",
-                "name": "Procter & Gamble Health Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 73.1,
-                "composite_score": 47.3,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 32.7,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "CONCORDBIO",
-                "name": "Concord Biotech Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 55.9,
-                "composite_score": 47.3,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 38.7,
-                "verdict": "STRONG"
-              },
-              {
-                "ticker": "NEULANDLAB",
-                "name": "Neuland Laboratories Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 69.5,
-                "composite_score": 45.8,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 19.6,
-                "verdict": "TOP_PICK"
-              }
-            ]
-          }
-        }
-      ],
-      "losers": [
-        {
-          "sector_index_key": null,
-          "sector_label": "Real Estate",
-          "sector_bucket": "Real Estate",
-          "expected_return_pct": null,
-          "template_delta": -3,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "HIT"
-        },
-        {
-          "sector_index_key": null,
-          "sector_label": "Banks",
-          "sector_bucket": "Banks",
-          "expected_return_pct": null,
-          "template_delta": -2,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "HIT"
-        },
-        {
-          "sector_index_key": null,
-          "sector_label": "Metals & Mining",
-          "sector_bucket": "Metals & Mining",
-          "expected_return_pct": null,
-          "template_delta": -2,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "HIT"
-        }
-      ],
+      "beneficiaries": [],
+      "losers": [],
       "reasoning": {
         "modulator_applied": 1,
         "base_probability": 0.55,
-        "analog_pool_regime": "GLOBAL_RISK_OFF",
+        "analog_pool_regime": "CALM",
         "analog_warnings": [
           "no sector-index data found for any analog date — run scripts/refresh-sector-indices.mjs --backfill-months=24"
         ],
         "analogs": [
           {
-            "date": "2021-04-20",
-            "label": "COVID Delta 2nd wave peak",
-            "severity": 3,
-            "source": "manual-seed"
-          },
-          {
-            "date": "2023-03-10",
-            "label": "SVB collapse + global banking stress",
-            "severity": 3,
-            "source": "manual-seed"
-          },
-          {
-            "date": "2024-08-05",
-            "label": "Yen carry-trade unwind (global vol spike)",
-            "severity": 2,
-            "source": "manual-seed"
-          },
-          {
-            "date": "2026-05-29",
-            "label": "Global Risk-Off",
-            "severity": 2,
+            "date": "2026-05-21",
+            "label": "Calm",
+            "severity": 1,
             "source": "heuristic"
           },
           {
-            "date": "2026-05-30",
-            "label": "Global Risk-Off",
-            "severity": 2,
+            "date": "2026-05-22",
+            "label": "Calm",
+            "severity": 1,
+            "source": "heuristic"
+          },
+          {
+            "date": "2026-05-24",
+            "label": "Calm",
+            "severity": 1,
+            "source": "heuristic"
+          },
+          {
+            "date": "2026-05-25",
+            "label": "Calm",
+            "severity": 1,
+            "source": "heuristic"
+          },
+          {
+            "date": "2026-05-26",
+            "label": "Calm",
+            "severity": 1,
             "source": "heuristic"
           }
         ]
@@ -271,175 +134,28 @@
     },
     {
       "key": "escalate",
-      "label": "GLOBAL_RISK_OFF escalates (severity +1)",
-      "probability": 0.15,
+      "label": "CALM escalates (severity +1)",
+      "probability": 0.11,
       "duration_days": 7,
-      "n_analogs": 7,
-      "indeterminate": false,
-      "beneficiaries": [
-        {
-          "sector_index_key": null,
-          "sector_label": "Consumer Staples",
-          "sector_bucket": "Consumer Staples",
-          "expected_return_pct": null,
-          "template_delta": 2,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "BENEFICIARY",
-          "stock_candidates": {
-            "sector": "Consumer Staples",
-            "candidates_total": 0,
-            "passed_filters": 0,
-            "excluded_conglomerates": [],
-            "stocks": []
-          }
-        },
-        {
-          "sector_index_key": null,
-          "sector_label": "Pharmaceuticals",
-          "sector_bucket": "Pharmaceuticals",
-          "expected_return_pct": null,
-          "template_delta": 1,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "BENEFICIARY",
-          "stock_candidates": {
-            "sector": "Pharmaceuticals",
-            "candidates_total": 73,
-            "passed_filters": 30,
-            "excluded_conglomerates": [],
-            "stocks": [
-              {
-                "ticker": "VIYASH",
-                "name": "Viyash Scientific Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 68.4,
-                "composite_score": 50.2,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 45.8,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "SENORES",
-                "name": "Senores Pharmaceuticals Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 68.1,
-                "composite_score": 49.5,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 44.1,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "PGHL",
-                "name": "Procter & Gamble Health Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 73.1,
-                "composite_score": 47.3,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 32.7,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "CONCORDBIO",
-                "name": "Concord Biotech Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 55.9,
-                "composite_score": 47.3,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 38.7,
-                "verdict": "STRONG"
-              },
-              {
-                "ticker": "NEULANDLAB",
-                "name": "Neuland Laboratories Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 69.5,
-                "composite_score": 45.8,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 19.6,
-                "verdict": "TOP_PICK"
-              }
-            ]
-          }
-        }
-      ],
-      "losers": [
-        {
-          "sector_index_key": null,
-          "sector_label": "Real Estate",
-          "sector_bucket": "Real Estate",
-          "expected_return_pct": null,
-          "template_delta": -3,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "HIT"
-        },
-        {
-          "sector_index_key": null,
-          "sector_label": "Banks",
-          "sector_bucket": "Banks",
-          "expected_return_pct": null,
-          "template_delta": -2,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "HIT"
-        },
-        {
-          "sector_index_key": null,
-          "sector_label": "Metals & Mining",
-          "sector_bucket": "Metals & Mining",
-          "expected_return_pct": null,
-          "template_delta": -2,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "HIT"
-        }
-      ],
+      "n_analogs": 0,
+      "indeterminate": true,
+      "beneficiaries": [],
+      "losers": [],
       "reasoning": {
-        "modulator_applied": 1,
+        "modulator_applied": 0.7,
         "base_probability": 0.15,
-        "analog_pool_regime": "GLOBAL_RISK_OFF (severity +1)",
+        "analog_pool_regime": "CALM (severity +1)",
         "analog_warnings": [
-          "no sector-index data found for any analog date — run scripts/refresh-sector-indices.mjs --backfill-months=24"
+          "n_analogs=0 < 3 — INDETERMINATE; do not act on these sector ranges",
+          "only 0/15 sectors had data — partial analog"
         ],
-        "analogs": [
-          {
-            "date": "2008-09-15",
-            "label": "Lehman Brothers collapse",
-            "severity": 5,
-            "source": "manual-seed"
-          },
-          {
-            "date": "2020-03-16",
-            "label": "COVID-19 circuit-breaker crash",
-            "severity": 5,
-            "source": "manual-seed"
-          },
-          {
-            "date": "2021-04-20",
-            "label": "COVID Delta 2nd wave peak",
-            "severity": 3,
-            "source": "manual-seed"
-          },
-          {
-            "date": "2023-03-10",
-            "label": "SVB collapse + global banking stress",
-            "severity": 3,
-            "source": "manual-seed"
-          },
-          {
-            "date": "2026-06-06",
-            "label": "Global Risk-Off",
-            "severity": 3,
-            "source": "heuristic"
-          }
-        ]
+        "analogs": []
       }
     },
     {
       "key": "de_escalate",
-      "label": "GLOBAL_RISK_OFF de-escalates → CALM",
-      "probability": 0.2,
+      "label": "CALM de-escalates → CALM",
+      "probability": 0.21,
       "duration_days": 21,
       "n_analogs": 9,
       "indeterminate": false,
@@ -488,130 +204,13 @@
     },
     {
       "key": "new_shock",
-      "label": "New unrelated shock supersedes GLOBAL_RISK_OFF",
+      "label": "New unrelated shock supersedes CALM",
       "probability": 0.1,
       "duration_days": 7,
       "n_analogs": 0,
       "indeterminate": false,
-      "beneficiaries": [
-        {
-          "sector_index_key": null,
-          "sector_label": "Consumer Staples",
-          "sector_bucket": "Consumer Staples",
-          "expected_return_pct": null,
-          "template_delta": 2,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "BENEFICIARY",
-          "stock_candidates": {
-            "sector": "Consumer Staples",
-            "candidates_total": 0,
-            "passed_filters": 0,
-            "excluded_conglomerates": [],
-            "stocks": []
-          }
-        },
-        {
-          "sector_index_key": null,
-          "sector_label": "Pharmaceuticals",
-          "sector_bucket": "Pharmaceuticals",
-          "expected_return_pct": null,
-          "template_delta": 1,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "BENEFICIARY",
-          "stock_candidates": {
-            "sector": "Pharmaceuticals",
-            "candidates_total": 73,
-            "passed_filters": 30,
-            "excluded_conglomerates": [],
-            "stocks": [
-              {
-                "ticker": "VIYASH",
-                "name": "Viyash Scientific Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 68.4,
-                "composite_score": 50.2,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 45.8,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "SENORES",
-                "name": "Senores Pharmaceuticals Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 68.1,
-                "composite_score": 49.5,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 44.1,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "PGHL",
-                "name": "Procter & Gamble Health Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 73.1,
-                "composite_score": 47.3,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 32.7,
-                "verdict": "TOP_PICK"
-              },
-              {
-                "ticker": "CONCORDBIO",
-                "name": "Concord Biotech Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 55.9,
-                "composite_score": 47.3,
-                "valuation_band": "DEEP_DISCOUNT",
-                "upside_pct": 38.7,
-                "verdict": "STRONG"
-              },
-              {
-                "ticker": "NEULANDLAB",
-                "name": "Neuland Laboratories Limited",
-                "sector": "Pharmaceuticals & Biotech",
-                "v4_score_100": 69.5,
-                "composite_score": 45.8,
-                "valuation_band": "DISCOUNT",
-                "upside_pct": 19.6,
-                "verdict": "TOP_PICK"
-              }
-            ]
-          }
-        }
-      ],
-      "losers": [
-        {
-          "sector_index_key": null,
-          "sector_label": "Real Estate",
-          "sector_bucket": "Real Estate",
-          "expected_return_pct": null,
-          "template_delta": -3,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "HIT"
-        },
-        {
-          "sector_index_key": null,
-          "sector_label": "Banks",
-          "sector_bucket": "Banks",
-          "expected_return_pct": null,
-          "template_delta": -2,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "HIT"
-        },
-        {
-          "sector_index_key": null,
-          "sector_label": "Metals & Mining",
-          "sector_bucket": "Metals & Mining",
-          "expected_return_pct": null,
-          "template_delta": -2,
-          "n_analogs": 0,
-          "source": "template",
-          "direction": "HIT"
-        }
-      ],
+      "beneficiaries": [],
+      "losers": [],
       "reasoning": {
         "modulator_applied": 1,
         "base_probability": 0.1,
@@ -623,12 +222,13 @@
   ],
   "caveats": [
     "Position-sizing cap: max 10% of portfolio per thesis — multi-thesis diversification mandatory.",
+    "INDETERMINATE branches (n<3 analogs): escalate — sector projections suppressed for these branches.",
     "Analog backtester is heuristic-seeded (~12 events); recommendations require user judgement, not auto-trading."
   ],
   "indeterminate": false,
   "audit": {
     "thesis_schema": "macro-thesis-v1",
-    "regime_generated_at": "2026-11-22T08:30:29.842Z",
+    "regime_generated_at": "2026-11-23T18:30:23.585Z",
     "regime_classifier": "groq",
     "scenario_engine_version": "scenario-prob-v1"
   }
