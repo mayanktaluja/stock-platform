@@ -1,83 +1,75 @@
 {
   "schema_version": "earnings-watch-stats-v4",
-  "built_at": "2026-11-24T00:04:41.895Z",
-  "today_iso": "2026-11-24",
+  "built_at": "2026-11-26T04:36:28.820Z",
+  "today_iso": "2026-11-26",
   "window_days": 60,
-  "upstream_event_count": 21,
-  "upstream_fetched_at": "2026-11-23T19:00:25.074Z",
-  "event_count": 10,
-  "recent_results_count": 698,
+  "upstream_event_count": 27,
+  "upstream_fetched_at": "2026-11-25T23:37:17.258Z",
+  "event_count": 4,
+  "recent_results_count": 632,
   "past_window_days": 14,
   "bucket_by_days": {
-    "d0": 4,
-    "d1to3": 3,
-    "d4to7": 1,
+    "d0": 0,
+    "d1to3": 2,
+    "d4to7": 0,
     "d8to14": 2,
     "d15to30": 0,
     "d31to60": 0
   },
   "signals": {
     "by_data_quality": {
-      "HIGH": 10,
+      "HIGH": 4,
       "MEDIUM": 0,
       "LOW": 0
     },
     "by_pre_runup": {
-      "spike": 3,
+      "spike": 0,
       "smooth": 2,
-      "lagging": 5,
+      "lagging": 2,
       "neutral": 0
     },
-    "sector_count": 5,
+    "sector_count": 3,
     "top_sectors": [
       {
         "sector": "Capital Goods",
-        "count": 4
-      },
-      {
-        "sector": "Consumer Durables",
         "count": 2
       },
       {
         "sector": "Automobiles",
-        "count": 2
-      },
-      {
-        "sector": "Retail",
         "count": 1
       },
       {
-        "sector": "Food, Beverage & Tobacco",
+        "sector": "Consumer Durables",
         "count": 1
       }
     ]
   },
   "predictions": {
     "by_verdict": {
-      "BEAT": 2,
-      "INLINE": 3,
-      "MISS": 5,
+      "BEAT": 1,
+      "INLINE": 1,
+      "MISS": 2,
       "INSUFFICIENT_DATA": 0
     },
-    "avg_confidence_pct": 59,
+    "avg_confidence_pct": 55,
     "confidence_cap_pct": 65,
     "predictor_version": "earnings-predict-v3-2026-05"
   },
   "playbooks": {
-    "tradable_count": 10,
+    "tradable_count": 4,
     "by_highlighted_branch": {
-      "RAISE": 7,
+      "RAISE": 4,
       "MAINTAIN": 0,
-      "CUT": 3,
+      "CUT": 0,
       "none": 0
     },
     "playbook_version": "earnings-playbook-v1-2026-05"
   },
   "llm_stats": {
-    "total": 10,
-    "classified": 10,
-    "cache_hits": 6,
-    "llm_calls": 1,
+    "total": 4,
+    "classified": 4,
+    "cache_hits": 2,
+    "llm_calls": 0,
     "heuristic": 2,
     "heuristic_cache_invalidations": 0,
     "cross_floor_invalidations": 0,
